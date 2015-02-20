@@ -42,7 +42,31 @@ public class RPGPlayer {
     float magicEvasion;
     float critical;
     float deadly;
-
+    
+    public RPGPlayer(Player p){
+        this.name=p.getName();
+        this.playerb=p;
+        this.econ=new RPGEconomy();
+        this.guild=null;
+        this.playerClass=null;
+        this.actualLevel=0;
+        this.playerb=p;
+        this.econ=new RPGEconomy();
+        this.actualExp=0;
+        this.actualhealth=20;
+        this.actualmana=20;
+        this.maxMana=20;
+        this.maxHealth=20;
+        this.constitutionP=0;
+        this.dexteryP=0;
+        this.intelligenceP=0;
+        this.strengthP=0;
+        this.physicalAttack=1;
+        this.physicalDefense=1;
+        this.magicAttack=1;
+        this.magicDefense=1;
+    }
+    
     public void setName(String name) {
         this.name = name;
     }
@@ -242,29 +266,7 @@ public class RPGPlayer {
     
     //String password;
     
-    public RPGPlayer(Player p){
-        this.name=p.getName();
-        this.playerb=p;
-        this.econ=new RPGEconomy();
-        this.guild=null;
-        this.playerClass=null;
-        this.actualLevel=0;
-        this.playerb=p;
-        this.econ=new RPGEconomy();
-        this.actualExp=0;
-        this.actualhealth=20;
-        this.actualmana=20;
-        this.maxMana=20;
-        this.maxHealth=20;
-        this.constitutionP=0;
-        this.dexteryP=0;
-        this.intelligenceP=0;
-        this.strengthP=0;
-        this.physicalAttack=1;
-        this.physicalDefense=1;
-        this.magicAttack=1;
-        this.magicDefense=1;
-    }
+    
     public long getPLevel(){
         return this.actualLevel;
     }
@@ -276,18 +278,19 @@ public class RPGPlayer {
         return this.playerb;
     }
     
-    public void loadRPGPlayer(){
-    
-    }
-        
-    public void saveRPGPlayer(){
-        
-    }
     public boolean hasGuild(){
         return this.guild!=null;
     }
     
     public RPGGuild getGuild(){
         return this.guild;
+    }
+    
+    public void loadRPGPlayer(){
+    
+    }
+        
+    public void saveRPGPlayer(){
+        
     }
 }

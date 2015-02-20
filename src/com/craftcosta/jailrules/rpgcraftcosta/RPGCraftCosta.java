@@ -5,10 +5,11 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta;
 
+import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
+import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
 import com.craftcosta.jailrules.rpgcraftcosta.listeners.RPGCreatureListener;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerListener;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
-import com.craftcosta.jailrules.rpgcraftcosta.scoreboard.ScoreBoardManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -18,14 +19,26 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class RPGCraftCosta extends JavaPlugin {
     static RPGCraftCosta rpgCraftCosta;
     private RPGPlayerManager rpgPlayerManager;
+    private RPGClassManager rpgClassManager;
+    private RPGGuildManager rpgGuildManager;
 
     public RPGCraftCosta() {
         rpgCraftCosta = this;
     }
 
     public RPGPlayerManager getRPGPlayerManager(){
-        return this.rpgPlayerManager;
+        return rpgPlayerManager;
     }
+
+    public RPGClassManager getRpgClassManager() {
+        return rpgClassManager;
+    }
+
+    public RPGGuildManager getRpgGuildManager() {
+        return rpgGuildManager;
+    }
+    
+    
     /**
      */
     @Override
@@ -33,8 +46,10 @@ public class RPGCraftCosta extends JavaPlugin {
         getLogger().info("Habilitando RPGCC");
         getServer().getPluginManager().registerEvents(new RPGPlayerListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGCreatureListener(), this);
-        this.rpgPlayerManager= new RPGPlayerManager(rpgCraftCosta);
-        ScoreBoardManager sbManager= new ScoreBoardManager();
+        this.rpgPlayerManager= new RPGPlayerManager(this);
+        this.rpgGuildManager= new RPGGuildManager(this);
+        this.rpgClassManager= new RPGClassManager(this);
+        //ScoreBoardManager sbManager= new ScoreBoardManager();
     }
 
     @Override

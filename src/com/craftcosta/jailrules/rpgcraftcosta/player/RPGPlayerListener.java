@@ -108,9 +108,9 @@ public class RPGPlayerListener implements Listener{
         RPGPlayer user=this.plugin.getRPGPlayerManager().getRPGPlayerByName(event.getPlayer().getName());
         String clase;
         if(user.playerClass == null){
-            clase=ChatColor.AQUA+"[Newbie]";
+            clase= ChatColor.AQUA+"[Newbie]";
         }else{
-            clase= ChatColor.AQUA+"["+user.playerClass.getName()+"]";
+            clase= ChatColor.AQUA+"["+user.playerClass.getNameClass()+"]";
             
         }
         String name=ChatColor.YELLOW+event.getPlayer().getName()+": ";
