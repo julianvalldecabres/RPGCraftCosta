@@ -8,6 +8,7 @@ package com.craftcosta.jailrules.rpgcraftcosta.player;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClass;
 import com.craftcosta.jailrules.rpgcraftcosta.economy.RPGEconomy;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuild;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
@@ -17,7 +18,6 @@ import org.bukkit.entity.Player;
 public class RPGPlayer {
     //Player atributes
     String name;
-    Player playerb;
     RPGEconomy econ;
     RPGGuild guild;
     RPGClass playerClass;
@@ -45,12 +45,10 @@ public class RPGPlayer {
     
     public RPGPlayer(Player p){
         this.name=p.getName();
-        this.playerb=p;
         this.econ=new RPGEconomy();
         this.guild=null;
         this.playerClass=null;
         this.actualLevel=0;
-        this.playerb=p;
         this.econ=new RPGEconomy();
         this.actualExp=0;
         this.actualhealth=20;
@@ -69,10 +67,6 @@ public class RPGPlayer {
     
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setPlayerb(Player playerb) {
-        this.playerb = playerb;
     }
 
     public void setEcon(RPGEconomy econ) {
@@ -171,8 +165,8 @@ public class RPGPlayer {
         return name;
     }
 
-    public Player getPlayerb() {
-        return playerb;
+    public Player getPlayer() {
+        return Bukkit.getServer().getOfflinePlayer(name).getPlayer();
     }
 
     public RPGEconomy getEcon() {
@@ -263,19 +257,12 @@ public class RPGPlayer {
         return deadly;
     }
     
-    
-    //String password;
-    
-    
     public long getPLevel(){
         return this.actualLevel;
     }
     
     public void setLevel(long l){
         this.actualLevel=l;
-    }
-    public Player getPlayer(){
-        return this.playerb;
     }
     
     public boolean hasGuild(){
