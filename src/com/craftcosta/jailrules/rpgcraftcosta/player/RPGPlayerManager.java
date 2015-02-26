@@ -7,6 +7,7 @@ package com.craftcosta.jailrules.rpgcraftcosta.player;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import java.util.HashMap;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 /**
@@ -15,7 +16,7 @@ import org.bukkit.entity.Player;
  */
 public class RPGPlayerManager {
     static HashMap<String, RPGPlayer> listRPGPlayers;
-    static HashMap<String, Player> listPlayers;
+    public static HashMap<String, Player> listPlayers;
     RPGCraftCosta plugin;
     
     
@@ -25,7 +26,9 @@ public class RPGPlayerManager {
         listPlayers = new HashMap<String, Player>();
     }
     
-    
+    public HashMap<String, Player> getPlayersOnline(){
+        return listPlayers;
+    }
     public RPGPlayer getRPGPlayerByName(String name){
         return listRPGPlayers.get(name);
     }
@@ -41,5 +44,15 @@ public class RPGPlayerManager {
     public static void delPlayerFromList(Player player) {
         listRPGPlayers.remove(player.getName());
         listPlayers.remove(player.getName());
+    }
+    
+    public double distanceBetweenPlayers(Player ori,Player end){
+        double distance=0.0;
+        Location l1= ori.getLocation();
+        Location l2=end.getLocation();
+        double x= l2.getX()-l1.getX();
+        double z= l2.getZ()-l1.getZ();
+        distance= Math.sqrt(Math.pow(x,2)+Math.pow(z,2));
+        return distance;
     }
 }

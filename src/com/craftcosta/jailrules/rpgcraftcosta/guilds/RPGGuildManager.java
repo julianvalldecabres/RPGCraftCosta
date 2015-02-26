@@ -28,4 +28,8 @@ public class RPGGuildManager {
     public RPGGuild getGuildByName(String name){
         return this.listGuilds.get(name);
     }
+    
+    public void sendMessageToGuild(String name,String message){
+        this.listGuilds.get(name).sendMessageToGuild(message);
+    }
 }

@@ -9,6 +9,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClass;
 import com.craftcosta.jailrules.rpgcraftcosta.economy.RPGEconomy;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuild;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 /**
@@ -19,7 +20,7 @@ public class RPGPlayer {
     //Player atributes
     String name;
     RPGEconomy econ;
-    RPGGuild guild;
+    String guild;
     RPGClass playerClass;
     long actualLevel;
     long actualExp;
@@ -73,7 +74,7 @@ public class RPGPlayer {
         this.econ = econ;
     }
 
-    public void setGuild(RPGGuild guild) {
+    public void setGuild(String guild) {
         this.guild = guild;
     }
 
@@ -269,7 +270,7 @@ public class RPGPlayer {
         return this.guild!=null;
     }
     
-    public RPGGuild getGuild(){
+    public String getGuild(){
         return this.guild;
     }
     
@@ -279,5 +280,10 @@ public class RPGPlayer {
         
     public void saveRPGPlayer(){
         
+    }
+    
+    public double distance(Location l){
+        
+    return 0.0;
     }
 }

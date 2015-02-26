@@ -5,7 +5,7 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.guilds;
 
-import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
+import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
 import java.util.ArrayList;
 import org.bukkit.entity.Player;
 /**
@@ -13,25 +13,24 @@ import org.bukkit.entity.Player;
  * @author jail
  */
 public class RPGGuild {
-
     String name;                        //Name of the guild
     String acronym;                     //reduced name of the guild (3 letters)
-    RPGPlayer owner;                       //Owner of the Guild
+    String owner;                       //Owner of the Guild
     int level;                          //Level of the guild    
-    ArrayList<RPGPlayer> moderators;       //List of moderators of the Guild
-    ArrayList<RPGPlayer> members;          //List of members of the Guild
+    ArrayList<String> moderators;       //List of moderators of the Guild
+    ArrayList<String> members;          //List of members of the Guild
 
-    public RPGGuild RPGGuild(String name, String acronym, RPGPlayer owner) {
+    public RPGGuild RPGGuild(String name, String acronym, String owner) {
         this.name = name;
         this.acronym=acronym;                       //3 letters to reduce name to be shown next to the players name
         this.owner = owner;                         //Guild owner
         this.level = 0;                             //Level of the guild
-        this.moderators = new ArrayList<RPGPlayer>();  //List of moderators from the guild
-        this.members = new ArrayList<RPGPlayer>();     //List of members from the guild
+        this.moderators = new ArrayList<String>();  //List of moderators from the guild
+        this.members = new ArrayList<String>();     //List of members from the guild
         return this;
     }
 
-    public RPGGuild Guild(String name, RPGPlayer owner, String level, ArrayList<RPGPlayer> mods, ArrayList<RPGPlayer> members) {
+    public RPGGuild Guild(String name, String owner, String level, ArrayList<String> mods, ArrayList<String> members) {
         this.name = name;
         this.owner = owner;
         this.level = Integer.parseInt(level);
@@ -40,7 +39,7 @@ public class RPGGuild {
         return this;
     }
 
-    boolean addMember(RPGPlayer member) {
+    public boolean addMember(String member) {
         if (!this.members.contains(member) && !this.moderators.contains(member)) {
             this.members.add(member);
             return true;
@@ -49,7 +48,7 @@ public class RPGGuild {
         }
     }
 
-    boolean addMod(RPGPlayer member) {
+    public boolean addMod(String member) {
         if (this.moderators.contains(member)) {
             return false;
         } else {
@@ -61,7 +60,7 @@ public class RPGGuild {
         return true;
     }
 
-    boolean depromote(RPGPlayer mod) {
+    public boolean depromote(String mod) {
         if (this.members.contains(mod)) {
             return false;
         }
@@ -73,7 +72,7 @@ public class RPGGuild {
         return false;
     }
 
-    boolean delFromGuild(RPGPlayer member) {
+    public boolean delFromGuild(String member) {
         if (this.moderators.contains(member)) {
             this.moderators.remove(member);
             return true;
@@ -85,7 +84,7 @@ public class RPGGuild {
         return false;
     }
 
-    boolean changeOwner(RPGPlayer newOwner) {
+    public boolean changeOwner(String newOwner) {
         if (newOwner.equals(this.owner)) {
             return false;
         } else {
@@ -93,26 +92,28 @@ public class RPGGuild {
             return true;
         }
     }
-
-    public ArrayList<RPGPlayer> getAllMembers() {
-        ArrayList<RPGPlayer> listplayers = new ArrayList<RPGPlayer>();
-        for (RPGPlayer player : members) {
-            if(player.getPlayer().isOnline())
-            listplayers.add(player);
-        }
-        for (RPGPlayer player : moderators) {
-            if(player.getPlayer().isOnline())
-            listplayers.add(player);
-        }
-        if(owner.getPlayer().isOnline())
-        listplayers.add(owner);
-        return listplayers;
+    
+    public ArrayList<String> getNameMembersList(){
+        ArrayList<String> namelist=new ArrayList<String>();
+        namelist.addAll(members);
+        namelist.addAll(moderators);
+        namelist.add(owner);
+        return namelist;
     }
-
+    
+    public ArrayList<Player> getMembersOnline(){
+        ArrayList<Player> membersOnline=new ArrayList<Player>();
+        
+        //Return members of the Guild who are online
+        
+        return membersOnline;
+        
+    }
     public void sendMessageToGuild(String message) {
-        ArrayList<RPGPlayer> memberslist=getAllMembers();
-        for (RPGPlayer member : members) {
-            member.getPlayer().sendMessage(message);
-        }                
+        ArrayList<Player> listreceivers=getMembersOnline();
+        for (Player listreceiver : listreceivers) {
+                listreceiver.sendMessage(message);
+            }
+               
     }
 }

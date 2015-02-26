@@ -6,6 +6,8 @@
 package com.craftcosta.jailrules.rpgcraftcosta.player;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import java.util.HashMap;
+import java.util.Map;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -105,38 +107,59 @@ public class RPGPlayerListener implements Listener{
         char c=event.getMessage().charAt(0);
         String tipoChat;
         String lugar=ChatColor.GREEN+"["+event.getPlayer().getWorld().getName().substring(0, 1)+"]";
-        RPGPlayer user=this.plugin.getRPGPlayerManager().getRPGPlayerByName(event.getPlayer().getName());
+        RPGPlayer rpguser=this.plugin.getRPGPlayerManager().getRPGPlayerByName(event.getPlayer().getName());
+        Player user=this.plugin.getRPGPlayerManager().getPlayerByName(event.getPlayer().getName());
         String clase;
-        if(user.playerClass == null){
+        if(rpguser.playerClass == null){
             clase= ChatColor.AQUA+"[Newbie]";
         }else{
-            clase= ChatColor.AQUA+"["+user.playerClass.getNameClass()+"]";
+            clase= ChatColor.AQUA+"["+rpguser.playerClass.getNameClass()+"]";
             
         }
         String name=ChatColor.YELLOW+event.getPlayer().getName()+": ";
         String message= event.getMessage().substring(1);
         switch(c){
+                //global case
                 case '!':
-                    
                     tipoChat=""+ChatColor.BOLD+ChatColor.GOLD+"[G]";
                     event.setFormat(tipoChat+lugar+clase+name+ChatColor.GOLD+message);
                     break;
+                //global market
                 case '$':
                     tipoChat=""+ChatColor.BOLD+ChatColor.GREEN+"[$]";
                     event.setFormat(tipoChat+lugar+clase+name+ChatColor.GREEN+message);
                     break;
+                //Party Chat
                 case '#':
                     tipoChat=""+ChatColor.BOLD+ChatColor.AQUA+"[P]";
                     event.setFormat(tipoChat+lugar+clase+name+ChatColor.AQUA+message);
                     break;
+                //Guild chat
                 case '@':
                     tipoChat=""+ChatColor.BOLD+ChatColor.DARK_PURPLE+"[C]";
-                    event.setFormat(tipoChat+lugar+clase+name+ChatColor.DARK_PURPLE+message);
+                    message=tipoChat+lugar+clase+name+ChatColor.DARK_PURPLE+message;
+                    RPGPlayer rpgplayer=plugin.getRPGPlayerManager().getRPGPlayerByName(user.getName());
+                    String guild=rpgplayer.getGuild();
+                    plugin.getRpgGuildManager().getGuildByName(guild).sendMessageToGuild(message);
+                    event.setCancelled(true);
                     break;
+                    
+                //local chat
                 default:
+                    HashMap<String,Player> temp=plugin.getRPGPlayerManager().getPlayersOnline();
                     tipoChat=""+ChatColor.BOLD+ChatColor.YELLOW+"[L]";
                     message=event.getMessage();
-                    event.setFormat(tipoChat+lugar+clase+name+ChatColor.YELLOW+message);
+                    message=tipoChat+lugar+clase+name+ChatColor.YELLOW+message;
+                    for (Map.Entry<String, Player> entrySet : temp.entrySet()) {
+                            Object key = entrySet.getKey();
+                            Player value = entrySet.getValue();
+                            if(!key.equals(user.getName())){
+                                if(plugin.getRPGPlayerManager().distanceBetweenPlayers(user, value)<=100){
+                                    value.sendMessage(message);
+                                }
+                            }                            
+                        }
+                    event.setCancelled(true);                   
                     break;
         }  
                 
