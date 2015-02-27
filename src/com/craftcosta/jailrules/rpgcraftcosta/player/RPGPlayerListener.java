@@ -9,8 +9,6 @@ import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.ChatColor;
-import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -103,10 +101,10 @@ public class RPGPlayerListener implements Listener{
     }
     
     @EventHandler
-    public void onLocalPlayerChat(AsyncPlayerChatEvent event){
+    public void onPlayerChat(AsyncPlayerChatEvent event){
         char c=event.getMessage().charAt(0);
         String tipoChat;
-        String lugar=ChatColor.GREEN+"["+event.getPlayer().getWorld().getName().substring(0, 1)+"]";
+        String lugar=ChatColor.GREEN+"["+event.getPlayer().getWorld().getName().substring(0, 1).toUpperCase()+"]";
         RPGPlayer rpguser=this.plugin.getRPGPlayerManager().getRPGPlayerByName(event.getPlayer().getName());
         Player user=this.plugin.getRPGPlayerManager().getPlayerByName(event.getPlayer().getName());
         String clase;
@@ -133,14 +131,20 @@ public class RPGPlayerListener implements Listener{
                 case '#':
                     tipoChat=""+ChatColor.BOLD+ChatColor.AQUA+"[P]";
                     event.setFormat(tipoChat+lugar+clase+name+ChatColor.AQUA+message);
+                    //TODO
+                    /*
+                    if()
+                    */
                     break;
                 //Guild chat
                 case '@':
                     tipoChat=""+ChatColor.BOLD+ChatColor.DARK_PURPLE+"[C]";
                     message=tipoChat+lugar+clase+name+ChatColor.DARK_PURPLE+message;
-                    RPGPlayer rpgplayer=plugin.getRPGPlayerManager().getRPGPlayerByName(user.getName());
-                    String guild=rpgplayer.getGuild();
-                    plugin.getRpgGuildManager().getGuildByName(guild).sendMessageToGuild(message);
+                    if(rpguser.getGuild().equals(null)){
+                        user.sendMessage(ChatColor.RED+"No perteneces a ninguna Guild");
+                    }else{
+                        plugin.getRpgGuildManager().getGuildByName(rpguser.getGuild()).sendMessageToGuild(message);
+                    }
                     event.setCancelled(true);
                     break;
                     

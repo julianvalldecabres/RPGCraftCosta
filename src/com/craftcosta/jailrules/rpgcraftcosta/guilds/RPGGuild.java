@@ -5,8 +5,11 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.guilds;
 
-import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 /**
  *
@@ -18,7 +21,11 @@ public class RPGGuild {
     String owner;                       //Owner of the Guild
     int level;                          //Level of the guild    
     ArrayList<String> moderators;       //List of moderators of the Guild
-    ArrayList<String> members;          //List of members of the Guild
+    ArrayList<String> members;
+    //hashmap<String(Player),String(Rango)>
+//List of members of the Guild
+    private Object plugin;
+    private Object user;
 
     public RPGGuild RPGGuild(String name, String acronym, String owner) {
         this.name = name;
@@ -100,20 +107,14 @@ public class RPGGuild {
         namelist.add(owner);
         return namelist;
     }
-    
-    public ArrayList<Player> getMembersOnline(){
-        ArrayList<Player> membersOnline=new ArrayList<Player>();
-        
-        //Return members of the Guild who are online
-        
-        return membersOnline;
-        
-    }
+
     public void sendMessageToGuild(String message) {
-        ArrayList<Player> listreceivers=getMembersOnline();
-        for (Player listreceiver : listreceivers) {
-                listreceiver.sendMessage(message);
-            }
-               
+        Set<Player>onlineplayers= new HashSet<Player> (Arrays.asList(Bukkit.getServer().getOnlinePlayers()));
+        ArrayList<String> names=getNameMembersList();
+        for (Player p1 : onlineplayers){
+            if(names.contains(p1.getName())){
+                p1.sendMessage(message);
+            }            
+        }
     }
-}
+ }

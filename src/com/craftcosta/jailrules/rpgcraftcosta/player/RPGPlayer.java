@@ -22,6 +22,7 @@ public class RPGPlayer {
     RPGEconomy econ;
     String guild;
     RPGClass playerClass;
+    String party;
     long actualLevel;
     long actualExp;
     long actualhealth;
@@ -285,5 +286,13 @@ public class RPGPlayer {
     public double distance(Location l){
         
     return 0.0;
+    }
+    
+    public String getParty() {
+        return party;
+    }
+
+    public void setParty(String party) {
+        this.party = party;
     }
 }

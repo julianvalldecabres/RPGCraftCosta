@@ -30,6 +30,6 @@ public class RPGGuildManager {
     }
     
     public void sendMessageToGuild(String name,String message){
-        this.listGuilds.get(name).sendMessageToGuild(message);
+        
     }
 }
