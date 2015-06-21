@@ -9,7 +9,8 @@ package com.craftcosta.jailrules.rpgcraftcosta.classes;
  *
  * @author jail
  */
-public abstract class RPGClass {
+public class RPGClass {
+
     String nameClass;           //Class name
     //BASE STATS
     long baseHealth;            //Increases & improves Attack Speed, Evasion, HitRates
@@ -24,7 +25,7 @@ public abstract class RPGClass {
     float baseMagicEvasion;     //% to evade magic damage
     float baseCritical;         //% to make critical attack
     float baseDeadly;           //% to make deadly attack
-    
+
     //LEVEL UP STATS 
     long lvlUpHealth;
     long lvlUpMana;
@@ -38,7 +39,7 @@ public abstract class RPGClass {
     float lvlUpMagicEvasion;
     float lvlUpCritical;
     float lvlUpDeadly;
-    
+
     //SKILL POINTS
     long SPUpStrength_Health;
     float SPUpStrength_PhysicalAttack;
@@ -348,8 +349,8 @@ public abstract class RPGClass {
     public void setSPUpConstitution_Mana(long SPUpConstitution_Mana) {
         this.SPUpConstitution_Mana = SPUpConstitution_Mana;
     }
-    
-    public RPGClass getRPGClass(){
+
+    public RPGClass getRPGClass() {
         return this;
     }
 }

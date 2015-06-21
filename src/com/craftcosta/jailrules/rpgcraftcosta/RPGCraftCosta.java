@@ -6,10 +6,12 @@
 package com.craftcosta.jailrules.rpgcraftcosta;
 
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
+import com.craftcosta.jailrules.rpgcraftcosta.commands.RPGCommandManager;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
 import com.craftcosta.jailrules.rpgcraftcosta.listeners.RPGCreatureListener;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerListener;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -17,28 +19,39 @@ import org.bukkit.plugin.java.JavaPlugin;
  * @author Jail
  */
 public class RPGCraftCosta extends JavaPlugin {
+
     static RPGCraftCosta rpgCraftCosta;
+    private FileConfiguration config;
     private RPGPlayerManager rpgPlayerManager;
     private RPGClassManager rpgClassManager;
     private RPGGuildManager rpgGuildManager;
+    private RPGCommandManager myExecutor;
 
     public RPGCraftCosta() {
         rpgCraftCosta = this;
+        this.config = this.getConfig();
+    }
+    
+    public RPGCraftCosta getPlugin(){
+        return this;
     }
 
-    public RPGPlayerManager getRPGPlayerManager(){
+    public RPGPlayerManager getRPGPlayerManager() {
         return rpgPlayerManager;
     }
 
-    public RPGClassManager getRpgClassManager() {
+    public RPGClassManager getRPGClassManager() {
         return rpgClassManager;
     }
 
-    public RPGGuildManager getRpgGuildManager() {
+    public RPGGuildManager getRPGGuildManager() {
         return rpgGuildManager;
     }
-    
-    
+
+    public boolean mkdirs() {
+        return true;
+    }
+
     /**
      */
     @Override
@@ -46,17 +59,19 @@ public class RPGCraftCosta extends JavaPlugin {
         getLogger().info("Habilitando RPGCC");
         getServer().getPluginManager().registerEvents(new RPGPlayerListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGCreatureListener(), this);
-        this.rpgPlayerManager= new RPGPlayerManager(this);
-        this.rpgGuildManager= new RPGGuildManager(this);
-        this.rpgClassManager= new RPGClassManager(this);
+        this.rpgPlayerManager = new RPGPlayerManager(this);
+        myExecutor= new RPGCommandManager(getPlugin());
+        getCommand("login").setExecutor(myExecutor);
+        getCommand("register").setExecutor(myExecutor);
+        //this.rpgGuildManager = new RPGGuildManager(this);
+        //this.rpgClassManager = new RPGClassManager(this);
         //ScoreBoardManager sbManager= new ScoreBoardManager();
     }
 
     @Override
     public void onDisable() {
-        getLogger().info("byebye");
+        this.rpgPlayerManager.saveRpgPlayers();
+        getLogger().info("Shutting down I'll be back!!");
     }
-
-    
 
 }

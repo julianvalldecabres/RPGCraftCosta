@@ -9,19 +9,27 @@ import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.CreatureSpawnEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -29,23 +37,54 @@ import org.bukkit.event.player.PlayerQuitEvent;
  *
  * @author jail
  */
-public class RPGPlayerListener implements Listener{
+public class RPGPlayerListener implements Listener {
+
     RPGCraftCosta plugin;
-    public RPGPlayerListener(RPGCraftCosta plugin){
-        this.plugin=plugin;
+
+    public RPGPlayerListener(RPGCraftCosta plugin) {
+        this.plugin = plugin;
     }
+
     @EventHandler
-    public void onPlayerLogin(PlayerLoginEvent e){
-        Player p=(Player)e.getPlayer();
-        RPGPlayerManager.addPlayerToList(new RPGPlayer(p));
+    public void onPlayerJoin(PlayerJoinEvent e) {
+        e.getPlayer().sendMessage("Evento player Join!");
+        RPGPlayerManager rpgPMan = this.plugin.getRPGPlayerManager();
+        RPGPlayer rpgP = rpgPMan.getOrCreateRPGPlayer(e.getPlayer());
+        rpgP.setMove(false);
+        rpgP.saveRPGPlayer();
+        if (rpgP.getFirstLogin()) {
+            e.getPlayer().sendMessage("Please register in order to play");
+            e.getPlayer().sendMessage("/register <password> <repeatpassword>");
+        } else {
+            e.getPlayer().sendMessage("Please login in order to play");
+            e.getPlayer().sendMessage("/login <password>");
+        }
     }
-    
+
     @EventHandler
-        public void onLogoutPlayer(PlayerQuitEvent e){
-        Player p=(Player)e.getPlayer();
-        RPGPlayerManager.delPlayerFromList(p);
+    public void onPlayerLogin(PlayerLoginEvent e) {
+        e.getPlayer().sendMessage("Evento player login!");
+        //When the player tries to make a connection with the server
     }
-        @EventHandler
+
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent e) {
+        RPGPlayerManager rpgManager = this.plugin.getRPGPlayerManager();
+        RPGPlayer player = rpgManager.getRPGPlayerByName(e.getPlayer().getName());
+        Location loc = player.getPlayer().getLocation();
+        if (!player.getMove()) {
+            e.getPlayer().teleport(loc);
+        }
+    }
+
+    @EventHandler
+    public void onLogoutPlayer(PlayerQuitEvent e) {
+        plugin.getRPGPlayerManager().getRPGPlayerByName(e.getPlayer().getName()).setMove(false);
+        plugin.getRPGPlayerManager().saveRpgPlayer(e.getPlayer());
+        plugin.getRPGPlayerManager().delPlayerFromList(e.getPlayer());
+    }
+
+    @EventHandler
     public void onEntityDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
             if (e.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
@@ -70,12 +109,32 @@ public class RPGPlayerListener implements Listener{
     }
 
     @EventHandler
-    public void onPlayerRightClickBlock(PlayerInteractEvent e){
-        if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
-            
+    public void onPlayerRightClickBlock(PlayerInteractEvent e) {
+        if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+
         }
     }
 
+    @EventHandler
+    public void onPlayerAttackCreature(EntityDamageByEntityEvent e) {
+        //e.getDamager();
+        //e.getEntity();
+    }
+
+    @EventHandler
+    public void onPlayerFoodLevelChange(FoodLevelChangeEvent e) {
+        if (!this.plugin.getConfig().getBoolean("Health")) {
+            e.setFoodLevel(20);
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerBreakBlocks(BlockBreakEvent e) {
+        e.getPlayer().sendMessage("no me toques el mapa mamon");
+        e.setCancelled(true);
+
+    }
 
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent event) {
@@ -84,90 +143,100 @@ public class RPGPlayerListener implements Listener{
         if (p.hasLineOfSight(rightClicked)) {
             if (rightClicked instanceof Player) {
                 //p.trade(rightClicked);
-                }
+            }
+            if (rightClicked instanceof Entity) {
+                event.getRightClicked();
+                rightClicked.remove();
+            }
         }
     }
-    
+
     @EventHandler
     public void onPlayerAchievementAccomplished(PlayerAchievementAwardedEvent event) {
         event.setCancelled(true);
     }
-    
+
+    @EventHandler
+    public void onCreatureSpawn(CreatureSpawnEvent e) {
+        e.setCancelled(true);
+    }
+
     @EventHandler
     public void onProjectileLaunchEvent(ProjectileLaunchEvent event) {
-        if(event.getEntity().getShooter() instanceof Player && event.getEntityType().equals(EntityType.EGG)){
+        if (event.getEntity().getShooter() instanceof Player && event.getEntityType().equals(EntityType.EGG)) {
             event.setCancelled(true);
         }
     }
-    
+
     @EventHandler
-    public void onPlayerChat(AsyncPlayerChatEvent event){
-        char c=event.getMessage().charAt(0);
+    public void onPlayerChat(AsyncPlayerChatEvent event) {
+        char c = event.getMessage().charAt(0);
         String tipoChat;
-        String lugar=ChatColor.GREEN+"["+event.getPlayer().getWorld().getName().substring(0, 1).toUpperCase()+"]";
-        RPGPlayer rpguser=this.plugin.getRPGPlayerManager().getRPGPlayerByName(event.getPlayer().getName());
-        Player user=this.plugin.getRPGPlayerManager().getPlayerByName(event.getPlayer().getName());
+        String lugar = ChatColor.GREEN + "[" + event.getPlayer().getWorld().getName().substring(0, 1).toUpperCase() + "]";
+        RPGPlayerManager rpgmanager = this.plugin.getRPGPlayerManager();
+        RPGPlayer rpguser = rpgmanager.getRPGPlayerByName(event.getPlayer().getName());
+        Player user = rpguser.getPlayer();
+        //rpguser.allowMove();
         String clase;
-        if(rpguser.playerClass == null){
-            clase= ChatColor.AQUA+"[Newbie]";
-        }else{
-            clase= ChatColor.AQUA+"["+rpguser.playerClass.getNameClass()+"]";
-            
+        if (rpguser.getPlayerClass().equals("")) {
+            clase = ChatColor.AQUA + "[Newbie]";
+        } else {
+            clase = ChatColor.AQUA + "[" + rpguser.getPlayerClass() + "]";
         }
-        String name=ChatColor.YELLOW+event.getPlayer().getName()+": ";
-        String message= event.getMessage().substring(1);
-        switch(c){
-                //global case
-                case '!':
-                    tipoChat=""+ChatColor.BOLD+ChatColor.GOLD+"[G]";
-                    event.setFormat(tipoChat+lugar+clase+name+ChatColor.GOLD+message);
-                    break;
-                //global market
-                case '$':
-                    tipoChat=""+ChatColor.BOLD+ChatColor.GREEN+"[$]";
-                    event.setFormat(tipoChat+lugar+clase+name+ChatColor.GREEN+message);
-                    break;
-                //Party Chat
-                case '#':
-                    tipoChat=""+ChatColor.BOLD+ChatColor.AQUA+"[P]";
-                    event.setFormat(tipoChat+lugar+clase+name+ChatColor.AQUA+message);
-                    //TODO
+        String name = ChatColor.YELLOW + event.getPlayer().getName() + ": ";
+        String message = event.getMessage().substring(1);
+        switch (c) {
+            //global case
+            case '!':
+                tipoChat = "" + ChatColor.BOLD + ChatColor.GOLD + "[G]";
+                event.setFormat(tipoChat + lugar + clase + name + ChatColor.GOLD + message);
+                break;
+            //global market
+            case '$':
+                tipoChat = "" + ChatColor.BOLD + ChatColor.GREEN + "[$]";
+                event.setFormat(tipoChat + lugar + clase + name + ChatColor.GREEN + message);
+                break;
+            //Party Chat
+            case '#':
+                tipoChat = "" + ChatColor.BOLD + ChatColor.AQUA + "[P]";
+                event.setFormat(tipoChat + lugar + clase + name + ChatColor.AQUA + message);
+                //TODO
                     /*
-                    if()
-                    */
-                    break;
-                //Guild chat
-                case '@':
-                    tipoChat=""+ChatColor.BOLD+ChatColor.DARK_PURPLE+"[C]";
-                    message=tipoChat+lugar+clase+name+ChatColor.DARK_PURPLE+message;
-                    if(rpguser.getGuild().equals(null)){
-                        user.sendMessage(ChatColor.RED+"No perteneces a ninguna Guild");
-                    }else{
-                        plugin.getRpgGuildManager().getGuildByName(rpguser.getGuild()).sendMessageToGuild(message);
-                    }
-                    event.setCancelled(true);
-                    break;
-                    
-                //local chat
-                default:
-                    HashMap<String,Player> temp=plugin.getRPGPlayerManager().getPlayersOnline();
-                    tipoChat=""+ChatColor.BOLD+ChatColor.YELLOW+"[L]";
-                    message=event.getMessage();
-                    message=tipoChat+lugar+clase+name+ChatColor.YELLOW+message;
-                    for (Map.Entry<String, Player> entrySet : temp.entrySet()) {
-                            Object key = entrySet.getKey();
-                            Player value = entrySet.getValue();
-                            if(!key.equals(user.getName())){
-                                if(plugin.getRPGPlayerManager().distanceBetweenPlayers(user, value)<=100){
-                                    value.sendMessage(message);
-                                }
-                            }                            
+                 if()
+                 */
+                break;
+            //Guild chat
+            case '@':
+                tipoChat = "" + ChatColor.BOLD + ChatColor.DARK_PURPLE + "[C]";
+                message = tipoChat + lugar + clase + name + ChatColor.DARK_PURPLE + message;
+                if (rpguser.getGuild().equals("")) {
+                    user.sendMessage(ChatColor.RED + "No perteneces a ninguna Guild");
+                } else {
+                    //rpguser.getGuild().sendMessageToGuild(message);
+                }
+                event.setCancelled(true);
+                break;
+
+            //local chat
+            default:
+                HashMap<String, RPGPlayer> temp = plugin.getRPGPlayerManager().getPlayersOnline();
+                tipoChat = "" + ChatColor.BOLD + ChatColor.YELLOW + "[L]";
+                message = event.getMessage();
+                message = tipoChat + lugar + clase + name + ChatColor.YELLOW + message;
+                for (Map.Entry<String, RPGPlayer> entrySet : temp.entrySet()) {
+                    Object key = entrySet.getKey();
+                    RPGPlayer value = entrySet.getValue();
+                    if (!key.equals(user.getName())) {
+                        if (plugin.getRPGPlayerManager().distanceBetweenPlayers(user, value.getPlayer()) <= 100) {
+                            value.getPlayer().sendMessage(message);
+                        } else {
+                            user.sendMessage(message);
+                            user.sendMessage(ChatColor.RED + "Nobody can hear you!!");
                         }
-                    event.setCancelled(true);                   
-                    break;
-        }  
-                
-                
-        //event.
-    }    
+                    }
+                }
+                event.setCancelled(true);
+                break;
+        }
+    }
 }

@@ -12,9 +12,10 @@ import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
  * @author jail
  */
 public class RPGChatManager {
+
     private RPGCraftCosta plugin;
-    
-    public RPGChatManager(RPGCraftCosta plugin){
-        this.plugin=plugin;
+
+    public RPGChatManager(RPGCraftCosta plugin) {
+        this.plugin = plugin;
     }
 }

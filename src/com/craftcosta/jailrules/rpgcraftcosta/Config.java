@@ -24,10 +24,10 @@ public class Config {
     private static YamlConfiguration myConfig;
     private static File configFile;
     private static boolean loaded = false;
- 
+
     /**
      * Gets the configuration file.
-     * 
+     *
      * @return the myConfig
      */
     public static YamlConfiguration getConfig() {
@@ -36,16 +36,16 @@ public class Config {
         }
         return myConfig;
     }
- 
+
     /**
      * Gets the configuration file.
-     * 
+     *
      * @return Configuration file
      */
     public static File getConfigFile() {
         return configFile;
     }
- 
+
     /**
      * Loads the configuration file from the .jar.
      */
@@ -77,13 +77,13 @@ public class Config {
             }
         }
     }
- 
+
     /**
      * Copies a file to a new location.
-     * 
+     *
      * @param in InputStream
      * @param out File
-     * 
+     *
      * @throws Exception
      */
     static private void copyFile(InputStream in, File out) throws Exception {
@@ -106,11 +106,10 @@ public class Config {
             }
         }
     }
- 
+
     /**
      * Constructor of SpaceConfig.
      */
     Config() {
     }
 }
-

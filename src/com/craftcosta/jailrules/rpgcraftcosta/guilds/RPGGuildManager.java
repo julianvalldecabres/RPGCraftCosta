@@ -13,23 +13,27 @@ import java.util.HashMap;
  * @author jail
  */
 public class RPGGuildManager {
+
+    public static RPGGuild getGuild(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     private RPGCraftCosta plugin;
-    private HashMap <String,RPGGuild> listGuilds;
-    
-    public RPGGuildManager(RPGCraftCosta plugin){
-        this.plugin=plugin;
-        loadGuilds();
+    private HashMap<String, RPGGuild> listGuilds;
+
+    public RPGGuildManager(RPGCraftCosta plugin) {
+        this.plugin = plugin;
+        //loadGuilds();
     }
 
     private void loadGuilds() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
-    
-    public RPGGuild getGuildByName(String name){
+
+    public RPGGuild getGuildByName(String name) {
         return this.listGuilds.get(name);
     }
-    
-    public void sendMessageToGuild(String name,String message){
-        
+
+    public void sendMessageToGuild(String name, String message) {
+
     }
 }

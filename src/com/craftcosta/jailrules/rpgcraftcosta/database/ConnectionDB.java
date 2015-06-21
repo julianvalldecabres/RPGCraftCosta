@@ -16,18 +16,19 @@ import org.bukkit.Bukkit;
  *
  * @author jail
  */
-public class ConnectionDB implements Runnable{
+public class ConnectionDB implements Runnable {
+
     private Connection conn;
     private String url;
     private String port;
     private String username;
     private String password;
     private String database;
-    
-    public void connect(){
+
+    public void connect() {
         try {
-            
-            conn=DriverManager.getConnection("jdbc:mysql://"+url+":"+port+"/"+database,username, password);
+
+            conn = DriverManager.getConnection("jdbc:mysql://" + url + ":" + port + "/" + database, username, password);
         } catch (SQLException ex) {
             Logger.getLogger(ConnectionDB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -37,8 +38,8 @@ public class ConnectionDB implements Runnable{
     public void run() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    public void createTables(){
-    //
+
+    public void createTables() {
+        //
     }
 }

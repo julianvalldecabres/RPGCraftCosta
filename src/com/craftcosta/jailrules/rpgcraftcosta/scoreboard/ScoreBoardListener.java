@@ -15,14 +15,15 @@ import org.bukkit.event.player.PlayerLoginEvent;
  *
  * @author jail
  */
-public class ScoreBoardListener implements Listener{
+public class ScoreBoardListener implements Listener {
+
     @EventHandler
-    public void OnPlayergetDamage(EntityDamageEvent e){
-        if(e.getEntity() instanceof Player){
+    public void OnPlayergetDamage(EntityDamageEvent e) {
+        if (e.getEntity() instanceof Player) {
             //e.getCause().ENTITY_ATTACK
             Player p = (Player) e.getEntity();
             //ScoreBoardManager.setHealth(p);
         }
     }
-    
+
 }

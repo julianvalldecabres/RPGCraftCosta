@@ -13,7 +13,8 @@ import org.bukkit.ChatColor;
  *
  * @author jail
  */
-public class Party {
+public class RPGParty {
+
     String name;
     String leader;
     ArrayList<String> players;
@@ -21,14 +22,14 @@ public class Party {
     boolean shareMoney;
     boolean shareAP;
 
-    public Party(String name, String creator, boolean shareExp, boolean shareMoney, boolean shareAP) {
+    public RPGParty(String name, String creator, boolean shareExp, boolean shareMoney, boolean shareAP) {
         this.name = name;
         this.leader = creator;
         this.shareExp = shareExp;
         this.shareMoney = shareMoney;
-        this.shareAP=shareAP;
+        this.shareAP = shareAP;
     }
-    
+
     public String getName() {
         return name;
     }
@@ -68,42 +69,42 @@ public class Party {
     public void setShareMoney(boolean shareMoney) {
         this.shareMoney = shareMoney;
     }
-    
-    public void invitePlayerToParty(String player){
+
+    public void invitePlayerToParty(String player) {
         this.players.add(player);
     }
-    
-    public void leavePlayerFromParty(String player){
+
+    public void leavePlayerFromParty(String player) {
         this.players.remove(player);
     }
-    
-    public void makePlayerLeader(String sender,String player){
-        String message=ChatColor.AQUA+"El lider de la party "+name+" ahora es: "+player;
-        String message2=ChatColor.AQUA+"Eres el nuevo lider de la party"+name;
-        if(sender.equals(leader)){
-            if(RPGPlayerUtils.isPlayerOnline(player)){
+
+    public void makePlayerLeader(String sender, String player) {
+        String message = ChatColor.AQUA + "El lider de la party " + name + " ahora es: " + player;
+        String message2 = ChatColor.AQUA + "Eres el nuevo lider de la party" + name;
+        if (sender.equals(leader)) {
+            if (RPGPlayerUtils.isPlayerOnline(player)) {
                 setCreator(player);
                 RPGPlayerUtils.sendMessageToPlayer(sender, message);
                 RPGPlayerUtils.sendMessageToPlayer(sender, message2);
-            }else{
-                message=ChatColor.RED+"[PARTY] El jugador no esta en conectado en este momento";
-                RPGPlayerUtils.sendMessageToPlayer(sender,message);
+            } else {
+                message = ChatColor.RED + "[PARTY] El jugador no esta en conectado en este momento";
+                RPGPlayerUtils.sendMessageToPlayer(sender, message);
             }
-        }else{
-            message2=ChatColor.RED+"[PARTY] Solo el lider puede cambiar el liderazgo";
-            RPGPlayerUtils.sendMessageToPlayer(sender,message2);
+        } else {
+            message2 = ChatColor.RED + "[PARTY] Solo el lider puede cambiar el liderazgo";
+            RPGPlayerUtils.sendMessageToPlayer(sender, message2);
         }
-        
+
     }
-    public void changeAllConfig(boolean shareXP, boolean shareAP, boolean shareMoney){
+
+    public void changeAllConfig(boolean shareXP, boolean shareAP, boolean shareMoney) {
         setShareExp(shareXP);
         setShareMoney(shareMoney);
         setShareAP(shareAP);
     }
 
     public void setShareAP(boolean shareAP) {
-        this.shareAP=shareAP;
+        this.shareAP = shareAP;
     }
-    
-    
+
 }

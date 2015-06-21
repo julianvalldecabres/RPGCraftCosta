@@ -4,3 +4,13 @@ version: 1.0
 description: base rpg.
 author: jailrules
 prefix: RPGCC
+commands:
+    login:
+       alias: l
+       description: Para ingresar en el juego
+       usage: /<command> [contrasenya]
+       permission-message: Usted no tiene permiso para loguearse
+    register:
+        alias: reg
+        description: Para registrarse en el juego
+        usage: /<command> [contrasenya] [contrasenya]

@@ -10,33 +10,34 @@ package com.craftcosta.jailrules.rpgcraftcosta.economy;
  * @author jail
  */
 public class RPGEconomy {
+
     long money;
-    
-    public RPGEconomy(){
-        this.money=0;
+
+    public RPGEconomy() {
+        this.money = 0;
     }
-    
-    public RPGEconomy(long money){
-        this.money=money;
+
+    public RPGEconomy(long money) {
+        this.money = money;
     }
-    
-    public void setMoney(long money){
-        this.money=money;
+
+    public void setMoney(long money) {
+        this.money = money;
     }
-    
-    public long getMoney(){
+
+    public long getMoney() {
         return this.money;
     }
-    
-    public void resetMoney(){
-        this.money=0;
+
+    public void resetMoney() {
+        this.money = 0;
     }
-    
-    public void withdrawMoney(long money){
-        this.money-=money;
+
+    public void withdrawMoney(long money) {
+        this.money -= money;
     }
-    
-    public void addMoney(long money){
-        this.money+=money;
+
+    public void addMoney(long money) {
+        this.money += money;
     }
 }

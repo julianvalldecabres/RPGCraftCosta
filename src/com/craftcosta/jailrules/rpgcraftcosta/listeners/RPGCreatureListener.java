@@ -33,17 +33,17 @@ public class RPGCreatureListener implements Listener {
         e.getEntity().setCustomName(e.getEntityType().toString());
         e.getEntity().setCustomNameVisible(true);
     }
-    
-        @EventHandler
+
+    @EventHandler
     public void onCreatureExplode(EntityExplodeEvent e) {
         e.setCancelled(true);
     }
-    
-    public void onCreatureChangeBlocks(EntityChangeBlockEvent e){
-            e.setCancelled(true);
+
+    public void onCreatureChangeBlocks(EntityChangeBlockEvent e) {
+        e.setCancelled(true);
     }
-    
-    public void onCreatureCombustEvent(EntityCombustEvent e){
+
+    public void onCreatureCombustEvent(EntityCombustEvent e) {
         e.setCancelled(true);
     }
 }

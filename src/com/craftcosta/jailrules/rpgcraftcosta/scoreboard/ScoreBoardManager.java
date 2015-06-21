@@ -77,7 +77,7 @@ public class ScoreBoardManager {
         File health = new File("plugins/RPGCraftCosta", "ScoreboardStats.yml");
         FileConfiguration stats = YamlConfiguration.loadConfiguration(health);
         int back = stats.getInt(p.getPlayer().getName() + ".Health");
-        stats.set(p.getPlayer().getName()+".Health",back);
+        stats.set(p.getPlayer().getName() + ".Health", back);
         stats.save(health);
     }
 
@@ -85,7 +85,7 @@ public class ScoreBoardManager {
         File mana = new File("plugins/RPGCraftCosta", "ScoreboardStats.yml");
         FileConfiguration stats = YamlConfiguration.loadConfiguration(mana);
         int back = stats.getInt(p.getPlayer().getName() + ".Mana");
-        stats.set(p.getPlayer().getName()+".Mana",back);
+        stats.set(p.getPlayer().getName() + ".Mana", back);
         stats.save(mana);
     }
 
@@ -93,7 +93,7 @@ public class ScoreBoardManager {
         File money = new File("plugins/RPGCraftCosta", "ScoreboardStats.yml");
         FileConfiguration stats = YamlConfiguration.loadConfiguration(money);
         int back = stats.getInt(p.getPlayer().getName() + ".Money");
-        stats.set(p.getPlayer().getName()+".Money",back);
+        stats.set(p.getPlayer().getName() + ".Money", back);
         stats.save(money);
     }
 
@@ -101,7 +101,7 @@ public class ScoreBoardManager {
         File level = new File("plugins/RPGCraftCosta", "ScoreboardStats.yml");
         FileConfiguration stats = YamlConfiguration.loadConfiguration(level);
         int back = stats.getInt(p.getPlayer().getName() + ".Level");
-        stats.set(p.getPlayer().getName()+".Level",back);
+        stats.set(p.getPlayer().getName() + ".Level", back);
         stats.save(level);
     }
 }

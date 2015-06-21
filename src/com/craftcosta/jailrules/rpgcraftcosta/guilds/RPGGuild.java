@@ -6,16 +6,18 @@
 package com.craftcosta.jailrules.rpgcraftcosta.guilds;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
 /**
  *
  * @author jail
  */
 public class RPGGuild {
+
+    public static RPGGuild getGuild(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     String name;                        //Name of the guild
     String acronym;                     //reduced name of the guild (3 letters)
     String owner;                       //Owner of the Guild
@@ -29,7 +31,7 @@ public class RPGGuild {
 
     public RPGGuild RPGGuild(String name, String acronym, String owner) {
         this.name = name;
-        this.acronym=acronym;                       //3 letters to reduce name to be shown next to the players name
+        this.acronym = acronym;                       //3 letters to reduce name to be shown next to the players name
         this.owner = owner;                         //Guild owner
         this.level = 0;                             //Level of the guild
         this.moderators = new ArrayList<String>();  //List of moderators from the guild
@@ -99,9 +101,9 @@ public class RPGGuild {
             return true;
         }
     }
-    
-    public ArrayList<String> getNameMembersList(){
-        ArrayList<String> namelist=new ArrayList<String>();
+
+    public ArrayList<String> getNameMembersList() {
+        ArrayList<String> namelist = new ArrayList<String>();
         namelist.addAll(members);
         namelist.addAll(moderators);
         namelist.add(owner);
@@ -109,12 +111,77 @@ public class RPGGuild {
     }
 
     public void sendMessageToGuild(String message) {
-        Set<Player>onlineplayers= new HashSet<Player> (Arrays.asList(Bukkit.getServer().getOnlinePlayers()));
-        ArrayList<String> names=getNameMembersList();
-        for (Player p1 : onlineplayers){
-            if(names.contains(p1.getName())){
+        ArrayList<Player> onlineplayers = (ArrayList<Player>) Bukkit.getServer().getOnlinePlayers();
+        ArrayList<String> names = getNameMembersList();
+        for (Player p1 : onlineplayers) {
+            if (names.contains(p1.getName())) {
                 p1.sendMessage(message);
-            }            
+            }
         }
     }
- }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAcronym() {
+        return acronym;
+    }
+
+    public void setAcronym(String acronym) {
+        this.acronym = acronym;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public ArrayList<String> getModerators() {
+        return moderators;
+    }
+
+    public void setModerators(ArrayList<String> moderators) {
+        this.moderators = moderators;
+    }
+
+    public ArrayList<String> getMembers() {
+        return members;
+    }
+
+    public void setMembers(ArrayList<String> members) {
+        this.members = members;
+    }
+
+    public Object getPlugin() {
+        return plugin;
+    }
+
+    public void setPlugin(Object plugin) {
+        this.plugin = plugin;
+    }
+
+    public Object getUser() {
+        return user;
+    }
+
+    public void setUser(Object user) {
+        this.user = user;
+    }
+
+}

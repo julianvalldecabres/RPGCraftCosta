@@ -13,19 +13,28 @@ import java.util.HashMap;
  * @author jail
  */
 public class RPGClassManager {
-    HashMap<String,RPGClass> listClasses;
-    RPGCraftCosta plugin;
+
+    private RPGCraftCosta plugin;
+    static HashMap<String, RPGClass> listClasses;
 
     public RPGClassManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
     }
-    
-    public void loadRPGClasses(){
+
+    public static String getListAvailableClasses() {
+        return "";
+    }
+
+    public static void loadRPGClasses() {
         //TODO
     }
-    
-    public RPGClass getRPGClass(String name){
-        return listClasses.get(name);
+
+    public static void saveRPGClass(RPGClass rpgclass) {
+
     }
-    
+
+    public static RPGClass getRPGClass(String name) {
+        return (RPGClass) listClasses.get(name);
+    }
+
 }
