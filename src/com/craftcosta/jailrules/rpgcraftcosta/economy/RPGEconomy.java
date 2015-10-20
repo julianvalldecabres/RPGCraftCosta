@@ -13,30 +13,56 @@ public class RPGEconomy {
 
     long money;
 
+    /**
+     *
+     */
     public RPGEconomy() {
         this.money = 0;
     }
 
+    /**
+     *
+     * @param money
+     */
     public RPGEconomy(long money) {
         this.money = money;
     }
 
+    /**
+     *
+     * @param money
+     */
     public void setMoney(long money) {
         this.money = money;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getMoney() {
         return this.money;
     }
 
+    /**
+     *
+     */
     public void resetMoney() {
         this.money = 0;
     }
 
+    /**
+     *
+     * @param money
+     */
     public void withdrawMoney(long money) {
         this.money -= money;
     }
 
+    /**
+     *
+     * @param money
+     */
     public void addMoney(long money) {
         this.money += money;
     }

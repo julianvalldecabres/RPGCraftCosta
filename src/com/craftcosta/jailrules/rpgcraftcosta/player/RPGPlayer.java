@@ -5,6 +5,8 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.player;
 
+import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClass;
+import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
 import com.craftcosta.jailrules.rpgcraftcosta.economy.RPGEconomy;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
@@ -21,7 +23,7 @@ import org.bukkit.entity.Player;
  *
  * @author jail
  */
-public class RPGPlayer {
+public class RPGPlayer /*extends EventObject*/ {
 
     //Player atributes
     private String name;
@@ -37,10 +39,11 @@ public class RPGPlayer {
     private boolean move;
     private int actualLevel;
     private long actualExp;
-    private long actualHealth;
-    private long actualMana;
-    private long maxMana;
-    private long maxHealth;
+    private double actualHealth;
+    private double actualMana;
+    private double maxMana;
+    private double maxHealth;
+    private double armor; //Añadida por los slots de armor. Calculado por la suma de la defensa basica mas la armadura
     //rpg attributes
     private int availablePoints;
     private int constitutionP;
@@ -48,17 +51,23 @@ public class RPGPlayer {
     private int intelligenceP;
     private int strengthP;
     //rpg dependant attributes
-    private float physicalAttack;
-    private float physicalDefense;
-    private float magicAttack;
-    private float magicDefense;
-    private float physicalHitRate;
-    private float magicHitRate;
-    private float physicalEvasion;
-    private float magicEvasion;
-    private float critical;
-    private float deadly;
+    private double physicalAttack;
+    private double physicalDefense;
+    private double magicAttack;
+    private double magicDefense;
+    private double physicalHitRate;
+    private double magicHitRate;
+    private double physicalEvasion;
+    private double magicEvasion;
+    private double critical;
+    private double deadly;
 
+    /**
+     * Al añadir el extends EventObject a la clase nos da el error siguiente
+     * pero es necesario para poder disparar nuestros propios eventos...
+     *
+     * @param p
+     */
     public RPGPlayer(Player p) {
         this.player = p;
         if (RPGPlayerUtils.existsPlayerFile(p)) {
@@ -112,6 +121,9 @@ public class RPGPlayer {
         this.deadly = 0;
     }
 
+    /**
+     *
+     */
     public void saveRPGPlayer() {
         File playerFile = new File(RPGFinals.playerFilePath.replace("%player%", getPlayer().getUniqueId().toString()));
         if (!playerFile.exists()) {
@@ -159,22 +171,22 @@ public class RPGPlayer {
 
     }
 
-    public RPGPlayer getOrCreateRPGPlayer(Player p) {
-        RPGPlayer rpgp = null;
-        File playerFile = new File(RPGFinals.playerFilePath.replace("%player%", this.getPlayer().getUniqueId().toString()));
-        FileConfiguration config;
-        if (!playerFile.exists()) {
-            //si player no existe fichero crear nuevo
-            rpgp = new RPGPlayer(p);
-            config = YamlConfiguration.loadConfiguration(new File(RPGFinals.dataFolder + "players.yml"));
-
-        } else {
-            //si player existe fichero cargar player
-            config = YamlConfiguration.loadConfiguration(playerFile);
-        }
-
-        return rpgp;
-    }
+//    public RPGPlayer getOrCreateRPGPlayer(Player p) {
+//        RPGPlayer rpgp = null;
+//        File playerFile = new File(RPGFinals.playerFilePath.replace("%player%", this.getPlayer().getUniqueId().toString()));
+//        FileConfiguration config;
+//        if (!playerFile.exists()) {
+//            //si player no existe fichero crear nuevo
+//            rpgp = new RPGPlayer(p);
+//            config = YamlConfiguration.loadConfiguration(new File(RPGFinals.dataFolder + "players.yml"));
+//
+//        } else {
+//            //si player existe fichero cargar player
+//            config = YamlConfiguration.loadConfiguration(playerFile);
+//        }
+//
+//        return rpgp;
+//    }
 
     private void loadPlayerData() {
         //Recupera la informacion del player actual
@@ -205,11 +217,12 @@ public class RPGPlayer {
             this.guild = section.getString("guild");
             this.party = section.getString("party");
             this.playerClass = section.getString("class");
-            this.actualHealth = section.getLong("actualHealth");
+            this.actualHealth = section.getDouble("actualHealth");
             this.player.setHealth(actualHealth);
-            this.actualMana = section.getLong("actualMana");
-            this.maxHealth = section.getLong("maxHealth");
-            this.maxMana = section.getLong("maxMana");
+            this.actualMana = section.getDouble("actualMana");
+            this.maxHealth = section.getDouble("maxHealth");
+            this.player.setMaxHealth(maxHealth);
+            this.maxMana = section.getDouble("maxMana");
             this.availablePoints = section.getInt("ap");
             //Cargar atributos de player
             this.constitutionP = section.getInt("constP");
@@ -218,316 +231,658 @@ public class RPGPlayer {
             this.strengthP = section.getInt("strgthP");
             //Cargar estadisticas
             //Magico
-            this.magicAttack = section.getInt("magicattack");
-            this.magicDefense = section.getInt("magicdefense");
-            this.magicEvasion = section.getInt("magicevasion");
-            this.magicHitRate = section.getInt("magichitrate");
+            this.magicAttack = section.getDouble("magicattack");
+            this.magicDefense = section.getDouble("magicdefense");
+            this.magicEvasion = section.getDouble("magicevasion");
+            this.magicHitRate = section.getDouble("magichitrate");
             //Fisico
-            this.physicalAttack = section.getInt("physicalattack");
-            this.physicalDefense = section.getInt("physicaldefense");
-            this.physicalEvasion = section.getInt("physicalevasion");
-            this.physicalHitRate = section.getInt("physicalhitrate");
+            this.physicalAttack = section.getDouble("physicalattack");
+            this.physicalDefense = section.getDouble("physicaldefense");
+            this.physicalEvasion = section.getDouble("physicalevasion");
+            this.physicalHitRate = section.getDouble("physicalhitrate");
             //Especial
-            this.critical = section.getInt("critical");
-            this.deadly = section.getInt("deadly");
+            this.critical = section.getDouble("critical");
+            this.deadly = section.getDouble("deadly");
         } else {
 
         }
     }
 
+    void setRPGClass(RPGClass rpgclass) {
+        setPlayerClass(rpgclass.getNameClass());
+        setActualHealth(rpgclass.getBaseHealth());
+        setMaxHealth(rpgclass.getBaseHealth());
+        setActualMana(rpgclass.getBaseMana());
+        setMaxMana(rpgclass.getBaseMana());
+        setPhysicalAttack(rpgclass.getBasePhysicalAttack());
+        setPhysicalDefense(rpgclass.getBasePhysicalAttack());
+        setMagicAttack(rpgclass.getBaseMagicAttack());
+        setMagicDefense(rpgclass.getBaseMagicDefense());
+        setPhysicalHitRate(rpgclass.getBasePhysicalHitRate());
+        setMagicHitRate(rpgclass.getBaseMagicHitRate());
+        setPhysicalEvasion(rpgclass.getBasePhysicalEvasion());
+        setMagicEvasion(rpgclass.getBaseMagicEvasion());
+        setCritical(rpgclass.getBaseCritical());
+        setDeadly(rpgclass.getBaseDeadly());
+        this.saveRPGPlayer();
+    }
+
+    /**
+     *
+     */
+    public void levelUP() {
+        //aumentar stats
+        RPGClass rpgclass = RPGClassManager.getRPGClass(getPlayerClass());
+        setActualHealth(rpgclass.getLvlUpHealth() + getMaxHealth());
+        setMaxHealth(rpgclass.getLvlUpHealth() + getMaxHealth());
+        setActualMana(rpgclass.getLvlUpMana() + getMaxMana());
+        setMaxMana(rpgclass.getLvlUpMana() + getMaxMana());
+        setPhysicalAttack(rpgclass.getLvlUpPhysicalAttack() + getPhysicalAttack());
+        setPhysicalDefense(rpgclass.getLvlUpPhysicalAttack() + getPhysicalDefense());
+        setMagicAttack(rpgclass.getLvlUpMagicAttack() + getMagicAttack());
+        setMagicDefense(rpgclass.getLvlUpMagicDefense() + getMagicDefense());
+        setPhysicalHitRate(rpgclass.getLvlUpPhysicalHitRate() + getPhysicalHitRate());
+        setMagicHitRate(rpgclass.getLvlUpMagicHitRate() + getMagicHitRate());
+        setPhysicalEvasion(rpgclass.getLvlUpPhysicalEvasion() + getPhysicalEvasion());
+        setMagicEvasion(rpgclass.getLvlUpMagicEvasion() + getMagicEvasion());
+        setCritical(rpgclass.getLvlUpCritical() + getCritical());
+        setDeadly(rpgclass.getLvlUpDeadly() + getDeadly());
+        //añadir skillpoints
+
+        this.saveRPGPlayer();
+    }
+
+    /**
+     *
+     * @return
+     */
     public boolean getFirstLogin() {
         return firstLogin;
     }
 
+    /**
+     *
+     * @param firstlogin
+     */
     public void setFirstLogin(boolean firstlogin) {
         this.firstLogin = firstlogin;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     *
+     * @param email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     *
+     * @return
+     */
     public UUID getUuid() {
         return uuid;
     }
 
+    /**
+     *
+     * @param uuid
+     */
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isMove() {
         return move;
     }
 
+    /**
+     *
+     * @param move
+     */
     public void setMove(boolean move) {
         this.move = move;
     }
 
-    public long getActualHealth() {
+    /**
+     *
+     * @return
+     */
+    public double getActualHealth() {
         return actualHealth;
     }
 
-    public void setActualHealth(long actualHealth) {
+    /**
+     *
+     * @param actualHealth
+     */
+    public void setActualHealth(double actualHealth) {
         this.actualHealth = actualHealth;
     }
 
-    public long getActualMana() {
+    /**
+     *
+     * @return
+     */
+    public double getActualMana() {
         return actualMana;
     }
 
-    public void setActualMana(long actualMana) {
+    /**
+     *
+     * @param actualMana
+     */
+    public void setActualMana(double actualMana) {
         this.actualMana = actualMana;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getAvailablePoints() {
         return availablePoints;
     }
 
+    /**
+     *
+     * @param availablePoints
+     */
     public void setAvailablePoints(int availablePoints) {
         this.availablePoints = availablePoints;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @param econ
+     */
     public void setEcon(RPGEconomy econ) {
         this.econ = econ;
     }
 
+    /**
+     *
+     * @param guild
+     */
     public void setGuild(String guild) {
         this.guild = guild;
     }
 
+    /**
+     *
+     * @param playerClass
+     */
     public void setPlayerClass(String playerClass) {
         this.playerClass = playerClass;
     }
 
+    /**
+     *
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
 
+    /**
+     *
+     * @param actualLevel
+     */
     public void setActualLevel(int actualLevel) {
-        this.actualLevel = (int) actualLevel;
+        this.actualLevel = actualLevel;
     }
 
+    /**
+     *
+     * @param actualExp
+     */
     public void setActualExp(long actualExp) {
         this.actualExp = actualExp;
     }
 
-    public void setActualhealth(long actualhealth) {
+    /**
+     *
+     * @param actualhealth
+     */
+    public void setActualhealth(double actualhealth) {
         this.actualHealth = actualhealth;
     }
 
-    public void setActualmana(long actualmana) {
+    /**
+     *
+     * @param actualmana
+     */
+    public void setActualmana(double actualmana) {
         this.actualMana = actualmana;
     }
 
-    public void setMaxMana(long maxMana) {
+    /**
+     *
+     * @param maxMana
+     */
+    public void setMaxMana(double maxMana) {
         this.maxMana = maxMana;
     }
 
-    public void setMaxHealth(long maxHealth) {
+    /**
+     *
+     * @param maxHealth
+     */
+    public void setMaxHealth(double maxHealth) {
         this.maxHealth = maxHealth;
     }
 
+    /**
+     *
+     * @param constitutionP
+     */
     public void setConstitutionP(int constitutionP) {
         this.constitutionP = constitutionP;
     }
 
+    /**
+     *
+     * @param dexteryP
+     */
     public void setDexteryP(int dexteryP) {
         this.dexteryP = dexteryP;
     }
 
+    /**
+     *
+     * @param intelligenceP
+     */
     public void setIntelligenceP(int intelligenceP) {
         this.intelligenceP = intelligenceP;
     }
 
+    /**
+     *
+     * @param strengthP
+     */
     public void setStrengthP(int strengthP) {
         this.strengthP = strengthP;
     }
 
-    public void setPhysicalAttack(float physicalAttack) {
+    /**
+     *
+     * @param physicalAttack
+     */
+    public void setPhysicalAttack(double physicalAttack) {
         this.physicalAttack = physicalAttack;
     }
 
-    public void setPhysicalDefense(float physicalDefense) {
+    /**
+     *
+     * @param physicalDefense
+     */
+    public void setPhysicalDefense(double physicalDefense) {
         this.physicalDefense = physicalDefense;
     }
 
-    public void setMagicAttack(float magicAttack) {
+    /**
+     *
+     * @param magicAttack
+     */
+    public void setMagicAttack(double magicAttack) {
         this.magicAttack = magicAttack;
     }
 
-    public void setMagicDefense(float magicDefense) {
+    /**
+     *
+     * @param magicDefense
+     */
+    public void setMagicDefense(double magicDefense) {
         this.magicDefense = magicDefense;
     }
 
-    public void setPhysicalHitRate(float physicalHitRate) {
+    /**
+     *
+     * @param physicalHitRate
+     */
+    public void setPhysicalHitRate(double physicalHitRate) {
         this.physicalHitRate = physicalHitRate;
     }
 
-    public void setMagicHitRate(float MagicHitRate) {
+    /**
+     *
+     * @param MagicHitRate
+     */
+    public void setMagicHitRate(double MagicHitRate) {
         this.magicHitRate = MagicHitRate;
     }
 
-    public void setPhysicalEvasion(float physicalEvasion) {
+    /**
+     *
+     * @param physicalEvasion
+     */
+    public void setPhysicalEvasion(double physicalEvasion) {
         this.physicalEvasion = physicalEvasion;
     }
 
-    public void setMagicEvasion(float magicEvasion) {
+    /**
+     *
+     * @param magicEvasion
+     */
+    public void setMagicEvasion(double magicEvasion) {
         this.magicEvasion = magicEvasion;
     }
 
-    public void setCritical(float critical) {
+    /**
+     *
+     * @param critical
+     */
+    public void setCritical(double critical) {
         this.critical = critical;
     }
 
-    public void setDeadly(float deadly) {
+    /**
+     *
+     * @param deadly
+     */
+    public void setDeadly(double deadly) {
         this.deadly = deadly;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @return
+     */
     public Player getPlayer() {
         return this.player;
     }
 
+    /**
+     *
+     * @return
+     */
     public RPGEconomy getEcon() {
         return econ;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPlayerClass() {
         return playerClass;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getActualLevel() {
         return actualLevel;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getActualExp() {
         return actualExp;
     }
 
-    public long getActualhealth() {
+    /**
+     *
+     * @return
+     */
+    public double getActualhealth() {
         return actualHealth;
     }
 
-    public long getActualmana() {
+    /**
+     *
+     * @return
+     */
+    public double getActualmana() {
         return actualMana;
     }
 
-    public long getMaxMana() {
+    /**
+     *
+     * @return
+     */
+    public double getMaxMana() {
         return maxMana;
     }
 
-    public long getMaxHealth() {
+    /**
+     *
+     * @return
+     */
+    public double getMaxHealth() {
         return maxHealth;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getConstitutionP() {
         return constitutionP;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getDexteryP() {
         return dexteryP;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getIntelligenceP() {
         return intelligenceP;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getStrengthP() {
         return strengthP;
     }
 
-    public float getPhysicalAttack() {
+    /**
+     *
+     * @return
+     */
+    public double getPhysicalAttack() {
         return physicalAttack;
     }
 
-    public float getPhysicalDefense() {
+    /**
+     *
+     * @return
+     */
+    public double getPhysicalDefense() {
         return physicalDefense;
     }
 
-    public float getMagicAttack() {
+    /**
+     *
+     * @return
+     */
+    public double getMagicAttack() {
         return magicAttack;
     }
 
-    public float getMagicDefense() {
+    /**
+     *
+     * @return
+     */
+    public double getMagicDefense() {
         return magicDefense;
     }
 
-    public float getPhysicalHitRate() {
+    /**
+     *
+     * @return
+     */
+    public double getPhysicalHitRate() {
         return physicalHitRate;
     }
 
-    public float getMagicHitRate() {
+    /**
+     *
+     * @return
+     */
+    public double getMagicHitRate() {
         return magicHitRate;
     }
 
-    public float getPhysicalEvasion() {
+    /**
+     *
+     * @return
+     */
+    public double getPhysicalEvasion() {
         return physicalEvasion;
     }
 
-    public float getMagicEvasion() {
+    /**
+     *
+     * @return
+     */
+    public double getMagicEvasion() {
         return magicEvasion;
     }
 
-    public float getCritical() {
+    /**
+     *
+     * @return
+     */
+    public double getCritical() {
         return critical;
     }
 
-    public float getDeadly() {
+    /**
+     *
+     * @return
+     */
+    public double getDeadly() {
         return deadly;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getPLevel() {
         return this.actualLevel;
     }
 
+    /**
+     *
+     * @param l
+     */
     public void setLevel(int l) {
         this.actualLevel = l;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean hasGuild() {
         return this.guild != null;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getGuild() {
         return this.guild;
     }
 
+    /**
+     *
+     * @param l
+     * @return
+     */
     public double distance(Location l) {
         return 0.0;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getParty() {
         return party;
     }
 
+    /**
+     *
+     * @param party
+     */
     public void setParty(String party) {
         this.party = party;
     }
 
+    /**
+     *
+     */
     public void allowMove() {
         this.move = true;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean getMove() {
         return this.move;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPassword() {
         return password;
     }
 
+    /**
+     *
+     * @param pass
+     * @return
+     */
     public boolean passCheck(String pass) {
         return pass.equals(getPassword());
     }
+
 }

@@ -20,6 +20,10 @@ import org.bukkit.event.entity.EntityExplodeEvent;
  */
 public class RPGCreatureListener implements Listener {
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onCreatureDeath(EntityDeathEvent e) {
         if (e.getEntity() instanceof Creature) {
@@ -28,21 +32,37 @@ public class RPGCreatureListener implements Listener {
         }
     }
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onSpawnCreature(CreatureSpawnEvent e) {
         e.getEntity().setCustomName(e.getEntityType().toString());
         e.getEntity().setCustomNameVisible(true);
     }
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onCreatureExplode(EntityExplodeEvent e) {
         e.setCancelled(true);
     }
 
+    /**
+     *
+     * @param e
+     */
     public void onCreatureChangeBlocks(EntityChangeBlockEvent e) {
         e.setCancelled(true);
     }
 
+    /**
+     *
+     * @param e
+     */
     public void onCreatureCombustEvent(EntityCombustEvent e) {
         e.setCancelled(true);
     }

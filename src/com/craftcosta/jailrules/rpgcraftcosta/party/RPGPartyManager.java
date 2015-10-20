@@ -11,6 +11,11 @@ package com.craftcosta.jailrules.rpgcraftcosta.party;
  */
 public class RPGPartyManager {
 
+    /**
+     *
+     * @param string
+     * @return
+     */
     public static RPGParty getParty(String string) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

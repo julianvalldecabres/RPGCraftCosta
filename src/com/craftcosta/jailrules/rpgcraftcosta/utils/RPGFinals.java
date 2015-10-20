@@ -5,36 +5,99 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.utils;
 
+import java.io.File;
+
 /**
  *
  * @author jail
  */
 public abstract class RPGFinals {
 
+    // FINALS
+
+    /**
+     *
+     */
+        public final static String pluginName = "RPGCraftCosta";
+
     // FOLDERS
-    public final static String mainFolder = "plugins/RPGCraftCosta/";
-    public final static String dataFolder = "plugins/RPGCraftCosta/data/";
-    public final static String configFolder = "plugins/RPGCraftCosta/myConfig/";
-    public final static String messagesFolder = configFolder + "Messages/";
-    public final static String playerData = dataFolder + "playerdata/";
-    public final static String uuidPlayerData = dataFolder + "uuidPlayerdata/";
+
+    /**
+     *
+     */
+        public final static String pluginsFolder = "plugins" + File.separator;
+
+    /**
+     *
+     */
+    public final static String mainFolder = pluginsFolder + "RPGCraftCosta" + File.separator;
+
+    /**
+     *
+     */
+    public final static String dataFolder = mainFolder + "data" + File.separator;
+
+    /**
+     *
+     */
+    public final static String configFolder = mainFolder + "config" + File.separator;
+
+    /**
+     *
+     */
+    public final static String langFolder = configFolder + "lang" + File.separator;
+
+    /**
+     *
+     */
+    public final static String playerData = dataFolder + "playerdata" + File.separator;
 
     // FILES
     // data
-    public final static String playerFilePath = playerData + "%player%.yml";
-    public final static String uuidplayerFilePath = dataFolder + "uuids.yml"; 
+
+    /**
+     *
+     */
+        public final static String playerFilePath = playerData + "%player%.yml";
+
+    /**
+     *
+     */
     public final static String guildsFilePath = dataFolder + "guilds.yml";
+
+    /**
+     *
+     */
+    public final static String classFilePath = dataFolder + "classes.yml";
+
+    /**
+     *
+     */
     public final static String partyFilePath = dataFolder + "partys.yml";
-    // config
-    public final static String configFilePath = configFolder + "config.yml";
-    public final static String expFilePath = configFolder + "values.yml";
-    public final static String mysqlFilePath = configFolder + "mysql.yml";
-    public final static String messagesFilePath = messagesFolder + "messages.yml";
-    public final static String classFilePath = configFolder + "classes.yml";
+
+    /**
+     *
+     */
     public final static String itemsFilePath = configFolder + "items.yml";
+
+    /**
+     *
+     */
     public final static String questFilePath = configFolder + "quests.yml";
+    // config
 
-    // FINALS
-    public final static String pluginName = "RPGCraftCosta";
+    /**
+     *
+     */
+        public final static String LevelingConfigFile = configFolder + "leveling.yml";
 
+    /**
+     *
+     */
+    public final static String MainConfigFile = configFolder + "config.yml";
+
+    /**
+     *
+     */
+    public final static String messagesFilePath = langFolder + "%lang%.yml";
 }

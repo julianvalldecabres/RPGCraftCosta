@@ -12,8 +12,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
@@ -25,17 +23,22 @@ import org.bukkit.scoreboard.ScoreboardManager;
  */
 public class ScoreBoardManager {
 
+    /**
+     *
+     * @param p
+     */
     public static void createScoreBoard(RPGPlayer p) {
         ScoreboardManager sbm = Bukkit.getServer().getScoreboardManager();
         Scoreboard sb = sbm.getNewScoreboard();
 
-        Objective obj = sb.registerNewObjective("aaa", "bbb");
+        Objective obj = sb.registerNewObjective("test", "dummy");
         obj.setDisplayName(ChatColor.GREEN + "Stats");
 
-        Score health = obj.getScore(Bukkit.getOfflinePlayer(ChatColor.RED + "health"));
-        Score mana = obj.getScore(Bukkit.getOfflinePlayer(ChatColor.RED + "mana"));
-        Score money = obj.getScore(Bukkit.getOfflinePlayer(ChatColor.RED + "money"));
-        Score level = obj.getScore(Bukkit.getOfflinePlayer(ChatColor.RED + "level"));
+        Score health = obj.getScore(ChatColor.RED + "health");
+        Score mana = obj.getScore(ChatColor.RED + "mana");
+        Score money = obj.getScore(ChatColor.RED + "money");
+        Score level = obj.getScore(ChatColor.RED + "level");
+        Score exp = obj.getScore(ChatColor.RED + "exp");
 
         health.setScore(ScoreBoardManager.getHealth(p));
         mana.setScore(ScoreBoardManager.getMana(p));
@@ -45,6 +48,11 @@ public class ScoreBoardManager {
         p.getPlayer().setScoreboard(sb);
     }
 
+    /**
+     *
+     * @param p
+     * @return
+     */
     public static int getHealth(RPGPlayer p) {
         File health = new File("plugins/RPGCraftCosta", "ScoreboardStats.yml");
         FileConfiguration stats = YamlConfiguration.loadConfiguration(health);
@@ -52,6 +60,11 @@ public class ScoreBoardManager {
         return back;
     }
 
+    /**
+     *
+     * @param p
+     * @return
+     */
     public static int getMana(RPGPlayer p) {
         File mana = new File("plugins/RPGCraftCosta", "ScoreboardStats.yml");
         FileConfiguration stats = YamlConfiguration.loadConfiguration(mana);
@@ -59,6 +72,11 @@ public class ScoreBoardManager {
         return back;
     }
 
+    /**
+     *
+     * @param p
+     * @return
+     */
     public static int getMoney(RPGPlayer p) {
         File money = new File("plugins/RPGCraftCosta", "ScoreboardStats.yml");
         FileConfiguration stats = YamlConfiguration.loadConfiguration(money);
@@ -66,6 +84,11 @@ public class ScoreBoardManager {
         return back;
     }
 
+    /**
+     *
+     * @param p
+     * @return
+     */
     public static int getLevel(RPGPlayer p) {
         File level = new File("plugins/RPGCraftCosta", "ScoreboardStats.yml");
         FileConfiguration stats = YamlConfiguration.loadConfiguration(level);
@@ -73,6 +96,11 @@ public class ScoreBoardManager {
         return back;
     }
 
+    /**
+     *
+     * @param p
+     * @throws IOException
+     */
     public static void setHealth(RPGPlayer p) throws IOException {
         File health = new File("plugins/RPGCraftCosta", "ScoreboardStats.yml");
         FileConfiguration stats = YamlConfiguration.loadConfiguration(health);
@@ -81,6 +109,11 @@ public class ScoreBoardManager {
         stats.save(health);
     }
 
+    /**
+     *
+     * @param p
+     * @throws IOException
+     */
     public static void setMana(RPGPlayer p) throws IOException {
         File mana = new File("plugins/RPGCraftCosta", "ScoreboardStats.yml");
         FileConfiguration stats = YamlConfiguration.loadConfiguration(mana);
@@ -89,6 +122,11 @@ public class ScoreBoardManager {
         stats.save(mana);
     }
 
+    /**
+     *
+     * @param p
+     * @throws IOException
+     */
     public static void setMoney(RPGPlayer p) throws IOException {
         File money = new File("plugins/RPGCraftCosta", "ScoreboardStats.yml");
         FileConfiguration stats = YamlConfiguration.loadConfiguration(money);
@@ -97,6 +135,11 @@ public class ScoreBoardManager {
         stats.save(money);
     }
 
+    /**
+     *
+     * @param p
+     * @throws IOException
+     */
     public static void setLevel(RPGPlayer p) throws IOException {
         File level = new File("plugins/RPGCraftCosta", "ScoreboardStats.yml");
         FileConfiguration stats = YamlConfiguration.loadConfiguration(level);

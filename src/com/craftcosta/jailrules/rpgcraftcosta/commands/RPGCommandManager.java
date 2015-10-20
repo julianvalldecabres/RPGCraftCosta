@@ -6,6 +6,8 @@
 package com.craftcosta.jailrules.rpgcraftcosta.commands;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClass;
+import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,12 +20,27 @@ import org.bukkit.entity.Player;
  */
 public class RPGCommandManager implements CommandExecutor {
 
+    /**
+     *
+     */
     public RPGCraftCosta plugin;
 
+    /**
+     *
+     * @param aThis
+     */
     public RPGCommandManager(RPGCraftCosta aThis) {
         plugin = aThis;
     }
 
+    /**
+     *
+     * @param sender
+     * @param command
+     * @param commandLabel
+     * @param args
+     * @return
+     */
     @Override
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
         Player player = (Player) sender;
@@ -31,12 +48,8 @@ public class RPGCommandManager implements CommandExecutor {
         if (commandLabel.equalsIgnoreCase("login")) {
             if (args.length == 1) {
                 if (rpgplayer.passCheck(args[0])) {
-                    
-                    player.sendMessage("login correcto");
                     rpgplayer.allowMove();
-                    player.sendMessage("habilitado movimiento");
                     rpgplayer.saveRPGPlayer();
-                    player.sendMessage("guardado del player en fichero");
                     player.sendMessage("Login Correcto!");
                     return true;
                 } else {
@@ -51,11 +64,9 @@ public class RPGCommandManager implements CommandExecutor {
         if (commandLabel.equalsIgnoreCase("register")) {
             if (args.length == 2) {
                 if (args[0].equals(args[1])) {
-                    player.sendMessage("registro correcto ambas contraseñas coinciden");
                     rpgplayer.setPassword(args[0]);
-                    player.sendMessage("tu contrasenya es: "+rpgplayer.getPassword());
+                    player.sendMessage("tu contrasenya es: " + rpgplayer.getPassword());
                     rpgplayer.setFirstLogin(false);
-                    player.sendMessage("firstlogin false");
                     rpgplayer.saveRPGPlayer();
                     player.sendMessage("Registro realizado correctamente!");
                     return true;
@@ -69,15 +80,17 @@ public class RPGCommandManager implements CommandExecutor {
             }
         }
         if (commandLabel.equalsIgnoreCase("classlist")) {
-            //rpgplayer.getPlayer().sendMessage("lista de clases");
+            rpgplayer.getPlayer().sendMessage(RPGClassManager.getListAvailableClasses());
             return true;
         }
         if (commandLabel.equalsIgnoreCase("chooseclass")) {
             if (args.length == 1) {
-                if (plugin.getRPGClassManager().getRPGClass(args[0]) != null) {
-                    //
+                RPGClass rpgclass = plugin.getRPGClassManager().getRPGClass(args[0]);
+                if (rpgclass != null) {
+                    plugin.getRPGPlayerManager().setRPGClassToPlayer(player, rpgclass);
                 } else {
-
+                    rpgplayer.getPlayer().sendMessage("That class doesn't exists!! Choose one from following:");
+                    rpgplayer.getPlayer().sendMessage(RPGClassManager.getListAvailableClasses());
                 }
             } else {
 

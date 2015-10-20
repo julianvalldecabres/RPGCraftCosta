@@ -22,6 +22,14 @@ public class RPGParty {
     boolean shareMoney;
     boolean shareAP;
 
+    /**
+     *
+     * @param name
+     * @param creator
+     * @param shareExp
+     * @param shareMoney
+     * @param shareAP
+     */
     public RPGParty(String name, String creator, boolean shareExp, boolean shareMoney, boolean shareAP) {
         this.name = name;
         this.leader = creator;
@@ -30,54 +38,107 @@ public class RPGParty {
         this.shareAP = shareAP;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getCreator() {
         return leader;
     }
 
+    /**
+     *
+     * @param creator
+     */
     public void setCreator(String creator) {
         this.leader = creator;
     }
 
+    /**
+     *
+     * @return
+     */
     public ArrayList<String> getPlayers() {
         return players;
     }
 
+    /**
+     *
+     * @param players
+     */
     public void setPlayers(ArrayList<String> players) {
         this.players = players;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isShareExp() {
         return shareExp;
     }
 
+    /**
+     *
+     * @param shareExp
+     */
     public void setShareExp(boolean shareExp) {
         this.shareExp = shareExp;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isShareMoney() {
         return shareMoney;
     }
 
+    /**
+     *
+     * @param shareMoney
+     */
     public void setShareMoney(boolean shareMoney) {
         this.shareMoney = shareMoney;
     }
 
+    /**
+     *
+     * @param player
+     */
     public void invitePlayerToParty(String player) {
         this.players.add(player);
     }
 
+    /**
+     *
+     * @param player
+     */
     public void leavePlayerFromParty(String player) {
         this.players.remove(player);
     }
 
+    /**
+     *
+     * @param sender
+     * @param player
+     */
     public void makePlayerLeader(String sender, String player) {
         String message = ChatColor.AQUA + "El lider de la party " + name + " ahora es: " + player;
         String message2 = ChatColor.AQUA + "Eres el nuevo lider de la party" + name;
@@ -97,12 +158,22 @@ public class RPGParty {
 
     }
 
+    /**
+     *
+     * @param shareXP
+     * @param shareAP
+     * @param shareMoney
+     */
     public void changeAllConfig(boolean shareXP, boolean shareAP, boolean shareMoney) {
         setShareExp(shareXP);
         setShareMoney(shareMoney);
         setShareAP(shareAP);
     }
 
+    /**
+     *
+     * @param shareAP
+     */
     public void setShareAP(boolean shareAP) {
         this.shareAP = shareAP;
     }

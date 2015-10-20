@@ -14,12 +14,21 @@ import java.util.HashMap;
  */
 public class RPGGuildManager {
 
+    /**
+     *
+     * @param string
+     * @return
+     */
     public static RPGGuild getGuild(String string) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     private RPGCraftCosta plugin;
     private HashMap<String, RPGGuild> listGuilds;
 
+    /**
+     *
+     * @param plugin
+     */
     public RPGGuildManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
         //loadGuilds();
@@ -29,10 +38,20 @@ public class RPGGuildManager {
 
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     public RPGGuild getGuildByName(String name) {
         return this.listGuilds.get(name);
     }
 
+    /**
+     *
+     * @param name
+     * @param message
+     */
     public void sendMessageToGuild(String name, String message) {
 
     }

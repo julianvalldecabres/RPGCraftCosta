@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -28,7 +27,6 @@ import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -41,13 +39,21 @@ public class RPGPlayerListener implements Listener {
 
     RPGCraftCosta plugin;
 
+    /**
+     *
+     * @param plugin
+     */
     public RPGPlayerListener(RPGCraftCosta plugin) {
         this.plugin = plugin;
     }
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        e.getPlayer().sendMessage("Evento player Join!");
+        //e.getPlayer().sendMessage("Evento player Join!");
         RPGPlayerManager rpgPMan = this.plugin.getRPGPlayerManager();
         RPGPlayer rpgP = rpgPMan.getOrCreateRPGPlayer(e.getPlayer());
         rpgP.setMove(false);
@@ -61,12 +67,10 @@ public class RPGPlayerListener implements Listener {
         }
     }
 
-    @EventHandler
-    public void onPlayerLogin(PlayerLoginEvent e) {
-        e.getPlayer().sendMessage("Evento player login!");
-        //When the player tries to make a connection with the server
-    }
-
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
         RPGPlayerManager rpgManager = this.plugin.getRPGPlayerManager();
@@ -77,6 +81,10 @@ public class RPGPlayerListener implements Listener {
         }
     }
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onLogoutPlayer(PlayerQuitEvent e) {
         plugin.getRPGPlayerManager().getRPGPlayerByName(e.getPlayer().getName()).setMove(false);
@@ -84,6 +92,10 @@ public class RPGPlayerListener implements Listener {
         plugin.getRPGPlayerManager().delPlayerFromList(e.getPlayer());
     }
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onEntityDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
@@ -103,11 +115,19 @@ public class RPGPlayerListener implements Listener {
         }
     }
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onPlayerPickupItem(PlayerPickupItemEvent e) {
         e.setCancelled(true);
     }
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onPlayerRightClickBlock(PlayerInteractEvent e) {
         if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
@@ -115,12 +135,20 @@ public class RPGPlayerListener implements Listener {
         }
     }
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onPlayerAttackCreature(EntityDamageByEntityEvent e) {
         //e.getDamager();
         //e.getEntity();
     }
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onPlayerFoodLevelChange(FoodLevelChangeEvent e) {
         if (!this.plugin.getConfig().getBoolean("Health")) {
@@ -129,6 +157,10 @@ public class RPGPlayerListener implements Listener {
         }
     }
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onPlayerBreakBlocks(BlockBreakEvent e) {
         e.getPlayer().sendMessage("no me toques el mapa mamon");
@@ -136,6 +168,10 @@ public class RPGPlayerListener implements Listener {
 
     }
 
+    /**
+     *
+     * @param event
+     */
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent event) {
         Player p = event.getPlayer();
@@ -151,16 +187,28 @@ public class RPGPlayerListener implements Listener {
         }
     }
 
+    /**
+     *
+     * @param event
+     */
     @EventHandler
     public void onPlayerAchievementAccomplished(PlayerAchievementAwardedEvent event) {
         event.setCancelled(true);
     }
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent e) {
         e.setCancelled(true);
     }
 
+    /**
+     *
+     * @param event
+     */
     @EventHandler
     public void onProjectileLaunchEvent(ProjectileLaunchEvent event) {
         if (event.getEntity().getShooter() instanceof Player && event.getEntityType().equals(EntityType.EGG)) {
@@ -168,6 +216,10 @@ public class RPGPlayerListener implements Listener {
         }
     }
 
+    /**
+     *
+     * @param event
+     */
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         char c = event.getMessage().charAt(0);
