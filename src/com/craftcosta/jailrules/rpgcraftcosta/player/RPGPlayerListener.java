@@ -37,7 +37,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
  */
 public class RPGPlayerListener implements Listener {
 
-    RPGCraftCosta plugin;
+    public RPGCraftCosta plugin;
 
     /**
      *
@@ -113,6 +113,12 @@ public class RPGPlayerListener implements Listener {
                 e.setCancelled(true);
             }
         }
+    }
+
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
+        e.getDamager();//Who gives the damage
+        e.getEntity();//Who receives the damage
     }
 
     /**

@@ -14,18 +14,16 @@ import java.io.File;
 public abstract class RPGFinals {
 
     // FINALS
-
     /**
      *
      */
-        public final static String pluginName = "RPGCraftCosta";
+    public final static String pluginName = "RPGCraftCosta";
 
     // FOLDERS
-
     /**
      *
      */
-        public final static String pluginsFolder = "plugins" + File.separator;
+    public final static String pluginsFolder = "plugins" + File.separator;
 
     /**
      *
@@ -54,11 +52,10 @@ public abstract class RPGFinals {
 
     // FILES
     // data
-
     /**
      *
      */
-        public final static String playerFilePath = playerData + "%player%.yml";
+    public final static String playerFilePath = playerData + "%player%.yml";
 
     /**
      *
@@ -74,7 +71,10 @@ public abstract class RPGFinals {
      *
      */
     public final static String partyFilePath = dataFolder + "partys.yml";
-
+    /**
+     *
+     */
+    public final static String weaponFilePath = dataFolder + "weapons.yml";
     /**
      *
      */
@@ -89,7 +89,7 @@ public abstract class RPGFinals {
     /**
      *
      */
-        public final static String LevelingConfigFile = configFolder + "leveling.yml";
+    public final static String LevelingConfigFile = configFolder + "leveling.yml";
 
     /**
      *

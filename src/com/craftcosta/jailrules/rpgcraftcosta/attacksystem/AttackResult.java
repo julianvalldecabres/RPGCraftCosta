@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.craftcosta.jailrules.rpgcraftcosta.items;
+package com.craftcosta.jailrules.rpgcraftcosta.attacksystem;
 
 /**
  *
  * @author jail
  */
-public class ItemCommands {
+public enum AttackResult {
 
+    MISS, NORMAL, CRITICAL;
 }

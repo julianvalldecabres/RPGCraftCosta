@@ -43,7 +43,6 @@ public class RPGPlayer /*extends EventObject*/ {
     private double actualMana;
     private double maxMana;
     private double maxHealth;
-    private double armor; //Añadida por los slots de armor. Calculado por la suma de la defensa basica mas la armadura
     //rpg attributes
     private int availablePoints;
     private int constitutionP;
@@ -52,14 +51,15 @@ public class RPGPlayer /*extends EventObject*/ {
     private int strengthP;
     //rpg dependant attributes
     private double physicalAttack;
+    private double finalphysicalAttack;
     private double physicalDefense;
-    private double magicAttack;
-    private double magicDefense;
+    private double finalphysicalDefense;
     private double physicalHitRate;
-    private double magicHitRate;
+    private double finalphysicalHitRate;
     private double physicalEvasion;
-    private double magicEvasion;
+    private double finalphysicalEvasion;
     private double critical;
+    private double finalcritical;
     private double deadly;
 
     /**
@@ -110,13 +110,13 @@ public class RPGPlayer /*extends EventObject*/ {
         this.strengthP = 0;
         //rpg dependant attributes
         this.physicalAttack = 0;
+        this.finalphysicalAttack = physicalAttack;
         this.physicalDefense = 0;
-        this.magicAttack = 0;
-        this.magicDefense = 0;
+        this.finalphysicalDefense = physicalDefense;
         this.physicalHitRate = 0;
-        this.magicHitRate = 0;
+        this.finalphysicalHitRate = this.physicalHitRate;
         this.physicalEvasion = 0;
-        this.magicEvasion = 0;
+        this.finalphysicalEvasion = physicalEvasion;
         this.critical = 0;
         this.deadly = 0;
     }
@@ -153,10 +153,6 @@ public class RPGPlayer /*extends EventObject*/ {
         section.set("dextP", this.dexteryP);
         section.set("intelP", this.intelligenceP);
         section.set("strghP", this.strengthP);
-        section.set("magicattack", this.magicAttack);
-        section.set("magicdefense", this.magicDefense);
-        section.set("magicevasion", this.magicEvasion);
-        section.set("magichitrate", this.magicHitRate);
         section.set("physicalattack", this.physicalAttack);
         section.set("physicaldefense", this.physicalDefense);
         section.set("physicalevasion", this.physicalEvasion);
@@ -187,7 +183,6 @@ public class RPGPlayer /*extends EventObject*/ {
 //
 //        return rpgp;
 //    }
-
     private void loadPlayerData() {
         //Recupera la informacion del player actual
         File playerFile = new File(RPGFinals.playerFilePath.replace("%player%", this.getPlayer().getUniqueId().toString()));
@@ -230,11 +225,6 @@ public class RPGPlayer /*extends EventObject*/ {
             this.intelligenceP = section.getInt("intelP");
             this.strengthP = section.getInt("strgthP");
             //Cargar estadisticas
-            //Magico
-            this.magicAttack = section.getDouble("magicattack");
-            this.magicDefense = section.getDouble("magicdefense");
-            this.magicEvasion = section.getDouble("magicevasion");
-            this.magicHitRate = section.getDouble("magichitrate");
             //Fisico
             this.physicalAttack = section.getDouble("physicalattack");
             this.physicalDefense = section.getDouble("physicaldefense");
@@ -256,12 +246,8 @@ public class RPGPlayer /*extends EventObject*/ {
         setMaxMana(rpgclass.getBaseMana());
         setPhysicalAttack(rpgclass.getBasePhysicalAttack());
         setPhysicalDefense(rpgclass.getBasePhysicalAttack());
-        setMagicAttack(rpgclass.getBaseMagicAttack());
-        setMagicDefense(rpgclass.getBaseMagicDefense());
         setPhysicalHitRate(rpgclass.getBasePhysicalHitRate());
-        setMagicHitRate(rpgclass.getBaseMagicHitRate());
         setPhysicalEvasion(rpgclass.getBasePhysicalEvasion());
-        setMagicEvasion(rpgclass.getBaseMagicEvasion());
         setCritical(rpgclass.getBaseCritical());
         setDeadly(rpgclass.getBaseDeadly());
         this.saveRPGPlayer();
@@ -279,12 +265,8 @@ public class RPGPlayer /*extends EventObject*/ {
         setMaxMana(rpgclass.getLvlUpMana() + getMaxMana());
         setPhysicalAttack(rpgclass.getLvlUpPhysicalAttack() + getPhysicalAttack());
         setPhysicalDefense(rpgclass.getLvlUpPhysicalAttack() + getPhysicalDefense());
-        setMagicAttack(rpgclass.getLvlUpMagicAttack() + getMagicAttack());
-        setMagicDefense(rpgclass.getLvlUpMagicDefense() + getMagicDefense());
         setPhysicalHitRate(rpgclass.getLvlUpPhysicalHitRate() + getPhysicalHitRate());
-        setMagicHitRate(rpgclass.getLvlUpMagicHitRate() + getMagicHitRate());
         setPhysicalEvasion(rpgclass.getLvlUpPhysicalEvasion() + getPhysicalEvasion());
-        setMagicEvasion(rpgclass.getLvlUpMagicEvasion() + getMagicEvasion());
         setCritical(rpgclass.getLvlUpCritical() + getCritical());
         setDeadly(rpgclass.getLvlUpDeadly() + getDeadly());
         //añadir skillpoints
@@ -542,22 +524,6 @@ public class RPGPlayer /*extends EventObject*/ {
 
     /**
      *
-     * @param magicAttack
-     */
-    public void setMagicAttack(double magicAttack) {
-        this.magicAttack = magicAttack;
-    }
-
-    /**
-     *
-     * @param magicDefense
-     */
-    public void setMagicDefense(double magicDefense) {
-        this.magicDefense = magicDefense;
-    }
-
-    /**
-     *
      * @param physicalHitRate
      */
     public void setPhysicalHitRate(double physicalHitRate) {
@@ -566,26 +532,10 @@ public class RPGPlayer /*extends EventObject*/ {
 
     /**
      *
-     * @param MagicHitRate
-     */
-    public void setMagicHitRate(double MagicHitRate) {
-        this.magicHitRate = MagicHitRate;
-    }
-
-    /**
-     *
      * @param physicalEvasion
      */
     public void setPhysicalEvasion(double physicalEvasion) {
         this.physicalEvasion = physicalEvasion;
-    }
-
-    /**
-     *
-     * @param magicEvasion
-     */
-    public void setMagicEvasion(double magicEvasion) {
-        this.magicEvasion = magicEvasion;
     }
 
     /**
@@ -736,22 +686,6 @@ public class RPGPlayer /*extends EventObject*/ {
      *
      * @return
      */
-    public double getMagicAttack() {
-        return magicAttack;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public double getMagicDefense() {
-        return magicDefense;
-    }
-
-    /**
-     *
-     * @return
-     */
     public double getPhysicalHitRate() {
         return physicalHitRate;
     }
@@ -760,24 +694,8 @@ public class RPGPlayer /*extends EventObject*/ {
      *
      * @return
      */
-    public double getMagicHitRate() {
-        return magicHitRate;
-    }
-
-    /**
-     *
-     * @return
-     */
     public double getPhysicalEvasion() {
         return physicalEvasion;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public double getMagicEvasion() {
-        return magicEvasion;
     }
 
     /**

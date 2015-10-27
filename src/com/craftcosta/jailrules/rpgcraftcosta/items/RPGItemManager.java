@@ -6,6 +6,10 @@
 package com.craftcosta.jailrules.rpgcraftcosta.items;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
+import java.util.ArrayList;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 /**
  *
@@ -13,10 +17,20 @@ import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
  */
 public class RPGItemManager {
 
-    RPGCraftCosta plugin;
+    public RPGCraftCosta plugin;
+    public RPGWeaponManager RPGWMan;
+    //RPGArmorManager RPGAMan;
+    //RPGJewelManager RPGJMan;
+    //RPGPotionManager RPGPMan;
+    public ArrayList<RPGItem> listItems = new ArrayList<>();
 
     public RPGItemManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
+        this.RPGWMan = new RPGWeaponManager(plugin);
+    }
+
+    public RPGWeaponManager getRPGWeaponManager() {
+        return RPGWMan;
     }
 
 }

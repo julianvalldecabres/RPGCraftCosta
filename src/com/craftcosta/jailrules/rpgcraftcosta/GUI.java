@@ -1735,10 +1735,10 @@ public class GUI extends javax.swing.JFrame {
     private void value_aPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_value_aPropertyChange
         // TODO add your handling code here:
         //        if (!evt.getNewValue().equals(evt.getOldValue())) {
-            //            draw_graph_btn.setEnabled(false);
-            //            save_validated_function.setEnabled(false);
-            //            max_level.setEnabled(false);
-            //       }
+        //            draw_graph_btn.setEnabled(false);
+        //            save_validated_function.setEnabled(false);
+        //            max_level.setEnabled(false);
+        //       }
     }//GEN-LAST:event_value_aPropertyChange
 
     private void value_aActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_value_aActionPerformed
@@ -1747,10 +1747,10 @@ public class GUI extends javax.swing.JFrame {
 
     private void value_bPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_value_bPropertyChange
         //        if (!evt.getNewValue().equals(evt.getOldValue())) {
-            //            draw_graph_btn.setEnabled(false);
-            //            save_validated_function.setEnabled(false);
-            //            max_level.setEnabled(false);
-            //        }
+        //            draw_graph_btn.setEnabled(false);
+        //            save_validated_function.setEnabled(false);
+        //            max_level.setEnabled(false);
+        //        }
     }//GEN-LAST:event_value_bPropertyChange
 
     private void value_bActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_value_bActionPerformed
@@ -1760,10 +1760,10 @@ public class GUI extends javax.swing.JFrame {
     private void value_cPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_value_cPropertyChange
         // TODO add your handling code here:
         //        if (!evt.getNewValue().equals(evt.getOldValue())) {
-            //            draw_graph_btn.setEnabled(false);
-            //            save_validated_function.setEnabled(false);
-            //            max_level.setEnabled(false);
-            //        }
+        //            draw_graph_btn.setEnabled(false);
+        //            save_validated_function.setEnabled(false);
+        //            max_level.setEnabled(false);
+        //        }
     }//GEN-LAST:event_value_cPropertyChange
 
     private void max_levelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_max_levelActionPerformed

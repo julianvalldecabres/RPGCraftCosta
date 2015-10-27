@@ -35,6 +35,7 @@ public class RPGCraftCosta extends JavaPlugin {
     public RPGCraftCosta() {
         rpgCraftCosta = this;
         this.config = this.getConfig();
+
     }
 
     /**
@@ -82,7 +83,10 @@ public class RPGCraftCosta extends JavaPlugin {
     @Override
     public void onEnable() {
         getLogger().info("Checking config");
-        this.rpgItemManager= new RPGItemManager(this);
+        getLogger().info("Cargando Items");
+        this.rpgItemManager = new RPGItemManager(this);
+        getLogger().info("Cargando players");
+
         this.rpgPlayerManager = new RPGPlayerManager(this);
         myExecutor = new RPGCommandManager(getPlugin());
         getCommand("login").setExecutor(myExecutor);
@@ -90,6 +94,9 @@ public class RPGCraftCosta extends JavaPlugin {
         //this.rpgGuildManager = new RPGGuildManager(this);
         //this.rpgClassManager = new RPGClassManager(this);
         //ScoreBoardManager sbManager= new ScoreBoardManager();
+
+        getLogger().info("Registrando player listeners");
+
         getServer().getPluginManager().registerEvents(new RPGPlayerListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGCreatureListener(), this);
 
@@ -102,6 +109,10 @@ public class RPGCraftCosta extends JavaPlugin {
     public void onDisable() {
         this.rpgPlayerManager.saveRpgPlayers();
         getLogger().info("Shutting down I'll be back!!");
+    }
+
+    public RPGItemManager getRPGItemManager() {
+        return this.rpgItemManager;
     }
 
 }
