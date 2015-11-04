@@ -81,7 +81,7 @@ public class RPGWeapon extends RPGItem {
         }
         //Modificacion del item
         ItemMeta iMeta = item.getItemMeta();
-        //Añadimos nombre descriptivo al arma
+        //Añadimos nombre descriptivo al arma hay que tener especial cuidado con nombres de mas de una palabra
         iMeta.setDisplayName(quality.getColor() + "[LVL" + level + "] " + name + " +" + weaponLevel);
         //Y preparamos el lore del arma actual
         List<String> lores = new ArrayList<>();
@@ -124,7 +124,9 @@ public class RPGWeapon extends RPGItem {
     public boolean isUpgradable() {
         return upgradable;
     }
-
+    public void setItem(ItemStack item){
+        this.item=item;
+    }
     public void setUpgradable(boolean upgradable) {
         this.upgradable = upgradable;
     }
@@ -235,16 +237,57 @@ public class RPGWeapon extends RPGItem {
 
     @Override
     public String toString() {
-        return getName() + quality.toString() + item.getType().toString();
+        return "Weapon :\n"
+                + "\tname: " + getName()
+                + "\n\ttype: " + item.getType().toString()
+                + "\n\tquality: " + quality.toString()
+                + "\n\tlevel required: " + getLevel()
+                + "\n\tupgradable: " + isUpgradable();
     }
 
-    public ItemStack upgradeWeapon(){
-        
-        
-        
+    public ItemStack upgradeWeapon(ItemStack weapon) {
+        ItemMeta wMeta = weapon.getItemMeta();
+        String wLongName = wMeta.getDisplayName();
+        String[] wLongNameParts = wLongName.split(" ");
+        int sizeLongNameParts = wLongNameParts.length;
+        //wLongNameParts[0] equivale a [LVLXX]
+        //wLongNameParts[size-1] equivale al modificador
+        String wName = "";
+        if (sizeLongNameParts > 3) {
+            for (int i = 1; i <= sizeLongNameParts - 3; i++) {
+                wName += wLongNameParts[i] + " ";
+            }
+            wName += wLongNameParts[sizeLongNameParts - 2];
+        } else {
+            wName = wLongNameParts[1];
+        }
+        return null;
+    }
+
+    ItemStack downgradeWeapon(ItemStack weapon) {
+        ItemMeta wMeta = weapon.getItemMeta();
+        String wLongName = wMeta.getDisplayName();
+        String[] wLongNameParts = wLongName.split(" ");
+        int sizeLongNameParts = wLongNameParts.length;
+        //wLongNameParts[0] equivale a [LVLXX]
+        //wLongNameParts[size-1] equivale al modificador
+        String wName = "";
+        if (sizeLongNameParts > 3) {
+            for (int i = 1; i <= sizeLongNameParts - 3; i++) {
+                wName += wLongNameParts[i] + " ";
+            }
+            wName += wLongNameParts[sizeLongNameParts - 2];
+        } else {
+            wName = wLongNameParts[1];
+        }
+        int nivelactual= getLevel(wLongNameParts[sizeLongNameParts-1]);
+        int niveldown=nivelactual-1;
         
         return null;
     }
     
-    
+    public int getLevel(String actualLevel){
+        return Integer.parseInt(name.substring(1));
+    }
+
 }

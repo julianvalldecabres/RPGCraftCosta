@@ -1,0 +1,17 @@
+breakprobability: 0.3
+detteroriateprobability: 0.4
+nothingprobability: 0.6
+improveprobability: 1.0
+weapon:
+    material: DIAMOND
+    name: Weapon Upgrader
+    lores:
+        - prueba 1
+        - prueba 2
+armor:
+    material: DIAMOND
+    name: Armor Upgrader
+    lores:
+        - prueba 1
+        - prueba 2
+        - prueba 3

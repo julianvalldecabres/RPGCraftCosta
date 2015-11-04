@@ -28,10 +28,10 @@ import org.bukkit.inventory.ItemStack;
  */
 public class RPGWeaponManager {
 
-    RPGCraftCosta plugin;
+    private RPGCraftCosta plugin;
     private HashMap<String, RPGWeapon> weaponList;
-    File weaponFile;
-    FileConfiguration config;
+    private File weaponFile;
+    private FileConfiguration config;
 
     public RPGWeaponManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
@@ -116,6 +116,27 @@ public class RPGWeaponManager {
         RPGWeapon weapon = weaponList.get(name);
         return weapon.getItem();
     }
+    
+    public RPGWeapon getRPGWeaponByItem(ItemStack item){
+        return this.weaponList.get(getRPGWeaponNameByItem(item));
+    }
+    
+    public String getRPGWeaponNameByItem(ItemStack item){
+        String []displayname=item.getItemMeta().getDisplayName().split(" ");
+        int sizeLongNameParts = displayname.length;
+        //wLongNameParts[0] equivale a [LVLXX]
+        //wLongNameParts[size-1] equivale al modificador
+        String wName = "";
+        if (sizeLongNameParts > 3) {
+            for (int i = 1; i <= sizeLongNameParts - 3; i++) {
+                wName += displayname[i] + " ";
+            }
+            wName += displayname[sizeLongNameParts - 2];
+        } else {
+            wName = displayname[1];
+        }
+        return wName;
+    }
 
     public Set<String> getAllWeaponNames() {
         Set<String> allWeaponNames = new HashSet<>();
@@ -138,5 +159,22 @@ public class RPGWeaponManager {
                 || item.getType().equals(Material.IRON_AXE)
                 || item.getType().equals(Material.GOLD_AXE)
                 || item.getType().equals(Material.STONE_AXE));
+    }
+    
+    public boolean isRPGWeapon(ItemStack item){
+        String []displayname=item.getItemMeta().getDisplayName().split(" ");
+        int sizeLongNameParts = displayname.length;
+        //wLongNameParts[0] equivale a [LVLXX]
+        //wLongNameParts[size-1] equivale al modificador
+        String wName = "";
+        if (sizeLongNameParts > 3) {
+            for (int i = 1; i <= sizeLongNameParts - 3; i++) {
+                wName += displayname[i] + " ";
+            }
+            wName += displayname[sizeLongNameParts - 2];
+        } else {
+            wName = displayname[1];
+        }
+        return this.weaponList.containsKey(wName);
     }
 }

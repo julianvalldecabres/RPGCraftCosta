@@ -1,0 +1,16 @@
+upgrade1:
+    result: DIAMOND_SWORD
+    DIAMOND_SWORD:
+        count: 1
+        rawdata: 0
+    DIAMOND:
+        count: 1
+        rawdata: 1
+upgrade2:
+    result: DIAMOND_AXE
+    DIAMOND_SWORD:
+        count: 1
+        rawdata: 0
+    DIAMOND:
+        count: 1
+        rawdata: 1

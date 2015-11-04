@@ -78,6 +78,14 @@ public abstract class RPGFinals {
     /**
      *
      */
+    public final static String recipeFilePath = dataFolder + "recipes.yml";
+    /**
+     *
+     */
+    public final static String recipeConfigPath = dataFolder + "recipesConfig.yml";
+    /**
+     *
+     */
     public final static String itemsFilePath = configFolder + "items.yml";
 
     /**

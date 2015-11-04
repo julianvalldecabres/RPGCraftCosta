@@ -9,9 +9,11 @@ import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
 import com.craftcosta.jailrules.rpgcraftcosta.commands.RPGCommandManager;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.RPGItemManager;
+import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponListener;
 import com.craftcosta.jailrules.rpgcraftcosta.listeners.RPGCreatureListener;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerListener;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
+import com.craftcosta.jailrules.rpgcraftcosta.recipes.RPGRecipeManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,6 +30,7 @@ public class RPGCraftCosta extends JavaPlugin {
     private RPGGuildManager rpgGuildManager;
     private RPGItemManager rpgItemManager;
     private RPGCommandManager myExecutor;
+    private RPGRecipeManager rpgRecipeManager;
 
     /**
      *
@@ -70,6 +73,9 @@ public class RPGCraftCosta extends JavaPlugin {
         return rpgGuildManager;
     }
 
+    public RPGRecipeManager getRPGRecipeManager() {
+        return rpgRecipeManager;
+    }
     /**
      *
      * @return
@@ -85,8 +91,9 @@ public class RPGCraftCosta extends JavaPlugin {
         getLogger().info("Checking config");
         getLogger().info("Cargando Items");
         this.rpgItemManager = new RPGItemManager(this);
+        getLogger().info("Cargando recetas");
+        this.rpgRecipeManager = new RPGRecipeManager(this);
         getLogger().info("Cargando players");
-
         this.rpgPlayerManager = new RPGPlayerManager(this);
         myExecutor = new RPGCommandManager(getPlugin());
         getCommand("login").setExecutor(myExecutor);
@@ -96,7 +103,7 @@ public class RPGCraftCosta extends JavaPlugin {
         //ScoreBoardManager sbManager= new ScoreBoardManager();
 
         getLogger().info("Registrando player listeners");
-
+        getServer().getPluginManager().registerEvents(new RPGWeaponListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGPlayerListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGCreatureListener(), this);
 
@@ -109,6 +116,7 @@ public class RPGCraftCosta extends JavaPlugin {
     public void onDisable() {
         this.rpgPlayerManager.saveRpgPlayers();
         getLogger().info("Shutting down I'll be back!!");
+        getServer().resetRecipes();
     }
 
     public RPGItemManager getRPGItemManager() {

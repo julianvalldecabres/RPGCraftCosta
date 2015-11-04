@@ -6,9 +6,11 @@
 package com.craftcosta.jailrules.rpgcraftcosta.player;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
 import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -65,6 +67,9 @@ public class RPGPlayerListener implements Listener {
             e.getPlayer().sendMessage("Please login in order to play");
             e.getPlayer().sendMessage("/login <password>");
         }
+        RPGWeaponManager rpgWMan = plugin.getRPGItemManager().getRPGWeaponManager();
+        e.getPlayer().getInventory().addItem(rpgWMan.getRPGWeaponByName("penepenepene"));
+        e.getPlayer().getInventory().addItem(rpgWMan.getRPGWeaponByName("banhammer"));
     }
 
     /**
@@ -127,7 +132,7 @@ public class RPGPlayerListener implements Listener {
      */
     @EventHandler
     public void onPlayerPickupItem(PlayerPickupItemEvent e) {
-        e.setCancelled(true);
+        //e.setCancelled(true);
     }
 
     /**
@@ -169,9 +174,11 @@ public class RPGPlayerListener implements Listener {
      */
     @EventHandler
     public void onPlayerBreakBlocks(BlockBreakEvent e) {
-        e.getPlayer().sendMessage("no me toques el mapa mamon");
-        e.setCancelled(true);
-
+        Player p = e.getPlayer();
+        if (!p.getGameMode().equals(GameMode.CREATIVE)) {
+            e.getPlayer().sendMessage("no me toques el mapa mamon");
+            e.setCancelled(true);
+        }
     }
 
     /**
