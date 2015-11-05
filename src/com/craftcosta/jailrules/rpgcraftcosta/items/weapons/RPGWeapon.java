@@ -124,9 +124,11 @@ public class RPGWeapon extends RPGItem {
     public boolean isUpgradable() {
         return upgradable;
     }
-    public void setItem(ItemStack item){
-        this.item=item;
+
+    public void setItem(ItemStack item) {
+        this.item = item;
     }
+
     public void setUpgradable(boolean upgradable) {
         this.upgradable = upgradable;
     }
@@ -249,19 +251,54 @@ public class RPGWeapon extends RPGItem {
         ItemMeta wMeta = weapon.getItemMeta();
         String wLongName = wMeta.getDisplayName();
         String[] wLongNameParts = wLongName.split(" ");
+                
+
         int sizeLongNameParts = wLongNameParts.length;
+        System.out.println(wLongNameParts+" "+sizeLongNameParts);
         //wLongNameParts[0] equivale a [LVLXX]
         //wLongNameParts[size-1] equivale al modificador
+        //MODIFICAR NOMBRE
         String wName = "";
-        if (sizeLongNameParts > 3) {
-            for (int i = 1; i <= sizeLongNameParts - 3; i++) {
-                wName += wLongNameParts[i] + " ";
-            }
-            wName += wLongNameParts[sizeLongNameParts - 2];
-        } else {
-            wName = wLongNameParts[1];
+        for (int i = 1; i < sizeLongNameParts - 1; i++) {
+            wName += wLongNameParts[i] + " ";
         }
-        return null;
+        //wName = wLongNameParts[1];
+        int nivelactual = getLevel(wLongNameParts[sizeLongNameParts-1]);
+        int nivelup = nivelactual + 1;
+        String displayname = wLongNameParts[0] + " " + wName + "+" + nivelup;
+        wMeta.setDisplayName(displayname);
+        if (wMeta.hasLore()) {
+            List<String> lores = wMeta.getLore();
+            List<String> newLores = new ArrayList<>();
+            for (String lore : lores) {
+                //Separar el lore en partes
+                String[] loreparts = lore.split(" ");
+                System.out.println(loreparts.length);
+                String newLore = loreparts[0] + " " + loreparts[1];
+                System.out.println(newLore);
+                //Con newLore tenemos el string que necesitamos para comparar con los posibles atributos
+                if (newLore.equals("Attack Damage")) {
+                    newLores.add(newLore + " +" + (this.damage + incDamage * nivelup));
+                } else if (newLore.equals("Crit. pct.")) {
+                    newLores.add(newLore + " +" + (this.criticalp + incCriticalp * nivelup) + "%");
+                } else if (newLore.equals("Crit. Dam.")) {
+                    newLores.add(newLore + " +" + (this.criticaldamage + incCriticalDamage * nivelup));
+                } else if (newLore.equals("Health Steal")) {
+                    newLores.add(newLore + " +" + (this.healthsteal + incHealthsteal * nivelup) + "%");
+                } else if (newLore.equals("XP Bonus")) {
+                    newLores.add(newLore + " +" + (this.XPBonus) + "%");
+                } else if (newLore.equals("AP Bonus")) {
+                    newLores.add(newLore + " +" + (this.APBonus) + "%");
+                } else if (newLore.equals("Money Bonus")) {
+                    newLores.add(newLore + " +" + (this.moneyBonus) + "%");
+                }
+            }
+            newLores.add("Buy price: " + buyPrice + "$");
+            newLores.add("Sell price: " + sellPrice + "$");
+            wMeta.setLore(newLores);
+            weapon.setItemMeta(wMeta);
+        }
+        return weapon;
     }
 
     ItemStack downgradeWeapon(ItemStack weapon) {
@@ -269,8 +306,10 @@ public class RPGWeapon extends RPGItem {
         String wLongName = wMeta.getDisplayName();
         String[] wLongNameParts = wLongName.split(" ");
         int sizeLongNameParts = wLongNameParts.length;
+        System.out.println(wLongNameParts+" "+sizeLongNameParts);
         //wLongNameParts[0] equivale a [LVLXX]
         //wLongNameParts[size-1] equivale al modificador
+        //MODIFICAR NOMBRE
         String wName = "";
         if (sizeLongNameParts > 3) {
             for (int i = 1; i <= sizeLongNameParts - 3; i++) {
@@ -280,14 +319,45 @@ public class RPGWeapon extends RPGItem {
         } else {
             wName = wLongNameParts[1];
         }
-        int nivelactual= getLevel(wLongNameParts[sizeLongNameParts-1]);
-        int niveldown=nivelactual-1;
-        
-        return null;
+        int nivelactual = getLevel(wLongNameParts[sizeLongNameParts-1]);
+        int niveldown = nivelactual - 1;
+        String displayname = wLongNameParts[0] + " " + wName + " +" + niveldown;
+        wMeta.setDisplayName(displayname);
+        if (wMeta.hasLore()) {
+            List<String> lores = wMeta.getLore();
+            List<String> newLores = new ArrayList<>();
+            for (String lore : lores) {
+                //Separar el lore en partes
+                String[] loreparts = lore.split(" ");
+                String newLore = loreparts[0] + " " + loreparts[1];
+                //Con newLore tenemos el string que necesitamos para comparar con los posibles atributos
+                if (newLore.equals("Attack Damage")) {
+                    newLores.add(newLore + " +" + (this.damage + incDamage * niveldown));
+                } else if (newLore.equals("Crit. pct.")) {
+                    newLores.add(newLore + " +" + (this.criticalp + incCriticalp * niveldown) + "%");
+                } else if (newLore.equals("Crit. Dam.")) {
+                    newLores.add(newLore + " +" + (this.criticaldamage + incCriticalDamage * niveldown));
+                } else if (newLore.equals("Health Steal")) {
+                    newLores.add(newLore + " +" + (this.healthsteal + incHealthsteal * niveldown) + "%");
+                } else if (newLore.equals("XP Bonus")) {
+                    newLores.add(newLore + " +" + (this.XPBonus) + "%");
+                } else if (newLore.equals("AP Bonus")) {
+                    newLores.add(newLore + " +" + (this.APBonus) + "%");
+                } else if (newLore.equals("Money Bonus")) {
+                    newLores.add(newLore + " +" + (this.moneyBonus) + "%");
+                }
+            }
+            newLores.add("Buy price: " + buyPrice + "$");
+            newLores.add("Sell price: " + sellPrice + "$");
+            wMeta.setLore(newLores);
+            weapon.setItemMeta(wMeta);
+        }
+        return weapon;
     }
-    
-    public int getLevel(String actualLevel){
-        return Integer.parseInt(name.substring(1));
+
+    public int getLevel(String actualLevel) {
+        System.out.println(" " + actualLevel);
+        return Integer.parseInt(actualLevel.substring(1));
     }
 
 }

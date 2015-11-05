@@ -100,7 +100,7 @@ public class RPGWeaponManager {
             inccriticaldamage = section.getDouble("inccriticaldamage");
             healthsteal = section.getDouble("healthsteal");
             inchealthsteal = section.getDouble("inchealthsteal");
-            apbonus = section.getDouble("apbunos");
+            apbonus = section.getDouble("apbonus");
             xpbonus = section.getDouble("xpbonus");
             moneybonus = section.getDouble("moneybonus");
             weaponList.put(arma, new RPGWeapon(item, name, sellprice, buyprice, quality, level, upgradable, weaponLevel, damage, incdamage, criticalp, inccriticalp, criticaldamage, inccriticaldamage, healthsteal, inchealthsteal, apbonus, xpbonus, moneybonus));

@@ -70,6 +70,8 @@ public class RPGPlayerListener implements Listener {
         RPGWeaponManager rpgWMan = plugin.getRPGItemManager().getRPGWeaponManager();
         e.getPlayer().getInventory().addItem(rpgWMan.getRPGWeaponByName("penepenepene"));
         e.getPlayer().getInventory().addItem(rpgWMan.getRPGWeaponByName("banhammer"));
+        e.getPlayer().getInventory().addItem(rpgWMan.getRPGWeaponByName("weapon of Gods"));
+
     }
 
     /**

@@ -11,6 +11,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
 import com.craftcosta.jailrules.rpgcraftcosta.recipes.RPGRecipeManager;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
 import java.util.List;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -161,30 +162,37 @@ public class RPGWeaponListener implements Listener {
                     //rotura del arma y consumo del item de mejora
                     e.setCurrentItem(new ItemStack(Material.AIR));
                     e.setCursor(new ItemStack(Material.AIR));
-
+                    p.sendMessage(ChatColor.RED + "Tu arma se ha roto en el proceso de mejora");
                     break;
                 case "detteriorate":
                     //consumo del item de mejora
                     e.setCursor(new ItemStack(Material.AIR));
                     //downgrade del arma
                     e.setCurrentItem(downgradeRPGWeapon(e.getCurrentItem()));
+                    p.sendMessage(ChatColor.RED + "El proceso de mejora de tu arma ha resultado en una desmejora");
                     break;
                 case "nothing":
                     //consumo del cursor
                     e.setCursor(new ItemStack(Material.AIR));
+                    p.sendMessage(ChatColor.RED + "El proceso de mejora de tu arma no ha tenido efecto");
                     break;
                 case "improve":
                     //consumo del cursor
                     e.setCursor(new ItemStack(Material.AIR));
                     //mejora del arma
                     e.setCurrentItem(improveRPGWeapon(e.getCurrentItem()));
+                    p.sendMessage(ChatColor.AQUA + "Enhorabuena! Tu arma ha sido mejorada");
                     break;
                 default:
                     //informar de posible error
                     break;
 
             }
+            p.updateInventory();
+        } else {
+            return;
         }
+
         return;
     }
 
@@ -301,12 +309,12 @@ public class RPGWeaponListener implements Listener {
     }
 
     private ItemStack downgradeRPGWeapon(ItemStack currentItem) {
-        RPGWeapon rpgw= rpgWMan.getRPGWeaponByItem(currentItem);
+        RPGWeapon rpgw = rpgWMan.getRPGWeaponByItem(currentItem);
         return rpgw.downgradeWeapon(currentItem);
     }
 
     private ItemStack improveRPGWeapon(ItemStack currentItem) {
-        RPGWeapon rpgw= rpgWMan.getRPGWeaponByItem(currentItem);
+        RPGWeapon rpgw = rpgWMan.getRPGWeaponByItem(currentItem);
         return rpgw.upgradeWeapon(currentItem);
     }
 
