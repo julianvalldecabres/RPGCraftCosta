@@ -14,21 +14,21 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 /**
  *
  * @author jail
  */
-public class RPGPlayer /*extends EventObject*/ {
+public class RPGPlayer {
 
     //Player atributes
     private String name;
-    private String password;
-    private String email;
     private UUID uuid;
     private RPGEconomy econ;
     private Player player;
@@ -39,9 +39,15 @@ public class RPGPlayer /*extends EventObject*/ {
     private boolean move;
     private int actualLevel;
     private long actualExp;
-    private double actualHealth;
+    
     private double actualMana;
     private double maxMana;
+    /*
+    actualHealth => vida actual del player en formato rpg
+    */
+    private double actualHealth;
+    private double healthmodifiers;
+    
     private double maxHealth;
     //rpg attributes
     private int availablePoints;
@@ -84,7 +90,6 @@ public class RPGPlayer /*extends EventObject*/ {
     private void createRPGPlayer() {
         this.name = this.player.getName();
         this.uuid = this.player.getUniqueId();
-        this.password = "";
         this.firstLogin = true;
         this.move = false;
         this.econ = new RPGEconomy();
@@ -140,7 +145,6 @@ public class RPGPlayer /*extends EventObject*/ {
         section.set("money", this.econ.getMoney());
         section.set("experience", this.actualExp);
         section.set("level", this.actualExp);
-        section.set("password", this.password);
         section.set("guild", this.guild);
         section.set("party", this.party);
         section.set("class", this.playerClass);
@@ -167,22 +171,8 @@ public class RPGPlayer /*extends EventObject*/ {
 
     }
 
-//    public RPGPlayer getOrCreateRPGPlayer(Player p) {
-//        RPGPlayer rpgp = null;
-//        File playerFile = new File(RPGFinals.playerFilePath.replace("%player%", this.getPlayer().getUniqueId().toString()));
-//        FileConfiguration config;
-//        if (!playerFile.exists()) {
-//            //si player no existe fichero crear nuevo
-//            rpgp = new RPGPlayer(p);
-//            config = YamlConfiguration.loadConfiguration(new File(RPGFinals.dataFolder + "players.yml"));
-//
-//        } else {
-//            //si player existe fichero cargar player
-//            config = YamlConfiguration.loadConfiguration(playerFile);
-//        }
-//
-//        return rpgp;
-//    }
+
+    
     private void loadPlayerData() {
         //Recupera la informacion del player actual
         File playerFile = new File(RPGFinals.playerFilePath.replace("%player%", this.getPlayer().getUniqueId().toString()));
@@ -208,7 +198,6 @@ public class RPGPlayer /*extends EventObject*/ {
             this.uuid = this.player.getUniqueId();
             this.move = section.getBoolean("move");
             this.firstLogin = section.getBoolean("firstlogin");
-            this.password = section.getString("password");
             this.guild = section.getString("guild");
             this.party = section.getString("party");
             this.playerClass = section.getString("class");
@@ -242,8 +231,6 @@ public class RPGPlayer /*extends EventObject*/ {
         setPlayerClass(rpgclass.getNameClass());
         setActualHealth(rpgclass.getBaseHealth());
         setMaxHealth(rpgclass.getBaseHealth());
-        setActualMana(rpgclass.getBaseMana());
-        setMaxMana(rpgclass.getBaseMana());
         setPhysicalAttack(rpgclass.getBasePhysicalAttack());
         setPhysicalDefense(rpgclass.getBasePhysicalAttack());
         setPhysicalHitRate(rpgclass.getBasePhysicalHitRate());
@@ -261,8 +248,6 @@ public class RPGPlayer /*extends EventObject*/ {
         RPGClass rpgclass = RPGClassManager.getRPGClass(getPlayerClass());
         setActualHealth(rpgclass.getLvlUpHealth() + getMaxHealth());
         setMaxHealth(rpgclass.getLvlUpHealth() + getMaxHealth());
-        setActualMana(rpgclass.getLvlUpMana() + getMaxMana());
-        setMaxMana(rpgclass.getLvlUpMana() + getMaxMana());
         setPhysicalAttack(rpgclass.getLvlUpPhysicalAttack() + getPhysicalAttack());
         setPhysicalDefense(rpgclass.getLvlUpPhysicalAttack() + getPhysicalDefense());
         setPhysicalHitRate(rpgclass.getLvlUpPhysicalHitRate() + getPhysicalHitRate());
@@ -288,22 +273,6 @@ public class RPGPlayer /*extends EventObject*/ {
      */
     public void setFirstLogin(boolean firstlogin) {
         this.firstLogin = firstlogin;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     *
-     * @param email
-     */
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     /**
@@ -416,14 +385,6 @@ public class RPGPlayer /*extends EventObject*/ {
      */
     public void setPlayerClass(String playerClass) {
         this.playerClass = playerClass;
-    }
-
-    /**
-     *
-     * @param password
-     */
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     /**
@@ -786,21 +747,51 @@ public class RPGPlayer /*extends EventObject*/ {
         return this.move;
     }
 
-    /**
-     *
-     * @return
-     */
-    public String getPassword() {
-        return password;
+    public double getNormalizedDamageToPlayer(double damagetaken) {
+        double maxhealth = 20;
+        double res;
+        double resthealth = actualHealth - damagetaken;
+        if (resthealth <= 0) {
+            return 20.0;
+        }
+        return resthealth * 20 / maxHealth;
     }
 
-    /**
-     *
-     * @param pass
-     * @return
-     */
-    public boolean passCheck(String pass) {
-        return pass.equals(getPassword());
+    public double getNormalizedHealToPlayer(double instanthealing) {
+        double predhealth = actualHealth + instanthealing;
+        if (maxHealth < predhealth) {
+            return maxHealth;
+        }
+        return predhealth;
+        //revisar
+    }
+
+    public void checkAllEquipment() {
+        ItemStack[] equipedArmor = this.getPlayer().getInventory().getArmorContents();
+        ItemStack equipedWeapon = this.getPlayer().getItemInHand();
+        int weaponSlot = this.getPlayer().getInventory().getHeldItemSlot();
+        System.out.println("item en mano en slot: " + weaponSlot);
+        ItemStack[] quickbarItems = new ItemStack[9];
+
+        System.out.println("Contenido de armadura");
+        for (int i = 0; i <= 3; i++) {
+            if (!equipedArmor[i].getType().equals(Material.AIR)) {
+                System.out.println(equipedArmor[i].toString());
+            }
+        }
+        System.out.println("Contenido de la hotbar");
+        for (int i = 0; i <= 8; i++) {
+            System.out.println("slot: " + i);
+            if (this.player.getInventory().getContents()[i] != null) {
+                quickbarItems[i] = this.player.getInventory().getContents()[i];
+            }
+        }
+        for (ItemStack item : quickbarItems) {
+            if (item != null) {
+                System.out.println(item.toString());
+
+            }
+        }
     }
 
 }

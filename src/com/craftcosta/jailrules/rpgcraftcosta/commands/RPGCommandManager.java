@@ -45,40 +45,6 @@ public class RPGCommandManager implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
         Player player = (Player) sender;
         RPGPlayer rpgplayer = plugin.getRPGPlayerManager().getRPGPlayerByName(player.getName());
-        if (commandLabel.equalsIgnoreCase("login")) {
-            if (args.length == 1) {
-                if (rpgplayer.passCheck(args[0])) {
-                    rpgplayer.allowMove();
-                    rpgplayer.saveRPGPlayer();
-                    player.sendMessage("Login Correcto!");
-                    return true;
-                } else {
-                    player.sendMessage("Login Incorrecto!");
-                    return false;
-                }
-            } else {
-                player.sendMessage("Numero incorrecto de argumentos!");
-                return false;
-            }
-        }
-        if (commandLabel.equalsIgnoreCase("register")) {
-            if (args.length == 2) {
-                if (args[0].equals(args[1])) {
-                    rpgplayer.setPassword(args[0]);
-                    player.sendMessage("tu contrasenya es: " + rpgplayer.getPassword());
-                    rpgplayer.setFirstLogin(false);
-                    rpgplayer.saveRPGPlayer();
-                    player.sendMessage("Registro realizado correctamente!");
-                    return true;
-                } else {
-                    player.sendMessage("las contraseñas deben coincidir!");
-                    return false;
-                }
-            } else {
-                player.sendMessage("Numero incorrecto de argumentos!");
-                return false;
-            }
-        }
         if (commandLabel.equalsIgnoreCase("classlist")) {
             rpgplayer.getPlayer().sendMessage(RPGClassManager.getListAvailableClasses());
             return true;

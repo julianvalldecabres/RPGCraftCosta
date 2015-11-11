@@ -108,4 +108,11 @@ public abstract class RPGFinals {
      *
      */
     public final static String messagesFilePath = langFolder + "%lang%.yml";
+    public final static String jewelFilePath = dataFolder + "jewels.yml";
+    public final static String jewelsConfigPath = dataFolder + "jewelsConfig.yml";
+    public static String weaponsConfigPath = dataFolder + "weaponsConfig.yml";
+    public static String questItemFilePath = dataFolder + "questItems.yml";
+    public static String questItemConfigPath = dataFolder + "questItemsConfig.yml";
+    public static String armorFilePath = dataFolder + "armor.yml";
+    public static String armorConfigFilePath = dataFolder + "armorConfig.yml";
 }

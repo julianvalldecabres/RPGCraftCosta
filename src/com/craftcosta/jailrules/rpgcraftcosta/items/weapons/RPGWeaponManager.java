@@ -9,18 +9,21 @@ import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.items.Quality;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  *
@@ -31,37 +34,63 @@ public class RPGWeaponManager {
     private RPGCraftCosta plugin;
     private HashMap<String, RPGWeapon> weaponList;
     private File weaponFile;
+    private File weaponsConfig;
     private FileConfiguration config;
+    private FileConfiguration wConfig;
+    private double breakprobability;
+    private double nothingprobability;
+    private double detteroriateprobability;
+    private double improveprobability;
+    private ItemStack weaponUpgrader;
 
     public RPGWeaponManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
-        this.plugin.getServer().getLogger().info("Cargando armas....");
+        plugin.getLogger().info("Loading weapons module....");
         this.weaponList = new HashMap<>();
         this.weaponFile = new File(RPGFinals.weaponFilePath);
+        this.weaponsConfig = new File(RPGFinals.weaponsConfigPath);
         if (!weaponFile.exists()) {
-            try {
-                weaponFile.getParentFile().mkdirs();
-                weaponFile.createNewFile();
-            } catch (IOException ex) {
-                Logger.getLogger(RPGWeaponManager.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            plugin.getLogger().info("Loading default weapons...");
+            weaponFile.getParentFile().mkdirs();
+            copy(plugin.getResource("weapons.yml"), weaponFile);
+        }
+        if (!weaponsConfig.exists()) {
+            plugin.getLogger().info("Loading default weapons config...");
+            weaponsConfig.getParentFile().mkdirs();
+            copy(plugin.getResource("weaponsConfig.yml"), weaponsConfig);
         }
         loadWeapons();
+        loadWeaponsConfig();
+    }
+     private void copy(InputStream in, File file) {
+        try {
+            OutputStream out = new FileOutputStream(file);
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            out.close();
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadWeapons() {
-        FileConfiguration config;
         if (!weaponFile.exists()) {
             config = YamlConfiguration.loadConfiguration(new File(RPGFinals.weaponFilePath));
         } else {
             config = YamlConfiguration.loadConfiguration(weaponFile);
         }
+        plugin.getLogger().info("Loading weapons...");
         String name;
-        ItemStack item; //En el fichero se guardara y salvara el ID del Material (ej. DIAMOND_SWORD)
+        ItemStack item;
         int sellprice;
         int buyprice;
         Quality quality;
         int level;
+        boolean comerciable;
         boolean upgradable;
         int weaponLevel;
         double damage;
@@ -76,16 +105,12 @@ public class RPGWeaponManager {
         double xpbonus;
         double moneybonus;
 
-        /**
-         * RECORRER YAML DEL ESTILO
-         *
-         * banhammer: level: 1 damage: 15
-         */
         Set<String> armas = config.getKeys(false);
         for (String arma : armas) {
             ConfigurationSection section = config.getConfigurationSection(arma);
             name = arma;
             item = new ItemStack(Material.matchMaterial(section.getString("item")));
+            comerciable = section.getBoolean("comerciable");
             sellprice = section.getInt("sellprice");
             buyprice = section.getInt("buyprice");
             quality = Enum.valueOf(Quality.class, section.getString("quality"));
@@ -103,29 +128,22 @@ public class RPGWeaponManager {
             apbonus = section.getDouble("apbonus");
             xpbonus = section.getDouble("xpbonus");
             moneybonus = section.getDouble("moneybonus");
-            weaponList.put(arma, new RPGWeapon(item, name, sellprice, buyprice, quality, level, upgradable, weaponLevel, damage, incdamage, criticalp, inccriticalp, criticaldamage, inccriticaldamage, healthsteal, inchealthsteal, apbonus, xpbonus, moneybonus));
+            weaponList.put(arma, new RPGWeapon(item, name, comerciable, sellprice, buyprice, quality, level, upgradable, weaponLevel, damage, incdamage, criticalp, inccriticalp, criticaldamage, inccriticaldamage, healthsteal, inchealthsteal, apbonus, xpbonus, moneybonus));
 
-        }
-        for (Map.Entry<String, RPGWeapon> entrySet : weaponList.entrySet()) {
-            String key = entrySet.getKey();
-            RPGWeapon value = entrySet.getValue();
         }
     }
 
     public ItemStack getRPGWeaponByName(String name) {
-        RPGWeapon weapon = weaponList.get(name);
-        return weapon.getItem();
+        return weaponList.get(name).getItem();
     }
-    
-    public RPGWeapon getRPGWeaponByItem(ItemStack item){
+
+    public RPGWeapon getRPGWeaponByItem(ItemStack item) {
         return this.weaponList.get(getRPGWeaponNameByItem(item));
     }
-    
-    public String getRPGWeaponNameByItem(ItemStack item){
-        String []displayname=item.getItemMeta().getDisplayName().split(" ");
+
+    public String getRPGWeaponNameByItem(ItemStack item) {
+        String[] displayname = item.getItemMeta().getDisplayName().split(" ");
         int sizeLongNameParts = displayname.length;
-        //wLongNameParts[0] equivale a [LVLXX]
-        //wLongNameParts[size-1] equivale al modificador
         String wName = "";
         if (sizeLongNameParts > 3) {
             for (int i = 1; i <= sizeLongNameParts - 3; i++) {
@@ -141,8 +159,7 @@ public class RPGWeaponManager {
     public Set<String> getAllWeaponNames() {
         Set<String> allWeaponNames = new HashSet<>();
         for (Map.Entry<String, RPGWeapon> entrySet : weaponList.entrySet()) {
-            String key = entrySet.getKey();
-            allWeaponNames.add(key);
+            allWeaponNames.add(entrySet.getKey());
         }
         return allWeaponNames;
     }
@@ -160,21 +177,67 @@ public class RPGWeaponManager {
                 || item.getType().equals(Material.GOLD_AXE)
                 || item.getType().equals(Material.STONE_AXE));
     }
-    
-    public boolean isRPGWeapon(ItemStack item){
-        String []displayname=item.getItemMeta().getDisplayName().split(" ");
-        int sizeLongNameParts = displayname.length;
-        //wLongNameParts[0] equivale a [LVLXX]
-        //wLongNameParts[size-1] equivale al modificador
-        String wName = "";
-        if (sizeLongNameParts > 3) {
-            for (int i = 1; i <= sizeLongNameParts - 3; i++) {
-                wName += displayname[i] + " ";
-            }
-            wName += displayname[sizeLongNameParts - 2];
+
+    public boolean isRPGWeapon(ItemStack item) {
+        return this.weaponList.containsKey(getRPGWeaponNameByItem(item));
+    }
+
+    public String getUpgradeResult() {
+        Double caso = new Random().nextDouble();
+        if (caso <= this.breakprobability) {
+            return "break";
+        } else if (this.breakprobability < caso && caso <= this.detteroriateprobability) {
+            return "detteriorate";
+        } else if (this.detteroriateprobability < caso && caso <= this.nothingprobability) {
+            return "nothing";
         } else {
-            wName = displayname[1];
+            return "improve";
         }
-        return this.weaponList.containsKey(wName);
+    }
+
+   
+
+    public ItemStack getWeaponUpgrader() {
+        return weaponUpgrader;
+    }
+
+    public double getBreakprobability() {
+        return breakprobability;
+    }
+
+    public double getDetteroriateprobability() {
+        return detteroriateprobability;
+    }
+
+    public double getNothingprobability() {
+        return nothingprobability;
+    }
+
+    public double getImproveprobability() {
+        return improveprobability;
+    }
+
+    private void loadWeaponsConfig() {
+        if (!weaponsConfig.exists()) {
+            wConfig = YamlConfiguration.loadConfiguration(new File(RPGFinals.weaponsConfigPath));
+        } else {
+            wConfig = YamlConfiguration.loadConfiguration(weaponsConfig);
+        }
+        plugin.getLogger().info("Loading weapons config...");
+
+        ConfigurationSection section = wConfig.getConfigurationSection("weapon");
+        Material weaponMat = Material.matchMaterial(section.getString("material"));
+        String weapondisplayname = section.getString("name");
+        List<String> weaponlores = section.getStringList("lores");
+        this.weaponUpgrader = new ItemStack(weaponMat);
+        ItemMeta weaponMeta = weaponUpgrader.getItemMeta();
+        weaponMeta.setDisplayName(weapondisplayname);
+        weaponMeta.setLore(weaponlores);
+        this.weaponUpgrader.setItemMeta(weaponMeta);
+
+        this.breakprobability = Double.parseDouble(wConfig.getString("breakprobability"));
+        this.detteroriateprobability = Double.parseDouble(wConfig.getString("detteroriateprobability"));
+        this.nothingprobability = Double.parseDouble(wConfig.getString("nothingprobability"));
+        this.improveprobability = Double.parseDouble(wConfig.getString("improveprobability"));
     }
 }

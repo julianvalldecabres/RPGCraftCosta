@@ -9,11 +9,13 @@ import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
 import com.craftcosta.jailrules.rpgcraftcosta.commands.RPGCommandManager;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.RPGItemManager;
+import com.craftcosta.jailrules.rpgcraftcosta.items.armor.RPGArmorListener;
+import com.craftcosta.jailrules.rpgcraftcosta.items.jewels.RPGJewelListener;
+import com.craftcosta.jailrules.rpgcraftcosta.items.questitems.RPGQuestItemListener;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponListener;
 import com.craftcosta.jailrules.rpgcraftcosta.listeners.RPGCreatureListener;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerListener;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
-import com.craftcosta.jailrules.rpgcraftcosta.recipes.RPGRecipeManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,13 +26,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class RPGCraftCosta extends JavaPlugin {
 
     static RPGCraftCosta rpgCraftCosta;
-    private FileConfiguration config;
+    private final FileConfiguration config;
     private RPGPlayerManager rpgPlayerManager;
     private RPGClassManager rpgClassManager;
     private RPGGuildManager rpgGuildManager;
     private RPGItemManager rpgItemManager;
     private RPGCommandManager myExecutor;
-    private RPGRecipeManager rpgRecipeManager;
 
     /**
      *
@@ -73,9 +74,6 @@ public class RPGCraftCosta extends JavaPlugin {
         return rpgGuildManager;
     }
 
-    public RPGRecipeManager getRPGRecipeManager() {
-        return rpgRecipeManager;
-    }
     /**
      *
      * @return
@@ -89,11 +87,8 @@ public class RPGCraftCosta extends JavaPlugin {
     @Override
     public void onEnable() {
         getLogger().info("Checking config");
-        getLogger().info("Cargando Items");
         this.rpgItemManager = new RPGItemManager(this);
-        getLogger().info("Cargando recetas");
-        this.rpgRecipeManager = new RPGRecipeManager(this);
-        getLogger().info("Cargando players");
+        this.rpgClassManager= new RPGClassManager(this);
         this.rpgPlayerManager = new RPGPlayerManager(this);
         myExecutor = new RPGCommandManager(getPlugin());
         getCommand("login").setExecutor(myExecutor);
@@ -102,8 +97,11 @@ public class RPGCraftCosta extends JavaPlugin {
         //this.rpgClassManager = new RPGClassManager(this);
         //ScoreBoardManager sbManager= new ScoreBoardManager();
 
-        getLogger().info("Registrando player listeners");
+        getLogger().info("Registering listeners...");
+        getServer().getPluginManager().registerEvents(new RPGJewelListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGWeaponListener(this), this);
+        getServer().getPluginManager().registerEvents(new RPGArmorListener(this), this);
+        getServer().getPluginManager().registerEvents(new RPGQuestItemListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGPlayerListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGCreatureListener(), this);
 
@@ -116,7 +114,6 @@ public class RPGCraftCosta extends JavaPlugin {
     public void onDisable() {
         this.rpgPlayerManager.saveRpgPlayers();
         getLogger().info("Shutting down I'll be back!!");
-        getServer().resetRecipes();
     }
 
     public RPGItemManager getRPGItemManager() {

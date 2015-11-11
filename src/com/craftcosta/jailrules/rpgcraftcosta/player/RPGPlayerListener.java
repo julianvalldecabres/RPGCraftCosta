@@ -6,14 +6,22 @@
 package com.craftcosta.jailrules.rpgcraftcosta.player;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.items.armor.RPGArmorManager;
+import com.craftcosta.jailrules.rpgcraftcosta.items.jewels.RPGJewelManager;
+import com.craftcosta.jailrules.rpgcraftcosta.items.questitems.RPGQuestItemManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
+import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import org.bukkit.ChatColor;
+import org.bukkit.EntityEffect;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,14 +32,17 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerAchievementAwardedEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  *
@@ -57,21 +68,17 @@ public class RPGPlayerListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         //e.getPlayer().sendMessage("Evento player Join!");
         RPGPlayerManager rpgPMan = this.plugin.getRPGPlayerManager();
+        Player p = e.getPlayer();
         RPGPlayer rpgP = rpgPMan.getOrCreateRPGPlayer(e.getPlayer());
-        rpgP.setMove(false);
+        
         rpgP.saveRPGPlayer();
-        if (rpgP.getFirstLogin()) {
-            e.getPlayer().sendMessage("Please register in order to play");
-            e.getPlayer().sendMessage("/register <password> <repeatpassword>");
-        } else {
-            e.getPlayer().sendMessage("Please login in order to play");
-            e.getPlayer().sendMessage("/login <password>");
+        if(rpgP.getPlayerClass().isEmpty()){
+            rpgP.setMove(false);
+            p.sendMessage(ChatColor.YELLOW+"Selecciona una clase antes de continuar...");
+            p.sendMessage(plugin.getRPGClassManager().getListAvailableClasses());
         }
-        RPGWeaponManager rpgWMan = plugin.getRPGItemManager().getRPGWeaponManager();
-        e.getPlayer().getInventory().addItem(rpgWMan.getRPGWeaponByName("penepenepene"));
-        e.getPlayer().getInventory().addItem(rpgWMan.getRPGWeaponByName("banhammer"));
-        e.getPlayer().getInventory().addItem(rpgWMan.getRPGWeaponByName("weapon of Gods"));
-
+        rpgP.checkAllEquipment();
+        plugin.getLogger().info("health: "+e.getPlayer().getHealth()+ " maxHealth: "+e.getPlayer().getMaxHealth()+" healthscale: "+e.getPlayer().getHealthScale());
     }
 
     /**
@@ -106,26 +113,35 @@ public class RPGPlayerListener implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
-            if (e.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
-                e.setCancelled(true);
-            }
-        }
-        if (e.getEntity() instanceof Player) {
+//            if (e.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
+//                e.setCancelled(true);
+//            }
             if (e.getCause().equals(EntityDamageEvent.DamageCause.DROWNING)) {
                 e.setCancelled(true);
             }
-        }
-        if (e.getEntity() instanceof Player) {
             if (e.getCause().equals(EntityDamageEvent.DamageCause.STARVATION)) {
                 e.setCancelled(true);
             }
         }
     }
-
+    
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-        e.getDamager();//Who gives the damage
-        e.getEntity();//Who receives the damage
+        if(e.getEntity() instanceof HumanEntity){
+            plugin.getLogger().info("El que realiza el daño es un player");
+            if(e.getEntity() instanceof HumanEntity){
+                plugin.getLogger().info("El que recibe el daño es un player");
+            }else{
+                plugin.getLogger().info("El que recibe el daño no es un player");
+            }            
+        }else{
+            plugin.getLogger().info("El que realiza el daño no es un player");
+            if(e.getEntity() instanceof Player){
+                plugin.getLogger().info("El que recibe el daño es un player");
+            }else{
+                plugin.getLogger().info("El que recibe el daño no es un player");
+            }        
+        }
     }
 
     /**
@@ -134,7 +150,9 @@ public class RPGPlayerListener implements Listener {
      */
     @EventHandler
     public void onPlayerPickupItem(PlayerPickupItemEvent e) {
-        //e.setCancelled(true);
+
+        ItemStack item = e.getItem().getItemStack();
+        Set<Integer> freeInventorySlots = RPGPlayerUtils.getFreeInventorySlots(e.getPlayer());
     }
 
     /**
@@ -146,16 +164,6 @@ public class RPGPlayerListener implements Listener {
         if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 
         }
-    }
-
-    /**
-     *
-     * @param e
-     */
-    @EventHandler
-    public void onPlayerAttackCreature(EntityDamageByEntityEvent e) {
-        //e.getDamager();
-        //e.getEntity();
     }
 
     /**
@@ -243,7 +251,9 @@ public class RPGPlayerListener implements Listener {
         RPGPlayerManager rpgmanager = this.plugin.getRPGPlayerManager();
         RPGPlayer rpguser = rpgmanager.getRPGPlayerByName(event.getPlayer().getName());
         Player user = rpguser.getPlayer();
-        //rpguser.allowMove();
+        if(rpguser.getPlayerClass().isEmpty()){
+            event.setCancelled(true);
+        }
         String clase;
         if (rpguser.getPlayerClass().equals("")) {
             clase = ChatColor.AQUA + "[Newbie]";
@@ -305,5 +315,13 @@ public class RPGPlayerListener implements Listener {
                 event.setCancelled(true);
                 break;
         }
+    }
+    @EventHandler
+    public void onPlayerClickInventory(InventoryClickEvent event){
+        plugin.getLogger().info("//////////////");
+        plugin.getLogger().info("Slot: "+event.getSlot());
+        plugin.getLogger().info("RawSlot: "+event.getRawSlot());
+        plugin.getLogger().info("SlotType: "+event.getSlotType().name());
+        plugin.getLogger().info("//////////////");
     }
 }

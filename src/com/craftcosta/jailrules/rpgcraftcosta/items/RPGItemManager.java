@@ -1,15 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.craftcosta.jailrules.rpgcraftcosta.items;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.items.armor.RPGArmorManager;
+import com.craftcosta.jailrules.rpgcraftcosta.items.jewels.RPGJewelManager;
+import com.craftcosta.jailrules.rpgcraftcosta.items.questitems.RPGQuestItemManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
 import java.util.ArrayList;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 /**
  *
@@ -17,20 +13,37 @@ import org.bukkit.inventory.ItemStack;
  */
 public class RPGItemManager {
 
-    public RPGCraftCosta plugin;
-    public RPGWeaponManager RPGWMan;
-    //RPGArmorManager RPGAMan;
-    //RPGJewelManager RPGJMan;
+    private RPGCraftCosta plugin;
+    private RPGWeaponManager RPGWMan;
+    private RPGArmorManager RPGAMan;
+    private RPGJewelManager RPGJMan;
+    private RPGQuestItemManager RPGQMan;
     //RPGPotionManager RPGPMan;
-    public ArrayList<RPGItem> listItems = new ArrayList<>();
+    private ArrayList<RPGItem> listItems = new ArrayList<>();
 
     public RPGItemManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
         this.RPGWMan = new RPGWeaponManager(plugin);
+        this.RPGAMan = new RPGArmorManager(plugin);
+        this.RPGJMan = new RPGJewelManager(plugin);
+        this.RPGQMan = new RPGQuestItemManager(plugin);
+
     }
 
     public RPGWeaponManager getRPGWeaponManager() {
         return RPGWMan;
+    }
+
+    public RPGJewelManager getRPGJewelManager() {
+        return RPGJMan;
+    }
+
+    public RPGQuestItemManager getRPGQMan() {
+        return RPGQMan;
+    }
+
+    public RPGArmorManager getRPGArmorManager() {
+        return RPGAMan;
     }
 
 }
