@@ -22,7 +22,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
  * @author jail
  */
 public class RPGClassManager {
-    
+
     private final RPGCraftCosta plugin;
     private static HashMap<String, RPGClass> listClasses;
     private File classesFile;
@@ -36,14 +36,17 @@ public class RPGClassManager {
         this.plugin = plugin;
         this.listClasses = new HashMap<>();
         this.classesFile = new File(RPGFinals.classFilePath);
+        plugin.getLogger().info("Loading classes module....");
+
         if (!classesFile.exists()) {
-            plugin.getLogger().info("Loading classes module....");
+            plugin.getLogger().info("Loading default classes....");
+
             classesFile.getParentFile().mkdirs();
             copy(plugin.getResource("classes.yml"), classesFile);
         }
         loadClasses();
     }
-    
+
     private void copy(InputStream in, File file) {
         try {
             OutputStream out = new FileOutputStream(file);
@@ -75,7 +78,7 @@ public class RPGClassManager {
     public static RPGClass getRPGClass(String name) {
         return listClasses.get(name);
     }
-    
+
     private void loadClasses() {
         if (!classesFile.exists()) {
             cFConfig = YamlConfiguration.loadConfiguration(new File(RPGFinals.classFilePath));
@@ -117,10 +120,10 @@ public class RPGClassManager {
         double SPUpConstitution_Mana;
         double SPUpIntelligence_Mana;
         double SPUpIntelligence_MagicAttack;
-        
+
         Set<String> classes = cFConfig.getKeys(false);
         for (String clas : classes) {
-            
+
             ConfigurationSection section = cFConfig.getConfigurationSection(clas);
             enabled = section.getBoolean("enabled");
             if (enabled) {
@@ -161,16 +164,16 @@ public class RPGClassManager {
             }
         }
     }
-    
-    public RPGClass getRPGClassByName(String name){
+
+    public RPGClass getRPGClassByName(String name) {
         return this.listClasses.get(name);
     }
-    
-    public String getAllClassesNames(){
-        return this.listClasses.keySet().toString();
+
+    public Set<String> getAllClassesNames() {
+        return this.listClasses.keySet();
     }
-    
-    public boolean isAValidRPGClassName(String name){
+
+    public boolean isAValidRPGClassName(String name) {
         return this.listClasses.containsKey(name);
     }
 }

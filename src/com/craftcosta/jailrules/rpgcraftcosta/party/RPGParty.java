@@ -7,6 +7,7 @@ package com.craftcosta.jailrules.rpgcraftcosta.party;
 
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
 import java.util.ArrayList;
+import java.util.List;
 import org.bukkit.ChatColor;
 
 /**
@@ -15,12 +16,11 @@ import org.bukkit.ChatColor;
  */
 public class RPGParty {
 
-    String name;
-    String leader;
-    ArrayList<String> players;
-    boolean shareExp;
-    boolean shareMoney;
-    boolean shareAP;
+    private String name;
+    private String leader;
+    private List<String> players;
+    private boolean shareExp;
+    private boolean shareMoney;
 
     /**
      *
@@ -28,14 +28,14 @@ public class RPGParty {
      * @param creator
      * @param shareExp
      * @param shareMoney
-     * @param shareAP
      */
-    public RPGParty(String name, String creator, boolean shareExp, boolean shareMoney, boolean shareAP) {
+    public RPGParty(String name, String creator, boolean shareExp, boolean shareMoney) {
+        this.players = new ArrayList<>();
         this.name = name;
         this.leader = creator;
         this.shareExp = shareExp;
         this.shareMoney = shareMoney;
-        this.shareAP = shareAP;
+        this.players.add(creator);
     }
 
     /**
@@ -74,7 +74,7 @@ public class RPGParty {
      *
      * @return
      */
-    public ArrayList<String> getPlayers() {
+    public List<String> getPlayers() {
         return players;
     }
 
@@ -161,21 +161,10 @@ public class RPGParty {
     /**
      *
      * @param shareXP
-     * @param shareAP
      * @param shareMoney
      */
-    public void changeAllConfig(boolean shareXP, boolean shareAP, boolean shareMoney) {
+    public void changeAllConfig(boolean shareXP, boolean shareMoney) {
         setShareExp(shareXP);
         setShareMoney(shareMoney);
-        setShareAP(shareAP);
     }
-
-    /**
-     *
-     * @param shareAP
-     */
-    public void setShareAP(boolean shareAP) {
-        this.shareAP = shareAP;
-    }
-
 }

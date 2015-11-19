@@ -1,28 +1,35 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2015 jail
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.utils;
 
 import java.util.Objects;
 
-/**
- *
- * @author jail
- */
-public class RPGLoreUtils {
+public class RPGLore {
 
     private String lorename;
     private double value;
 
-    public RPGLoreUtils(String lorename, double value) {
+    public RPGLore(String lorename, double value) {
         this.lorename = lorename;
         this.value = value;
     }
 
     public String getLorename() {
-        return lorename;
+        return this.lorename;
     }
 
     public void setLorename(String lorename) {
@@ -30,14 +37,13 @@ public class RPGLoreUtils {
     }
 
     public double getValue() {
-        return value;
+        return this.value;
     }
 
     public void setValue(double value) {
         this.value = value;
     }
 
-    @Override
     public int hashCode() {
         int hash = 7;
         return hash;
@@ -50,7 +56,7 @@ public class RPGLoreUtils {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final RPGLoreUtils other = (RPGLoreUtils) obj;
+        RPGLore other = (RPGLore) obj;
         if (getValue() != other.getValue()) {
             return false;
         }
@@ -64,14 +70,13 @@ public class RPGLoreUtils {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final RPGLoreUtils other = (RPGLoreUtils) obj;
+        RPGLore other = (RPGLore) obj;
         if (!getLorename().equals(other.getLorename())) {
             return false;
         }
         return true;
     }
 
-    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -79,7 +84,7 @@ public class RPGLoreUtils {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final RPGLoreUtils other = (RPGLoreUtils) obj;
+        RPGLore other = (RPGLore) obj;
         if (!Objects.equals(this.lorename, other.lorename)) {
             return false;
         }
@@ -89,9 +94,7 @@ public class RPGLoreUtils {
         return true;
     }
 
-    @Override
     public String toString() {
-        return "RPGLoreUtils{" + "lorename=" + lorename + ", value=" + value + '}';
+        return "RPGLore{lorename=" + this.lorename + ", value=" + this.value + '}';
     }
-
 }

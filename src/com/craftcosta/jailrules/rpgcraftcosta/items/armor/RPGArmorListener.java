@@ -44,7 +44,12 @@ public class RPGArmorListener implements Listener {
         if (cursor.getType().equals(Material.AIR) || armorClicked.getType().equals(Material.AIR)) {
             return;
         }
-        if (cursor.equals(armorUpgrader) && rpgAMan.isRPGWeapon(armorClicked)) {
+        RPGArmor rpgArmor = rpgAMan.getRPGArmorByItem(armorClicked);
+        if (!rpgArmor.isUpgradable()) {
+            p.sendMessage(ChatColor.RED + "Esta armadura no se puede mejorar");
+            return;
+        }
+        if (cursor.equals(armorUpgrader) && rpgAMan.isRPGArmor(armorClicked)) {
             e.setCancelled(true);
             switch (rpgAMan.getUpgradeResult()) {
                 case "break":

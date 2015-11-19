@@ -8,10 +8,12 @@ package com.craftcosta.jailrules.rpgcraftcosta.player;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClass;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
 import com.craftcosta.jailrules.rpgcraftcosta.economy.RPGEconomy;
+import com.craftcosta.jailrules.rpgcraftcosta.quests.RPGQuest;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -30,32 +32,40 @@ public class RPGPlayer {
     //Player atributes
     private String name;
     private UUID uuid;
-    private RPGEconomy econ;
     private Player player;
     private String guild;
     private String playerClass;
     private String party;
-    private boolean firstLogin;
+
+    private boolean setResetRequest;
     private boolean move;
+    private boolean partyChat;
+    private boolean privateChat;
+    private boolean guildChat;
+    private boolean marketChat;
+    private boolean localChat;
+    private boolean globalChat;
+
+    private RPGEconomy econ;
+
     private int actualLevel;
     private long actualExp;
-    
-    private double actualMana;
-    private double maxMana;
-    /*
-    actualHealth => vida actual del player en formato rpg
-    */
-    private double actualHealth;
-    private double healthmodifiers;
-    
-    private double maxHealth;
+    private long ap;
+    private List<RPGQuest> finishedQuestsList;
+    private List<RPGQuest> inProgressQuestsList;
+
     //rpg attributes
-    private int availablePoints;
     private int constitutionP;
     private int dexteryP;
     private int intelligenceP;
     private int strengthP;
     //rpg dependant attributes
+    private double actualMana;
+    private double maxMana;
+    private double finalMaxMana;
+    private double finalMaxHealth;
+    private double actualHealth;
+    private double maxHealth;
     private double physicalAttack;
     private double finalphysicalAttack;
     private double physicalDefense;
@@ -64,16 +74,17 @@ public class RPGPlayer {
     private double finalphysicalHitRate;
     private double physicalEvasion;
     private double finalphysicalEvasion;
+    private double magicalAttack;
+    private double finalmagicalAttack;
+    private double magicalDefense;
+    private double finalmagicalDefense;
+    private double magicalHitRate;
+    private double finalmagicalHitRate;
+    private double magicalEvasion;
+    private double finalmagicalEvasion;
     private double critical;
     private double finalcritical;
-    private double deadly;
 
-    /**
-     * Al añadir el extends EventObject a la clase nos da el error siguiente
-     * pero es necesario para poder disparar nuestros propios eventos...
-     *
-     * @param p
-     */
     public RPGPlayer(Player p) {
         this.player = p;
         if (RPGPlayerUtils.existsPlayerFile(p)) {
@@ -87,10 +98,53 @@ public class RPGPlayer {
 
     }
 
+    public RPGPlayer(String name, UUID uuid, Player player, String guild, String playerClass, String party, RPGEconomy econ, int actualLevel, long actualExp, long ap, List<RPGQuest> finishedQuests, List<RPGQuest> InProgressQuests, int constitutionP, int dexteryP, int intelligenceP, int strengthP, double actualMana, double maxMana, double actualHealth, double maxHealth, double physicalAttack, double physicalDefense, double physicalHitRate, double physicalEvasion, double magicalAttack, double magicalDefense, double magicalHitRate, double magicalEvasion, double critical) {
+        this.name = name;
+        this.uuid = uuid;
+        this.player = player;
+        this.guild = guild;
+        this.playerClass = playerClass;
+        this.party = party;
+        this.econ = econ;
+        this.actualLevel = actualLevel;
+        this.actualExp = actualExp;
+        this.ap = ap;
+        this.finishedQuestsList = finishedQuests;
+        this.inProgressQuestsList = InProgressQuests;
+        this.constitutionP = constitutionP;
+        this.dexteryP = dexteryP;
+        this.intelligenceP = intelligenceP;
+        this.strengthP = strengthP;
+        this.actualMana = actualMana;
+        this.maxMana = maxMana;
+        this.actualHealth = actualHealth;
+        this.maxHealth = maxHealth;
+        this.physicalAttack = physicalAttack;
+        this.physicalDefense = physicalDefense;
+        this.physicalHitRate = physicalHitRate;
+        this.physicalEvasion = physicalEvasion;
+        this.magicalAttack = magicalAttack;
+        this.magicalDefense = magicalDefense;
+        this.magicalHitRate = magicalHitRate;
+        this.magicalEvasion = magicalEvasion;
+        this.critical = critical;
+        this.privateChat = true;
+        this.globalChat = true;
+        this.localChat = true;
+        this.partyChat = true;
+        this.guildChat = true;
+        this.marketChat = true;
+        this.setResetRequest = false;
+        if (this.playerClass.isEmpty()) {
+            this.move = false;
+        } else {
+            this.move = true;
+        }
+    }
+
     private void createRPGPlayer() {
         this.name = this.player.getName();
         this.uuid = this.player.getUniqueId();
-        this.firstLogin = true;
         this.move = false;
         this.econ = new RPGEconomy();
         this.guild = "";
@@ -108,7 +162,7 @@ public class RPGPlayer {
         this.maxMana = 0;
         this.maxHealth = 20;
         //rpg attributes
-        this.availablePoints = 0;
+        this.ap = 0;
         this.constitutionP = 0;
         this.dexteryP = 0;
         this.intelligenceP = 0;
@@ -123,7 +177,6 @@ public class RPGPlayer {
         this.physicalEvasion = 0;
         this.finalphysicalEvasion = physicalEvasion;
         this.critical = 0;
-        this.deadly = 0;
     }
 
     /**
@@ -140,7 +193,6 @@ public class RPGPlayer {
         }
         FileConfiguration section = YamlConfiguration.loadConfiguration(playerFile);
         section.set("name", this.player.getName());
-        section.set("firstlogin", this.firstLogin);
         section.set("move", this.move);
         section.set("money", this.econ.getMoney());
         section.set("experience", this.actualExp);
@@ -152,7 +204,7 @@ public class RPGPlayer {
         section.set("actualMana", this.actualMana);
         section.set("maxHealth", this.maxHealth);
         section.set("maxMana", this.maxMana);
-        section.set("ap", this.availablePoints);
+        section.set("ap", this.ap);
         section.set("constP", this.constitutionP);
         section.set("dextP", this.dexteryP);
         section.set("intelP", this.intelligenceP);
@@ -162,7 +214,6 @@ public class RPGPlayer {
         section.set("physicalevasion", this.physicalEvasion);
         section.set("physicalhitrate", this.physicalHitRate);
         section.set("critical", this.critical);
-        section.set("deadly", this.deadly);
         try {
             section.save(playerFile);
         } catch (IOException e) {
@@ -171,8 +222,6 @@ public class RPGPlayer {
 
     }
 
-
-    
     private void loadPlayerData() {
         //Recupera la informacion del player actual
         File playerFile = new File(RPGFinals.playerFilePath.replace("%player%", this.getPlayer().getUniqueId().toString()));
@@ -196,8 +245,8 @@ public class RPGPlayer {
             this.actualLevel = section.getInt("level");
             this.actualExp = section.getLong("experience");
             this.uuid = this.player.getUniqueId();
+            this.setResetRequest = false;
             this.move = section.getBoolean("move");
-            this.firstLogin = section.getBoolean("firstlogin");
             this.guild = section.getString("guild");
             this.party = section.getString("party");
             this.playerClass = section.getString("class");
@@ -207,7 +256,7 @@ public class RPGPlayer {
             this.maxHealth = section.getDouble("maxHealth");
             this.player.setMaxHealth(maxHealth);
             this.maxMana = section.getDouble("maxMana");
-            this.availablePoints = section.getInt("ap");
+            this.ap = section.getLong("ap");
             //Cargar atributos de player
             this.constitutionP = section.getInt("constP");
             this.dexteryP = section.getInt("dextP");
@@ -221,7 +270,6 @@ public class RPGPlayer {
             this.physicalHitRate = section.getDouble("physicalhitrate");
             //Especial
             this.critical = section.getDouble("critical");
-            this.deadly = section.getDouble("deadly");
         } else {
 
         }
@@ -236,7 +284,6 @@ public class RPGPlayer {
         setPhysicalHitRate(rpgclass.getBasePhysicalHitRate());
         setPhysicalEvasion(rpgclass.getBasePhysicalEvasion());
         setCritical(rpgclass.getBaseCritical());
-        setDeadly(rpgclass.getBaseDeadly());
         this.saveRPGPlayer();
     }
 
@@ -253,26 +300,9 @@ public class RPGPlayer {
         setPhysicalHitRate(rpgclass.getLvlUpPhysicalHitRate() + getPhysicalHitRate());
         setPhysicalEvasion(rpgclass.getLvlUpPhysicalEvasion() + getPhysicalEvasion());
         setCritical(rpgclass.getLvlUpCritical() + getCritical());
-        setDeadly(rpgclass.getLvlUpDeadly() + getDeadly());
         //añadir skillpoints
 
         this.saveRPGPlayer();
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean getFirstLogin() {
-        return firstLogin;
-    }
-
-    /**
-     *
-     * @param firstlogin
-     */
-    public void setFirstLogin(boolean firstlogin) {
-        this.firstLogin = firstlogin;
     }
 
     /**
@@ -343,16 +373,16 @@ public class RPGPlayer {
      *
      * @return
      */
-    public int getAvailablePoints() {
-        return availablePoints;
+    public long getAP() {
+        return ap;
     }
 
     /**
      *
      * @param availablePoints
      */
-    public void setAvailablePoints(int availablePoints) {
-        this.availablePoints = availablePoints;
+    public void setAP(int ap) {
+        this.ap = ap;
     }
 
     /**
@@ -385,6 +415,7 @@ public class RPGPlayer {
      */
     public void setPlayerClass(String playerClass) {
         this.playerClass = playerClass;
+        //actualizar atributos del rpgplayer
     }
 
     /**
@@ -505,14 +536,6 @@ public class RPGPlayer {
      */
     public void setCritical(double critical) {
         this.critical = critical;
-    }
-
-    /**
-     *
-     * @param deadly
-     */
-    public void setDeadly(double deadly) {
-        this.deadly = deadly;
     }
 
     /**
@@ -671,14 +694,6 @@ public class RPGPlayer {
      *
      * @return
      */
-    public double getDeadly() {
-        return deadly;
-    }
-
-    /**
-     *
-     * @return
-     */
     public long getPLevel() {
         return this.actualLevel;
     }
@@ -696,7 +711,7 @@ public class RPGPlayer {
      * @return
      */
     public boolean hasGuild() {
-        return this.guild != null;
+        return !this.guild.isEmpty();
     }
 
     /**
@@ -766,32 +781,49 @@ public class RPGPlayer {
         //revisar
     }
 
-    public void checkAllEquipment() {
-        ItemStack[] equipedArmor = this.getPlayer().getInventory().getArmorContents();
-        ItemStack equipedWeapon = this.getPlayer().getItemInHand();
-        int weaponSlot = this.getPlayer().getInventory().getHeldItemSlot();
-        System.out.println("item en mano en slot: " + weaponSlot);
-        ItemStack[] quickbarItems = new ItemStack[9];
-
-        System.out.println("Contenido de armadura");
-        for (int i = 0; i <= 3; i++) {
-            if (!equipedArmor[i].getType().equals(Material.AIR)) {
-                System.out.println(equipedArmor[i].toString());
-            }
-        }
-        System.out.println("Contenido de la hotbar");
-        for (int i = 0; i <= 8; i++) {
-            System.out.println("slot: " + i);
-            if (this.player.getInventory().getContents()[i] != null) {
-                quickbarItems[i] = this.player.getInventory().getContents()[i];
-            }
-        }
-        for (ItemStack item : quickbarItems) {
-            if (item != null) {
-                System.out.println(item.toString());
-
-            }
-        }
+//    public void checkAllEquipment() {
+//        ItemStack[] equipedArmor = this.getPlayer().getInventory().getArmorContents();
+//        ItemStack equipedWeapon = this.getPlayer().getItemInHand();
+//        int weaponSlot = this.getPlayer().getInventory().getHeldItemSlot();
+//        System.out.println("item en mano en slot: " + weaponSlot);
+//        ItemStack[] quickbarItems = new ItemStack[9];
+//
+//        System.out.println("Contenido de armadura");
+//        for (int i = 0; i <= 3; i++) {
+//            if (!equipedArmor[i].getType().equals(Material.AIR)) {
+//                
+//            }
+//        }
+//        System.out.println("Contenido de la hotbar");
+//        for (int i = 0; i <= 8; i++) {
+//            System.out.println("slot: " + i);
+//            if (this.player.getInventory().getContents()[i] != null) {
+//                quickbarItems[i] = this.player.getInventory().getContents()[i];
+//            }
+//        }
+//        for (ItemStack item : quickbarItems) {
+//            if (item != null) {
+//                System.out.println(item.toString());
+//            }
+//        }
+//    }
+    public boolean hasParty() {
+        return !this.party.isEmpty();
     }
 
+    public boolean hasClass() {
+        return !this.playerClass.isEmpty();
+    }
+
+    public boolean isSetResetRequested() {
+        return this.setResetRequest;
+    }
+
+    public void setSetResetRequested(boolean b) {
+        this.setResetRequest = b;
+    }
+
+    void createNewPlayer(Player player) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

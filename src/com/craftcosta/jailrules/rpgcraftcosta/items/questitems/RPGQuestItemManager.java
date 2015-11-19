@@ -37,7 +37,7 @@ public class RPGQuestItemManager {
 
     public RPGQuestItemManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
-        this.plugin.getLogger().info("Loading jewels module....");
+        this.plugin.getLogger().info("Loading questitems module....");
         this.questItemList = new HashMap<>();
         this.questItemFile = new File(RPGFinals.questItemFilePath);
         this.questItemFileConfig = new File(RPGFinals.questItemConfigPath);
@@ -70,14 +70,14 @@ public class RPGQuestItemManager {
         }
     }
 
-
-
     private void loadQuestItems() {
         if (!questItemFile.exists()) {
             config = YamlConfiguration.loadConfiguration(new File(RPGFinals.jewelFilePath));
         } else {
             config = YamlConfiguration.loadConfiguration(questItemFile);
         }
+        plugin.getLogger().info("Loading quest items...");
+
         Set<String> questitems = config.getKeys(false);
         for (String questitem : questitems) {
             String name = "";

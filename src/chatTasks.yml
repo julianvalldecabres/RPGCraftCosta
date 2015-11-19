@@ -1,0 +1,24 @@
+nametask:
+    enabled: true
+    #task description descriptive for the message purpose
+    description: molestar basicamente
+    #type of messagetype used ,only can be NEWS, WARNING
+    type: NEWS
+    #message that you want to be shown, can be multi-line
+    message: 
+        - nomehagaslasfotoscon FLASH ah ahhh quesalgomublancooo
+    #show every [every] seconds
+    interval: 300
+nametask1:
+    enabled: true
+    #task description descriptive for the message purpose
+    description: molestar basicamente
+    #type of messagetype used ,only can be NEWS, WARNING
+    type: WARNING
+    #message that you want to be shown, can be multi-line
+    message: 
+        - pantuflas tu furious
+        - Mi hijo es un freak
+    #show every [interval] seconds
+    interval: 300
+    

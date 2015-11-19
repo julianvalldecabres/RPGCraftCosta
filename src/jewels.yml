@@ -5,11 +5,19 @@ Estrella del norte:
     sellprice: 1500
     buyprice: 4500
     comerciable: true
-    evasionp: 0
-    blockp: 0
-    healthp: 0.1
-    criticalp: 0
-    healthstealp: 0
+    physicalattack: 0
+    physicalhitrate: 0
+    physicalevasion: 0
+    physicaldefense: 0
+    magicalevasion: 0
+    magicaldefense: 0
+    magicalattack: 0
+    magicalhitrate: 0
+    health: 0.1
+    mana: 0
+    critical: 0
+    healthsteal: 0
+    manasteal: 0
     apbonus: 0
     xpbonus: 0
     moneybonus: 0
@@ -20,11 +28,19 @@ Estrella del sur:
     sellprice: 1500
     buyprice: 4500
     comerciable: true
-    evasionp: 0
-    blockp: 0.1
-    healthp: 0.2
-    criticalp: 0
-    healthstealp: 0
+    physicalattack: 0
+    physicalhitrate: 0
+    physicalevasion: 0
+    physicaldefense: 0
+    magicalevasion: 0
+    magicaldefense: 0
+    magicalattack: 0
+    magicalhitrate: 0
+    health: 0.2
+    mana: 0
+    critical: 0
+    healthsteal: 0
+    manasteal: 0
     apbonus: 0
     xpbonus: 0
     moneybonus: 0

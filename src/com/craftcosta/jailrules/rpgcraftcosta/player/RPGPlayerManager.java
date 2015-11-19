@@ -7,11 +7,24 @@ package com.craftcosta.jailrules.rpgcraftcosta.player;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClass;
-import java.util.Collection;
+import com.craftcosta.jailrules.rpgcraftcosta.economy.RPGEconomy;
+import com.craftcosta.jailrules.rpgcraftcosta.items.armor.RPGArmorManager;
+import com.craftcosta.jailrules.rpgcraftcosta.items.jewels.RPGJewelManager;
+import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
+import com.craftcosta.jailrules.rpgcraftcosta.quests.RPGQuest;
+import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 /**
  *
@@ -23,7 +36,12 @@ public class RPGPlayerManager {
      *
      */
     public static HashMap<String, RPGPlayer> listRPGPlayers;
-    RPGCraftCosta plugin;
+    private RPGCraftCosta plugin;
+    private RPGArmorManager rpgAMan;
+    private RPGWeaponManager rpgWMan;
+    private RPGJewelManager rpgJMan;
+    private File playerFilePath;
+    private FileConfiguration pFConfig;
 
     /**
      *
@@ -31,18 +49,10 @@ public class RPGPlayerManager {
      */
     public RPGPlayerManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
-        listRPGPlayers = new HashMap<>();
-    }
-
-    /**
-     *
-     * @param p
-     * @return
-     */
-    public RPGPlayer getOrCreateRPGPlayer(Player p) {
-        RPGPlayer newRPGPlayer = new RPGPlayer(p);
-        listRPGPlayers.put(p.getName(), newRPGPlayer);
-        return newRPGPlayer;
+        this.listRPGPlayers = new HashMap<>();
+        this.rpgAMan = plugin.getRPGItemManager().getRPGArmorManager();
+        this.rpgWMan = plugin.getRPGItemManager().getRPGWeaponManager();
+        this.rpgJMan = plugin.getRPGItemManager().getRPGJewelManager();
     }
 
     /**
@@ -126,35 +136,145 @@ public class RPGPlayerManager {
 
     /**
      *
-     */
-    public void loadRpgPlayers() {
-        Collection<? extends Player> listPlayers = Bukkit.getServer().getOnlinePlayers();
-        if (listPlayers.isEmpty()) {
-            plugin.getLogger().info("No existen players para cargar!");
-        } else {
-            plugin.getLogger().info("Cargando todos los players!");
-            RPGPlayer rpgP = null;
-            for (Player p : Bukkit.getOnlinePlayers()) {
-                getOrCreateRPGPlayer(p);
-            }
-        }
-    }
-
-    /**
-     *
      * @param rpgPlayer
      */
     public void addRPGPlayerToList(RPGPlayer rpgPlayer) {
         listRPGPlayers.put(rpgPlayer.getName(), rpgPlayer);
     }
 
-    /**
-     *
-     * @param p
-     */
-    public void saveRpgPlayer(Player p) {
-        RPGPlayer rpgP = getRPGPlayerByName(p.getName());
-        rpgP.saveRPGPlayer();
+    public RPGPlayer loadOrCreateRPGPlayer(Player player) {
+        RPGPlayer rpgP = null;
+        playerFilePath = new File(RPGFinals.playerFilePath.replace("%player%", player.getUniqueId().toString()));
+        if (!playerFilePath.exists()) {
+            plugin.getLogger().info("Creando configuración vacía para el jugador " + player.getName());
+            rpgP = new RPGPlayer(player);
+
+            playerFilePath.getParentFile().mkdirs();
+            rpgP.saveRPGPlayer();
+        } else {
+            plugin.getLogger().info("Cargando configuración del jugador " + player.getName());
+            rpgP = loadRPGPlayer(player);
+        }
+        return rpgP;
     }
 
+    private RPGPlayer loadRPGPlayer(Player player) {
+        playerFilePath = new File(RPGFinals.playerFilePath.replace("%player%", player.getUniqueId().toString()));
+        pFConfig = YamlConfiguration.loadConfiguration(playerFilePath);
+        String name = player.getName();
+        String playerClass = "";
+        String guild = "";
+        String party = "";
+        UUID uuid = player.getUniqueId();
+
+        boolean setResetRequested = false;
+        boolean move = false;
+        boolean partyChat = true;
+        boolean privateChat = true;
+        boolean guildChat = true;
+        boolean marketChat = true;
+        boolean localChat = true;
+        boolean globalChat = true;
+
+        RPGEconomy econ;
+        List<RPGQuest> finishedQuestsList = new ArrayList<>();
+        List<RPGQuest> inProgressQuestsList = new ArrayList<>();
+
+        long experience = 0;
+        long ap = 0;
+
+        double actualHealth = 0;
+        double maxHealth = 0;
+        double actualMana = 0;
+        double maxMana = 0;
+
+        double physicalAttack = 0;
+        double physicalDefense = 0;
+        double physicalEvasion = 0;
+        double PhysicalHitRate = 0;
+
+        double magicalAttack = 0;
+        double magicalDefense = 0;
+        double magicalEvasion = 0;
+        double magicalHitRate = 0;
+
+        double critical = 0;
+
+        double expModifiers = 0;
+        double moneyModifiers = 0;
+        double apModifiers = 0;
+
+        int level;
+        int constitutionP;
+        int dexteryP;
+        int intelligenceP;
+        int strengthP;
+        //leer del fichero
+
+        playerClass = pFConfig.getString("playerclass");
+        guild = pFConfig.getString("guild");
+        econ = new RPGEconomy(pFConfig.getLong("money"));
+
+        experience = pFConfig.getLong("experience");
+        ap = pFConfig.getLong("ap");
+
+        actualHealth = pFConfig.getDouble("actualhealth");
+        maxHealth = pFConfig.getDouble("maxhealth");
+        actualMana = pFConfig.getDouble("actualmana");
+        maxMana = pFConfig.getDouble("maxmana");
+
+        physicalAttack = pFConfig.getDouble("physicalattack");
+        physicalDefense = pFConfig.getDouble("physicaldefense");
+        physicalEvasion = pFConfig.getDouble("physicalevasion");
+        PhysicalHitRate = pFConfig.getDouble("physicalhitrate");
+
+        magicalAttack = pFConfig.getDouble("magicalattack");
+        magicalDefense = pFConfig.getDouble("magicaldefense");
+        magicalEvasion = pFConfig.getDouble("magicalevasion");
+        magicalHitRate = pFConfig.getDouble("magicalhitrate");
+
+        critical = pFConfig.getDouble("critical");
+
+        level = pFConfig.getInt("level");
+        constitutionP = pFConfig.getInt("constitutiop");
+        dexteryP = pFConfig.getInt("dexteryp");
+        intelligenceP = pFConfig.getInt("intelligencep");
+        strengthP = pFConfig.getInt("strengthp");
+
+        //Crear RPGPlayer
+        RPGPlayer rpgp = new RPGPlayer(name, uuid, player, guild, playerClass, party, econ, level, ap, ap, finishedQuestsList, inProgressQuestsList, constitutionP, dexteryP, intelligenceP, strengthP, actualMana, maxMana, actualHealth, maxHealth, physicalAttack, physicalDefense, PhysicalHitRate, physicalEvasion, magicalAttack, magicalDefense, magicalHitRate, magicalEvasion, critical);
+        //añadir a lista
+        checkAllEquipment(rpgp);
+        this.listRPGPlayers.put(name, rpgp);
+        return rpgp;
+    }
+
+    public void checkAllEquipment(RPGPlayer p) {
+        ItemStack[] equipedArmor = p.getPlayer().getInventory().getArmorContents();
+        ItemStack equipedWeapon = p.getPlayer().getItemInHand();
+        int weaponSlot = p.getPlayer().getInventory().getHeldItemSlot();
+        System.out.println("Item en mano en slot: " + weaponSlot);
+        ItemStack[] quickbarItems = new ItemStack[9];
+
+        System.out.println("Contenido de armadura");
+        for (int i = 0; i <= 3; i++) {
+            if (!equipedArmor[i].getType().equals(Material.AIR)) {
+                if (rpgAMan.isRPGArmor(equipedArmor[i])) {
+                    //Metodo para obtener los lores del objeto y poder separar y añadir a las estadisticas del player
+                }
+            }
+        }
+        System.out.println("Contenido de la hotbar");
+        for (int i = 0; i <= 8; i++) {
+            System.out.println("slot: " + i);
+            if (p.getPlayer().getInventory().getContents()[i] != null) {
+                quickbarItems[i] = p.getPlayer().getInventory().getContents()[i];
+            }
+        }
+        for (ItemStack item : quickbarItems) {
+            if (item != null) {
+                System.out.println(item.toString());
+            }
+        }
+    }
 }

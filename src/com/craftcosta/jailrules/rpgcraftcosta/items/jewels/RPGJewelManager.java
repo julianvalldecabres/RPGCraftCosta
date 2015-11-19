@@ -9,7 +9,7 @@ package com.craftcosta.jailrules.rpgcraftcosta.items.jewels;
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.items.Quality;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
-import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGLoreUtils;
+import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGLore;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,7 +36,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  * @author jail
  */
 public class RPGJewelManager {
-
+    
     private RPGCraftCosta plugin;
     private HashMap<String, RPGJewel> jewelList;
     private File jewelFile;
@@ -47,7 +47,7 @@ public class RPGJewelManager {
     private double losep;
     private double losepperlore;
     private double nothingp;
-
+    
     public RPGJewelManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
         this.plugin.getLogger().info("Loading jewels module....");
@@ -67,7 +67,7 @@ public class RPGJewelManager {
         loadJewelsConfig();
         loadJewels();
     }
-
+    
     private void copy(InputStream in, File file) {
         try {
             OutputStream out = new FileOutputStream(file);
@@ -82,13 +82,14 @@ public class RPGJewelManager {
             e.printStackTrace();
         }
     }
-
+    
     private void loadJewels() {
         if (!jewelFile.exists()) {
             config = YamlConfiguration.loadConfiguration(new File(RPGFinals.jewelFilePath));
         } else {
             config = YamlConfiguration.loadConfiguration(jewelFile);
         }
+        plugin.getLogger().info("Loading jewels...");
         String name;
         ItemStack item; //En el fichero se guardara y salvara el ID del Material (ej. DIAMOND_SWORD)
         int sellprice;
@@ -96,15 +97,23 @@ public class RPGJewelManager {
         Quality quality;
         boolean comerciable;
         boolean combinable;
-        double evasionp;
-        double blockp;
-        double healthp; //porcentaje de vida añadida al player
-        double criticalp; //porcentaje de critico añadido al player
-        double healthstealp; //porcentaje de robo de vida añadido al player
+        double physicalattack;
+        double physicaldefense;
+        double physicalevasion;
+        double physicalhitrate;
+        double magicalattack;
+        double magicaldefense;
+        double magicalevasion;
+        double magicalhitrate;        
+        double health;
+        double mana;
+        double critical;
+        double healthsteal;
+        double manasteal;
         double apbonus;
         double xpbonus;
         double moneybonus;
-
+        
         Set<String> jewels = config.getKeys(false);
         for (String jewel : jewels) {
             ConfigurationSection section = config.getConfigurationSection(jewel);
@@ -115,33 +124,42 @@ public class RPGJewelManager {
             buyprice = section.getInt("buyprice");
             quality = Enum.valueOf(Quality.class, section.getString("quality"));
             combinable = section.getBoolean("combinable");
-            evasionp = section.getDouble("evasionp");
-            blockp = section.getDouble("blockp");
-            healthp = section.getDouble("healthp");
-            criticalp = section.getDouble("criticalp");
-            healthstealp = section.getDouble("healthstealp");
+            physicalattack = section.getDouble("physicalattack");
+            physicaldefense = section.getDouble("physicaldefense");
+            physicalevasion = section.getDouble("physicalevasion");
+            physicalhitrate = section.getDouble("physicalhitrate");
+            magicalattack = section.getDouble("magicalattack");
+            magicaldefense = section.getDouble("magicaldefense");
+            magicalevasion = section.getDouble("magicalevasion");
+            magicalhitrate = section.getDouble("magicalhitrate");
+            health = section.getDouble("health");
+            mana = section.getDouble("mana");
+            critical = section.getDouble("critical");
+            healthsteal = section.getDouble("healthsteal");
+            manasteal = section.getDouble("manasteal");
             apbonus = section.getDouble("apbonus");
             xpbonus = section.getDouble("xpbonus");
             moneybonus = section.getDouble("moneybonus");
-            jewelList.put(jewel, new RPGJewel(item, name, comerciable, sellprice, buyprice, quality, combinable, healthp, criticalp, evasionp, blockp, healthstealp, apbonus, xpbonus, moneybonus));
+            jewelList.put(jewel, new RPGJewel(item, name, sellprice, buyprice, quality, combinable, comerciable, physicalattack, physicaldefense, physicalevasion, physicalhitrate, magicalattack, magicaldefense, magicalevasion, magicalhitrate, health, mana, critical, healthsteal, manasteal, apbonus, xpbonus, moneybonus));
 
+            //modificar constructor
         }
     }
-
+    
     public ItemStack getRPGJewelByName(String name) {
         plugin.getLogger().info(name);
         RPGJewel jewel = jewelList.get(ChatColor.stripColor(name));
         return jewel.getItem();
     }
-
+    
     public RPGJewel getRPGJewelByItem(ItemStack item) {
         return this.jewelList.get(getRPGJewelNameByItem(item));
     }
-
+    
     public String getRPGJewelNameByItem(ItemStack item) {
         return ChatColor.stripColor(item.getItemMeta().getDisplayName());
     }
-
+    
     public Set<String> getAllJewelNames() {
         Set<String> allWeaponNames = new HashSet<>();
         for (Map.Entry<String, RPGJewel> entrySet : jewelList.entrySet()) {
@@ -150,40 +168,42 @@ public class RPGJewelManager {
         }
         return allWeaponNames;
     }
-
+    
     public boolean isRPGJewel(ItemStack item) {
         return this.jewelList.containsKey(ChatColor.stripColor(item.getItemMeta().getDisplayName()));
     }
-
+    
     private void loadJewelsConfig() {
         if (!jewelConfig.exists()) {
             jConfig = YamlConfiguration.loadConfiguration(new File(RPGFinals.jewelsConfigPath));
         } else {
             jConfig = YamlConfiguration.loadConfiguration(jewelConfig);
         }
+        plugin.getLogger().info("Loading jewels config...");
+        
         this.breakp = jConfig.getDouble("breakp");
         this.losep = jConfig.getDouble("losep");
         this.losepperlore = jConfig.getDouble("losepperlore");
         this.nothingp = jConfig.getDouble("nothingp");
-
+        
     }
-
+    
     public double getBreakp() {
         return breakp;
     }
-
+    
     public double getLosep() {
         return losep;
     }
-
+    
     public double getLosepperlore() {
         return losepperlore;
     }
-
+    
     public double getNothingp() {
         return nothingp;
     }
-
+    
     public String upgradeJewel() {
         Double caso = new Random().nextDouble();
         if (caso <= this.breakp) {
@@ -196,7 +216,7 @@ public class RPGJewelManager {
             return "combine";
         }
     }
-
+    
     ItemStack combineloseJewels(ItemStack cursor, ItemStack currentItem) {
         List<String> cursorLores = new ArrayList<>();
         List<String> currentItemLores = new ArrayList<>();
@@ -207,7 +227,7 @@ public class RPGJewelManager {
             currentItemLores = currentItem.getItemMeta().getLore();
         }
         //recoger los lores que nos interesan de ambos
-        List<RPGLoreUtils> cIGLores = new ArrayList<>();
+        List<RPGLore> cIGLores = new ArrayList<>();
         for (String cILore : currentItemLores) {
             if (!cILore.contains("Buy price:")
                     && !cILore.contains("Sell price:")
@@ -223,10 +243,10 @@ public class RPGJewelManager {
                     lorename = loreparts[0];
                     value = Double.parseDouble(loreparts[1].substring(1, loreparts[1].length() - 1));
                 }
-                cIGLores.add(new RPGLoreUtils(lorename, value));
+                cIGLores.add(new RPGLore(lorename, value));
             }
         }
-        List<RPGLoreUtils> cUGLores = new ArrayList<>();
+        List<RPGLore> cUGLores = new ArrayList<>();
         for (String cILore : cursorLores) {
             if (!cILore.contains("Buy price:")
                     && !cILore.contains("Sell price:")
@@ -242,7 +262,7 @@ public class RPGJewelManager {
                     lorename = loreparts[0];
                     value = Double.parseDouble(loreparts[1].substring(1, loreparts[1].length() - 1));
                 }
-                cUGLores.add(new RPGLoreUtils(lorename, value));
+                cUGLores.add(new RPGLore(lorename, value));
             }
         }
         //Ahora que tenemos que lores tiene cada uno vamos a combinarlos
@@ -305,7 +325,7 @@ public class RPGJewelManager {
         newJewel.setItemMeta(jMeta);
         return newJewel;
     }
-
+    
     ItemStack combineNoSumJewels(ItemStack cursor, ItemStack currentItem) {
         List<String> cursorLores = new ArrayList<>();
         List<String> currentItemLores = new ArrayList<>();
@@ -316,7 +336,7 @@ public class RPGJewelManager {
             currentItemLores = currentItem.getItemMeta().getLore();
         }
         //recoger los lores que nos interesan de ambos
-        List<RPGLoreUtils> cIGLores = new ArrayList<>();
+        List<RPGLore> cIGLores = new ArrayList<>();
         for (String cILore : currentItemLores) {
             if (!cILore.contains("Buy price:")
                     && !cILore.contains("Sell price:")
@@ -332,10 +352,10 @@ public class RPGJewelManager {
                     lorename = loreparts[0];
                     value = Double.parseDouble(loreparts[1].substring(1, loreparts[1].length() - 1));
                 }
-                cIGLores.add(new RPGLoreUtils(lorename, value));
+                cIGLores.add(new RPGLore(lorename, value));
             }
         }
-        List<RPGLoreUtils> cUGLores = new ArrayList<>();
+        List<RPGLore> cUGLores = new ArrayList<>();
         for (String cILore : cursorLores) {
             if (!cILore.contains("Buy price:")
                     && !cILore.contains("Sell price:")
@@ -351,7 +371,7 @@ public class RPGJewelManager {
                     lorename = loreparts[0];
                     value = Double.parseDouble(loreparts[1].substring(1, loreparts[1].length() - 1));
                 }
-                cUGLores.add(new RPGLoreUtils(lorename, value));
+                cUGLores.add(new RPGLore(lorename, value));
             }
         }
         //Ahora que tenemos que lores tiene cada uno vamos a combinarlos
@@ -406,7 +426,7 @@ public class RPGJewelManager {
         newJewel.setItemMeta(jMeta);
         return newJewel;
     }
-
+    
     public ItemStack combineJewels(ItemStack cursor, ItemStack currentItem) {
         List<String> cursorLores = new ArrayList<>();
         List<String> currentItemLores = new ArrayList<>();
@@ -417,7 +437,7 @@ public class RPGJewelManager {
             currentItemLores = currentItem.getItemMeta().getLore();
         }
         //recoger los lores que nos interesan de ambos
-        List<RPGLoreUtils> cIGLores = new ArrayList<>();
+        List<RPGLore> cIGLores = new ArrayList<>();
         for (String cILore : currentItemLores) {
             if (!cILore.contains("Buy price:")
                     && !cILore.contains("Sell price:")
@@ -433,10 +453,10 @@ public class RPGJewelManager {
                     lorename = loreparts[0];
                     value = Double.parseDouble(loreparts[1].substring(1, loreparts[1].length() - 1));
                 }
-                cIGLores.add(new RPGLoreUtils(lorename, value));
+                cIGLores.add(new RPGLore(lorename, value));
             }
         }
-        List<RPGLoreUtils> cUGLores = new ArrayList<>();
+        List<RPGLore> cUGLores = new ArrayList<>();
         for (String cILore : cursorLores) {
             if (!cILore.contains("Buy price:")
                     && !cILore.contains("Sell price:")
@@ -452,7 +472,7 @@ public class RPGJewelManager {
                     lorename = loreparts[0];
                     value = Double.parseDouble(loreparts[1].substring(1, loreparts[1].length() - 1));
                 }
-                cUGLores.add(new RPGLoreUtils(lorename, value));
+                cUGLores.add(new RPGLore(lorename, value));
             }
         }
         //Ahora que tenemos que lores tiene cada uno vamos a combinarlos

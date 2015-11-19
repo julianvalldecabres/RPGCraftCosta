@@ -369,7 +369,6 @@ public class RPGWeapon extends RPGItem {
     }
 
     public int getLevel(String actualLevel) {
-        System.out.println(" " + actualLevel);
         return Integer.parseInt(actualLevel.substring(1));
     }
 

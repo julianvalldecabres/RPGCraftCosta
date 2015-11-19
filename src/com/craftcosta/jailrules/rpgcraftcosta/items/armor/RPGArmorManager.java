@@ -102,23 +102,6 @@ public class RPGArmorManager {
                 || item.getType().equals(Material.CHAINMAIL_BOOTS));
     }
 
-    public boolean isRPGArmor(ItemStack item) {
-        String[] displayname = item.getItemMeta().getDisplayName().split(" ");
-        int sizeLongNameParts = displayname.length;
-        //wLongNameParts[0] equivale a [LVLXX]
-        //wLongNameParts[size-1] equivale al modificador
-        String wName = "";
-        if (sizeLongNameParts > 3) {
-            for (int i = 1; i <= sizeLongNameParts - 3; i++) {
-                wName += displayname[i] + " ";
-            }
-            wName += displayname[sizeLongNameParts - 2];
-        } else {
-            wName = displayname[1];
-        }
-        return this.armorList.containsKey(wName);
-    }
-
     public String getUpgradeResult() {
         Double caso = new Random().nextDouble();
         if (caso <= this.breakprobability) {
@@ -195,15 +178,14 @@ public class RPGArmorManager {
         int level;
         boolean comerciable;
         boolean upgradable;
-        int armor;
-        int incArmor;
-        double evasion;
-        double incEvasion;
-        double block;
-        double incBlock;
-        double actualArmor;
-        double actualEvasion;
-        double actualBlock;
+        double physicaldefense;
+        double incphysicaldefense;
+        double physicalevasion;
+        double incphysicalevasion;
+        double magicaldefense;
+        double incmagicaldefense;
+        double magicalevasion;
+        double incmagicalevasion;
         double xpbonus;
         double apbonus;
         double moneybonus;
@@ -221,24 +203,24 @@ public class RPGArmorManager {
             upgradable = section.getBoolean("upgradable");
             Set<String> partes = config.getConfigurationSection(setName + ".parts").getKeys(false);
             for (String parte : partes) {
-                //por cada parte debemos crear finalmente un item y añadir a la lista
                 section = config.getConfigurationSection(setName + ".parts." + parte);
                 materialP = parte;
                 mat = Material.matchMaterial(materialS + "_" + materialP);
-                armor = section.getInt("armor");
-                incArmor = section.getInt("incarmor");
-                evasion = section.getDouble("evasion");
-                incEvasion = section.getDouble("incevasion");
-                block = section.getDouble("block");
-                incBlock = section.getDouble("incblock");
+                physicaldefense = section.getDouble("physicaldefense");
+                incphysicaldefense = section.getDouble("incphysicaldefense");
+                magicaldefense = section.getDouble("magicaldefense");
+                incmagicaldefense = section.getDouble("incmagicaldefense");
+                magicalevasion = section.getDouble("magicalevasion");
+                incmagicalevasion = section.getDouble("incmagicalevasion");
+                physicalevasion = section.getDouble("physicalevasion");
+                incphysicalevasion = section.getDouble("incphysicalevasion");
                 sellprice = section.getInt("sellprice");
                 buyprice = section.getInt("buyprice");
                 apbonus = section.getDouble("apbonus");
                 xpbonus = section.getDouble("xpbonus");
                 moneybonus = section.getDouble("moneybonus");
                 item = new ItemStack(mat);
-                plugin.getLogger().info(armor + " " + incArmor + " " + evasion + " " + incEvasion + " " + sellprice + " " + apbonus);
-                this.armorList.put(name + " " + materialP.toLowerCase(), new RPGArmor(level, item, quality, upgradable, comerciable, armorLevel, mat, setName, armor, incArmor, evasion, incEvasion, block, incBlock, moneybonus, apbonus, xpbonus, buyprice, sellprice));
+                this.armorList.put(name + " " + materialP.toLowerCase(), new RPGArmor(level, item, quality, upgradable, comerciable, armorLevel, mat, setName, physicaldefense, incphysicaldefense, physicalevasion, incphysicalevasion, magicaldefense, incmagicaldefense, magicalevasion, incmagicalevasion, moneybonus, apbonus, xpbonus, buyprice, sellprice));
             }
         }
     }
@@ -266,7 +248,7 @@ public class RPGArmorManager {
         return aName;
     }
 
-    public Set<String> getAllWeaponNames() {
+    public Set<String> getAllArmorNames() {
         Set<String> allArmorNames = new HashSet<>();
         for (Map.Entry<String, RPGArmor> entrySet : armorList.entrySet()) {
             allArmorNames.add(entrySet.getKey());
@@ -274,7 +256,45 @@ public class RPGArmorManager {
         return allArmorNames;
     }
 
-    public boolean isRPGWeapon(ItemStack item) {
+    public boolean isRPGArmor(ItemStack item) {
         return this.armorList.containsKey(getRPGArmorNameByItem(item));
     }
+
+//    public List<RPGLore> getArmorLores(ItemStack item) {
+//        List<RPGLore> listlores = new ArrayList<RPGLore>();
+//        List<String> lores = item.getItemMeta().getLore();
+//        for (String lore : lores) {
+//            String lorename = "";
+//            double value = 0;
+//            String[] loreparts = lore.split(" ");
+//            if (loreparts.length == 3) {
+//                lorename = loreparts[0] + " " + loreparts[1];
+//                value = Double.parseDouble(loreparts[2].substring(1, loreparts[2].length() - 1));
+//            } else {
+//                lorename = loreparts[0];
+//                value = Double.parseDouble(loreparts[1].substring(1, loreparts[1].length() - 1));
+//            }
+//            switch (lorename) {
+//                case "Armor Defense":
+//                    listlores.add(new RPGLore(lorename, value));
+//                    break;
+//                case "Evasion Pct.":
+//                    listlores.add(new RPGLore(lorename, value));
+//                    break;
+//                case "Block Pct.":
+//                    listlores.add(new RPGLore(lorename, value));
+//                    break;
+//                case "XPBonus":
+//                    listlores.add(new RPGLore(lorename, value));
+//                    break;
+//                case "APBonus":
+//                    listlores.add(new RPGLore(lorename, value));
+//                    break;
+//                case "Money Bonus":
+//                    listlores.add(new RPGLore(lorename, value));
+//                    break;
+//            }
+//        }
+//        return listlores;
+//    }
 }

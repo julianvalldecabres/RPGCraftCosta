@@ -7,48 +7,56 @@ Basilisco:
     armorlevel: 0
     parts:
         HELMET:
-            armor: 1500
-            incarmor: 20
-            evasion: 0.1
-            incevasion: 0.05
-            block: 0.2
-            incblock: 0.05
+            physicaldefense: 1500
+            incphysicaldefense: 20
+            physicalevasion: 0.1
+            incphysicalevasion: 0.05
+            magicaldefense: 0
+            incmagicaldefense: 0
+            magicalevasion: 0
+            incmagicalevasion: 0
             buyprice: 14500
             sellprice: 20000
             apbonus: 0
             xpbonus: 0
             moneybonus: 0
         CHESTPLATE:
-            armor: 1500
-            incarmor: 20
-            evasion: 0.1
-            incevasion: 0.05
-            block: 0.2
-            incblock: 0.05
+            physicaldefense: 1500
+            incphysicaldefense: 20
+            physicalevasion: 0.1
+            incphysicalevasion: 0.05
+            magicaldefense: 0
+            incmagicaldefense: 0
+            magicalevasion: 0
+            incmagicalevasion: 0
             buyprice: 14500
             sellprice: 20000
             apbonus: 0
             xpbonus: 0
             moneybonus: 0
         LEGGINGS:
-            armor: 1500
-            incarmor: 20
-            evasion: 0.1
-            incevasion: 0.05
-            block: 0.2
-            incblock: 0.05
+            physicaldefense: 1500
+            incphysicaldefense: 20
+            physicalevasion: 0.1
+            incphysicalevasion: 0.05
+            magicaldefense: 0
+            incmagicaldefense: 0
+            magicalevasion: 0
+            incmagicalevasion: 0
             buyprice: 14500
             sellprice: 20000
             apbonus: 0
             xpbonus: 0
             moneybonus: 0
         BOOTS:
-            armor: 1500
-            incarmor: 20
-            evasion: 0.1
-            incevasion: 0.05
-            block: 0.2
-            incblock: 0.05
+            physicaldefense: 1500
+            incphysicaldefense: 20
+            physicalevasion: 0.1
+            incphysicalevasion: 0.05
+            magicaldefense: 0
+            incmagicaldefense: 0
+            magicalevasion: 0
+            incmagicalevasion: 0
             buyprice: 14500
             sellprice: 20000
             apbonus: 0
@@ -63,48 +71,56 @@ Monguer:
     armorlevel: 0
     parts:
         HELMET:
-            armor: 100
-            incarmor: 5
-            evasion: 0.01
-            incevasion: 0.01
-            block: 0.01
-            incblock: 0.01
+            physicaldefense: 1500
+            incphysicaldefense: 20
+            physicalevasion: 0.1
+            incphysicalevasion: 0.05
+            magicaldefense: 0
+            incmagicaldefense: 0
+            magicalevasion: 0
+            incmagicalevasion: 0
             buyprice: 1500
             sellprice: 2000
             apbonus: 0
             xpbonus: 0
             moneybonus: 0
         CHESTPLATE:
-            armor: 100
-            incarmor: 5
-            evasion: 0.01
-            incevasion: 0.01
-            block: 0.01
-            incblock: 0.01
+            physicaldefense: 1500
+            incphysicaldefense: 20
+            physicalevasion: 0.1
+            incphysicalevasion: 0.05
+            magicaldefense: 0
+            incmagicaldefense: 0
+            magicalevasion: 0
+            incmagicalevasion: 0
             buyprice: 1500
             sellprice: 2000
             apbonus: 0
             xpbonus: 0
             moneybonus: 0
         LEGGINGS:
-            armor: 100
-            incarmor: 5
-            evasion: 0.01
-            incevasion: 0.01
-            block: 0.01
-            incblock: 0.01
+            physicaldefense: 1500
+            incphysicaldefense: 20
+            physicalevasion: 0.1
+            incphysicalevasion: 0.05
+            magicaldefense: 0
+            incmagicaldefense: 0
+            magicalevasion: 0
+            incmagicalevasion: 0
             buyprice: 1500
             sellprice: 2000
             apbonus: 0
             xpbonus: 0
             moneybonus: 0
         BOOTS:
-            armor: 100
-            incarmor: 5
-            evasion: 0.01
-            incevasion: 0.01
-            block: 0.01
-            incblock: 0.01
+            physicaldefense: 1500
+            incphysicaldefense: 20
+            physicalevasion: 0.1
+            incphysicalevasion: 0.05
+            magicaldefense: 0
+            incmagicaldefense: 0
+            magicalevasion: 0
+            incmagicalevasion: 0
             buyprice: 1500
             sellprice: 2000
             apbonus: 0

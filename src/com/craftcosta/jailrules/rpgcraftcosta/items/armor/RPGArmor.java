@@ -7,6 +7,7 @@ package com.craftcosta.jailrules.rpgcraftcosta.items.armor;
 
 import com.craftcosta.jailrules.rpgcraftcosta.items.Quality;
 import com.craftcosta.jailrules.rpgcraftcosta.items.RPGItem;
+import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLores;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.ChatColor;
@@ -26,17 +27,20 @@ public class RPGArmor extends RPGItem {
 
     private Material material;
     private String setName;// Vamos a ver si nos hace falta
-    private int armor;
-    private int incArmor;
-    private double evasion;
-    private double incEvasion;
-    private double block;
-    private double incBlock;
-    private int actualArmor;
-    private double actualEvasion;
-    private double actualBlock;
+    private double physicaldefense;
+    private double magicaldefense;
+    private double incphysicaldefense;
+    private double incmagicaldefense;
+    private double physicalevasion;
+    private double magicalevasion;
+    private double incmagicalevasion;
+    private double incphysicalevasion;
+    private double actualphysicaldefense;
+    private double actualphysicalevasion;
+    private double actualmagicaldefense;
+    private double actualmagicalevasion;
 
-    public RPGArmor(int level, ItemStack item, Quality quality, boolean upgradable, boolean comerciable, int armorlevel, Material material, String setName, int armor, int incArmor, double evasion, double incEvasion, double block, double incBlock, double moneybonus, double apbonus, double xpbonus, int buyprice, int sellprice) {
+    public RPGArmor(int level, ItemStack item, Quality quality, boolean upgradable, boolean comerciable, int armorlevel, Material material, String setName, double physicaldefense, double incphysicaldefense, double physicalevasion, double incphysicalevasion, double magicaldefense, double incmagicaldefense, double magicalevasion, double incmagicalevasion, double moneybonus, double apbonus, double xpbonus, int buyprice, int sellprice) {
         this.setName = setName;
         this.material = material;
         this.quality = quality;
@@ -50,52 +54,59 @@ public class RPGArmor extends RPGItem {
         this.APBonus = apbonus;
         this.XPBonus = xpbonus;
         this.moneyBonus = moneybonus;
-
-        this.armor = armor;
-        this.incArmor = incArmor;
-        this.evasion = evasion;
-        this.incEvasion = incEvasion;
-        this.block = block;
-        this.incBlock = incBlock;
-
-        if (armor > 0 && incArmor > 0) {
-            this.actualArmor = armor + incArmor * armorlevel;
+        this.magicaldefense = magicaldefense;
+        this.incmagicaldefense = incmagicaldefense;
+        this.magicalevasion = magicalevasion;
+        this.incmagicalevasion = incmagicalevasion;
+        this.physicaldefense = physicaldefense;
+        this.incphysicaldefense = incphysicaldefense;
+        this.physicalevasion = physicalevasion;
+        this.incphysicalevasion = incphysicalevasion;
+        if (physicaldefense > 0 && incphysicaldefense > 0) {
+            this.actualphysicaldefense = physicaldefense + incphysicaldefense * armorlevel;
         }
-        if (evasion > 0 && incEvasion > 0) {
-            this.actualEvasion = evasion + incEvasion * armorlevel;
+        if (physicalevasion > 0 && incphysicalevasion > 0) {
+            this.actualphysicalevasion = physicalevasion + incphysicalevasion * armorlevel;
         }
-        if (block > 0 && incBlock > 0) {
-            this.actualBlock = block + incBlock * armorlevel;
+        if (magicaldefense > 0 && incmagicaldefense > 0) {
+            this.actualmagicaldefense = magicaldefense + incmagicaldefense * armorlevel;
         }
-
+        if (magicalevasion > 0 && incmagicalevasion > 0) {
+            this.actualmagicalevasion = magicalevasion + incmagicalevasion * armorlevel;
+        }
         String[] matparts = material.toString().split("_");
         ItemMeta aMeta = item.getItemMeta();
         aMeta.setDisplayName(quality.getColor() + "[LVL" + level + "] " + setName + " " + matparts[1].toLowerCase() + " +" + armorlevel);
         List<String> newLores = new ArrayList<>();
-        System.out.println("actualArmor :" + actualArmor + " paramArmor: " + armor + " paramIncArmor" + incArmor + " paramEvasion" + evasion);
-        if (actualArmor > 0) {
-            newLores.add("Armor Defense +" + actualArmor);
+        if (actualphysicaldefense > 0) {
+            newLores.add(RPGLores.PHYSICALDEFENSE.getLoreString(RPGLores.PHYSICALDEFENSE, actualphysicaldefense));
         }
-        if (actualBlock > 0) {
-            newLores.add("Block Pct. +" + actualBlock + "%");
+        if (actualphysicalevasion > 0) {
+            newLores.add(RPGLores.PHYSICALEVASION.getLoreString(RPGLores.PHYSICALEVASION, actualphysicalevasion));
         }
-        if (actualEvasion > 0) {
-            newLores.add("Evasion Pct. +" + actualEvasion + "%");
+        if (actualmagicaldefense > 0) {
+            newLores.add(RPGLores.MAGICALDEFENSE.getLoreString(RPGLores.MAGICALDEFENSE, actualmagicaldefense));
+        }
+        if (actualmagicalevasion > 0) {
+            newLores.add(RPGLores.MAGICALEVASION.getLoreString(RPGLores.MAGICALEVASION, actualmagicalevasion));
         }
         if (XPBonus > 0) {
-            newLores.add("XP Bonus +" + XPBonus + "%");
+            newLores.add(RPGLores.XPBONUS.getLoreString(RPGLores.XPBONUS, XPBonus));
         }
         if (APBonus > 0) {
-            newLores.add("AP Bonus +" + APBonus + "%");
+            newLores.add(RPGLores.APBONUS.getLoreString(RPGLores.APBONUS, APBonus));
         }
         if (moneyBonus > 0) {
-            newLores.add("Money Bonus +" + moneyBonus + "%");
+            newLores.add(RPGLores.MONEYBONUS.getLoreString(RPGLores.MONEYBONUS, moneyBonus));
         }
         if (this.comerciable) {
-            newLores.add("Buy price: " + buyPrice + "$");
-            newLores.add("Sell price: " + sellPrice + "$");
+            newLores.add(RPGLores.BUYPRICE.getLoreString(RPGLores.BUYPRICE, buyPrice));
+            newLores.add(RPGLores.SELLPRICE.getLoreString(RPGLores.SELLPRICE, sellPrice));
         } else {
-            newLores.add(ChatColor.RED + "No comerciable");
+            newLores.add(ChatColor.RED + RPGLores.NOCOMERCIABLE.getLoreName());
+        }
+        if (!this.upgradable) {
+            newLores.add(ChatColor.RED + RPGLores.NOUPGRADABLE.getLoreName());
         }
         aMeta.setLore(newLores);
         item.setItemMeta(aMeta);
@@ -142,76 +153,44 @@ public class RPGArmor extends RPGItem {
         this.setName = setName;
     }
 
-    public double getArmor() {
-        return armor;
+    public double getPhysicalDefense() {
+        return this.physicaldefense;
     }
 
-    public void setArmor(int armor) {
-        this.armor = armor;
+    public void setPhysicalDefense(double physicaldefense) {
+        this.physicaldefense = physicaldefense;
     }
 
-    public double getIncArmor() {
-        return incArmor;
+    public double getIncPhysicalDefense() {
+        return this.incphysicaldefense;
     }
 
-    public void setIncArmor(int incArmor) {
-        this.incArmor = incArmor;
+    public void setIncPhysicalDefense(double incphysicaldefense) {
+        this.incphysicaldefense = incphysicaldefense;
     }
 
-    public double getEvasion() {
-        return evasion;
+    public double getPhysicalEvasion() {
+        return this.physicalevasion;
     }
 
-    public void setEvasion(double evasion) {
-        this.evasion = evasion;
+    public void setPhysicalEvasion(double physicalevasion) {
+        this.physicalevasion = physicalevasion;
     }
 
-    public double getIncEvasion() {
-        return incEvasion;
+    public double getIncPhysicalEvasion() {
+        return this.incphysicalevasion;
     }
 
-    public void setIncEvasion(double incEvasion) {
-        this.incEvasion = incEvasion;
+    public void setIncPhysicalEvasion(double incPhysicalEvasion) {
+        this.incphysicalevasion = incPhysicalEvasion;
     }
 
-    public double getBlock() {
-        return block;
+    public double getActualPhysicalDefense() {
+        return actualphysicaldefense;
     }
 
-    public void setBlock(double block) {
-        this.block = block;
-    }
-
-    public double getIncBlock() {
-        return incBlock;
-    }
-
-    public void setIncBlock(double incBlock) {
-        this.incBlock = incBlock;
-    }
-
-    public double getActualArmor() {
-        return actualArmor;
-    }
-
-    public void setActualArmor(int actualArmor) {
-        this.actualArmor = actualArmor;
-    }
-
-    public double getActualEvasion() {
-        return actualEvasion;
-    }
-
-    public void setActualEvasion(double actualEvasion) {
-        this.actualEvasion = actualEvasion;
-    }
-
-    public double getActualBlock() {
-        return actualBlock;
-    }
-
-    public void setActualBlock(double actualBlock) {
-        this.actualBlock = actualBlock;
+    public double getActualPhysicalEvasion() {
+        return actualphysicalevasion;
     }
 
     public Quality getQuality() {
@@ -307,35 +286,39 @@ public class RPGArmor extends RPGItem {
             List<String> newLores = new ArrayList<>();
             for (String lore : lores) {
                 String[] loreparts = lore.split(" ");
-                System.out.println(loreparts.length);
                 String newLore = loreparts[0] + " " + loreparts[1];
-                System.out.println(newLore);
                 switch (newLore) {
-                    case "Armor Defense":
-                        newLores.add(newLore + " +" + (this.armor + incArmor * nivelup));
+                    case "Physical Defense":
+                        newLores.add(RPGLores.PHYSICALDEFENSE.getLoreString(RPGLores.PHYSICALDEFENSE, this.physicaldefense + incphysicaldefense * nivelup));
                         break;
-                    case "Evasion Pct.":
-                        newLores.add(newLore + " +" + (this.evasion + incEvasion * nivelup) + "%");
+                    case "Physical Evasion":
+                        newLores.add(RPGLores.PHYSICALEVASION.getLoreString(RPGLores.PHYSICALEVASION, this.physicalevasion + incphysicalevasion * nivelup));
                         break;
-                    case "Block Pct.":
-                        newLores.add(newLore + " +" + (this.block + incBlock * nivelup) + "%");
+                    case "Magical Defense":
+                        newLores.add(RPGLores.MAGICALDEFENSE.getLoreString(RPGLores.MAGICALDEFENSE, this.magicaldefense + incmagicaldefense * nivelup));
+                        break;
+                    case "Magical Evasion":
+                        newLores.add(RPGLores.MAGICALEVASION.getLoreString(RPGLores.MAGICALEVASION, this.magicalevasion + incmagicalevasion * nivelup));
                         break;
                     case "XP Bonus":
-                        newLores.add(newLore + " +" + (this.XPBonus) + "%");
+                        newLores.add(RPGLores.XPBONUS.getLoreString(RPGLores.XPBONUS, XPBonus));
                         break;
                     case "AP Bonus":
-                        newLores.add(newLore + " +" + (this.APBonus) + "%");
+                        newLores.add(RPGLores.APBONUS.getLoreString(RPGLores.APBONUS, APBonus));
                         break;
                     case "Money Bonus":
-                        newLores.add(newLore + " +" + (this.moneyBonus) + "%");
+                        newLores.add(RPGLores.MONEYBONUS.getLoreString(RPGLores.MONEYBONUS, moneyBonus));
                         break;
                 }
             }
             if (isComerciable()) {
-                newLores.add("Buy price: " + buyPrice + "$");
-                newLores.add("Sell price: " + sellPrice + "$");
+                newLores.add(RPGLores.BUYPRICE.getLoreString(RPGLores.BUYPRICE, buyPrice));
+                newLores.add(RPGLores.SELLPRICE.getLoreString(RPGLores.SELLPRICE, sellPrice));
             } else {
-                newLores.add(org.bukkit.ChatColor.RED + "No comerciable");
+                newLores.add(ChatColor.RED + RPGLores.NOCOMERCIABLE.getLoreName());
+            }
+            if (!isUpgradable()) {
+                newLores.add(ChatColor.RED + RPGLores.NOUPGRADABLE.getLoreName());
             }
             aMeta.setLore(newLores);
             armor.setItemMeta(aMeta);
@@ -362,35 +345,39 @@ public class RPGArmor extends RPGItem {
             List<String> newLores = new ArrayList<>();
             for (String lore : lores) {
                 String[] loreparts = lore.split(" ");
-                System.out.println(loreparts.length);
                 String newLore = loreparts[0] + " " + loreparts[1];
-                System.out.println(newLore);
                 switch (newLore) {
-                    case "Armor Defense":
-                        newLores.add(newLore + " +" + (this.armor + incArmor * niveldown));
+                    case "Physical Defense":
+                        newLores.add(RPGLores.PHYSICALDEFENSE.getLoreString(RPGLores.PHYSICALDEFENSE, this.physicaldefense + incphysicaldefense * niveldown));
                         break;
-                    case "Evasion Pct.":
-                        newLores.add(newLore + " +" + (this.evasion + incEvasion * niveldown) + "%");
+                    case "Physical Evasion":
+                        newLores.add(RPGLores.PHYSICALEVASION.getLoreString(RPGLores.PHYSICALEVASION, this.physicalevasion + incphysicalevasion * niveldown));
                         break;
-                    case "Block Pct.":
-                        newLores.add(newLore + " +" + (this.block + incBlock * niveldown) + "%");
+                    case "Magical Defense":
+                        newLores.add(RPGLores.MAGICALDEFENSE.getLoreString(RPGLores.MAGICALDEFENSE, this.magicaldefense + incmagicaldefense * niveldown));
+                        break;
+                    case "Magical Evasion":
+                        newLores.add(RPGLores.MAGICALEVASION.getLoreString(RPGLores.MAGICALEVASION, this.magicalevasion + incmagicalevasion * niveldown));
                         break;
                     case "XP Bonus":
-                        newLores.add(newLore + " +" + (this.XPBonus) + "%");
+                        newLores.add(RPGLores.XPBONUS.getLoreString(RPGLores.XPBONUS, XPBonus));
                         break;
                     case "AP Bonus":
-                        newLores.add(newLore + " +" + (this.APBonus) + "%");
+                        newLores.add(RPGLores.APBONUS.getLoreString(RPGLores.APBONUS, APBonus));
                         break;
                     case "Money Bonus":
-                        newLores.add(newLore + " +" + (this.moneyBonus) + "%");
+                        newLores.add(RPGLores.MONEYBONUS.getLoreString(RPGLores.MONEYBONUS, moneyBonus));
                         break;
                 }
             }
             if (isComerciable()) {
-                newLores.add("Buy price: " + buyPrice + "$");
-                newLores.add("Sell price: " + sellPrice + "$");
+                newLores.add(RPGLores.BUYPRICE.getLoreString(RPGLores.BUYPRICE, buyPrice));
+                newLores.add(RPGLores.SELLPRICE.getLoreString(RPGLores.SELLPRICE, sellPrice));
             } else {
-                newLores.add(org.bukkit.ChatColor.RED + "No comerciable");
+                newLores.add(ChatColor.RED + RPGLores.NOCOMERCIABLE.getLoreName());
+            }
+            if (!isUpgradable()) {
+                newLores.add(ChatColor.RED + RPGLores.NOUPGRADABLE.getLoreName());
             }
             aMeta.setLore(newLores);
             armor.setItemMeta(aMeta);
@@ -399,7 +386,6 @@ public class RPGArmor extends RPGItem {
     }
 
     public int getLevel(String actualLevel) {
-        System.out.println(" " + actualLevel);
         return Integer.parseInt(actualLevel.substring(1));
     }
 }

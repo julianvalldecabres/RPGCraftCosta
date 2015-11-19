@@ -70,7 +70,7 @@ public abstract class RPGFinals {
     /**
      *
      */
-    public final static String partyFilePath = dataFolder + "partys.yml";
+    public final static String partyFilePath = dataFolder + "partyConfig.yml";
     /**
      *
      */
@@ -115,4 +115,7 @@ public abstract class RPGFinals {
     public static String questItemConfigPath = dataFolder + "questItemsConfig.yml";
     public static String armorFilePath = dataFolder + "armor.yml";
     public static String armorConfigFilePath = dataFolder + "armorConfig.yml";
+    public static String chatFileConfig = dataFolder + "chatConfig.yml";
+    public static String chatTasksFilePath = dataFolder + "chatTasks.yml";
+    public static String loresFilePath = dataFolder + "lores.yml";
 }

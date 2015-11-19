@@ -62,7 +62,8 @@ public class RPGWeaponManager {
         loadWeapons();
         loadWeaponsConfig();
     }
-     private void copy(InputStream in, File file) {
+
+    private void copy(InputStream in, File file) {
         try {
             OutputStream out = new FileOutputStream(file);
             byte[] buf = new byte[1024];
@@ -194,8 +195,6 @@ public class RPGWeaponManager {
             return "improve";
         }
     }
-
-   
 
     public ItemStack getWeaponUpgrader() {
         return weaponUpgrader;
