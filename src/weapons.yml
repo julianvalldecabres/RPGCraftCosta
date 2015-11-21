@@ -7,14 +7,20 @@ Rebana cuellos:
   quality: COMMON
   upgradable: true
   comerciable: true
-  damage: 20.0
-  incdamage: 5.0
-  criticalp: 0.5
-  inccriticalp: 0.1
-  criticaldamage: 25.0
-  inccriticaldamage: 5.0
+  physicalattack: 20.0
+  incphysicalattack: 5.0
+  physicalhitrate: 20.0
+  incphysicalhitrate: 5.0
+  magicalattack: 0
+  incmagicalattack: 0
+  magicalhitrate: 0
+  incmagicalhitrate: 0
+  critical: 0.5
+  inccritical: 0.1
   healthsteal: 0.1
   inchealthsteal: 0.05
+  manasteal: 0
+  incmanasteal: 0
   apbonus: 0
   xpbonus: 0
   moneybonus: 0

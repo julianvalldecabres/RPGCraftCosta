@@ -6,6 +6,8 @@
 package com.craftcosta.jailrules.rpgcraftcosta.items.weapons;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore;
+import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLoreManager;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
 import java.util.List;
@@ -62,7 +64,7 @@ public class RPGWeaponListener implements Listener {
                     //consumo del item de mejora
                     e.setCursor(new ItemStack(Material.AIR));
                     //downgrade del arma
-                    e.setCurrentItem(downgradeRPGWeapon(e.getCurrentItem()));
+                    e.setCurrentItem(rpgWMan.downgradeWeapon(e.getCurrentItem()));
                     p.sendMessage(ChatColor.RED + "El proceso de mejora de tu arma ha resultado en una desmejora");
                     break;
                 case "nothing":
@@ -74,7 +76,7 @@ public class RPGWeaponListener implements Listener {
                     //consumo del cursor
                     e.setCursor(new ItemStack(Material.AIR));
                     //mejora del arma
-                    e.setCurrentItem(improveRPGWeapon(e.getCurrentItem()));
+                    e.setCurrentItem(rpgWMan.upgradeWeapon(e.getCurrentItem()));
                     p.sendMessage(ChatColor.AQUA + "Enhorabuena! Tu arma ha sido mejorada");
                     break;
                 default:
@@ -89,6 +91,7 @@ public class RPGWeaponListener implements Listener {
     public void onPlayerEquipWeapon(PlayerItemHeldEvent e) {
         //Deberiamos comprobar que tenia antes y que tiene ahora
         //Si se trata de un arma cambiar cosas y si no pues no
+        RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
         Player p = e.getPlayer();//
         RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
         Inventory playerInv = p.getInventory();
@@ -97,114 +100,69 @@ public class RPGWeaponListener implements Listener {
             if (rpgWMan.isWeapon(playerInv.getItem(e.getPreviousSlot()))) {
                 //Cambiar datos de player restando los del item anterior
                 ItemStack item = playerInv.getItem(e.getPreviousSlot());
-                ItemMeta iMeta = item.getItemMeta();
-                if (iMeta.hasLore()) {
-                    List<String> lores = iMeta.getLore();
-
-                    for (String lore : lores) {
-                        String[] loreAttribute = lore.split(" ");
-                        String loreName = loreAttribute[0];
-                        switch (lore) {
-                            case "Attack":
-                                //loreAttribute[3]
-                                Double.parseDouble(loreAttribute[3].substring(1));
-                                //Modify RPGPlayer attribute
-                                break;
-                            case "Crit.":
-                                //Cual de los dos tipos..
-                                if (loreAttribute[2].equals("pct.")) {
-                                    Double.parseDouble(loreAttribute[3].substring(1, loreAttribute[3].length() - 1));
-                                    //Modify RPGPlayer attribute
-                                } else {
-                                    Double.parseDouble(loreAttribute[3].substring(1));
-                                    //Modify RPGPlayer attribute
-                                }
-                                break;
-                            case "Health":
-                                Double.parseDouble(loreAttribute[3].substring(1, loreAttribute[3].length() - 1));
-                                //Modify RPGPlayer attribute
-                                break;
-                            case "XP":
-                                Double.parseDouble(loreAttribute[3].substring(1, loreAttribute[3].length() - 1));
-                                //Modify RPGPlayer attribute
-                                break;
-                            case "AP":
-                                Double.parseDouble(loreAttribute[3].substring(1, loreAttribute[3].length() - 1));
-                                //Modify RPGPlayer attribute
-                                break;
-                            case "Money":
-                                Double.parseDouble(loreAttribute[3].substring(1, loreAttribute[3].length() - 1));
-                                //Modify RPGPlayer attribute
-                                break;
-                            default:
-                                break;
-                        }
+                List<RPGLore> lores = rpgLMan.getListOfLoresFromItem(item);
+                for (RPGLore lore : lores) {
+                    switch (lore.getLoretype()) {
+                        case PHYSICALATTACK:
+                            break;
+                        case PHYSICALHITRATE:
+                            break;
+                        case MAGICALATTACK:
+                            break;
+                        case MAGICALHITRATE:
+                            break;
+                        case HEALTHSTEAL:
+                            break;
+                        case MANASTEAL:
+                            break;
+                        case CRITICAL:
+                            break;
+                        case APBONUS:
+                            break;
+                        case XPBONUS:
+                            break;
+                        case MONEYBONUS:
+                            break;
+                        default:
+                            break;
                     }
                 }
+
             }
         }
         if (playerInv.getItem(e.getNewSlot()) != null) {
             if (rpgWMan.isWeapon(playerInv.getItem(e.getNewSlot()))) {
                 //Cambiar datos de player sumando los del item actual
                 ItemStack item = playerInv.getItem(e.getNewSlot());
-                ItemMeta iMeta = item.getItemMeta();
-                if (iMeta.hasLore()) {
-                    List<String> lores = iMeta.getLore();
-                    for (String lore : lores) {
-                        String[] loreAttribute = lore.split(" ");
-                        String loreName = loreAttribute[0];
-
-                        switch (lore) {
-                            case "Damage":
-                                //loreAttribute[3]
-                                Double.parseDouble(loreAttribute[3].substring(1));
-                                //Modify RPGPlayer attribute
-                                break;
-                            case "Crit.":
-                                //Cual de los dos tipos..
-                                if (loreAttribute[2].equals("pct.")) {
-                                    Double.parseDouble(loreAttribute[3].substring(1, loreAttribute[3].length() - 1));
-                                    //Modify RPGPlayer attribute
-                                } else {
-                                    Double.parseDouble(loreAttribute[3].substring(1));
-                                    //Modify RPGPlayer attribute
-                                }
-                                break;
-                            case "Health":
-                                Double.parseDouble(loreAttribute[3].substring(1, loreAttribute[3].length() - 1));
-                                //Modify RPGPlayer attribute
-                                break;
-                            case "XP":
-                                Double.parseDouble(loreAttribute[3].substring(1, loreAttribute[3].length() - 1));
-                                //Modify RPGPlayer attribute
-                                break;
-                            case "AP":
-                                Double.parseDouble(loreAttribute[3].substring(1, loreAttribute[3].length() - 1));
-                                //Modify RPGPlayer attribute
-                                break;
-                            case "Money":
-                                Double.parseDouble(loreAttribute[3].substring(1, loreAttribute[3].length() - 1));
-                                //Modify RPGPlayer attribute
-                                break;
-                            default:
-                                break;
-                        }
-
+                List<RPGLore> lores = rpgLMan.getListOfLoresFromItem(item);
+                for (RPGLore lore : lores) {
+                    switch (lore.getLoretype()) {
+                        case PHYSICALATTACK:
+                            break;
+                        case PHYSICALHITRATE:
+                            break;
+                        case MAGICALATTACK:
+                            break;
+                        case MAGICALHITRATE:
+                            break;
+                        case HEALTHSTEAL:
+                            break;
+                        case MANASTEAL:
+                            break;
+                        case CRITICAL:
+                            break;
+                        case APBONUS:
+                            break;
+                        case XPBONUS:
+                            break;
+                        case MONEYBONUS:
+                            break;
+                        default:
+                            break;
                     }
+
                 }
             }
         }
-
     }
-
-    private ItemStack downgradeRPGWeapon(ItemStack currentItem) {
-        RPGWeapon rpgw = rpgWMan.getRPGWeaponByItem(currentItem);
-        return rpgw.downgradeWeapon(currentItem);
-    }
-
-    private ItemStack improveRPGWeapon(ItemStack currentItem) {
-        RPGWeapon rpgw = rpgWMan.getRPGWeaponByItem(currentItem);
-        return rpgw.upgradeWeapon(currentItem);
-    }
-
 }

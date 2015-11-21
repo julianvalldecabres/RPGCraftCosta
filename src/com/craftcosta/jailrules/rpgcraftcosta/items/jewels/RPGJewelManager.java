@@ -8,6 +8,8 @@ package com.craftcosta.jailrules.rpgcraftcosta.items.jewels;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.items.Quality;
+import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLoreManager;
+import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLores;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGLore;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
@@ -36,7 +38,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  * @author jail
  */
 public class RPGJewelManager {
-    
+
     private RPGCraftCosta plugin;
     private HashMap<String, RPGJewel> jewelList;
     private File jewelFile;
@@ -47,7 +49,7 @@ public class RPGJewelManager {
     private double losep;
     private double losepperlore;
     private double nothingp;
-    
+
     public RPGJewelManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
         this.plugin.getLogger().info("Loading jewels module....");
@@ -67,7 +69,7 @@ public class RPGJewelManager {
         loadJewelsConfig();
         loadJewels();
     }
-    
+
     private void copy(InputStream in, File file) {
         try {
             OutputStream out = new FileOutputStream(file);
@@ -82,7 +84,7 @@ public class RPGJewelManager {
             e.printStackTrace();
         }
     }
-    
+
     private void loadJewels() {
         if (!jewelFile.exists()) {
             config = YamlConfiguration.loadConfiguration(new File(RPGFinals.jewelFilePath));
@@ -104,7 +106,7 @@ public class RPGJewelManager {
         double magicalattack;
         double magicaldefense;
         double magicalevasion;
-        double magicalhitrate;        
+        double magicalhitrate;
         double health;
         double mana;
         double critical;
@@ -113,7 +115,7 @@ public class RPGJewelManager {
         double apbonus;
         double xpbonus;
         double moneybonus;
-        
+
         Set<String> jewels = config.getKeys(false);
         for (String jewel : jewels) {
             ConfigurationSection section = config.getConfigurationSection(jewel);
@@ -145,21 +147,21 @@ public class RPGJewelManager {
             //modificar constructor
         }
     }
-    
+
     public ItemStack getRPGJewelByName(String name) {
         plugin.getLogger().info(name);
         RPGJewel jewel = jewelList.get(ChatColor.stripColor(name));
         return jewel.getItem();
     }
-    
+
     public RPGJewel getRPGJewelByItem(ItemStack item) {
         return this.jewelList.get(getRPGJewelNameByItem(item));
     }
-    
+
     public String getRPGJewelNameByItem(ItemStack item) {
         return ChatColor.stripColor(item.getItemMeta().getDisplayName());
     }
-    
+
     public Set<String> getAllJewelNames() {
         Set<String> allWeaponNames = new HashSet<>();
         for (Map.Entry<String, RPGJewel> entrySet : jewelList.entrySet()) {
@@ -168,11 +170,11 @@ public class RPGJewelManager {
         }
         return allWeaponNames;
     }
-    
+
     public boolean isRPGJewel(ItemStack item) {
         return this.jewelList.containsKey(ChatColor.stripColor(item.getItemMeta().getDisplayName()));
     }
-    
+
     private void loadJewelsConfig() {
         if (!jewelConfig.exists()) {
             jConfig = YamlConfiguration.loadConfiguration(new File(RPGFinals.jewelsConfigPath));
@@ -180,30 +182,30 @@ public class RPGJewelManager {
             jConfig = YamlConfiguration.loadConfiguration(jewelConfig);
         }
         plugin.getLogger().info("Loading jewels config...");
-        
+
         this.breakp = jConfig.getDouble("breakp");
         this.losep = jConfig.getDouble("losep");
         this.losepperlore = jConfig.getDouble("losepperlore");
         this.nothingp = jConfig.getDouble("nothingp");
-        
+
     }
-    
+
     public double getBreakp() {
         return breakp;
     }
-    
+
     public double getLosep() {
         return losep;
     }
-    
+
     public double getLosepperlore() {
         return losepperlore;
     }
-    
+
     public double getNothingp() {
         return nothingp;
     }
-    
+
     public String upgradeJewel() {
         Double caso = new Random().nextDouble();
         if (caso <= this.breakp) {
@@ -216,69 +218,44 @@ public class RPGJewelManager {
             return "combine";
         }
     }
-    
+
     ItemStack combineloseJewels(ItemStack cursor, ItemStack currentItem) {
-        List<String> cursorLores = new ArrayList<>();
-        List<String> currentItemLores = new ArrayList<>();
-        if (cursor.getItemMeta().hasLore()) {
-            cursorLores = cursor.getItemMeta().getLore();
-        }
-        if (currentItem.getItemMeta().hasLore()) {
-            currentItemLores = currentItem.getItemMeta().getLore();
-        }
+        RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
+        List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> cursorLores = rpgLMan.getListOfLoresFromItem(cursor);
+        List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> currentItemLores = rpgLMan.getListOfLoresFromItem(currentItem);
         //recoger los lores que nos interesan de ambos
-        List<RPGLore> cIGLores = new ArrayList<>();
-        for (String cILore : currentItemLores) {
-            if (!cILore.contains("Buy price:")
-                    && !cILore.contains("Sell price:")
-                    && !cILore.contains("No comerciable")
-                    && !cILore.contains("No combinable")) {
-                String[] loreparts = cILore.split(" ");
-                String lorename = "";
-                double value = 0.0;
-                if (loreparts.length == 3) {
-                    lorename = loreparts[0] + " " + loreparts[1];
-                    value = Double.parseDouble(loreparts[2].substring(1, loreparts[2].length() - 1));
-                } else {
-                    lorename = loreparts[0];
-                    value = Double.parseDouble(loreparts[1].substring(1, loreparts[1].length() - 1));
-                }
-                cIGLores.add(new RPGLore(lorename, value));
+        List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> cIGLores = new ArrayList<>();
+        for (com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore rpglore : currentItemLores) {
+            if (!rpglore.getLoretype().equals(RPGLores.BUYPRICE)
+                    && !rpglore.getLoretype().equals(RPGLores.SELLPRICE)
+                    && !rpglore.getLoretype().equals(RPGLores.NOCOMERCIABLE)
+                    && !rpglore.getLoretype().equals(RPGLores.NOCOMBINABLE)) {
+                cIGLores.add(rpglore);
             }
         }
-        List<RPGLore> cUGLores = new ArrayList<>();
-        for (String cILore : cursorLores) {
-            if (!cILore.contains("Buy price:")
-                    && !cILore.contains("Sell price:")
-                    && !cILore.contains("No comerciable")
-                    && !cILore.contains("No combinable")) {
-                String[] loreparts = cILore.split(" ");
-                String lorename = "";
-                double value = 0.0;
-                if (loreparts.length == 3) {
-                    lorename = loreparts[0] + " " + loreparts[1];
-                    value = Double.parseDouble(loreparts[2].substring(1, loreparts[2].length() - 1));
-                } else {
-                    lorename = loreparts[0];
-                    value = Double.parseDouble(loreparts[1].substring(1, loreparts[1].length() - 1));
-                }
-                cUGLores.add(new RPGLore(lorename, value));
+        List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> cUGLores = new ArrayList<>();
+        for (com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore rpglore : cursorLores) {
+            if (!rpglore.getLoretype().equals(RPGLores.BUYPRICE)
+                    && !rpglore.getLoretype().equals(RPGLores.SELLPRICE)
+                    && !rpglore.getLoretype().equals(RPGLores.NOCOMERCIABLE)
+                    && !rpglore.getLoretype().equals(RPGLores.NOCOMBINABLE)) {
+                cUGLores.add(rpglore);
             }
         }
         //Ahora que tenemos que lores tiene cada uno vamos a combinarlos
-        List<String> newLores = new ArrayList<>();
+        List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> newLores = new ArrayList<>();
         List<Boolean> cIAddedL = new ArrayList<>(Collections.nCopies(cIGLores.size(), false));
         List<Boolean> cUAddedL = new ArrayList<>(Collections.nCopies(cUGLores.size(), false));
         //Aqui sumamos los lores que son iguales
         for (int i = 0; i < cIGLores.size(); i++) {
             for (int j = 0; j < cUGLores.size(); j++) {
                 //Solo los que coincidan
-                if (cIGLores.get(i).sameLoreName(cUGLores.get(j))) {
-                    String lore = "";
+                if (cIGLores.get(i).getLoretype().equals(cUGLores.get(j).getLoretype())) {
+                    com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
                     if (RPGPlayerUtils.checkProbability(0.5)) {
-                        lore = cIGLores.get(i).getLorename() + " +" + (cIGLores.get(i).getValue()) + "%";
+                        lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(cIGLores.get(i).getLoretype(), cIGLores.get(i).getValue());
                     } else {
-                        lore = cIGLores.get(i).getLorename() + " +" + (cUGLores.get(j).getValue()) + "%";
+                        lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(cIGLores.get(i).getLoretype(), cUGLores.get(i).getValue());
                     }
                     newLores.add(lore);
                     cIAddedL.set(i, Boolean.TRUE);
@@ -290,7 +267,8 @@ public class RPGJewelManager {
         for (int i = 0; i < cIGLores.size(); i++) {
             if (!cIAddedL.get(i)) {
                 if (RPGPlayerUtils.checkProbability(losepperlore)) {
-                    String lore = cIGLores.get(i).getLorename() + " +" + cIGLores.get(i).getValue() + "%";
+                    com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+                    lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(cIGLores.get(i).getLoretype(), cIGLores.get(i).getValue());
                     newLores.add(lore);
                 }
             }
@@ -298,96 +276,90 @@ public class RPGJewelManager {
         for (int i = 0; i < cUGLores.size(); i++) {
             if (!cUAddedL.get(i)) {
                 if (RPGPlayerUtils.checkProbability(losepperlore)) {
-                    String lore = cUGLores.get(i).getLorename() + " +" + cUGLores.get(i).getValue() + "%";
+                    com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+                    lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(cUGLores.get(i).getLoretype(), cUGLores.get(i).getValue());
                     newLores.add(lore);
                 }
             }
         }
         if (newLores.isEmpty()) {
-            String lore = cUGLores.get(0).getLorename() + " +" + cUGLores.get(0).getValue() + "%";
+            com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+            lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(cIGLores.get(0).getLoretype(), cIGLores.get(0).getValue());
             newLores.add(lore);
         }
         //Obtener nombre
         RPGJewel rpgJewel = getRPGJewelByItem(cursor);
         //Añadir precios atributos especiales
         if (rpgJewel.isComerciable()) {
-            newLores.add("Buy price: " + rpgJewel.getBuyPrice() + "$");
-            newLores.add("Sell price: " + rpgJewel.getSellPrice() + "$");
+            com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+            lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(RPGLores.BUYPRICE, rpgJewel.getBuyPrice());
+            newLores.add(lore);
+            lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(RPGLores.SELLPRICE, rpgJewel.getSellPrice());
+            newLores.add(lore);
         } else {
-            newLores.add(ChatColor.RED + "No comerciable");
+            com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+            lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(RPGLores.NOCOMERCIABLE, null);
+            newLores.add(lore);
         }
         if (!rpgJewel.isCombinable()) {
-            newLores.add(ChatColor.RED + "No combinable");
+            com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+            lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(RPGLores.NOCOMBINABLE, null);
+            newLores.add(lore);
+        }
+        List<String> stringLores = new ArrayList<>();
+        for (com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore rpglore : newLores) {
+            switch (rpglore.getLoretype()) {
+                case NOCOMERCIABLE:
+                case NOCOMBINABLE:
+                    stringLores.add(ChatColor.RED + rpglore.toString());
+                default:
+                    stringLores.add(rpglore.toString());
+            }
         }
         ItemStack newJewel = currentItem;
         ItemMeta jMeta = newJewel.getItemMeta();
-        jMeta.setLore(newLores);
+        jMeta.setLore(stringLores);
         newJewel.setItemMeta(jMeta);
         return newJewel;
     }
-    
+
     ItemStack combineNoSumJewels(ItemStack cursor, ItemStack currentItem) {
-        List<String> cursorLores = new ArrayList<>();
-        List<String> currentItemLores = new ArrayList<>();
-        if (cursor.getItemMeta().hasLore()) {
-            cursorLores = cursor.getItemMeta().getLore();
-        }
-        if (currentItem.getItemMeta().hasLore()) {
-            currentItemLores = currentItem.getItemMeta().getLore();
-        }
+        RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
+        List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> cursorLores = rpgLMan.getListOfLoresFromItem(cursor);
+        List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> currentItemLores = rpgLMan.getListOfLoresFromItem(currentItem);
         //recoger los lores que nos interesan de ambos
-        List<RPGLore> cIGLores = new ArrayList<>();
-        for (String cILore : currentItemLores) {
-            if (!cILore.contains("Buy price:")
-                    && !cILore.contains("Sell price:")
-                    && !cILore.contains("No comerciable")
-                    && !cILore.contains("No combinable")) {
-                String[] loreparts = cILore.split(" ");
-                String lorename = "";
-                double value = 0.0;
-                if (loreparts.length == 3) {
-                    lorename = loreparts[0] + " " + loreparts[1];
-                    value = Double.parseDouble(loreparts[2].substring(1, loreparts[2].length() - 1));
-                } else {
-                    lorename = loreparts[0];
-                    value = Double.parseDouble(loreparts[1].substring(1, loreparts[1].length() - 1));
-                }
-                cIGLores.add(new RPGLore(lorename, value));
+        List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> cIGLores = new ArrayList<>();
+        for (com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore rpglore : currentItemLores) {
+            if (!rpglore.getLoretype().equals(RPGLores.BUYPRICE)
+                    && !rpglore.getLoretype().equals(RPGLores.SELLPRICE)
+                    && !rpglore.getLoretype().equals(RPGLores.NOCOMERCIABLE)
+                    && !rpglore.getLoretype().equals(RPGLores.NOCOMBINABLE)) {
+                cIGLores.add(rpglore);
             }
         }
-        List<RPGLore> cUGLores = new ArrayList<>();
-        for (String cILore : cursorLores) {
-            if (!cILore.contains("Buy price:")
-                    && !cILore.contains("Sell price:")
-                    && !cILore.contains("No comerciable")
-                    && !cILore.contains("No combinable")) {
-                String[] loreparts = cILore.split(" ");
-                String lorename = "";
-                double value = 0.0;
-                if (loreparts.length == 3) {
-                    lorename = loreparts[0] + " " + loreparts[1];
-                    value = Double.parseDouble(loreparts[2].substring(1, loreparts[2].length() - 1));
-                } else {
-                    lorename = loreparts[0];
-                    value = Double.parseDouble(loreparts[1].substring(1, loreparts[1].length() - 1));
-                }
-                cUGLores.add(new RPGLore(lorename, value));
+        List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> cUGLores = new ArrayList<>();
+        for (com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore rpglore : cursorLores) {
+            if (!rpglore.getLoretype().equals(RPGLores.BUYPRICE)
+                    && !rpglore.getLoretype().equals(RPGLores.SELLPRICE)
+                    && !rpglore.getLoretype().equals(RPGLores.NOCOMERCIABLE)
+                    && !rpglore.getLoretype().equals(RPGLores.NOCOMBINABLE)) {
+                cUGLores.add(rpglore);
             }
         }
         //Ahora que tenemos que lores tiene cada uno vamos a combinarlos
-        List<String> newLores = new ArrayList<>();
+        List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> newLores = new ArrayList<>();
         List<Boolean> cIAddedL = new ArrayList<>(Collections.nCopies(cIGLores.size(), false));
         List<Boolean> cUAddedL = new ArrayList<>(Collections.nCopies(cUGLores.size(), false));
         //Aqui sumamos los lores que son iguales
         for (int i = 0; i < cIGLores.size(); i++) {
             for (int j = 0; j < cUGLores.size(); j++) {
                 //Solo los que coincidan
-                if (cIGLores.get(i).sameLoreName(cUGLores.get(j))) {
-                    String lore = "";
+                if (cIGLores.get(i).getLoretype().equals(cUGLores.get(j).getLoretype())) {
+                    com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
                     if (RPGPlayerUtils.checkProbability(0.5)) {
-                        lore = cIGLores.get(i).getLorename() + " +" + (cIGLores.get(i).getValue()) + "%";
+                        lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(cIGLores.get(i).getLoretype(), cIGLores.get(i).getValue());
                     } else {
-                        lore = cIGLores.get(i).getLorename() + " +" + (cUGLores.get(j).getValue()) + "%";
+                        lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(cIGLores.get(i).getLoretype(), cUGLores.get(i).getValue());
                     }
                     newLores.add(lore);
                     cIAddedL.set(i, Boolean.TRUE);
@@ -398,110 +370,109 @@ public class RPGJewelManager {
         //Aqui añadimos los que faltan
         for (int i = 0; i < cIGLores.size(); i++) {
             if (!cIAddedL.get(i)) {
-                String lore = cIGLores.get(i).getLorename() + " +" + cIGLores.get(i).getValue() + "%";
+
+                com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+                lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(cIGLores.get(i).getLoretype(), cIGLores.get(i).getValue());
                 newLores.add(lore);
+
             }
         }
         for (int i = 0; i < cUGLores.size(); i++) {
             if (!cUAddedL.get(i)) {
-                String lore = cUGLores.get(i).getLorename() + " +" + cUGLores.get(i).getValue() + "%";
+
+                com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+                lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(cUGLores.get(i).getLoretype(), cUGLores.get(i).getValue());
                 newLores.add(lore);
+
             }
         }
         //Obtener nombre
         RPGJewel rpgJewel = getRPGJewelByItem(cursor);
         //Añadir precios atributos especiales
         if (rpgJewel.isComerciable()) {
-            newLores.add("Buy price: " + rpgJewel.getBuyPrice() + "$");
-            newLores.add("Sell price: " + rpgJewel.getSellPrice() + "$");
+            com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+            lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(RPGLores.BUYPRICE, rpgJewel.getBuyPrice());
+            newLores.add(lore);
+            lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(RPGLores.SELLPRICE, rpgJewel.getSellPrice());
+            newLores.add(lore);
         } else {
-            newLores.add(ChatColor.RED + "No comerciable");
+            com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+            lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(RPGLores.NOCOMERCIABLE, null);
+            newLores.add(lore);
         }
         if (!rpgJewel.isCombinable()) {
-            newLores.add(ChatColor.RED + "No combinable");
+            com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+            lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(RPGLores.NOCOMBINABLE, null);
+            newLores.add(lore);
+        }
+        List<String> stringLores = new ArrayList<>();
+        for (com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore rpglore : newLores) {
+            switch (rpglore.getLoretype()) {
+                case NOCOMERCIABLE:
+                case NOCOMBINABLE:
+                    stringLores.add(ChatColor.RED + rpglore.toString());
+                default:
+                    stringLores.add(rpglore.toString());
+            }
         }
         ItemStack newJewel = currentItem;
         ItemMeta jMeta = newJewel.getItemMeta();
-        jMeta.setLore(newLores);
+        jMeta.setLore(stringLores);
         newJewel.setItemMeta(jMeta);
         return newJewel;
     }
-    
+
     public ItemStack combineJewels(ItemStack cursor, ItemStack currentItem) {
-        List<String> cursorLores = new ArrayList<>();
-        List<String> currentItemLores = new ArrayList<>();
-        if (cursor.getItemMeta().hasLore()) {
-            cursorLores = cursor.getItemMeta().getLore();
-        }
-        if (currentItem.getItemMeta().hasLore()) {
-            currentItemLores = currentItem.getItemMeta().getLore();
-        }
+        RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
+        List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> cursorLores = rpgLMan.getListOfLoresFromItem(cursor);
+        List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> currentItemLores = rpgLMan.getListOfLoresFromItem(currentItem);
         //recoger los lores que nos interesan de ambos
-        List<RPGLore> cIGLores = new ArrayList<>();
-        for (String cILore : currentItemLores) {
-            if (!cILore.contains("Buy price:")
-                    && !cILore.contains("Sell price:")
-                    && !cILore.contains("No comerciable")
-                    && !cILore.contains("No combinable")) {
-                String[] loreparts = cILore.split(" ");
-                String lorename = "";
-                double value = 0.0;
-                if (loreparts.length == 3) {
-                    lorename = loreparts[0] + " " + loreparts[1];
-                    value = Double.parseDouble(loreparts[2].substring(1, loreparts[2].length() - 1));
-                } else {
-                    lorename = loreparts[0];
-                    value = Double.parseDouble(loreparts[1].substring(1, loreparts[1].length() - 1));
-                }
-                cIGLores.add(new RPGLore(lorename, value));
+        List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> cIGLores = new ArrayList<>();
+        for (com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore rpglore : currentItemLores) {
+            if (!rpglore.getLoretype().equals(RPGLores.BUYPRICE)
+                    && !rpglore.getLoretype().equals(RPGLores.SELLPRICE)
+                    && !rpglore.getLoretype().equals(RPGLores.NOCOMERCIABLE)
+                    && !rpglore.getLoretype().equals(RPGLores.NOCOMBINABLE)) {
+                cIGLores.add(rpglore);
             }
         }
-        List<RPGLore> cUGLores = new ArrayList<>();
-        for (String cILore : cursorLores) {
-            if (!cILore.contains("Buy price:")
-                    && !cILore.contains("Sell price:")
-                    && !cILore.contains("No comerciable")
-                    && !cILore.contains("No combinable")) {
-                String[] loreparts = cILore.split(" ");
-                String lorename = "";
-                double value = 0.0;
-                if (loreparts.length == 3) {
-                    lorename = loreparts[0] + " " + loreparts[1];
-                    value = Double.parseDouble(loreparts[2].substring(1, loreparts[2].length() - 1));
-                } else {
-                    lorename = loreparts[0];
-                    value = Double.parseDouble(loreparts[1].substring(1, loreparts[1].length() - 1));
-                }
-                cUGLores.add(new RPGLore(lorename, value));
+        List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> cUGLores = new ArrayList<>();
+        for (com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore rpglore : cursorLores) {
+            if (!rpglore.getLoretype().equals(RPGLores.BUYPRICE)
+                    && !rpglore.getLoretype().equals(RPGLores.SELLPRICE)
+                    && !rpglore.getLoretype().equals(RPGLores.NOCOMERCIABLE)
+                    && !rpglore.getLoretype().equals(RPGLores.NOCOMBINABLE)) {
+                cUGLores.add(rpglore);
             }
         }
         //Ahora que tenemos que lores tiene cada uno vamos a combinarlos
-        List<String> newLores = new ArrayList<>();
+        List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> newLores = new ArrayList<>();
         List<Boolean> cIAddedL = new ArrayList<>(Collections.nCopies(cIGLores.size(), false));
         List<Boolean> cUAddedL = new ArrayList<>(Collections.nCopies(cUGLores.size(), false));
         //Aqui sumamos los lores que son iguales
         for (int i = 0; i < cIGLores.size(); i++) {
             for (int j = 0; j < cUGLores.size(); j++) {
                 //Solo los que coincidan
-                if (cIGLores.get(i).sameLoreName(cUGLores.get(j))) {
-                    String lore = cIGLores.get(i).getLorename() + " +" + (cIGLores.get(i).getValue() + cUGLores.get(j).getValue()) + "%";
+                if (cIGLores.get(i).getLoretype().equals(cUGLores.get(j).getLoretype())) {
+                    com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+                    lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(cIGLores.get(i).getLoretype(), sumObjects(cIGLores.get(i).getValue(),cUGLores.get(j).getValue()));
                     newLores.add(lore);
-                    plugin.getLogger().info(lore);
                     cIAddedL.set(i, Boolean.TRUE);
                     cUAddedL.set(i, Boolean.TRUE);
                 }
             }
         }
-        //Aqui añadimos los que faltan
         for (int i = 0; i < cIGLores.size(); i++) {
             if (!cIAddedL.get(i)) {
-                String lore = cIGLores.get(i).getLorename() + " +" + cIGLores.get(i).getValue() + "%";
+                com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+                lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(cIGLores.get(i).getLoretype(), cIGLores.get(i).getValue());
                 newLores.add(lore);
             }
         }
         for (int i = 0; i < cUGLores.size(); i++) {
             if (!cUAddedL.get(i)) {
-                String lore = cUGLores.get(i).getLorename() + " +" + cUGLores.get(i).getValue() + "%";
+                com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+                lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(cUGLores.get(i).getLoretype(), cUGLores.get(i).getValue());
                 newLores.add(lore);
             }
         }
@@ -509,18 +480,39 @@ public class RPGJewelManager {
         RPGJewel rpgJewel = getRPGJewelByItem(cursor);
         //Añadir precios atributos especiales
         if (rpgJewel.isComerciable()) {
-            newLores.add("Buy price: " + rpgJewel.getBuyPrice() + "$");
-            newLores.add("Sell price: " + rpgJewel.getSellPrice() + "$");
+            com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+            lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(RPGLores.BUYPRICE, rpgJewel.getBuyPrice());
+            newLores.add(lore);
+            lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(RPGLores.SELLPRICE, rpgJewel.getSellPrice());
+            newLores.add(lore);
         } else {
-            newLores.add(ChatColor.RED + "No comerciable");
+            com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+            lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(RPGLores.NOCOMERCIABLE, null);
+            newLores.add(lore);
         }
         if (!rpgJewel.isCombinable()) {
-            newLores.add(ChatColor.RED + "No combinable");
+            com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
+            lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(RPGLores.NOCOMBINABLE, null);
+            newLores.add(lore);
+        }
+        List<String> stringLores = new ArrayList<>();
+        for (com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore rpglore : newLores) {
+            switch (rpglore.getLoretype()) {
+                case NOCOMERCIABLE:
+                case NOCOMBINABLE:
+                    stringLores.add(ChatColor.RED + rpglore.toString());
+                default:
+                    stringLores.add(rpglore.toString());
+            }
         }
         ItemStack newJewel = currentItem;
         ItemMeta jMeta = newJewel.getItemMeta();
-        jMeta.setLore(newLores);
+        jMeta.setLore(stringLores);
         newJewel.setItemMeta(jMeta);
         return newJewel;
+    }
+    
+    public double sumObjects(Object o1,Object o2){
+        return (double)o1+(double)o2;
     }
 }

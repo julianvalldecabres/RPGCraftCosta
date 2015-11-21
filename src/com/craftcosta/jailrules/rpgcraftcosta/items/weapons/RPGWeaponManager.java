@@ -7,17 +7,22 @@ package com.craftcosta.jailrules.rpgcraftcosta.items.weapons;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.items.Quality;
+import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore;
+import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLoreManager;
+import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLores;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -94,14 +99,20 @@ public class RPGWeaponManager {
         boolean comerciable;
         boolean upgradable;
         int weaponLevel;
-        double damage;
-        double incdamage;
-        double criticalp;
-        double inccriticalp;
-        double criticaldamage;
-        double inccriticaldamage;
+        double physicalattack;
+        double incphysicalattack;
+        double physicalhitrate;
+        double incphysicalhitrate;
+        double magicalattack;
+        double incmagicalattack;
+        double magicalhitrate;
+        double incmagicalhitrate;
+        double critical;
+        double inccritical;
         double healthsteal;
         double inchealthsteal;
+        double manasteal;
+        double incmanasteal;
         double apbonus;
         double xpbonus;
         double moneybonus;
@@ -118,18 +129,24 @@ public class RPGWeaponManager {
             level = section.getInt("level");
             upgradable = section.getBoolean("upgradable");
             weaponLevel = section.getInt("weaponlevel");
-            damage = section.getDouble("damage");
-            incdamage = section.getDouble("incdamage");
-            criticalp = section.getDouble("criticalp");
-            inccriticalp = section.getDouble("inccriticalp");
-            criticaldamage = section.getDouble("criticaldamage");
-            inccriticaldamage = section.getDouble("inccriticaldamage");
+            physicalattack = section.getDouble("physicalattack");
+            incphysicalattack = section.getDouble("incphysicalattack");
+            physicalhitrate = section.getDouble("physicalhitrate");
+            incphysicalhitrate = section.getDouble("incphysicalhitrate");
+            magicalattack = section.getDouble("magicalattack");
+            incmagicalattack = section.getDouble("incmagicalattack");
+            magicalhitrate = section.getDouble("magicalhitrate");
+            incmagicalhitrate = section.getDouble("incmagicalhitrate");
+            critical = section.getDouble("critical");
+            inccritical = section.getDouble("inccritical");
             healthsteal = section.getDouble("healthsteal");
             inchealthsteal = section.getDouble("inchealthsteal");
+            manasteal = section.getDouble("manasteal");
+            incmanasteal = section.getDouble("incmanasteal");
             apbonus = section.getDouble("apbonus");
             xpbonus = section.getDouble("xpbonus");
             moneybonus = section.getDouble("moneybonus");
-            weaponList.put(arma, new RPGWeapon(item, name, comerciable, sellprice, buyprice, quality, level, upgradable, weaponLevel, damage, incdamage, criticalp, inccriticalp, criticaldamage, inccriticaldamage, healthsteal, inchealthsteal, apbonus, xpbonus, moneybonus));
+            weaponList.put(arma, new RPGWeapon(item, name, comerciable, sellprice, buyprice, quality, level, upgradable, weaponLevel, physicalattack, incphysicalattack, physicalhitrate, incphysicalhitrate, magicalattack, incmagicalattack, magicalhitrate, incmagicalhitrate, healthsteal, inchealthsteal, manasteal, incmanasteal, critical, inccritical, apbonus, xpbonus, moneybonus));
 
         }
     }
@@ -238,5 +255,148 @@ public class RPGWeaponManager {
         this.detteroriateprobability = Double.parseDouble(wConfig.getString("detteroriateprobability"));
         this.nothingprobability = Double.parseDouble(wConfig.getString("nothingprobability"));
         this.improveprobability = Double.parseDouble(wConfig.getString("improveprobability"));
+    }
+
+    public ItemStack upgradeWeapon(ItemStack weapon) {
+        RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
+        RPGWeapon rpgWeapon = getRPGWeaponByItem(weapon);
+        ItemMeta wMeta = weapon.getItemMeta();
+        //Modificacion del nombre
+        String wLongName = wMeta.getDisplayName();
+        String[] wLongNameParts = wLongName.split(" ");
+
+        int sizeLongNameParts = wLongNameParts.length;
+        String wName = "";
+        for (int i = 1; i < sizeLongNameParts - 1; i++) {
+            wName += wLongNameParts[i] + " ";
+        }
+        int nivelactual = getLevel(wLongNameParts[sizeLongNameParts - 1]);
+        int nivelup = nivelactual + 1;
+        String displayname = wLongNameParts[0] + " " + wName + "+" + nivelup;
+        wMeta.setDisplayName(displayname);
+        if (wMeta.hasLore()) {
+            List<RPGLore> lores = rpgLMan.getListOfLoresFromItem(weapon);
+            List<String> newLores = new ArrayList<>();
+            for (RPGLore lore : lores) {
+                switch (lore.getLoretype()) {
+                    case PHYSICALATTACK:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * nivelup));
+                        break;
+                    case PHYSICALHITRATE:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * nivelup));
+                        break;
+                    case MAGICALATTACK:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * nivelup));
+                        break;
+                    case MAGICALHITRATE:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * nivelup));
+                        break;
+                    case HEALTHSTEAL:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * nivelup));
+                        break;
+                    case MANASTEAL:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * nivelup));
+                        break;
+                    case CRITICAL:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * nivelup));
+                        break;
+                    case XPBONUS:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * nivelup));
+                        break;
+                    case APBONUS:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * nivelup));
+                        break;
+                    case MONEYBONUS:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * nivelup));
+                        
+                        break;
+                }
+            }
+            if (rpgWeapon.comerciable) {
+                newLores.add(RPGLores.BUYPRICE.getLoreString(RPGLores.BUYPRICE, rpgWeapon.getBuyPrice()));
+                newLores.add(RPGLores.SELLPRICE.getLoreString(RPGLores.SELLPRICE, rpgWeapon.getSellPrice()));
+            } else {
+                newLores.add(ChatColor.RED + RPGLores.NOCOMERCIABLE.getLoreName());
+            }
+            if (!rpgWeapon.isUpgradable()) {
+                newLores.add(ChatColor.RED + RPGLores.NOUPGRADABLE.getLoreName());
+            }
+            wMeta.setLore(newLores);
+            weapon.setItemMeta(wMeta);
+        }
+        return weapon;
+    }
+
+    ItemStack downgradeWeapon(ItemStack weapon) {
+        RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
+        RPGWeapon rpgWeapon = getRPGWeaponByItem(weapon);
+        ItemMeta wMeta = weapon.getItemMeta();
+        //Modificacion del nombre
+        String wLongName = wMeta.getDisplayName();
+        String[] wLongNameParts = wLongName.split(" ");
+
+        int sizeLongNameParts = wLongNameParts.length;
+        String wName = "";
+        for (int i = 1; i < sizeLongNameParts - 1; i++) {
+            wName += wLongNameParts[i] + " ";
+        }
+        int nivelactual = getLevel(wLongNameParts[sizeLongNameParts - 1]);
+        int niveldown = nivelactual - 1;
+        String displayname = wLongNameParts[0] + " " + wName + " +" + niveldown;
+        wMeta.setDisplayName(displayname);
+        if (wMeta.hasLore()) {
+            List<RPGLore> lores = rpgLMan.getListOfLoresFromItem(weapon);
+            List<String> newLores = new ArrayList<>();
+            for (RPGLore lore : lores) {
+                switch (lore.getLoretype()) {
+                    case PHYSICALATTACK:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * niveldown));
+                        break;
+                    case PHYSICALHITRATE:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * niveldown));
+                        break;
+                    case MAGICALATTACK:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * niveldown));
+                        break;
+                    case MAGICALHITRATE:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * niveldown));
+                        break;
+                    case HEALTHSTEAL:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * niveldown));
+                        break;
+                    case MANASTEAL:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * niveldown));
+                        break;
+                    case CRITICAL:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * niveldown));
+                        break;
+                    case XPBONUS:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * niveldown));
+                        break;
+                    case APBONUS:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * niveldown));
+                        break;
+                    case MONEYBONUS:
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * niveldown));                        
+                        break;
+                }
+            }
+            if (rpgWeapon.comerciable) {
+                newLores.add(RPGLores.BUYPRICE.getLoreString(RPGLores.BUYPRICE, rpgWeapon.getBuyPrice()));
+                newLores.add(RPGLores.SELLPRICE.getLoreString(RPGLores.SELLPRICE, rpgWeapon.getSellPrice()));
+            } else {
+                newLores.add(ChatColor.RED + RPGLores.NOCOMERCIABLE.getLoreName());
+            }
+            if (!rpgWeapon.isUpgradable()) {
+                newLores.add(ChatColor.RED + RPGLores.NOUPGRADABLE.getLoreName());
+            }
+            wMeta.setLore(newLores);
+            weapon.setItemMeta(wMeta);
+        }
+        return weapon;
+    }
+
+    public int getLevel(String actualLevel) {
+        return Integer.parseInt(actualLevel.substring(1));
     }
 }

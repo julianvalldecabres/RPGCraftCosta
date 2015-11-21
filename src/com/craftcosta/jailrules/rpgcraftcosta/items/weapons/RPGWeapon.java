@@ -7,6 +7,7 @@ package com.craftcosta.jailrules.rpgcraftcosta.items.weapons;
 
 import com.craftcosta.jailrules.rpgcraftcosta.items.Quality;
 import com.craftcosta.jailrules.rpgcraftcosta.items.RPGItem;
+import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLores;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.ChatColor;
@@ -24,20 +25,37 @@ public class RPGWeapon extends RPGItem {
     private boolean upgradable;
     private int weaponLevel; //Por defecto 0 aumenta mejorando el arma
 
-    private double damage;
-    private double incDamage;
-    private double criticalp; //probabilidad de critico
-    private double incCriticalp;
-    private double criticaldamage; //daño de critico
-    private double incCriticalDamage;
+    private double physicalattack;
+    private double incphysicalattack;
+    private double actualphysicalattack;
+    
+    private double physicalhitrate;
+    private double incphysicalhitrate;
+    private double actualphysicalhitrate;
+    
+    private double magicalattack;
+    private double incmagicalattack;
+    private double actualmagicalattack;
+    
+    private double magicalhitrate;
+    private double incmagicalhitrate;
+    private double actualmagicalhitrate;
+    
+    private double critical;
+    private double inccritical;
+    private double actualcritical;
+    
+    
     private double healthsteal;
-    private double incHealthsteal;
-    private double actualDamage;
-    private double actualCriticalp;
-    private double actualCriticalDamage;
-    private double actualHealthsteal;
+    private double inchealthsteal;
+    private double actualhealthsteal;
+    
+    private double manasteal;
+    private double incmanasteal;
+    private double actualmanasteal;
 
-    public RPGWeapon(ItemStack item, String name, boolean comerciable, int sellprice, int buyprice, Quality quality, int level, boolean upgradable, int weaponLevel, double damage, double incdamage, double criticalp, double inccriticalp, double criticaldamage, double inccriticaldamage, double healthsteal, double inchealthsteal, double apbonus, double xpbonus, double moneybonus) {
+    
+    public RPGWeapon(ItemStack item, String name, boolean comerciable, int sellprice, int buyprice, Quality quality, int level, boolean upgradable, int weaponLevel, double physicalattack, double incphysicalattack,double physicalhitrate,double incphysicalhitrate, double magicalattack,double incmagicalattack,double magicalhitrate,double incmagicalhitrate, double healthsteal, double inchealthsteal, double manasteal,double incmanasteal,double critical, double inccritical,double apbonus, double xpbonus, double moneybonus) {
         this.item = item;
         this.name = name;
         this.quality = quality;
@@ -52,72 +70,84 @@ public class RPGWeapon extends RPGItem {
         this.XPBonus = xpbonus;
         this.moneyBonus = moneybonus;
 
-        this.damage = damage;//daño base
-        this.actualDamage = damage; //daño actual
-        this.incDamage = incdamage; //Inc de daño al mejorar el arma
-        this.criticalp = criticalp;
-        this.actualCriticalp = criticalp;
-        this.incCriticalp = inccriticalp;
-        this.criticaldamage = criticaldamage;
-        this.actualCriticalDamage = criticaldamage;
-        this.incCriticalDamage = inccriticaldamage;
+        this.physicalattack = physicalattack;
+        this.incphysicalattack = incphysicalattack;
+        this.actualphysicalattack = physicalattack+incphysicalattack*weaponLevel;
+        
+        this.physicalhitrate = physicalhitrate;
+        this.incphysicalhitrate = incphysicalhitrate;
+        this.actualphysicalhitrate = physicalhitrate+incphysicalhitrate*weaponLevel;
+        
+        this.magicalattack = magicalattack;
+        this.incmagicalattack = incmagicalattack;
+        this.actualmagicalattack = magicalattack+incmagicalattack*weaponLevel;
+        
+        this.magicalhitrate = magicalhitrate;
+        this.incmagicalhitrate = incmagicalhitrate;
+        this.actualmagicalhitrate = magicalhitrate+incmagicalhitrate*weaponLevel;
+        
         this.healthsteal = healthsteal;
-        this.actualHealthsteal = healthsteal;
-        this.incHealthsteal = inchealthsteal;
-
-        //Cada nuevo nivel adquirido aumenta las probabilidades de cada atributo del arma
-        //Por defecto es cero y los valores actuales seran los basicos del arma
-        if (damage > 0 && incdamage > 0) {
-            this.actualDamage = damage + incdamage * weaponLevel;
-        }
-        if (criticalp > 0 && inccriticalp > 0) {
-            this.actualCriticalp = criticalp + inccriticalp * weaponLevel;
-        }
-        if (criticaldamage > 0 && inccriticaldamage > 0) {
-            this.actualCriticalDamage = criticaldamage + inccriticaldamage * weaponLevel;
-        }
-        if (healthsteal > 0 && inchealthsteal > 0) {
-            this.actualHealthsteal = healthsteal + inchealthsteal * weaponLevel;
-        }
-
+        this.inchealthsteal = inchealthsteal;
+        this.actualhealthsteal = healthsteal+inchealthsteal*weaponLevel;
+        
+        this.manasteal = manasteal;
+        this.incmanasteal = incmanasteal;
+        this.actualmanasteal = manasteal+incmanasteal*weaponLevel;
+        
+        this.critical = critical;
+        this.inccritical = inccritical;
+        this.actualcritical = critical+inccritical*weaponLevel;
         //Modificacion del item
         ItemMeta iMeta = item.getItemMeta();
         //Añadimos nombre descriptivo al arma hay que tener especial cuidado con nombres de mas de una palabra
         iMeta.setDisplayName(quality.getColor() + "[LVL" + level + "] " + name + " +" + weaponLevel);
         //Y preparamos el lore del arma actual
         List<String> lores = new ArrayList<>();
-        if (actualDamage > 0) {
-            lores.add("Attack Damage +" + actualDamage);
+        if (this.actualphysicalattack > 0) {
+            lores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, actualphysicalattack));
         }
-        if (actualCriticalp > 0) {
-            lores.add("Crit. Pct. +" + actualCriticalp + "%");
+        if (this.actualphysicalhitrate > 0) {
+            lores.add(RPGLores.PHYSICALHITRATE.getLoreString(RPGLores.PHYSICALHITRATE, actualphysicalhitrate));
         }
-        if (actualCriticalDamage > 0) {
-            lores.add("Crit. Dam. +" + actualCriticalDamage);
+        if (this.actualmagicalattack > 0) {
+            lores.add(RPGLores.MAGICALATTACK.getLoreString(RPGLores.MAGICALATTACK, actualmagicalattack));
         }
-        if (actualHealthsteal > 0) {
-            lores.add("Health Steal +" + actualHealthsteal + "%");
+        if (this.actualmagicalhitrate > 0) {
+            lores.add(RPGLores.MAGICALHITRATE.getLoreString(RPGLores.MAGICALHITRATE, actualmagicalhitrate));
+        }
+        if (this.actualhealthsteal > 0) {
+            lores.add(RPGLores.HEALTHSTEAL.getLoreString(RPGLores.HEALTHSTEAL, actualhealthsteal));
+        }
+        if (this.actualmanasteal > 0) {
+            lores.add(RPGLores.MANASTEAL.getLoreString(RPGLores.MANASTEAL, actualmanasteal));
+        }
+        if(this.actualcritical>0){
+            lores.add(RPGLores.CRITICAL.getLoreString(RPGLores.CRITICAL, actualcritical));
         }
         if (XPBonus > 0) {
-            lores.add("XP Bonus +" + XPBonus + "%");
+            lores.add(RPGLores.XPBONUS.getLoreString(RPGLores.XPBONUS, this.XPBonus));
         }
         if (APBonus > 0) {
-            lores.add("AP Bonus +" + APBonus + "%");
+            lores.add(RPGLores.APBONUS.getLoreString(RPGLores.APBONUS, this.APBonus));
         }
         if (moneyBonus > 0) {
-            lores.add("Money Bonus +" + moneyBonus + "%");
+            lores.add(RPGLores.MONEYBONUS.getLoreString(RPGLores.MONEYBONUS, this.moneyBonus));
         }
         if (this.comerciable) {
-            lores.add("Buy price: " + buyPrice + "$");
-            lores.add("Sell price: " + sellPrice + "$");
+            lores.add(RPGLores.BUYPRICE.getLoreString(RPGLores.BUYPRICE, buyPrice));
+            lores.add(RPGLores.SELLPRICE.getLoreString(RPGLores.SELLPRICE, sellPrice));
         } else {
-            lores.add(ChatColor.RED + "No comerciable");
+            lores.add(ChatColor.RED + RPGLores.NOCOMERCIABLE.getLoreName());
+        }
+        if (!this.upgradable) {
+            lores.add(ChatColor.RED + RPGLores.NOUPGRADABLE.getLoreName());
         }
         iMeta.setLore(lores);
         item.setItemMeta(iMeta);
     }
 
     //GETTER AND SETTERS
+
     public int getLevel() {
         return level;
     }
@@ -128,10 +158,6 @@ public class RPGWeapon extends RPGItem {
 
     public boolean isUpgradable() {
         return upgradable;
-    }
-
-    public void setItem(ItemStack item) {
-        this.item = item;
     }
 
     public void setUpgradable(boolean upgradable) {
@@ -146,28 +172,124 @@ public class RPGWeapon extends RPGItem {
         this.weaponLevel = weaponLevel;
     }
 
-    public double getDamage() {
-        return damage;
+    public double getPhysicalattack() {
+        return physicalattack;
     }
 
-    public void setDamage(double damage) {
-        this.damage = damage;
+    public void setPhysicalattack(double physicalattack) {
+        this.physicalattack = physicalattack;
     }
 
-    public double getCriticalp() {
-        return criticalp;
+    public double getIncphysicalattack() {
+        return incphysicalattack;
     }
 
-    public void setCriticalp(double criticalp) {
-        this.criticalp = criticalp;
+    public void setIncphysicalattack(double incphysicalattack) {
+        this.incphysicalattack = incphysicalattack;
     }
 
-    public double getCriticaldamage() {
-        return criticaldamage;
+    public double getActualphysicalattack() {
+        return actualphysicalattack;
     }
 
-    public void setCriticaldamage(double criticaldamage) {
-        this.criticaldamage = criticaldamage;
+    public void setActualphysicalattack(double actualphysicalattack) {
+        this.actualphysicalattack = actualphysicalattack;
+    }
+
+    public double getPhysicalhitrate() {
+        return physicalhitrate;
+    }
+
+    public void setPhysicalhitrate(double physicalhitrate) {
+        this.physicalhitrate = physicalhitrate;
+    }
+
+    public double getIncphysicalhitrate() {
+        return incphysicalhitrate;
+    }
+
+    public void setIncphysicalhitrate(double incphysicalhitrate) {
+        this.incphysicalhitrate = incphysicalhitrate;
+    }
+
+    public double getActualphysicalhitrate() {
+        return actualphysicalhitrate;
+    }
+
+    public void setActualphysicalhitrate(double actualphysicalhitrate) {
+        this.actualphysicalhitrate = actualphysicalhitrate;
+    }
+
+    public double getMagicalattack() {
+        return magicalattack;
+    }
+
+    public void setMagicalattack(double magicalattack) {
+        this.magicalattack = magicalattack;
+    }
+
+    public double getIncmagicalattack() {
+        return incmagicalattack;
+    }
+
+    public void setIncmagicalattack(double incmagicalattack) {
+        this.incmagicalattack = incmagicalattack;
+    }
+
+    public double getActualmagicalattack() {
+        return actualmagicalattack;
+    }
+
+    public void setActualmagicalattack(double actualmagicalattack) {
+        this.actualmagicalattack = actualmagicalattack;
+    }
+
+    public double getMagicalhitrate() {
+        return magicalhitrate;
+    }
+
+    public void setMagicalhitrate(double magicalhitrate) {
+        this.magicalhitrate = magicalhitrate;
+    }
+
+    public double getIncmagicalhitrate() {
+        return incmagicalhitrate;
+    }
+
+    public void setIncmagicalhitrate(double incmagicalhitrate) {
+        this.incmagicalhitrate = incmagicalhitrate;
+    }
+
+    public double getActualmagicalhitrate() {
+        return actualmagicalhitrate;
+    }
+
+    public void setActualmagicalhitrate(double actualmagicalhitrate) {
+        this.actualmagicalhitrate = actualmagicalhitrate;
+    }
+
+    public double getCritical() {
+        return critical;
+    }
+
+    public void setCritical(double critical) {
+        this.critical = critical;
+    }
+
+    public double getInccritical() {
+        return inccritical;
+    }
+
+    public void setInccritical(double inccritical) {
+        this.inccritical = inccritical;
+    }
+
+    public double getActualcritical() {
+        return actualcritical;
+    }
+
+    public void setActualcritical(double actualcritical) {
+        this.actualcritical = actualcritical;
     }
 
     public double getHealthsteal() {
@@ -176,6 +298,46 @@ public class RPGWeapon extends RPGItem {
 
     public void setHealthsteal(double healthsteal) {
         this.healthsteal = healthsteal;
+    }
+
+    public double getInchealthsteal() {
+        return inchealthsteal;
+    }
+
+    public void setInchealthsteal(double inchealthsteal) {
+        this.inchealthsteal = inchealthsteal;
+    }
+
+    public double getActualhealthsteal() {
+        return actualhealthsteal;
+    }
+
+    public void setActualhealthsteal(double actualhealthsteal) {
+        this.actualhealthsteal = actualhealthsteal;
+    }
+
+    public double getManasteal() {
+        return manasteal;
+    }
+
+    public void setManasteal(double manasteal) {
+        this.manasteal = manasteal;
+    }
+
+    public double getIncmanasteal() {
+        return incmanasteal;
+    }
+
+    public void setIncmanasteal(double incmanasteal) {
+        this.incmanasteal = incmanasteal;
+    }
+
+    public double getActualmanasteal() {
+        return actualmanasteal;
+    }
+
+    public void setActualmanasteal(double actualmanasteal) {
+        this.actualmanasteal = actualmanasteal;
     }
 
     public Quality getQuality() {
@@ -233,6 +395,7 @@ public class RPGWeapon extends RPGItem {
     public void setMoneyBonus(double moneyBonus) {
         this.moneyBonus = moneyBonus;
     }
+    
 
     @Override
     public String toString() {
@@ -244,130 +407,6 @@ public class RPGWeapon extends RPGItem {
                 + "\n\tupgradable: " + isUpgradable();
     }
 
-    public ItemStack upgradeWeapon(ItemStack weapon) {
-        ItemMeta wMeta = weapon.getItemMeta();
-        String wLongName = wMeta.getDisplayName();
-        String[] wLongNameParts = wLongName.split(" ");
-
-        int sizeLongNameParts = wLongNameParts.length;
-        String wName = "";
-        for (int i = 1; i < sizeLongNameParts - 1; i++) {
-            wName += wLongNameParts[i] + " ";
-        }
-        //wName = wLongNameParts[1];
-        int nivelactual = getLevel(wLongNameParts[sizeLongNameParts - 1]);
-        int nivelup = nivelactual + 1;
-        String displayname = wLongNameParts[0] + " " + wName + "+" + nivelup;
-        wMeta.setDisplayName(displayname);
-        if (wMeta.hasLore()) {
-            List<String> lores = wMeta.getLore();
-            List<String> newLores = new ArrayList<>();
-            for (String lore : lores) {
-                //Separar el lore en partes
-                String[] loreparts = lore.split(" ");
-                String newLore = loreparts[0] + " " + loreparts[1];
-                //Con newLore tenemos el string que necesitamos para comparar con los posibles atributos
-                switch (newLore) {
-                    case "Attack Damage":
-                        newLores.add(newLore + " +" + (this.damage + incDamage * nivelup));
-                        break;
-                    case "Crit. pct.":
-                        newLores.add(newLore + " +" + (this.criticalp + incCriticalp * nivelup) + "%");
-                        break;
-                    case "Crit. Dam.":
-                        newLores.add(newLore + " +" + (this.criticaldamage + incCriticalDamage * nivelup));
-                        break;
-                    case "Health Steal":
-                        newLores.add(newLore + " +" + (this.healthsteal + incHealthsteal * nivelup) + "%");
-                        break;
-                    case "XP Bonus":
-                        newLores.add(newLore + " +" + (this.XPBonus) + "%");
-                        break;
-                    case "AP Bonus":
-                        newLores.add(newLore + " +" + (this.APBonus) + "%");
-                        break;
-                    case "Money Bonus":
-                        newLores.add(newLore + " +" + (this.moneyBonus) + "%");
-                        break;
-                }
-            }
-            if (isComerciable()) {
-                newLores.add("Buy price: " + buyPrice + "$");
-                newLores.add("Sell price: " + sellPrice + "$");
-            } else {
-                newLores.add(ChatColor.RED + "No comerciable");
-            }
-            wMeta.setLore(newLores);
-            weapon.setItemMeta(wMeta);
-        }
-        return weapon;
-    }
-
-    ItemStack downgradeWeapon(ItemStack weapon) {
-        ItemMeta wMeta = weapon.getItemMeta();
-        String wLongName = wMeta.getDisplayName();
-        String[] wLongNameParts = wLongName.split(" ");
-        int sizeLongNameParts = wLongNameParts.length;
-        //wLongNameParts[0] equivale a [LVLXX]
-        //wLongNameParts[size-1] equivale al modificador
-        //MODIFICAR NOMBRE
-        String wName = "";
-        if (sizeLongNameParts > 3) {
-            for (int i = 1; i <= sizeLongNameParts - 3; i++) {
-                wName += wLongNameParts[i] + " ";
-            }
-            wName += wLongNameParts[sizeLongNameParts - 2];
-        } else {
-            wName = wLongNameParts[1];
-        }
-        int nivelactual = getLevel(wLongNameParts[sizeLongNameParts - 1]);
-        int niveldown = nivelactual - 1;
-        String displayname = wLongNameParts[0] + " " + wName + " +" + niveldown;
-        wMeta.setDisplayName(displayname);
-        if (wMeta.hasLore()) {
-            List<String> lores = wMeta.getLore();
-            List<String> newLores = new ArrayList<>();
-            for (String lore : lores) {
-                //Separar el lore en partes
-                String[] loreparts = lore.split(" ");
-                String newLore = loreparts[0] + " " + loreparts[1];
-                //Con newLore tenemos el string que necesitamos para comparar con los posibles atributos
-                switch (newLore) {
-                    case "Attack Damage":
-                        newLores.add(newLore + " +" + (this.damage + incDamage * niveldown));
-                        break;
-                    case "Crit. pct.":
-                        newLores.add(newLore + " +" + (this.criticalp + incCriticalp * niveldown) + "%");
-                        break;
-                    case "Crit. Dam.":
-                        newLores.add(newLore + " +" + (this.criticaldamage + incCriticalDamage * niveldown));
-                        break;
-                    case "Health Steal":
-                        newLores.add(newLore + " +" + (this.healthsteal + incHealthsteal * niveldown) + "%");
-                        break;
-                    case "XP Bonus":
-                        newLores.add(newLore + " +" + (this.XPBonus) + "%");
-                        break;
-                    case "AP Bonus":
-                        newLores.add(newLore + " +" + (this.APBonus) + "%");
-                        break;
-                    case "Money Bonus":
-                        newLores.add(newLore + " +" + (this.moneyBonus) + "%");
-                        break;
-                }
-            }
-            if (isComerciable()) {
-                newLores.add("Buy price: " + buyPrice + "$");
-                newLores.add("Sell price: " + sellPrice + "$");
-            } else {
-                newLores.add(ChatColor.RED + "No comerciable");
-            }
-            wMeta.setLore(newLores);
-            weapon.setItemMeta(wMeta);
-        }
-        return weapon;
-    }
-
     public int getLevel(String actualLevel) {
         return Integer.parseInt(actualLevel.substring(1));
     }
@@ -375,5 +414,4 @@ public class RPGWeapon extends RPGItem {
     private boolean isComerciable() {
         return this.comerciable;
     }
-
 }

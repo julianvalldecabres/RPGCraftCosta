@@ -3,6 +3,7 @@ package com.craftcosta.jailrules.rpgcraftcosta.items;
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.items.armor.RPGArmorManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.jewels.RPGJewelManager;
+import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLoreManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.questitems.RPGQuestItemManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class RPGItemManager {
     private RPGQuestItemManager RPGQMan;
     //RPGPotionManager RPGPMan;
     private ArrayList<RPGItem> listItems = new ArrayList<>();
+    private RPGLoreManager RPGLMan;
 
     public RPGItemManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
@@ -27,6 +29,7 @@ public class RPGItemManager {
         this.RPGAMan = new RPGArmorManager(plugin);
         this.RPGJMan = new RPGJewelManager(plugin);
         this.RPGQMan = new RPGQuestItemManager(plugin);
+        this.RPGLMan= new RPGLoreManager(plugin);
 
     }
 
@@ -44,6 +47,10 @@ public class RPGItemManager {
 
     public RPGArmorManager getRPGArmorManager() {
         return RPGAMan;
+    }
+
+    public RPGLoreManager getRPGLoreManager() {
+        return RPGLMan;
     }
 
 }
