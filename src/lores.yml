@@ -4,7 +4,7 @@ PHYSICALATTACK:
 PHYSICALDEFENSE:
     name: Physical Defense
     type: VALUEINT
-PHYSICAL EVASION:
+PHYSICALEVASION:
     name: Physical Evasion
     type: PERCENTAGE
 PHYSICALHITRATE:

@@ -66,7 +66,7 @@ public class RPGLore {
             case XPBONUS:
             case MONEYBONUS:
             case CRITICAL:
-                return this.loretype.getLoreName() + " +" + String.format("%f.2", this.value);
+                return this.loretype.getLoreName() + " +" + String.format("%.2f", this.value);
             case BUYPRICE:
             case SELLPRICE:
                 return this.loretype.getLoreName() + " +" + String.format("%d", this.value);

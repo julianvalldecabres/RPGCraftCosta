@@ -6,21 +6,21 @@
 package com.craftcosta.jailrules.rpgcraftcosta.items.weapons;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
-import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore;
 import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLoreManager;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
-import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.jfree.data.statistics.Statistics;
 
 /**
  *
@@ -94,75 +94,67 @@ public class RPGWeaponListener implements Listener {
         RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
         Player p = e.getPlayer();//
         RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
+        rpgP.setSlotSelected(e.getNewSlot() + 36);
         Inventory playerInv = p.getInventory();
-
         if (playerInv.getItem(e.getPreviousSlot()) != null) {
             if (rpgWMan.isWeapon(playerInv.getItem(e.getPreviousSlot()))) {
-                //Cambiar datos de player restando los del item anterior
                 ItemStack item = playerInv.getItem(e.getPreviousSlot());
-                List<RPGLore> lores = rpgLMan.getListOfLoresFromItem(item);
-                for (RPGLore lore : lores) {
-                    switch (lore.getLoretype()) {
-                        case PHYSICALATTACK:
-                            break;
-                        case PHYSICALHITRATE:
-                            break;
-                        case MAGICALATTACK:
-                            break;
-                        case MAGICALHITRATE:
-                            break;
-                        case HEALTHSTEAL:
-                            break;
-                        case MANASTEAL:
-                            break;
-                        case CRITICAL:
-                            break;
-                        case APBONUS:
-                            break;
-                        case XPBONUS:
-                            break;
-                        case MONEYBONUS:
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
+                rpgP.subStats(rpgLMan.getListOfLoresFromItem(item));
             }
         }
         if (playerInv.getItem(e.getNewSlot()) != null) {
             if (rpgWMan.isWeapon(playerInv.getItem(e.getNewSlot()))) {
-                //Cambiar datos de player sumando los del item actual
                 ItemStack item = playerInv.getItem(e.getNewSlot());
-                List<RPGLore> lores = rpgLMan.getListOfLoresFromItem(item);
-                for (RPGLore lore : lores) {
-                    switch (lore.getLoretype()) {
-                        case PHYSICALATTACK:
-                            break;
-                        case PHYSICALHITRATE:
-                            break;
-                        case MAGICALATTACK:
-                            break;
-                        case MAGICALHITRATE:
-                            break;
-                        case HEALTHSTEAL:
-                            break;
-                        case MANASTEAL:
-                            break;
-                        case CRITICAL:
-                            break;
-                        case APBONUS:
-                            break;
-                        case XPBONUS:
-                            break;
-                        case MONEYBONUS:
-                            break;
-                        default:
-                            break;
-                    }
+                rpgP.addStats(rpgLMan.getListOfLoresFromItem(item));
+            }
+        }
+    }
 
+    @EventHandler
+    public void onPlayerChangeFromInventoryWeaponHeldItem(InventoryClickEvent e) {
+        RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
+        Player p = (Player) e.getWhoClicked();
+        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
+        if (rpgP.getSlotSelected() == e.getRawSlot()) {
+            if (e.getCurrentItem().getType().equals(Material.AIR)) {
+                if (!e.getCursor().getType().equals(Material.AIR)) {
+                    if (rpgWMan.isRPGWeapon(e.getCursor())) {
+                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(e.getCursor()));
+                    }
+                }
+            } else {
+                if (e.getCursor().getType().equals(Material.AIR)) {
+                    if (rpgWMan.isRPGWeapon(e.getCurrentItem())) {
+                        rpgP.subStats(rpgLMan.getListOfLoresFromItem(e.getCurrentItem()));
+                    }
+                } else {
+                    if (rpgWMan.isRPGWeapon(e.getCurrentItem())) {
+                        rpgP.subStats(rpgLMan.getListOfLoresFromItem(e.getCurrentItem()));
+                    }
+                    if (rpgWMan.isRPGWeapon(e.getCursor())) {
+                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(e.getCursor()));
+                    }
                 }
             }
+
+        }
+    }
+    
+    @EventHandler
+    public void onPlayerDropWeapon(PlayerDropItemEvent e){
+        Player p = e.getPlayer();
+        RPGPlayer rpgP= rpgPMan.getRPGPlayerByName(p.getName());
+        if(rpgWMan.isRPGWeapon(e.getItemDrop().getItemStack())){
+            rpgPMan.checkAllEquipment(rpgP);
+        }
+    }
+    
+    @EventHandler
+    public void onPlayerPickupWeapon(PlayerPickupItemEvent e){
+        Player p = e.getPlayer();
+        RPGPlayer rpgP= rpgPMan.getRPGPlayerByName(p.getName());
+        if(rpgWMan.isRPGWeapon(e.getItem().getItemStack())){
+            rpgPMan.checkAllEquipment(rpgP);
         }
     }
 }

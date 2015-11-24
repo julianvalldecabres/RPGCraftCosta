@@ -148,7 +148,6 @@ public class RPGPlayerManager {
         if (!playerFilePath.exists()) {
             plugin.getLogger().info("Creando configuración vacía para el jugador " + player.getName());
             rpgP = new RPGPlayer(player);
-
             playerFilePath.getParentFile().mkdirs();
             rpgP.saveRPGPlayer();
         } else {
@@ -211,7 +210,7 @@ public class RPGPlayerManager {
         int strengthP;
         //leer del fichero
 
-        playerClass = pFConfig.getString("playerclass");
+        playerClass = pFConfig.getString("class");
         guild = pFConfig.getString("guild");
         econ = new RPGEconomy(pFConfig.getLong("money"));
 

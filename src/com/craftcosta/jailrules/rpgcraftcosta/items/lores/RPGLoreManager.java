@@ -109,7 +109,7 @@ public class RPGLoreManager {
                 return rpglores;
             }
         }
-        return null;
+        return RPGLores.APBONUS;        
     }
 
     public Object getLoreValue(RPGLores type, String lore) {
@@ -132,10 +132,10 @@ public class RPGLoreManager {
             case XPBONUS:
             case MONEYBONUS:
             case CRITICAL:
-                return Double.parseDouble(loreparts[loreparts.length - 1].substring(1, loreparts[loreparts.length - 1].length() - 1));
+                return Double.parseDouble((loreparts[loreparts.length - 1].substring(1, loreparts[loreparts.length - 1].length() - 1)).replaceAll(",", "."));
             case BUYPRICE:
             case SELLPRICE:
-                return null;
+                return Integer.parseInt(loreparts[loreparts.length - 1].substring(0,loreparts[loreparts.length - 1].length()-1));
             case NOCOMERCIABLE:
             case NOUPGRADABLE:
             case NOCOMBINABLE:

@@ -6,6 +6,7 @@
 package com.craftcosta.jailrules.rpgcraftcosta.player;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
 import java.util.Set;
 import org.bukkit.ChatColor;
@@ -71,6 +72,8 @@ public class RPGPlayerListener implements Listener {
         }
         rpgP.saveRPGPlayer();
         plugin.getLogger().info("health: " + e.getPlayer().getHealth() + " maxHealth: " + e.getPlayer().getMaxHealth() + " healthscale: " + e.getPlayer().getHealthScale());
+        RPGWeaponManager rpgWMan= plugin.getRPGItemManager().getRPGWeaponManager();
+        p.getInventory().addItem(rpgWMan.getRPGWeaponByName("Rebana cuellos"));
     }
 
     /**
@@ -146,18 +149,7 @@ public class RPGPlayerListener implements Listener {
         ItemStack item = e.getItem().getItemStack();
         Set<Integer> freeInventorySlots = RPGPlayerUtils.getFreeInventorySlots(e.getPlayer());
     }
-
-    /**
-     *
-     * @param e
-     */
-    @EventHandler
-    public void onPlayerRightClickBlock(PlayerInteractEvent e) {
-        if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-
-        }
-    }
-
+    
     /**
      *
      * @param e

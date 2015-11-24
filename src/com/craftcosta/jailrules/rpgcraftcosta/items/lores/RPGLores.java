@@ -87,10 +87,10 @@ public enum RPGLores {
             case HEALTHSTEAL:
             case HEALTH:
             case CRITICAL:
-                return rpglore.getLoreName() + " +" + String.format("%f.2", value) + "%";
+                return rpglore.getLoreName() + " +" + String.format("%.2f", value) + "%";
             case BUYPRICE:
             case SELLPRICE:
-                return rpglore.getLoreName() + " " + String.format("%d", value) + "$";
+                return rpglore.getLoreName() + " " + String.format("%d", getIntegerValue(value)) + "$";
         }
         return null;
     }
@@ -121,5 +121,9 @@ public enum RPGLores {
             }
         }
         return null;
+    }
+
+    private int getIntegerValue(double value) {
+        return (int) value;
     }
 }

@@ -8,6 +8,7 @@ package com.craftcosta.jailrules.rpgcraftcosta.player;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClass;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
 import com.craftcosta.jailrules.rpgcraftcosta.economy.RPGEconomy;
+import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore;
 import com.craftcosta.jailrules.rpgcraftcosta.quests.RPGQuest;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
@@ -16,12 +17,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 /**
  *
@@ -36,7 +35,7 @@ public class RPGPlayer {
     private String guild;
     private String playerClass;
     private String party;
-
+    private int slotSelected;
     private boolean setResetRequest;
     private boolean move;
     private boolean partyChat;
@@ -63,25 +62,35 @@ public class RPGPlayer {
     private double actualMana;
     private double maxMana;
     private double finalMaxMana;
+    
     private double finalMaxHealth;
     private double actualHealth;
     private double maxHealth;
+    
     private double physicalAttack;
     private double finalphysicalAttack;
+    
     private double physicalDefense;
     private double finalphysicalDefense;
+    
     private double physicalHitRate;
     private double finalphysicalHitRate;
+    
     private double physicalEvasion;
     private double finalphysicalEvasion;
+    
     private double magicalAttack;
     private double finalmagicalAttack;
+    
     private double magicalDefense;
     private double finalmagicalDefense;
+    
     private double magicalHitRate;
     private double finalmagicalHitRate;
+    
     private double magicalEvasion;
     private double finalmagicalEvasion;
+    
     private double critical;
     private double finalcritical;
 
@@ -135,6 +144,7 @@ public class RPGPlayer {
         this.guildChat = true;
         this.marketChat = true;
         this.setResetRequest = false;
+        this.slotSelected=0;
         if (this.playerClass.isEmpty()) {
             this.move = false;
         } else {
@@ -191,6 +201,8 @@ public class RPGPlayer {
                 e1.printStackTrace();
             }
         }
+        
+        
         FileConfiguration section = YamlConfiguration.loadConfiguration(playerFile);
         section.set("name", this.player.getName());
         section.set("move", this.move);
@@ -213,6 +225,10 @@ public class RPGPlayer {
         section.set("physicaldefense", this.physicalDefense);
         section.set("physicalevasion", this.physicalEvasion);
         section.set("physicalhitrate", this.physicalHitRate);
+        section.set("magicalattack", this.magicalAttack);
+        section.set("magicaldefense", this.magicalDefense);
+        section.set("magicalevasion", this.magicalEvasion);
+        section.set("magicalhitrate", this.magicalHitRate);
         section.set("critical", this.critical);
         try {
             section.save(playerFile);
@@ -254,7 +270,9 @@ public class RPGPlayer {
             this.player.setHealth(actualHealth);
             this.actualMana = section.getDouble("actualMana");
             this.maxHealth = section.getDouble("maxHealth");
-            this.player.setMaxHealth(maxHealth);
+            //Calcular proporcion de vida max correspondiente a la actual
+            
+            //this.player.setMaxHealth(maxHealth);
             this.maxMana = section.getDouble("maxMana");
             this.ap = section.getLong("ap");
             //Cargar atributos de player
@@ -268,6 +286,11 @@ public class RPGPlayer {
             this.physicalDefense = section.getDouble("physicaldefense");
             this.physicalEvasion = section.getDouble("physicalevasion");
             this.physicalHitRate = section.getDouble("physicalhitrate");
+            //Magico
+            this.magicalAttack = section.getDouble("magicalattack");
+            this.magicalDefense = section.getDouble("magicaldefense");
+            this.magicalEvasion = section.getDouble("magicalevasion");
+            this.magicalHitRate = section.getDouble("magicalhitrate");
             //Especial
             this.critical = section.getDouble("critical");
         } else {
@@ -319,6 +342,14 @@ public class RPGPlayer {
      */
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
+    }
+
+    public int getSlotSelected() {
+        return slotSelected;
+    }
+
+    public void setSlotSelected(int slotSelected) {
+        this.slotSelected = slotSelected;
     }
 
     /**
@@ -824,6 +855,14 @@ public class RPGPlayer {
     }
 
     void createNewPlayer(Player player) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void addStats(List<RPGLore> listOfLoresFromItem) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void subStats(List<RPGLore> listOfLoresFromItem) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

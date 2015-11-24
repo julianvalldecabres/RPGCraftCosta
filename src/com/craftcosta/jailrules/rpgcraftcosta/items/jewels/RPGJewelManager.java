@@ -11,7 +11,6 @@ import com.craftcosta.jailrules.rpgcraftcosta.items.Quality;
 import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLoreManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLores;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
-import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGLore;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
 import java.io.File;
 import java.io.FileOutputStream;

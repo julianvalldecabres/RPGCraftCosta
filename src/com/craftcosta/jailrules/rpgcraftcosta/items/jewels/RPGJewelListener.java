@@ -6,13 +6,19 @@
 package com.craftcosta.jailrules.rpgcraftcosta.items.jewels;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLoreManager;
+import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
+import java.util.ArrayList;
+import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -28,6 +34,7 @@ public class RPGJewelListener implements Listener {
     public RPGJewelListener(RPGCraftCosta plugin) {
         this.plugin = plugin;
         this.rpgJMan = plugin.getRPGItemManager().getRPGJewelManager();
+        this.rpgPMan=plugin.getRPGPlayerManager();
     }
 
     @EventHandler
@@ -86,11 +93,57 @@ public class RPGJewelListener implements Listener {
                     return;
                 }
             } else {
-                p.sendMessage(ChatColor.RED + "Esta/s joya/s no se pueden combinar");
+                p.sendMessage(ChatColor.RED + "Estas joyas no se pueden combinar");
                 return;
             }
         }
         return;
     }
 
+    @EventHandler
+    public void onPlayerEquipJewels(InventoryClickEvent event) {
+        RPGLoreManager rpgLMan= plugin.getRPGItemManager().getRPGLoreManager();
+        Player p = (Player) event.getWhoClicked();
+        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
+        if(event.getRawSlot() >35 && event.getRawSlot()<45){
+            if(event.getCursor().getType().equals(Material.AIR)){
+                if(!event.getCurrentItem().getType().equals(Material.AIR)){
+                    if(rpgJMan.isRPGJewel(event.getCurrentItem())){
+                        rpgP.subStats(rpgLMan.getListOfLoresFromItem(event.getCurrentItem()));
+                    }
+                }
+            }else{
+                if(event.getCurrentItem().getType().equals(Material.AIR)){
+                    if(rpgJMan.isRPGJewel(event.getCursor())){
+                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(event.getCursor()));
+                    }
+                }else{
+                    if(rpgJMan.isRPGJewel(event.getCurrentItem())){
+                        rpgP.subStats(rpgLMan.getListOfLoresFromItem(event.getCurrentItem()));
+                    }
+                    if(rpgJMan.isRPGJewel(event.getCursor())){
+                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(event.getCursor()));
+                    }
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerPickupJewel(PlayerPickupItemEvent event) {
+        Player p = event.getPlayer();
+        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
+        if (rpgJMan.isRPGJewel(event.getItem().getItemStack())) {
+            rpgPMan.checkAllEquipment(rpgP);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDropItem(PlayerDropItemEvent event) {
+        Player p = event.getPlayer();
+        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
+        if (rpgJMan.isRPGJewel(event.getItemDrop().getItemStack())) {
+            rpgPMan.checkAllEquipment(rpgP);
+        }
+    }
 }

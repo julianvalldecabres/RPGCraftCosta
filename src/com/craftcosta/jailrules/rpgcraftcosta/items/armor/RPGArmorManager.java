@@ -260,41 +260,14 @@ public class RPGArmorManager {
         return this.armorList.containsKey(getRPGArmorNameByItem(item));
     }
 
-//    public List<RPGLore> getArmorLores(ItemStack item) {
-//        List<RPGLore> listlores = new ArrayList<RPGLore>();
-//        List<String> lores = item.getItemMeta().getLore();
-//        for (String lore : lores) {
-//            String lorename = "";
-//            double value = 0;
-//            String[] loreparts = lore.split(" ");
-//            if (loreparts.length == 3) {
-//                lorename = loreparts[0] + " " + loreparts[1];
-//                value = Double.parseDouble(loreparts[2].substring(1, loreparts[2].length() - 1));
-//            } else {
-//                lorename = loreparts[0];
-//                value = Double.parseDouble(loreparts[1].substring(1, loreparts[1].length() - 1));
-//            }
-//            switch (lorename) {
-//                case "Armor Defense":
-//                    listlores.add(new RPGLore(lorename, value));
-//                    break;
-//                case "Evasion Pct.":
-//                    listlores.add(new RPGLore(lorename, value));
-//                    break;
-//                case "Block Pct.":
-//                    listlores.add(new RPGLore(lorename, value));
-//                    break;
-//                case "XPBonus":
-//                    listlores.add(new RPGLore(lorename, value));
-//                    break;
-//                case "APBonus":
-//                    listlores.add(new RPGLore(lorename, value));
-//                    break;
-//                case "Money Bonus":
-//                    listlores.add(new RPGLore(lorename, value));
-//                    break;
-//            }
-//        }
-//        return listlores;
-//    }
+    public boolean isSamePart(ItemStack item1, ItemStack item2) {
+        String []partsItem1=item1.getType().toString().split("_");
+        String []partsItem2=item2.getType().toString().split("_");
+        return partsItem1[1].equals(partsItem2[1]);
+    }
+    
+    public String getPart(ItemStack item){  
+        String []partItem=item.getType().toString().split("_");
+        return partItem[1];
+    }
 }
