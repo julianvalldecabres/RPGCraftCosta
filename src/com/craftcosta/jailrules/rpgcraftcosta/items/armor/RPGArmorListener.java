@@ -53,7 +53,7 @@ public class RPGArmorListener implements Listener {
             return;
         }
         RPGArmor rpgArmor = rpgAMan.getRPGArmorByItem(armorClicked);
-        if(rpgArmor==null){
+        if (rpgArmor == null) {
             return;
         }
         if (!rpgArmor.isUpgradable()) {
@@ -210,15 +210,17 @@ public class RPGArmorListener implements Listener {
                 //si es un slot de armadura
                 switch (rawSlot) {
                     case 5:
-                        if (cursorItem.getType().equals(Material.AIR) && !currentItem.getType().equals(Material.AIR)) {
-                            rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
-                            plugin.getLogger().info("substract stats of: " + currentItem.getItemMeta().getDisplayName());
+                        if (cursorItem.getType().equals(Material.AIR)) {
+                            if (!currentItem.getType().equals(Material.AIR)) {
+                                rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
+                                plugin.getLogger().info("substract stats of: " + currentItem.getItemMeta().getDisplayName());
+                            }
                         } else {
                             if (currentItem.getType().equals(Material.AIR)) {
                                 if (rpgAMan.isRPGArmor(cursorItem) && rpgAMan.getPart(cursorItem).equals("HELMET")) {
                                     rpgP.addStats(rpgLMan.getListOfLoresFromItem(cursorItem));
                                     plugin.getLogger().info("adding stats of: " + cursorItem.getItemMeta().getDisplayName());
-                                }else{
+                                } else {
                                     event.setCancelled(true);
                                 }
                             } else {
@@ -226,52 +228,114 @@ public class RPGArmorListener implements Listener {
                                     if (rpgAMan.isSamePart(cursorItem, currentItem)) {
                                         rpgP.addStats(rpgLMan.getListOfLoresFromItem(cursorItem));
                                         plugin.getLogger().info("adding stats of: " + cursorItem.getItemMeta().getDisplayName()
-                                                +" and substract stats of: " + currentItem.getItemMeta().getDisplayName());
+                                                + " and substract stats of: " + currentItem.getItemMeta().getDisplayName());
                                         rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
                                     }
-
                                 }
-
                             }
                         }
-
                         break;
-
                     case 6:
+                        if (cursorItem.getType().equals(Material.AIR)) {
+                            if (!currentItem.getType().equals(Material.AIR)) {
+                                rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
+                                plugin.getLogger().info("substract stats of: " + currentItem.getItemMeta().getDisplayName());
+                            }
+                        } else {
+                            if (currentItem.getType().equals(Material.AIR)) {
+                                if (rpgAMan.isRPGArmor(cursorItem) && rpgAMan.getPart(cursorItem).equals("CHESTPLATE")) {
+                                    rpgP.addStats(rpgLMan.getListOfLoresFromItem(cursorItem));
+                                    plugin.getLogger().info("adding stats of: " + cursorItem.getItemMeta().getDisplayName());
+                                } else {
+                                    event.setCancelled(true);
+                                }
+                            } else {
+                                if (rpgAMan.isRPGArmor(cursorItem) && rpgAMan.isRPGArmor(currentItem)) {
+                                    if (rpgAMan.isSamePart(cursorItem, currentItem)) {
+                                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(cursorItem));
+                                        plugin.getLogger().info("adding stats of: " + cursorItem.getItemMeta().getDisplayName()
+                                                + " and substract stats of: " + currentItem.getItemMeta().getDisplayName());
+                                        rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
+                                    }
+                                }
+                            }
+                        }
                         break;
                     case 7:
+                        if (cursorItem.getType().equals(Material.AIR)) {
+                            if (!currentItem.getType().equals(Material.AIR)) {
+                                rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
+                                plugin.getLogger().info("substract stats of: " + currentItem.getItemMeta().getDisplayName());
+                            }
+                        } else {
+                            if (currentItem.getType().equals(Material.AIR)) {
+                                if (rpgAMan.isRPGArmor(cursorItem) && rpgAMan.getPart(cursorItem).equals("LEGGINGS")) {
+                                    rpgP.addStats(rpgLMan.getListOfLoresFromItem(cursorItem));
+                                    plugin.getLogger().info("adding stats of: " + cursorItem.getItemMeta().getDisplayName());
+                                } else {
+                                    event.setCancelled(true);
+                                }
+                            } else {
+                                if (rpgAMan.isRPGArmor(cursorItem) && rpgAMan.isRPGArmor(currentItem)) {
+                                    if (rpgAMan.isSamePart(cursorItem, currentItem)) {
+                                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(cursorItem));
+                                        plugin.getLogger().info("adding stats of: " + cursorItem.getItemMeta().getDisplayName()
+                                                + " and substract stats of: " + currentItem.getItemMeta().getDisplayName());
+                                        rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
+                                    }
+                                }
+                            }
+                        }
                         break;
                     case 8:
-                        break;
-                    default:
-                        return;
+                        if (cursorItem.getType().equals(Material.AIR)) {
+                            if (!currentItem.getType().equals(Material.AIR)) {
+                                rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
+                                plugin.getLogger().info("substract stats of: " + currentItem.getItemMeta().getDisplayName());
+                            }
+                        } else {
+                            if (currentItem.getType().equals(Material.AIR)) {
+                                if (rpgAMan.isRPGArmor(cursorItem) && rpgAMan.getPart(cursorItem).equals("BOOTS")) {
+                                    rpgP.addStats(rpgLMan.getListOfLoresFromItem(cursorItem));
+                                    plugin.getLogger().info("adding stats of: " + cursorItem.getItemMeta().getDisplayName());
+                                } else {
+                                    event.setCancelled(true);
+                                }
+                            } else {
+                                if (rpgAMan.isRPGArmor(cursorItem) && rpgAMan.isRPGArmor(currentItem)) {
+                                    if (rpgAMan.isSamePart(cursorItem, currentItem)) {
+                                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(cursorItem));
+                                        plugin.getLogger().info("adding stats of: " + cursorItem.getItemMeta().getDisplayName()
+                                                + " and substract stats of: " + currentItem.getItemMeta().getDisplayName());
+                                        rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
+                                    }
+                                }
+                            }
+                        }
+                        break;                
                 }
-            } else {
-                //Crafting no hacer nada
-                return;
             }
-
         }
-
     }
+
     @EventHandler
-    public void onPlayerDropWeapon(PlayerDropItemEvent e){
+    public void onPlayerDropArmor(PlayerDropItemEvent e) {
         Player p = e.getPlayer();
-        RPGPlayer rpgP= rpgPMan.getRPGPlayerByName(p.getName());
-        if(rpgAMan.isRPGArmor(e.getItemDrop().getItemStack())){
+        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
+        if (rpgAMan.isRPGArmor(e.getItemDrop().getItemStack())) {
             rpgPMan.checkAllEquipment(rpgP);
         }
     }
-    
+
     @EventHandler
-    public void onPlayerPickupWeapon(PlayerPickupItemEvent e){
+    public void onPlayerPickupArmor(PlayerPickupItemEvent e) {
         Player p = e.getPlayer();
-        RPGPlayer rpgP= rpgPMan.getRPGPlayerByName(p.getName());
-        if(rpgAMan.isRPGArmor(e.getItem().getItemStack())){
+        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
+        if (rpgAMan.isRPGArmor(e.getItem().getItemStack())) {
             rpgPMan.checkAllEquipment(rpgP);
         }
     }
-    
+
     private ItemStack downgradeRPGArmor(ItemStack currentItem) {
         RPGArmor rpga = rpgAMan.getRPGArmorByItem(currentItem);
         return rpga.downgradeArmor(currentItem);
@@ -281,6 +345,5 @@ public class RPGArmorListener implements Listener {
         RPGArmor rpga = rpgAMan.getRPGArmorByItem(currentItem);
         return rpga.upgradeArmor(currentItem);
     }
-    
-    
+
 }

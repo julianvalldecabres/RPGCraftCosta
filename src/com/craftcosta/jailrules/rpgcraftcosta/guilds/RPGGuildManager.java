@@ -6,6 +6,7 @@
 package com.craftcosta.jailrules.rpgcraftcosta.guilds;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
 import java.util.HashMap;
 
 /**
@@ -23,6 +24,7 @@ public class RPGGuildManager {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     private RPGCraftCosta plugin;
+    private RPGChatManager rpgCMan;
     private HashMap<String, RPGGuild> listGuilds;
 
     /**
@@ -47,12 +49,13 @@ public class RPGGuildManager {
         return this.listGuilds.get(name);
     }
 
-    /**
+    /** Send message to all online players connected to the server of that guild name
      *
-     * @param name
-     * @param message
+     * @param guild name
+     * @param message to send
      */
     public void sendMessageToGuild(String name, String message) {
-
+        RPGGuild rpgG= this.getGuildByName(name);
+        rpgG.sendMessageToGuild(rpgCMan.getPrefixForGuild()+message);
     }
 }

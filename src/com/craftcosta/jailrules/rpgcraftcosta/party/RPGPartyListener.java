@@ -39,26 +39,4 @@ public class RPGPartyListener implements Listener {
     public RPGPartyListener(RPGCraftCosta plugin) {
         this.plugin = plugin;
     }
-
-    @EventHandler
-    public void onPlayerKickedFromServer(PlayerKickEvent event) {
-        Player p = event.getPlayer();
-        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
-        if (!rpgP.getParty().isEmpty()) {
-            RPGParty rpgParty = rpgPartyMan.getParty(rpgP.getParty());
-            rpgPartyMan.leavePlayerFromParty(p, rpgP.getParty());
-        }
-    }
-
-    @EventHandler//UNIR EN UN MISMO EVENTO PRINCIPAL DEL PROPIO PLAYER
-    public void onPlayerDisconnectedFromServer(PlayerQuitEvent event) {
-        Player p = event.getPlayer();
-
-        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
-
-        if (!rpgP.getParty().isEmpty()) {
-            RPGParty rpgParty = rpgPartyMan.getParty(rpgP.getParty());
-            rpgPartyMan.leavePlayerFromParty(p, rpgP.getParty());
-        }
-    }
 }

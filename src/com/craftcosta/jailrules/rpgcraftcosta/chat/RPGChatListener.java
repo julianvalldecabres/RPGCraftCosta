@@ -10,8 +10,6 @@ import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
 import com.craftcosta.jailrules.rpgcraftcosta.party.RPGPartyManager;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
-import java.util.HashMap;
-import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -54,7 +52,7 @@ public class RPGChatListener implements Listener {
         }
         String location = rpgCMan.getLocationColor() + "[" + event.getPlayer().getWorld().getName().substring(0, 1).toUpperCase() + "]";
         event.setCancelled(true);
-        if (rpgSender.hasGuild()) {
+        if (!rpgSender.getGuild().isEmpty()) {
             guild = rpgSender.getGuild();
         }
         String messagePrefix = "";
@@ -86,7 +84,7 @@ public class RPGChatListener implements Listener {
                 break;
             case GUILD:
                 //ChatClan prefijo+ clan +nombre :+mensaje
-                if (rpgSender.hasGuild()) {
+                if (!rpgSender.getGuild().isEmpty()) {
                     if (rpgCMan.isGuildChatEnabled()) {
                         messagePrefix = type.getPrefixColor() + "[" + type.getPrefix() + "]" + "[" + guild + "]"
                                 + rpgCMan.getPlayerNameColor() + sender.getName() + " :";
@@ -136,7 +134,7 @@ public class RPGChatListener implements Listener {
             case PARTY:
                 //ChatGrupo prefijo+ nombre: +mensaje
                 if (rpgCMan.isPartyChatEnabled()) {
-                    if (rpgSender.hasParty()) {
+                    if (!rpgSender.getParty().isEmpty()) {
                         messagePrefix = type.getPrefixColor() + "[" + type.getPrefix() + "]"
                                 + rpgCMan.getLocationColor() + location
                                 + rpgCMan.getPlayerClassColor() + "[" + playerClass + "]"

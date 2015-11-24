@@ -60,26 +60,30 @@ public class RPGClassCommands implements CommandExecutor {
                     return true;
                 } else if (args[0].equalsIgnoreCase("reset") || args[0].equalsIgnoreCase("r")) {
                     if (rpgP.isSetResetRequested()) {
+                        //RESETEAR LA CUENTA
                         p.sendMessage("El proceso de reseteado de tu cuenta ha sido finalizado con exito");
                         return true;
                     } else {
                         p.sendMessage(ChatColor.RED + "El proceso de reseteo de tu cuenta eliminará todos tus objetos y tus avances");
                         p.sendMessage(ChatColor.RED + "Repite el comando para proceder con el reseteo de tu cuenta");
                         rpgP.setSetResetRequested(true);
+                        return true;
                     }
                 } else {
-                    return false;
+                    p.sendMessage(ChatColor.RED + "Usa /class help para mostrar la ayuda");
+                    return true;
                 }
             } else if (args.length == 2) {
                 //info,choose
                 if (args[0].equalsIgnoreCase("choose")) {
-                    if (rpgP.hasClass()) {
+                    if (!rpgP.getPlayerClass().isEmpty()) {
                         p.sendMessage(ChatColor.RED + "No puedes cambiar de clase");
                         return true;
                     } else {
                         if (rpgCMan.getAllClassesNames().contains(args[1])) {
-                            rpgP.setPlayerClass(args[1]);
+                            rpgPMan.setRPGClassToPlayer(p, rpgCMan.getRPGClassByName(args[1]));
                             p.sendMessage(ChatColor.RED + "Enhorabuena ahora eres " + args[1] + " del reino");
+                            rpgP.setMove(true);
                             return true;
                         } else {
                             p.sendMessage(ChatColor.RED + "Las clases disponibles son las siguientes: " + rpgCMan.getAllClassesNames());
@@ -98,17 +102,17 @@ public class RPGClassCommands implements CommandExecutor {
                         p.sendMessage(ChatColor.GOLD + "Base physical evasion: " + ChatColor.WHITE + rpgC.getBasePhysicalEvasion());
                         p.sendMessage(ChatColor.GOLD + "Base physical hit rate: " + ChatColor.WHITE + rpgC.getBasePhysicalHitRate());
                         p.sendMessage(ChatColor.GOLD + "Base critical: " + ChatColor.WHITE + rpgC.getBaseCritical());
-                        p.sendMessage(ChatColor.GOLD + "Base magical attack: " + ChatColor.WHITE + rpgC.getBaseMagicAttack());
-                        p.sendMessage(ChatColor.GOLD + "Base magical defense: " + ChatColor.WHITE + rpgC.getBaseMagicDefense());
-                        p.sendMessage(ChatColor.GOLD + "Base magical evasion: " + ChatColor.WHITE + rpgC.getBaseMagicEvasion());
-                        p.sendMessage(ChatColor.GOLD + "Base magical hit rate: " + ChatColor.WHITE + rpgC.getBaseMagicHitRate());
+                        p.sendMessage(ChatColor.GOLD + "Base magical attack: " + ChatColor.WHITE + rpgC.getBaseMagicalAttack());
+                        p.sendMessage(ChatColor.GOLD + "Base magical defense: " + ChatColor.WHITE + rpgC.getBaseMagicalDefense());
+                        p.sendMessage(ChatColor.GOLD + "Base magical evasion: " + ChatColor.WHITE + rpgC.getBaseMagicalEvasion());
+                        p.sendMessage(ChatColor.GOLD + "Base magical hit rate: " + ChatColor.WHITE + rpgC.getBaseMagicalHitRate());
                         return true;
                     } else {
                         p.sendMessage(ChatColor.RED + "Las clases disponibles son las siguientes: " + rpgCMan.getAllClassesNames());
                         return true;
                     }
                 } else {
-                    p.sendMessage(ChatColor.RED + "No existe la opcion " + args[0]);
+                    p.sendMessage(ChatColor.RED + "No existe la opcion " + args[0]+". Para mas ayuda use /class help");
                     return true;
                 }
             }

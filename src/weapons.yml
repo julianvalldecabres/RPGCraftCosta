@@ -33,14 +33,20 @@ Banhammer:
   quality: COMMON
   upgradable: true
   comerciable: true
-  damage: 20.0
-  incdamage: 5.0
-  criticalp: 0.5
-  inccriticalp: 0.1
-  criticaldamage: 25.0
-  inccriticaldamage: 5.0
-  healthsteal: 0.1
-  inchealthsteal: 0.05
+  physicalattack: 500.0
+  incphysicalattack: 20.0
+  physicalhitrate: 10.0
+  incphysicalhitrate: 5.0
+  magicalattack: 0
+  incmagicalattack: 0
+  magicalhitrate: 0
+  incmagicalhitrate: 0
+  critical: 10.5
+  inccritical: 1.5
+  healthsteal: 0
+  inchealthsteal: 0
+  manasteal: 0
+  incmanasteal: 0
   apbonus: 0
   xpbonus: 0
   moneybonus: 0
@@ -53,14 +59,20 @@ Arma de los dioses:
   quality: COMMON
   upgradable: true
   comerciable: true
-  damage: 500.0
-  incdamage: 20.0
-  criticalp: 0.5
-  inccriticalp: 0.5
-  criticaldamage: 25.0
-  inccriticaldamage: 10.0
-  healthsteal: 0.5
-  inchealthsteal: 0.1
+  physicalattack: 50.0
+  incphysicalattack: 10.0
+  physicalhitrate: 1.0
+  incphysicalhitrate: 1.0
+  magicalattack: 0
+  incmagicalattack: 0
+  magicalhitrate: 0
+  incmagicalhitrate: 0
+  critical: 0.5
+  inccritical: 0.2
+  healthsteal: 1.0
+  inchealthsteal: 0.05
+  manasteal: 0
+  incmanasteal: 0
   apbonus: 1
   xpbonus: 2
   moneybonus: 3

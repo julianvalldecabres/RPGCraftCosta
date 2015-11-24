@@ -6,7 +6,11 @@
 package com.craftcosta.jailrules.rpgcraftcosta.player;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuild;
+import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
+import com.craftcosta.jailrules.rpgcraftcosta.party.RPGParty;
+import com.craftcosta.jailrules.rpgcraftcosta.party.RPGPartyManager;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
 import java.util.Set;
 import org.bukkit.ChatColor;
@@ -19,7 +23,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -29,8 +32,8 @@ import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -44,6 +47,8 @@ public class RPGPlayerListener implements Listener {
 
     private RPGCraftCosta plugin;
     private RPGPlayerManager rpgPMan;
+    private RPGPartyManager rpgPaMan;
+    private RPGGuildManager rpgGMan;
 
     /**
      *
@@ -52,6 +57,8 @@ public class RPGPlayerListener implements Listener {
     public RPGPlayerListener(RPGCraftCosta plugin) {
         this.plugin = plugin;
         this.rpgPMan = plugin.getRPGPlayerManager();
+        this.rpgPaMan=plugin.getRPGPartyManager();
+        this.rpgGMan= plugin.getRPGGuildManager();
     }
 
     /**
@@ -60,20 +67,16 @@ public class RPGPlayerListener implements Listener {
      */
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        //e.getPlayer().sendMessage("Evento player Join!");
-        RPGPlayerManager rpgPMan = this.plugin.getRPGPlayerManager();
         Player p = e.getPlayer();
-        plugin.getLogger().info("Jugador con nombre" + p.getName() + " y uuid " + p.getUniqueId().toString() + " se ha conectado al servidor");
+        plugin.getLogger().info("Jugador con nombre: " + p.getName() + " y uuid: " + p.getUniqueId().toString() + " se ha conectado al servidor");
         RPGPlayer rpgP = rpgPMan.loadOrCreateRPGPlayer(e.getPlayer());
         if (rpgP.getPlayerClass().isEmpty()) {
             rpgP.setMove(false);
             p.sendMessage(ChatColor.YELLOW + "Selecciona una clase antes de continuar...");
             p.sendMessage(plugin.getRPGClassManager().getListAvailableClasses());
         }
-        rpgP.saveRPGPlayer();
-        plugin.getLogger().info("health: " + e.getPlayer().getHealth() + " maxHealth: " + e.getPlayer().getMaxHealth() + " healthscale: " + e.getPlayer().getHealthScale());
+        rpgPMan.saveRPGPlayer(rpgP);
         RPGWeaponManager rpgWMan= plugin.getRPGItemManager().getRPGWeaponManager();
-        p.getInventory().addItem(rpgWMan.getRPGWeaponByName("Rebana cuellos"));
     }
 
     /**
@@ -82,10 +85,9 @@ public class RPGPlayerListener implements Listener {
      */
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
-        RPGPlayerManager rpgManager = this.plugin.getRPGPlayerManager();
-        RPGPlayer player = rpgManager.getRPGPlayerByName(e.getPlayer().getName());
+        RPGPlayer player = rpgPMan.getRPGPlayerByName(e.getPlayer().getName());
         Location loc = player.getPlayer().getLocation();
-        if (!player.getMove()) {
+        if (!player.isMove()) {
             e.getPlayer().teleport(loc);
         }
     }
@@ -95,10 +97,33 @@ public class RPGPlayerListener implements Listener {
      * @param e
      */
     @EventHandler(priority = EventPriority.LOWEST)
-    public void onLogoutPlayer(PlayerQuitEvent e) {
-        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(e.getPlayer().getName());
-        //rpgPMan.saveRpgPlayer(e.getPlayer());
+    public void onPlayerKicked(PlayerKickEvent e) {
+        Player p = e.getPlayer();
+        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
+        if (!rpgP.getParty().isEmpty()) {
+            RPGParty rpgParty = rpgPaMan.getParty(rpgP.getParty());
+            rpgPaMan.leavePlayerFromParty(p, rpgP.getParty());
+        }
+        if (!rpgP.getGuild().isEmpty()) {
+            rpgGMan.sendMessageToGuild(rpgP.getGuild(),ChatColor.LIGHT_PURPLE+"El camarada "+p.getName()+" ha abandonado la partida");
+        }
+        rpgPMan.saveRPGPlayer(rpgPMan.getRPGPlayerByName(e.getPlayer().getName()));
         rpgPMan.delPlayerFromList(e.getPlayer());
+    }
+    
+    @EventHandler
+    public void onPlayerDisconnectedFromServer(PlayerQuitEvent event) {
+        Player p = event.getPlayer();
+        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
+        if (!rpgP.getParty().isEmpty()) {
+            RPGParty rpgParty = rpgPaMan.getParty(rpgP.getParty());
+            rpgPaMan.leavePlayerFromParty(p, rpgP.getParty());
+        }
+        if (!rpgP.getGuild().isEmpty()) {
+            rpgGMan.sendMessageToGuild(rpgP.getGuild(),ChatColor.LIGHT_PURPLE+"El camarada "+p.getName()+" ha abandonado la partida");
+        }
+        rpgPMan.saveRPGPlayer(rpgPMan.getRPGPlayerByName(p.getName()));
+        rpgPMan.delPlayerFromList(p);
     }
 
     /**

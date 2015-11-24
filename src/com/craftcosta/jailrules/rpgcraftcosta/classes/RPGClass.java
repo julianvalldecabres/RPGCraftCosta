@@ -28,12 +28,11 @@ public class RPGClass {
     private double basePhysicalDefense;
     private double basePhysicalHitRate;
     private double basePhysicalEvasion;
-    private double baseMagicAttack;
-    private double baseMagicDefense;
-    private double baseMagicHitRate;
-    private double baseMagicEvasion;
+    private double baseMagicalAttack;
+    private double baseMagicalDefense;
+    private double baseMagicalHitRate;
+    private double baseMagicalEvasion;
     private double baseCritical;
-    private double baseDeadly;
 
     //LEVEL UP STATS 
     private double lvlUpHealth;
@@ -42,24 +41,22 @@ public class RPGClass {
     private double lvlUpPhysicalDefense;
     private double lvlUpPhysicalHitRate;
     private double lvlUpPhysicalEvasion;
-    private double lvlUpMagicAttack;
-    private double lvlUpMagicDefense;
-    private double lvlUpMagicHitRate;
-    private double lvlUpMagicEvasion;
+    private double lvlUpMagicalAttack;
+    private double lvlUpMagicalDefense;
+    private double lvlUpMagicalHitRate;
+    private double lvlUpMagicalEvasion;
     private double lvlUpCritical;
-    private double lvlUpDeadly;
 
     //SKILL POINTS
     private double SPUpStrength_Health;
     private double SPUpStrength_PhysicalAttack;
     private double SPUpDextery_Critical;
-    private double SPUpDextery_Deadly;
     private double SPUpConstitution_Health;
     private double SPUpConstitution_Mana;
     private double SPUpIntelligence_MagicAttack;
     private double SPUPIntelligence_Mana;
 
-    public RPGClass(String nameClass, boolean enabled, double baseHealth, double baseMana, double basePhysicalAttack, double basePhysicalDefense, double basePhysicalHitRate, double basePhysicalEvasion, double baseMagicAttack, double baseMagicDefense, double baseMagicHitRate, double baseMagicEvasion, double baseCritical, double baseDeadly, double lvlUpHealth, double lvlUpMana, double lvlUpPhysicalAttack, double lvlUpPhysicalDefense, double lvlUpPhysicalHitRate, double lvlUpPhysicalEvasion, double lvlUpMagicAttack, double lvlUpMagicDefense, double lvlUpMagicHitRate, double lvlUpMagicEvasion, double lvlUpCritical, double lvlUpDeadly, double SPUpStrength_Health, double SPUpStrength_PhysicalAttack, double SPUpDextery_Critical, double SPUpDextery_Deadly, double SPUpConstitution_Health, double SPUpConstitution_Mana, double SPUpIntelligence_MagicAttack, double SPUPIntelligence_Mana) {
+    public RPGClass(String nameClass, boolean enabled, double baseHealth, double baseMana, double basePhysicalAttack, double basePhysicalDefense, double basePhysicalHitRate, double basePhysicalEvasion, double baseMagicAttack, double baseMagicDefense, double baseMagicHitRate, double baseMagicEvasion, double baseCritical, double lvlUpHealth, double lvlUpMana, double lvlUpPhysicalAttack, double lvlUpPhysicalDefense, double lvlUpPhysicalHitRate, double lvlUpPhysicalEvasion, double lvlUpMagicAttack, double lvlUpMagicDefense, double lvlUpMagicHitRate, double lvlUpMagicEvasion, double lvlUpCritical, double SPUpStrength_Health, double SPUpStrength_PhysicalAttack, double SPUpDextery_Critical, double SPUpConstitution_Health, double SPUpConstitution_Mana, double SPUpIntelligence_MagicAttack, double SPUPIntelligence_Mana) {
         this.nameClass = nameClass;
         this.enabled = enabled;
         this.baseHealth = baseHealth;
@@ -68,28 +65,25 @@ public class RPGClass {
         this.basePhysicalDefense = basePhysicalDefense;
         this.basePhysicalHitRate = basePhysicalHitRate;
         this.basePhysicalEvasion = basePhysicalEvasion;
-        this.baseMagicAttack = baseMagicAttack;
-        this.baseMagicDefense = baseMagicDefense;
-        this.baseMagicHitRate = baseMagicHitRate;
-        this.baseMagicEvasion = baseMagicEvasion;
+        this.baseMagicalAttack = baseMagicAttack;
+        this.baseMagicalDefense = baseMagicDefense;
+        this.baseMagicalHitRate = baseMagicHitRate;
+        this.baseMagicalEvasion = baseMagicEvasion;
         this.baseCritical = baseCritical;
-        this.baseDeadly = baseDeadly;
         this.lvlUpHealth = lvlUpHealth;
         this.lvlUpMana = lvlUpMana;
         this.lvlUpPhysicalAttack = lvlUpPhysicalAttack;
         this.lvlUpPhysicalDefense = lvlUpPhysicalDefense;
         this.lvlUpPhysicalHitRate = lvlUpPhysicalHitRate;
         this.lvlUpPhysicalEvasion = lvlUpPhysicalEvasion;
-        this.lvlUpMagicAttack = lvlUpMagicAttack;
-        this.lvlUpMagicDefense = lvlUpMagicDefense;
-        this.lvlUpMagicHitRate = lvlUpMagicHitRate;
-        this.lvlUpMagicEvasion = lvlUpMagicEvasion;
+        this.lvlUpMagicalAttack = lvlUpMagicAttack;
+        this.lvlUpMagicalDefense = lvlUpMagicDefense;
+        this.lvlUpMagicalHitRate = lvlUpMagicHitRate;
+        this.lvlUpMagicalEvasion = lvlUpMagicEvasion;
         this.lvlUpCritical = lvlUpCritical;
-        this.lvlUpDeadly = lvlUpDeadly;
         this.SPUpStrength_Health = SPUpStrength_Health;
         this.SPUpStrength_PhysicalAttack = SPUpStrength_PhysicalAttack;
         this.SPUpDextery_Critical = SPUpDextery_Critical;
-        this.SPUpDextery_Deadly = SPUpDextery_Deadly;
         this.SPUpConstitution_Health = SPUpConstitution_Health;
         this.SPUpConstitution_Mana = SPUpConstitution_Mana;
         this.SPUpIntelligence_MagicAttack = SPUpIntelligence_MagicAttack;
@@ -160,36 +154,36 @@ public class RPGClass {
         this.basePhysicalEvasion = basePhysicalEvasion;
     }
 
-    public double getBaseMagicAttack() {
-        return baseMagicAttack;
+    public double getBaseMagicalAttack() {
+        return baseMagicalAttack;
     }
 
-    public void setBaseMagicAttack(double baseMagicAttack) {
-        this.baseMagicAttack = baseMagicAttack;
+    public void setBaseMagicalAttack(double baseMagicAttack) {
+        this.baseMagicalAttack = baseMagicAttack;
     }
 
-    public double getBaseMagicDefense() {
-        return baseMagicDefense;
+    public double getBaseMagicalDefense() {
+        return baseMagicalDefense;
     }
 
-    public void setBaseMagicDefense(double baseMagicDefense) {
-        this.baseMagicDefense = baseMagicDefense;
+    public void setBaseMagicalDefense(double baseMagicDefense) {
+        this.baseMagicalDefense = baseMagicDefense;
     }
 
-    public double getBaseMagicHitRate() {
-        return baseMagicHitRate;
+    public double getBaseMagicalHitRate() {
+        return baseMagicalHitRate;
     }
 
-    public void setBaseMagicHitRate(double baseMagicHitRate) {
-        this.baseMagicHitRate = baseMagicHitRate;
+    public void setBaseMagicalHitRate(double baseMagicHitRate) {
+        this.baseMagicalHitRate = baseMagicHitRate;
     }
 
-    public double getBaseMagicEvasion() {
-        return baseMagicEvasion;
+    public double getBaseMagicalEvasion() {
+        return baseMagicalEvasion;
     }
 
     public void setBaseMagicEvasion(double baseMagicEvasion) {
-        this.baseMagicEvasion = baseMagicEvasion;
+        this.baseMagicalEvasion = baseMagicEvasion;
     }
 
     public double getBaseCritical() {
@@ -198,14 +192,6 @@ public class RPGClass {
 
     public void setBaseCritical(double baseCritical) {
         this.baseCritical = baseCritical;
-    }
-
-    public double getBaseDeadly() {
-        return baseDeadly;
-    }
-
-    public void setBaseDeadly(double baseDeadly) {
-        this.baseDeadly = baseDeadly;
     }
 
     public double getLvlUpHealth() {
@@ -256,36 +242,36 @@ public class RPGClass {
         this.lvlUpPhysicalEvasion = lvlUpPhysicalEvasion;
     }
 
-    public double getLvlUpMagicAttack() {
-        return lvlUpMagicAttack;
+    public double getLvlUpMagicalAttack() {
+        return lvlUpMagicalAttack;
     }
 
-    public void setLvlUpMagicAttack(double lvlUpMagicAttack) {
-        this.lvlUpMagicAttack = lvlUpMagicAttack;
+    public void setLvlUpMagicalAttack(double lvlUpMagicAttack) {
+        this.lvlUpMagicalAttack = lvlUpMagicAttack;
     }
 
-    public double getLvlUpMagicDefense() {
-        return lvlUpMagicDefense;
+    public double getLvlUpMagicalDefense() {
+        return lvlUpMagicalDefense;
     }
 
-    public void setLvlUpMagicDefense(double lvlUpMagicDefense) {
-        this.lvlUpMagicDefense = lvlUpMagicDefense;
+    public void setLvlUpMagicalDefense(double lvlUpMagicDefense) {
+        this.lvlUpMagicalDefense = lvlUpMagicDefense;
     }
 
-    public double getLvlUpMagicHitRate() {
-        return lvlUpMagicHitRate;
+    public double getLvlUpMagicalHitRate() {
+        return lvlUpMagicalHitRate;
     }
 
-    public void setLvlUpMagicHitRate(double lvlUpMagicHitRate) {
-        this.lvlUpMagicHitRate = lvlUpMagicHitRate;
+    public void setLvlUpMagicalHitRate(double lvlUpMagicHitRate) {
+        this.lvlUpMagicalHitRate = lvlUpMagicHitRate;
     }
 
-    public double getLvlUpMagicEvasion() {
-        return lvlUpMagicEvasion;
+    public double getLvlUpMagicalEvasion() {
+        return lvlUpMagicalEvasion;
     }
 
-    public void setLvlUpMagicEvasion(double lvlUpMagicEvasion) {
-        this.lvlUpMagicEvasion = lvlUpMagicEvasion;
+    public void setLvlUpMagicalEvasion(double lvlUpMagicEvasion) {
+        this.lvlUpMagicalEvasion = lvlUpMagicEvasion;
     }
 
     public double getLvlUpCritical() {
@@ -294,14 +280,6 @@ public class RPGClass {
 
     public void setLvlUpCritical(double lvlUpCritical) {
         this.lvlUpCritical = lvlUpCritical;
-    }
-
-    public double getLvlUpDeadly() {
-        return lvlUpDeadly;
-    }
-
-    public void setLvlUpDeadly(double lvlUpDeadly) {
-        this.lvlUpDeadly = lvlUpDeadly;
     }
 
     public double getSPUpStrength_Health() {
@@ -328,14 +306,6 @@ public class RPGClass {
         this.SPUpDextery_Critical = SPUpDextery_Critical;
     }
 
-    public double getSPUpDextery_Deadly() {
-        return SPUpDextery_Deadly;
-    }
-
-    public void setSPUpDextery_Deadly(double SPUpDextery_Deadly) {
-        this.SPUpDextery_Deadly = SPUpDextery_Deadly;
-    }
-
     public double getSPUpConstitution_Health() {
         return SPUpConstitution_Health;
     }
@@ -352,11 +322,11 @@ public class RPGClass {
         this.SPUpConstitution_Mana = SPUpConstitution_Mana;
     }
 
-    public double getSPUpIntelligence_MagicAttack() {
+    public double getSPUpIntelligence_MagicalAttack() {
         return SPUpIntelligence_MagicAttack;
     }
 
-    public void setSPUpIntelligence_MagicAttack(double SPUpIntelligence_MagicAttack) {
+    public void setSPUpIntelligence_MagicalAttack(double SPUpIntelligence_MagicAttack) {
         this.SPUpIntelligence_MagicAttack = SPUpIntelligence_MagicAttack;
     }
 

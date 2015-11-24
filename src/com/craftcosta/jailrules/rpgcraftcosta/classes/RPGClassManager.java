@@ -40,7 +40,6 @@ public class RPGClassManager {
 
         if (!classesFile.exists()) {
             plugin.getLogger().info("Loading default classes....");
-
             classesFile.getParentFile().mkdirs();
             copy(plugin.getResource("classes.yml"), classesFile);
         }
@@ -99,7 +98,6 @@ public class RPGClassManager {
         double baseMagicHitRate;
         double baseMagicEvasion;
         double baseCritical;
-        double baseDeadly;
         double lvlUpHealth;
         double lvlUpMana;
         double lvlUpPhysicalAttack;
@@ -111,11 +109,9 @@ public class RPGClassManager {
         double lvlUpMagicHitRate;
         double lvlUpMagicEvasion;
         double lvlUpCritical;
-        double lvlUpDeadly;
         double SPUpStrength_Health;
         double SPUpStrength_PhysicalAttack;
         double SPUpDextery_Critical;
-        double SPUpDextery_Deadly;
         double SPUpConstitution_Health;
         double SPUpConstitution_Mana;
         double SPUpIntelligence_Mana;
@@ -139,7 +135,6 @@ public class RPGClassManager {
                 baseMagicHitRate = section.getDouble("baseMagicHitRate");
                 baseMagicEvasion = section.getDouble("baseMagicEvasion");
                 baseCritical = section.getDouble("baseCritical");
-                baseDeadly = section.getDouble("baseDeadly");
                 lvlUpHealth = section.getDouble("lvlUpHealth");
                 lvlUpMana = section.getDouble("lvlUpMana");
                 lvlUpPhysicalAttack = section.getDouble("lvlUpPhysicalAttack");
@@ -151,16 +146,14 @@ public class RPGClassManager {
                 lvlUpMagicHitRate = section.getDouble("lvlUpMagicHitRate");
                 lvlUpMagicEvasion = section.getDouble("lvlUpMagicEvasion");
                 lvlUpCritical = section.getDouble("lvlUpCritical");
-                lvlUpDeadly = section.getDouble("lvlUpDeadly");
                 SPUpStrength_Health = section.getDouble("SPUpStrength_Health");
                 SPUpStrength_PhysicalAttack = section.getDouble("SPUpStrength_PhysicalAttack");
                 SPUpDextery_Critical = section.getDouble("SPUpDextery_Critical");
-                SPUpDextery_Deadly = section.getDouble("SPUpDextery_Deadly");
                 SPUpConstitution_Health = section.getDouble("SPUpConstitution_Health");
                 SPUpConstitution_Mana = section.getDouble("SPUpConstitution_Mana");
                 SPUpIntelligence_MagicAttack = section.getDouble("SPUpIntelligence_MagicAttack");
                 SPUpIntelligence_Mana = section.getDouble("SPUpIntelligence_Mana");
-                this.listClasses.put(name, new RPGClass(name, enabled, baseHealth, baseMana, basePhysicalAttack, basePhysicalDefense, basePhysicalHitRate, basePhysicalEvasion, baseMagicAttack, baseMagicDefense, baseMagicHitRate, baseMagicEvasion, baseCritical, baseDeadly, lvlUpHealth, lvlUpMana, lvlUpPhysicalAttack, lvlUpPhysicalDefense, lvlUpPhysicalHitRate, lvlUpPhysicalEvasion, lvlUpMagicAttack, lvlUpMagicDefense, lvlUpMagicHitRate, lvlUpMagicEvasion, lvlUpCritical, lvlUpDeadly, SPUpStrength_Health, SPUpStrength_PhysicalAttack, SPUpDextery_Critical, SPUpDextery_Deadly, SPUpConstitution_Health, SPUpConstitution_Mana, SPUpIntelligence_MagicAttack, SPUpIntelligence_Mana));
+                this.listClasses.put(name, new RPGClass(name, enabled, baseHealth, baseMana, basePhysicalAttack, basePhysicalDefense, basePhysicalHitRate, basePhysicalEvasion, baseMagicAttack, baseMagicDefense, baseMagicHitRate, baseMagicEvasion, baseCritical, lvlUpHealth, lvlUpMana, lvlUpPhysicalAttack, lvlUpPhysicalDefense, lvlUpPhysicalHitRate, lvlUpPhysicalEvasion, lvlUpMagicAttack, lvlUpMagicDefense, lvlUpMagicHitRate, lvlUpMagicEvasion, lvlUpCritical, SPUpStrength_Health, SPUpStrength_PhysicalAttack, SPUpDextery_Critical, SPUpConstitution_Health, SPUpConstitution_Mana, SPUpIntelligence_MagicAttack, SPUpIntelligence_Mana));
             }
         }
     }
