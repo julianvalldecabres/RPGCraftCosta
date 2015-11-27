@@ -216,6 +216,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                                 }
                                 peticiones.put(invited.getName(), partyName);
                                 Bukkit.getServer().getScheduler().runTaskLater(this.plugin, new Runnable() {
+                                    @Override
                                     public void run() {
                                         if (playerEnPeticion(invited.getName())) {
                                             peticiones.remove(invited.getName());

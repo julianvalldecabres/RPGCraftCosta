@@ -56,12 +56,12 @@ public class RPGJewelManager {
         this.jewelFile = new File(RPGFinals.jewelFilePath);
         this.jewelConfig = new File(RPGFinals.jewelsConfigPath);
         if (!jewelFile.exists()) {
-            plugin.getLogger().info("Loading default jewels...");
+            plugin.getLogger().info("Creating default jewels...");
             jewelFile.getParentFile().mkdirs();
             copy(this.plugin.getResource("jewels.yml"), jewelFile);
         }
         if (!jewelConfig.exists()) {
-            plugin.getLogger().info("Loading default jewels config...");
+            plugin.getLogger().info("Creating default jewels config...");
             jewelConfig.getParentFile().mkdirs();
             copy(this.plugin.getResource("jewelsConfig.yml"), jewelConfig);
         }

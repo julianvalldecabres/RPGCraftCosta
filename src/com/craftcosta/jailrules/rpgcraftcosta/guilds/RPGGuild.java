@@ -7,7 +7,6 @@ package com.craftcosta.jailrules.rpgcraftcosta.guilds;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
@@ -25,6 +24,7 @@ public class RPGGuild {
     private String acronym;                 //reduced name of the guild (3 letters)
     private String owner;                   //Owner of the Guild
     private int level;                      //Level of the guild    
+    private double money;                      //Guild money
     private List<String> moderators;        //List of moderators of the Guild
     private List<String> members;           //List of members
     private List<Player> onlineMembers;     //List of players online
@@ -40,15 +40,81 @@ public class RPGGuild {
         this.onlineMembers.add(owner);
     }
 
-    public RPGGuild(String name, String owner, String level, ArrayList<String> mods, ArrayList<String> members) {
+    public RPGGuild(String name, String acronym,String owner, int level,double money, List<String> mods, List<String> members) {
         this.name = name;
+        this.acronym= acronym;
         this.owner = owner;
-        this.level = Integer.parseInt(level);
+        this.level = level;
+        this.money= money;
         this.moderators = mods;
         this.members = members;
         this.onlineMembers=new ArrayList<>();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAcronym() {
+        return acronym;
+    }
+
+    public void setAcronym(String acronym) {
+        this.acronym = acronym;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+    public List<String> getModerators() {
+        return moderators;
+    }
+
+    public void setModerators(List<String> moderators) {
+        this.moderators = moderators;
+    }
+
+    public List<String> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<String> members) {
+        this.members = members;
+    }
+
+    public List<Player> getOnlineMembers() {
+        return onlineMembers;
+    }
+
+    public void setOnlineMembers(List<Player> onlineMembers) {
+        this.onlineMembers = onlineMembers;
+    }
+    
     /**
      *
      * @param member

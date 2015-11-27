@@ -1,2 +1,7 @@
-## YAML Template.
----
+retraguild:
+    acronym: RG
+    level: 0
+    money: 0.0
+    owner: rocketbunger
+    moderators: []
+    members: []
