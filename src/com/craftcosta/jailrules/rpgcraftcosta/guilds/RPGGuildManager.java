@@ -17,12 +17,9 @@ public class RPGGuildManager {
 
     /**
      *
-     * @param string
-     * @return
+     * @param guildname
+     * @return 
      */
-    public static RPGGuild getGuild(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     private RPGCraftCosta plugin;
     private RPGChatManager rpgCMan;
     private HashMap<String, RPGGuild> listGuilds;

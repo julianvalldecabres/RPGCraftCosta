@@ -7,6 +7,8 @@ package com.craftcosta.jailrules.rpgcraftcosta.party;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
+import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
+import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,6 +16,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -25,6 +29,7 @@ import org.bukkit.entity.Player;
 public class RPGPartyManager {
 
     private RPGCraftCosta plugin;
+    private RPGPlayerManager rpgPMan;
     private RPGChatManager rpgCMan;
     private File partyFileConfig;
     private FileConfiguration pConfig;
@@ -41,6 +46,7 @@ public class RPGPartyManager {
     private boolean canSetSDR;
     private String shareDistributionReason;
     private double bonusProportion;
+    public static Map<String,String> peticiones;
 
     /**
      *
@@ -53,6 +59,8 @@ public class RPGPartyManager {
 
     public RPGPartyManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
+        this.rpgPMan=plugin.getRPGPlayerManager();
+        this.rpgCMan=plugin.getRPGChatManager();
         this.partylist = new HashMap<>();
         this.partyFileConfig = new File(RPGFinals.partyFilePath);
         if (!partyFileConfig.exists()) {
@@ -101,12 +109,12 @@ public class RPGPartyManager {
     public void leavePlayerFromParty(Player p, String party) {
         RPGParty rpgParty = partylist.get(party);
         rpgParty.leavePlayerFromParty(p.getName());
-        if (rpgParty.getPlayers().size() == 0) {
+        if (rpgParty.getPlayers().isEmpty()) {
             disbandParty(party);
         } else {
-            if (rpgParty.getCreator().equals(p.getName())) {
-                Player newOwner = plugin.getServer().getPlayer(rpgParty.getPlayers().get(0));
-                rpgParty.setCreator(rpgParty.getPlayers().get(0));
+            if (rpgParty.getLeader().equals(p.getName())) {
+                Player newOwner = rpgParty.getPlayers().get(0);
+                rpgParty.setLeader(newOwner.getName());
                 sendMessagePlayerLeaveParty(p, rpgParty);
                 sendMessageOwnerChangedToParty(p, rpgParty);
             } else {
@@ -117,32 +125,72 @@ public class RPGPartyManager {
 
     public void sendMessageOwnerChangedToParty(Player p, RPGParty rpgParty) {
         String prefix = rpgCMan.getPrefixForParty();
-        for (String player : rpgParty.getPlayers()) {
-            if (player == p.getName()) {
-                p.sendMessage(prefix + " Eres el nuevo lider del grupo");
+        for (Player player : rpgParty.getPlayers()) {
+            if (player == p) {
+                p.sendMessage(prefix + " Eres el nuevo lider del grupo "+rpgParty.getName());
             } else {
-                plugin.getServer().getPlayer(player).sendMessage(prefix + " " + p.getName() + " es el nuevo lider del grupo");
+                player.sendMessage(prefix + " " + p.getName() + " es el nuevo lider del grupo "+rpgParty.getName());
             }
         }
     }
 
     public void disbandParty(String party) {
         String prefix = rpgCMan.getPrefixForParty();
-        plugin.getLogger().info(prefix + " El grupo " + party + " se ha disuelto");
+        RPGParty rpgParty= getParty(party);
+        for(Player p:rpgParty.getPlayers()){
+            RPGPlayer rpgP= rpgPMan.getRPGPlayerByName(p.getName());
+            rpgP.setParty("");
+            p.sendMessage(prefix + " El grupo " + party + " se ha disuelto");
+        }        
         this.partylist.remove(party);
     }
 
     public void sendMessagePlayerLeaveParty(Player p, RPGParty rpgParty) {
         String prefix = rpgCMan.getPrefixForParty();
-        for (String player : rpgParty.getPlayers()) {
-            plugin.getServer().getPlayer(player).sendMessage(prefix + " " + p.getName() + " ha abandonado el grupo");
+        for (Player player : rpgParty.getPlayers()) {
+            player.sendMessage(prefix + " " + p.getName() + " ha abandonado el grupo");
         }
     }
 
     public void sendMessageToParty(String party, String message) {
-        for (String player : this.partylist.get(party).getPlayers()) {
-            Player receiver = plugin.getServer().getPlayer(player);
-            receiver.sendMessage(message);
+        String prefix = rpgCMan.getPrefixForParty();
+        for (Player player : this.partylist.get(party).getPlayers()) {
+            player.sendMessage(prefix+" "+message);
         }
+    }
+
+    public Set<String> getAllAvailableParties() {
+        return this.partylist.keySet();
+    }
+
+    public void addNewParty(RPGParty rpgParty) {
+        this.partylist.put(rpgParty.getName(), rpgParty);
+    }
+    
+    public void remParty(String partyname){
+        this.partylist.remove(partyname);
+    }
+
+    public void kickPlayerFromParty(RPGParty party, Player kickplayer) {
+        party.kickplayer(kickplayer);
+        kickplayer.sendMessage(rpgCMan.getPrefixForParty()+ChatColor.RED+" Has sido kickeado de la party");
+        sendMessageToParty(party.getName(), "El jugador "+kickplayer.getName()+" ha sido kickeado del grupo");
+    }
+
+    public void makeLeaderPlayerFromParty(RPGParty party, Player newleaderplayer) {
+        party.setLeader(newleaderplayer.getName());
+        sendMessageOwnerChangedToParty(newleaderplayer, party);
+    }
+
+    public void addPlayerToParty(Player p, RPGParty party) {
+        party.addPlayerToParty(p);
+    }
+
+    void setPartyPvPOff(RPGParty party) {
+        party.setPvpEnabled(false);
+    }
+
+    void setPartyPvPOn(RPGParty party) {
+        party.setPvpEnabled(true);
     }
 }

@@ -20,9 +20,6 @@ public class RPGGuild {
      * @param string
      * @return
      */
-    public static RPGGuild getGuild(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     String name;                        //Name of the guild
     String acronym;                     //reduced name of the guild (3 letters)
     String owner;                       //Owner of the Guild

@@ -18,6 +18,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.items.jewels.RPGJewelListener;
 import com.craftcosta.jailrules.rpgcraftcosta.items.questitems.RPGQuestItemListener;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponListener;
 import com.craftcosta.jailrules.rpgcraftcosta.listeners.RPGCreatureListener;
+import com.craftcosta.jailrules.rpgcraftcosta.party.RPGPartyCommands;
 import com.craftcosta.jailrules.rpgcraftcosta.party.RPGPartyListener;
 import com.craftcosta.jailrules.rpgcraftcosta.party.RPGPartyManager;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerListener;
@@ -41,6 +42,7 @@ public class RPGCraftCosta extends JavaPlugin {
     private RPGCommandManager myExecutor;
     private RPGClassCommands myClassCommands;
     private RPGChatCommands myChatCommands;
+    private RPGPartyCommands myPartyCommands;
     private RPGPartyManager rpgPartyManager;
 
     /**
@@ -99,25 +101,32 @@ public class RPGCraftCosta extends JavaPlugin {
         this.rpgChatManager = new RPGChatManager(this);
         this.rpgItemManager = new RPGItemManager(this);
         this.rpgClassManager = new RPGClassManager(this);
-        this.rpgPartyManager = new RPGPartyManager(this);
         this.rpgPlayerManager = new RPGPlayerManager(this);
+        this.rpgPartyManager = new RPGPartyManager(this);
+
+        this.rpgGuildManager = new RPGGuildManager(this);
         myExecutor = new RPGCommandManager(this);
         myChatCommands = new RPGChatCommands(this);
         myClassCommands = new RPGClassCommands(this);
+        myPartyCommands = new RPGPartyCommands(this);
+
         getCommand("task").setExecutor(myChatCommands);
         getCommand("class").setExecutor(myClassCommands);
-        this.rpgGuildManager = new RPGGuildManager(this);
+        getCommand("class").setTabCompleter(myClassCommands);
+        getCommand("party").setExecutor(myPartyCommands);
+        getCommand("party").setTabCompleter(myPartyCommands);
+
         //this.rpgClassManager = new RPGClassManager(this);
         //ScoreBoardManager sbManager= new ScoreBoardManager();
-
         getLogger().info("Registering listeners...");
-        getServer().getPluginManager().registerEvents(new RPGChatListener(this), this);
-        getServer().getPluginManager().registerEvents(new RPGPartyListener(this), this);
+        getServer().getPluginManager().registerEvents(new RPGQuestItemListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGJewelListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGWeaponListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGArmorListener(this), this);
-        getServer().getPluginManager().registerEvents(new RPGQuestItemListener(this), this);
+        getServer().getPluginManager().registerEvents(new RPGChatListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGPlayerListener(this), this);
+        getServer().getPluginManager().registerEvents(new RPGPartyListener(this), this);
+
         getServer().getPluginManager().registerEvents(new RPGCreatureListener(), this);
 
     }

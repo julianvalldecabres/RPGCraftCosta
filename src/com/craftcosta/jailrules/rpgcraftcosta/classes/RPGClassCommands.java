@@ -19,17 +19,20 @@ package com.craftcosta.jailrules.rpgcraftcosta.classes;
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
+import java.util.ArrayList;
+import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 /**
  *
  * @author jail
  */
-public class RPGClassCommands implements CommandExecutor {
+public class RPGClassCommands implements CommandExecutor ,TabCompleter{
 
     RPGCraftCosta plugin;
     RPGPlayerManager rpgPMan;
@@ -118,5 +121,41 @@ public class RPGClassCommands implements CommandExecutor {
             }
         }
         return false;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        List<String> list= new ArrayList();
+        if(sender instanceof Player){
+            if(label.equalsIgnoreCase("class")){
+                if(args.length==0){
+                    String [] list1= new String[]{"list","choose","help","reset","info"};
+                    for (String elem : list1) {
+                        list.add(elem);
+                    }
+                    return list;
+                }else if (args.length==1){
+                    String [] list1= new String[]{"list","choose","help","reset","info"};
+                    for (String elem : list1) {
+                        list.add(elem);
+                    }
+                    return list;
+                }else if(args.length==2){
+                     if(args[0].equalsIgnoreCase("list")
+                            ||args[0].equalsIgnoreCase("help")
+                            ||args[0].equalsIgnoreCase("reset")){
+                    }else if(args[0].equalsIgnoreCase("choose")){
+                        list.addAll(rpgCMan.getAllClassesNames());
+                        return list;
+                    }else if(args[0].equalsIgnoreCase("info")) {
+                        list.addAll(rpgCMan.getAllClassesNames());
+                        return list;
+                    }
+                }else{
+                    return null;
+                }
+            }
+        }
+        return null;
     }
 }

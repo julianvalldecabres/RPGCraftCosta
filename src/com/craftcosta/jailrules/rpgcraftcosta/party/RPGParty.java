@@ -9,6 +9,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 /**
  *
@@ -18,9 +19,10 @@ public class RPGParty {
 
     private String name;
     private String leader;
-    private List<String> players;
+    private List<Player> players;
     private boolean shareExp;
     private boolean shareMoney;
+    private boolean pvpEnabled;
 
     /**
      *
@@ -29,13 +31,22 @@ public class RPGParty {
      * @param shareExp
      * @param shareMoney
      */
-    public RPGParty(String name, String creator, boolean shareExp, boolean shareMoney) {
+    public RPGParty(String name, Player creator) {
         this.players = new ArrayList<>();
         this.name = name;
-        this.leader = creator;
+        this.leader = creator.getName();
+        this.players.add(creator);
+        this.pvpEnabled = false;
+    }
+
+    public RPGParty(String name, Player creator, boolean shareExp, boolean shareMoney) {
+        this.players = new ArrayList<>();
+        this.name = name;
+        this.leader = creator.getName();
+        this.players.add(creator);
         this.shareExp = shareExp;
         this.shareMoney = shareMoney;
-        this.players.add(creator);
+        this.pvpEnabled = false;
     }
 
     /**
@@ -58,7 +69,7 @@ public class RPGParty {
      *
      * @return
      */
-    public String getCreator() {
+    public String getLeader() {
         return leader;
     }
 
@@ -66,15 +77,15 @@ public class RPGParty {
      *
      * @param creator
      */
-    public void setCreator(String creator) {
-        this.leader = creator;
+    public void setLeader(String leader) {
+        this.leader = leader;
     }
 
     /**
      *
      * @return
      */
-    public List<String> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
@@ -82,7 +93,7 @@ public class RPGParty {
      *
      * @param players
      */
-    public void setPlayers(ArrayList<String> players) {
+    public void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
 
@@ -122,7 +133,7 @@ public class RPGParty {
      *
      * @param player
      */
-    public void invitePlayerToParty(String player) {
+    public void invitePlayerToParty(Player player) {
         this.players.add(player);
     }
 
@@ -136,35 +147,27 @@ public class RPGParty {
 
     /**
      *
-     * @param sender
-     * @param player
-     */
-    public void makePlayerLeader(String sender, String player) {
-        String message = ChatColor.AQUA + "El lider de la party " + name + " ahora es: " + player;
-        String message2 = ChatColor.AQUA + "Eres el nuevo lider de la party" + name;
-        if (sender.equals(leader)) {
-            if (RPGPlayerUtils.isPlayerOnline(player)) {
-                setCreator(player);
-                RPGPlayerUtils.sendMessageToPlayer(sender, message);
-                RPGPlayerUtils.sendMessageToPlayer(sender, message2);
-            } else {
-                message = ChatColor.RED + "[PARTY] El jugador no esta en conectado en este momento";
-                RPGPlayerUtils.sendMessageToPlayer(sender, message);
-            }
-        } else {
-            message2 = ChatColor.RED + "[PARTY] Solo el lider puede cambiar el liderazgo";
-            RPGPlayerUtils.sendMessageToPlayer(sender, message2);
-        }
-
-    }
-
-    /**
-     *
      * @param shareXP
      * @param shareMoney
      */
     public void changeAllConfig(boolean shareXP, boolean shareMoney) {
         setShareExp(shareXP);
         setShareMoney(shareMoney);
+    }
+
+    public void kickplayer(Player kickplayer) {
+        this.players.remove(kickplayer);
+    }
+
+    public void addPlayerToParty(Player p) {
+        this.players.add(p);
+    }
+
+    public boolean isPvpEnabled() {
+        return this.pvpEnabled;
+    }
+    
+    public void setPvpEnabled(boolean value){
+        this.pvpEnabled=value;
     }
 }

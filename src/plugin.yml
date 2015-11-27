@@ -6,10 +6,14 @@ author: jailrules
 prefix: RPGCC
 commands:
     class:
-       description: Elige tu clase
+       description: administra las clases disponibles
        usage: /<command> [options]
        permission-message: Usted no puede elegir una clase de nuevo
     task:
-        description: tocar tareas
+        description: administra las tareas de mensajes
         usage: /<command> [option] [name]
-        premission-message: Usted no tiene permiso para realizar esta accion
+        permission-message: Usted no tiene permiso para realizar esta accion
+    party:
+        description: administra los grupos de jugadores
+        usage: /<command> [option] [name]
+        permission-message: Usted no tiene permiso para realizar esta accion
