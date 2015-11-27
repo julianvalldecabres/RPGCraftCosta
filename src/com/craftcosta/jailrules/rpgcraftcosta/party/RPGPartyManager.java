@@ -61,6 +61,7 @@ public class RPGPartyManager {
         this.plugin = plugin;
         this.rpgPMan=plugin.getRPGPlayerManager();
         this.rpgCMan=plugin.getRPGChatManager();
+        this.peticiones= new HashMap<>();
         this.partylist = new HashMap<>();
         this.partyFileConfig = new File(RPGFinals.partyFilePath);
         if (!partyFileConfig.exists()) {
@@ -108,7 +109,9 @@ public class RPGPartyManager {
 
     public void leavePlayerFromParty(Player p, String party) {
         RPGParty rpgParty = partylist.get(party);
-        rpgParty.leavePlayerFromParty(p.getName());
+        RPGPlayer rpgP= rpgPMan.getRPGPlayerByName(p.getName());
+        rpgP.setParty("");
+        rpgParty.leavePlayerFromParty(p);
         if (rpgParty.getPlayers().isEmpty()) {
             disbandParty(party);
         } else {

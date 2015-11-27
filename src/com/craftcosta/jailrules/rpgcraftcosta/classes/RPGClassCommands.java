@@ -128,13 +128,7 @@ public class RPGClassCommands implements CommandExecutor ,TabCompleter{
         List<String> list= new ArrayList();
         if(sender instanceof Player){
             if(label.equalsIgnoreCase("class")){
-                if(args.length==0){
-                    String [] list1= new String[]{"list","choose","help","reset","info"};
-                    for (String elem : list1) {
-                        list.add(elem);
-                    }
-                    return list;
-                }else if (args.length==1){
+                if(args.length==0 || args.length==1){
                     String [] list1= new String[]{"list","choose","help","reset","info"};
                     for (String elem : list1) {
                         list.add(elem);

@@ -21,6 +21,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.bukkit.Bukkit;
@@ -169,11 +170,16 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 } else if (args[0].equalsIgnoreCase("decline") || args[0].equalsIgnoreCase("de")) {
                     //Para que el jugador decline la invitacion
-                    if (peticiones.containsKey(p.getName())) {
-                        String party = peticiones.get(p.getName());
-                        p.sendMessage(prefix + " Has declinado la invitación al grupo " + party);
+                    if (!rpgP.getParty().equals("")) {
+                        p.sendMessage(prefix + ChatColor.RED + " Ya perteneces al grupo " + rpgP.getParty());
+                        return true;
                     } else {
-                        p.sendMessage(prefix + ChatColor.RED + " No tienes ninguna invitación a ningún grupo");
+                        if (playerEnPeticion(p.getName())) {
+                            String party = peticiones.get(p.getName());
+                            p.sendMessage(prefix + " Has declinado la invitación al grupo " + party);
+                        } else {
+                            p.sendMessage(prefix + ChatColor.RED + " No tienes ninguna invitación a ningún grupo");
+                        }
                     }
                     return true;
                 } else {
@@ -314,7 +320,55 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public List<String> onTabComplete(CommandSender arg0, Command arg1, String arg2, String[] arg3) {
-        return new ArrayList<>();
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        List<String> list = new ArrayList();
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
+            if (label.equalsIgnoreCase("party")) {
+                if (args.length == 0 || args.length == 1) {
+                    String[] list1 = new String[]{"list", "info", "help", "pvpon", "pvpoff", "leave","disband", "accept", "decline", "makeleader", "create", "invite", "kick"};
+                    for (String elem : list1) {
+                        list.add(elem);
+                    }
+                    Collections.sort(list);
+                    return list;
+                } else if (args.length == 2) {
+                    if (args[0].equalsIgnoreCase("list")
+                            || args[0].equalsIgnoreCase("help")
+                            || args[0].equalsIgnoreCase("pvpon")
+                            || args[0].equalsIgnoreCase("pvpoff")
+                            || args[0].equalsIgnoreCase("leave")
+                            || args[0].equalsIgnoreCase("disband")
+                            || args[0].equalsIgnoreCase("accept")
+                            || args[0].equalsIgnoreCase("decline")) {
+                        return null;
+                    } else if (args[0].equalsIgnoreCase("info")) {
+                        list.addAll(rpgPaMan.getAllAvailableParties());
+                        Collections.sort(list);
+                        return list;
+                    } else if (args[0].equalsIgnoreCase("kick") || args[0].equalsIgnoreCase("makeleader") || args[0].equalsIgnoreCase("k") || args[0].equalsIgnoreCase("mkl")) {
+                        if (!rpgP.getParty().equals("")) {
+                            for (Player elem : rpgPaMan.getParty(rpgP.getParty()).getPlayers()) {
+                                list.add(elem.getName());
+                            }
+                            Collections.sort(list);
+                            return list;
+                        }
+                    } else if (args[0].equalsIgnoreCase("invite")) {
+                        if (!rpgP.getParty().equals("")) {
+                            for (Player elem : plugin.getServer().getOnlinePlayers()) {
+                                list.add(elem.getName());
+                            }
+                            Collections.sort(list);
+                            return list;
+                        }
+                    }
+                } else {
+                    return null;
+                }
+            }
+        }
+        return null;
     }
 }

@@ -7,7 +7,11 @@ package com.craftcosta.jailrules.rpgcraftcosta.guilds;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
+import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
+import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
+import java.io.File;
 import java.util.HashMap;
+import org.bukkit.configuration.file.FileConfiguration;
 
 /**
  *
@@ -22,6 +26,11 @@ public class RPGGuildManager {
      */
     private RPGCraftCosta plugin;
     private RPGChatManager rpgCMan;
+    private RPGPlayerManager rpgPMan;
+    private File guildsFile;
+    private File guildsFileConfig;
+    private FileConfiguration gConfig;
+    private FileConfiguration gCConfig;
     private HashMap<String, RPGGuild> listGuilds;
 
     /**
@@ -30,6 +39,10 @@ public class RPGGuildManager {
      */
     public RPGGuildManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
+        this.rpgCMan= plugin.getRPGChatManager();
+        this.rpgPMan= plugin.getRPGPlayerManager();
+        guildsFile=new File(RPGFinals.guildsFilePath);
+        guildsFileConfig= new File(RPGFinals.guildsConfigPath);
         //loadGuilds();
     }
 

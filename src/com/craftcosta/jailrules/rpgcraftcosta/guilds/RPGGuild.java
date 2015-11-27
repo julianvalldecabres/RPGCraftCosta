@@ -6,6 +6,7 @@
 package com.craftcosta.jailrules.rpgcraftcosta.guilds;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -20,50 +21,32 @@ public class RPGGuild {
      * @param string
      * @return
      */
-    String name;                        //Name of the guild
-    String acronym;                     //reduced name of the guild (3 letters)
-    String owner;                       //Owner of the Guild
-    int level;                          //Level of the guild    
-    ArrayList<String> moderators;       //List of moderators of the Guild
-    ArrayList<String> members;
-    //hashmap<String(Player),String(Rango)>
-//List of members of the Guild
-    private Object plugin;
-    private Object user;
+    private String name;                    //Name of the guild
+    private String acronym;                 //reduced name of the guild (3 letters)
+    private String owner;                   //Owner of the Guild
+    private int level;                      //Level of the guild    
+    private List<String> moderators;        //List of moderators of the Guild
+    private List<String> members;           //List of members
+    private List<Player> onlineMembers;     //List of players online
 
-    /**
-     *
-     * @param name
-     * @param acronym
-     * @param owner
-     * @return
-     */
-    public RPGGuild RPGGuild(String name, String acronym, String owner) {
+    public RPGGuild(String name, String acronym, Player owner) {
         this.name = name;
-        this.acronym = acronym;                       //3 letters to reduce name to be shown next to the players name
-        this.owner = owner;                         //Guild owner
-        this.level = 0;                             //Level of the guild
-        this.moderators = new ArrayList<String>();  //List of moderators from the guild
-        this.members = new ArrayList<String>();     //List of members from the guild
-        return this;
+        this.acronym = acronym;
+        this.owner = owner.getName();
+        this.level = 0;
+        this.moderators = new ArrayList<String>();
+        this.members = new ArrayList<String>();
+        this.onlineMembers= new ArrayList<>();
+        this.onlineMembers.add(owner);
     }
 
-    /**
-     *
-     * @param name
-     * @param owner
-     * @param level
-     * @param mods
-     * @param members
-     * @return
-     */
-    public RPGGuild Guild(String name, String owner, String level, ArrayList<String> mods, ArrayList<String> members) {
+    public RPGGuild(String name, String owner, String level, ArrayList<String> mods, ArrayList<String> members) {
         this.name = name;
         this.owner = owner;
         this.level = Integer.parseInt(level);
         this.moderators = mods;
         this.members = members;
-        return this;
+        this.onlineMembers=new ArrayList<>();
     }
 
     /**
@@ -162,141 +145,8 @@ public class RPGGuild {
      * @param message
      */
     public void sendMessageToGuild(String message) {
-        ArrayList<Player> onlineplayers = (ArrayList<Player>) Bukkit.getServer().getOnlinePlayers();
-        ArrayList<String> names = getNameMembersList();
-        for (Player p1 : onlineplayers) {
-            if (names.contains(p1.getName())) {
+        for (Player p1 : onlineMembers) {            
                 p1.sendMessage(message);
-            }
         }
     }
-
-    /**
-     *
-     * @return
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     *
-     * @param name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getAcronym() {
-        return acronym;
-    }
-
-    /**
-     *
-     * @param acronym
-     */
-    public void setAcronym(String acronym) {
-        this.acronym = acronym;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public String getOwner() {
-        return owner;
-    }
-
-    /**
-     *
-     * @param owner
-     */
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getLevel() {
-        return level;
-    }
-
-    /**
-     *
-     * @param level
-     */
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public ArrayList<String> getModerators() {
-        return moderators;
-    }
-
-    /**
-     *
-     * @param moderators
-     */
-    public void setModerators(ArrayList<String> moderators) {
-        this.moderators = moderators;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public ArrayList<String> getMembers() {
-        return members;
-    }
-
-    /**
-     *
-     * @param members
-     */
-    public void setMembers(ArrayList<String> members) {
-        this.members = members;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Object getPlugin() {
-        return plugin;
-    }
-
-    /**
-     *
-     * @param plugin
-     */
-    public void setPlugin(Object plugin) {
-        this.plugin = plugin;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Object getUser() {
-        return user;
-    }
-
-    /**
-     *
-     * @param user
-     */
-    public void setUser(Object user) {
-        this.user = user;
-    }
-
 }

@@ -141,7 +141,7 @@ public class RPGParty {
      *
      * @param player
      */
-    public void leavePlayerFromParty(String player) {
+    public void leavePlayerFromParty(Player player) {
         this.players.remove(player);
     }
 
