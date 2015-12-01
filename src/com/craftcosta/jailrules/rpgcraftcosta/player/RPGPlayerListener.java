@@ -24,7 +24,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
@@ -160,21 +159,18 @@ public class RPGPlayerListener implements Listener {
 
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-        if (e.getEntity() instanceof HumanEntity) {
+        if(e.getDamager() instanceof Player){
             plugin.getLogger().info("El que realiza el daño es un player");
-            if (e.getEntity() instanceof HumanEntity) {
-                plugin.getLogger().info("El que recibe el daño es un player");
-            } else {
-                plugin.getLogger().info("El que recibe el daño no es un player");
-            }
-        } else {
-            plugin.getLogger().info("El que realiza el daño no es un player");
-            if (e.getEntity() instanceof Player) {
-                plugin.getLogger().info("El que recibe el daño es un player");
-            } else {
-                plugin.getLogger().info("El que recibe el daño no es un player");
-            }
+        }else{
+            plugin.getLogger().info("El que realiza el daño no es un player de tipo: "+e.getDamager().getType().name());
         }
+        if(e.getEntity() instanceof Player){
+            plugin.getLogger().info("El que recibe el daño es un player");
+        }else{
+            plugin.getLogger().info("El que recibe el daño no es un player de tipo: "+e.getEntityType().name());
+        }
+        plugin.getLogger().info("Quien realiza el daño: "+e.getDamager().getType().toString()+" con nombre: " +e.getDamager().getName());
+        plugin.getLogger().info("Quien recibe el daño: "+e.getEntity().getType().toString()+" con nombre: "+e.getEntity().getName());
     }
 
     /**
@@ -239,15 +235,6 @@ public class RPGPlayerListener implements Listener {
     @EventHandler
     public void onPlayerAchievementAccomplished(PlayerAchievementAwardedEvent event) {
         event.setCancelled(true);
-    }
-
-    /**
-     *
-     * @param e
-     */
-    @EventHandler
-    public void onCreatureSpawn(CreatureSpawnEvent e) {
-        e.setCancelled(true);
     }
 
     /**

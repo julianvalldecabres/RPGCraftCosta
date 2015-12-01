@@ -24,6 +24,13 @@ import org.bukkit.entity.EntityType;
  * @author jail
  */
 public class RPGQuest {
+    private String questName;
+    private String askMessage;
+    private String finishMessage;
+    private String failMessage;
+    private int money;
+    private long experience;
+    private int ap;
     private int minLevel;       //nivel minimo de jugador para realizar la mision
     private QuestType type;     //Tipo de mision
     private int objectivecount; //Contador limite del objetivo solo aplicable a KILLXOFY o COLLECTXOFY

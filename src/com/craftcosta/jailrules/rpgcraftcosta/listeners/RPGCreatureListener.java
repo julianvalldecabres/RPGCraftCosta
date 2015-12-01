@@ -5,6 +5,7 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.listeners;
 
+import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import org.bukkit.entity.Creature;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,7 +20,13 @@ import org.bukkit.event.entity.EntityExplodeEvent;
  * @author jail
  */
 public class RPGCreatureListener implements Listener {
+    RPGCraftCosta plugin;
 
+    public RPGCreatureListener(RPGCraftCosta plugin) {
+        this.plugin = plugin;
+    }
+    
+    
     /**
      *
      * @param e
