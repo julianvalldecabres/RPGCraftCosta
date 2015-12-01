@@ -1775,7 +1775,7 @@ public class GUI extends javax.swing.JFrame {
         boolean error;
         try {
             graph_panel.removeAll();
-            if (max_level.getText().equals("")) {
+            if (max_level.getText().isEmpty()) {
                 this.max_level.setBackground(Color.red);
                 throw new Exception("Rellena el campo nivel máximo");
             } else {

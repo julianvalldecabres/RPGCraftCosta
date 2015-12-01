@@ -42,4 +42,5 @@ public abstract class RPGFinals {
     public final static String chatTasksFilePath = dataFolder + "chatTasks.yml";
     public final static String loresFilePath = dataFolder + "lores.yml";
     public final static String guildsConfigPath = dataFolder + "guildConfig.yml";
+    public static String questFileConfig = dataFolder+"questsConfig.yml";
 }

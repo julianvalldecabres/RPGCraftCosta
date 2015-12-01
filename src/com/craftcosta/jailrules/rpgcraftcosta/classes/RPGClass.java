@@ -5,14 +5,6 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.classes;
 
-import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-
 /**
  *
  * @author jail

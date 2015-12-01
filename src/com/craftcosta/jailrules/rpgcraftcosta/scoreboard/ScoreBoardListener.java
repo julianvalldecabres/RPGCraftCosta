@@ -5,12 +5,10 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.scoreboard;
 
-import org.bukkit.craftbukkit.libs.jline.console.KillRing;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
 
 /**
  *

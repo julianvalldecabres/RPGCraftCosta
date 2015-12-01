@@ -6,7 +6,7 @@
 package com.craftcosta.jailrules.rpgcraftcosta.player;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
-import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuild;
+import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
 import com.craftcosta.jailrules.rpgcraftcosta.party.RPGParty;
@@ -49,6 +49,7 @@ public class RPGPlayerListener implements Listener {
     private RPGPlayerManager rpgPMan;
     private RPGPartyManager rpgPaMan;
     private RPGGuildManager rpgGMan;
+    private RPGChatManager rpgCMan;
 
     /**
      *
@@ -59,6 +60,7 @@ public class RPGPlayerListener implements Listener {
         this.rpgPMan = plugin.getRPGPlayerManager();
         this.rpgPaMan=plugin.getRPGPartyManager();
         this.rpgGMan= plugin.getRPGGuildManager();
+        this.rpgCMan= plugin.getRPGChatManager();
     }
 
     /**
@@ -75,7 +77,18 @@ public class RPGPlayerListener implements Listener {
             p.sendMessage(ChatColor.YELLOW + "Selecciona una clase antes de continuar...");
             p.sendMessage(plugin.getRPGClassManager().getListAvailableClasses());
         }
+                //COMPROBAR QUE AUN EXISTA LA GUILD 
+        //SINO EXISTE INFORMAR Y CAMBIAR
+        if (!rpgP.getGuild().isEmpty()) {
+            if (!rpgGMan.getAllAvailableGuilds().contains(rpgP.getGuild())) {
+                p.sendMessage(rpgCMan.getPrefixForGuild() + ChatColor.RED + " El clan " + rpgP.getGuild() + " ha sido disuelto");
+                rpgP.setGuild("");
+            }else{
+                rpgGMan.playerConnectedToGuild(p,rpgGMan.getGuildByName(rpgP.getGuild()));
+            }
+        }
         rpgPMan.saveRPGPlayer(rpgP);
+        rpgPMan.addRPGPlayerToList(rpgP);
         RPGWeaponManager rpgWMan= plugin.getRPGItemManager().getRPGWeaponManager();
     }
 
@@ -86,7 +99,7 @@ public class RPGPlayerListener implements Listener {
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
         RPGPlayer player = rpgPMan.getRPGPlayerByName(e.getPlayer().getName());
-        Location loc = player.getPlayer().getLocation();
+        Location loc = e.getPlayer().getLocation();
         if (!player.isMove()) {
             e.getPlayer().teleport(loc);
         }

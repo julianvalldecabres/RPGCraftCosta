@@ -21,7 +21,6 @@ public class RPGGuild {
      * @return
      */
     private String name;                    //Name of the guild
-    private String acronym;                 //reduced name of the guild (3 letters)
     private String owner;                   //Owner of the Guild
     private int level;                      //Level of the guild    
     private double money;                      //Guild money
@@ -29,26 +28,25 @@ public class RPGGuild {
     private List<String> members;           //List of members
     private List<Player> onlineMembers;     //List of players online
 
-    public RPGGuild(String name, String acronym, Player owner) {
+    public RPGGuild(String name, Player owner) {
         this.name = name;
-        this.acronym = acronym;
         this.owner = owner.getName();
         this.level = 0;
         this.moderators = new ArrayList<String>();
         this.members = new ArrayList<String>();
-        this.onlineMembers= new ArrayList<>();
+        this.onlineMembers = new ArrayList<>();
         this.onlineMembers.add(owner);
+        this.members.add(owner.getName());
     }
 
-    public RPGGuild(String name, String acronym,String owner, int level,double money, List<String> mods, List<String> members) {
+    public RPGGuild(String name, String owner, int level, double money, List<String> mods, List<String> members) {
         this.name = name;
-        this.acronym= acronym;
         this.owner = owner;
         this.level = level;
-        this.money= money;
+        this.money = money;
         this.moderators = mods;
         this.members = members;
-        this.onlineMembers=new ArrayList<>();
+        this.onlineMembers = new ArrayList<>();
     }
 
     public String getName() {
@@ -57,14 +55,6 @@ public class RPGGuild {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getAcronym() {
-        return acronym;
-    }
-
-    public void setAcronym(String acronym) {
-        this.acronym = acronym;
     }
 
     public String getOwner() {
@@ -114,15 +104,15 @@ public class RPGGuild {
     public void setOnlineMembers(List<Player> onlineMembers) {
         this.onlineMembers = onlineMembers;
     }
-    
+
     /**
      *
      * @param member
      * @return
      */
-    public boolean addMember(String member) {
-        if (!this.members.contains(member) && !this.moderators.contains(member)) {
-            this.members.add(member);
+    public boolean addMember(Player member) {
+        if (!this.members.contains(member.getName()) && !this.moderators.contains(member.getName())) {
+            this.members.add(member.getName());
             return true;
         } else {
             return false;
@@ -211,8 +201,32 @@ public class RPGGuild {
      * @param message
      */
     public void sendMessageToGuild(String message) {
-        for (Player p1 : onlineMembers) {            
-                p1.sendMessage(message);
+        for (Player p1 : onlineMembers) {
+            p1.sendMessage(message);
+        }
+    }
+
+    void leavePlayerFromGuild(Player p) {
+        this.members.remove(p.getName());
+        this.onlineMembers.remove(p);
+        if (this.moderators.contains(p.getName())) {
+            this.moderators.remove(p.getName());
+        }
+    }
+
+    void addOnlinePlayer(Player p) {
+        this.onlineMembers.add(p);
+    }
+
+    void delFromGuild(Player kickplayer) {
+        if (this.moderators.contains(kickplayer.getName())) {
+            this.moderators.remove(kickplayer.getName());
+        }
+        if (this.members.contains(kickplayer.getName())) {
+            this.members.remove(kickplayer.getName());
+        }
+        if(this.onlineMembers.contains(kickplayer)){
+            this.onlineMembers.remove(kickplayer);
         }
     }
 }

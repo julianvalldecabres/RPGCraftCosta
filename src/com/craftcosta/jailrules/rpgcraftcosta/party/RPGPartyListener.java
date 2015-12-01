@@ -17,14 +17,8 @@
 package com.craftcosta.jailrules.rpgcraftcosta.party;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
-import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
-import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
  *

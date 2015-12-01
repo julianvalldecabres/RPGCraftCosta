@@ -5,10 +5,8 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.party;
 
-import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
 import java.util.ArrayList;
 import java.util.List;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 /**

@@ -89,10 +89,7 @@ public class RPGQuestItem {
         if (this.quality != other.quality) {
             return false;
         }
-        if (!Objects.equals(this.lores, other.lores)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.lores, other.lores);
     }
 
     @Override

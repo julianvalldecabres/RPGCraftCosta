@@ -257,6 +257,9 @@ public class RPGArmorManager {
     }
 
     public boolean isRPGArmor(ItemStack item) {
+        if(!item.hasItemMeta()){
+            return false;
+        }
         return this.armorList.containsKey(getRPGArmorNameByItem(item));
     }
 

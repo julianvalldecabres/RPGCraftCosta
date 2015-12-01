@@ -79,7 +79,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 } else if (args[0].equalsIgnoreCase("disband") || args[0].equalsIgnoreCase("d")) {
                     //si es el lider puede disolver el grupo
-                    if (rpgP.getParty().equals("")) {
+                    if (rpgP.getParty().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " No perteneces a ningún grupo");
                         return true;
                     } else {
@@ -95,7 +95,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 } else if (args[0].equalsIgnoreCase("pvpon")) {
                     //si el el lider puede modificar que los jugadores se puedan lesionar entre ellos
-                    if (rpgP.getParty().equals("")) {
+                    if (rpgP.getParty().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " No perteneces a ningún grupo");
                         return true;
                     } else {
@@ -111,7 +111,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 } else if (args[0].equalsIgnoreCase("pvpoff")) {
                     //Si es el lider puede modificar que los jugadores no se puedan lesionar entre ellos
-                    if (rpgP.getParty().equals("")) {
+                    if (rpgP.getParty().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " No perteneces a ningún grupo");
                         return true;
                     } else {
@@ -127,7 +127,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 } else if (args[0].equalsIgnoreCase("info")) {
                     //muestra la informacion de la party a la que pertenece el player
-                    if (rpgP.getParty().equals("")) {
+                    if (rpgP.getParty().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " No perteneces a ningún grupo");
                         return true;
                     } else {
@@ -142,7 +142,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                     }
                 } else if (args[0].equalsIgnoreCase("quit") || args[0].equalsIgnoreCase("exit") || args[0].equalsIgnoreCase("leave")) {
                     //Para que el jugador abandone el grupo actual
-                    if (rpgP.getParty().equals("")) {
+                    if (rpgP.getParty().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " No perteneces a ningún grupo");
                         return true;
                     } else {
@@ -152,7 +152,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                     }
                 } else if (args[0].equalsIgnoreCase("accept") || args[0].equalsIgnoreCase("a")) {
                     //Para que el jugador abandone el grupo actual
-                    if (rpgP.getParty().equals("")) {
+                    if (rpgP.getParty().isEmpty()) {
                         if (playerEnPeticion(p.getName())) {
                             RPGParty party = rpgPaMan.getParty(peticiones.get(p.getName()));
                             p.sendMessage(prefix + " Te has unido al grupo " + party.getName());
@@ -170,7 +170,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                     return true;
                 } else if (args[0].equalsIgnoreCase("decline") || args[0].equalsIgnoreCase("de")) {
                     //Para que el jugador decline la invitacion
-                    if (!rpgP.getParty().equals("")) {
+                    if (!rpgP.getParty().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " Ya perteneces al grupo " + rpgP.getParty());
                         return true;
                     } else {
@@ -188,7 +188,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                 }
             } else if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("c")) {
-                    if (rpgP.getParty().equals("")) {
+                    if (rpgP.getParty().isEmpty()) {
                         //el jugador crea un grupo del cual es lider
                         rpgPaMan.addNewParty(new RPGParty(args[1], p));
                         p.sendMessage(prefix + " El grupo se ha creado correctamente");
@@ -199,7 +199,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("invite") || args[0].equalsIgnoreCase("i")) {
-                    if (rpgP.getParty().equals("")) {
+                    if (rpgP.getParty().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " Para poder invitar debes pertenecer a un grupo");
                     } else {
                         String partyName = rpgP.getParty();
@@ -208,7 +208,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                         } else {
                             final Player invited = plugin.getServer().getPlayerExact(args[1]);
                             RPGPlayer rpgPI = rpgPMan.getRPGPlayerByName(invited.getName());
-                            if (rpgPI.getParty().equals("")) {
+                            if (rpgPI.getParty().isEmpty()) {
                                 invited.sendMessage(prefix + " Has sido invitado a unirte al grupo " + partyName);
                                 invited.sendMessage(prefix + " Usa /party accept para unirte");
                                 if (peticiones.containsKey(invited.getName())) {
@@ -235,7 +235,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                         p.sendMessage(prefix + ChatColor.RED + " No puedes kickearte del grupo a ti mismo");
                         return true;
                     }
-                    if (rpgP.getParty().equals("")) {
+                    if (rpgP.getParty().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " Para poder usar este comando debes pertencer y ser el lider de un grupo");
                         return true;
                     } else {
@@ -269,7 +269,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                         p.sendMessage(prefix + ChatColor.RED + " No puedes hacerte lider del grupo a ti mismo");
                         return true;
                     }
-                    if (rpgP.getParty().equals("")) {
+                    if (rpgP.getParty().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " Para poder usar este comando debes pertencer y ser el lider de un grupo");
                         return true;
                     } else {
@@ -349,7 +349,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                         Collections.sort(list);
                         return list;
                     } else if (args[0].equalsIgnoreCase("kick") || args[0].equalsIgnoreCase("makeleader") || args[0].equalsIgnoreCase("k") || args[0].equalsIgnoreCase("mkl")) {
-                        if (!rpgP.getParty().equals("")) {
+                        if (!rpgP.getParty().isEmpty()) {
                             for (Player elem : rpgPaMan.getParty(rpgP.getParty()).getPlayers()) {
                                 list.add(elem.getName());
                             }
@@ -357,7 +357,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                             return list;
                         }
                     } else if (args[0].equalsIgnoreCase("invite")) {
-                        if (!rpgP.getParty().equals("")) {
+                        if (!rpgP.getParty().isEmpty()) {
                             for (Player elem : plugin.getServer().getOnlinePlayers()) {
                                 list.add(elem.getName());
                             }

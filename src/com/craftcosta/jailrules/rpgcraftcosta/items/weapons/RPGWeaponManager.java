@@ -197,6 +197,9 @@ public class RPGWeaponManager {
     }
 
     public boolean isRPGWeapon(ItemStack item) {
+        if(!item.hasItemMeta()){
+            return false;
+        }
         return this.weaponList.containsKey(getRPGWeaponNameByItem(item));
     }
 

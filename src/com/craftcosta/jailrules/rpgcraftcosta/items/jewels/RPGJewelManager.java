@@ -171,7 +171,7 @@ public class RPGJewelManager {
     }
 
     public boolean isRPGJewel(ItemStack item) {
-        return this.jewelList.containsKey(ChatColor.stripColor(item.getItemMeta().getDisplayName()));
+        return this.jewelList.containsKey(getRPGJewelNameByItem(item));
     }
 
     private void loadJewelsConfig() {
@@ -218,7 +218,7 @@ public class RPGJewelManager {
         }
     }
 
-    ItemStack combineloseJewels(ItemStack cursor, ItemStack currentItem) {
+    public ItemStack combineloseJewels(ItemStack cursor, ItemStack currentItem) {
         RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
         List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> cursorLores = rpgLMan.getListOfLoresFromItem(cursor);
         List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> currentItemLores = rpgLMan.getListOfLoresFromItem(currentItem);
@@ -322,7 +322,7 @@ public class RPGJewelManager {
         return newJewel;
     }
 
-    ItemStack combineNoSumJewels(ItemStack cursor, ItemStack currentItem) {
+    public ItemStack combineNoSumJewels(ItemStack cursor, ItemStack currentItem) {
         RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
         List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> cursorLores = rpgLMan.getListOfLoresFromItem(cursor);
         List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> currentItemLores = rpgLMan.getListOfLoresFromItem(currentItem);

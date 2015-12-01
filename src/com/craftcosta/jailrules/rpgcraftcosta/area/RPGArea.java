@@ -16,36 +16,20 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.area;
 
+import java.util.List;
+import org.bukkit.Location;
+
 /**
  *
  * @author jail
  */
-public enum AreaType {
-    BLOCK,//Bloque
-    DUNGEON,//mazmorra
-    VILLAGE,//poblado
-    CITY,//ciudad
-    VALLEY,//Valle
-    CAVE,//Cueva
-    QUARRY,//Mina
-    PIT,//pozo
-    MOUNTAIN,
-    CASTLE,
-    CHURCH,
-    TEMPLE,
-    LIBRARY,
-    RIVER,
-    BRIDGE,
-    COTTAGE,
-    CUT,
-    SHIP,
-    SEA,
-    MARKET,
-    HOUSE,
-    BASTION,
-    CITADEL,
-    SMITHY,
-    SLAUGHTERHOUSE,
-    TAVERN,
-    FOUNDRY;
+public class RPGArea {
+    private String name;
+    private String owner;
+    private AreaType aType;
+    private boolean pvp;
+    private boolean canbuild;
+    private Location pos1;
+    private Location pos2;
+    private List<RPGSubzone> subzones;
 }

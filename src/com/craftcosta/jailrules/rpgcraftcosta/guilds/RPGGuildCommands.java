@@ -57,7 +57,10 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
         String prefix = rpgCMan.getPrefixForGuild();
         final Player p = (Player) sender;
         RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
-        if (label.equalsIgnoreCase("guilds")) {
+        if (rpgP == null) {
+            plugin.getLogger().info("EL RPGPLAYER NO EXISTE");
+        }
+        if (label.equalsIgnoreCase("guild")) {
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("list") || (args[0].equalsIgnoreCase("ls"))) {
                     //muetra una lista de clanes creados en la partida actual
@@ -80,12 +83,13 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                     return true;
                 } else if (args[0].equalsIgnoreCase("remove") || args[0].equalsIgnoreCase("r")) {
                     //si es el lider puede disolver el grupo
-                    if (rpgP.getGuild().equals("")) {
+                    if (rpgP.getGuild().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " No perteneces a ningún clan");
                         return true;
                     } else {
                         RPGGuild guild = rpgGMan.getGuildByName(rpgP.getGuild());
                         if (guild.getOwner().equals(p.getName())) {
+                            rpgP.setGuild("");
                             rpgGMan.removeGuild(guild.getName());
                             p.sendMessage(prefix + " Has eliminado el clan " + guild.getName());
                         } else {
@@ -96,7 +100,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                     return true;
                 } else if (args[0].equalsIgnoreCase("info")) {
                     //muestra la informacion del clan al que pertenece el jugador
-                    if (rpgP.getGuild().equals("")) {
+                    if (rpgP.getGuild().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " No perteneces a ningún clan");
                         return true;
                     } else {
@@ -112,7 +116,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                     }
                 } else if (args[0].equalsIgnoreCase("quit") || args[0].equalsIgnoreCase("exit") || args[0].equalsIgnoreCase("leave")) {
                     //Para que el jugador abandone el clan actual
-                    if (rpgP.getGuild().equals("")) {
+                    if (rpgP.getGuild().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " No perteneces a ningún clan");
                         return true;
                     } else {
@@ -122,7 +126,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                     }
                 } else if (args[0].equalsIgnoreCase("accept") || args[0].equalsIgnoreCase("a")) {
                     //Para que el jugador acepte una invitacion al clan
-                    if (rpgP.getGuild().equals("")) {
+                    if (rpgP.getGuild().isEmpty()) {
                         if (playerEnPeticion(p.getName())) {
                             RPGGuild guild = rpgGMan.getGuildByName(peticiones.get(p.getName()));
                             p.sendMessage(prefix + " Te has unido al clan " + guild.getName());
@@ -140,7 +144,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                     return true;
                 } else if (args[0].equalsIgnoreCase("decline") || args[0].equalsIgnoreCase("de")) {
                     //Para que el jugador decline la invitacion al clan
-                    if (!rpgP.getGuild().equals("")) {
+                    if (!rpgP.getGuild().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " Ya perteneces al clan " + rpgP.getGuild());
                         return true;
                     } else {
@@ -157,9 +161,33 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                     return true;
                 }
             } else if (args.length == 2) {
-                if (args[0].equalsIgnoreCase("invite") || args[0].equalsIgnoreCase("i")) {
-                    if (rpgP.getGuild().equals("")) {
+                if (args[0].equalsIgnoreCase("donation") || args[0].equalsIgnoreCase("do")) {
+                    if (rpgP.getGuild().isEmpty()) {
+                        p.sendMessage(prefix + ChatColor.RED + " Para poder realizar una donacion debes pertenecer a un clan");
+                        return true;
+                    } else {
+                        RPGGuild guild = rpgGMan.getGuildByName(rpgP.getGuild());
+                        double amount = 0;
+                        try {
+                            amount = Double.parseDouble(args[1]);
+                        } catch (NumberFormatException e) {
+                            p.sendMessage(prefix + ChatColor.RED + " " + args[1] + " No es una cantidad");
+                            return true;
+                        }
+                        if (amount > rpgGMan.getMaxcontribution()) {
+                            p.sendMessage(prefix + ChatColor.RED + " Has superado la maxima donacion del clan");
+                            return true;
+                        } else {
+                            rpgGMan.addDonationToGuild(guild, amount);
+                            p.sendMessage(prefix + " Has realizado una donación a tu clan");
+                            rpgGMan.sendMessageToGuild(guild.getName(), p.getName() + " ha realizaso una donacion al clan");
+                            return true;
+                        }
+                    }
+                } else if (args[0].equalsIgnoreCase("invite") || args[0].equalsIgnoreCase("i")) {
+                    if (rpgP.getGuild().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " Para poder invitar debes pertenecer a un clan");
+                        return true;
                     } else {
                         String guildName = rpgP.getGuild();
                         if (plugin.getServer().getPlayerExact(args[1]) == null) {
@@ -167,7 +195,11 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                         } else {
                             final Player invited = plugin.getServer().getPlayerExact(args[1]);
                             RPGPlayer rpgPI = rpgPMan.getRPGPlayerByName(invited.getName());
-                            if (rpgPI.getGuild().equals("")) {
+                            if (rpgPI.getActualLevel() < rpgGMan.getMinleveljoin()) {
+                                p.sendMessage(prefix + ChatColor.RED + " El jugador " + args[1] + " No cumple los requisitos para unirse al clan");
+                                return true;
+                            }
+                            if (rpgPI.getGuild().isEmpty()) {
                                 invited.sendMessage(prefix + " Has sido invitado a unirte al clan " + guildName);
                                 invited.sendMessage(prefix + " Usa /clan accept/decline para unirte o declinar la oferta");
                                 if (peticiones.containsKey(invited.getName())) {
@@ -183,27 +215,95 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                                 }, 400);
                             } else {
                                 p.sendMessage(prefix + ChatColor.RED + " El jugador " + invited.getName() + " ya pertenece a otro clan");
+                                return true;
                             }
                         }
                     }
                     return true;
+                } else if (args[0].equalsIgnoreCase("accept") || args[0].equalsIgnoreCase("a")) {
+                    if (rpgP.getGuild().isEmpty()) {
+                        p.sendMessage(prefix + ChatColor.RED + " Para poder realizar esta accion debes pertenecer a un clan");
+                        return true;
+                    } else {
+                        RPGGuild guild = rpgGMan.getGuildByName(rpgP.getGuild());
+                        if (guild.getOwner().equals(p.getName()) || guild.getModerators().contains(p.getName())) {
+                            Player pj = Bukkit.getServer().getPlayerExact(args[1]);
+                            if (pj != null) {
+                                RPGPlayer rpgPJ = rpgPMan.getRPGPlayerByName(pj.getName());
+                                for (Map.Entry<String, String> entrySet : invitaciones.entrySet()) {
+                                    if (entrySet.getKey().equals(args[1]) && entrySet.getValue().equals(guild.getName())) {
+                                        rpgPJ.setGuild(guild.getName());
+                                        guild.addMember(pj);
+                                        invitaciones.remove(pj.getName());
+                                        pj.sendMessage(prefix + " Enhorabuena ahora perteneces al clan " + guild.getName());
+                                        rpgGMan.sendMessageToGuild(guild.getName(), " El jugador " + args[1] + " se ha unido al clan");
+                                    } else {
+                                        p.sendMessage(prefix + ChatColor.RED + " Solicitud del jugador " + args[1] + " no encontrada");
+                                        return true;
+                                    }
+                                }
+                            } else {
+                                p.sendMessage(prefix + ChatColor.RED + " El jugador " + args[1] + " no ha sido encontrado o no esta online");
+                                return true;
+                            }
+                        } else {
+                            p.sendMessage(prefix + ChatColor.RED + " Para poder realizar esta accion debes ser propietario o moderador de un clan");
+                            return true;
+                        }
+                    }
+                } else if (args[0].equalsIgnoreCase("decline") || args[0].equalsIgnoreCase("de")) {
+                    if (rpgP.getGuild().isEmpty()) {
+                        p.sendMessage(prefix + ChatColor.RED + " Para poder realizar esta accion debes pertenecer a un clan");
+                        return true;
+                    } else {
+                        RPGGuild guild = rpgGMan.getGuildByName(rpgP.getGuild());
+                        if (guild.getOwner().equals(p.getName()) || guild.getModerators().contains(p.getName())) {
+                            Player pj = Bukkit.getServer().getPlayerExact(args[1]);
+                            if (pj != null) {
+                                RPGPlayer rpgPJ = rpgPMan.getRPGPlayerByName(pj.getName());
+                                for (Map.Entry<String, String> entrySet : invitaciones.entrySet()) {
+                                    if (entrySet.getKey().equals(args[1]) && entrySet.getValue().equals(guild.getName())) {
+                                        invitaciones.remove(pj.getName());
+                                        pj.sendMessage(prefix + ChatColor.RED + " Tu solicitud para unirte al clan " + guild.getName() + " ha sido denegada");
+                                    } else {
+                                        p.sendMessage(prefix + ChatColor.RED + " Solicitud del jugador " + args[1] + " no encontrada");
+                                        return true;
+                                    }
+                                }
+                            } else {
+                                p.sendMessage(prefix + ChatColor.RED + " El jugador " + args[1] + " no ha sido encontrado o no esta online");
+                                return true;
+                            }
+                        } else {
+                            p.sendMessage(prefix + ChatColor.RED + " Para poder realizar esta accion debes ser propietario o moderador de un clan");
+                            return true;
+                        }
+                    }
                 } else if (args[0].equalsIgnoreCase("join") || args[0].equalsIgnoreCase("j")) {
-                    if (!rpgP.getGuild().equals("")) {
+                    if (!rpgP.getGuild().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " Para poder solicitar la union a un clan no debes pertenecer a uno");
+                        return true;
                     } else {
                         RPGGuild guild = rpgGMan.getGuildByName(args[1]);
                         if (guild == null) {
                             p.sendMessage(prefix + ChatColor.RED + " El clan " + args[1] + "no ha sido encontrado");
                             return true;
                         } else {
+                            if (rpgP.getActualLevel() < rpgGMan.getMinleveljoin()) {
+                                p.sendMessage(prefix + ChatColor.RED + " No cumples los requisitos para unirte al clan");
+                                return true;
+                            }
+
                             if (invitaciones.containsKey(p.getName())) {
                                 invitaciones.remove(p.getName());
                             }
-                            peticiones.put(p.getName(), guild.getName());
+                            rpgGMan.sendJoinRequestGuild(p, guild);
+                            invitaciones.put(p.getName(), guild.getName());
                             Bukkit.getServer().getScheduler().runTaskLater(this.plugin, new Runnable() {
                                 @Override
                                 public void run() {
                                     if (playerEnInvitacion(p.getName())) {
+                                        p.sendMessage(rpgCMan.getPrefixForGuild() + ChatColor.RED + " La peticion ha expirado");
                                         invitaciones.remove(p.getName());
                                     }
                                 }
@@ -216,7 +316,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                         p.sendMessage(prefix + ChatColor.RED + " No puedes kickearte del clan a ti mismo");
                         return true;
                     }
-                    if (rpgP.getGuild().equals("")) {
+                    if (rpgP.getGuild().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " Para poder usar este comando debes pertencer y ser el lider o moderador de un clan");
                         return true;
                     } else {
@@ -232,6 +332,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                                 if (guild.getMembers().contains(kickplayer.getName())) {
                                     rpgGMan.kickPlayerFromGuild(guild, kickplayer);
                                     rpgkplayer.setGuild("");
+                                    kickplayer.sendMessage(prefix +ChatColor.RED+" Has sido kickeado del clan "+guild.getName());
                                     p.sendMessage(prefix + " Has kickeado a " + args[1] + " del clan");
                                     return true;
                                 } else {
@@ -250,7 +351,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                         p.sendMessage(prefix + ChatColor.RED + " No puedes hacerte lider del clan a ti mismo");
                         return true;
                     }
-                    if (rpgP.getGuild().equals("")) {
+                    if (rpgP.getGuild().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " Para poder usar este comando debes pertencer y ser el lider de un clan");
                         return true;
                     } else {
@@ -291,34 +392,91 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                         p.sendMessage(ChatColor.YELLOW + "Usuarios online: " + ChatColor.GOLD + guild.getOnlineMembers().toString());
                         return true;
                     }
-                }
-            } else if (args.length == 3) {
-                if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("c")) {
-                    if (rpgP.getGuild().equals("")) {
+                } else if (args[0].equalsIgnoreCase("create") || args[0].equalsIgnoreCase("c")) {
+                    if (rpgP.getGuild().isEmpty()) {
                         if (rpgGMan.getAllAvailableGuilds().contains(args[1])) {
                             p.sendMessage(prefix + ChatColor.RED + " Ya existe un clan con ese nombre");
                             return true;
                         } else {
-                            if (args[2].length() == 3) {
-                                //el jugador crea un clan del cual es propietario
-                                rpgGMan.addNewGuild(new RPGGuild(args[1], args[2].toUpperCase(), p));
-                                p.sendMessage(prefix + " El clan se ha creado correctamente");
-                                rpgP.setGuild(args[1]);
-                                return true;
-                            } else {
-                                p.sendMessage(prefix + ChatColor.RED + " Las siglas del clan deben tener 3 letras");
+                            if (rpgP.getActualLevel() < rpgGMan.getMinlevelcreate()) {
+                                p.sendMessage(prefix + ChatColor.RED + " No cumples los requisitos para crear un clan");
                                 return true;
                             }
+
+                            //el jugador crea un clan del cual es propietario
+                            RPGGuild guild = new RPGGuild(args[1], p);
+                            rpgGMan.addNewGuild(guild);
+
+                            p.sendMessage(prefix + " El clan se ha creado correctamente");
+                            rpgP.setGuild(args[1]);
+                            return true;
+
                         }
                     } else {
-                        p.sendMessage(prefix + ChatColor.RED + " Ya perteneces al clan " + rpgP.getParty());
+                        p.sendMessage(prefix + ChatColor.RED + " Ya perteneces al clan " + rpgP.getGuild());
                         return true;
                     }
-                } else {
-
+                } else if (args[0].equalsIgnoreCase("promote") || args[0].equalsIgnoreCase("p")){
+                    if (p.getName().equals(args[1])) {
+                        p.sendMessage(prefix + ChatColor.RED + " No puedes hacerte moderador del clan a ti mismo");
+                        return true;
+                    }
+                    if (rpgP.getGuild().isEmpty()) {
+                        p.sendMessage(prefix + ChatColor.RED + " Para poder usar este comando debes pertencer y ser el lider de un clan");
+                        return true;
+                    } else {
+                        RPGGuild guild = rpgGMan.getGuildByName(rpgP.getGuild());
+                        if (p.getName().equals(guild.getOwner())) {
+                            Player newmodplayer = plugin.getServer().getPlayerExact(args[1]);
+                            if (newmodplayer == null) {
+                                p.sendMessage(prefix + ChatColor.RED + " El jugador " + args[1] + " no se ha encontrado");
+                                return true;
+                            } else {
+                                if (guild.getMembers().contains(newmodplayer.getName())  && !guild.getModerators().contains(newmodplayer.getName())) {
+                                    rpgGMan.promotePlayerFromGuild(guild, newmodplayer);
+                                    p.sendMessage(prefix + " Has nombrado moderador del clan a " + args[1]);
+                                    return true;
+                                } else {
+                                    p.sendMessage(prefix + ChatColor.RED + " El jugador " + args[1] + " o bien, no pertenece al clan, o ya es moderador");
+                                    return true;
+                                }
+                            }
+                        } else {
+                            p.sendMessage(prefix + ChatColor.RED + " Para poder usar este comando debes ser el lider del clan");
+                            return true;
+                        }
+                    }
+                }else if (args[0].equalsIgnoreCase("depromote") || args[0].equalsIgnoreCase("dep")){
+                    if (p.getName().equals(args[1])) {
+                        p.sendMessage(prefix + ChatColor.RED + " No puedes hacerte lider del clan a ti mismo");
+                        return true;
+                    }
+                    if (rpgP.getGuild().isEmpty()) {
+                        p.sendMessage(prefix + ChatColor.RED + " Para poder usar este comando debes pertencer y ser el lider de un clan");
+                        return true;
+                    } else {
+                        RPGGuild guild = rpgGMan.getGuildByName(rpgP.getGuild());
+                        if (p.getName().equals(guild.getOwner())) {
+                            Player newmodplayer = plugin.getServer().getPlayerExact(args[1]);
+                            if (newmodplayer == null) {
+                                p.sendMessage(prefix + ChatColor.RED + " El jugador " + args[1] + " no se ha encontrado");
+                                return true;
+                            } else {
+                                if (guild.getMembers().contains(newmodplayer.getName())  && !guild.getModerators().contains(newmodplayer.getName())) {
+                                    rpgGMan.depromotePlayerFromGuild(guild, newmodplayer);
+                                    p.sendMessage(prefix + " El antes moderador del clan " + args[1]+ " es de nuevo miembro");
+                                    return true;
+                                } else {
+                                    p.sendMessage(prefix + ChatColor.RED + " El jugador " + args[1] + " o bien, no pertenece al clan, o ya es moderador");
+                                    return true;
+                                }
+                            }
+                        } else {
+                            p.sendMessage(prefix + ChatColor.RED + " Para poder usar este comando debes ser el lider del clan");
+                            return true;
+                        }
+                    }
                 }
-            } else {
-
             }
         }
 
@@ -342,7 +500,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
             RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
             if (label.equalsIgnoreCase("guild")) {
                 if (args.length == 0 || args.length == 1) {
-                    String[] list1 = new String[]{"list", "info", "help", "join", "leave", "remove", "accept", "decline", "setowner", "create", "invite", "kick"};
+                    String[] list1 = new String[]{"list", "info", "help", "invite", "join", "leave", "remove", "accept", "decline", "setowner", "create", "kick"};
                     for (String elem : list1) {
                         list.add(elem);
                     }
@@ -351,19 +509,19 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                 } else if (args.length == 2) {
                     if (args[0].equalsIgnoreCase("list")
                             || args[0].equalsIgnoreCase("help")
-                            || args[0].equalsIgnoreCase("pvpon")
-                            || args[0].equalsIgnoreCase("pvpoff")
                             || args[0].equalsIgnoreCase("leave")
-                            || args[0].equalsIgnoreCase("remove")
-                            || args[0].equalsIgnoreCase("accept")
-                            || args[0].equalsIgnoreCase("decline")) {
+                            || args[0].equalsIgnoreCase("remove")) {
                         return null;
-                    } else if (args[0].equalsIgnoreCase("info")) {
+                    } else if (args[0].equalsIgnoreCase("info")
+                            || args[0].equalsIgnoreCase("join")) {
                         list.addAll(rpgGMan.getAllAvailableGuilds());
                         Collections.sort(list);
                         return list;
-                    } else if (args[0].equalsIgnoreCase("kick") || args[0].equalsIgnoreCase("makeleader") || args[0].equalsIgnoreCase("k") || args[0].equalsIgnoreCase("mkl")) {
-                        if (!rpgP.getParty().equals("")) {
+                    } else if (args[0].equalsIgnoreCase("kick")
+                            || args[0].equalsIgnoreCase("setowner")
+                            || args[0].equalsIgnoreCase("k")
+                            || args[0].equalsIgnoreCase("so")) {
+                        if (!rpgP.getGuild().isEmpty()) {
                             for (Player elem : rpgGMan.getGuildByName(rpgP.getGuild()).getOnlineMembers()) {
                                 list.add(elem.getName());
                             }
@@ -371,17 +529,9 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                             return list;
                         }
                     } else if (args[0].equalsIgnoreCase("invite")) {
-                        if (!rpgP.getParty().equals("")) {
+                        if (!rpgP.getParty().isEmpty()) {
                             for (Player elem : plugin.getServer().getOnlinePlayers()) {
                                 list.add(elem.getName());
-                            }
-                            Collections.sort(list);
-                            return list;
-                        }
-                    } else if (args[0].equalsIgnoreCase("join")) {
-                        if (rpgP.getGuild().equals("")) {
-                            for (String guild : rpgGMan.getAllAvailableGuilds()) {
-                                list.add(guild);
                             }
                             Collections.sort(list);
                             return list;

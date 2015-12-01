@@ -6,8 +6,10 @@
 package com.craftcosta.jailrules.rpgcraftcosta.player;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClass;
 import com.craftcosta.jailrules.rpgcraftcosta.economy.RPGEconomy;
+import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.armor.RPGArmorManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.jewels.RPGJewelManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
@@ -42,6 +44,8 @@ public class RPGPlayerManager {
     private RPGArmorManager rpgAMan;
     private RPGWeaponManager rpgWMan;
     private RPGJewelManager rpgJMan;
+    private RPGGuildManager rpgGMan;
+    private RPGChatManager rpgCMan;
     private File playerFilePath;
     private FileConfiguration pFConfig;
 
@@ -55,6 +59,7 @@ public class RPGPlayerManager {
         this.rpgAMan = plugin.getRPGItemManager().getRPGArmorManager();
         this.rpgWMan = plugin.getRPGItemManager().getRPGWeaponManager();
         this.rpgJMan = plugin.getRPGItemManager().getRPGJewelManager();
+        this.rpgGMan = plugin.getRPGGuildManager();
     }
 
     /**
@@ -211,9 +216,10 @@ public class RPGPlayerManager {
         int intelligenceP;
         int strengthP;
         //leer del fichero
-        ConfigurationSection section=pFConfig;
+        ConfigurationSection section = pFConfig;
         playerClass = section.getString("class");
         guild = section.getString("guild");
+
         econ = new RPGEconomy(section.getLong("money"));
 
         experience = section.getLong("experience");
@@ -254,7 +260,7 @@ public class RPGPlayerManager {
         ItemStack[] equipedArmor = p.getPlayer().getInventory().getArmorContents();
         ItemStack equipedWeapon = p.getPlayer().getItemInHand();
         int weaponSlot = p.getPlayer().getInventory().getHeldItemSlot();
-        System.out.println("Item en mano en slot: " + weaponSlot);
+        //System.out.println("Item en mano en slot: " + weaponSlot);
         ItemStack[] quickbarItems = new ItemStack[9];
 
         System.out.println("Contenido de armadura");
@@ -274,7 +280,7 @@ public class RPGPlayerManager {
         }
         for (ItemStack item : quickbarItems) {
             if (item != null) {
-                System.out.println(item.toString());
+                //System.out.println(item.toString());
             }
         }
     }
@@ -288,8 +294,7 @@ public class RPGPlayerManager {
                 e1.printStackTrace();
             }
         }
-        
-        
+
         FileConfiguration section = YamlConfiguration.loadConfiguration(playerFile);
         section.set("name", rpgP.getPlayer().getName());
         section.set("move", rpgP.isMove());
@@ -297,17 +302,16 @@ public class RPGPlayerManager {
         section.set("experience", rpgP.getActualExp());
         section.set("level", rpgP.getActualLevel());
         section.set("guild", rpgP.getGuild());
-        section.set("party", rpgP.getParty());
         section.set("class", rpgP.getPlayerClass());
         section.set("actualHealth", rpgP.getActualHealth());
         section.set("actualMana", rpgP.getActualMana());
         section.set("maxHealth", rpgP.getMaxHealth());
         section.set("maxMana", rpgP.getMaxMana());
         section.set("ap", rpgP.getAp());
-        section.set("constP", rpgP.getConstitutionP());
-        section.set("dextP", rpgP.getDexteryP());
-        section.set("intelP", rpgP.getIntelligenceP());
-        section.set("strghP", rpgP.getStrengthP());
+        section.set("constitutionP", rpgP.getConstitutionP());
+        section.set("dexteryP", rpgP.getDexteryP());
+        section.set("intelligenceP", rpgP.getIntelligenceP());
+        section.set("strenghP", rpgP.getStrengthP());
         section.set("physicalattack", rpgP.getPhysicalAttack());
         section.set("physicaldefense", rpgP.getPhysicalDefense());
         section.set("physicalevasion", rpgP.getPhysicalEvasion());

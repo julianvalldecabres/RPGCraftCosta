@@ -330,6 +330,7 @@ public class RPGArmorListener implements Listener {
     @EventHandler
     public void onPlayerPickupArmor(PlayerPickupItemEvent e) {
         Player p = e.getPlayer();
+        plugin.getLogger().info("item: "+e.getItem().toString());
         RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
         if (rpgAMan.isRPGArmor(e.getItem().getItemStack())) {
             rpgPMan.checkAllEquipment(rpgP);

@@ -1,11 +1,11 @@
 # enable or disables guilds in game
 enabled: true
 # set minimum level for player guild creation -1 no limit
-minlevelcreate: 20
+minlevelcreate: -1
 # set minimum level for player guild creation -1 no limit
-minleveljoin: 20
+minleveljoin: -1
 # guild slots limiter >1
-maxslots: -1
+maxslots: 30
 a: 100.0
 b: 50.0
 maxlevel: 10

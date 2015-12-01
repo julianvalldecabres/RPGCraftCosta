@@ -40,9 +40,9 @@ public class RPGItemListener implements Listener {
         if (event.getSlotType().equals(SlotType.ARMOR)) {
             //
             //Comprobar si se quita, se pone o se intercambia un item de estos slots
-            if (event.getCursor().getType().equals(Material.AIR) || event.getCursor().equals(null)) {
+            if (event.getCursor().getType().equals(Material.AIR) || event.getCursor() == null) {
                 //Si no hay item en el cursor
-                if (event.getCurrentItem().getType().equals(Material.AIR) || event.getCurrentItem().equals(null)) {
+                if (event.getCurrentItem().getType().equals(Material.AIR) || event.getCurrentItem() == null) {
                     //Si no hay item en el slot
                     //No hacer nada
                     return;
@@ -56,7 +56,7 @@ public class RPGItemListener implements Listener {
                 }
             } else {
                 //Si hay item en el cursor
-                if (event.getCurrentItem().getType().equals(Material.AIR) || event.getCurrentItem().equals(null)) {
+                if (event.getCurrentItem().getType().equals(Material.AIR) || event.getCurrentItem() == null) {
                 //Si no hay item en el slot
 
                     //Se pondra el item del cursor en el slot clicado siempre que sea compatible....
@@ -71,9 +71,9 @@ public class RPGItemListener implements Listener {
             }
         } else if (event.getSlotType().equals(SlotType.QUICKBAR)) {
             //Comprobar si el item colocado
-            if (event.getCursor().getType().equals(Material.AIR) || event.getCursor().equals(null)) {
+            if (event.getCursor().getType().equals(Material.AIR) || event.getCursor() == null) {
                 //Si no hay item en el cursor
-                if (event.getCurrentItem().getType().equals(Material.AIR) || event.getCurrentItem().equals(null)) {
+                if (event.getCurrentItem().getType().equals(Material.AIR) || event.getCurrentItem() == null) {
                     //Si no hay item en el slot
                     //No hacer nada
                     return;
@@ -84,7 +84,7 @@ public class RPGItemListener implements Listener {
                 }
             } else {
                 //Si hay item en el cursor
-                if (event.getCurrentItem().getType().equals(Material.AIR) || event.getCurrentItem().equals(null)) {
+                if (event.getCurrentItem().getType().equals(Material.AIR) || event.getCurrentItem() == null) {
                     //Si no hay item en el slot
                     //Se pondra el item del cursor en el slot clicado siempre que sea compatible....
                     //Añadir atributos al player

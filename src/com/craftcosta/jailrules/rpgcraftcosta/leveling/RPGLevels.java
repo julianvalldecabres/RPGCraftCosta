@@ -93,10 +93,7 @@ public class RPGLevels {
         double newexp = 0;
         if (inc > 0) {
             newexp = exp + inc;
-            if (levels.lowerEntry(exp).getValue() == levels.lowerEntry(newexp).getValue()) {
-                return false;
-            }
-            return true;
+            return levels.lowerEntry(exp).getValue() != levels.lowerEntry(newexp).getValue();
         }
         return false;
     }

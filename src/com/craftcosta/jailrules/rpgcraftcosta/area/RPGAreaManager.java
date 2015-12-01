@@ -16,36 +16,20 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.area;
 
+import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import java.io.File;
+
 /**
  *
  * @author jail
  */
-public enum AreaType {
-    BLOCK,//Bloque
-    DUNGEON,//mazmorra
-    VILLAGE,//poblado
-    CITY,//ciudad
-    VALLEY,//Valle
-    CAVE,//Cueva
-    QUARRY,//Mina
-    PIT,//pozo
-    MOUNTAIN,
-    CASTLE,
-    CHURCH,
-    TEMPLE,
-    LIBRARY,
-    RIVER,
-    BRIDGE,
-    COTTAGE,
-    CUT,
-    SHIP,
-    SEA,
-    MARKET,
-    HOUSE,
-    BASTION,
-    CITADEL,
-    SMITHY,
-    SLAUGHTERHOUSE,
-    TAVERN,
-    FOUNDRY;
+public class RPGAreaManager {
+    private RPGCraftCosta plugin;
+    private File AreaFilePath;
+    private File AreaFileConfig;
+
+    public RPGAreaManager(RPGCraftCosta plugin) {
+        this.plugin = plugin;
+    }
+    
 }

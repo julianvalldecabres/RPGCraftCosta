@@ -143,6 +143,7 @@ public class RPGWeaponListener implements Listener {
     public void onPlayerDropWeapon(PlayerDropItemEvent e){
         Player p = e.getPlayer();
         RPGPlayer rpgP= rpgPMan.getRPGPlayerByName(p.getName());
+        plugin.getLogger().info(e.getItemDrop().getName());
         if(rpgWMan.isRPGWeapon(e.getItemDrop().getItemStack())){
             rpgPMan.checkAllEquipment(rpgP);
         }

@@ -12,10 +12,8 @@ import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore;
 import com.craftcosta.jailrules.rpgcraftcosta.quests.RPGQuest;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
-import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -134,11 +132,7 @@ public class RPGPlayer {
         this.marketChat = true;
         this.setResetRequest = false;
         this.slotSelected=0;
-        if (this.playerClass.isEmpty()) {
-            this.move = false;
-        } else {
-            this.move = true;
-        }
+        this.move = !this.playerClass.isEmpty();
     }
 
     private void createRPGPlayer() {
@@ -188,7 +182,7 @@ public class RPGPlayer {
             config = YamlConfiguration.loadConfiguration(playerFile);
         }
         //Si el player existe entonces empezamos a cargar los datos del player
-        if (this.getPlayer().getName() != null && !this.player.getName().equals("")
+        if (this.getPlayer().getName() != null && !this.player.getName().isEmpty()
                 && (playerFile.exists() || config.isConfigurationSection(this.player.getName()))) {
             ConfigurationSection section;
             if (!playerFile.exists()) {

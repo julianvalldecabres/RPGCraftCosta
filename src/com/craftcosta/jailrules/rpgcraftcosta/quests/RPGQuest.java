@@ -16,7 +16,6 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.quests;
 
-import com.craftcosta.jailrules.rpgcraftcosta.area.AreaType;
 import com.craftcosta.jailrules.rpgcraftcosta.items.ItemType;
 import org.bukkit.entity.EntityType;
 
@@ -25,15 +24,13 @@ import org.bukkit.entity.EntityType;
  * @author jail
  */
 public class RPGQuest {
-
-    private QuestType type;     //Tipo de quest
+    private int minLevel;       //nivel minimo de jugador para realizar la mision
+    private QuestType type;     //Tipo de mision
     private int objectivecount; //Contador limite del objetivo solo aplicable a KILLXOFY o COLLECTXOFY
     private ItemType iType;     //Tipo de objeto en caso de COLLECTXOFY
     private EntityType eType;   //Tipo de objetivo en caso de KILLXOFY, LOCATEPERSON
     private String yName;       //Nombre que reciben los objetivos
-    private AreaType aType;     //Tipo de area objetivo en caso de LOCATEPLACE
-
+    private String areaName;    //Nombre del area en caso de mision tipo LOCATEPLACE
     private boolean completed;  //Indicador de si la quest esta terminada o en curso.
-    private int xcount;
-
+    private int xcount;         //Contador de objetivos completados
 }

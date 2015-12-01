@@ -12,7 +12,6 @@ import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -28,10 +27,7 @@ public class RPGPlayerUtils {
      * @return
      */
     public static boolean isPlayerOnline(String name) {
-        if (Bukkit.getServer().getPlayer(name) == null) {
-            return false;
-        }
-        return true;
+        return Bukkit.getServer().getPlayer(name) != null;
     }
 
     /**

@@ -17,7 +17,6 @@
 package com.craftcosta.jailrules.rpgcraftcosta.chat;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
