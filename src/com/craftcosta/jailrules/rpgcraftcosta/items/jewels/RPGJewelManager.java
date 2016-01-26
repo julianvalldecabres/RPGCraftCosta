@@ -454,7 +454,7 @@ public class RPGJewelManager {
                 //Solo los que coincidan
                 if (cIGLores.get(i).getLoretype().equals(cUGLores.get(j).getLoretype())) {
                     com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore lore = null;
-                    lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(cIGLores.get(i).getLoretype(), sumObjects(cIGLores.get(i).getValue(),cUGLores.get(j).getValue()));
+                    lore = new com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore(cIGLores.get(i).getLoretype(), sumObjects(cIGLores.get(i).getValue(), cUGLores.get(j).getValue()));
                     newLores.add(lore);
                     cIAddedL.set(i, Boolean.TRUE);
                     cUAddedL.set(i, Boolean.TRUE);
@@ -510,8 +510,8 @@ public class RPGJewelManager {
         newJewel.setItemMeta(jMeta);
         return newJewel;
     }
-    
-    public double sumObjects(Object o1,Object o2){
-        return (double)o1+(double)o2;
+
+    public double sumObjects(Object o1, Object o2) {
+        return (double) o1 + (double) o2;
     }
 }

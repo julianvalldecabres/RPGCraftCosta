@@ -168,8 +168,10 @@ public class RPGWeaponManager {
                 wName += displayname[i] + " ";
             }
             wName += displayname[sizeLongNameParts - 2];
-        } else {
+        } else if (sizeLongNameParts == 3) {
             wName = displayname[1];
+        } else {
+            wName = item.getItemMeta().getDisplayName();
         }
         return wName;
     }
@@ -197,7 +199,7 @@ public class RPGWeaponManager {
     }
 
     public boolean isRPGWeapon(ItemStack item) {
-        if(!item.hasItemMeta()){
+        if (!item.hasItemMeta()) {
             return false;
         }
         return this.weaponList.containsKey(getRPGWeaponNameByItem(item));
@@ -311,7 +313,7 @@ public class RPGWeaponManager {
                         break;
                     case MONEYBONUS:
                         newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * nivelup));
-                        
+
                         break;
                 }
             }
@@ -380,7 +382,7 @@ public class RPGWeaponManager {
                         newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * niveldown));
                         break;
                     case MONEYBONUS:
-                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * niveldown));                        
+                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * niveldown));
                         break;
                 }
             }

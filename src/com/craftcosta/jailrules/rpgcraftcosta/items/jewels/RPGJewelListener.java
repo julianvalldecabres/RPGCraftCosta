@@ -32,7 +32,7 @@ public class RPGJewelListener implements Listener {
     public RPGJewelListener(RPGCraftCosta plugin) {
         this.plugin = plugin;
         this.rpgJMan = plugin.getRPGItemManager().getRPGJewelManager();
-        this.rpgPMan=plugin.getRPGPlayerManager();
+        this.rpgPMan = plugin.getRPGPlayerManager();
     }
 
     @EventHandler
@@ -100,26 +100,26 @@ public class RPGJewelListener implements Listener {
 
     @EventHandler
     public void onPlayerEquipJewels(InventoryClickEvent event) {
-        RPGLoreManager rpgLMan= plugin.getRPGItemManager().getRPGLoreManager();
+        RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
         Player p = (Player) event.getWhoClicked();
         RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
-        if(event.getRawSlot() >35 && event.getRawSlot()<45){
-            if(event.getCursor().getType().equals(Material.AIR)){
-                if(!event.getCurrentItem().getType().equals(Material.AIR)){
-                    if(rpgJMan.isRPGJewel(event.getCurrentItem())){
+        if (event.getRawSlot() > 35 && event.getRawSlot() < 45) {
+            if (event.getCursor().getType().equals(Material.AIR)) {
+                if (!event.getCurrentItem().getType().equals(Material.AIR)) {
+                    if (rpgJMan.isRPGJewel(event.getCurrentItem())) {
                         rpgP.subStats(rpgLMan.getListOfLoresFromItem(event.getCurrentItem()));
                     }
                 }
-            }else{
-                if(event.getCurrentItem().getType().equals(Material.AIR)){
-                    if(rpgJMan.isRPGJewel(event.getCursor())){
+            } else {
+                if (event.getCurrentItem().getType().equals(Material.AIR)) {
+                    if (rpgJMan.isRPGJewel(event.getCursor())) {
                         rpgP.addStats(rpgLMan.getListOfLoresFromItem(event.getCursor()));
                     }
-                }else{
-                    if(rpgJMan.isRPGJewel(event.getCurrentItem())){
+                } else {
+                    if (rpgJMan.isRPGJewel(event.getCurrentItem())) {
                         rpgP.subStats(rpgLMan.getListOfLoresFromItem(event.getCurrentItem()));
                     }
-                    if(rpgJMan.isRPGJewel(event.getCursor())){
+                    if (rpgJMan.isRPGJewel(event.getCursor())) {
                         rpgP.addStats(rpgLMan.getListOfLoresFromItem(event.getCursor()));
                     }
                 }

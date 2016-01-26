@@ -32,7 +32,7 @@ import org.bukkit.entity.Player;
  *
  * @author jail
  */
-public class RPGClassCommands implements CommandExecutor ,TabCompleter{
+public class RPGClassCommands implements CommandExecutor, TabCompleter {
 
     RPGCraftCosta plugin;
     RPGPlayerManager rpgPMan;
@@ -115,7 +115,7 @@ public class RPGClassCommands implements CommandExecutor ,TabCompleter{
                         return true;
                     }
                 } else {
-                    p.sendMessage(ChatColor.RED + "No existe la opcion " + args[0]+". Para mas ayuda use /class help");
+                    p.sendMessage(ChatColor.RED + "No existe la opcion " + args[0] + ". Para mas ayuda use /class help");
                     return true;
                 }
             }
@@ -125,27 +125,27 @@ public class RPGClassCommands implements CommandExecutor ,TabCompleter{
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
-        List<String> list= new ArrayList();
-        if(sender instanceof Player){
-            if(label.equalsIgnoreCase("class")){
-                if(args.length==0 || args.length==1){
-                    String [] list1= new String[]{"list","choose","help","reset","info"};
+        List<String> list = new ArrayList();
+        if (sender instanceof Player) {
+            if (label.equalsIgnoreCase("class")) {
+                if (args.length == 0 || args.length == 1) {
+                    String[] list1 = new String[]{"list", "choose", "help", "reset", "info"};
                     for (String elem : list1) {
                         list.add(elem);
                     }
                     return list;
-                }else if(args.length==2){
-                     if(args[0].equalsIgnoreCase("list")
-                            ||args[0].equalsIgnoreCase("help")
-                            ||args[0].equalsIgnoreCase("reset")){
-                    }else if(args[0].equalsIgnoreCase("choose")){
+                } else if (args.length == 2) {
+                    if (args[0].equalsIgnoreCase("list")
+                            || args[0].equalsIgnoreCase("help")
+                            || args[0].equalsIgnoreCase("reset")) {
+                    } else if (args[0].equalsIgnoreCase("choose")) {
                         list.addAll(rpgCMan.getAllClassesNames());
                         return list;
-                    }else if(args[0].equalsIgnoreCase("info")) {
+                    } else if (args[0].equalsIgnoreCase("info")) {
                         list.addAll(rpgCMan.getAllClassesNames());
                         return list;
                     }
-                }else{
+                } else {
                     return null;
                 }
             }

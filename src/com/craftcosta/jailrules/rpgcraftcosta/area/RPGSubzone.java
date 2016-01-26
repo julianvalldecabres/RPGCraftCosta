@@ -23,8 +23,9 @@ import org.bukkit.Location;
  * @author jail
  */
 class RPGSubzone {
+
     private String name;
     private Location pos1;
     private Location pos2;
-    
+
 }

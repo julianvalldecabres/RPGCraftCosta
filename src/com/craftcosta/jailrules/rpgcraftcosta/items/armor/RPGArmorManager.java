@@ -257,20 +257,20 @@ public class RPGArmorManager {
     }
 
     public boolean isRPGArmor(ItemStack item) {
-        if(!item.hasItemMeta()){
+        if (!item.hasItemMeta()) {
             return false;
         }
         return this.armorList.containsKey(getRPGArmorNameByItem(item));
     }
 
     public boolean isSamePart(ItemStack item1, ItemStack item2) {
-        String []partsItem1=item1.getType().toString().split("_");
-        String []partsItem2=item2.getType().toString().split("_");
+        String[] partsItem1 = item1.getType().toString().split("_");
+        String[] partsItem2 = item2.getType().toString().split("_");
         return partsItem1[1].equals(partsItem2[1]);
     }
-    
-    public String getPart(ItemStack item){  
-        String []partItem=item.getType().toString().split("_");
+
+    public String getPart(ItemStack item) {
+        String[] partItem = item.getType().toString().split("_");
         return partItem[1];
     }
 }

@@ -27,31 +27,33 @@ import org.bukkit.entity.Player;
  *
  * @author jail
  */
-public class RPGPlayerCommands implements CommandExecutor{
+public class RPGPlayerCommands implements CommandExecutor {
+
     private RPGCraftCosta plugin;
     private RPGPlayerManager rpgPMan;
-    
-    public RPGPlayerCommands(RPGCraftCosta plugin){
-        this.plugin=plugin;
-        this.rpgPMan= plugin.getRPGPlayerManager();
+
+    public RPGPlayerCommands(RPGCraftCosta plugin) {
+        this.plugin = plugin;
+        this.rpgPMan = plugin.getRPGPlayerManager();
     }
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        Player p= (Player) sender;
-        RPGPlayer rpgP= this.rpgPMan.getRPGPlayerByName(p.getName());
-        if(label.equalsIgnoreCase("player")){
-            if(args.length==0){
-                p.sendMessage(ChatColor.RED+"Use /player help para mostrar la ayuda");
+        Player p = (Player) sender;
+        RPGPlayer rpgP = this.rpgPMan.getRPGPlayerByName(p.getName());
+        if (label.equalsIgnoreCase("player")) {
+            if (args.length == 0) {
+                p.sendMessage(ChatColor.RED + "Use /player help para mostrar la ayuda");
                 return true;
-            }else if(args.length==1){
-                if(args[0].equalsIgnoreCase("info")){
-                    p.sendMessage("class: "+ rpgP.getPlayerClass());
-                    p.sendMessage("guild: "+ rpgP.getGuild());
-                    p.sendMessage("party: "+ rpgP.getParty());
+            } else if (args.length == 1) {
+                if (args[0].equalsIgnoreCase("info")) {
+                    p.sendMessage("class: " + rpgP.getPlayerClass());
+                    p.sendMessage("guild: " + rpgP.getGuild());
+                    p.sendMessage("party: " + rpgP.getParty());
                 }
             }
         }
         return true;
     }
-    
+
 }

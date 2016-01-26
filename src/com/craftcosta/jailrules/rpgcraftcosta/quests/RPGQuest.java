@@ -24,6 +24,7 @@ import org.bukkit.entity.EntityType;
  * @author jail
  */
 public class RPGQuest {
+
     private String questName;
     private String askMessage;
     private String finishMessage;

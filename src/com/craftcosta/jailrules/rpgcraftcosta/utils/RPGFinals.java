@@ -12,6 +12,7 @@ import java.io.File;
  * @author jail
  */
 public abstract class RPGFinals {
+
     public final static String pluginName = "RPGCraftCosta";
     public final static String pluginsFolder = "plugins" + File.separator;
     public final static String mainFolder = pluginsFolder + "RPGCraftCosta" + File.separator;
@@ -42,5 +43,8 @@ public abstract class RPGFinals {
     public final static String chatTasksFilePath = dataFolder + "chatTasks.yml";
     public final static String loresFilePath = dataFolder + "lores.yml";
     public final static String guildsConfigPath = dataFolder + "guildConfig.yml";
-    public static String questFileConfig = dataFolder+"questsConfig.yml";
+    public static String questFileConfig = dataFolder + "questsConfig.yml";
+    public static String mobsFilePath = dataFolder + "mobs.yml";
+    public static String spawnersFilePath= dataFolder + "spawners.yml";
+    
 }

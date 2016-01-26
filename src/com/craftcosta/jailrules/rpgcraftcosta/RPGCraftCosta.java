@@ -11,6 +11,8 @@ import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassCommands;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
 import com.craftcosta.jailrules.rpgcraftcosta.commands.RPGCommandManager;
+import com.craftcosta.jailrules.rpgcraftcosta.entities.CustomEntityType;
+
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildCommands;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.RPGItemManager;
@@ -19,10 +21,6 @@ import com.craftcosta.jailrules.rpgcraftcosta.items.jewels.RPGJewelListener;
 import com.craftcosta.jailrules.rpgcraftcosta.items.questitems.RPGQuestItemListener;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponListener;
 import com.craftcosta.jailrules.rpgcraftcosta.listeners.RPGCreatureListener;
-import com.craftcosta.jailrules.rpgcraftcosta.mobs.CustomEntityType;
-import com.craftcosta.jailrules.rpgcraftcosta.mobs.RPGMobCommands;
-import com.craftcosta.jailrules.rpgcraftcosta.mobs.RPGMobManager;
-import com.craftcosta.jailrules.rpgcraftcosta.mobs.RPGMobsListener;
 import com.craftcosta.jailrules.rpgcraftcosta.party.RPGPartyCommands;
 import com.craftcosta.jailrules.rpgcraftcosta.party.RPGPartyListener;
 import com.craftcosta.jailrules.rpgcraftcosta.party.RPGPartyManager;
@@ -52,8 +50,6 @@ public class RPGCraftCosta extends JavaPlugin {
     private RPGPartyManager rpgPartyManager;
     private RPGGuildCommands myGuildCommands;
     private RPGPlayerCommands myPlayerCommands;
-    private RPGMobManager rpgMobManager;
-    private RPGMobCommands myMobCommands;
 
     /**
      *
@@ -109,8 +105,6 @@ public class RPGCraftCosta extends JavaPlugin {
     public void onEnable() {
         getLogger().info("Checking config");
         CustomEntityType.registerEntities();
-
-        this.rpgMobManager = new RPGMobManager(this);
         this.rpgChatManager = new RPGChatManager(this);
         this.rpgItemManager = new RPGItemManager(this);
         this.rpgClassManager = new RPGClassManager(this);
@@ -123,7 +117,6 @@ public class RPGCraftCosta extends JavaPlugin {
         myPartyCommands = new RPGPartyCommands(this);
         myGuildCommands = new RPGGuildCommands(this);
         myPlayerCommands = new RPGPlayerCommands(this);
-
         getCommand("task").setExecutor(myChatCommands);
         getCommand("class").setExecutor(myClassCommands);
         getCommand("class").setTabCompleter(myClassCommands);
@@ -141,7 +134,6 @@ public class RPGCraftCosta extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new RPGPlayerListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGPartyListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGCreatureListener(this), this);
-        getServer().getPluginManager().registerEvents(new RPGMobsListener(this), this);
     }
 
     /**

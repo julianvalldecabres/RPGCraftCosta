@@ -225,7 +225,7 @@ public class RPGGuild {
         if (this.members.contains(kickplayer.getName())) {
             this.members.remove(kickplayer.getName());
         }
-        if(this.onlineMembers.contains(kickplayer)){
+        if (this.onlineMembers.contains(kickplayer)) {
             this.onlineMembers.remove(kickplayer);
         }
     }

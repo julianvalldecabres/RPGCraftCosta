@@ -21,6 +21,7 @@ package com.craftcosta.jailrules.rpgcraftcosta.area;
  * @author jail
  */
 public enum AreaType {
+
     BLOCK,//Bloque
     DUNGEON,//mazmorra
     VILLAGE,//poblado

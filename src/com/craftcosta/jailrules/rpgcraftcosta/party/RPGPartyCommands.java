@@ -328,7 +328,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
             RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
             if (label.equalsIgnoreCase("party")) {
                 if (args.length == 0 || args.length == 1) {
-                    String[] list1 = new String[]{"list", "info", "help", "pvpon", "pvpoff", "leave","disband", "accept", "decline", "makeleader", "create", "invite", "kick"};
+                    String[] list1 = new String[]{"list", "info", "help", "pvpon", "pvpoff", "leave", "disband", "accept", "decline", "makeleader", "create", "invite", "kick"};
                     for (String elem : list1) {
                         list.add(elem);
                     }

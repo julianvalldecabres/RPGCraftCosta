@@ -249,12 +249,12 @@ public class RPGGuildManager {
                 p.sendMessage(rpgCMan.getPrefixForGuild() + " El miembro " + newleaderplayer.getName() + " es el nuevo owner del clan");
             }
         }
-        
+
         saveRPGGuild(guild);
     }
 
     private void sendMessagePlayerLeaveGuild(Player p, RPGGuild guild) {
-        guild.sendMessageToGuild(rpgCMan.getPrefixForGuild()+" El jugador "+p.getName()+" ha abandonado el clan");
+        guild.sendMessageToGuild(rpgCMan.getPrefixForGuild() + " El jugador " + p.getName() + " ha abandonado el clan");
     }
 
     private void saveRPGGuild(RPGGuild rpgGuild) {
@@ -296,7 +296,7 @@ public class RPGGuildManager {
 
     public void saveGuilds() {
         for (Map.Entry<String, RPGGuild> entrySet : listGuilds.entrySet()) {
-            RPGGuild guild= entrySet.getValue();
+            RPGGuild guild = entrySet.getValue();
             gConfig = YamlConfiguration.loadConfiguration(guildsFile);
             ConfigurationSection section = gConfig.createSection(guild.getName());
             section.set("money", guild.getMoney());
@@ -315,7 +315,7 @@ public class RPGGuildManager {
 
     public void playerConnectedToGuild(Player p, RPGGuild guild) {
         guild.addOnlinePlayer(p);
-        guild.sendMessageToGuild(rpgCMan.getPrefixForGuild()+" El camarada "+p.getName()+" se ha conectado");
+        guild.sendMessageToGuild(rpgCMan.getPrefixForGuild() + " El camarada " + p.getName() + " se ha conectado");
     }
 
 }

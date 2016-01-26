@@ -332,7 +332,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                                 if (guild.getMembers().contains(kickplayer.getName())) {
                                     rpgGMan.kickPlayerFromGuild(guild, kickplayer);
                                     rpgkplayer.setGuild("");
-                                    kickplayer.sendMessage(prefix +ChatColor.RED+" Has sido kickeado del clan "+guild.getName());
+                                    kickplayer.sendMessage(prefix + ChatColor.RED + " Has sido kickeado del clan " + guild.getName());
                                     p.sendMessage(prefix + " Has kickeado a " + args[1] + " del clan");
                                     return true;
                                 } else {
@@ -416,7 +416,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                         p.sendMessage(prefix + ChatColor.RED + " Ya perteneces al clan " + rpgP.getGuild());
                         return true;
                     }
-                } else if (args[0].equalsIgnoreCase("promote") || args[0].equalsIgnoreCase("p")){
+                } else if (args[0].equalsIgnoreCase("promote") || args[0].equalsIgnoreCase("p")) {
                     if (p.getName().equals(args[1])) {
                         p.sendMessage(prefix + ChatColor.RED + " No puedes hacerte moderador del clan a ti mismo");
                         return true;
@@ -432,7 +432,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                                 p.sendMessage(prefix + ChatColor.RED + " El jugador " + args[1] + " no se ha encontrado");
                                 return true;
                             } else {
-                                if (guild.getMembers().contains(newmodplayer.getName())  && !guild.getModerators().contains(newmodplayer.getName())) {
+                                if (guild.getMembers().contains(newmodplayer.getName()) && !guild.getModerators().contains(newmodplayer.getName())) {
                                     rpgGMan.promotePlayerFromGuild(guild, newmodplayer);
                                     p.sendMessage(prefix + " Has nombrado moderador del clan a " + args[1]);
                                     return true;
@@ -446,7 +446,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                             return true;
                         }
                     }
-                }else if (args[0].equalsIgnoreCase("depromote") || args[0].equalsIgnoreCase("dep")){
+                } else if (args[0].equalsIgnoreCase("depromote") || args[0].equalsIgnoreCase("dep")) {
                     if (p.getName().equals(args[1])) {
                         p.sendMessage(prefix + ChatColor.RED + " No puedes hacerte lider del clan a ti mismo");
                         return true;
@@ -462,9 +462,9 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                                 p.sendMessage(prefix + ChatColor.RED + " El jugador " + args[1] + " no se ha encontrado");
                                 return true;
                             } else {
-                                if (guild.getMembers().contains(newmodplayer.getName())  && !guild.getModerators().contains(newmodplayer.getName())) {
+                                if (guild.getMembers().contains(newmodplayer.getName()) && !guild.getModerators().contains(newmodplayer.getName())) {
                                     rpgGMan.depromotePlayerFromGuild(guild, newmodplayer);
-                                    p.sendMessage(prefix + " El antes moderador del clan " + args[1]+ " es de nuevo miembro");
+                                    p.sendMessage(prefix + " El antes moderador del clan " + args[1] + " es de nuevo miembro");
                                     return true;
                                 } else {
                                     p.sendMessage(prefix + ChatColor.RED + " El jugador " + args[1] + " o bien, no pertenece al clan, o ya es moderador");

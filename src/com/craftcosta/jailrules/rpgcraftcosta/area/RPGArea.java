@@ -24,6 +24,7 @@ import org.bukkit.Location;
  * @author jail
  */
 public class RPGArea {
+
     private String name;
     private String owner;
     private AreaType aType;

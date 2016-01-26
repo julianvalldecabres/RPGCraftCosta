@@ -21,6 +21,7 @@ package com.craftcosta.jailrules.rpgcraftcosta.quests;
  * @author jail
  */
 public enum QuestType {
+
     KILLXOFY,
     COLLECTXOFY,
     LOCATEPLACE,

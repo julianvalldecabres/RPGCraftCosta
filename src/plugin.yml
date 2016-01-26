@@ -25,3 +25,7 @@ commands:
         description: administra los jugadores
         usage: /<command> [option] [name]
         permission-message: Usted no tiene permiso para realizar esta accion
+    sumC:
+        description: administra los mobs
+        usage: /<command> [option] [name]
+        permission-message: Usted no tiene permiso para realizar esta accion

@@ -96,13 +96,13 @@ public class RPGWeaponListener implements Listener {
         rpgP.setSlotSelected(e.getNewSlot() + 36);
         Inventory playerInv = p.getInventory();
         if (playerInv.getItem(e.getPreviousSlot()) != null) {
-            if (rpgWMan.isWeapon(playerInv.getItem(e.getPreviousSlot()))) {
+            if (rpgWMan.isRPGWeapon(playerInv.getItem(e.getPreviousSlot()))) {
                 ItemStack item = playerInv.getItem(e.getPreviousSlot());
                 rpgP.subStats(rpgLMan.getListOfLoresFromItem(item));
             }
         }
         if (playerInv.getItem(e.getNewSlot()) != null) {
-            if (rpgWMan.isWeapon(playerInv.getItem(e.getNewSlot()))) {
+            if (rpgWMan.isRPGWeapon(playerInv.getItem(e.getNewSlot()))) {
                 ItemStack item = playerInv.getItem(e.getNewSlot());
                 rpgP.addStats(rpgLMan.getListOfLoresFromItem(item));
             }
@@ -138,22 +138,22 @@ public class RPGWeaponListener implements Listener {
 
         }
     }
-    
+
     @EventHandler
-    public void onPlayerDropWeapon(PlayerDropItemEvent e){
+    public void onPlayerDropWeapon(PlayerDropItemEvent e) {
         Player p = e.getPlayer();
-        RPGPlayer rpgP= rpgPMan.getRPGPlayerByName(p.getName());
+        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
         plugin.getLogger().info(e.getItemDrop().getName());
-        if(rpgWMan.isRPGWeapon(e.getItemDrop().getItemStack())){
+        if (rpgWMan.isRPGWeapon(e.getItemDrop().getItemStack())) {
             rpgPMan.checkAllEquipment(rpgP);
         }
     }
-    
+
     @EventHandler
-    public void onPlayerPickupWeapon(PlayerPickupItemEvent e){
+    public void onPlayerPickupWeapon(PlayerPickupItemEvent e) {
         Player p = e.getPlayer();
-        RPGPlayer rpgP= rpgPMan.getRPGPlayerByName(p.getName());
-        if(rpgWMan.isRPGWeapon(e.getItem().getItemStack())){
+        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
+        if (rpgWMan.isRPGWeapon(e.getItem().getItemStack())) {
             rpgPMan.checkAllEquipment(rpgP);
         }
     }

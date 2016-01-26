@@ -24,6 +24,7 @@ import java.io.File;
  * @author jail
  */
 public class RPGAreaManager {
+
     private RPGCraftCosta plugin;
     private File AreaFilePath;
     private File AreaFileConfig;
@@ -31,5 +32,5 @@ public class RPGAreaManager {
     public RPGAreaManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
     }
-    
+
 }

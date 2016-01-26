@@ -25,33 +25,77 @@ public abstract class RPGItem {
     public boolean comerciable = true;
 
     public ItemStack getItem() {
-        return this.item;
+        return item;
     }
 
-    public boolean isArmor() {
-        return (item.getType().equals(Material.CHAINMAIL_BOOTS)
-                || item.getType().equals(Material.CHAINMAIL_CHESTPLATE)
-                || item.getType().equals(Material.CHAINMAIL_LEGGINGS)
-                || item.getType().equals(Material.CHAINMAIL_HELMET)
-                || item.getType().equals(Material.DIAMOND_BOOTS)
-                || item.getType().equals(Material.DIAMOND_CHESTPLATE)
-                || item.getType().equals(Material.DIAMOND_HELMET)
-                || item.getType().equals(Material.DIAMOND_LEGGINGS)
-                || item.getType().equals(Material.GOLD_BOOTS)
-                || item.getType().equals(Material.GOLD_CHESTPLATE)
-                || item.getType().equals(Material.GOLD_HELMET)
-                || item.getType().equals(Material.GOLD_LEGGINGS)
-                || item.getType().equals(Material.IRON_BOOTS)
-                || item.getType().equals(Material.IRON_CHESTPLATE)
-                || item.getType().equals(Material.IRON_HELMET)
-                || item.getType().equals(Material.IRON_LEGGINGS)
-                || item.getType().equals(Material.LEATHER_BOOTS)
-                || item.getType().equals(Material.LEATHER_CHESTPLATE)
-                || item.getType().equals(Material.LEATHER_HELMET)
-                || item.getType().equals(Material.LEATHER_LEGGINGS));
+    public void setItem(ItemStack item) {
+        this.item = item;
     }
 
-    public boolean isPotion() {
-        return (item.getType().equals(Material.POTION));
+
+    public Quality getQuality() {
+        return quality;
     }
+
+    public void setQuality(Quality quality) {
+        this.quality = quality;
+    }
+
+    public int getSellPrice() {
+        return sellPrice;
+    }
+
+    public void setSellPrice(int sellPrice) {
+        this.sellPrice = sellPrice;
+    }
+
+    public int getBuyPrice() {
+        return buyPrice;
+    }
+
+    public void setBuyPrice(int buyPrice) {
+        this.buyPrice = buyPrice;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getXPBonus() {
+        return XPBonus;
+    }
+
+    public void setXPBonus(double XPBonus) {
+        this.XPBonus = XPBonus;
+    }
+
+    public double getAPBonus() {
+        return APBonus;
+    }
+
+    public void setAPBonus(double APBonus) {
+        this.APBonus = APBonus;
+    }
+
+    public double getMoneyBonus() {
+        return moneyBonus;
+    }
+
+    public void setMoneyBonus(double moneyBonus) {
+        this.moneyBonus = moneyBonus;
+    }
+
+    public boolean isComerciable() {
+        return comerciable;
+    }
+
+    public void setComerciable(boolean comerciable) {
+        this.comerciable = comerciable;
+    }
+
+    
 }

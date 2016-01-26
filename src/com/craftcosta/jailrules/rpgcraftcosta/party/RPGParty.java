@@ -164,8 +164,8 @@ public class RPGParty {
     public boolean isPvpEnabled() {
         return this.pvpEnabled;
     }
-    
-    public void setPvpEnabled(boolean value){
-        this.pvpEnabled=value;
+
+    public void setPvpEnabled(boolean value) {
+        this.pvpEnabled = value;
     }
 }

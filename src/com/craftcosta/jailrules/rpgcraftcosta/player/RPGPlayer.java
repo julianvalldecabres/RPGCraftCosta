@@ -24,6 +24,7 @@ import org.bukkit.entity.Player;
  * @author jail
  */
 public class RPGPlayer {
+
     private String name;
     private UUID uuid;
     private Player player;
@@ -57,35 +58,35 @@ public class RPGPlayer {
     private double actualMana;
     private double maxMana;
     private double finalMaxMana;
-    
+
     private double finalMaxHealth;
     private double actualHealth;
     private double maxHealth;
-    
+
     private double physicalAttack;
     private double finalphysicalAttack;
-    
+
     private double physicalDefense;
     private double finalphysicalDefense;
-    
+
     private double physicalHitRate;
     private double finalphysicalHitRate;
-    
+
     private double physicalEvasion;
     private double finalphysicalEvasion;
-    
+
     private double magicalAttack;
     private double finalmagicalAttack;
-    
+
     private double magicalDefense;
     private double finalmagicalDefense;
-    
+
     private double magicalHitRate;
     private double finalmagicalHitRate;
-    
+
     private double magicalEvasion;
     private double finalmagicalEvasion;
-    
+
     private double critical;
     private double finalcritical;
 
@@ -131,7 +132,7 @@ public class RPGPlayer {
         this.guildChat = true;
         this.marketChat = true;
         this.setResetRequest = false;
-        this.slotSelected=0;
+        this.slotSelected = 0;
         this.move = !this.playerClass.isEmpty();
     }
 
@@ -205,7 +206,7 @@ public class RPGPlayer {
             this.actualMana = section.getDouble("actualMana");
             this.maxHealth = section.getDouble("maxHealth");
             //Calcular proporcion de vida max correspondiente a la actual
-            
+
             //this.player.setMaxHealth(maxHealth);
             this.maxMana = section.getDouble("maxMana");
             this.ap = section.getLong("ap");
@@ -301,7 +302,7 @@ public class RPGPlayer {
     }
 
     public void setPlayerClass(String playerClass) {
-        this.playerClass = playerClass;        
+        this.playerClass = playerClass;
     }
 
     public String getParty() {
@@ -656,8 +657,6 @@ public class RPGPlayer {
         this.finalcritical = finalcritical;
     }
 
-   
-    
     public double getNormalizedDamageToPlayer(double damagetaken) {
         double maxhealth = 20;
         double res;

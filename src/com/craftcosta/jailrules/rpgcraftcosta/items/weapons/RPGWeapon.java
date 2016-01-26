@@ -28,34 +28,32 @@ public class RPGWeapon extends RPGItem {
     private double physicalattack;
     private double incphysicalattack;
     private double actualphysicalattack;
-    
+
     private double physicalhitrate;
     private double incphysicalhitrate;
     private double actualphysicalhitrate;
-    
+
     private double magicalattack;
     private double incmagicalattack;
     private double actualmagicalattack;
-    
+
     private double magicalhitrate;
     private double incmagicalhitrate;
     private double actualmagicalhitrate;
-    
+
     private double critical;
     private double inccritical;
     private double actualcritical;
-    
-    
+
     private double healthsteal;
     private double inchealthsteal;
     private double actualhealthsteal;
-    
+
     private double manasteal;
     private double incmanasteal;
     private double actualmanasteal;
 
-    
-    public RPGWeapon(ItemStack item, String name, boolean comerciable, int sellprice, int buyprice, Quality quality, int level, boolean upgradable, int weaponLevel, double physicalattack, double incphysicalattack,double physicalhitrate,double incphysicalhitrate, double magicalattack,double incmagicalattack,double magicalhitrate,double incmagicalhitrate, double healthsteal, double inchealthsteal, double manasteal,double incmanasteal,double critical, double inccritical,double apbonus, double xpbonus, double moneybonus) {
+    public RPGWeapon(ItemStack item, String name, boolean comerciable, int sellprice, int buyprice, Quality quality, int level, boolean upgradable, int weaponLevel, double physicalattack, double incphysicalattack, double physicalhitrate, double incphysicalhitrate, double magicalattack, double incmagicalattack, double magicalhitrate, double incmagicalhitrate, double healthsteal, double inchealthsteal, double manasteal, double incmanasteal, double critical, double inccritical, double apbonus, double xpbonus, double moneybonus) {
         this.item = item;
         this.name = name;
         this.quality = quality;
@@ -72,31 +70,31 @@ public class RPGWeapon extends RPGItem {
 
         this.physicalattack = physicalattack;
         this.incphysicalattack = incphysicalattack;
-        this.actualphysicalattack = physicalattack+incphysicalattack*weaponLevel;
-        
+        this.actualphysicalattack = physicalattack + incphysicalattack * weaponLevel;
+
         this.physicalhitrate = physicalhitrate;
         this.incphysicalhitrate = incphysicalhitrate;
-        this.actualphysicalhitrate = physicalhitrate+incphysicalhitrate*weaponLevel;
-        
+        this.actualphysicalhitrate = physicalhitrate + incphysicalhitrate * weaponLevel;
+
         this.magicalattack = magicalattack;
         this.incmagicalattack = incmagicalattack;
-        this.actualmagicalattack = magicalattack+incmagicalattack*weaponLevel;
-        
+        this.actualmagicalattack = magicalattack + incmagicalattack * weaponLevel;
+
         this.magicalhitrate = magicalhitrate;
         this.incmagicalhitrate = incmagicalhitrate;
-        this.actualmagicalhitrate = magicalhitrate+incmagicalhitrate*weaponLevel;
-        
+        this.actualmagicalhitrate = magicalhitrate + incmagicalhitrate * weaponLevel;
+
         this.healthsteal = healthsteal;
         this.inchealthsteal = inchealthsteal;
-        this.actualhealthsteal = healthsteal+inchealthsteal*weaponLevel;
-        
+        this.actualhealthsteal = healthsteal + inchealthsteal * weaponLevel;
+
         this.manasteal = manasteal;
         this.incmanasteal = incmanasteal;
-        this.actualmanasteal = manasteal+incmanasteal*weaponLevel;
-        
+        this.actualmanasteal = manasteal + incmanasteal * weaponLevel;
+
         this.critical = critical;
         this.inccritical = inccritical;
-        this.actualcritical = critical+inccritical*weaponLevel;
+        this.actualcritical = critical + inccritical * weaponLevel;
         //Modificacion del item
         ItemMeta iMeta = item.getItemMeta();
         //Añadimos nombre descriptivo al arma hay que tener especial cuidado con nombres de mas de una palabra
@@ -121,7 +119,7 @@ public class RPGWeapon extends RPGItem {
         if (this.actualmanasteal > 0) {
             lores.add(RPGLores.MANASTEAL.getLoreString(RPGLores.MANASTEAL, actualmanasteal));
         }
-        if(this.actualcritical>0){
+        if (this.actualcritical > 0) {
             lores.add(RPGLores.CRITICAL.getLoreString(RPGLores.CRITICAL, actualcritical));
         }
         if (XPBonus > 0) {
@@ -147,7 +145,6 @@ public class RPGWeapon extends RPGItem {
     }
 
     //GETTER AND SETTERS
-
     public int getLevel() {
         return level;
     }
@@ -395,7 +392,6 @@ public class RPGWeapon extends RPGItem {
     public void setMoneyBonus(double moneyBonus) {
         this.moneyBonus = moneyBonus;
     }
-    
 
     @Override
     public String toString() {
@@ -411,7 +407,7 @@ public class RPGWeapon extends RPGItem {
         return Integer.parseInt(actualLevel.substring(1));
     }
 
-    private boolean isComerciable() {
+    public boolean isComerciable() {
         return this.comerciable;
     }
 }

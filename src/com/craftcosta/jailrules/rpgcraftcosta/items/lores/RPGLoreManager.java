@@ -84,10 +84,12 @@ public class RPGLoreManager {
 
     public List<RPGLore> getListOfLoresFromItem(ItemStack item) {
         List<RPGLore> listlores = new ArrayList<>();
-        List<String> lores = item.getItemMeta().getLore();
-        for (String lore : lores) {
-            Object value = getLoreValue(getRPGLoresFromString(lore), lore);
-            listlores.add(new RPGLore(getRPGLoresFromString(lore), value));
+        if (item.getItemMeta().hasLore()) {
+            List<String> lores = item.getItemMeta().getLore();
+            for (String lore : lores) {
+                Object value = getLoreValue(getRPGLoresFromString(lore), lore);
+                listlores.add(new RPGLore(getRPGLoresFromString(lore), value));
+            }
         }
         return listlores;
     }
@@ -109,7 +111,7 @@ public class RPGLoreManager {
                 return rpglores;
             }
         }
-        return RPGLores.APBONUS;        
+        return RPGLores.APBONUS;
     }
 
     public Object getLoreValue(RPGLores type, String lore) {
@@ -135,7 +137,7 @@ public class RPGLoreManager {
                 return Double.parseDouble((loreparts[loreparts.length - 1].substring(1, loreparts[loreparts.length - 1].length() - 1)).replaceAll(",", "."));
             case BUYPRICE:
             case SELLPRICE:
-                return Integer.parseInt(loreparts[loreparts.length - 1].substring(0,loreparts[loreparts.length - 1].length()-1));
+                return Integer.parseInt(loreparts[loreparts.length - 1].substring(0, loreparts[loreparts.length - 1].length() - 1));
             case NOCOMERCIABLE:
             case NOUPGRADABLE:
             case NOCOMBINABLE:
