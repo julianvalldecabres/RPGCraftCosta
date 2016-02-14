@@ -113,8 +113,6 @@ public class CPigZombie extends EntityMonster implements IRangedEntity{
         }
         //añadimos los pathfindergoals
         initPathfinderGoals();
-        //Añadir equipamiento
-        initEquipment();
     }
 
     public CPigZombie(World world, Location spawnLoc) {
@@ -151,8 +149,6 @@ public class CPigZombie extends EntityMonster implements IRangedEntity{
         }
         //añadimos los pathfindergoals
         initPathfinderGoals();
-        //Añadir equipamiento
-        initEquipment();
     }
 
     public CPigZombie(AttackType aType, MobBehaviour mType, String name, int level, Location loc, boolean baby, double movSpeed, double knockback, double attack_damage, double attackSpeed, double rangedDamage, double followRange, double maxHealth, float rangedStrength, World world) {
@@ -195,23 +191,6 @@ public class CPigZombie extends EntityMonster implements IRangedEntity{
         }
         //añadimos los pathfindergoals
         initPathfinderGoals();
-        //Añadir equipamiento
-        initEquipment();
-    }
-
-    //Dependiente de la naturaleza del mob
-    private void initEquipment() {
-        switch (aType) {
-            case RANGED:
-                setEquipment(0, new ItemStack(Items.BOW));
-                break;
-            case MAGIC:
-                setEquipment(0, new ItemStack(Items.POISONOUS_POTATO));
-                break;
-            default:
-                setEquipment(0, new ItemStack(Items.STONE_SWORD));
-                break;
-        }
     }
 
     private void initPathfinderGoals() {
@@ -254,8 +233,6 @@ public class CPigZombie extends EntityMonster implements IRangedEntity{
             default:
                 //peaceful
                 this.goalSelector.a(5, new PathfinderGoalPanic(this, 2.0D));
-
-                this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, true, new Class[0]));
                 break;
         }
         //attackType PfG

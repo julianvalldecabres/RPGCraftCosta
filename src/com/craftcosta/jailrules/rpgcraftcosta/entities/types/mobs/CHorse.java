@@ -116,8 +116,6 @@ public class CHorse extends EntityMonster implements IRangedEntity {
         }
         //añadimos los pathfindergoals
         initPathfinderGoals();
-        //Añadir equipamiento
-        initEquipment();
     }
     
     public CHorse(World world,Location spawnloc) {
@@ -159,8 +157,6 @@ public class CHorse extends EntityMonster implements IRangedEntity {
         }
         //añadimos los pathfindergoals
         initPathfinderGoals();
-        //Añadir equipamiento
-        initEquipment();
     }
 
     public CHorse(AttackType aType, MobBehaviour mType, boolean baby, String name, int level, double movementspeed, double knockback, double attackdamage, double attackSpeed, double rangedDamage, float rangedStrenght, double followrange, double maxhealth, World world) {
@@ -199,25 +195,6 @@ public class CHorse extends EntityMonster implements IRangedEntity {
         }
         //añadimos los pathfindergoals
         initPathfinderGoals();
-        //Añadir equipamiento
-        initEquipment();
-    }
-
-    
-    
-    //Dependiente de la naturaleza del mob
-    private void initEquipment() {
-        switch (aType) {
-            case RANGED:
-                setEquipment(0, new ItemStack(Items.BOW));
-                break;
-            case MAGIC:
-                setEquipment(0, new ItemStack(Items.POISONOUS_POTATO));
-                break;
-            default:
-                setEquipment(0, new ItemStack(Items.STONE_SWORD));
-                break;
-        }
     }
 
     private void initPathfinderGoals() {
@@ -261,8 +238,6 @@ public class CHorse extends EntityMonster implements IRangedEntity {
             default:
                 //peaceful
                 this.goalSelector.a(5, new PathfinderGoalPanic(this, 2.0D));
-
-                this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, true, new Class[0]));
                 break;
         }
         //attackType PfG

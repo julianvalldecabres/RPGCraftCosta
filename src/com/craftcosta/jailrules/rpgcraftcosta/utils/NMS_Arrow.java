@@ -21,7 +21,7 @@ import net.minecraft.server.v1_8_R3.EntityArrow;
 
 import org.bukkit.entity.Arrow;
 
-final class NMS_v1_8_R3 implements NmsInterface {
+final class NMS_Arrow implements NmsInterface {
 
     public void multiplyArrowDamage(final Arrow projectile, double multiplier) {
         EntityArrow arrow = ((CraftArrow) projectile).getHandle();

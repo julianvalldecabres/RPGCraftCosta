@@ -79,36 +79,37 @@ public class RPGCreatureListener implements Listener {
         plugin.getLogger().info("nombre:" + name
                 + "\n reason: " + e.getSpawnReason().name()
                 + "\n loc: " + loc.toString()
-                + "\n id: " + e.getEntity().getEntityId());
+                + "\n id: " + e.getEntity().getEntityId()
+                + "\n UUID: "+e.getEntity().getUniqueId().toString());
         e.getEntity().setCustomName(name);
         e.getEntity().setCustomNameVisible(true);
 
     }
 
-    @EventHandler
-    public void onEntityShootBow(EntityShootBowEvent e) {
-        //I don't think this can be other than arrow, but better be sure anyway
-        if (e.getProjectile() instanceof Arrow) {
-            Arrow arrow = (Arrow) e.getProjectile();
-            //Make a new snowball and fill it with the arrow data, then replace it
-            Projectile snowball = e.getEntity().getWorld().spawn(arrow.getLocation(), Snowball.class);
-            Projectile largeFireball = e.getEntity().getWorld().spawn(arrow.getLocation(), LargeFireball.class);
-            Projectile smallFireball = e.getEntity().getWorld().spawn(arrow.getLocation(), SmallFireball.class);
-            Projectile witherSkull = e.getEntity().getWorld().spawn(arrow.getLocation(), WitherSkull.class);
-            Projectile firework = (Projectile) e.getEntity().getWorld().spawn(arrow.getLocation(), Firework.class);
-            snowball.setFireTicks(arrow.getFireTicks());
-            snowball.setVelocity(arrow.getVelocity());
-            snowball.setShooter(arrow.getShooter());
-            snowball.setBounce(arrow.doesBounce());
-            e.setProjectile(snowball);
-            //Attach the data that snowballs can't have so we can use it later
-            snowball.setMetadata("knockback", new FixedMetadataValue(plugin, arrow.getKnockbackStrength()));
-            snowball.setMetadata("damage", new FixedMetadataValue(plugin, NmsUtil.getArrowDamage(arrow)));
-            snowball.setMetadata("critical", new FixedMetadataValue(plugin, arrow.isCritical()));
-            //And attach another metadata just to recognice this is a custom snowball
-            snowball.setMetadata("snowarrow", new FixedMetadataValue(plugin, true));
-        }
-    }
+//    @EventHandler
+//    public void onEntityShootBow(EntityShootBowEvent e) {
+//        //I don't think this can be other than arrow, but better be sure anyway
+//        if (e.getProjectile() instanceof Arrow) {
+//            Arrow arrow = (Arrow) e.getProjectile();
+//            //Make a new snowball and fill it with the arrow data, then replace it
+//            Projectile snowball = e.getEntity().getWorld().spawn(arrow.getLocation(), Snowball.class);
+//            Projectile largeFireball = e.getEntity().getWorld().spawn(arrow.getLocation(), LargeFireball.class);
+//            Projectile smallFireball = e.getEntity().getWorld().spawn(arrow.getLocation(), SmallFireball.class);
+//            Projectile witherSkull = e.getEntity().getWorld().spawn(arrow.getLocation(), WitherSkull.class);
+//            Projectile firework = (Projectile) e.getEntity().getWorld().spawn(arrow.getLocation(), Firework.class);
+//            snowball.setFireTicks(arrow.getFireTicks());
+//            snowball.setVelocity(arrow.getVelocity());
+//            snowball.setShooter(arrow.getShooter());
+//            snowball.setBounce(arrow.doesBounce());
+//            e.setProjectile(snowball);
+//            //Attach the data that snowballs can't have so we can use it later
+//            snowball.setMetadata("knockback", new FixedMetadataValue(plugin, arrow.getKnockbackStrength()));
+//            snowball.setMetadata("damage", new FixedMetadataValue(plugin, NmsUtil.getArrowDamage(arrow)));
+//            snowball.setMetadata("critical", new FixedMetadataValue(plugin, arrow.isCritical()));
+//            //And attach another metadata just to recognice this is a custom snowball
+//            snowball.setMetadata("snowarrow", new FixedMetadataValue(plugin, true));
+//        }
+//    }
 
     
     @EventHandler

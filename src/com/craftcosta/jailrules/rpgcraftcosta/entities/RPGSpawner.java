@@ -5,7 +5,7 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities;
 
-import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMob;
+import java.util.UUID;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 
@@ -13,12 +13,11 @@ import org.bukkit.Location;
  *
  * @author jail
  */
-public class RPGMobSpawner {
-    private String Id;
+public class RPGSpawner {
+    private Integer Id;
     private Location loc;
     private RPGMob rpgmob;
-    private Chunk chunk;
-    private int[] entitiesIds;
+    private UUID[] entitiesIds;
     public double cooldown;
     public Integer radio = 8;
     public Integer maxMobs;

@@ -8,7 +8,6 @@ package com.craftcosta.jailrules.rpgcraftcosta.player;
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.CustomEntityType;
-import com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs.CBat;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs.CZombie;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
@@ -181,6 +180,7 @@ public class RPGPlayerListener implements Listener {
             Packet packet = new PacketPlayOutWorldParticles(EnumParticle.EXPLOSION_LARGE, true, (float) loc.getX(), (float) loc.getY(), (float) loc.getZ(), 1.0F, 1.0F, 1.0F, 1.0F, 1, 1);
             ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
             plugin.getLogger().info("El que realiza el daño es un player");
+            plugin.getLogger().info(p.getLocation().getChunk().getWorld().getName()+"_"+p.getLocation().getChunk().getX()+"_"+p.getLocation().getChunk().getZ());
         } else {
             Entity ent = e.getEntity();
             ent.setCustomName("picha");

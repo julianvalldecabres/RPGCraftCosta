@@ -20,7 +20,6 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.CustomEntityType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMob;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.AttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
-import org.bukkit.inventory.ItemStack;
 
 /**
  *

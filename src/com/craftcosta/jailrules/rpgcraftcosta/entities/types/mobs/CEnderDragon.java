@@ -141,8 +141,6 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
         }
         //añadimos los pathfindergoals
         initPathfinderGoals();
-        //Añadir equipamiento
-        initEquipment();
     }
 
     public CEnderDragon(World world, Location spawnLoc) {
@@ -177,25 +175,8 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
         }
         //añadimos los pathfindergoals
         initPathfinderGoals();
-        //Añadir equipamiento
-        initEquipment();
     }
-
-    //Dependiente de la naturaleza del mob
-    private void initEquipment() {
-        switch (aType) {
-            case RANGED:
-                setEquipment(0, new ItemStack(Items.BOW));
-                break;
-            case MAGIC:
-                setEquipment(0, new ItemStack(Items.POISONOUS_POTATO));
-                break;
-            default:
-                setEquipment(0, new ItemStack(Items.STONE_SWORD));
-                break;
-        }
-    }
-
+    
     private void initPathfinderGoals() {
         this.goalSelector.a(0, new PathfinderGoalFloat(this));
         this.goalSelector.a(9, new PathFinderGoalGoHome(1.0D, this, spawnLoc));
@@ -236,8 +217,6 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
             default:
                 //peaceful
                 this.goalSelector.a(5, new PathfinderGoalPanic(this, 2.0D));
-
-                this.targetSelector.a(1, new PathfinderGoalHurtByTarget(this, true, new Class[0]));
                 break;
         }
         //attackType PfG

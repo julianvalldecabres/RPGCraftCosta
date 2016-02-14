@@ -12,6 +12,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassCommands;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
 import com.craftcosta.jailrules.rpgcraftcosta.commands.RPGCommandManager;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.CustomEntityType;
+import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMobManager;
 
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildCommands;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
@@ -29,6 +30,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerListener;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  *
@@ -50,7 +52,6 @@ public class RPGCraftCosta extends JavaPlugin {
     private RPGPartyManager rpgPartyManager;
     private RPGGuildCommands myGuildCommands;
     private RPGPlayerCommands myPlayerCommands;
-
     /**
      *
      */
@@ -161,6 +162,10 @@ public class RPGCraftCosta extends JavaPlugin {
 
     public RPGPartyManager getRPGPartyManager() {
         return this.rpgPartyManager;
+    }
+
+    public RPGMobManager getRPGMobManager() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -16,18 +16,21 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
 /**
  *
  * @author jail
  */
-public class MobsListener implements Listener {
+public class RPGMobListener implements Listener {
 
     private RPGCraftCosta plugin;
+    private RPGMobManager RPGMMan;
 
-    public MobsListener(RPGCraftCosta plugin) {
+    public RPGMobListener(RPGCraftCosta plugin) {
         this.plugin = plugin;
+        this.RPGMMan= plugin.getRPGMobManager();
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
@@ -72,7 +75,19 @@ public class MobsListener implements Listener {
      */
     @EventHandler
     public void onChunkUnload(ChunkUnloadEvent e) {
-
+        //quitar las entidades de los spawnere del chunk descargado
+        if(RPGMMan.chunkHasSpawners(e.getChunk())){            
+            for(Entity ent:plugin.getServer().getWorld("").getEntities()){
+                ent.getUniqueId();
+            }
+        }
+        
+    }
+    
+        @EventHandler
+    public void onChunkLoad(ChunkLoadEvent e) {
+        //activar spawners del chunk que se ha cargado
+        
     }
 
     @EventHandler
