@@ -1,0 +1,128 @@
+Basilisco:
+    level: 0
+    material: DIAMOND
+    quality: RARE
+    upgradable: true
+    comerciable: true
+    armorlevel: 0
+    parts:
+        HELMET:
+            physicaldefense: 1500
+            incphysicaldefense: 20
+            physicalevasion: 0.1
+            incphysicalevasion: 0.05
+            magicaldefense: 0
+            incmagicaldefense: 0
+            magicalevasion: 0
+            incmagicalevasion: 0
+            buyprice: 14500
+            sellprice: 20000
+            apbonus: 0
+            xpbonus: 0
+            moneybonus: 0
+        CHESTPLATE:
+            physicaldefense: 1500
+            incphysicaldefense: 20
+            physicalevasion: 0.1
+            incphysicalevasion: 0.05
+            magicaldefense: 0
+            incmagicaldefense: 0
+            magicalevasion: 0
+            incmagicalevasion: 0
+            buyprice: 14500
+            sellprice: 20000
+            apbonus: 0
+            xpbonus: 0
+            moneybonus: 0
+        LEGGINGS:
+            physicaldefense: 1500
+            incphysicaldefense: 20
+            physicalevasion: 0.1
+            incphysicalevasion: 0.05
+            magicaldefense: 0
+            incmagicaldefense: 0
+            magicalevasion: 0
+            incmagicalevasion: 0
+            buyprice: 14500
+            sellprice: 20000
+            apbonus: 0
+            xpbonus: 0
+            moneybonus: 0
+        BOOTS:
+            physicaldefense: 1500
+            incphysicaldefense: 20
+            physicalevasion: 0.1
+            incphysicalevasion: 0.05
+            magicaldefense: 0
+            incmagicaldefense: 0
+            magicalevasion: 0
+            incmagicalevasion: 0
+            buyprice: 14500
+            sellprice: 20000
+            apbonus: 0
+            xpbonus: 0
+            moneybonus: 0
+Monguer:
+    level: 0
+    material: CHAINMAIL
+    quality: COMMON
+    upgradable: true
+    comerciable: true
+    armorlevel: 0
+    parts:
+        HELMET:
+            physicaldefense: 1500
+            incphysicaldefense: 20
+            physicalevasion: 0.1
+            incphysicalevasion: 0.05
+            magicaldefense: 0
+            incmagicaldefense: 0
+            magicalevasion: 0
+            incmagicalevasion: 0
+            buyprice: 1500
+            sellprice: 2000
+            apbonus: 0
+            xpbonus: 0
+            moneybonus: 0
+        CHESTPLATE:
+            physicaldefense: 1500
+            incphysicaldefense: 20
+            physicalevasion: 0.1
+            incphysicalevasion: 0.05
+            magicaldefense: 0
+            incmagicaldefense: 0
+            magicalevasion: 0
+            incmagicalevasion: 0
+            buyprice: 1500
+            sellprice: 2000
+            apbonus: 0
+            xpbonus: 0
+            moneybonus: 0
+        LEGGINGS:
+            physicaldefense: 1500
+            incphysicaldefense: 20
+            physicalevasion: 0.1
+            incphysicalevasion: 0.05
+            magicaldefense: 0
+            incmagicaldefense: 0
+            magicalevasion: 0
+            incmagicalevasion: 0
+            buyprice: 1500
+            sellprice: 2000
+            apbonus: 0
+            xpbonus: 0
+            moneybonus: 0
+        BOOTS:
+            physicaldefense: 1500
+            incphysicaldefense: 20
+            physicalevasion: 0.1
+            incphysicalevasion: 0.05
+            magicaldefense: 0
+            incmagicaldefense: 0
+            magicalevasion: 0
+            incmagicalevasion: 0
+            buyprice: 1500
+            sellprice: 2000
+            apbonus: 0
+            xpbonus: 0
+            moneybonus: 0

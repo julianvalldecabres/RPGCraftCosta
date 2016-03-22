@@ -56,6 +56,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -73,12 +74,14 @@ public class RPGMobManager {
     private FileConfiguration mobFileConfig;
     private FileConfiguration spawnerFileConfig;
     public HashMap<String, RPGMob> mobList;
+    public HashMap<Integer, String> mobIdList;
     public Map<RPGChunk, Map<String, RPGSpawner>> spawnerList;
 
     public RPGMobManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
         plugin.getLogger().info("Loading mobs and spawners module....");
         this.mobList = new HashMap<>();
+        this.mobIdList= new HashMap<>();
         this.mobsFile = new File(RPGFinals.mobsFilePath);
         this.spawnersFile = new File(RPGFinals.spawnersFilePath);
         if (!mobsFile.exists()) {
@@ -132,7 +135,7 @@ public class RPGMobManager {
         Set<String> mobs = mobFileConfig.getKeys(false);
         for (String id : mobs) {
             ConfigurationSection section = mobFileConfig.getConfigurationSection(id);
-            name = section.getString("name");
+            name = section.getString("name");            
             level = section.getInt("level");
             type = CustomEntityType.valueOf(section.getString("entitytype"));
             aType = AttackType.valueOf("attacktype");
@@ -274,7 +277,9 @@ public class RPGMobManager {
                     rpgmob = new RPGZombie(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth, baby, villager);
                     break;
             }
-            mobList.put(name, rpgmob);
+            mobList.put( "[LVL"+level+"] "+name, rpgmob);
+            mobIdList.put(Integer.parseInt(id), "[LVL"+level+"] "+name);
+
         }
     }
 
@@ -284,13 +289,18 @@ public class RPGMobManager {
         World world;
         RPGChunk rpgchunk;
         RPGSpawner rpgspawner;
+        Location loc;
         int spawnerid;
+        int mobid;
         int maxmobs;
         int chunkX;
         int chunkZ;
-        int posX;
-        int posY;
-        int posZ;
+        int radius;
+        int cooldown; //every X time mob/s reapper
+        double posX;
+        double posY;
+        double posZ;
+        boolean enabled;
         Set<String> worlds = spawnerFileConfig.getKeys(false);
         for (String stringworld : worlds) {
             world = plugin.getServer().getWorld(stringworld);
@@ -305,6 +315,20 @@ public class RPGMobManager {
                 for (String id : ids) {
                     plugin.getLogger().info(world.getName() + "." + chunk + "." + id);
                     ConfigurationSection ssection = csection.getConfigurationSection(id);
+                    
+                    posX= ssection.getDouble("x");
+                    posY= ssection.getDouble("y");
+                    posZ= ssection.getDouble("z");
+                    enabled= ssection.getBoolean("enabled");
+                    maxmobs= ssection.getInt("maxmobs");
+                    radius= ssection.getInt("radius");
+                    cooldown= ssection.getInt("cooldown");
+                    mobid= ssection.getInt("rpgmob");
+                    loc= new Location(world, posX, posY, posZ);
+                    //
+                    String mobname= mobIdList.get(""+mobid);
+                    RPGMob mob= mobList.get(mobname);
+                    //rpgspawner= new RPGSpawner(loc,mobid,maxmobs,radius,cooldown);
                 }
             }
         }

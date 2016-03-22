@@ -24,7 +24,7 @@ public class RPGLevels {
     private double b;
     private double c;
     private int max_level;
-    private TreeMap<Double, Integer> levels;
+    private TreeMap<Long, Integer> levels;
 
     /**
      *
@@ -33,7 +33,15 @@ public class RPGLevels {
         createDefaults();
     }
 
-    RPGLevels(File levelCfg) {
+    public RPGLevels(double a, double b,double c, int max_level){
+        this.a= a;
+        this.b= b;
+        this.c= c;
+        this.max_level= max_level;
+        createTreeLevels();
+    }
+
+    public RPGLevels(File levelCfg) {
         loadConfig(levelCfg);
     }
 
@@ -74,9 +82,9 @@ public class RPGLevels {
 
     private void createTreeLevels() {
         this.levels = new TreeMap<>();
-        double exp;
+        long exp;
         for (int i = 1; i <= this.max_level; i++) {
-            exp = (int) (this.a * Math.pow(i, 3) + this.b * Math.pow(i, 2) + this.c * i);
+            exp = (long) (this.a * Math.pow(i, 3) + this.b * Math.pow(i, 2) + this.c * i);
             this.levels.put(exp, i);
         }
     }
@@ -87,10 +95,10 @@ public class RPGLevels {
      * @param inc
      * @return
      */
-    public boolean checkLevelUp(double exp, double inc) {
+    public boolean checkLevelUp(long exp, long inc) {
         double actualexp = exp;
         double lvl;
-        double newexp = 0;
+        long newexp = 0;
         if (inc > 0) {
             newexp = exp + inc;
             return levels.lowerEntry(exp).getValue() != levels.lowerEntry(newexp).getValue();
@@ -102,7 +110,7 @@ public class RPGLevels {
      *
      * @return
      */
-    public TreeMap<Double, Integer> getTree() {
+    public TreeMap<Long, Integer> getTree() {
         return levels;
     }
 
@@ -111,12 +119,12 @@ public class RPGLevels {
      * @param exp
      * @return
      */
-    public float getPercentageForNextLevel(double exp) {
+    public float getPercentageForNextLevel(long exp) {
         float result = 0.0f;
-        double nextLvlExp;
+        long nextLvlExp;
         double actualExp;
         double actualLvlExp;
-        double startLvlExp;
+        long startLvlExp;
         double expOfLvl;
         actualExp = exp;
         nextLvlExp = levels.higherKey(exp);
@@ -132,9 +140,9 @@ public class RPGLevels {
      * @param exp
      * @return
      */
-    public double getExperienceForNectLevel(double exp) {
-        double nextLvlExp = levels.higherKey(exp);
-        double actualExp = exp;
+    public double getExperienceForNectLevel(long exp) {
+        long nextLvlExp = levels.higherKey(exp);
+        long actualExp = exp;
         return nextLvlExp - actualExp;
     }
 
@@ -143,7 +151,7 @@ public class RPGLevels {
      * @param exp
      * @return
      */
-    public int getNextLevel(double exp) {
+    public int getNextLevel(long exp) {
         return levels.higherEntry(exp).getValue();
     }
 
@@ -152,7 +160,7 @@ public class RPGLevels {
      * @param exp
      * @return
      */
-    public int getLevelBasedOnExp(double exp) {
+    public int getLevelBasedOnExp(long exp) {
         return levels.floorEntry(exp).getValue();
     }
 }

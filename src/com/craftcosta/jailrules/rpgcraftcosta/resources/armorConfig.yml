@@ -1,0 +1,10 @@
+breakprobability: 0.3
+detteroriateprobability: 0.4
+nothingprobability: 0.6
+improveprobability: 1.0
+armor:
+    material: DIAMOND
+    name: Armor Upgrader
+    lores:
+        - Toma el objeto y aplicalo a un arma
+        - Mucha suerte!!!

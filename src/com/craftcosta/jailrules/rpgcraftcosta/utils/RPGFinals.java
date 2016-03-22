@@ -14,9 +14,11 @@ import java.io.File;
 public abstract class RPGFinals {
 
     public final static String pluginName = "RPGCraftCosta";
+    public final static String pluginNameFolder= "RPGCraftCosta"+File.separator;
     public final static String pluginsFolder = "plugins" + File.separator;
     public final static String mainFolder = pluginsFolder + "RPGCraftCosta" + File.separator;
     public final static String dataFolder = mainFolder + "data" + File.separator;
+    public final static String dataFolderA = pluginNameFolder+"data"+File.separator;
     public final static String configFolder = mainFolder + "config" + File.separator;
     public final static String langFolder = configFolder + "lang" + File.separator;
     public final static String playerData = dataFolder + "playerdata" + File.separator;
