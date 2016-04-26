@@ -14,12 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.craftcosta.jailrules.rpgcraftcosta.logica;
+package com.craftcosta.jailrules.rpgcraftcosta.gui.logic;
+
+import com.craftcosta.jailrules.rpgcraftcosta.items.RPGItem;
+import java.util.Map;
 
 /**
  *
  * @author jail
  */
-public class RPGJewelL {
+public class RPGItemManagerUI {
+    RPGArmorManagerUI rpgAManUI;
+    Map <String, RPGItem> listItems;
+
+    public RPGItemManagerUI() {
+        rpgAManUI= new RPGArmorManagerUI();
+    }
     
 }

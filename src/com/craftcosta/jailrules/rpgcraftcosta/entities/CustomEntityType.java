@@ -35,6 +35,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs.CSquid;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs.CVillager;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs.CWitch;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs.CWither;
+import com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs.CWolf;
 import java.lang.reflect.Field;
 import java.util.Map;
 import net.minecraft.server.v1_8_R3.Entity;
@@ -70,6 +71,7 @@ import net.minecraft.server.v1_8_R3.EntitySquid;
 import net.minecraft.server.v1_8_R3.EntityVillager;
 import net.minecraft.server.v1_8_R3.EntityWitch;
 import net.minecraft.server.v1_8_R3.EntityWither;
+import net.minecraft.server.v1_8_R3.EntityWolf;
 import net.minecraft.server.v1_8_R3.EntityZombie;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
@@ -114,7 +116,9 @@ public enum CustomEntityType {
     VILLAGERX("VillagerX",120,EntityType.VILLAGER,EntityVillager.class,CVillager.class),
     WITCHX("WitchX",66,EntityType.WITCH,EntityWitch.class,CWitch.class),
     WITHERX("WitherX",64,EntityType.WITHER,EntityWither.class,CWither.class),
+    WOLFX("WolfX",95,EntityType.WOLF,EntityWolf.class,CWolf.class),
     ZOMBIEX("ZombieX", 54, EntityType.ZOMBIE, EntityZombie.class, CZombie.class);
+    
 
     private String name;
     private int id;

@@ -13,6 +13,7 @@ import java.io.File;
  */
 public abstract class RPGFinals {
 
+    public final static String itemImagePackage= "/com/craftcosta/jailrules/rpgcraftcosta/items/";
     public final static String pluginName = "RPGCraftCosta";
     public final static String pluginNameFolder= "RPGCraftCosta"+File.separator;
     public final static String pluginsFolder = "plugins" + File.separator;

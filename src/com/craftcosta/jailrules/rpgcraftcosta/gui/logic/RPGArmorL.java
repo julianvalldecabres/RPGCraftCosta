@@ -14,12 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.craftcosta.jailrules.rpgcraftcosta.logica;
+package com.craftcosta.jailrules.rpgcraftcosta.gui.logic;
+
+import com.craftcosta.jailrules.rpgcraftcosta.items.Quality;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 /**
  *
  * @author jail
  */
 public class RPGArmorL {
+
+    RPGArmorL(int level, Quality quality, boolean upgradable, boolean comerciable, int armorLevel, Material mat, String setName, double physicaldefense, double incphysicaldefense, double physicalevasion, double incphysicalevasion, double magicaldefense, double incmagicaldefense, double magicalevasion, double incmagicalevasion, double moneybonus, double apbonus, double xpbonus, int buyprice, int sellprice) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

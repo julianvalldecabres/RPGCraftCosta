@@ -1,10 +1,8 @@
-package com.craftcosta.jailrules.rpgcraftcosta;
+package com.craftcosta.jailrules.rpgcraftcosta.gui;
 
-import com.craftcosta.jailrules.rpgcraftcosta.items.RPGItemManager;
-import com.craftcosta.jailrules.rpgcraftcosta.items.armor.RPGArmorManager;
+import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.leveling.RPGLevels;
-import com.craftcosta.jailrules.rpgcraftcosta.logica.RPGItemManagerUI;
-import com.craftcosta.jailrules.rpgcraftcosta.resources.Pene;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.RPGItemManagerUI;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.bukkit.Material;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -83,7 +82,12 @@ public class GUI extends javax.swing.JFrame {
         //TODO AUTOMATIZAR EL PROCESO DE GENERACION DE LOS FICHEROS DE CONFIGURACION
 
         File file = new File(RPGFinals.dataFolder);
+        System.out.println(Material.values());
+        for(Material mat: Material.values()){
+            System.out.println(mat.name()+"(\"\"),");
+        }
         if (!file.exists()) {
+            
             JOptionPane.showMessageDialog(null, "Creating default config folders and files", "RPGCraftCosta-Information", 1);
             file.mkdirs();
         } else {
@@ -92,7 +96,7 @@ public class GUI extends javax.swing.JFrame {
 
         //LISTADO DE FICHEROS YAMLS PARA COPIAR POR DEFECTO
         final String path = "";
-        final File jarFile = new File(Pene.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        final File jarFile = new File(GUI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 
         if (jarFile.isFile()) {  // Run with JAR file
             final JarFile jar = new JarFile(jarFile);
@@ -118,7 +122,7 @@ public class GUI extends javax.swing.JFrame {
                             File configfile = new File(file.getAbsolutePath() + File.separator + app.getName());
                             if (!configfile.exists()) {
                                 inexistentfiles.add(app.getName());                                
-                                InputStream in = Pene.class.getClassLoader().getResourceAsStream(app.getName());
+                                InputStream in = GUI.class.getClassLoader().getResourceAsStream(app.getName());
                                 FileOutputStream fos = null;
                                 try {
                                     fos = new FileOutputStream(file.getAbsolutePath() + File.separator + app.getName());
@@ -184,6 +188,7 @@ public class GUI extends javax.swing.JFrame {
         PanelInicio = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
         PanelConfigGeneral = new javax.swing.JPanel();
+        CBHungerSystem = new javax.swing.JCheckBox();
         PanelConfigLevel = new javax.swing.JPanel();
         lvlLabelFunction2 = new javax.swing.JLabel();
         lvlLabelFunction3 = new javax.swing.JLabel();
@@ -287,6 +292,11 @@ public class GUI extends javax.swing.JFrame {
         jSpinner33 = new javax.swing.JSpinner();
         jLabel34 = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
+        PanelConfigObjetos = new javax.swing.JPanel();
+        PanelConfigArmor = new javax.swing.JPanel();
+        PanelConfigWeapon = new javax.swing.JPanel();
+        PanelConfigJewels = new javax.swing.JPanel();
+        PanelConfigFood = new javax.swing.JPanel();
         PanelConfigMobs = new javax.swing.JPanel();
         jComboBox2 = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
@@ -366,13 +376,9 @@ public class GUI extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         PanelConfigNpcs = new javax.swing.JPanel();
-        PanelConfigArmor = new javax.swing.JPanel();
-        PanelConfigWeapon = new javax.swing.JPanel();
-        PanelConfigObjetos = new javax.swing.JPanel();
         PanelConfigQuests = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 600));
 
         PanelConfig.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         PanelConfig.setTabPlacement(javax.swing.JTabbedPane.LEFT);
@@ -405,15 +411,23 @@ public class GUI extends javax.swing.JFrame {
 
         PanelConfigGeneral.setPreferredSize(new java.awt.Dimension(800, 600));
 
+        CBHungerSystem.setText("Original hunger system");
+
         javax.swing.GroupLayout PanelConfigGeneralLayout = new javax.swing.GroupLayout(PanelConfigGeneral);
         PanelConfigGeneral.setLayout(PanelConfigGeneralLayout);
         PanelConfigGeneralLayout.setHorizontalGroup(
             PanelConfigGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 933, Short.MAX_VALUE)
+            .addGroup(PanelConfigGeneralLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(CBHungerSystem)
+                .addContainerGap(783, Short.MAX_VALUE))
         );
         PanelConfigGeneralLayout.setVerticalGroup(
             PanelConfigGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1154, Short.MAX_VALUE)
+            .addGroup(PanelConfigGeneralLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(CBHungerSystem)
+                .addContainerGap(1101, Short.MAX_VALUE))
         );
 
         PanelConfig.addTab("general", PanelConfigGeneral);
@@ -1220,6 +1234,77 @@ public class GUI extends javax.swing.JFrame {
 
         PanelConfig.addTab("clases", PanelConfigClases);
 
+        PanelConfigObjetos.setPreferredSize(new java.awt.Dimension(800, 600));
+
+        javax.swing.GroupLayout PanelConfigObjetosLayout = new javax.swing.GroupLayout(PanelConfigObjetos);
+        PanelConfigObjetos.setLayout(PanelConfigObjetosLayout);
+        PanelConfigObjetosLayout.setHorizontalGroup(
+            PanelConfigObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 933, Short.MAX_VALUE)
+        );
+        PanelConfigObjetosLayout.setVerticalGroup(
+            PanelConfigObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1154, Short.MAX_VALUE)
+        );
+
+        PanelConfig.addTab("objetos", PanelConfigObjetos);
+
+        PanelConfigArmor.setPreferredSize(new java.awt.Dimension(800, 600));
+
+        javax.swing.GroupLayout PanelConfigArmorLayout = new javax.swing.GroupLayout(PanelConfigArmor);
+        PanelConfigArmor.setLayout(PanelConfigArmorLayout);
+        PanelConfigArmorLayout.setHorizontalGroup(
+            PanelConfigArmorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 933, Short.MAX_VALUE)
+        );
+        PanelConfigArmorLayout.setVerticalGroup(
+            PanelConfigArmorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1154, Short.MAX_VALUE)
+        );
+
+        PanelConfig.addTab("armaduras", PanelConfigArmor);
+
+        PanelConfigWeapon.setPreferredSize(new java.awt.Dimension(800, 600));
+
+        javax.swing.GroupLayout PanelConfigWeaponLayout = new javax.swing.GroupLayout(PanelConfigWeapon);
+        PanelConfigWeapon.setLayout(PanelConfigWeaponLayout);
+        PanelConfigWeaponLayout.setHorizontalGroup(
+            PanelConfigWeaponLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 933, Short.MAX_VALUE)
+        );
+        PanelConfigWeaponLayout.setVerticalGroup(
+            PanelConfigWeaponLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1154, Short.MAX_VALUE)
+        );
+
+        PanelConfig.addTab("armas", PanelConfigWeapon);
+
+        javax.swing.GroupLayout PanelConfigJewelsLayout = new javax.swing.GroupLayout(PanelConfigJewels);
+        PanelConfigJewels.setLayout(PanelConfigJewelsLayout);
+        PanelConfigJewelsLayout.setHorizontalGroup(
+            PanelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 943, Short.MAX_VALUE)
+        );
+        PanelConfigJewelsLayout.setVerticalGroup(
+            PanelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1154, Short.MAX_VALUE)
+        );
+
+        PanelConfig.addTab("Jewels", PanelConfigJewels);
+
+        javax.swing.GroupLayout PanelConfigFoodLayout = new javax.swing.GroupLayout(PanelConfigFood);
+        PanelConfigFood.setLayout(PanelConfigFoodLayout);
+        PanelConfigFoodLayout.setHorizontalGroup(
+            PanelConfigFoodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 943, Short.MAX_VALUE)
+        );
+        PanelConfigFoodLayout.setVerticalGroup(
+            PanelConfigFoodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1154, Short.MAX_VALUE)
+        );
+
+        PanelConfig.addTab("Food", PanelConfigFood);
+
         PanelConfigMobs.setPreferredSize(new java.awt.Dimension(800, 600));
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -1862,51 +1947,6 @@ public class GUI extends javax.swing.JFrame {
 
         PanelConfig.addTab("npcs", PanelConfigNpcs);
 
-        PanelConfigArmor.setPreferredSize(new java.awt.Dimension(800, 600));
-
-        javax.swing.GroupLayout PanelConfigArmorLayout = new javax.swing.GroupLayout(PanelConfigArmor);
-        PanelConfigArmor.setLayout(PanelConfigArmorLayout);
-        PanelConfigArmorLayout.setHorizontalGroup(
-            PanelConfigArmorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 933, Short.MAX_VALUE)
-        );
-        PanelConfigArmorLayout.setVerticalGroup(
-            PanelConfigArmorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1154, Short.MAX_VALUE)
-        );
-
-        PanelConfig.addTab("armaduras", PanelConfigArmor);
-
-        PanelConfigWeapon.setPreferredSize(new java.awt.Dimension(800, 600));
-
-        javax.swing.GroupLayout PanelConfigWeaponLayout = new javax.swing.GroupLayout(PanelConfigWeapon);
-        PanelConfigWeapon.setLayout(PanelConfigWeaponLayout);
-        PanelConfigWeaponLayout.setHorizontalGroup(
-            PanelConfigWeaponLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 933, Short.MAX_VALUE)
-        );
-        PanelConfigWeaponLayout.setVerticalGroup(
-            PanelConfigWeaponLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1154, Short.MAX_VALUE)
-        );
-
-        PanelConfig.addTab("armas", PanelConfigWeapon);
-
-        PanelConfigObjetos.setPreferredSize(new java.awt.Dimension(800, 600));
-
-        javax.swing.GroupLayout PanelConfigObjetosLayout = new javax.swing.GroupLayout(PanelConfigObjetos);
-        PanelConfigObjetos.setLayout(PanelConfigObjetosLayout);
-        PanelConfigObjetosLayout.setHorizontalGroup(
-            PanelConfigObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 933, Short.MAX_VALUE)
-        );
-        PanelConfigObjetosLayout.setVerticalGroup(
-            PanelConfigObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1154, Short.MAX_VALUE)
-        );
-
-        PanelConfig.addTab("objetos", PanelConfigObjetos);
-
         PanelConfigQuests.setPreferredSize(new java.awt.Dimension(800, 600));
 
         javax.swing.GroupLayout PanelConfigQuestsLayout = new javax.swing.GroupLayout(PanelConfigQuests);
@@ -2154,11 +2194,14 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JPanel BaseClassPanel1;
     private javax.swing.JPanel BaseClassPanel2;
     private javax.swing.JPanel BaseClassPanel3;
+    private javax.swing.JCheckBox CBHungerSystem;
     private javax.swing.JPanel LvlUpPanel;
     private javax.swing.JTabbedPane PanelConfig;
     private javax.swing.JPanel PanelConfigArmor;
     private javax.swing.JPanel PanelConfigClases;
+    private javax.swing.JPanel PanelConfigFood;
     private javax.swing.JPanel PanelConfigGeneral;
+    private javax.swing.JPanel PanelConfigJewels;
     private javax.swing.JPanel PanelConfigLevel;
     private javax.swing.JPanel PanelConfigMobs;
     private javax.swing.JPanel PanelConfigNpcs;

@@ -14,30 +14,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.craftcosta.jailrules.rpgcraftcosta.logica;
+package com.craftcosta.jailrules.rpgcraftcosta.gui.logic;
 
 import com.craftcosta.jailrules.rpgcraftcosta.items.Quality;
-import com.craftcosta.jailrules.rpgcraftcosta.items.armor.RPGArmor;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-import javax.swing.JOptionPane;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  *
  * @author jail
  */
 public class RPGArmorManagerUI {
-    private HashMap<String, RPGArmor> armorList;
+    private HashMap<String, RPGArmorL> armorList;
     private File armorFile;
     private File armorConfig;
     private FileConfiguration config;
@@ -72,7 +68,7 @@ public class RPGArmorManagerUI {
     private void loadArmor() {
         config = YamlConfiguration.loadConfiguration(armorFile);
         String name;
-        ItemStack item;
+        //ItemStack item;
         String materialS;
         String materialP;
         Material mat;
@@ -124,8 +120,7 @@ public class RPGArmorManagerUI {
                 apbonus = section.getDouble("apbonus");
                 xpbonus = section.getDouble("xpbonus");
                 moneybonus = section.getDouble("moneybonus");
-                item = new ItemStack(mat);
-                this.armorList.put(name + " " + materialP.toLowerCase(), new RPGArmor(level, item, quality, upgradable, comerciable, armorLevel, mat, setName, physicaldefense, incphysicaldefense, physicalevasion, incphysicalevasion, magicaldefense, incmagicaldefense, magicalevasion, incmagicalevasion, moneybonus, apbonus, xpbonus, buyprice, sellprice));
+                this.armorList.put(name + " " + materialP.toLowerCase(), new RPGArmorL(level, quality, upgradable, comerciable, armorLevel, mat, setName, physicaldefense, incphysicaldefense, physicalevasion, incphysicalevasion, magicaldefense, incmagicaldefense, magicalevasion, incmagicalevasion, moneybonus, apbonus, xpbonus, buyprice, sellprice));
             }
         }
         System.out.println(armorList.size());
