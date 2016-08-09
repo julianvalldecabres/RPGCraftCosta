@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.chat;
 
@@ -23,12 +33,17 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
  */
 public class RPGChatListener implements Listener {
 
+    //Campos de la clase
     RPGCraftCosta plugin;
     RPGPlayerManager rpgPMan;
     RPGChatManager rpgCMan;
     RPGGuildManager rpgGMan;
     RPGPartyManager rpgTMan;
 
+    /**
+     * Constructor de la clase RPGChatListener
+     * @param plugin clase RPGCraftCosta
+     */
     public RPGChatListener(RPGCraftCosta plugin) {
         this.plugin = plugin;
         this.rpgPMan = plugin.getRPGPlayerManager();
@@ -37,6 +52,10 @@ public class RPGChatListener implements Listener {
         this.rpgCMan = plugin.getRPGChatManager();
     }
 
+    /**
+     * onPlayerChat captura el evento AsyncPlayerChatEvent
+     * @param event evento que se dispara cuando el usuario escribe en el chat
+     */
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         Player sender = event.getPlayer();
@@ -77,6 +96,7 @@ public class RPGChatListener implements Listener {
                             + rpgCMan.getPlayerNameColor() + sender.getName()
                             + type.getPrefixColor() + " : " + type.getMessageColor();
                     message = messagePrefix + message1;
+                    //Solo los jugadores que tengan activado el chat global
                     plugin.getServer().broadcastMessage(message);
                 } else {
                     sender.sendMessage(type.getPrefixColor() + "[" + type.getPrefix() + "]" + ChatColor.RED + " Chat global deshabilitado");
@@ -114,6 +134,7 @@ public class RPGChatListener implements Listener {
                 //ChatPrivado prefijo+ nombre :+mensaje
                 if (rpgCMan.isPrivateChatEnabled()) {
                     Player receiver = Bukkit.getServer().getPlayer(event.getMessage().split(" ")[1]);
+                    
                     messagePrefix = type.getPrefixColor() + "[" + type.getPrefix() + "]"
                             + rpgCMan.getPlayerNameColor() + sender.getName() + " :"
                             + type.getMessageColor();
@@ -125,7 +146,10 @@ public class RPGChatListener implements Listener {
                     if (receiver == null) {
                         sender.sendMessage(type.getPrefixColor() + "[" + type.getPrefix() + "] " + ChatColor.RED + event.getMessage().split(" ")[1] + " no encontrado");
                     } else {
+                        RPGPlayer rpgreceiver= rpgPMan.getRPGPlayerByName(receiver.getName());
+                        if(rpgreceiver.isPrivateChat()){
                         receiver.sendMessage(message);
+                        }
                     }
                 } else {
                     sender.sendMessage(type.getPrefixColor() + "[" + type.getPrefix() + "]" + ChatColor.RED + " Chat privado deshabilitado");
@@ -177,13 +201,18 @@ public class RPGChatListener implements Listener {
                         + type.getPrefixColor() + " : " + type.getMessageColor();
                 message = messagePrefix + event.getMessage();
                 for (Player receiver : plugin.getServer().getOnlinePlayers()) {
+                    RPGPlayer rpgreceiver=rpgPMan.getRPGPlayerByName(receiver.getName());
                     if (rpgCMan.isLocalChatDistanceEnabled()) {
                         if (rpgCMan.canDistance(sender, receiver)) {
-                            receiver.sendMessage(message);
+                            if(rpgreceiver.isLocalChat()){
+                                receiver.sendMessage(message);
+                            }
                         }
                     } else {
                         if (rpgCMan.playersInTheSameWorld(sender, receiver)) {
-                            receiver.sendMessage(message);
+                            if(rpgreceiver.isLocalChat()){
+                                receiver.sendMessage(message);
+                            }
                         }
                     }
                 }

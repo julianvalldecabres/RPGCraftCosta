@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -56,7 +66,11 @@ public class COcelot extends EntityMonster implements IRangedEntity {
     private AttackType aType;
     private MobBehaviour mType;
     //VARIBLES ATRIBUTOS DEL MOB
-    public Location spawnLoc;
+
+    /**
+     *
+     */
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -71,6 +85,10 @@ public class COcelot extends EntityMonster implements IRangedEntity {
     private OcelotType catType;
     //VARIABLES PROPIAS DEL ENTITYCOW
 
+    /**
+     *
+     * @param world
+     */
     public COcelot(World world) {
         super(world);
         setSize(0.6F, 0.7F);
@@ -109,6 +127,11 @@ public class COcelot extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
     
+    /**
+     *
+     * @param world
+     * @param spawnLoc
+     */
     public COcelot(World world,Location spawnLoc) {
         super(world);
         setSize(0.6F, 0.7F);
@@ -206,7 +229,13 @@ public class COcelot extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param el
+     * @param f
+     */
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -237,6 +266,10 @@ public class COcelot extends EntityMonster implements IRangedEntity {
         makeSound("random.bow", 1.0F, 1.0F / (bc().nextFloat() * 0.4F + 0.8F));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getType() {
         switch (aType) {
             case MAGIC:
@@ -256,53 +289,102 @@ public class COcelot extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYPIG
-    public int getCatType() {
+
+    /**
+     *
+     * @return
+     */
+        public int getCatType() {
         return this.datawatcher.getByte(18);
     }
 
+    /**
+     *
+     * @param i
+     */
     public void setCatType(int i) {
         this.datawatcher.watch(18, Byte.valueOf((byte) i));
     }
 
+    /**
+     *
+     * @return
+     */
     protected String z() {
         int i = this.random.nextInt(4);
         return i == 1 ? "mob.cat.meow" : i == 2 ? "mob.cat.purreow" : i == 0 ? "mob.cat.purr" : "";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         return "mob.cat.hitt";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bp() {
         return "mob.cat.hitt";
     }
 
+    /**
+     *
+     * @param blockposition
+     * @param block
+     */
     protected void a(BlockPosition blockposition, Block block) {
         makeSound("mob.cow.step", 0.15F, 1.0F);
     }
 
+    /**
+     *
+     */
     public void m() {
         super.m();
     }
 
+    /**
+     *
+     * @return
+     */
     public EnumMonsterType getMonsterType() {
         return EnumMonsterType.UNDEFINED;
     }
 
+    /**
+     *
+     * @param difficultydamagescaler
+     * @param groupdataentity
+     * @return
+     */
     public GroupDataEntity prepare(DifficultyDamageScaler difficultydamagescaler, GroupDataEntity groupdataentity) {
         groupdataentity = super.prepare(difficultydamagescaler, groupdataentity);
         return groupdataentity;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getHeadHeight() {
         return this.length;
     }
 
+    /**
+     *
+     */
     protected void h() {
         super.h();
         this.datawatcher.a(18, Byte.valueOf((byte) 0));
     }
 
+    /**
+     *
+     */
     public void E() {
         if (getControllerMove().a()) {
             double d0 = getControllerMove().b();
@@ -322,19 +404,37 @@ public class COcelot extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void b(NBTTagCompound nbttagcompound) {
         super.b(nbttagcompound);
         nbttagcompound.setInt("CatType", getCatType());
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void a(NBTTagCompound nbttagcompound) {
         super.a(nbttagcompound);
         setCatType(nbttagcompound.getInt("CatType"));
     }
 
+    /**
+     *
+     * @param f
+     * @param f1
+     */
     public void e(float f, float f1) {
     }
 
+    /**
+     *
+     * @param entityhuman
+     * @return
+     */
     public boolean a(EntityHuman entityhuman) {
         return super.a(entityhuman);
     }

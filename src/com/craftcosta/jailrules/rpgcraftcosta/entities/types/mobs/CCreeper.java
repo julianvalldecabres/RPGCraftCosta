@@ -1,18 +1,17 @@
-/*
- * Copyright (C) 2015 jail
+/* 
+ * Copyright 2016 jail.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -61,7 +60,11 @@ public class CCreeper extends EntityMonster implements IRangedEntity {
     private AttackType aType;
     private MobBehaviour mType;
     //VARIBLES ATRIBUTOS DEL MOB
-    public Location spawnLoc;
+
+    /**
+     *
+     */
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -81,7 +84,12 @@ public class CCreeper extends EntityMonster implements IRangedEntity {
     //private int explosionRadius = 3;
     //private int bn = 0;
     //private int record = -1;
-    public CCreeper(World world) {
+
+    /**
+     *
+     * @param world
+     */
+        public CCreeper(World world) {
         super(world);
         this.spawnLoc = new Location(world.getWorld(), 0, 0, 0);
         //tipos por defecto
@@ -111,6 +119,11 @@ public class CCreeper extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @param world
+     * @param spawnLoc
+     */
     public CCreeper(World world, Location spawnLoc) {
         super(world);
         this.spawnLoc = spawnLoc;
@@ -198,6 +211,10 @@ public class CCreeper extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getType() {
         switch (aType) {
             case MAGIC:
@@ -208,6 +225,11 @@ public class CCreeper extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     * @param el
+     * @param f
+     */
     @Override
     public void a(EntityLiving el, float f) {
         //Para que nuestras entidades puedan realizar ataques a distancia hay que reescribir el metodo avoid a(EntityLiving el, float f)
@@ -245,38 +267,74 @@ public class CCreeper extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DEL ENTITYCREEPER
-    public void t_() {
+
+    /**
+     *
+     */
+        public void t_() {
         super.t_();
     }
 
+    /**
+     *
+     * @param f
+     * @param f1
+     */
     public void e(float f, float f1) {
         super.e(f, f1);
     }
 
+    /**
+     *
+     */
     protected void h() {
         super.h();
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void b(NBTTagCompound nbttagcompound) {
         super.b(nbttagcompound);
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void a(NBTTagCompound nbttagcompound) {
         super.a(nbttagcompound);
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         return "mob.creeper.say";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bp() {
         return "mob.creeper.death";
     }
 
+    /**
+     *
+     * @param damagesource
+     */
     public void die(DamageSource damagesource) {
         super.die(damagesource);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean cn() {
         return this.datawatcher.getByte(18) != 0;
     }

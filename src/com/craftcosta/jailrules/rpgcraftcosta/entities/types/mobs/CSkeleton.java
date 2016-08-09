@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -56,7 +66,11 @@ public class CSkeleton extends EntityMonster implements IRangedEntity {
     private AttackType aType;
     private MobBehaviour mType;
     //VARIBLES ATRIBUTOS DEL MOB
-    public Location spawnLoc;
+
+    /**
+     *
+     */
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -70,6 +84,10 @@ public class CSkeleton extends EntityMonster implements IRangedEntity {
     private double maxhealth;
     private SkeletonType sType;
 
+    /**
+     *
+     * @param world
+     */
     public CSkeleton(World world) {
         super(world);
         sType=SkeletonType.NORMAL;
@@ -106,6 +124,11 @@ public class CSkeleton extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
     
+    /**
+     *
+     * @param world
+     * @param spawnLoc
+     */
     public CSkeleton(World world,Location spawnLoc) {
         super(world);
         sType=SkeletonType.WITHER;
@@ -142,6 +165,10 @@ public class CSkeleton extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @return
+     */
     public int getType() {
         switch (aType) {
             case MAGIC:
@@ -211,7 +238,13 @@ public class CSkeleton extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param entityliving
+     * @param f
+     */
+        @Override
     public void a(EntityLiving entityliving, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, entityliving, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -241,53 +274,104 @@ public class CSkeleton extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYSKELETON
-    public int getSkeletonType() {
+
+    /**
+     *
+     * @return
+     */
+        public int getSkeletonType() {
         return this.datawatcher.getByte(13);
     }
 
+    /**
+     *
+     */
     protected void h() {
         super.h();
         this.datawatcher.a(13, new Byte((byte) 0));
     }
 
+    /**
+     *
+     * @return
+     */
     protected String z() {
         return "mob.skeleton.say";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         return "mob.skeleton.hurt";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bp() {
         return "mob.skeleton.death";
     }
 
+    /**
+     *
+     * @param blockposition
+     * @param block
+     */
     protected void a(BlockPosition blockposition, Block block) {
         makeSound("mob.skeleton.step", 0.15F, 1.0F);
     }
 
+    /**
+     *
+     */
     public void m() {
         super.m();
     }
 
+    /**
+     *
+     * @return
+     */
     public EnumMonsterType getMonsterType() {
         return EnumMonsterType.UNDEAD;
     }
 
+    /**
+     *
+     * @param difficultydamagescaler
+     * @param groupdataentity
+     * @return
+     */
     public GroupDataEntity prepare(DifficultyDamageScaler difficultydamagescaler, GroupDataEntity groupdataentity) {
         groupdataentity = super.prepare(difficultydamagescaler, groupdataentity);
         return groupdataentity;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getHeadHeight() {
         return getSkeletonType() == 1 ? super.getHeadHeight() : 1.74F;
     }
 
+    /**
+     *
+     * @param i
+     */
     public void setSkeletonType(int i) {
         this.datawatcher.watch(13, Byte.valueOf((byte) i));
         if(i==0){setSize(0.6F, 1.95F);}else{setSize(0.72F, 2.535F);}
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
     public boolean r(Entity entity) {
         if (super.r(entity)) {
             return true;
@@ -295,6 +379,10 @@ public class CSkeleton extends EntityMonster implements IRangedEntity {
         return false;
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void a(NBTTagCompound nbttagcompound) {
         if (nbttagcompound.hasKeyOfType("SkeletonType", 99)) {
             byte b0 = nbttagcompound.getByte("SkeletonType");
@@ -304,11 +392,19 @@ public class CSkeleton extends EntityMonster implements IRangedEntity {
         super.a(nbttagcompound);
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void b(NBTTagCompound nbttagcompound) {
         super.b(nbttagcompound);
         nbttagcompound.setByte("SkeletonType", (byte) getSkeletonType());
     }
 
+    /**
+     *
+     * @return
+     */
     public double am() {
         return isBaby() ? 0.0D : -0.35D;
     }

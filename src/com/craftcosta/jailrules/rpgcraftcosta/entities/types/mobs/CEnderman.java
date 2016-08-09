@@ -1,18 +1,17 @@
-/*
- * Copyright (C) 2015 jail
+/* 
+ * Copyright 2016 jail.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -84,6 +83,10 @@ public class CEnderman extends EntityMonster implements IRangedEntity {
     //VARIABLES PROPIAS DEL ENTITYENDERMAN
     private boolean bm;
 
+    /**
+     *
+     * @param world
+     */
     public CEnderman(World world) {
         super(world);
         this.setSize(0.6F, 2.9F);
@@ -116,6 +119,11 @@ public class CEnderman extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @param world
+     * @param spawnLoc
+     */
     public CEnderman(World world, Location spawnLoc) {
         super(world);
         this.spawnLoc = spawnLoc;
@@ -207,7 +215,13 @@ public class CEnderman extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param el
+     * @param f
+     */
+        @Override
     public void a(EntityLiving el, float f) {
         //Para que nuestras entidades puedan realizar ataques a distancia hay que reescribir el metodo avoid a(EntityLiving el, float f)
         //que define que tipo de ataque a distancia realiza
@@ -243,6 +257,10 @@ public class CEnderman extends EntityMonster implements IRangedEntity {
         makeSound("random.bow", 1.0F, 1.0F / (bc().nextFloat() * 0.4F + 0.8F));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getType() {
         switch (aType) {
             case MAGIC:
@@ -254,17 +272,29 @@ public class CEnderman extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DEL ENTITYENDERMAN
-    protected void h() {
+
+    /**
+     *
+     */
+        protected void h() {
         super.h();
         this.datawatcher.a(16, new Short((short) 0));
         this.datawatcher.a(17, new Byte((byte) 0));
         this.datawatcher.a(18, new Byte((byte) 0));
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void b(NBTTagCompound nbttagcompound) {
         super.b(nbttagcompound);
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void a(NBTTagCompound nbttagcompound) {
         super.a(nbttagcompound);
     }
@@ -280,10 +310,17 @@ public class CEnderman extends EntityMonster implements IRangedEntity {
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getHeadHeight() {
         return 2.55F;
     }
 
+    /**
+     *
+     */
     public void m() {
         //Cuando se teleporta esta entidad deja tras de si una estela de particulas
         if (this.world.isClientSide) {
@@ -296,6 +333,9 @@ public class CEnderman extends EntityMonster implements IRangedEntity {
         super.m();
     }
 
+    /**
+     *
+     */
     protected void E() {
         //esta entidad es dañada por el agua tanto si llueve como si le alcanza el agua
 //        if (this.U()) {
@@ -320,6 +360,10 @@ public class CEnderman extends EntityMonster implements IRangedEntity {
         super.E();
     }
 
+    /**
+     *
+     * @return
+     */
     protected boolean n() {
 
         //En caso de daño a la entidad esta se teleporta en esta version 
@@ -331,6 +375,11 @@ public class CEnderman extends EntityMonster implements IRangedEntity {
         return this.k(d0, d1, d2);
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
     protected boolean b(Entity entity) {
         Vec3D vec3d = new Vec3D(this.locX - entity.locX, this.getBoundingBox().b + (double) (this.length / 2.0F) - entity.locY + (double) entity.getHeadHeight(), this.locZ - entity.locZ);
 
@@ -343,6 +392,13 @@ public class CEnderman extends EntityMonster implements IRangedEntity {
         return this.k(d1, d2, d3);
     }
 
+    /**
+     *
+     * @param d0
+     * @param d1
+     * @param d2
+     * @return
+     */
     protected boolean k(double d0, double d1, double d2) {
         //Este metodo es el encargado de mover por teleporte a la entidad entityenderman
         //Busca el lugar idoneo para colocar a la entidad evitando liquidos y bloques no
@@ -414,6 +470,12 @@ public class CEnderman extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     * @param damagesource
+     * @param f
+     * @return
+     */
     public boolean damageEntity(DamageSource damagesource, float f) {
         if (this.isInvulnerable(damagesource)) {
             return false;
@@ -455,26 +517,49 @@ public class CEnderman extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     protected String z() {
         return this.co() ? "mob.endermen.scream" : "mob.endermen.idle";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         return "mob.endermen.hit";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bp() {
         return "mob.endermen.death";
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean co() {
         return this.datawatcher.getByte(18) > 0;
     }
 
+    /**
+     *
+     * @param flag
+     */
     public void a(boolean flag) {
         this.datawatcher.watch(18, Byte.valueOf((byte) (flag ? 1 : 0)));
     }
 
+    /**
+     *
+     */
     public void e() {
         //Este metodo hace que el enderman coja un bloque del mapa
         //Lo cual no nos interesa

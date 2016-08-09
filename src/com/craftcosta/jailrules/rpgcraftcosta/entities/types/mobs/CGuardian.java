@@ -1,18 +1,17 @@
-/*
- * Copyright (C) 2015 jail
+/* 
+ * Copyright 2016 jail.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -70,7 +69,11 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
     private AttackType aType;
     private MobBehaviour mType;
     //VARIBLES ATRIBUTOS DEL MOB
-    public Location spawnLoc;
+
+    /**
+     *
+     */
+        public Location spawnLoc;
     private GuardianType gtype;
     private String name;
     private int level;
@@ -92,8 +95,16 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
     private EntityLiving bo;
     private int bp;
     private boolean bq;
+
+    /**
+     *
+     */
     public PathfinderGoalRandomStroll goalRandomStroll;
 
+    /**
+     *
+     * @param world
+     */
     public CGuardian(World world) {
         super(world);
         this.b_ = 10;
@@ -131,6 +142,11 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @param world
+     * @param spawnLoc
+     */
     public CGuardian(World world, Location spawnLoc) {
         super(world);
         this.b_ = 10;
@@ -235,7 +251,13 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param el
+     * @param f
+     */
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -266,6 +288,10 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
         makeSound("random.bow", 1.0F, 1.0F / (bc().nextFloat() * 0.4F + 0.8F));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getType() {
         switch (aType) {
             case MAGIC:
@@ -277,13 +303,27 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DEL ENTITYGUARDIAN
-    public void e(float f, float f1) {
+
+    /**
+     *
+     * @param f
+     * @param f1
+     */
+        public void e(float f, float f1) {
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void a(NBTTagCompound nbttagcompound) {
         super.a(nbttagcompound);
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void b(NBTTagCompound nbttagcompound) {
         super.b(nbttagcompound);
     }
@@ -291,7 +331,11 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
 //    protected NavigationAbstract b(World world) {
 //        return new Navigation(this, world);
 //    }
-    protected void h() {
+
+    /**
+     *
+     */
+        protected void h() {
         super.h();
         this.datawatcher.a(16, Integer.valueOf(0));
         this.datawatcher.a(17, Integer.valueOf(0));
@@ -314,7 +358,12 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
     }
 
     //devuelve true si el guardian es normal
-    public boolean n() {
+
+    /**
+     *
+     * @return
+     */
+        public boolean n() {
         return this.a(2);
     }
 
@@ -322,17 +371,31 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
         this.a(2, flag);
     }
 
+    /**
+     *
+     * @return
+     */
     public int cm() {
         return this.isElder() ? 60 : 80;
     }
 
     //devuelve true si el guardian es elder
-    public boolean isElder() {
+
+    /**
+     *
+     * @return
+     */
+        public boolean isElder() {
         return this.a(4);
     }
 
     //modifica la entidad para que tenga aspecto de elder
-    public void setElder(boolean flag) {
+
+    /**
+     *
+     * @param flag
+     */
+        public void setElder(boolean flag) {
         this.a(4, flag);
     }
 
@@ -341,12 +404,22 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
     }
 
     //devuelve true si el guardian tiene un objetivo
-    public boolean cp() {
+
+    /**
+     *
+     * @return
+     */
+        public boolean cp() {
         return this.datawatcher.getInt(17) != 0;
     }
 
     //devuelve si el guardian tiene un objetivo
-    public EntityLiving cq() {
+
+    /**
+     *
+     * @return
+     */
+        public EntityLiving cq() {
         if (!this.cp()) {
             return null;
         } else {
@@ -354,6 +427,10 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     * @param i
+     */
     public void i(int i) {
         super.i(i);
         if (i == 16) {
@@ -367,34 +444,66 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public int w() {
         return 160;
     }
 
+    /**
+     *
+     * @return
+     */
     protected String z() {
         return !this.V() ? "mob.guardian.land.idle" : (this.isElder() ? "mob.guardian.elder.idle" : "mob.guardian.idle");
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         return !this.V() ? "mob.guardian.land.hit" : (this.isElder() ? "mob.guardian.elder.hit" : "mob.guardian.hit");
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bp() {
         return !this.V() ? "mob.guardian.land.death" : (this.isElder() ? "mob.guardian.elder.death" : "mob.guardian.death");
     }
 
+    /**
+     *
+     * @return
+     */
     protected boolean s_() {
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getHeadHeight() {
         return this.length * 0.5F;
     }
 
+    /**
+     *
+     * @param blockposition
+     * @return
+     */
     public float a(BlockPosition blockposition) {
         return this.world.getType(blockposition).getBlock().getMaterial() == Material.WATER ? 10.0F + this.world.o(blockposition) - 0.5F : super.a(blockposition);
     }
 
+    /**
+     *
+     */
     public void m() {
 
         if (this.world.isClientSide) {
@@ -480,34 +589,69 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
         super.m();
     }
 
+    /**
+     *
+     * @param f
+     * @return
+     */
     public float q(float f) {
         return ((float) this.bp + f) / (float) this.cm();
     }
 
+    /**
+     *
+     */
     protected void E() {
         super.E();
     }
 
+    /**
+     *
+     * @return
+     */
     protected boolean n_() {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean canSpawn() {
         return this.world.a(this.getBoundingBox(), (Entity) this) && this.world.getCubes(this, this.getBoundingBox()).isEmpty();
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean bR() {
         return (this.random.nextInt(20) == 0 || !this.world.j(new BlockPosition(this))) && super.bR();
     }
 
+    /**
+     *
+     * @param damagesource
+     * @param f
+     * @return
+     */
     public boolean damageEntity(DamageSource damagesource, float f) {
         return super.damageEntity(damagesource, f);
     }
 
+    /**
+     *
+     * @return
+     */
     public int bQ() {
         return 180;
     }
 
+    /**
+     *
+     * @param f
+     * @param f1
+     */
     public void g(float f, float f1) {
         if (this.bM()) {
             if (this.V()) {

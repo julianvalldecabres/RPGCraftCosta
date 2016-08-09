@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta;
 
@@ -30,13 +40,15 @@ import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerListener;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
+ * La clase RPGCraftCosta es la principal de todo el plugin
  *
  * @author Jail
  */
 public class RPGCraftCosta extends JavaPlugin {
+
+    //Campos de la clase
 
     static RPGCraftCosta rpgCraftCosta;
     private final FileConfiguration config;
@@ -52,55 +64,56 @@ public class RPGCraftCosta extends JavaPlugin {
     private RPGPartyManager rpgPartyManager;
     private RPGGuildCommands myGuildCommands;
     private RPGPlayerCommands myPlayerCommands;
+
     /**
-     *
+     * Constructor de la clase RPGCraftCosta Se hace uso del patron singleton
+     * para evitar la creacion de mas de 1 instancia
      */
     public RPGCraftCosta() {
         rpgCraftCosta = this;
         this.config = this.getConfig();
-    }
+    }//Cierre del constructor
 
     /**
+     * Metodo que devuelve el objeto RPGCraftCosta
      *
-     * @return
+     * @return el objeto RPGCraftCosta
      */
     public RPGCraftCosta getPlugin() {
         return this;
-    }
+    }//Cierre del metodo
 
     /**
+     * Metodo que devuelve el objeto RPGPlayerManager
      *
-     * @return
+     * @return el objeto RPGPlayerManager
      */
     public RPGPlayerManager getRPGPlayerManager() {
         return rpgPlayerManager;
-    }
+    }//Cierre del metodo
 
     /**
+     * Metodo que devuelve el objeto RPGClassManager
      *
-     * @return
+     * @return el objeto RPGClassManager
      */
     public RPGClassManager getRPGClassManager() {
         return rpgClassManager;
-    }
+    }//Cierre del metodo
 
     /**
+     * Metodo que devuelve el objeto RPGGuildManager
      *
-     * @return
+     * @return el objeto RPGGuildManager
      */
     public RPGGuildManager getRPGGuildManager() {
         return rpgGuildManager;
-    }
+    }//Cierre del metodo
 
     /**
-     *
-     * @return
-     */
-    public boolean mkdirs() {
-        return true;
-    }
-
-    /**
+     * Metodo necesario para que el plugin se inicie. Al iniciar el servidor este
+     * metodo se encarga de inicializar todos los objetos necesarios para la
+     * ejecucion del plugin en el servidor
      */
     @Override
     public void onEnable() {
@@ -135,10 +148,12 @@ public class RPGCraftCosta extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new RPGPlayerListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGPartyListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGCreatureListener(this), this);
-    }
+    }//Cierre del metodo
 
     /**
-     *
+     * Metodo necesario para que el plugin se detenga al parar o reiniciar el
+     * servidor Este metodo se encargara de guardar los cambios de jugadores
+     * configuraciones y datos.
      */
     @Override
     public void onDisable() {
@@ -150,22 +165,42 @@ public class RPGCraftCosta extends JavaPlugin {
         getLogger().info("Shutting down I'll be back!!");
         this.rpgCraftCosta = null;
 
-    }
+    }//Cierre del metodo
 
+    /**
+     * Metodo que devuelve el objeto RPGItemManager
+     *
+     * @return el objeto RPGItemManager
+     */
     public RPGItemManager getRPGItemManager() {
         return this.rpgItemManager;
-    }
+    }//Cierre del metodo
 
+    /**
+     * Metodo que devuelve el objeto RPGChatManager
+     *
+     * @return el objeto RPGChatManager
+     */
     public RPGChatManager getRPGChatManager() {
         return this.rpgChatManager;
-    }
+    }//Cierre del metodo
 
+    /**
+     * Metodo que devuelve el objeto RPGPartyManager
+     *
+     * @return el objeto RPGPartyManager
+     */
     public RPGPartyManager getRPGPartyManager() {
         return this.rpgPartyManager;
-    }
+    }//Cierre del metodo
 
+    /**
+     * Metodo que devuelve el objeto RPGMobManager
+     *
+     * @return el objeto RPGMobManager
+     */
     public RPGMobManager getRPGMobManager() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    }//Cierre del metodo
 
 }

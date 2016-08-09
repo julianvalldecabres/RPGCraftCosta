@@ -1,3 +1,18 @@
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.craftcosta.jailrules.rpgcraftcosta.entities;
 
 /**
@@ -78,45 +93,182 @@ import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 
 import org.bukkit.entity.EntityType;
 
+/**
+ *
+ * @author jail
+ */
 public enum CustomEntityType {
 
+    /**
+     *
+     */
     BATX("BatX", 65, EntityType.BAT, EntityBat.class, CBat.class),
+
+    /**
+     *
+     */
     BLAZEX("BlazeX", 61, EntityType.BLAZE, EntityBlaze.class, CBlaze.class),
+
+    /**
+     *
+     */
     CAVESPIDERX("CaveSpiderX", 59, EntityType.CAVE_SPIDER, EntityCaveSpider.class, CCaveSpider.class),
+
+    /**
+     *
+     */
     CHICKENX("ChickenX", 93, EntityType.CHICKEN, EntityChicken.class, CChicken.class),
+
+    /**
+     *
+     */
     COWX("CowX", 92, EntityType.COW, EntityCow.class, CCow.class),
+
+    /**
+     *
+     */
     CREEPERX("CreeperX", 50, EntityType.CREEPER, EntityCreeper.class, CCreeper.class),
     /*MODIFICAR SISTEMA DE MOVIMIENTO PARA EL ENDERDRAGON*/
+
+    /**
+     *
+     */
+    
     ENDERDRAGONX("EnderDragonX", 63, EntityType.ENDER_DRAGON, EntityEnderDragon.class, CEnderDragon.class),
+
+    /**
+     *
+     */
     ENDERMANX("EndermanX", 58, EntityType.ENDERMAN, EntityEnderman.class, CEnderman.class),
+
+    /**
+     *
+     */
     ENDERMITEX("EndermiteX", 67, EntityType.ENDERMITE, EntityEndermite.class, CEndermite.class),
     /*MODIFICAR SISTEMA DE MOVIMIENTO PARA EL GHAST*/
+
+    /**
+     *
+     */
+    
     GHASTX("GhastX", 56, EntityType.GHAST, EntityGhast.class, CGhast.class),
+
+    /**
+     *
+     */
     GIANTX("GiantX", 53, EntityType.GIANT, EntityGiantZombie.class, CGiant.class),
     /*MODIFICAR SISTEMA DE MOVIMIENTO PARA EL GUARDIAN*/
+
+    /**
+     *
+     */
+    
     GUARDIANX("GuardianX",68,EntityType.GUARDIAN,EntityGuardian.class,CGuardian.class),
+
+    /**
+     *
+     */
     HORSEX("HorseX", 100, EntityType.HORSE, EntityHorse.class, CHorse.class),
+
+    /**
+     *
+     */
     IRONGOLEMX("IronGolemX",99,EntityType.IRON_GOLEM,EntityIronGolem.class,CIronGolem.class),
     /*MODIFICAR SISTEMA DE MOVIMIENTO PARA EL MAGMACUBE*/
+
+    /**
+     *
+     */
+    
     MAGMACUBEX("MagmaCubeX",62,EntityType.MAGMA_CUBE,EntityMagmaCube.class,CMagmaCube.class),
+
+    /**
+     *
+     */
     MUSHROOMCOWX("MushroomCowX",96,EntityType.MUSHROOM_COW,EntityMushroomCow.class,CMushroomCow.class),
+
+    /**
+     *
+     */
     OCELOTX("OcelotX",98,EntityType.OCELOT,EntityOcelot.class,COcelot.class),
+
+    /**
+     *
+     */
     PIGX("PigX", 90, EntityType.PIG, EntityPig.class, CPig.class),
+
+    /**
+     *
+     */
     PIGZOMBIEX("PigZombieX",57,EntityType.PIG_ZOMBIE,EntityPigZombie.class,CPigZombie.class),
+
+    /**
+     *
+     */
     RABBITX("RabbitX", 101, EntityType.RABBIT, EntityRabbit.class, CRabbit.class),
+
+    /**
+     *
+     */
     SHEEPX("SheepX",91,EntityType.SHEEP,EntitySheep.class,CSheep.class),
+
+    /**
+     *
+     */
     SILVERFISHX("SilverFishX",60,EntityType.SILVERFISH,EntitySilverfish.class,CSilverfish.class),
+
+    /**
+     *
+     */
     SKELETONX("SkeletonX", 51, EntityType.SKELETON, EntitySkeleton.class, CSkeleton.class),
     /*MODIFICAR SISTEMA DE MOVIMIENTO PARA EL SLIME*/
+
+    /**
+     *
+     */
+    
     SLIMEX("SlimeX",55,EntityType.SLIME,EntitySlime.class,CSlime.class),
+
+    /**
+     *
+     */
     SNOWGOLEMX("SnowGolemX",97,EntityType.SNOWMAN,EntitySnowman.class,CSnowGolem.class),
+
+    /**
+     *
+     */
     SPIDERX("SpiderX", 52, EntityType.SPIDER, EntitySpider.class, CSpider.class),
     /*MODIFICAR SISTEMA DE MOVIMIENTO PARA EL SQUID*/
+
+    /**
+     *
+     */
+    
     SQUIDX("SquidX",94,EntityType.SQUID,EntitySquid.class,CSquid.class),
+
+    /**
+     *
+     */
     VILLAGERX("VillagerX",120,EntityType.VILLAGER,EntityVillager.class,CVillager.class),
+
+    /**
+     *
+     */
     WITCHX("WitchX",66,EntityType.WITCH,EntityWitch.class,CWitch.class),
+
+    /**
+     *
+     */
     WITHERX("WitherX",64,EntityType.WITHER,EntityWither.class,CWither.class),
+
+    /**
+     *
+     */
     WOLFX("WolfX",95,EntityType.WOLF,EntityWolf.class,CWolf.class),
+
+    /**
+     *
+     */
     ZOMBIEX("ZombieX", 54, EntityType.ZOMBIE, EntityZombie.class, CZombie.class);
     
 
@@ -135,28 +287,54 @@ public enum CustomEntityType {
         this.customClass = customClass;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param entity
+     * @param loc
+     * @return
+     */
     public static Entity spawnEntity(Entity entity, Location loc) {
         entity.setLocation(loc.getX(), loc.getY(), loc.getZ(), loc.getYaw(), loc.getPitch());
         ((CraftWorld) loc.getWorld()).getHandle().addEntity(entity);
         return entity;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getID() {
         return id;
     }
 
+    /**
+     *
+     * @return
+     */
     public EntityType getEntityType() {
         return entityType;
     }
 
+    /**
+     *
+     * @return
+     */
     public Class<? extends EntityInsentient> getNMSClass() {
         return nmsClass;
     }
 
+    /**
+     *
+     * @return
+     */
     public Class<? extends EntityInsentient> getCustomClass() {
         return customClass;
     }
@@ -172,6 +350,9 @@ public enum CustomEntityType {
     }
     /*Method(add to onDisable()) to prevent server leaks when the plugin gets disabled*/
 
+    /**
+     *
+     */
     @SuppressWarnings("rawtypes")
     public static void unregisterEntities() {
         for (CustomEntityType entity : values()) {
@@ -218,18 +399,34 @@ public enum CustomEntityType {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     *
+     * @param id
+     */
     public void setId(int id) {
         this.id = id;
     }
 
+    /**
+     *
+     * @return
+     */
     public Class<? extends EntityInsentient> getNmsClass() {
         return nmsClass;
     }
 
+    /**
+     *
+     * @param nmsClass
+     */
     public void setNmsClass(Class<? extends EntityInsentient> nmsClass) {
         this.nmsClass = nmsClass;
     }

@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -77,7 +87,10 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     private HorseType hType;
     //VARIABLES PROPIAS DEL ENTITYHORSE
     
-
+    /**
+     *
+     * @param world
+     */
     public CHorse(World world) {
         super(world);
         setSize(1.4F, 1.6F);
@@ -118,6 +131,11 @@ public class CHorse extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
     
+    /**
+     *
+     * @param world
+     * @param spawnloc
+     */
     public CHorse(World world,Location spawnloc) {
         super(world);
         setSize(1.4F, 1.6F);
@@ -159,6 +177,23 @@ public class CHorse extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @param aType
+     * @param mType
+     * @param baby
+     * @param name
+     * @param level
+     * @param movementspeed
+     * @param knockback
+     * @param attackdamage
+     * @param attackSpeed
+     * @param rangedDamage
+     * @param rangedStrenght
+     * @param followrange
+     * @param maxhealth
+     * @param world
+     */
     public CHorse(AttackType aType, MobBehaviour mType, boolean baby, String name, int level, double movementspeed, double knockback, double attackdamage, double attackSpeed, double rangedDamage, float rangedStrenght, double followrange, double maxhealth, World world) {
         super(world);
         this.aType = aType;
@@ -256,7 +291,13 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param el
+     * @param f
+     */
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, this.rangedStrenght, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -287,6 +328,10 @@ public class CHorse extends EntityMonster implements IRangedEntity {
         makeSound("random.bow", 1.0F, 1.0F / (bc().nextFloat() * 0.4F + 0.8F));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getAttackType() {
         switch (aType) {
             case MAGIC:
@@ -306,28 +351,48 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYHORSE
-    protected String z() {
+
+    /**
+     *
+     * @return
+     */
+        protected String z() {
         int i = getType();
 
         return (i != 1) && (i != 2) ? "mob.horse.idle" : i == 4 ? "mob.horse.skeleton.idle" : i == 3 ? "mob.horse.zombie.idle" : "mob.horse.donkey.idle";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         int i = getType();
 
         return (i != 1) && (i != 2) ? "mob.horse.hit" : i == 4 ? "mob.horse.skeleton.hit" : i == 3 ? "mob.horse.zombie.hit" : "mob.horse.donkey.hit";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bp() {
         int i = getType();
 
         return (i != 1) && (i != 2) ? "mob.horse.death" : i == 4 ? "mob.horse.skeleton.death" : i == 3 ? "mob.horse.zombie.death" : "mob.horse.donkey.death";
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean cy() {
         return w(32);
     }
 
+    /**
+     *
+     */
     public void t_() {
         super.t_();
     }
@@ -337,18 +402,35 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     //devuelve true si es un caballo zombie esqueleto o mula
-    public boolean cS() {
+
+    /**
+     *
+     * @return
+     */
+        public boolean cS() {
         return (cR()) || (getType() == 2);
     }
 
+    /**
+     *
+     * @param flag
+     */
     public void f(boolean flag) {
         c(32, flag);
     }
 
+    /**
+     *
+     * @param flag
+     */
     public void r(boolean flag) {
         f(flag);
     }
 
+    /**
+     *
+     * @param flag
+     */
     public void s(boolean flag) {
         if (flag) {
             r(false);
@@ -360,6 +442,9 @@ public class CHorse extends EntityMonster implements IRangedEntity {
             s(true);
     }
 
+    /**
+     *
+     */
     public void cW() {
         String s = cH();
         if (s != null) {
@@ -368,23 +453,43 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     //Devuelve el string sonido del tipo de caballo enfadado
-    protected String cH() {
+
+    /**
+     *
+     * @return
+     */
+        protected String cH() {
         int i = getType();
         return (i != 3) && (i != 4) ? "mob.horse.donkey.angry" : (i != 1) && (i != 2) ? "mob.horse.angry" : null;
     }
 
     //CONTROLA EL MOVIMIENTO
-    public void g(float f, float f1) {
+
+    /**
+     *
+     * @param f
+     * @param f1
+     */
+        public void g(float f, float f1) {
         super.g(f,f1);
     }
 
-    
+    /**
+     *
+     * @return
+     */
     public boolean cz() {
         return w(64);
     }
 
     //Sonidos del caballo al andar
-    protected void a(BlockPosition blockposition, Block block) {
+
+    /**
+     *
+     * @param blockposition
+     * @param block
+     */
+        protected void a(BlockPosition blockposition, Block block) {
         Block.StepSound block_stepsound = block.stepSound;
         if (this.world.getType(blockposition.up()).getBlock() == Blocks.SNOW_LAYER) {
             block_stepsound = Blocks.SNOW_LAYER.stepSound;
@@ -394,26 +499,51 @@ public class CHorse extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int bV() {
         return 6;
     }
 
+    /**
+     *
+     * @return
+     */
     protected float bB() {
         return 0.8F;
     }
 
+    /**
+     *
+     * @return
+     */
     public int w() {
         return 400;
     }
 
+    /**
+     *
+     */
     public void m() {
         super.m();
     }
 
+    /**
+     *
+     * @return
+     */
     public EnumMonsterType getMonsterType() {
         return EnumMonsterType.UNDEFINED;
     }
 
+    /**
+     *
+     * @param difficultydamagescaler
+     * @param groupdataentity
+     * @return
+     */
     public GroupDataEntity prepare(DifficultyDamageScaler difficultydamagescaler, GroupDataEntity groupdataentity) {
         groupdataentity = super.prepare(difficultydamagescaler, groupdataentity);
         return groupdataentity;
@@ -431,24 +561,46 @@ public class CHorse extends EntityMonster implements IRangedEntity {
         return (0.449999988079071D + this.random.nextDouble() * 0.3D + this.random.nextDouble() * 0.3D + this.random.nextDouble() * 0.3D) * 0.25D;
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     public static boolean a(Item item) {
         return (item == Items.IRON_HORSE_ARMOR) || (item == Items.GOLDEN_HORSE_ARMOR) || (item == Items.DIAMOND_HORSE_ARMOR);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean cG() {
         return w(4);
     }
     
     //metodo que acciona el salto del caballo dependiendo de la fuerza que imprima el jugador
-    public void v(int i) {
+
+    /**
+     *
+     * @param i
+     */
+        public void v(int i) {
     }
 
+    /**
+     *
+     * @return
+     */
     public float getHeadHeight() {
         return this.length;
     }
 
     //inicializa el data de la entityhorse
-    protected void h() {
+
+    /**
+     *
+     */
+        protected void h() {
         super.h();
         this.datawatcher.a(16, Integer.valueOf(0));
         this.datawatcher.a(19, Byte.valueOf((byte) 0));
@@ -458,27 +610,52 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     //establece el tipo de caballo del tipo i
-    public void setType(int i) {
+
+    /**
+     *
+     * @param i
+     */
+        public void setType(int i) {
         this.datawatcher.watch(19, Byte.valueOf((byte) hType.getNumber()));
     }
     
     //consulta el tipo de caballo
-    public int getType() {
+
+    /**
+     *
+     * @return
+     */
+        public int getType() {
         return this.datawatcher.getByte(19);
     }
 
     //establece la variante dentro del tipo del caballo
-    public void setVariant(int i) {
+
+    /**
+     *
+     * @param i
+     */
+        public void setVariant(int i) {
         this.datawatcher.watch(20, Integer.valueOf(hVariant.getNumber()));
     }
 
     //consulta la variante de caballo
-    public int getVariant() {
+
+    /**
+     *
+     * @return
+     */
+        public int getVariant() {
         return this.datawatcher.getInt(20);
     }
 
     //obtiene el nombre si tiene uno propio o el heredado del tipo de caballo
-    public String getName() {
+
+    /**
+     *
+     * @return
+     */
+        public String getName() {
         if (hasCustomName()) {
             return getCustomName();
         }
@@ -514,16 +691,29 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     //true si el caballo no es un potro
-    public boolean cp() {
+
+    /**
+     *
+     * @return
+     */
+        public boolean cp() {
         return !isBaby();
     }
 
     //aun por determinar puede ser la altura de la cabeza suponiendo que sea un potro
-    public float cu() {
+
+    /**
+     *
+     * @return
+     */
+        public float cu() {
         return 0.5F;
     }
 
-    
+    /**
+     *
+     * @param flag
+     */
     public void a(boolean flag) {
         if (flag) {
             a(cu());
@@ -532,6 +722,10 @@ public class CHorse extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void a(NBTTagCompound nbttagcompound) {
         super.a(nbttagcompound);
 //        setType(nbttagcompound.getInt("Type"));
@@ -539,6 +733,10 @@ public class CHorse extends EntityMonster implements IRangedEntity {
 //        setTemper(nbttagcompound.getInt("Temper"));
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void b(NBTTagCompound nbttagcompound) {
         super.b(nbttagcompound);
 //        nbttagcompound.setInt("Type", getType());
@@ -548,7 +746,13 @@ public class CHorse extends EntityMonster implements IRangedEntity {
 
     
     //metodo que añade sonido al salto del caballo, dependiendo del tipo de bloque que pise
-    public void e(float f, float f1) {
+
+    /**
+     *
+     * @param f
+     * @param f1
+     */
+        public void e(float f, float f1) {
         if (f > 1.0F) {
             makeSound("mob.horse.land", 0.4F, 1.0F);
         }
@@ -563,12 +767,22 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     //devuelve true si el caballo es de tipo zombie o esqueleto
-    public boolean cR() {
+
+    /**
+     *
+     * @return
+     */
+        public boolean cR() {
         int i = getType();
 
         return (i == 3) || (i == 4);
     }
 
+    /**
+     *
+     * @param entityhuman
+     * @return
+     */
     public boolean a(EntityHuman entityhuman) {
         return super.a(entityhuman);
     }
@@ -585,23 +799,48 @@ public class CHorse extends EntityMonster implements IRangedEntity {
 //    }
     
     //devuelve true si es un caballo normal
-    public boolean cO() {
+
+    /**
+     *
+     * @return
+     */
+        public boolean cO() {
         return getType() == 0;
     }
 
     //devuelve true si es un burro o asno
-    public boolean cP() {
+
+    /**
+     *
+     * @return
+     */
+        public boolean cP() {
         int i = getType();
 
         return (i == 2) || (i == 1);
     }
 
+    /**
+     *
+     */
     public static class GroupDataHorseX
             implements GroupDataEntity {
 
+        /**
+         *
+         */
         public int a;
+
+        /**
+         *
+         */
         public int b;
 
+        /**
+         *
+         * @param i
+         * @param j
+         */
         public GroupDataHorseX(int i, int j) {
             this.a = i;
             this.b = j;

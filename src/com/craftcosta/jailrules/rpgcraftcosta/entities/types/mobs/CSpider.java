@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -62,7 +72,11 @@ public class CSpider extends EntityMonster implements IRangedEntity {
     private AttackType aType;
     private MobBehaviour mType;
     //VARIBLES ATRIBUTOS DEL MOB
-    public Location spawnLoc;
+
+    /**
+     *
+     */
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -75,6 +89,10 @@ public class CSpider extends EntityMonster implements IRangedEntity {
     private double followrange;
     private double maxhealth;
 
+    /**
+     *
+     * @param world
+     */
     public CSpider(World world) {
         super(world);
         this.spawnLoc = new Location(world.getWorld(), 0,4,0);
@@ -109,6 +127,11 @@ public class CSpider extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
     
+    /**
+     *
+     * @param world
+     * @param spawnLoc
+     */
     public CSpider(World world,Location spawnLoc) {
         super(world);
         this.spawnLoc = spawnLoc;
@@ -202,7 +225,13 @@ public class CSpider extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param el
+     * @param f
+     */
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -231,6 +260,10 @@ public class CSpider extends EntityMonster implements IRangedEntity {
         makeSound("random.bow", 1.0F, 1.0F / (bc().nextFloat() * 0.4F + 0.8F));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getType() {
         switch (aType) {
             case MAGIC:
@@ -242,15 +275,27 @@ public class CSpider extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYSPIDER
-    protected NavigationAbstract b(World world) {
+
+    /**
+     *
+     * @param world
+     * @return
+     */
+        protected NavigationAbstract b(World world) {
         return new NavigationSpider(this, world);
     }
 
+    /**
+     *
+     */
     protected void h() {
         super.h();
         this.datawatcher.a(16, new Byte((byte) 0));
     }
 
+    /**
+     *
+     */
     public void t_() {
         super.t_();
         if (!this.world.isClientSide) {
@@ -258,41 +303,82 @@ public class CSpider extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     protected String z() {
         return "mob.spider.say";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         return "mob.spider.say";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bp() {
         return "mob.spider.death";
     }
 
+    /**
+     *
+     * @param blockposition
+     * @param block
+     */
     protected void a(BlockPosition blockposition, Block block) {
         makeSound("mob.spider.step", 0.15F, 1.0F);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean k_() {
         return n();
     }
 
+    /**
+     *
+     */
     public void aA() {
     }
 
+    /**
+     *
+     * @return
+     */
     public EnumMonsterType getMonsterType() {
         return EnumMonsterType.ARTHROPOD;
     }
 
+    /**
+     *
+     * @param mobeffect
+     * @return
+     */
     public boolean d(MobEffect mobeffect) {
         return mobeffect.getEffectId() == MobEffectList.POISON.id ? false : super.d(mobeffect);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean n() {
         return (this.datawatcher.getByte(16) & 0x1) != 0;
     }
 
+    /**
+     *
+     * @param flag
+     */
     public void a(boolean flag) {
         byte b0 = this.datawatcher.getByte(16);
         if (flag) {
@@ -303,12 +389,22 @@ public class CSpider extends EntityMonster implements IRangedEntity {
         this.datawatcher.watch(16, Byte.valueOf(b0));
     }
 
+    /**
+     *
+     * @param difficultydamagescaler
+     * @param groupdataentity
+     * @return
+     */
     public GroupDataEntity prepare(DifficultyDamageScaler difficultydamagescaler, GroupDataEntity groupdataentity) {
         Object object = super.prepare(difficultydamagescaler, groupdataentity);
         
         return (GroupDataEntity) object;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getHeadHeight() {
         return 0.65F;
     }

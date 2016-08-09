@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -75,6 +85,10 @@ public class CGiant extends EntityMonster implements IRangedEntity {
     private double maxhealth;
     //VARIABLES ENTITYZOMBIE
 
+    /**
+     *
+     * @param world
+     */
     public CGiant(World world) {
         super(world);
         ((Navigation) getNavigation()).b(true);
@@ -108,6 +122,11 @@ public class CGiant extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @param world
+     * @param spawnloc
+     */
     public CGiant(World world, Location spawnloc) {
         super(world);
         ((Navigation) getNavigation()).b(true);
@@ -143,6 +162,10 @@ public class CGiant extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @return
+     */
     public int getType() {
         switch (aType) {
             case MAGIC:
@@ -212,7 +235,13 @@ public class CGiant extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param entityliving
+     * @param f
+     */
+        @Override
     public void a(EntityLiving entityliving, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, entityliving, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -244,29 +273,53 @@ public class CGiant extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYGIANT
-    protected void h() {
+
+    /**
+     *
+     */
+        protected void h() {
         super.h();
         getDataWatcher().a(12, Byte.valueOf((byte) 0));
         getDataWatcher().a(13, Byte.valueOf((byte) 0));
         getDataWatcher().a(14, Byte.valueOf((byte) 0));
     }
 
+    /**
+     *
+     * @return
+     */
     protected String z() {
         return "mob.zombie.say";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         return "mob.zombie.hurt";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bp() {
         return "mob.zombie.death";
     }
 
+    /**
+     *
+     * @param blockposition
+     * @param block
+     */
     protected void a(BlockPosition blockposition, Block block) {
         makeSound("mob.zombie.step", 0.15F, 1.0F);
     }
 
+    /**
+     *
+     */
     public void m() {
 //        if ((this.world.w()) && (!this.world.isClientSide) && (!isBaby())) {
 //            float f = c(1.0F);
@@ -299,27 +352,55 @@ public class CGiant extends EntityMonster implements IRangedEntity {
         super.m();
     }
 
+    /**
+     *
+     * @return
+     */
     public EnumMonsterType getMonsterType() {
         return EnumMonsterType.UNDEAD;
     }
 
+    /**
+     *
+     * @param difficultydamagescaler
+     * @param groupdataentity
+     * @return
+     */
     public GroupDataEntity prepare(DifficultyDamageScaler difficultydamagescaler, GroupDataEntity groupdataentity) {
         groupdataentity = super.prepare(difficultydamagescaler, groupdataentity);
         return groupdataentity;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getHeadHeight() {
         return 10.440001F;
     }
 
+    /**
+     *
+     * @param flag
+     */
     public void n(boolean flag) {
         a(flag ? 0.5F : 1.0F);
     }
 
+    /**
+     *
+     * @param bp
+     * @return
+     */
     public float a(BlockPosition bp) {
         return this.world.o(bp) - 0.5F;
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
     public boolean r(Entity entity) {
         if (super.r(entity)) {
             return true;
@@ -327,18 +408,35 @@ public class CGiant extends EntityMonster implements IRangedEntity {
         return false;
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void a(NBTTagCompound nbttagcompound) {
         super.a(nbttagcompound);
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void b(NBTTagCompound nbttagcompound) {
         super.b(nbttagcompound);
     }
 
+    /**
+     *
+     * @param i
+     * @param itemstack
+     */
     public void setEquipment(int i, ItemStack itemstack) {
         super.setEquipment(i, itemstack);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean cp() {
         return getDataWatcher().getByte(14) == 1;
     }

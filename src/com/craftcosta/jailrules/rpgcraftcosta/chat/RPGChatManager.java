@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.chat;
 
@@ -121,6 +131,11 @@ public class RPGChatManager {
 
     }
 
+    /**
+     *
+     * @param shortcut
+     * @return
+     */
     public MessageType getMessageTypeByPrefix(String shortcut) {
         for (MessageType type : MessageType.values()) {
             if (type.getShortcut().equals(shortcut)) {
@@ -130,58 +145,112 @@ public class RPGChatManager {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isGlobalChatEnabled() {
         return globalChatEnabled;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isPartyChatEnabled() {
         return partyChatEnabled;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isGuildChatEnabled() {
         return guildChatEnabled;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isMarketChatEnabled() {
         return marketChatEnabled;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isPrivateChatEnabled() {
         return privateChatEnabled;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isLocalChatDistanceEnabled() {
         return localChatDistanceEnabled;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getMaxDistance() {
         return maxDistance;
     }
 
+    /**
+     *
+     * @return
+     */
     public ChatColor getPlayerClassColor() {
         return playerClassColor;
     }
 
+    /**
+     *
+     * @return
+     */
     public ChatColor getPlayerNameColor() {
         return playerNameColor;
     }
 
+    /**
+     *
+     * @return
+     */
     public ChatColor getLocationColor() {
         return locationColor;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPrefixForParty() {
         return MessageType.PARTY.getPrefixColor()
                 + "[" + MessageType.PARTY.getPrefix()
                 + "]" + MessageType.PARTY.getMessageColor();
     }
 
+    /**
+     *
+     * @return
+     */
     public String getPrefixForGuild() {
         return MessageType.GUILD.getPrefixColor()
                 + "[" + MessageType.GUILD.getPrefix()
                 + "]" + MessageType.GUILD.getMessageColor();
     }
 
+    /**
+     *
+     * @param sender
+     * @param receiver
+     * @return
+     */
     public boolean canDistance(Player sender, Player receiver) {
         if (sender.getLocation().getWorld().equals(receiver.getLocation().getWorld())) {
             if (sender.getLocation().distance(receiver.getLocation()) < maxDistance) {
@@ -225,6 +294,10 @@ public class RPGChatManager {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public Map<String, RPGChatBukkitRunnable> getTasklist() {
         return Tasklist;
     }

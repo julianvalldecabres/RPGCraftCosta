@@ -1,18 +1,17 @@
-/*
- * Copyright (C) 2015 jail
+/* 
+ * Copyright 2016 jail.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -67,7 +66,11 @@ public class CCaveSpider extends EntityMonster implements IRangedEntity {
     private AttackType aType;
     private MobBehaviour mType;
     //VARIBLES ATRIBUTOS DEL MOB
-    public Location spawnLoc;
+
+    /**
+     *
+     */
+        public Location spawnLoc;
     private String name;
     private int level;
     private double movementspeed;
@@ -79,6 +82,10 @@ public class CCaveSpider extends EntityMonster implements IRangedEntity {
     private double followrange;
     private double maxhealth;
 
+    /**
+     *
+     * @param world
+     */
     public CCaveSpider(World world) {
         super(world);
         this.setSize(0.7F, 0.5F);
@@ -109,6 +116,11 @@ public class CCaveSpider extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @param world
+     * @param spawnLoc
+     */
     public CCaveSpider(World world, Location spawnLoc) {
         super(world);
         this.spawnLoc = spawnLoc;
@@ -140,6 +152,23 @@ public class CCaveSpider extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @param aType
+     * @param mType
+     * @param spawnLoc
+     * @param name
+     * @param level
+     * @param movementspeed
+     * @param knockback
+     * @param attackdamage
+     * @param attackSpeed
+     * @param rangedDamage
+     * @param rangedStrenght
+     * @param followrange
+     * @param maxhealth
+     * @param world
+     */
     public CCaveSpider(AttackType aType, MobBehaviour mType, Location spawnLoc, String name, int level, double movementspeed, double knockback, double attackdamage, double attackSpeed, double rangedDamage, float rangedStrenght, double followrange, double maxhealth, World world) {
         super(world);
         this.setSize(0.7F, 0.5F);
@@ -238,7 +267,13 @@ public class CCaveSpider extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param el
+     * @param f
+     */
+        @Override
     public void a(EntityLiving el, float f) {
         //Para que nuestras entidades puedan realizar ataques a distancia hay que reescribir el metodo avoid a(EntityLiving el, float f)
         //que define que tipo de ataque a distancia realiza
@@ -274,6 +309,10 @@ public class CCaveSpider extends EntityMonster implements IRangedEntity {
         makeSound("random.bow", 1.0F, 1.0F / (bc().nextFloat() * 0.4F + 0.8F));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getType() {
         switch (aType) {
             case MAGIC:
@@ -284,32 +323,57 @@ public class CCaveSpider extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     * @param difficultydamagescaler
+     * @param groupdataentity
+     * @return
+     */
     @Override
     public GroupDataEntity prepare(DifficultyDamageScaler difficultydamagescaler, GroupDataEntity groupdataentity) {
         return groupdataentity;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public float getHeadHeight() {
         return 0.45F;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public double an() {
         return (double) (this.length * 0.5F);
     }
 
+    /**
+     *
+     * @param world
+     * @return
+     */
     @Override
     protected NavigationAbstract b(World world) {
         return new NavigationSpider(this, world);
     }
 
+    /**
+     *
+     */
     @Override
     protected void h() {
         super.h();
         this.datawatcher.a(16, new Byte((byte) 0));
     }
 
+    /**
+     *
+     */
     @Override
     public void t_() {
         super.t_();
@@ -319,49 +383,90 @@ public class CCaveSpider extends EntityMonster implements IRangedEntity {
 
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     protected String z() {
         return "mob.spider.say";
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     protected String bo() {
         return "mob.spider.say";
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     protected String bp() {
         return "mob.spider.death";
     }
 
+    /**
+     *
+     * @param blockposition
+     * @param block
+     */
     @Override
     protected void a(BlockPosition blockposition, Block block) {
         this.makeSound("mob.spider.step", 0.15F, 1.0F);
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public boolean k_() {
         return this.n();
     }
 
+    /**
+     *
+     */
     @Override
     public void aA() {
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public EnumMonsterType getMonsterType() {
         return EnumMonsterType.ARTHROPOD;
     }
 
+    /**
+     *
+     * @param mobeffect
+     * @return
+     */
     @Override
     public boolean d(MobEffect mobeffect) {
         return mobeffect.getEffectId() == MobEffectList.POISON.id ? false : super.d(mobeffect);
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean n() {
         return (this.datawatcher.getByte(16) & 1) != 0;
     }
 
+    /**
+     *
+     * @param flag
+     */
     public void a(boolean flag) {
         byte b0 = this.datawatcher.getByte(16);
 

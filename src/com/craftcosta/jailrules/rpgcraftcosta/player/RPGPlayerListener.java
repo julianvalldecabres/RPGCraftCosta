@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.player;
 
@@ -51,7 +61,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
- *
+ * La clase RPGPlayerListener es la encargada de manejar todas las acciones
+ * que realice el usuario, entre ellas la conexion, desconexion y aspectos propios
+ * de la configuracion del servidor como el hambre, daño por caida o similares
  * @author jail
  */
 public class RPGPlayerListener implements Listener {
@@ -63,8 +75,8 @@ public class RPGPlayerListener implements Listener {
     private RPGChatManager rpgCMan;
 
     /**
-     *
-     * @param plugin
+     * Constructor de la clase RPGPlayerListener
+     * @param plugin clase RPGCraftCosta
      */
     public RPGPlayerListener(RPGCraftCosta plugin) {
         this.plugin = plugin;
@@ -75,8 +87,8 @@ public class RPGPlayerListener implements Listener {
     }
 
     /**
-     *
-     * @param e
+     * onPlayerJoin captura el evento PlayerJoinEvent
+     * @param e evento que se dispara cuando un jugador se conecta al servidor
      */
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
@@ -104,8 +116,8 @@ public class RPGPlayerListener implements Listener {
     }
 
     /**
-     *
-     * @param e
+     * onPlayerMove captura el evento PlayerMoveEvent
+     * @param e evento que se dispara cuando el usuario se mueve
      */
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
@@ -117,8 +129,8 @@ public class RPGPlayerListener implements Listener {
     }
 
     /**
-     *
-     * @param e
+     * onPlayerKicked captura el evento PlayerKickEvent
+     * @param e evento que sucede al echar a un usuario del servidor
      */
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerKicked(PlayerKickEvent e) {
@@ -135,6 +147,10 @@ public class RPGPlayerListener implements Listener {
         rpgPMan.delPlayerFromList(e.getPlayer());
     }
 
+    /**
+     * onPlayerDisconnectedFromServer captura el evento PlayerQuitEvent
+     * @param event evento que se reproduce al desconectarse un jugador
+     */
     @EventHandler
     public void onPlayerDisconnectedFromServer(PlayerQuitEvent event) {
         Player p = event.getPlayer();
@@ -151,8 +167,8 @@ public class RPGPlayerListener implements Listener {
     }
 
     /**
-     *
-     * @param e
+     * onEntityDamage captura el evento EntityDamageEvent
+     * @param e evento que captura cuando un usuario recibe daño que no es una entidad
      */
     @EventHandler
     public void onEntityDamage(EntityDamageEvent e) {
@@ -169,6 +185,10 @@ public class RPGPlayerListener implements Listener {
         }
     }
 
+    /**
+     * Metodo para testear daño hecho y recibido de/por un jugador a otra entidad
+     * @param e evento que captura la accion de dañar de un usuario
+     */
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
         LivingEntity l = (LivingEntity) e.getEntity();
@@ -215,8 +235,8 @@ public class RPGPlayerListener implements Listener {
     }
 
     /**
-     *
-     * @param e
+     * onPlayerPickupItem captura el evento cuando el usuario recoje un item del suelo
+     * @param e evento disparado cuando un usuario recoje un item del suelo
      */
     @EventHandler
     public void onPlayerPickupItem(PlayerPickupItemEvent e) {
@@ -225,8 +245,8 @@ public class RPGPlayerListener implements Listener {
     }
 
     /**
-     *
-     * @param e
+     * onPlayerFoodLevelChange captura el evento cuando el hambre de un usuario cambia
+     * @param e evento disparado cuando el hambre de un usuario cambia
      */
     @EventHandler
     public void onPlayerFoodLevelChange(FoodLevelChangeEvent e) {
@@ -237,8 +257,8 @@ public class RPGPlayerListener implements Listener {
     }
 
     /**
-     *
-     * @param e
+     * onPlayerBreakBlocks captura el evento de romper un bloque disparado por un usuario
+     * @param e evento que dispara la accion romper un bloque
      */
     @EventHandler
     public void onPlayerBreakBlocks(BlockBreakEvent e) {
@@ -248,6 +268,10 @@ public class RPGPlayerListener implements Listener {
         }
     }
 
+    /**
+     * onPlayerPlaceBlocks captura el evento BlockPlaceEvent
+     * @param e evento que captura cuando el usuario coloca un bloque
+     */
     @EventHandler
     public void onPlayerPlaceBlocks(BlockPlaceEvent e) {
         Player p = e.getPlayer();
@@ -256,6 +280,10 @@ public class RPGPlayerListener implements Listener {
         }
     }
 
+    /**
+     * onPlayerRegainHealth captura el evento EntityRegainHealthEvent
+     * @param e evento que captura cuando un usuario recupera vida
+     */
     @EventHandler
     public void onPlayerRegainHealth(EntityRegainHealthEvent e){
         
@@ -275,8 +303,8 @@ public class RPGPlayerListener implements Listener {
     }
     
     /**
-     *
-     * @param event
+     * onInteract captura el evento PlayerInteractEntityEvent
+     * @param event evento que captura cuando un usuario interactura con una entidad
      */
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent event) {
@@ -318,8 +346,8 @@ public class RPGPlayerListener implements Listener {
 //    }
 
     /**
-     *
-     * @param event
+     * onPlayerAchievementAccomplished captura el evento PlayerAchievementAwardedEvent
+     * @param event evento que se dispara cuando el usuario completa un reto nativo de minecraft
      */
     @EventHandler
     public void onPlayerAchievementAccomplished(PlayerAchievementAwardedEvent event) {
@@ -327,8 +355,8 @@ public class RPGPlayerListener implements Listener {
     }
 
     /**
-     *
-     * @param event
+     * onProjectileLaunchEvent captura el evento ProjectileLaunchEvent
+     * @param event evento que captura cuando una entidad lanza un proyectil
      */
     @EventHandler
     public void onProjectileLaunchEvent(ProjectileLaunchEvent event) {
@@ -337,6 +365,10 @@ public class RPGPlayerListener implements Listener {
         }
     }
 
+    /**
+     * onPlayerClickInventory captura el evento InventoryClickEvent
+     * @param event evento que captura cuando un usuario interactua con el inventario
+     */
     @EventHandler
     public void onPlayerClickInventory(InventoryClickEvent event) {
         plugin.getLogger().info("//////////////");

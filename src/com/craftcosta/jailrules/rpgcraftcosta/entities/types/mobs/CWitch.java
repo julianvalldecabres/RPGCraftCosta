@@ -1,18 +1,17 @@
-/*
- * Copyright (C) 2015 jail
+/* 
+ * Copyright 2016 jail.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -61,7 +60,11 @@ public class CWitch extends EntityMonster implements IRangedEntity{
     private AttackType aType;
     private MobBehaviour mType;
     //VARIBLES ATRIBUTOS DEL MOB
-    public Location spawnLoc;
+
+    /**
+     *
+     */
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -74,6 +77,10 @@ public class CWitch extends EntityMonster implements IRangedEntity{
     private double followrange;
     private double maxhealth;
     
+    /**
+     *
+     * @param world
+     */
     public CWitch(World world) {
         super(world);
         this.setSize(0.6F, 1.95F);
@@ -110,6 +117,11 @@ public class CWitch extends EntityMonster implements IRangedEntity{
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @param world
+     * @param spawnLoc
+     */
     public CWitch(World world,Location spawnLoc) {
         super(world);
         this.setSize(0.6F, 1.95F);
@@ -204,7 +216,13 @@ public class CWitch extends EntityMonster implements IRangedEntity{
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param el
+     * @param f
+     */
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -235,6 +253,10 @@ public class CWitch extends EntityMonster implements IRangedEntity{
         makeSound("random.bow", 1.0F, 1.0F / (bc().nextFloat() * 0.4F + 0.8F));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getType() {
         switch (aType) {
             case MAGIC:
@@ -255,36 +277,68 @@ public class CWitch extends EntityMonster implements IRangedEntity{
     
     //METODOS PROPIOS DEL ENTITYWITCH
     
+    /**
+     *
+     */
+        
     protected void h() {
         super.h();
         this.getDataWatcher().a(21, Byte.valueOf((byte) 0));
     }
 
+    /**
+     *
+     * @return
+     */
     protected String z() {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bn() {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         return null;
     }
 
+    /**
+     *
+     * @param flag
+     */
     public void a(boolean flag) {
         this.getDataWatcher().watch(21, Byte.valueOf((byte) (flag ? 1 : 0)));
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean n() {
         return this.getDataWatcher().getByte(21) == 1;
     }
 
-
+    /**
+     *
+     */
     public void m() {
         super.m();
     }
 
+    /**
+     *
+     * @param damagesource
+     * @param f
+     * @return
+     */
     protected float applyMagicModifier(DamageSource damagesource, float f) {
         f = super.applyMagicModifier(damagesource, f);
         if (damagesource.getEntity() == this) {
@@ -322,6 +376,11 @@ public class CWitch extends EntityMonster implements IRangedEntity{
 //        }
 //    }
 
+    /**
+     *
+     * @return
+     */
+    
     public float getHeadHeight() {
         return 1.62F;
     }

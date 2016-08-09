@@ -1,8 +1,17 @@
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.items.jewels;
 
@@ -49,6 +58,10 @@ public class RPGJewelManager {
     private double losepperlore;
     private double nothingp;
 
+    /**
+     *
+     * @param plugin
+     */
     public RPGJewelManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
         this.plugin.getLogger().info("Loading jewels module....");
@@ -147,20 +160,39 @@ public class RPGJewelManager {
         }
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     public ItemStack getRPGJewelByName(String name) {
         plugin.getLogger().info(name);
         RPGJewel jewel = jewelList.get(ChatColor.stripColor(name));
         return jewel.getItem();
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     public RPGJewel getRPGJewelByItem(ItemStack item) {
         return this.jewelList.get(getRPGJewelNameByItem(item));
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     public String getRPGJewelNameByItem(ItemStack item) {
         return ChatColor.stripColor(item.getItemMeta().getDisplayName());
     }
 
+    /**
+     *
+     * @return
+     */
     public Set<String> getAllJewelNames() {
         Set<String> allWeaponNames = new HashSet<>();
         for (Map.Entry<String, RPGJewel> entrySet : jewelList.entrySet()) {
@@ -170,6 +202,11 @@ public class RPGJewelManager {
         return allWeaponNames;
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     public boolean isRPGJewel(ItemStack item) {
         return this.jewelList.containsKey(getRPGJewelNameByItem(item));
     }
@@ -189,22 +226,42 @@ public class RPGJewelManager {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public double getBreakp() {
         return breakp;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getLosep() {
         return losep;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getLosepperlore() {
         return losepperlore;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getNothingp() {
         return nothingp;
     }
 
+    /**
+     *
+     * @return
+     */
     public String upgradeJewel() {
         Double caso = new Random().nextDouble();
         if (caso <= this.breakp) {
@@ -218,6 +275,12 @@ public class RPGJewelManager {
         }
     }
 
+    /**
+     *
+     * @param cursor
+     * @param currentItem
+     * @return
+     */
     public ItemStack combineloseJewels(ItemStack cursor, ItemStack currentItem) {
         RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
         List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> cursorLores = rpgLMan.getListOfLoresFromItem(cursor);
@@ -322,6 +385,12 @@ public class RPGJewelManager {
         return newJewel;
     }
 
+    /**
+     *
+     * @param cursor
+     * @param currentItem
+     * @return
+     */
     public ItemStack combineNoSumJewels(ItemStack cursor, ItemStack currentItem) {
         RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
         List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> cursorLores = rpgLMan.getListOfLoresFromItem(cursor);
@@ -421,6 +490,12 @@ public class RPGJewelManager {
         return newJewel;
     }
 
+    /**
+     *
+     * @param cursor
+     * @param currentItem
+     * @return
+     */
     public ItemStack combineJewels(ItemStack cursor, ItemStack currentItem) {
         RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
         List<com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore> cursorLores = rpgLMan.getListOfLoresFromItem(cursor);
@@ -511,6 +586,12 @@ public class RPGJewelManager {
         return newJewel;
     }
 
+    /**
+     *
+     * @param o1
+     * @param o2
+     * @return
+     */
     public double sumObjects(Object o1, Object o2) {
         return (double) o1 + (double) o2;
     }

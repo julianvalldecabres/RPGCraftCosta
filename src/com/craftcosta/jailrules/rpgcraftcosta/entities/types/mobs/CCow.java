@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -68,6 +78,10 @@ public class CCow extends EntityMonster implements IRangedEntity {
     private double followrange;
     private double maxhealth;
 
+    /**
+     *
+     * @param world
+     */
     public CCow(World world) {
         super(world);
         setSize(0.9F, 1.3F);
@@ -103,6 +117,11 @@ public class CCow extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @param world
+     * @param spawnLoc
+     */
     public CCow(World world, Location spawnLoc) {
         super(world);
         this.spawnLoc = spawnLoc;
@@ -197,7 +216,13 @@ public class CCow extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param el
+     * @param f
+     */
+        @Override
     public void a(EntityLiving el, float f) {
         //Para que nuestras entidades puedan realizar ataques a distancia hay que reescribir el metodo avoid a(EntityLiving el, float f)
         //que define que tipo de ataque a distancia realiza
@@ -233,6 +258,10 @@ public class CCow extends EntityMonster implements IRangedEntity {
         makeSound("random.bow", 1.0F, 1.0F / (bc().nextFloat() * 0.4F + 0.8F));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getType() {
         switch (aType) {
             case MAGIC:
@@ -252,56 +281,112 @@ public class CCow extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYPIG
-    protected String z() {
+
+    /**
+     *
+     * @return
+     */
+        protected String z() {
         return "mob.cow.say";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         return "mob.cow.hurt";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bp() {
         return "mob.cow.hurt";
     }
 
+    /**
+     *
+     * @param blockposition
+     * @param block
+     */
     protected void a(BlockPosition blockposition, Block block) {
         makeSound("mob.cow.step", 0.15F, 1.0F);
     }
 
+    /**
+     *
+     */
     public void m() {
         super.m();
     }
 
+    /**
+     *
+     * @return
+     */
     public EnumMonsterType getMonsterType() {
         return EnumMonsterType.UNDEFINED;
     }
 
+    /**
+     *
+     * @param difficultydamagescaler
+     * @param groupdataentity
+     * @return
+     */
     public GroupDataEntity prepare(DifficultyDamageScaler difficultydamagescaler, GroupDataEntity groupdataentity) {
         groupdataentity = super.prepare(difficultydamagescaler, groupdataentity);
         return groupdataentity;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getHeadHeight() {
         return this.length;
     }
 
+    /**
+     *
+     */
     protected void h() {
         super.h();
         this.datawatcher.a(16, Byte.valueOf((byte) 0));
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void a(NBTTagCompound nbttagcompound) {
         super.a(nbttagcompound);
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void b(NBTTagCompound nbttagcompound) {
         super.b(nbttagcompound);
     }
 
+    /**
+     *
+     * @param f
+     * @param f1
+     */
     public void e(float f, float f1) {
         super.e(f, f1);
     }
 
+    /**
+     *
+     * @param entityhuman
+     * @return
+     */
     public boolean a(EntityHuman entityhuman) {
         return super.a(entityhuman);
     }

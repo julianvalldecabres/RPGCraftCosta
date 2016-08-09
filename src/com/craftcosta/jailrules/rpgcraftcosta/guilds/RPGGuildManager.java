@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.guilds;
 
@@ -42,7 +52,15 @@ public class RPGGuildManager {
     private FileConfiguration gConfig;
     private FileConfiguration gCConfig;
     private Map<String, RPGGuild> listGuilds;
+
+    /**
+     *
+     */
     public static Map<String, String> peticiones;
+
+    /**
+     *
+     */
     public static Map<String, String> invitaciones;
 
     private boolean enabled;
@@ -150,22 +168,21 @@ public class RPGGuildManager {
         return this.listGuilds.get(name);
     }
 
-    /**
-     * Send message to all online players connected to the server of that guild
-     * name
-     *
-     * @param guild name
-     * @param message to send
-     */
-    public void sendMessageToGuild(String name, String message) {
-        RPGGuild rpgG = this.getGuildByName(name);
-        rpgG.sendMessageToGuild(rpgCMan.getPrefixForGuild() + message);
-    }
+    
+    
 
+    /**
+     *
+     * @return
+     */
     public Set<String> getAllAvailableGuilds() {
         return this.listGuilds.keySet();
     }
 
+    /**
+     *
+     * @param name
+     */
     public void removeGuild(String name) {
         this.listGuilds.remove(name);
         gConfig.set(name, null);
@@ -176,6 +193,11 @@ public class RPGGuildManager {
         }
     }
 
+    /**
+     *
+     * @param p
+     * @param name
+     */
     public void leavePlayerFromGuild(Player p, String name) {
         RPGGuild guild = listGuilds.get(name);
         RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
@@ -191,27 +213,68 @@ public class RPGGuildManager {
             }
         }
     }
-
+    
+    /**
+     * Send message to all online players connected to the server of that guild
+     * name
+     *
+     * @param name
+     * @param message to send
+     */
+    public void sendMessageToGuildByName(String name,String message){
+        RPGGuild guild = this.getGuildByName(name);
+        for(Player p: guild.getOnlineMembers()){
+            RPGPlayer rpgp= rpgPMan.getRPGPlayerByName(p.getName());
+            if(rpgp.isGuildChat()){
+                guild.sendMessageToGuildPlayer(p,message);
+            }
+        }
+    }
+    /**
+     *
+     * @return
+     */
     public int getMaxslots() {
         return maxslots;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getMinlevelcreate() {
         return minlevelcreate;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getMinleveljoin() {
         return minleveljoin;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getMaxlevel() {
         return maxlevel;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getMaxcontribution() {
         return maxcontribution;
     }
 
+    /**
+     *
+     * @param p
+     * @param guild
+     */
     public void addPlayerToGuild(Player p, RPGGuild guild) {
         guild.addMember(p);
         guild.getOnlineMembers().add(p);
@@ -222,17 +285,31 @@ public class RPGGuildManager {
         guild.delFromGuild(kickplayer);
     }
 
+    /**
+     *
+     * @param guild
+     * @param newleaderplayer
+     */
     public void makeOwnerPlayerFromGuild(RPGGuild guild, Player newleaderplayer) {
         guild.setOwner(newleaderplayer.getName());
         sendMessageOwnerChangedToGuild(newleaderplayer, guild);
         saveRPGGuild(guild);
     }
 
+    /**
+     *
+     * @param rpgGuild
+     */
     public void addNewGuild(RPGGuild rpgGuild) {
         this.listGuilds.put(rpgGuild.getName(), rpgGuild);
         saveRPGGuild(rpgGuild);
     }
 
+    /**
+     *
+     * @param p
+     * @param guild
+     */
     public void sendJoinRequestGuild(Player p, RPGGuild guild) {
         for (Player p1 : Bukkit.getServer().getOnlinePlayers()) {
             if (guild.getOwner().equals(p1.getName()) || guild.getModerators().contains(p1.getName())) {
@@ -294,6 +371,9 @@ public class RPGGuildManager {
         saveRPGGuild(guild);
     }
 
+    /**
+     *
+     */
     public void saveGuilds() {
         for (Map.Entry<String, RPGGuild> entrySet : listGuilds.entrySet()) {
             RPGGuild guild = entrySet.getValue();
@@ -313,9 +393,18 @@ public class RPGGuildManager {
         }
     }
 
+    /**
+     *
+     * @param p
+     * @param guild
+     */
     public void playerConnectedToGuild(Player p, RPGGuild guild) {
         guild.addOnlinePlayer(p);
         guild.sendMessageToGuild(rpgCMan.getPrefixForGuild() + " El camarada " + p.getName() + " se ha conectado");
+    }
+
+    public void sendMessageToGuild(String name, String string) {
+        getGuildByName(name).sendMessageToGuild(name);
     }
 
 }

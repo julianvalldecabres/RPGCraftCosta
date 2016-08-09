@@ -1,18 +1,17 @@
-/*
- * Copyright (C) 2016 jail
+/* 
+ * Copyright 2016 jail.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -57,7 +56,11 @@ public class CWolf extends EntityMonster implements IRangedEntity {
     private AttackType aType;
     private MobBehaviour mType;
     //VARIBLES ATRIBUTOS DEL MOB
-    public Location spawnLoc;
+
+    /**
+     *
+     */
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -70,6 +73,10 @@ public class CWolf extends EntityMonster implements IRangedEntity {
     private double followrange;
     private double maxhealth;
 
+    /**
+     *
+     * @param world
+     */
     public CWolf(World world) {
         super(world);
         setSize(0.4F, 0.7F);
@@ -107,6 +114,11 @@ public class CWolf extends EntityMonster implements IRangedEntity {
 
     }
 
+    /**
+     *
+     * @param world
+     * @param spawnLoc
+     */
     public CWolf(World world, Location spawnLoc) {
         super(world);
         this.spawnLoc = spawnLoc;
@@ -142,6 +154,24 @@ public class CWolf extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @param aType
+     * @param mType
+     * @param name
+     * @param level
+     * @param loc
+     * @param baby
+     * @param movSpeed
+     * @param knockback
+     * @param attack_damage
+     * @param attackSpeed
+     * @param rangedDamage
+     * @param followRange
+     * @param maxHealth
+     * @param rangedStrength
+     * @param world
+     */
     public CWolf(AttackType aType, MobBehaviour mType, String name, int level, Location loc, boolean baby, double movSpeed, double knockback, double attack_damage, double attackSpeed, double rangedDamage, double followRange, double maxHealth, float rangedStrength, World world) {
         super(world);
         setSize(0.4F, 0.7F);
@@ -242,7 +272,13 @@ public class CWolf extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param el
+     * @param f
+     */
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -273,6 +309,10 @@ public class CWolf extends EntityMonster implements IRangedEntity {
         makeSound("random.bow", 1.0F, 1.0F / (bc().nextFloat() * 0.4F + 0.8F));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getType() {
         switch (aType) {
             case MAGIC:
@@ -292,18 +332,35 @@ public class CWolf extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DEL ENTITYWOLF
-    protected String z() {
+
+    /**
+     *
+     * @return
+     */
+        protected String z() {
         return this.random.nextInt(3) == 0 ? "mob.wolf.panting" : (false) && (this.datawatcher.getFloat(18) < getMaxHealth() / 2.0F) ? "mob.wolf.whine" : true ? "mob.wolf.growl" : "mob.wolf.bark";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         return "mob.wolf.hurt";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bp() {
         return "mob.wolf.death";
     }
 
+    /**
+     *
+     * @return
+     */
     public float getHeadHeight() {
         return this.length * 0.8F;
     }

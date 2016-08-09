@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.items.weapons;
 
@@ -48,6 +58,10 @@ public class RPGWeaponManager {
     private double improveprobability;
     private ItemStack weaponUpgrader;
 
+    /**
+     *
+     * @param plugin
+     */
     public RPGWeaponManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
         plugin.getLogger().info("Loading weapons module....");
@@ -151,14 +165,29 @@ public class RPGWeaponManager {
         }
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     public ItemStack getRPGWeaponByName(String name) {
         return weaponList.get(name).getItem();
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     public RPGWeapon getRPGWeaponByItem(ItemStack item) {
         return this.weaponList.get(getRPGWeaponNameByItem(item));
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     public String getRPGWeaponNameByItem(ItemStack item) {
         String[] displayname = item.getItemMeta().getDisplayName().split(" ");
         int sizeLongNameParts = displayname.length;
@@ -176,6 +205,10 @@ public class RPGWeaponManager {
         return wName;
     }
 
+    /**
+     *
+     * @return
+     */
     public Set<String> getAllWeaponNames() {
         Set<String> allWeaponNames = new HashSet<>();
         for (Map.Entry<String, RPGWeapon> entrySet : weaponList.entrySet()) {
@@ -184,6 +217,11 @@ public class RPGWeaponManager {
         return allWeaponNames;
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     public boolean isWeapon(ItemStack item) {
         return (item.getType().equals(Material.DIAMOND_SWORD)
                 || item.getType().equals(Material.WOOD_SWORD)
@@ -198,6 +236,11 @@ public class RPGWeaponManager {
                 || item.getType().equals(Material.STONE_AXE));
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     public boolean isRPGWeapon(ItemStack item) {
         if (!item.hasItemMeta()) {
             return false;
@@ -205,6 +248,10 @@ public class RPGWeaponManager {
         return this.weaponList.containsKey(getRPGWeaponNameByItem(item));
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUpgradeResult() {
         Double caso = new Random().nextDouble();
         if (caso <= this.breakprobability) {
@@ -218,22 +265,42 @@ public class RPGWeaponManager {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public ItemStack getWeaponUpgrader() {
         return weaponUpgrader;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getBreakprobability() {
         return breakprobability;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getDetteroriateprobability() {
         return detteroriateprobability;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getNothingprobability() {
         return nothingprobability;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getImproveprobability() {
         return improveprobability;
     }
@@ -262,6 +329,11 @@ public class RPGWeaponManager {
         this.improveprobability = Double.parseDouble(wConfig.getString("improveprobability"));
     }
 
+    /**
+     *
+     * @param weapon
+     * @return
+     */
     public ItemStack upgradeWeapon(ItemStack weapon) {
         RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
         RPGWeapon rpgWeapon = getRPGWeaponByItem(weapon);
@@ -401,6 +473,11 @@ public class RPGWeaponManager {
         return weapon;
     }
 
+    /**
+     *
+     * @param actualLevel
+     * @return
+     */
     public int getLevel(String actualLevel) {
         return Integer.parseInt(actualLevel.substring(1));
     }

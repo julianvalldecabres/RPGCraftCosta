@@ -1,18 +1,17 @@
-/*
- * Copyright (C) 2015 jail
+/* 
+ * Copyright 2016 jail.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -85,11 +84,27 @@ public class CSlime extends EntityMonster implements IRangedEntity {
     private double maxhealth;
     
     //VARIABLES PROPIAS DE ENTITYSLIME
-    public float a;
+
+    /**
+     *
+     */
+        public float a;
+
+    /**
+     *
+     */
     public float b;
+
+    /**
+     *
+     */
     public float c;
     private boolean bk;
 
+    /**
+     *
+     * @param world
+     */
     public CSlime(World world) {
         super(world);
         
@@ -123,6 +138,11 @@ public class CSlime extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
     
+    /**
+     *
+     * @param world
+     * @param spawnloc
+     */
     public CSlime(World world, Location spawnloc) {
         super(world);
         
@@ -218,7 +238,13 @@ public class CSlime extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param el
+     * @param f
+     */
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, this.rangedStrenght, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -249,6 +275,10 @@ public class CSlime extends EntityMonster implements IRangedEntity {
         makeSound("random.bow", 1.0F, 1.0F / (bc().nextFloat() * 0.4F + 0.8F));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getAttackType() {
         switch (aType) {
             case MAGIC:
@@ -260,11 +290,19 @@ public class CSlime extends EntityMonster implements IRangedEntity {
     }
     
     //METODOS PROPIOS DE LA ENTIDAD ENTITYSLIME
-    protected void h() {
+
+    /**
+     *
+     */
+        protected void h() {
         super.h();
         this.datawatcher.a(16, Byte.valueOf((byte) 1));
     }
 
+    /**
+     *
+     * @param i
+     */
     public void setSize(int i) {
         this.datawatcher.watch(16, Byte.valueOf((byte) i));
         this.setSize(0.51000005F * (float) i, 0.51000005F * (float) i);
@@ -275,16 +313,28 @@ public class CSlime extends EntityMonster implements IRangedEntity {
         this.b_ = i;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getSize() {
         return this.datawatcher.getByte(16);
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void b(NBTTagCompound nbttagcompound) {
         super.b(nbttagcompound);
         nbttagcompound.setInt("Size", this.getSize() - 1);
         nbttagcompound.setBoolean("wasOnGround", this.bk);
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void a(NBTTagCompound nbttagcompound) {
         super.a(nbttagcompound);
         int i = nbttagcompound.getInt("Size");
@@ -297,14 +347,25 @@ public class CSlime extends EntityMonster implements IRangedEntity {
         this.bk = nbttagcompound.getBoolean("wasOnGround");
     }
 
+    /**
+     *
+     * @return
+     */
     protected EnumParticle n() {
         return EnumParticle.SLIME;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getStringSize() {
         return "mob.slime." + (this.getSize() > 1 ? "big" : "small");
     }
 
+    /**
+     *
+     */
     public void t_() {
         if (!this.world.isClientSide && this.world.getDifficulty() == EnumDifficulty.PEACEFUL && this.getSize() > 0) {
             this.dead = true;
@@ -342,18 +403,33 @@ public class CSlime extends EntityMonster implements IRangedEntity {
         this.cuh();
     }
 
+    /**
+     *
+     */
     public void cuh() {
         this.a *= 0.6F;
     }
 
+    /**
+     *
+     * @return
+     */
     protected int cug() {
         return this.random.nextInt(20) + 10;
     }
 
+    /**
+     *
+     * @return
+     */
     public CSlime nuevoSlime() {
         return new CSlime(this.world);
     }
 
+    /**
+     *
+     * @param i
+     */
     public void i(int i) {
         if (i == 16) {
             int j = this.getSize();
@@ -369,6 +445,9 @@ public class CSlime extends EntityMonster implements IRangedEntity {
         super.i(i);
     }
 
+    /**
+     *
+     */
     public void die() {
         int i = this.getSize();
 
@@ -397,10 +476,18 @@ public class CSlime extends EntityMonster implements IRangedEntity {
         super.die();
     }
 
+    /**
+     *
+     * @param entity
+     */
     public void collide(Entity entity) {
         super.collide(entity);
     }
 
+    /**
+     *
+     * @param entityhuman
+     */
     public void d(EntityHuman entityhuman) {
         if (this.ciup1()) {
             this.e((EntityLiving) entityhuman);
@@ -408,6 +495,10 @@ public class CSlime extends EntityMonster implements IRangedEntity {
 
     }
 
+    /**
+     *
+     * @param entityliving
+     */
     protected void e(EntityLiving entityliving) {
         int i = this.getSize();
 
@@ -418,33 +509,65 @@ public class CSlime extends EntityMonster implements IRangedEntity {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public float getHeadHeight() {
         return 0.625F * this.length;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean ciup1(){
         return this.getSize()>1;
     }
     
+    /**
+     *
+     * @return
+     */
     public float ci() {
         return this.b;
     }
 
+    /**
+     *
+     */
     public void cj() {
         this.b=1.0F;
     }
+
+    /**
+     *
+     * @return
+     */
     public int cuj(){
         return this.getSize();
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         return "mob.slime." + (this.getSize() > 1 ? "big" : "small");
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bp() {
         return "mob.slime." + (this.getSize() > 1 ? "big" : "small");
     }
     
+    /**
+     *
+     * @return
+     */
     public boolean bR() {
         BlockPosition blockposition = new BlockPosition(MathHelper.floor(this.locX), 0, MathHelper.floor(this.locZ));
         Chunk chunk = this.world.getChunkAtWorldCoords(blockposition);
@@ -468,27 +591,52 @@ public class CSlime extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     protected float bB() {
         return 0.4F * (float) this.getSize();
     }
 
+    /**
+     *
+     * @return
+     */
     public int bQ() {
         return 0;
     }
 
+    /**
+     *
+     * @return
+     */
     protected boolean cn() {
         return this.getSize() > 0;
     }
 
+    /**
+     *
+     * @return
+     */
     protected boolean cl() {
         return this.getSize() > 2;
     }
 
+    /**
+     *
+     */
     protected void bF() {
         this.motY = 0.41999998688697815D;
         this.ai = true;
     }
 
+    /**
+     *
+     * @param difficultydamagescaler
+     * @param groupdataentity
+     * @return
+     */
     public GroupDataEntity prepare(DifficultyDamageScaler difficultydamagescaler, GroupDataEntity groupdataentity) {
         int i = this.random.nextInt(3);
 

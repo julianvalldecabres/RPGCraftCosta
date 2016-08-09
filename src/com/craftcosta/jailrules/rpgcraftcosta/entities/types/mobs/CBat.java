@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -50,7 +60,11 @@ public final class CBat extends EntityMonster implements IRangedEntity {
     private AttackType aType;
     private MobBehaviour mType;
     //VARIBLES ATRIBUTOS DEL MOB
-    public Location spawnLoc;
+
+    /**
+     *
+     */
+        public Location spawnLoc;
     private String name;
     private int level;
     private double movementspeed;
@@ -63,14 +77,46 @@ public final class CBat extends EntityMonster implements IRangedEntity {
     private double maxhealth;
 
     //VARIABLES PROPIAS DEL ENTITYCHICKEN
-    public float bm;
+
+    /**
+     *
+     */
+        public float bm;
+
+    /**
+     *
+     */
     public float bo;
+
+    /**
+     *
+     */
     public float bp;
+
+    /**
+     *
+     */
     public float bq;
+
+    /**
+     *
+     */
     public float br = 1.0F;
+
+    /**
+     *
+     */
     public int bs;
+
+    /**
+     *
+     */
     public boolean bt;
 
+    /**
+     *
+     * @param world
+     */
     public CBat(World world) {
         super(world);
 
@@ -107,6 +153,11 @@ public final class CBat extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @param world
+     * @param loc
+     */
     public CBat(World world, Location loc) {
         super(world);
         setSize(0.5F, 0.9F);
@@ -140,6 +191,22 @@ public final class CBat extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @param aType
+     * @param mType
+     * @param name
+     * @param level
+     * @param movSpeed
+     * @param knockback
+     * @param attack_damage
+     * @param attackSpeed
+     * @param rangedDamage
+     * @param followRange
+     * @param maxHealth
+     * @param rangedStrength
+     * @param world
+     */
     public CBat(AttackType aType, MobBehaviour mType, String name, int level, double movSpeed, double knockback, double attack_damage, double attackSpeed, double rangedDamage, double followRange, double maxHealth, float rangedStrength, World world) {
         super(world);
         setSize(0.5F, 0.9F);
@@ -239,7 +306,13 @@ public final class CBat extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param el
+     * @param f
+     */
+        @Override
     public void a(EntityLiving el, float f) {
         //Para que nuestras entidades puedan realizar ataques a distancia hay que reescribir el metodo avoid a(EntityLiving el, float f)
         //que define que tipo de ataque a distancia realiza
@@ -275,6 +348,10 @@ public final class CBat extends EntityMonster implements IRangedEntity {
         makeSound("random.bow", 1.0F, 1.0F / (bc().nextFloat() * 0.4F + 0.8F));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getType() {
         switch (aType) {
             case MAGIC:
@@ -286,19 +363,35 @@ public final class CBat extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYBAT
-    protected void h() {
+
+    /**
+     *
+     */
+        protected void h() {
         super.h();
         this.datawatcher.a(16, new Byte((byte) 0));
     }
 
+    /**
+     *
+     * @return
+     */
     protected float bB() {
         return 0.1F;
     }
 
+    /**
+     *
+     * @return
+     */
     protected float bC() {
         return super.bC() * 0.95F;
     }
 
+    /**
+     *
+     * @return
+     */
     protected String z() {
         if ((isAsleep()) && (this.random.nextInt(4) != 0)) {
             return null;
@@ -306,18 +399,34 @@ public final class CBat extends EntityMonster implements IRangedEntity {
         return "mob.bat.idle";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         return "mob.bat.hurt";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bp() {
         return "mob.bat.death";
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean isAsleep() {
         return (this.datawatcher.getByte(16) & 0x1) != 0;
     }
 
+    /**
+     *
+     * @param flag
+     */
     public void setAsleep(boolean flag) {
         byte bit = this.datawatcher.getByte(16);
         if (flag) {
@@ -327,6 +436,9 @@ public final class CBat extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     */
     public void t_() {
         super.t_();
         if (isAsleep()) {
@@ -337,12 +449,20 @@ public final class CBat extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     * @param nbt
+     */
     @Override
     public void a(NBTTagCompound nbt) {
         super.a(nbt);
         this.datawatcher.watch(16, Byte.valueOf(nbt.getByte("BatFlags")));
     }
 
+    /**
+     *
+     * @param nbt
+     */
     @Override
     public void b(NBTTagCompound nbt) {
         super.b(nbt);
@@ -350,6 +470,10 @@ public final class CBat extends EntityMonster implements IRangedEntity {
         nbt.setByte("BatFlags", this.datawatcher.getByte(16));
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public float getHeadHeight() {
         return this.length / 2.0F;

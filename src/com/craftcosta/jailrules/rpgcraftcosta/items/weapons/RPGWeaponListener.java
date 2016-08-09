@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.items.weapons;
 
@@ -31,12 +41,20 @@ public class RPGWeaponListener implements Listener {
     private RPGWeaponManager rpgWMan;
     private RPGPlayerManager rpgPMan;
 
+    /**
+     *
+     * @param plugin
+     */
     public RPGWeaponListener(RPGCraftCosta plugin) {
         this.plugin = plugin;
         this.rpgWMan = plugin.getRPGItemManager().getRPGWeaponManager();
         this.rpgPMan = plugin.getRPGPlayerManager();
     }
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onPlayerUpgradeWeapon(InventoryClickEvent e) {
         ItemStack weaponupgrader = rpgWMan.getWeaponUpgrader();
@@ -86,6 +104,10 @@ public class RPGWeaponListener implements Listener {
         }
     }
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onPlayerEquipWeapon(PlayerItemHeldEvent e) {
         //Deberiamos comprobar que tenia antes y que tiene ahora
@@ -109,6 +131,10 @@ public class RPGWeaponListener implements Listener {
         }
     }
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onPlayerChangeFromInventoryWeaponHeldItem(InventoryClickEvent e) {
         RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
@@ -139,6 +165,10 @@ public class RPGWeaponListener implements Listener {
         }
     }
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onPlayerDropWeapon(PlayerDropItemEvent e) {
         Player p = e.getPlayer();
@@ -149,6 +179,10 @@ public class RPGWeaponListener implements Listener {
         }
     }
 
+    /**
+     *
+     * @param e
+     */
     @EventHandler
     public void onPlayerPickupWeapon(PlayerPickupItemEvent e) {
         Player p = e.getPlayer();

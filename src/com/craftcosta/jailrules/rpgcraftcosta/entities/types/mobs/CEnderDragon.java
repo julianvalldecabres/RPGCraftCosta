@@ -1,18 +1,17 @@
-/*
- * Copyright (C) 2015 jail
+/* 
+ * Copyright 2016 jail.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -90,26 +89,106 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
     private float rangedStrenght;
     private double followrange;
     //VARIABLES PROPIAS DE ENTITYENDERDRAGON
-    public double a;
+
+    /**
+     *
+     */
+        public double a;
+
+    /**
+     *
+     */
     public double b;
+
+    /**
+     *
+     */
     public double c;
+
+    /**
+     *
+     */
     public double[][] bk = new double[64][3];
+
+    /**
+     *
+     */
     public int bl = -1;
+
+    /**
+     *
+     */
     public EntityComplexPart[] children;
+
+    /**
+     *
+     */
     public EntityComplexPart bn;
+
+    /**
+     *
+     */
     public EntityComplexPart bo;
+
+    /**
+     *
+     */
     public EntityComplexPart bp;
+
+    /**
+     *
+     */
     public EntityComplexPart bq;
+
+    /**
+     *
+     */
     public EntityComplexPart br;
+
+    /**
+     *
+     */
     public EntityComplexPart bs;
+
+    /**
+     *
+     */
     public EntityComplexPart bt;
+
+    /**
+     *
+     */
     public float bu;
+
+    /**
+     *
+     */
     public float bv;
+
+    /**
+     *
+     */
     public boolean bw;
+
+    /**
+     *
+     */
     public boolean bx;
+
+    /**
+     *
+     */
     public Entity bA; // CraftBukkit - public // PAIL: Target
+
+    /**
+     *
+     */
     public int by;
 
+    /**
+     *
+     * @param world
+     */
     public CEnderDragon(World world) {
         super(world);
         this.a(16.0F, 8.0F);
@@ -143,6 +222,11 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @param world
+     * @param spawnLoc
+     */
     public CEnderDragon(World world, Location spawnLoc) {
         super(world);
         this.a(16.0F, 8.0F);
@@ -235,7 +319,13 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param el
+     * @param f
+     */
+        @Override
     public void a(EntityLiving el, float f) {
         //Para que nuestras entidades puedan realizar ataques a distancia hay que reescribir el metodo avoid a(EntityLiving el, float f)
         //que define que tipo de ataque a distancia realiza
@@ -271,6 +361,10 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
         makeSound("random.bow", 1.0F, 1.0F / (bc().nextFloat() * 0.4F + 0.8F));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getType() {
         switch (aType) {
             case MAGIC:
@@ -281,38 +375,71 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
         }
     }
 
+    /**
+     *
+     */
     protected void h() {
         super.h();
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public World a() {
         return this.world;
     }
 
+    /**
+     *
+     * @return
+     */
     protected String z() {
         return "mob.enderdragon.growl";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         return "mob.enderdragon.hit";
     }
 
+    /**
+     *
+     * @return
+     */
     protected float bB() {
         return 5.0F;
     }
 
+    /**
+     *
+     */
     protected void D() {
     }
 
+    /**
+     *
+     * @return
+     */
     public Entity[] aB() {
         return this.children;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean ad() {
         return false;
     }
 
+    /**
+     *
+     */
     public void m() {
         float f;
         float f1;
@@ -570,6 +697,12 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
         return (float) MathHelper.g(d0);
     }
 
+    /**
+     *
+     * @param i
+     * @param f
+     * @return
+     */
     public double[] b(int i, float f) {
         if (this.getHealth() <= 0.0F) {
             f = 0.0F;
@@ -593,6 +726,10 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
     private void n() {
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean cf() {
 
         this.bw = false;
@@ -641,6 +778,13 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
 
     }
 
+    /**
+     *
+     * @param entitycomplexpart
+     * @param damagesource
+     * @param f
+     * @return
+     */
     @Override
     public boolean a(EntityComplexPart entitycomplexpart, DamageSource damagesource, float f) {
         if (entitycomplexpart != this.bn) {
@@ -662,6 +806,9 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
         return true;
     }
 
+    /**
+     *
+     */
     public void G() {
         this.die();
     }
@@ -670,6 +817,12 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
         return false;
     }
 
+    /**
+     *
+     * @param damagesource
+     * @param f
+     * @return
+     */
     public boolean damageEntity(DamageSource damagesource, float f) {
         if (damagesource instanceof EntityDamageSource && ((EntityDamageSource) damagesource).w()) {
             this.dealDamage(damagesource, f);
@@ -678,6 +831,12 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
         return false;
     }
 
+    /**
+     *
+     * @param damagesource
+     * @param f
+     * @return
+     */
     protected boolean dealDamage(DamageSource damagesource, float f) {
         return super.damageEntity(damagesource, f);
     }

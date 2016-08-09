@@ -1,7 +1,17 @@
-    /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.items.armor;
 
@@ -44,6 +54,10 @@ public class RPGArmorManager {
     private ItemStack armorUpgrader;
     private double detteroriateprobability;
 
+    /**
+     *
+     * @param plugin
+     */
     public RPGArmorManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
         plugin.getLogger().info("Loading armor module....");
@@ -79,6 +93,11 @@ public class RPGArmorManager {
         }
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     public boolean isArmor(ItemStack item) {
         return (item.getType().equals(Material.DIAMOND_HELMET)
                 || item.getType().equals(Material.DIAMOND_CHESTPLATE)
@@ -102,6 +121,10 @@ public class RPGArmorManager {
                 || item.getType().equals(Material.CHAINMAIL_BOOTS));
     }
 
+    /**
+     *
+     * @return
+     */
     public String getUpgradeResult() {
         Double caso = new Random().nextDouble();
         if (caso <= this.breakprobability) {
@@ -139,22 +162,42 @@ public class RPGArmorManager {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public ItemStack getArmorUpgrader() {
         return armorUpgrader;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getBreakprobability() {
         return breakprobability;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getNothingprobability() {
         return nothingprobability;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getImproveprobability() {
         return improveprobability;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getDetteroriateprobability() {
         return detteroriateprobability;
     }
@@ -225,10 +268,20 @@ public class RPGArmorManager {
         }
     }
 
+    /**
+     *
+     * @param name
+     * @return
+     */
     public ItemStack getRPGArmorByName(String name) {
         return armorList.get(name).getItem();
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     public RPGArmor getRPGArmorByItem(ItemStack item) {
         return this.armorList.get(getRPGArmorNameByItem(item));
     }
@@ -248,6 +301,10 @@ public class RPGArmorManager {
         return aName;
     }
 
+    /**
+     *
+     * @return
+     */
     public Set<String> getAllArmorNames() {
         Set<String> allArmorNames = new HashSet<>();
         for (Map.Entry<String, RPGArmor> entrySet : armorList.entrySet()) {
@@ -256,6 +313,11 @@ public class RPGArmorManager {
         return allArmorNames;
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     public boolean isRPGArmor(ItemStack item) {
         if (!item.hasItemMeta()) {
             return false;
@@ -263,12 +325,23 @@ public class RPGArmorManager {
         return this.armorList.containsKey(getRPGArmorNameByItem(item));
     }
 
+    /**
+     *
+     * @param item1
+     * @param item2
+     * @return
+     */
     public boolean isSamePart(ItemStack item1, ItemStack item2) {
         String[] partsItem1 = item1.getType().toString().split("_");
         String[] partsItem2 = item2.getType().toString().split("_");
         return partsItem1[1].equals(partsItem2[1]);
     }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
     public String getPart(ItemStack item) {
         String[] partItem = item.getType().toString().split("_");
         return partItem[1];

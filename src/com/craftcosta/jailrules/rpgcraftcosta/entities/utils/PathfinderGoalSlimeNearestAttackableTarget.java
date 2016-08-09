@@ -1,18 +1,17 @@
-/*
- * Copyright (C) 2015 jail
+/* 
+ * Copyright 2016 jail.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.utils;
 
@@ -35,22 +34,59 @@ import net.minecraft.server.v1_8_R3.PathfinderGoalTarget;
  */
 public class PathfinderGoalSlimeNearestAttackableTarget<T extends EntityLiving> extends PathfinderGoalTarget {
 
+    /**
+     *
+     */
     protected final Class<T> a;
     private final int g;
     private int b;
+
+    /**
+     *
+     */
     protected final PathfinderGoalSlimeNearestAttackableTarget.DistanceComparator path;
+
+    /**
+     *
+     */
     protected Predicate<? super T> c;
+
+    /**
+     *
+     */
     protected EntityLiving d;
 
+    /**
+     *
+     * @param entitycreature
+     * @param oclass
+     * @param flag
+     */
     public PathfinderGoalSlimeNearestAttackableTarget(EntityCreature entitycreature, Class<T> oclass, boolean flag) {
         
         this(entitycreature, oclass, flag, false);
     }
 
+    /**
+     *
+     * @param entitycreature
+     * @param oclass
+     * @param flag
+     * @param flag1
+     */
     public PathfinderGoalSlimeNearestAttackableTarget(EntityCreature entitycreature, Class<T> oclass, boolean flag, boolean flag1) {
         this(entitycreature, oclass, 10, flag, flag1, (Predicate) null);
     }
 
+    /**
+     *
+     * @param entitycreature
+     * @param oclass
+     * @param i
+     * @param flag
+     * @param flag1
+     * @param predicate
+     */
     public PathfinderGoalSlimeNearestAttackableTarget(EntityCreature entitycreature, Class<T> oclass, int i, boolean flag, boolean flag1, final Predicate<? super T> predicate) {
         super(entitycreature, flag, flag1);
         this.a = oclass;
@@ -94,6 +130,10 @@ public class PathfinderGoalSlimeNearestAttackableTarget<T extends EntityLiving> 
         };
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean a() {
         if (this.g > 0 && this.e.bc().nextInt(this.g) != 0) {
             return false;
@@ -111,20 +151,36 @@ public class PathfinderGoalSlimeNearestAttackableTarget<T extends EntityLiving> 
         }
     }
 
+    /**
+     *
+     */
     public void c() {
         this.b=300;
         this.e.setGoalTarget(this.d, d instanceof EntityPlayer ? org.bukkit.event.entity.EntityTargetEvent.TargetReason.CLOSEST_PLAYER : org.bukkit.event.entity.EntityTargetEvent.TargetReason.CLOSEST_ENTITY, true); // Craftbukkit - reason
         super.c();
     }
 
+    /**
+     *
+     */
     public static class DistanceComparator implements Comparator<Entity> {
 
         private final Entity a;
 
+        /**
+         *
+         * @param entity
+         */
         public DistanceComparator(Entity entity) {
             this.a = entity;
         }
 
+        /**
+         *
+         * @param entity
+         * @param entity1
+         * @return
+         */
         public int a(Entity entity, Entity entity1) {
             double d0 = this.a.h(entity);
             double d1 = this.a.h(entity1);

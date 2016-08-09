@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -55,7 +65,11 @@ public class CChicken extends EntityMonster implements IRangedEntity {
     private AttackType aType;
     private MobBehaviour mType;
     //VARIBLES ATRIBUTOS DEL MOB
-    public Location spawnLoc;
+
+    /**
+     *
+     */
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -68,14 +82,46 @@ public class CChicken extends EntityMonster implements IRangedEntity {
     private double followrange;
     private double maxhealth;
     //VARIABLES PROPIAS DEL ENTITYCHICKEN
-    public float bm;
+
+    /**
+     *
+     */
+        public float bm;
+
+    /**
+     *
+     */
     public float bo;
+
+    /**
+     *
+     */
     public float bp;
+
+    /**
+     *
+     */
     public float bq;
+
+    /**
+     *
+     */
     public float br = 1.0F;
+
+    /**
+     *
+     */
     public int bs;
+
+    /**
+     *
+     */
     public boolean bt;
 
+    /**
+     *
+     * @param world
+     */
     public CChicken(World world) {
         super(world);
         setSize(0.4F, 0.7F);
@@ -113,6 +159,11 @@ public class CChicken extends EntityMonster implements IRangedEntity {
 
     }
 
+    /**
+     *
+     * @param world
+     * @param spawnLoc
+     */
     public CChicken(World world, Location spawnLoc) {
         super(world);
         this.spawnLoc = spawnLoc;
@@ -148,6 +199,24 @@ public class CChicken extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @param aType
+     * @param mType
+     * @param name
+     * @param level
+     * @param loc
+     * @param baby
+     * @param movSpeed
+     * @param knockback
+     * @param attack_damage
+     * @param attackSpeed
+     * @param rangedDamage
+     * @param followRange
+     * @param maxHealth
+     * @param rangedStrength
+     * @param world
+     */
     public CChicken(AttackType aType, MobBehaviour mType, String name, int level, Location loc, boolean baby, double movSpeed, double knockback, double attack_damage, double attackSpeed, double rangedDamage, double followRange, double maxHealth, float rangedStrength, World world) {
         super(world);
         setSize(0.4F, 0.7F);
@@ -250,7 +319,13 @@ public class CChicken extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param el
+     * @param f
+     */
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -281,6 +356,10 @@ public class CChicken extends EntityMonster implements IRangedEntity {
         makeSound("random.bow", 1.0F, 1.0F / (bc().nextFloat() * 0.4F + 0.8F));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getType() {
         switch (aType) {
             case MAGIC:
@@ -300,22 +379,43 @@ public class CChicken extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYCHICKEN
-    protected String z() {
+
+    /**
+     *
+     * @return
+     */
+        protected String z() {
         return "mob.chicken.say";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         return "mob.chicken.hurt";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bp() {
         return "mob.chicken.hurt";
     }
 
+    /**
+     *
+     * @param blockposition
+     * @param block
+     */
     protected void a(BlockPosition blockposition, Block block) {
         makeSound("mob.chicken.step", 0.15F, 1.0F);
     }
 
+    /**
+     *
+     */
     public void m() {
         super.m();
         this.bq = this.bm;
@@ -332,30 +432,60 @@ public class CChicken extends EntityMonster implements IRangedEntity {
         this.bm += this.br * 2.0F;
     }
 
+    /**
+     *
+     * @return
+     */
     public EnumMonsterType getMonsterType() {
         return EnumMonsterType.UNDEFINED;
     }
 
+    /**
+     *
+     * @param difficultydamagescaler
+     * @param groupdataentity
+     * @return
+     */
     public GroupDataEntity prepare(DifficultyDamageScaler difficultydamagescaler, GroupDataEntity groupdataentity) {
         groupdataentity = super.prepare(difficultydamagescaler, groupdataentity);
         return groupdataentity;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getHeadHeight() {
         return this.length;
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void a(NBTTagCompound nbttagcompound) {
         super.a(nbttagcompound);
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void b(NBTTagCompound nbttagcompound) {
         super.b(nbttagcompound);
     }
 
+    /**
+     *
+     * @param f
+     * @param f1
+     */
     public void e(float f, float f1) {
     }
 
+    /**
+     *
+     */
     public void al() {
         super.al();
         float f = MathHelper.sin(this.aI * 3.141593F / 180.0F);

@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.guilds;
 
@@ -28,6 +38,11 @@ public class RPGGuild {
     private List<String> members;           //List of members
     private List<Player> onlineMembers;     //List of players online
 
+    /**
+     *
+     * @param name
+     * @param owner
+     */
     public RPGGuild(String name, Player owner) {
         this.name = name;
         this.owner = owner.getName();
@@ -39,6 +54,15 @@ public class RPGGuild {
         this.members.add(owner.getName());
     }
 
+    /**
+     *
+     * @param name
+     * @param owner
+     * @param level
+     * @param money
+     * @param mods
+     * @param members
+     */
     public RPGGuild(String name, String owner, int level, double money, List<String> mods, List<String> members) {
         this.name = name;
         this.owner = owner;
@@ -49,58 +73,114 @@ public class RPGGuild {
         this.onlineMembers = new ArrayList<>();
     }
 
+    /**
+     *
+     * @return
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     *
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getOwner() {
         return owner;
     }
 
+    /**
+     *
+     * @param owner
+     */
     public void setOwner(String owner) {
         this.owner = owner;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getLevel() {
         return level;
     }
 
+    /**
+     *
+     * @param level
+     */
     public void setLevel(int level) {
         this.level = level;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getMoney() {
         return money;
     }
 
+    /**
+     *
+     * @param money
+     */
     public void setMoney(double money) {
         this.money = money;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<String> getModerators() {
         return moderators;
     }
 
+    /**
+     *
+     * @param moderators
+     */
     public void setModerators(List<String> moderators) {
         this.moderators = moderators;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<String> getMembers() {
         return members;
     }
 
+    /**
+     *
+     * @param members
+     */
     public void setMembers(List<String> members) {
         this.members = members;
     }
 
+    /**
+     *
+     * @return
+     */
     public List<Player> getOnlineMembers() {
         return onlineMembers;
     }
 
+    /**
+     *
+     * @param onlineMembers
+     */
     public void setOnlineMembers(List<Player> onlineMembers) {
         this.onlineMembers = onlineMembers;
     }
@@ -201,12 +281,12 @@ public class RPGGuild {
      * @param message
      */
     public void sendMessageToGuild(String message) {
-        for (Player p1 : onlineMembers) {
+        for (Player p1 : onlineMembers) {            
             p1.sendMessage(message);
         }
     }
 
-    void leavePlayerFromGuild(Player p) {
+    public void leavePlayerFromGuild(Player p) {
         this.members.remove(p.getName());
         this.onlineMembers.remove(p);
         if (this.moderators.contains(p.getName())) {
@@ -214,11 +294,11 @@ public class RPGGuild {
         }
     }
 
-    void addOnlinePlayer(Player p) {
+    public void addOnlinePlayer(Player p) {
         this.onlineMembers.add(p);
     }
 
-    void delFromGuild(Player kickplayer) {
+    public void delFromGuild(Player kickplayer) {
         if (this.moderators.contains(kickplayer.getName())) {
             this.moderators.remove(kickplayer.getName());
         }
@@ -228,5 +308,9 @@ public class RPGGuild {
         if (this.onlineMembers.contains(kickplayer)) {
             this.onlineMembers.remove(kickplayer);
         }
+    }
+
+    public void sendMessageToGuildPlayer(Player p, String message) {
+        p.sendMessage(message);
     }
 }

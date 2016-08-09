@@ -1,18 +1,17 @@
-/*
- * Copyright (C) 2015 jail
+/* 
+ * Copyright 2016 jail.
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -79,6 +78,10 @@ public class CEndermite extends EntityMonster implements IRangedEntity {
     private int a = 0;
     private boolean b = false;
 
+    /**
+     *
+     * @param world
+     */
     public CEndermite(World world) {
         super(world);
         this.b_ = 3;
@@ -111,6 +114,11 @@ public class CEndermite extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
 
+    /**
+     *
+     * @param world
+     * @param spawnLoc
+     */
     public CEndermite(World world, Location spawnLoc) {
         super(world);
         this.spawnLoc = spawnLoc;
@@ -203,7 +211,13 @@ public class CEndermite extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param el
+     * @param f
+     */
+        @Override
     public void a(EntityLiving el, float f) {
         //Para que nuestras entidades puedan realizar ataques a distancia hay que reescribir el metodo avoid a(EntityLiving el, float f)
         //que define que tipo de ataque a distancia realiza
@@ -239,6 +253,10 @@ public class CEndermite extends EntityMonster implements IRangedEntity {
         makeSound("random.bow", 1.0F, 1.0F / (bc().nextFloat() * 0.4F + 0.8F));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getType() {
         switch (aType) {
             case MAGIC:
@@ -250,51 +268,99 @@ public class CEndermite extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DEL ENTITYENDERMITE
-    protected String z() {
+
+    /**
+     *
+     * @return
+     */
+        protected String z() {
         return "mob.silverfish.say";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bn() {
         return "mob.silverfish.hit";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         return "mob.silverfish.kill";
     }
 
+    /**
+     *
+     * @param blockposition
+     * @param block
+     */
     protected void a(BlockPosition blockposition, Block block) {
         this.makeSound("mob.silverfish.step", 0.15F, 1.0F);
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void a(NBTTagCompound nbttagcompound) {
         super.a(nbttagcompound);
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void b(NBTTagCompound nbttagcompound) {
         super.b(nbttagcompound);
     }
 
+    /**
+     *
+     * @return
+     */
     protected boolean s_() {
         return false;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getHeadHeight() {
         return 0.5F;
     }
 
+    /**
+     *
+     */
     public void t_() {
         this.aI = this.yaw;
         super.t_();
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean n() {
         return this.b;
     }
 
+    /**
+     *
+     * @param flag
+     */
     public void a(boolean flag) {
         this.b = flag;
     }
 
+    /**
+     *
+     */
     public void m() {
         super.m();
         if (this.world.isClientSide) {
@@ -313,10 +379,18 @@ public class CEndermite extends EntityMonster implements IRangedEntity {
 
     }
 
+    /**
+     *
+     * @return
+     */
     protected boolean n_() {
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean bR() {
         if (super.bR()) {
             EntityHuman entityhuman = this.world.findNearbyPlayer(this, 5.0D);
@@ -327,6 +401,10 @@ public class CEndermite extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public EnumMonsterType getMonsterType() {
         return EnumMonsterType.ARTHROPOD;
     }

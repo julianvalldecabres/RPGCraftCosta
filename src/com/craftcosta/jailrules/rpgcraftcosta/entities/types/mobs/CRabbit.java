@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
@@ -64,7 +74,11 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
     private AttackType aType;
     private MobBehaviour mType;
     //VARIBLES ATRIBUTOS DEL MOB
-    public Location spawnLoc;
+
+    /**
+     *
+     */
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -88,6 +102,10 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
     private int bu;
     private EntityHuman bv;
 
+    /**
+     *
+     * @param world
+     */
     public CRabbit(World world) {
         super(world);
         this.bt = EnumRabbitState.HOP;
@@ -131,6 +149,11 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
     
+    /**
+     *
+     * @param world
+     * @param spawnLoc
+     */
     public CRabbit(World world,Location spawnLoc) {
         super(world);
         this.bt = EnumRabbitState.HOP;
@@ -233,7 +256,13 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-    @Override
+
+    /**
+     *
+     * @param el
+     * @param f
+     */
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -261,6 +290,10 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
         makeSound("random.bow", 1.0F, 1.0F / (bc().nextFloat() * 0.4F + 0.8F));
     }
 
+    /**
+     *
+     * @return
+     */
     public int getType() {
         switch (aType) {
             case MAGIC:
@@ -280,19 +313,37 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYRABBIT
-    protected float bE() {
+
+    /**
+     *
+     * @return
+     */
+        protected float bE() {
         return (this.moveController.a()) && (this.moveController.e() > this.locY + 0.5D) ? 0.5F : this.bt.b();
     }
 
+    /**
+     *
+     * @param entityrabbit_enumrabbitstate
+     */
     public void a(EnumRabbitState entityrabbit_enumrabbitstate) {
         this.bt = entityrabbit_enumrabbitstate;
     }
 
+    /**
+     *
+     * @param d0
+     */
     public void b(double d0) {
         getNavigation().a(d0);
         this.moveController.a(this.moveController.d(), this.moveController.e(), this.moveController.f(), d0);
     }
 
+    /**
+     *
+     * @param flag
+     * @param entityrabbit_enumrabbitstate
+     */
     public void a(boolean flag, EnumRabbitState entityrabbit_enumrabbitstate) {
         super.i(flag);
         if (!flag) {
@@ -306,21 +357,35 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
         this.bq = flag;
     }
 
+    /**
+     *
+     * @param entityrabbit_enumrabbitstate
+     */
     public void b(EnumRabbitState entityrabbit_enumrabbitstate) {
         a(true, entityrabbit_enumrabbitstate);
         this.bp = entityrabbit_enumrabbitstate.d();
         this.bo = 0;
     }
 
+    /**
+     *
+     * @return
+     */
     public boolean cl() {
         return this.bq;
     }
 
+    /**
+     *
+     */
     protected void h() {
         super.h();
         this.datawatcher.a(18, Byte.valueOf((byte) 0));
     }
 
+    /**
+     *
+     */
     public void E() {
         if (this.moveController.b() > 0.8D) {
             a(EnumRabbitState.SPRINT);
@@ -368,6 +433,9 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
         this.br = this.onGround;
     }
 
+    /**
+     *
+     */
     public void Y() {
     }
 
@@ -392,31 +460,59 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
         cu();
     }
 
+    /**
+     *
+     * @return
+     */
     protected String cm() {
         return "mob.rabbit.hop";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String z() {
         return "mob.rabbit.idle";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bo() {
         return "mob.rabbit.hurt";
     }
 
+    /**
+     *
+     * @return
+     */
     protected String bp() {
         return "mob.rabbit.death";
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
     public boolean r(Entity entity) {
         makeSound("mob.attack", 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
         return entity.damageEntity(DamageSource.mobAttack(this), 3.0F);
     }
 
+    /**
+     *
+     * @return
+     */
     public int br() {
         return getRabbitType() == 99 ? 8 : super.br();
     }
 
+    /**
+     *
+     */
     public void m() {
         super.m();
         if (this.bo != this.bp) {
@@ -430,18 +526,36 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public int getRabbitType() {
         return this.datawatcher.getByte(18);
     }
 
+    /**
+     *
+     * @param i
+     */
     public void setRabbitType(int i) {
         this.datawatcher.watch(18, Byte.valueOf((byte) i));
     }
 
+    /**
+     *
+     * @return
+     */
     public EnumMonsterType getMonsterType() {
         return EnumMonsterType.UNDEFINED;
     }
 
+    /**
+     *
+     * @param difficultydamagescaler
+     * @param groupdataentity
+     * @return
+     */
     public GroupDataEntity prepare(DifficultyDamageScaler difficultydamagescaler, GroupDataEntity groupdataentity) {
         Object object = super.prepare(difficultydamagescaler, groupdataentity);
         int i = this.random.nextInt(6);
@@ -463,34 +577,61 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
         return this.bu == 0;
     }
 
+    /**
+     *
+     * @return
+     */
     protected int co() {
         return this.bt.c();
     }
 
+    /**
+     *
+     */
     protected void cp() {
         this.world.addParticle(EnumParticle.BLOCK_DUST, this.locX + this.random.nextFloat() * this.width * 2.0F - this.width, this.locY + 0.5D + this.random.nextFloat() * this.length, this.locZ + this.random.nextFloat() * this.width * 2.0F - this.width, 0.0D, 0.0D, 0.0D, new int[]{Block.getCombinedId(Blocks.CARROTS.fromLegacyData(7))});
         this.bu = 100;
     }
 
+    /**
+     *
+     * @return
+     */
     public float getHeadHeight() {
         return this.length;
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void a(NBTTagCompound nbttagcompound) {
         super.a(nbttagcompound);
         setRabbitType(nbttagcompound.getInt("RabbitType"));
         this.bu = nbttagcompound.getInt("MoreCarrotTicks");
     }
 
+    /**
+     *
+     * @param nbttagcompound
+     */
     public void b(NBTTagCompound nbttagcompound) {
         super.b(nbttagcompound);
         nbttagcompound.setInt("RabbitType", getRabbitType());
         nbttagcompound.setInt("MoreCarrotTicks", this.bu);
     }
 
+    /**
+     *
+     * @param f
+     * @param f1
+     */
     public void e(float f, float f1) {
     }
 
+    /**
+     *
+     */
     public void al() {
         super.al();
         float f = MathHelper.sin(this.aI * 3.141593F / 180.0F);
@@ -569,29 +710,51 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     */
     public class ControllerJumpRabbit
             extends ControllerJump {
 
         private CRabbit c;
         private boolean d = false;
 
+        /**
+         *
+         * @param entityrabbit
+         */
         public ControllerJumpRabbit(CRabbit entityrabbit) {
             super(entityrabbit);
             this.c = entityrabbit;
         }
 
+        /**
+         *
+         * @return
+         */
         public boolean c() {
             return this.a;
         }
 
+        /**
+         *
+         * @return
+         */
         public boolean d() {
             return this.d;
         }
 
+        /**
+         *
+         * @param flag
+         */
         public void a(boolean flag) {
             this.d = flag;
         }
 
+        /**
+         *
+         */
         public void b() {
             if (this.a) {
                 this.c.b(CRabbit.EnumRabbitState.STEP);
@@ -600,11 +763,21 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
         }
     }
 
+    /**
+     *
+     */
     public static class GroupDataRabbit
             implements GroupDataEntity {
 
+        /**
+         *
+         */
         public int a;
 
+        /**
+         *
+         * @param i
+         */
         public GroupDataRabbit(int i) {
             this.a = i;
         }

@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.party;
 
@@ -46,6 +56,10 @@ public class RPGPartyManager {
     private boolean canSetSDR;
     private String shareDistributionReason;
     private double bonusProportion;
+
+    /**
+     *
+     */
     public static Map<String, String> peticiones;
 
     /**
@@ -57,6 +71,10 @@ public class RPGPartyManager {
         return this.partylist.get(name);
     }
 
+    /**
+     *
+     * @param plugin
+     */
     public RPGPartyManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
         this.plugin.getLogger().info("Loading party module....");
@@ -108,6 +126,11 @@ public class RPGPartyManager {
         this.bonusProportion = pConfig.getDouble("bonusproportion");
     }
 
+    /**
+     *
+     * @param p
+     * @param party
+     */
     public void leavePlayerFromParty(Player p, String party) {
         RPGParty rpgParty = partylist.get(party);
         RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
@@ -127,6 +150,11 @@ public class RPGPartyManager {
         }
     }
 
+    /**
+     *
+     * @param p
+     * @param rpgParty
+     */
     public void sendMessageOwnerChangedToParty(Player p, RPGParty rpgParty) {
         String prefix = rpgCMan.getPrefixForParty();
         for (Player player : rpgParty.getPlayers()) {
@@ -138,6 +166,10 @@ public class RPGPartyManager {
         }
     }
 
+    /**
+     *
+     * @param party
+     */
     public void disbandParty(String party) {
         String prefix = rpgCMan.getPrefixForParty();
         RPGParty rpgParty = getParty(party);
@@ -149,6 +181,11 @@ public class RPGPartyManager {
         this.partylist.remove(party);
     }
 
+    /**
+     *
+     * @param p
+     * @param rpgParty
+     */
     public void sendMessagePlayerLeaveParty(Player p, RPGParty rpgParty) {
         String prefix = rpgCMan.getPrefixForParty();
         for (Player player : rpgParty.getPlayers()) {
@@ -156,36 +193,71 @@ public class RPGPartyManager {
         }
     }
 
+    /**
+     *
+     * @param party
+     * @param message
+     */
     public void sendMessageToParty(String party, String message) {
         String prefix = rpgCMan.getPrefixForParty();
         for (Player player : this.partylist.get(party).getPlayers()) {
-            player.sendMessage(prefix + " " + message);
+            RPGPlayer rpgreceiver = rpgPMan.getRPGPlayerByName(player.getName());
+            if (rpgreceiver.isPartyChat()) {
+                player.sendMessage(prefix + " " + message);
+            }
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public Set<String> getAllAvailableParties() {
         return this.partylist.keySet();
     }
 
+    /**
+     *
+     * @param rpgParty
+     */
     public void addNewParty(RPGParty rpgParty) {
         this.partylist.put(rpgParty.getName(), rpgParty);
     }
 
+    /**
+     *
+     * @param partyname
+     */
     public void remParty(String partyname) {
         this.partylist.remove(partyname);
     }
 
+    /**
+     *
+     * @param party
+     * @param kickplayer
+     */
     public void kickPlayerFromParty(RPGParty party, Player kickplayer) {
         party.kickplayer(kickplayer);
         kickplayer.sendMessage(rpgCMan.getPrefixForParty() + ChatColor.RED + " Has sido kickeado de la party");
         sendMessageToParty(party.getName(), "El jugador " + kickplayer.getName() + " ha sido kickeado del grupo");
     }
 
+    /**
+     *
+     * @param party
+     * @param newleaderplayer
+     */
     public void makeLeaderPlayerFromParty(RPGParty party, Player newleaderplayer) {
         party.setLeader(newleaderplayer.getName());
         sendMessageOwnerChangedToParty(newleaderplayer, party);
     }
 
+    /**
+     *
+     * @param p
+     * @param party
+     */
     public void addPlayerToParty(Player p, RPGParty party) {
         party.addPlayerToParty(p);
     }

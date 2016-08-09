@@ -1,3 +1,18 @@
+/*
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.craftcosta.jailrules.rpgcraftcosta.gui;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
@@ -26,6 +41,7 @@ import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import org.bukkit.Material;
 import org.jfree.chart.ChartFactory;
@@ -46,6 +62,7 @@ import sun.misc.Launcher;
  * @author Jail
  */
 public class GUI extends javax.swing.JFrame {
+
     private static RPGItemManagerUI rpgIManUI;
 
     private static void copy(FileInputStream in, File file) {
@@ -83,11 +100,11 @@ public class GUI extends javax.swing.JFrame {
 
         File file = new File(RPGFinals.dataFolder);
         System.out.println(Material.values());
-        for(Material mat: Material.values()){
-            System.out.println(mat.name()+"(\"\"),");
+        for (Material mat : Material.values()) {
+            System.out.println(mat.name() + "(\"\"),");
         }
         if (!file.exists()) {
-            
+
             JOptionPane.showMessageDialog(null, "Creating default config folders and files", "RPGCraftCosta-Information", 1);
             file.mkdirs();
         } else {
@@ -114,14 +131,14 @@ public class GUI extends javax.swing.JFrame {
             final URL url = Launcher.class.getResource("/" + path);
             if (url != null) {
                 try {
-                    List<String> inexistentfiles= new ArrayList<>();
+                    List<String> inexistentfiles = new ArrayList<>();
                     final File apps = new File(url.toURI());
                     for (File app : apps.listFiles()) {
                         if (app.getName().contains(".yml")) {
-                            
+
                             File configfile = new File(file.getAbsolutePath() + File.separator + app.getName());
                             if (!configfile.exists()) {
-                                inexistentfiles.add(app.getName());                                
+                                inexistentfiles.add(app.getName());
                                 InputStream in = GUI.class.getClassLoader().getResourceAsStream(app.getName());
                                 FileOutputStream fos = null;
                                 try {
@@ -142,27 +159,27 @@ public class GUI extends javax.swing.JFrame {
                                     }
                                 }
                             }
-                            
+
                         }
                     }
-                    if(!inexistentfiles.isEmpty()){
-                        JOptionPane.showMessageDialog(null, "Los siguientes ficheros de configuracion no existen:\n"+
-                                getList(inexistentfiles)+"Se añadira/n su version por defecto");
+                    if (!inexistentfiles.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Los siguientes ficheros de configuracion no existen:\n"
+                                + getList(inexistentfiles) + "Se añadira/n su version por defecto");
                     }
-                    
+
                 } catch (URISyntaxException ex) {
                     // never happens
                 }
             }
         }
         //Cargar las diferentes configuraciones con sus propios gestores
-        rpgIManUI= new RPGItemManagerUI();
+        rpgIManUI = new RPGItemManagerUI();
     }
 
     private static String getList(List<String> inexistentfiles) {
-        String cadena="";
+        String cadena = "";
         for (String inexistentfile : inexistentfiles) {
-            cadena+="- "+inexistentfile+"\n";
+            cadena += "- " + inexistentfile + "\n";
         }
         return cadena;
     }
@@ -183,235 +200,625 @@ public class GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup2 = new javax.swing.ButtonGroup();
+        btngroupNumJugGrupo = new javax.swing.ButtonGroup();
+        btngroupPvpGrupo = new javax.swing.ButtonGroup();
+        btngroupRepartoGrupo = new javax.swing.ButtonGroup();
+        btnGroupOpcionRepartoGrupo = new javax.swing.ButtonGroup();
+        btngroupOpcionRepartoPropGrupo = new javax.swing.ButtonGroup();
+        btngroupNumJugClan = new javax.swing.ButtonGroup();
+        btngroupOpcLimNivelClan = new javax.swing.ButtonGroup();
+        btngroupSistContrClan = new javax.swing.ButtonGroup();
         PanelConfig = new javax.swing.JTabbedPane();
         PanelInicio = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
+        btnprueba = new javax.swing.JButton();
         PanelConfigGeneral = new javax.swing.JPanel();
-        CBHungerSystem = new javax.swing.JCheckBox();
+        checkSistHambre = new javax.swing.JCheckBox();
+        checkDanioCaida = new javax.swing.JCheckBox();
+        checkDanioAhogo = new javax.swing.JCheckBox();
+        checkClanes = new javax.swing.JCheckBox();
+        checkEnableGrupos = new javax.swing.JCheckBox();
         PanelConfigLevel = new javax.swing.JPanel();
-        lvlLabelFunction2 = new javax.swing.JLabel();
-        lvlLabelFunction3 = new javax.swing.JLabel();
-        lvlLabelFunction4 = new javax.swing.JLabel();
-        lvlLabelFunction1 = new javax.swing.JLabel();
-        lvlValidateFunction = new javax.swing.JButton();
-        lvlSaveConfig = new javax.swing.JButton();
-        lvlInfo1 = new javax.swing.JLabel();
-        lvlInfo2 = new javax.swing.JLabel();
-        lvlDrawGraph = new javax.swing.JButton();
-        lvlInfoMaxLevel = new javax.swing.JLabel();
-        lvl_ValueA = new javax.swing.JSpinner();
-        lvl_ValueB = new javax.swing.JSpinner();
-        lvl_ValueC = new javax.swing.JSpinner();
-        lvl_MaxLevel = new javax.swing.JSpinner();
-        lvlPanelGraph = new javax.swing.JPanel();
-        PanelLevelExperience = new javax.swing.JPanel();
+        lblx3Nivel = new javax.swing.JLabel();
+        lblx2Nivel = new javax.swing.JLabel();
+        lblxNivel = new javax.swing.JLabel();
+        lblFdeXNivel = new javax.swing.JLabel();
+        btnValidarFormulaNiveles = new javax.swing.JButton();
+        btnGuardarConfigNiveles = new javax.swing.JButton();
+        lblInfoNivel = new javax.swing.JLabel();
+        lblInfoNivel2 = new javax.swing.JLabel();
+        btnDibujarGraficoNiveles = new javax.swing.JButton();
+        lblInfoNivelMaxNivel = new javax.swing.JLabel();
+        txtX3Nivel = new javax.swing.JSpinner();
+        txtX2Nivel = new javax.swing.JSpinner();
+        txtXNivel = new javax.swing.JSpinner();
+        lblMaxNivelNivel = new javax.swing.JSpinner();
+        PanelGraficosNivel = new javax.swing.JPanel();
+        PanelNivelExpNivel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        lvl_TablaExpLvl = new javax.swing.JTable();
+        tablaExpNivel = new javax.swing.JTable();
         PanelConfigClases = new javax.swing.JPanel();
-        jComboBox1 = new javax.swing.JComboBox();
-        createNewClassbtn = new javax.swing.JButton();
-        editClassbtn = new javax.swing.JButton();
-        deleteClassbtn = new javax.swing.JButton();
-        classEditorPanel = new javax.swing.JPanel();
-        classNameLbl = new javax.swing.JLabel();
-        BaseClassPanel = new javax.swing.JPanel();
-        baseHealthLbl = new javax.swing.JLabel();
-        baseManaLbl = new javax.swing.JLabel();
-        basePhyAttLbl = new javax.swing.JLabel();
-        basePhyDefLbl = new javax.swing.JLabel();
-        basePhyHRLbl = new javax.swing.JLabel();
-        basePhyEvaLbl = new javax.swing.JLabel();
-        baseMagAttLbl = new javax.swing.JLabel();
-        baseMagDefLbl = new javax.swing.JLabel();
-        baseMagHRLbl = new javax.swing.JLabel();
-        baseMagEvaLbl = new javax.swing.JLabel();
-        baseCritLbl = new javax.swing.JLabel();
-        baseDeadLbl = new javax.swing.JLabel();
-        jSpinner2 = new javax.swing.JSpinner();
-        jSpinner3 = new javax.swing.JSpinner();
-        jSpinner4 = new javax.swing.JSpinner();
-        jSpinner5 = new javax.swing.JSpinner();
-        jSpinner6 = new javax.swing.JSpinner();
-        jSpinner7 = new javax.swing.JSpinner();
-        jSpinner8 = new javax.swing.JSpinner();
-        jSpinner9 = new javax.swing.JSpinner();
-        jSpinner10 = new javax.swing.JSpinner();
-        jSpinner11 = new javax.swing.JSpinner();
-        jSpinner12 = new javax.swing.JSpinner();
-        jSpinner13 = new javax.swing.JSpinner();
-        classNameTxt = new javax.swing.JTextField();
-        enabledClassCheck = new javax.swing.JCheckBox();
-        saveNewClass_btn = new javax.swing.JButton();
-        resetValues_btn = new javax.swing.JButton();
-        LvlUpPanel = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jSpinner14 = new javax.swing.JSpinner();
-        jSpinner15 = new javax.swing.JSpinner();
-        jSpinner16 = new javax.swing.JSpinner();
-        jSpinner17 = new javax.swing.JSpinner();
-        jSpinner18 = new javax.swing.JSpinner();
-        jSpinner19 = new javax.swing.JSpinner();
-        jSpinner20 = new javax.swing.JSpinner();
-        jSpinner21 = new javax.swing.JSpinner();
-        jSpinner22 = new javax.swing.JSpinner();
-        jSpinner23 = new javax.swing.JSpinner();
-        jSpinner24 = new javax.swing.JSpinner();
-        jSpinner25 = new javax.swing.JSpinner();
-        SkillPointsPanel = new javax.swing.JPanel();
-        jPanel19 = new javax.swing.JPanel();
-        jLabel26 = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
-        jSpinner26 = new javax.swing.JSpinner();
-        jSpinner27 = new javax.swing.JSpinner();
-        jPanel20 = new javax.swing.JPanel();
-        jLabel28 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
-        jSpinner28 = new javax.swing.JSpinner();
-        jSpinner29 = new javax.swing.JSpinner();
-        jPanel21 = new javax.swing.JPanel();
-        jLabel30 = new javax.swing.JLabel();
-        jLabel31 = new javax.swing.JLabel();
-        jSpinner30 = new javax.swing.JSpinner();
-        jSpinner31 = new javax.swing.JSpinner();
-        jPanel22 = new javax.swing.JPanel();
-        jLabel32 = new javax.swing.JLabel();
-        jLabel33 = new javax.swing.JLabel();
-        jSpinner32 = new javax.swing.JSpinner();
-        jSpinner33 = new javax.swing.JSpinner();
-        jLabel34 = new javax.swing.JLabel();
-        jLabel35 = new javax.swing.JLabel();
+        comboSelectorClases = new javax.swing.JComboBox();
+        btnCrearNuevaClase = new javax.swing.JButton();
+        btnEditarClase = new javax.swing.JButton();
+        btnEliminarClase = new javax.swing.JButton();
+        PanelEditorClase = new javax.swing.JPanel();
+        lblNombreClase = new javax.swing.JLabel();
+        PanelAtribBasicoClase = new javax.swing.JPanel();
+        lblVidaBase = new javax.swing.JLabel();
+        lblManaBase = new javax.swing.JLabel();
+        lblAtaFisBase = new javax.swing.JLabel();
+        lblDefFisBase = new javax.swing.JLabel();
+        lblHRFisBase = new javax.swing.JLabel();
+        lblEvaFisBase = new javax.swing.JLabel();
+        lblAtaMagBase = new javax.swing.JLabel();
+        lblDefMagBase = new javax.swing.JLabel();
+        lblHRMagBase = new javax.swing.JLabel();
+        lblEvaMagBase = new javax.swing.JLabel();
+        lblCritBase = new javax.swing.JLabel();
+        lblMortalBase = new javax.swing.JLabel();
+        spinnerMaxVidaBase = new javax.swing.JSpinner();
+        spinnerMaxManaBase = new javax.swing.JSpinner();
+        spinnerDefFisBase = new javax.swing.JSpinner();
+        spinnerAtaFisBase = new javax.swing.JSpinner();
+        spinnerHRFisBase = new javax.swing.JSpinner();
+        spinnerEvaBase = new javax.swing.JSpinner();
+        spinnerAtaMagBase = new javax.swing.JSpinner();
+        spinnerDefMagBase = new javax.swing.JSpinner();
+        spinnerHRMagBase = new javax.swing.JSpinner();
+        spinnerEvaMagBase = new javax.swing.JSpinner();
+        spinnerCritBase = new javax.swing.JSpinner();
+        spinnerMortalBase = new javax.swing.JSpinner();
+        txtNombreClase = new javax.swing.JTextField();
+        checkEnableClase = new javax.swing.JCheckBox();
+        btnGuardarClase = new javax.swing.JButton();
+        btnResetClase = new javax.swing.JButton();
+        PanelSubirNivel = new javax.swing.JPanel();
+        lblVidaNivel = new javax.swing.JLabel();
+        lblManaNivel = new javax.swing.JLabel();
+        lblAtaFisNivel = new javax.swing.JLabel();
+        lblDefFisNivel = new javax.swing.JLabel();
+        lblHRFisNivel = new javax.swing.JLabel();
+        lblEvaFisNivel = new javax.swing.JLabel();
+        lblAtaMagNivel = new javax.swing.JLabel();
+        lblDefMagNivel = new javax.swing.JLabel();
+        lblHRMagNivel = new javax.swing.JLabel();
+        lblEvaMagNivel = new javax.swing.JLabel();
+        lblCritNivel = new javax.swing.JLabel();
+        lblMortalNivel = new javax.swing.JLabel();
+        spinnerVidaNivel = new javax.swing.JSpinner();
+        spinnerManaNivel = new javax.swing.JSpinner();
+        spinnerAtaFisNivel = new javax.swing.JSpinner();
+        spinnerDefFisNivel = new javax.swing.JSpinner();
+        spinnerHRFisNivel = new javax.swing.JSpinner();
+        spinnerEvaFisNivel = new javax.swing.JSpinner();
+        spinnerAtaMagNivel = new javax.swing.JSpinner();
+        spinnerDefMagNivel = new javax.swing.JSpinner();
+        spinnerHRMagNivel = new javax.swing.JSpinner();
+        spinnerEvaMagNivel = new javax.swing.JSpinner();
+        spinnerCritNivel = new javax.swing.JSpinner();
+        spinnerMortalNivel = new javax.swing.JSpinner();
+        PanelPuntoHabilidad = new javax.swing.JPanel();
+        PanelHabFuerza = new javax.swing.JPanel();
+        lblVidaAP = new javax.swing.JLabel();
+        lblAtaFisAP = new javax.swing.JLabel();
+        spinnerVidaAP = new javax.swing.JSpinner();
+        spinnerAtaFisAP = new javax.swing.JSpinner();
+        PanelHabConst = new javax.swing.JPanel();
+        lblVidaAP2 = new javax.swing.JLabel();
+        lblManaAP = new javax.swing.JLabel();
+        spinnerVidaAP2 = new javax.swing.JSpinner();
+        spinnerManaAP = new javax.swing.JSpinner();
+        PanelHabInt = new javax.swing.JPanel();
+        lblManaAP2 = new javax.swing.JLabel();
+        lblAtaMagAP = new javax.swing.JLabel();
+        spinnerManaAP2 = new javax.swing.JSpinner();
+        spinnerAtaMagAP = new javax.swing.JSpinner();
+        PanelHabDest = new javax.swing.JPanel();
+        lblCritAP = new javax.swing.JLabel();
+        lblMortalAP = new javax.swing.JLabel();
+        spinnerCrtitAP = new javax.swing.JSpinner();
+        spinnerMortalAP = new javax.swing.JSpinner();
         PanelConfigObjetos = new javax.swing.JPanel();
-        PanelConfigArmor = new javax.swing.JPanel();
-        PanelConfigWeapon = new javax.swing.JPanel();
-        PanelConfigJewels = new javax.swing.JPanel();
-        PanelConfigFood = new javax.swing.JPanel();
-        PanelConfigMobs = new javax.swing.JPanel();
-        jComboBox2 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        classEditorPanel1 = new javax.swing.JPanel();
-        classNameLbl1 = new javax.swing.JLabel();
-        classNameTxt1 = new javax.swing.JTextField();
-        saveNewClass_btn1 = new javax.swing.JButton();
-        resetValues_btn1 = new javax.swing.JButton();
-        classNameLbl2 = new javax.swing.JLabel();
-        classNameLbl3 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox();
-        jSpinner1 = new javax.swing.JSpinner();
-        BaseClassPanel3 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        jSpinner43 = new javax.swing.JSpinner();
-        jLabel16 = new javax.swing.JLabel();
-        jSpinner44 = new javax.swing.JSpinner();
-        jLabel17 = new javax.swing.JLabel();
-        jSpinner45 = new javax.swing.JSpinner();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel5 = new javax.swing.JPanel();
-        jComboBox7 = new javax.swing.JComboBox();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel36 = new javax.swing.JLabel();
-        jComboBox8 = new javax.swing.JComboBox();
-        BaseClassPanel2 = new javax.swing.JPanel();
-        jComboBox4 = new javax.swing.JComboBox();
-        BaseClassPanel1 = new javax.swing.JPanel();
-        baseHealthLbl1 = new javax.swing.JLabel();
-        baseManaLbl1 = new javax.swing.JLabel();
-        basePhyAttLbl1 = new javax.swing.JLabel();
-        basePhyDefLbl1 = new javax.swing.JLabel();
-        basePhyHRLbl1 = new javax.swing.JLabel();
-        basePhyEvaLbl1 = new javax.swing.JLabel();
-        jSpinner35 = new javax.swing.JSpinner();
-        jSpinner36 = new javax.swing.JSpinner();
-        jSpinner37 = new javax.swing.JSpinner();
-        jSpinner38 = new javax.swing.JSpinner();
-        jSpinner39 = new javax.swing.JSpinner();
-        basePhyEvaLbl2 = new javax.swing.JLabel();
-        jSpinner40 = new javax.swing.JSpinner();
-        basePhyEvaLbl3 = new javax.swing.JLabel();
-        jSpinner41 = new javax.swing.JSpinner();
-        jSpinner42 = new javax.swing.JSpinner();
-        PanelConfigSpawners = new javax.swing.JPanel();
+        btnCrearNuevoObjeto = new javax.swing.JButton();
+        PanelEditorObjetos = new javax.swing.JPanel();
+        lblNombreObjeto = new javax.swing.JLabel();
+        txtNombreObjeto = new javax.swing.JTextField();
+        lblTipoObjeto = new javax.swing.JLabel();
+        comboTipoObjeto = new javax.swing.JComboBox();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        listDescripcionObjeto = new javax.swing.JList();
+        lblDescripObjeto = new javax.swing.JLabel();
+        txtDescripObjeto = new javax.swing.JTextField();
+        btnAnadirDesObjeto = new javax.swing.JButton();
+        btnEditarDesObjeto = new javax.swing.JButton();
+        btnEliminarDesObjeto = new javax.swing.JButton();
+        comboListaObjetos = new javax.swing.JComboBox();
+        btnEditarObjeto = new javax.swing.JButton();
+        btnEliminarObjeto = new javax.swing.JButton();
+        PanelConfigWeapon = new javax.swing.JPanel();
+        PanelMejoraArma = new javax.swing.JPanel();
+        btnGuardarConfigArma = new javax.swing.JButton();
+        lblTipoMejoradorArma = new javax.swing.JLabel();
+        lblNomMejoraArma = new javax.swing.JLabel();
+        txtNombreObjetoMejArmadura1 = new javax.swing.JTextField();
+        jComboItemArmadura1 = new javax.swing.JComboBox();
+        txtDescripcionArmadura1 = new javax.swing.JTextField();
+        lblDescripcionArma = new javax.swing.JLabel();
+        btnAnadirDescArma = new javax.swing.JButton();
+        btnEditarDEscArma = new javax.swing.JButton();
+        btnEliminarDescArma = new javax.swing.JButton();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jListDescArma = new javax.swing.JList();
+        lblProbRotArma = new javax.swing.JLabel();
+        lblProbDetArma = new javax.swing.JLabel();
+        lblProbSEArma = new javax.swing.JLabel();
+        lblProbExitoArma = new javax.swing.JLabel();
+        spinnerProbRotArma = new javax.swing.JSpinner();
+        spinnerProbDetArma = new javax.swing.JSpinner();
+        spinnerProSEArma = new javax.swing.JSpinner();
+        spinerProbExitoArma = new javax.swing.JSpinner();
+        PanelSelectorArma = new javax.swing.JPanel();
+        btnCrearNuevaArma = new javax.swing.JButton();
+        PanelEditorArma = new javax.swing.JPanel();
+        lblTipoArma = new javax.swing.JLabel();
+        comboTipoArma = new javax.swing.JComboBox();
+        lblNombreArma = new javax.swing.JLabel();
+        txtNombreArma = new javax.swing.JTextField();
+        lblNivelMinArma = new javax.swing.JLabel();
+        spinnerNivelMinArma = new javax.swing.JSpinner();
+        lblNivelIniArma = new javax.swing.JLabel();
+        spinnerNivelIniArma = new javax.swing.JSpinner();
+        lblCalidadArma = new javax.swing.JLabel();
+        comboCalidadArma = new javax.swing.JComboBox();
+        checkComerciableArma = new javax.swing.JCheckBox();
+        checkMejorableArma = new javax.swing.JCheckBox();
+        lblPrecioCArma = new javax.swing.JLabel();
+        spinnerPrecioCArma = new javax.swing.JSpinner();
+        lblPrecioVArma = new javax.swing.JLabel();
+        spinnerPrecioVArma = new javax.swing.JSpinner();
+        lblDineroExtraArma = new javax.swing.JLabel();
+        spinnerDineroExtraArma = new javax.swing.JSpinner();
+        lblExpExtraArma = new javax.swing.JLabel();
+        spinnerExpExtraArma = new javax.swing.JSpinner();
+        lblAtaFisArma = new javax.swing.JLabel();
+        spinnerAtaFisArma = new javax.swing.JSpinner();
+        lblMejAtaFisArma = new javax.swing.JLabel();
+        spinnerMejAtaFisArma = new javax.swing.JSpinner();
+        lblAtaMagArma = new javax.swing.JLabel();
+        spinnerAtaMagArma = new javax.swing.JSpinner();
+        lblMejAtaMagArma = new javax.swing.JLabel();
+        spinnerMejAtaMagArma = new javax.swing.JSpinner();
+        lblHRFisArma = new javax.swing.JLabel();
+        lblHRMagArma = new javax.swing.JLabel();
+        lblMejHRFisArma = new javax.swing.JLabel();
+        lblMejHRMagArma = new javax.swing.JLabel();
+        spinnerHRFisArma = new javax.swing.JSpinner();
+        spinnerMejHRFisArma = new javax.swing.JSpinner();
+        spinnerHRMagArma = new javax.swing.JSpinner();
+        spinnerMejHRMagArma = new javax.swing.JSpinner();
+        lblCritArma = new javax.swing.JLabel();
+        lblMejCritArma = new javax.swing.JLabel();
+        spinnerCritArma = new javax.swing.JSpinner();
+        spinnerMejCritArma = new javax.swing.JSpinner();
+        lvlRoboVArma = new javax.swing.JLabel();
+        lvlMejRoboVArma = new javax.swing.JLabel();
+        spinnerRoboVArma = new javax.swing.JSpinner();
+        spinnerMejRoboVArma = new javax.swing.JSpinner();
+        lblRoboMArma = new javax.swing.JLabel();
+        lblMejRoboMArma = new javax.swing.JLabel();
+        spinnerRoboMArma = new javax.swing.JSpinner();
+        spinnerMejRoboMArma = new javax.swing.JSpinner();
+        btnGuardarArma = new javax.swing.JButton();
+        comboListaArmas = new javax.swing.JComboBox();
+        btnEditarArma = new javax.swing.JButton();
+        btnEliminarArma = new javax.swing.JButton();
+        PanelConfigJewels = new javax.swing.JPanel();
+        PanelConfigJoyas = new javax.swing.JPanel();
+        lblProbRotJoya = new javax.swing.JLabel();
+        spinnerProbRotJoya = new javax.swing.JSpinner();
+        spinnerProbDetJoya = new javax.swing.JSpinner();
+        lblProbDetJoya = new javax.swing.JLabel();
+        lblProbSEJoya = new javax.swing.JLabel();
+        spinnerProbSEJoya = new javax.swing.JSpinner();
+        spinnerProbExitoJoya = new javax.swing.JSpinner();
+        lblProbExitoJoya = new javax.swing.JLabel();
+        btnGuardarConfigJoyas = new javax.swing.JButton();
+        PanelSelectorJoyas = new javax.swing.JPanel();
+        btnCrearNuevaJoya = new javax.swing.JButton();
+        PanelEditorJoya = new javax.swing.JPanel();
+        lblNombreJoya = new javax.swing.JLabel();
+        txtNombreJoya = new javax.swing.JTextField();
+        lblObjetoJoya = new javax.swing.JLabel();
+        comboObjetoJoya = new javax.swing.JComboBox();
+        lblCalidadJoya = new javax.swing.JLabel();
+        comboCalidadJoya = new javax.swing.JComboBox();
+        lblPrecioVJoya = new javax.swing.JLabel();
+        lblPrecioCJoya = new javax.swing.JLabel();
+        checkComerciable = new javax.swing.JCheckBox();
+        checkCombinable = new javax.swing.JCheckBox();
+        spinnerPrecioVJoya = new javax.swing.JSpinner();
+        spinnerPrecioCJoya = new javax.swing.JSpinner();
+        lblRoboMJoya = new javax.swing.JLabel();
+        lblDefFisJoya = new javax.swing.JLabel();
+        lblDefMagJoya = new javax.swing.JLabel();
+        lblHRFisJoya = new javax.swing.JLabel();
+        lblEvaFisJoya = new javax.swing.JLabel();
+        lblAtaFisJoya = new javax.swing.JLabel();
+        lblManaJoya = new javax.swing.JLabel();
+        lblManaVidaJoya = new javax.swing.JLabel();
+        lblAtaMagJoya = new javax.swing.JLabel();
+        lvlEvaMagJoya = new javax.swing.JLabel();
+        lblDineroExtraJoya = new javax.swing.JLabel();
+        lblExpExtraJoya = new javax.swing.JLabel();
+        lblHRMagJoya = new javax.swing.JLabel();
+        lblRoboVJoya = new javax.swing.JLabel();
+        spinnerDineroExtraJoya = new javax.swing.JSpinner();
+        spinnerExpExtraJoya = new javax.swing.JSpinner();
+        spinnerRoboVJoya = new javax.swing.JSpinner();
+        spinnerRoboMJoya = new javax.swing.JSpinner();
+        spinnerVidaJoya = new javax.swing.JSpinner();
+        spinnerManaJoya = new javax.swing.JSpinner();
+        spinnerAtaFisJoya = new javax.swing.JSpinner();
+        spinnerEvaFisJoya = new javax.swing.JSpinner();
+        spinnerHRFisJoya = new javax.swing.JSpinner();
+        spinnerDefFisJoya = new javax.swing.JSpinner();
+        spinnerAtaMagJoya = new javax.swing.JSpinner();
+        spinnerEvaMagJoya = new javax.swing.JSpinner();
+        spinnerHRMagJoya = new javax.swing.JSpinner();
+        spinnerDefMagJoya = new javax.swing.JSpinner();
+        comboSelectorJoyas = new javax.swing.JComboBox();
+        btnEditarJoya = new javax.swing.JButton();
+        btnEliminarJoya = new javax.swing.JButton();
+        PanelConfigSpawners = new javax.swing.JPanel();
         jComboBox5 = new javax.swing.JComboBox();
-        jButton4 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jSpinner48 = new javax.swing.JSpinner();
-        jSpinner51 = new javax.swing.JSpinner();
-        jSpinner52 = new javax.swing.JSpinner();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel20 = new javax.swing.JLabel();
-        jComboBox6 = new javax.swing.JComboBox();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jSpinner34 = new javax.swing.JSpinner();
-        jLabel24 = new javax.swing.JLabel();
-        jSpinner46 = new javax.swing.JSpinner();
-        jLabel25 = new javax.swing.JLabel();
-        jSpinner47 = new javax.swing.JSpinner();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jTextField2 = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        PanelConfigNpcs = new javax.swing.JPanel();
-        PanelConfigQuests = new javax.swing.JPanel();
+        btnEditarSpawner = new javax.swing.JButton();
+        btnEliminarSpawner = new javax.swing.JButton();
+        PanelEditorSpawner = new javax.swing.JPanel();
+        PanelLocSpawner = new javax.swing.JPanel();
+        lblMundoSpawnLoc = new javax.swing.JLabel();
+        lblXSpawnLoc = new javax.swing.JLabel();
+        lblYSpawnLoc = new javax.swing.JLabel();
+        lblZSpawnLoc = new javax.swing.JLabel();
+        txtMundoSpawnLoc = new javax.swing.JTextField();
+        spinnerXSpawnLoc = new javax.swing.JSpinner();
+        spinnerYSpawnLoc = new javax.swing.JSpinner();
+        spinnerZSpawnLoc = new javax.swing.JSpinner();
+        PanelAtribSpawner = new javax.swing.JPanel();
+        lblMobSpawner = new javax.swing.JLabel();
+        comboMobSpawner = new javax.swing.JComboBox();
+        lblRefrescoSpawner = new javax.swing.JLabel();
+        lblIdSpawner = new javax.swing.JLabel();
+        spinnerRefrescoSpawner = new javax.swing.JSpinner();
+        lblRadioSpawner = new javax.swing.JLabel();
+        spinnerRadioSpawner = new javax.swing.JSpinner();
+        lblNumMaxMobSpawner = new javax.swing.JLabel();
+        spinnerNumMaxMobSpawner = new javax.swing.JSpinner();
+        checkEnableSpawner = new javax.swing.JCheckBox();
+        comboSelectorSpawner = new javax.swing.JTextField();
+        btnGuardarSpawner = new javax.swing.JButton();
+        btnResetSpawner = new javax.swing.JButton();
+        btnCrearSpawner = new javax.swing.JButton();
+        PanelConfigGuilds = new javax.swing.JPanel();
+        btnResetConfigClan = new javax.swing.JButton();
+        btnGuardarConfigClan = new javax.swing.JButton();
+        PanelConfigClanes = new javax.swing.JPanel();
+        PanelNumJugClan = new javax.swing.JPanel();
+        rdBtnNumIlimitadosClan = new javax.swing.JRadioButton();
+        rdBtnNumFijosClan = new javax.swing.JRadioButton();
+        rdBtnLimitNivClan = new javax.swing.JRadioButton();
+        spinnerNumFijosClan = new javax.swing.JSpinner();
+        lblJugadoresClan = new javax.swing.JLabel();
+        PanelSisContNivelClan = new javax.swing.JPanel();
+        rdBtnContriSoloDon = new javax.swing.JRadioButton();
+        rdBtnContriSoloContri = new javax.swing.JRadioButton();
+        rdBtnContriAmbos = new javax.swing.JRadioButton();
+        spinnerContriPorcentajeMuertes = new javax.swing.JSpinner();
+        lblporcMuertesClan = new javax.swing.JLabel();
+        lblnivMinJugCrearClan = new javax.swing.JLabel();
+        spinnerNivelMinJugClan = new javax.swing.JSpinner();
+        PanelOpcLimNivelClan = new javax.swing.JPanel();
+        rdBtnOpcDinFijo = new javax.swing.JRadioButton();
+        rdBtnOpcDinForm = new javax.swing.JRadioButton();
+        PanelFormulaClan = new javax.swing.JPanel();
+        lblfdex = new javax.swing.JLabel();
+        spinnerformulax2clan = new javax.swing.JSpinner();
+        lblx2clan = new javax.swing.JLabel();
+        spinnerformulaxclan = new javax.swing.JSpinner();
+        lblxclan = new javax.swing.JLabel();
+        lblMaxNivelClan = new javax.swing.JLabel();
+        spinnerNivelMaxClan = new javax.swing.JSpinner();
+        btnValidarFormulaClan = new javax.swing.JButton();
+        btnResetearFormulaClan = new javax.swing.JButton();
+        lblFormJugXNivelClan = new javax.swing.JLabel();
+        spinnerFormJugXNivelClan = new javax.swing.JSpinner();
+        lblFormJugIniClan = new javax.swing.JLabel();
+        spinnerFormJugIniClan = new javax.swing.JSpinner();
+        PanelEditNivelesClan = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tablaClanes = new javax.swing.JTable();
+        btnAnadirNivel = new javax.swing.JButton();
+        btnEditarNivel = new javax.swing.JButton();
+        btnEliminarNivel = new javax.swing.JButton();
+        spinnerDineroEditClan = new javax.swing.JSpinner();
+        lblDineroEditNivelClan = new javax.swing.JLabel();
+        lblNumJugEditNivelClan = new javax.swing.JLabel();
+        spinnerNumJugEditClan = new javax.swing.JSpinner();
+        PanelConfigParties = new javax.swing.JPanel();
+        btnGuardarConfigGrupos = new javax.swing.JButton();
+        btnResetConfigGrupos = new javax.swing.JButton();
+        PanelConfigGrupos = new javax.swing.JPanel();
+        PanelNumJugGrupos = new javax.swing.JPanel();
+        spinnerNumeroFijoJugGrupo = new javax.swing.JSpinner();
+        lblJugadoresGrupo = new javax.swing.JLabel();
+        rdBtnIlimitadosGrupo = new javax.swing.JRadioButton();
+        rdBtnFijosGrupo = new javax.swing.JRadioButton();
+        PanelPvpGrupos = new javax.swing.JPanel();
+        rdBtnPermitidoPvpGrupo = new javax.swing.JRadioButton();
+        rdBtnNoPermitidoPvpGrupo = new javax.swing.JRadioButton();
+        PanelSistRepGrupos = new javax.swing.JPanel();
+        rdBtnSinRepartoGrupo = new javax.swing.JRadioButton();
+        rdBtnSoloDineroGrupo = new javax.swing.JRadioButton();
+        rdBtnSoloExpGrupo = new javax.swing.JRadioButton();
+        rdBtnAmbosGrupo = new javax.swing.JRadioButton();
+        PanelOpcRepGRupos = new javax.swing.JPanel();
+        rdBtnOpcionigualitarioGrupo = new javax.swing.JRadioButton();
+        rdBtnOpcionProporcionalGrupo = new javax.swing.JRadioButton();
+        PanelOpcRepProp = new javax.swing.JPanel();
+        rdBtnProNivelGrupo = new javax.swing.JRadioButton();
+        rdBtnProKillsGrupo = new javax.swing.JRadioButton();
+        PanelConfigArmor = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        PanelConfigArmaduras = new javax.swing.JPanel();
+        PanelSelectorArmadura = new javax.swing.JPanel();
+        jLabel107 = new javax.swing.JLabel();
+        jComboset = new javax.swing.JComboBox();
+        btnNuevoSet = new javax.swing.JButton();
+        btnEditarSet = new javax.swing.JButton();
+        btnEliminarSet = new javax.swing.JButton();
+        PanelEditarSet = new javax.swing.JPanel();
+        lblNombreSet = new javax.swing.JLabel();
+        txtNombreSet = new javax.swing.JTextField();
+        spinnerNivel = new javax.swing.JSpinner();
+        lblNivel = new javax.swing.JLabel();
+        comboMaterial = new javax.swing.JComboBox();
+        lblMaterial = new javax.swing.JLabel();
+        comboCalidad = new javax.swing.JComboBox();
+        lblCalidad = new javax.swing.JLabel();
+        checkComerciableArmadura = new javax.swing.JCheckBox();
+        checkMejorableArmadura = new javax.swing.JCheckBox();
+        PanelPechera = new javax.swing.JPanel();
+        lblDefFisPechera = new javax.swing.JLabel();
+        lblMejDefFisPechera = new javax.swing.JLabel();
+        lblMejEvaFisPechera = new javax.swing.JLabel();
+        lblEvaFisPechera = new javax.swing.JLabel();
+        spinnerDefFisPechera = new javax.swing.JSpinner();
+        spinnerMejDefFisPechera = new javax.swing.JSpinner();
+        spinnerEvaFisPechera = new javax.swing.JSpinner();
+        spinnerMejEvaFisPechera = new javax.swing.JSpinner();
+        lblPrecioVPechera = new javax.swing.JLabel();
+        spinnerPrecioVPechera = new javax.swing.JSpinner();
+        lblPrecioCPechera = new javax.swing.JLabel();
+        spinnerPrecioCPechera = new javax.swing.JSpinner();
+        lblExpExtraPechera = new javax.swing.JLabel();
+        spinnerExpExtraPechera = new javax.swing.JSpinner();
+        spinnerDineroExtraPechera = new javax.swing.JSpinner();
+        lblDineroExtraPechera = new javax.swing.JLabel();
+        PanelPantalones = new javax.swing.JPanel();
+        lblDefFisGrebas = new javax.swing.JLabel();
+        lblMejDefFisGrebas = new javax.swing.JLabel();
+        lvlMejEvaFisGrebas = new javax.swing.JLabel();
+        lblEvaFisGrebas = new javax.swing.JLabel();
+        spinnerDefFisGrebas = new javax.swing.JSpinner();
+        spinnerMejDefFisGrebas = new javax.swing.JSpinner();
+        spinnerEvaFisGrebas = new javax.swing.JSpinner();
+        spinnerMejEvaFisGrebas = new javax.swing.JSpinner();
+        lblPrecioVGrebas = new javax.swing.JLabel();
+        spinnerPrecioVGrebas = new javax.swing.JSpinner();
+        lblPrecioCGrebas = new javax.swing.JLabel();
+        spinnerPrecioCGrebas = new javax.swing.JSpinner();
+        lblExpExtraGrebas = new javax.swing.JLabel();
+        spinnerExpExtraGrebas = new javax.swing.JSpinner();
+        spinnerDineroExtraGrebas = new javax.swing.JSpinner();
+        lblDineroExtraGrebas = new javax.swing.JLabel();
+        PanelBotas = new javax.swing.JPanel();
+        lblDefFisBotas = new javax.swing.JLabel();
+        lblMejDefFisBotas = new javax.swing.JLabel();
+        lblMejEvaFisBotas = new javax.swing.JLabel();
+        lblEvaFisBotas = new javax.swing.JLabel();
+        spinnerDefFisBotas = new javax.swing.JSpinner();
+        spinnerMejDefFisBotas = new javax.swing.JSpinner();
+        spinnerEvaFisBotas = new javax.swing.JSpinner();
+        spinnerMejEvaFisBotas = new javax.swing.JSpinner();
+        lblPrecioVBotas = new javax.swing.JLabel();
+        spinnerPrecioVBotas = new javax.swing.JSpinner();
+        lblPrecioCBotas = new javax.swing.JLabel();
+        spinnerPrecioCBotas = new javax.swing.JSpinner();
+        lblExpExtraBotas = new javax.swing.JLabel();
+        spinnerExpExtraBotas = new javax.swing.JSpinner();
+        spinnerDineroExtraBotas = new javax.swing.JSpinner();
+        lblDineroExtraBotas = new javax.swing.JLabel();
+        PanelCasco = new javax.swing.JPanel();
+        lblDefFisCasco = new javax.swing.JLabel();
+        lblMejDefFisCasco = new javax.swing.JLabel();
+        lblMejEvaFisCasco = new javax.swing.JLabel();
+        lblEvaFisCasco = new javax.swing.JLabel();
+        spinnerDefFisCasco = new javax.swing.JSpinner();
+        spinnerMejDefFisCasco = new javax.swing.JSpinner();
+        spinnerEvaFisCasco = new javax.swing.JSpinner();
+        spinnerMejEvaFisCasco = new javax.swing.JSpinner();
+        lblPrecioVCasco = new javax.swing.JLabel();
+        spinnerPrecioVCasco = new javax.swing.JSpinner();
+        lblPrecioCCasco = new javax.swing.JLabel();
+        spinnerPrecioCCasco = new javax.swing.JSpinner();
+        lblExpExtraCasco = new javax.swing.JLabel();
+        spinnerExpExtraCasco = new javax.swing.JSpinner();
+        spinnerDineroExtraCasco = new javax.swing.JSpinner();
+        lblDineroExtraCasco = new javax.swing.JLabel();
+        btnGuardarSet = new javax.swing.JButton();
+        PanelMejoraArmadura = new javax.swing.JPanel();
+        btnGuardarConfigArmadura = new javax.swing.JButton();
+        lblMejoradorArmadura = new javax.swing.JLabel();
+        lblNombreMejoradorArmadura = new javax.swing.JLabel();
+        txtNombreObjetoMejArmadura = new javax.swing.JTextField();
+        comboMejoradorArmadura = new javax.swing.JComboBox();
+        txtDescripcionArmadura = new javax.swing.JTextField();
+        lblDescripcionMejoradorArmadura = new javax.swing.JLabel();
+        btnAnadirDescArmadura = new javax.swing.JButton();
+        btnEditarDEscArmadura = new javax.swing.JButton();
+        btnEliminarDescArmadura = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jListDescArmadura = new javax.swing.JList();
+        lblProbRotArmadura = new javax.swing.JLabel();
+        lblProbDetArmadura = new javax.swing.JLabel();
+        lblProbSEArmadura = new javax.swing.JLabel();
+        lblProbExitoArmadura = new javax.swing.JLabel();
+        spinnerProbRotArmadura = new javax.swing.JSpinner();
+        spinnerProbDetArmadura = new javax.swing.JSpinner();
+        spinnerProbSEArmadura = new javax.swing.JSpinner();
+        spinnerProbExitoArmadura = new javax.swing.JSpinner();
+        PanelConfigMobs = new javax.swing.JPanel();
+        comboSelectorMobs = new javax.swing.JComboBox();
+        btnNuevoMob = new javax.swing.JButton();
+        btnEditMob = new javax.swing.JButton();
+        btnEliminarMob = new javax.swing.JButton();
+        PanelEditorMobs = new javax.swing.JPanel();
+        lblNombreMob = new javax.swing.JLabel();
+        txtNombreMob = new javax.swing.JTextField();
+        btnGuardarMob = new javax.swing.JButton();
+        btnResetearMob = new javax.swing.JButton();
+        lblNivelMob = new javax.swing.JLabel();
+        lblTipoMob = new javax.swing.JLabel();
+        comboSelectorTipoMob = new javax.swing.JComboBox();
+        spinnerNivelMob = new javax.swing.JSpinner();
+        PanelComportamientoMob = new javax.swing.JPanel();
+        comboComportamiento = new javax.swing.JComboBox();
+        PanelDropsMobs = new javax.swing.JPanel();
+        PanelDropsObjetosMobs = new javax.swing.JPanel();
+        comboObjetoDropMob = new javax.swing.JComboBox();
+        lblObjetoDropMob = new javax.swing.JLabel();
+        lblCantidadDropMob = new javax.swing.JLabel();
+        lblProbDropMob = new javax.swing.JLabel();
+        spinnerCantidadDropMob = new javax.swing.JSpinner();
+        spinnerProbDropMob = new javax.swing.JSpinner();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tablaDropsMob = new javax.swing.JTable();
+        lblTipoDropMob = new javax.swing.JLabel();
+        comboTipoDropMob = new javax.swing.JComboBox();
+        btnAnadirDropMob = new javax.swing.JButton();
+        btnEditarDropMob = new javax.swing.JButton();
+        btnEliminarDropMob = new javax.swing.JButton();
+        PanelDropsDefault = new javax.swing.JPanel();
+        spinnerDineroDropMob = new javax.swing.JSpinner();
+        spinnerExpDropMob = new javax.swing.JSpinner();
+        lblDineroDropMob = new javax.swing.JLabel();
+        lblExpDropMob = new javax.swing.JLabel();
+        PanelAtaqueMobs = new javax.swing.JPanel();
+        comboTipoAtaqueMob = new javax.swing.JComboBox();
+        PanelAtributosMobs = new javax.swing.JPanel();
+        lblAtaFisMob = new javax.swing.JLabel();
+        lblAtaDistMob = new javax.swing.JLabel();
+        lblVelocidadMob = new javax.swing.JLabel();
+        lblVelocidadAtaqueMob = new javax.swing.JLabel();
+        lblRetrocesoMob = new javax.swing.JLabel();
+        lblRangoSeguiMob = new javax.swing.JLabel();
+        spinnerAtaDistMob = new javax.swing.JSpinner();
+        spinnerVelocidadMob = new javax.swing.JSpinner();
+        spinnerVelocidadAtaqueMob = new javax.swing.JSpinner();
+        spinnerRetrocesoMob = new javax.swing.JSpinner();
+        spinnerRangoSeguiMob = new javax.swing.JSpinner();
+        lblMaxVidaMob = new javax.swing.JLabel();
+        spinnerMaxVidaMob = new javax.swing.JSpinner();
+        lblFuerzaDistMob = new javax.swing.JLabel();
+        spinnerFuerzaDistMob = new javax.swing.JSpinner();
+        spinnerAtaFisMob = new javax.swing.JSpinner();
+
+        btngroupNumJugGrupo.add(rdBtnIlimitadosGrupo);
+        btngroupNumJugGrupo.add(rdBtnFijosGrupo);
+
+        btngroupPvpGrupo.add(rdBtnPermitidoPvpGrupo);
+        btngroupPvpGrupo.add(rdBtnNoPermitidoPvpGrupo);
+
+        btngroupRepartoGrupo.add(rdBtnSinRepartoGrupo);
+        btngroupRepartoGrupo.add(rdBtnSoloDineroGrupo);
+        btngroupRepartoGrupo.add(rdBtnSoloExpGrupo);
+        btngroupRepartoGrupo.add(rdBtnAmbosGrupo);
+
+        btnGroupOpcionRepartoGrupo.add(rdBtnOpcionigualitarioGrupo);
+        btnGroupOpcionRepartoGrupo.add(rdBtnOpcionProporcionalGrupo);
+
+        btngroupOpcionRepartoPropGrupo.add(rdBtnProNivelGrupo);
+        btngroupOpcionRepartoPropGrupo.add(rdBtnProKillsGrupo);
+
+        btngroupNumJugClan.add(rdBtnNumIlimitadosClan);
+        btngroupNumJugClan.add(rdBtnNumFijosClan);
+        btngroupNumJugClan.add(rdBtnLimitNivClan);
+
+        btngroupOpcLimNivelClan.add(rdBtnOpcDinFijo);
+        btngroupOpcLimNivelClan.add(rdBtnOpcDinForm);
+
+        btngroupSistContrClan.add(rdBtnContriAmbos);
+        btngroupSistContrClan.add(rdBtnContriSoloContri);
+        btngroupSistContrClan.add(rdBtnContriSoloDon);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(1000, 800));
+        setMinimumSize(new java.awt.Dimension(600, 400));
 
         PanelConfig.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         PanelConfig.setTabPlacement(javax.swing.JTabbedPane.LEFT);
         PanelConfig.setToolTipText("");
         PanelConfig.setAutoscrolls(true);
         PanelConfig.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        PanelConfig.setMaximumSize(new java.awt.Dimension(1000, 600));
+        PanelConfig.setMinimumSize(new java.awt.Dimension(800, 500));
+        PanelConfig.setPreferredSize(new java.awt.Dimension(1000, 600));
 
         PanelInicio.setPreferredSize(new java.awt.Dimension(800, 600));
 
-        jButton2.setText("jButton2");
+        btnprueba.setText("jButton2");
+        btnprueba.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnpruebaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelInicioLayout = new javax.swing.GroupLayout(PanelInicio);
         PanelInicio.setLayout(PanelInicioLayout);
         PanelInicioLayout.setHorizontalGroup(
             PanelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelInicioLayout.createSequentialGroup()
-                .addGap(109, 109, 109)
-                .addComponent(jButton2)
-                .addContainerGap(751, Short.MAX_VALUE))
+                .addGap(122, 122, 122)
+                .addComponent(btnprueba)
+                .addContainerGap(732, Short.MAX_VALUE))
         );
         PanelInicioLayout.setVerticalGroup(
             PanelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelInicioLayout.createSequentialGroup()
-                .addGap(170, 170, 170)
-                .addComponent(jButton2)
-                .addContainerGap(961, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addComponent(btnprueba)
+                .addContainerGap(533, Short.MAX_VALUE))
         );
 
-        PanelConfig.addTab("inicio", PanelInicio);
+        PanelConfig.addTab("Inicio", PanelInicio);
 
         PanelConfigGeneral.setPreferredSize(new java.awt.Dimension(800, 600));
 
-        CBHungerSystem.setText("Original hunger system");
+        checkSistHambre.setText("Sistema original de hambre");
+
+        checkDanioCaida.setText("Daño por caida");
+
+        checkDanioAhogo.setText("Daño por ahogamiento");
+
+        checkClanes.setSelected(true);
+        checkClanes.setText("Habilitar/Deshabilitar clanes");
+        checkClanes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkClanesActionPerformed(evt);
+            }
+        });
+
+        checkEnableGrupos.setSelected(true);
+        checkEnableGrupos.setText("Habilitar/Deshabilitar grupos");
 
         javax.swing.GroupLayout PanelConfigGeneralLayout = new javax.swing.GroupLayout(PanelConfigGeneral);
         PanelConfigGeneral.setLayout(PanelConfigGeneralLayout);
@@ -419,84 +826,97 @@ public class GUI extends javax.swing.JFrame {
             PanelConfigGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelConfigGeneralLayout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(CBHungerSystem)
-                .addContainerGap(783, Short.MAX_VALUE))
+                .addGroup(PanelConfigGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(checkEnableGrupos)
+                    .addComponent(checkClanes)
+                    .addComponent(checkDanioAhogo)
+                    .addComponent(checkDanioCaida)
+                    .addComponent(checkSistHambre))
+                .addContainerGap(741, Short.MAX_VALUE))
         );
         PanelConfigGeneralLayout.setVerticalGroup(
             PanelConfigGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelConfigGeneralLayout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(CBHungerSystem)
-                .addContainerGap(1101, Short.MAX_VALUE))
+                .addGap(33, 33, 33)
+                .addComponent(checkSistHambre)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkDanioCaida)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkDanioAhogo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkClanes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkEnableGrupos)
+                .addContainerGap(447, Short.MAX_VALUE))
         );
 
-        PanelConfig.addTab("general", PanelConfigGeneral);
+        PanelConfig.addTab("General", PanelConfigGeneral);
 
-        lvlLabelFunction2.setText("x³+");
+        lblx3Nivel.setText("x³+");
 
-        lvlLabelFunction3.setText("x²+");
+        lblx2Nivel.setText("x²+");
 
-        lvlLabelFunction4.setText("x");
+        lblxNivel.setText("x");
 
-        lvlLabelFunction1.setText("f(x)=");
+        lblFdeXNivel.setText("f(x)=");
 
-        lvlValidateFunction.setText("Validate");
-        lvlValidateFunction.addActionListener(new java.awt.event.ActionListener() {
+        btnValidarFormulaNiveles.setText("Validar");
+        btnValidarFormulaNiveles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lvlValidateFunctionActionPerformed(evt);
+                btnValidarFormulaNivelesActionPerformed(evt);
             }
         });
 
-        lvlSaveConfig.setText("Save");
-        lvlSaveConfig.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardarConfigNiveles.setText("Guardar");
+        btnGuardarConfigNiveles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lvlSaveConfigActionPerformed(evt);
+                btnGuardarConfigNivelesActionPerformed(evt);
             }
         });
 
-        lvlInfo1.setText("In order to create a leveling formule, we need to set up the experience we need to get a new level:");
+        lblInfoNivel.setText("Para crear una formula de niveles rellenar los huecos con números, acepta decimales");
 
-        lvlInfo2.setText("The result f(x) represents the total of player experience need to level in a X level");
+        lblInfoNivel2.setText("El resultado de la formula representa el total de experiencia que necesita el jugador para alcanzar el nivel X");
 
-        lvlDrawGraph.setText("Draw graph");
-        lvlDrawGraph.addActionListener(new java.awt.event.ActionListener() {
+        btnDibujarGraficoNiveles.setText("Dibujar gráfico");
+        btnDibujarGraficoNiveles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lvlDrawGraphActionPerformed(evt);
+                btnDibujarGraficoNivelesActionPerformed(evt);
             }
         });
 
-        lvlInfoMaxLevel.setText("Select max level you want to preview");
+        lblInfoNivelMaxNivel.setText("Selecciona el nivel máximo que el jugador alcanzará");
 
-        lvl_ValueA.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
-        lvl_ValueA.setAutoscrolls(true);
+        txtX3Nivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        txtX3Nivel.setAutoscrolls(true);
 
-        lvl_ValueB.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        txtX2Nivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        lvl_ValueC.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        txtXNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        lvl_MaxLevel.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
-        lvl_MaxLevel.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        lblMaxNivelNivel.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        lblMaxNivelNivel.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                lvl_MaxLevelPropertyChange(evt);
+                lblMaxNivelNivelPropertyChange(evt);
             }
         });
 
-        lvlPanelGraph.setBorder(javax.swing.BorderFactory.createTitledBorder("Graph"));
+        PanelGraficosNivel.setBorder(javax.swing.BorderFactory.createTitledBorder("Gráfico"));
 
-        javax.swing.GroupLayout lvlPanelGraphLayout = new javax.swing.GroupLayout(lvlPanelGraph);
-        lvlPanelGraph.setLayout(lvlPanelGraphLayout);
-        lvlPanelGraphLayout.setHorizontalGroup(
-            lvlPanelGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout PanelGraficosNivelLayout = new javax.swing.GroupLayout(PanelGraficosNivel);
+        PanelGraficosNivel.setLayout(PanelGraficosNivelLayout);
+        PanelGraficosNivelLayout.setHorizontalGroup(
+            PanelGraficosNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        lvlPanelGraphLayout.setVerticalGroup(
-            lvlPanelGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        PanelGraficosNivelLayout.setVerticalGroup(
+            PanelGraficosNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        PanelLevelExperience.setBorder(javax.swing.BorderFactory.createTitledBorder("Experience Table"));
+        PanelNivelExpNivel.setBorder(javax.swing.BorderFactory.createTitledBorder("Tabla de experiencia"));
 
-        lvl_TablaExpLvl.setModel(new javax.swing.table.DefaultTableModel(
+        tablaExpNivel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -504,18 +924,18 @@ public class GUI extends javax.swing.JFrame {
 
             }
         ));
-        lvl_TablaExpLvl.setColumnSelectionAllowed(true);
-        jScrollPane1.setViewportView(lvl_TablaExpLvl);
+        tablaExpNivel.setColumnSelectionAllowed(true);
+        jScrollPane1.setViewportView(tablaExpNivel);
 
-        javax.swing.GroupLayout PanelLevelExperienceLayout = new javax.swing.GroupLayout(PanelLevelExperience);
-        PanelLevelExperience.setLayout(PanelLevelExperienceLayout);
-        PanelLevelExperienceLayout.setHorizontalGroup(
-            PanelLevelExperienceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout PanelNivelExpNivelLayout = new javax.swing.GroupLayout(PanelNivelExpNivel);
+        PanelNivelExpNivel.setLayout(PanelNivelExpNivelLayout);
+        PanelNivelExpNivelLayout.setHorizontalGroup(
+            PanelNivelExpNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
         );
-        PanelLevelExperienceLayout.setVerticalGroup(
-            PanelLevelExperienceLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 997, Short.MAX_VALUE)
+        PanelNivelExpNivelLayout.setVerticalGroup(
+            PanelNivelExpNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout PanelConfigLevelLayout = new javax.swing.GroupLayout(PanelConfigLevel);
@@ -527,670 +947,660 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(PanelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelConfigLevelLayout.createSequentialGroup()
                         .addGroup(PanelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lvlInfo1, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE)
-                            .addComponent(lvlInfo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lblInfoNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblInfoNivel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(177, 177, 177))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelConfigLevelLayout.createSequentialGroup()
                         .addGroup(PanelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(PanelConfigLevelLayout.createSequentialGroup()
-                                .addComponent(lvlPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(PanelGraficosNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(PanelLevelExperience, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(PanelNivelExpNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(PanelConfigLevelLayout.createSequentialGroup()
                                 .addGroup(PanelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(PanelConfigLevelLayout.createSequentialGroup()
                                         .addGap(2, 2, 2)
-                                        .addComponent(lvlLabelFunction1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblFdeXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lvl_ValueA, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtX3Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lvlLabelFunction2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblx3Nivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lvl_ValueB, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(lvlInfoMaxLevel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(txtX2Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblInfoNivelMaxNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(PanelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(PanelConfigLevelLayout.createSequentialGroup()
-                                        .addComponent(lvlLabelFunction3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblMaxNivelNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(363, 363, 363))
+                                    .addGroup(PanelConfigLevelLayout.createSequentialGroup()
+                                        .addComponent(lblx2Nivel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lvl_ValueC, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lvlLabelFunction4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(lvl_MaxLevel))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lvlValidateFunction, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lvlDrawGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lvlSaveConfig, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                        .addComponent(lblxNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnValidarFormulaNiveles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnDibujarGraficoNiveles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnGuardarConfigNiveles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(102, 102, 102)))))
                         .addGap(18, 18, 18))))
         );
         PanelConfigLevelLayout.setVerticalGroup(
             PanelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelConfigLevelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lvlInfo1)
+                .addComponent(lblInfoNivel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lvlInfo2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PanelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lvlLabelFunction2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lvl_ValueA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lvlLabelFunction1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lvl_ValueB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lvlLabelFunction3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lvl_ValueC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lvlLabelFunction4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lvlValidateFunction, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lvlDrawGraph)
-                    .addComponent(lvlSaveConfig, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(10, 10, 10)
-                .addGroup(PanelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lvlInfoMaxLevel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lvl_MaxLevel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lblInfoNivel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PanelLevelExperience, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lvlPanelGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PanelConfigLevelLayout.createSequentialGroup()
+                        .addGroup(PanelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblx3Nivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtX3Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblFdeXNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtX2Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(13, 13, 13))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelConfigLevelLayout.createSequentialGroup()
+                        .addGroup(PanelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblx2Nivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblxNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnValidarFormulaNiveles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDibujarGraficoNiveles)
+                            .addComponent(btnGuardarConfigNiveles, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addGroup(PanelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblInfoNivelMaxNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblMaxNivelNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PanelNivelExpNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelGraficosNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        PanelConfig.addTab("Leveling", PanelConfigLevel);
+        PanelConfig.addTab("Niveles", PanelConfigLevel);
 
         PanelConfigClases.setAutoscrolls(true);
         PanelConfigClases.setName(""); // NOI18N
         PanelConfigClases.setPreferredSize(new java.awt.Dimension(800, 600));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboSelectorClases.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        createNewClassbtn.setText("Add");
+        btnCrearNuevaClase.setText("Nueva clase");
 
-        editClassbtn.setText("Edit");
-        editClassbtn.addActionListener(new java.awt.event.ActionListener() {
+        btnEditarClase.setText("Editar");
+        btnEditarClase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editClassbtnActionPerformed(evt);
+                btnEditarClaseActionPerformed(evt);
             }
         });
 
-        deleteClassbtn.setText("Delete");
+        btnEliminarClase.setText("Eliminar");
 
-        classEditorPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Class Editor"));
-        classEditorPanel.setName("Class Editor"); // NOI18N
+        PanelEditorClase.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de clases"));
+        PanelEditorClase.setName("Class Editor"); // NOI18N
 
-        classNameLbl.setText("Class name");
+        lblNombreClase.setText("Nombre");
 
-        BaseClassPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Class Base Attributes"));
+        PanelAtribBasicoClase.setBorder(javax.swing.BorderFactory.createTitledBorder("Atributos base"));
 
-        baseHealthLbl.setText("Health");
+        lblVidaBase.setText("Vida máxima");
 
-        baseManaLbl.setText("Mana");
+        lblManaBase.setText("Mana");
 
-        basePhyAttLbl.setText("Physical Attack");
+        lblAtaFisBase.setText("Ataque físico");
 
-        basePhyDefLbl.setText("Physical Defense");
+        lblDefFisBase.setText("Defensa física");
 
-        basePhyHRLbl.setText("Physical Hit Rate");
+        lblHRFisBase.setText("Tasa de acierto físico");
 
-        basePhyEvaLbl.setText("Physical Evasion");
+        lblEvaFisBase.setText("Evasión física");
 
-        baseMagAttLbl.setText("Magical Attack");
+        lblAtaMagBase.setText("Ataque mágico");
 
-        baseMagDefLbl.setText("Magical Defense");
+        lblDefMagBase.setText("Defensa mágica");
 
-        baseMagHRLbl.setText("Magical Hit Rate");
+        lblHRMagBase.setText("Tasa de acierto mágico");
 
-        baseMagEvaLbl.setText("Magical Evasion");
+        lblEvaMagBase.setText("Evasión mágica");
 
-        baseCritLbl.setText("Critical");
+        lblCritBase.setText("Crítico");
 
-        baseDeadLbl.setText("Deadly");
+        lblMortalBase.setText("Mortal");
 
-        jSpinner2.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerMaxVidaBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner3.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerMaxManaBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner4.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerDefFisBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner5.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerAtaFisBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner6.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerHRFisBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner7.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerEvaBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner8.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerAtaMagBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner9.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerDefMagBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner10.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerHRMagBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner11.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerEvaMagBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner12.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerCritBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner13.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerMortalBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        javax.swing.GroupLayout BaseClassPanelLayout = new javax.swing.GroupLayout(BaseClassPanel);
-        BaseClassPanel.setLayout(BaseClassPanelLayout);
-        BaseClassPanelLayout.setHorizontalGroup(
-            BaseClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BaseClassPanelLayout.createSequentialGroup()
-                .addGroup(BaseClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(BaseClassPanelLayout.createSequentialGroup()
-                        .addComponent(baseHealthLbl)
+        javax.swing.GroupLayout PanelAtribBasicoClaseLayout = new javax.swing.GroupLayout(PanelAtribBasicoClase);
+        PanelAtribBasicoClase.setLayout(PanelAtribBasicoClaseLayout);
+        PanelAtribBasicoClaseLayout.setHorizontalGroup(
+            PanelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelAtribBasicoClaseLayout.createSequentialGroup()
+                .addGroup(PanelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelAtribBasicoClaseLayout.createSequentialGroup()
+                        .addComponent(lblVidaBase)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner2))
-                    .addGroup(BaseClassPanelLayout.createSequentialGroup()
-                        .addComponent(baseManaLbl)
+                        .addComponent(spinnerMaxVidaBase))
+                    .addGroup(PanelAtribBasicoClaseLayout.createSequentialGroup()
+                        .addComponent(lblManaBase)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner3))
-                    .addGroup(BaseClassPanelLayout.createSequentialGroup()
-                        .addComponent(basePhyDefLbl)
+                        .addComponent(spinnerMaxManaBase))
+                    .addGroup(PanelAtribBasicoClaseLayout.createSequentialGroup()
+                        .addComponent(lblDefFisBase)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner4))
-                    .addGroup(BaseClassPanelLayout.createSequentialGroup()
-                        .addComponent(basePhyAttLbl)
+                        .addComponent(spinnerDefFisBase))
+                    .addGroup(PanelAtribBasicoClaseLayout.createSequentialGroup()
+                        .addComponent(lblAtaFisBase)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner5))
-                    .addGroup(BaseClassPanelLayout.createSequentialGroup()
-                        .addComponent(basePhyHRLbl)
+                        .addComponent(spinnerAtaFisBase))
+                    .addGroup(PanelAtribBasicoClaseLayout.createSequentialGroup()
+                        .addComponent(lblHRFisBase)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner6))
-                    .addGroup(BaseClassPanelLayout.createSequentialGroup()
-                        .addComponent(basePhyEvaLbl)
+                        .addComponent(spinnerHRFisBase))
+                    .addGroup(PanelAtribBasicoClaseLayout.createSequentialGroup()
+                        .addComponent(lblEvaFisBase)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner7))
-                    .addGroup(BaseClassPanelLayout.createSequentialGroup()
-                        .addComponent(baseMagAttLbl)
+                        .addComponent(spinnerEvaBase))
+                    .addGroup(PanelAtribBasicoClaseLayout.createSequentialGroup()
+                        .addComponent(lblAtaMagBase)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner8))
-                    .addGroup(BaseClassPanelLayout.createSequentialGroup()
-                        .addComponent(baseMagDefLbl)
+                        .addComponent(spinnerAtaMagBase))
+                    .addGroup(PanelAtribBasicoClaseLayout.createSequentialGroup()
+                        .addComponent(lblDefMagBase)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner9))
-                    .addGroup(BaseClassPanelLayout.createSequentialGroup()
-                        .addComponent(baseMagHRLbl)
+                        .addComponent(spinnerDefMagBase))
+                    .addGroup(PanelAtribBasicoClaseLayout.createSequentialGroup()
+                        .addComponent(lblHRMagBase)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner10))
-                    .addGroup(BaseClassPanelLayout.createSequentialGroup()
-                        .addComponent(baseMagEvaLbl)
+                        .addComponent(spinnerHRMagBase))
+                    .addGroup(PanelAtribBasicoClaseLayout.createSequentialGroup()
+                        .addComponent(lblEvaMagBase)
                         .addGap(12, 12, 12)
-                        .addComponent(jSpinner11))
-                    .addGroup(BaseClassPanelLayout.createSequentialGroup()
-                        .addComponent(baseDeadLbl)
+                        .addComponent(spinnerEvaMagBase))
+                    .addGroup(PanelAtribBasicoClaseLayout.createSequentialGroup()
+                        .addComponent(lblMortalBase)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner13))
-                    .addGroup(BaseClassPanelLayout.createSequentialGroup()
-                        .addComponent(baseCritLbl)
+                        .addComponent(spinnerMortalBase))
+                    .addGroup(PanelAtribBasicoClaseLayout.createSequentialGroup()
+                        .addComponent(lblCritBase)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner12)))
+                        .addComponent(spinnerCritBase)))
                 .addContainerGap())
         );
-        BaseClassPanelLayout.setVerticalGroup(
-            BaseClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BaseClassPanelLayout.createSequentialGroup()
+        PanelAtribBasicoClaseLayout.setVerticalGroup(
+            PanelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelAtribBasicoClaseLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(BaseClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(baseHealthLbl)
-                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblVidaBase)
+                    .addComponent(spinnerMaxVidaBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(baseManaLbl)
-                    .addComponent(jSpinner3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblManaBase)
+                    .addComponent(spinnerMaxManaBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(basePhyAttLbl)
-                    .addComponent(jSpinner5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAtaFisBase)
+                    .addComponent(spinnerAtaFisBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(basePhyDefLbl)
-                    .addComponent(jSpinner4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDefFisBase)
+                    .addComponent(spinnerDefFisBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(basePhyHRLbl)
-                    .addComponent(jSpinner6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblHRFisBase)
+                    .addComponent(spinnerHRFisBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(basePhyEvaLbl)
-                    .addComponent(jSpinner7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEvaFisBase)
+                    .addComponent(spinnerEvaBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(baseMagAttLbl)
-                    .addComponent(jSpinner8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAtaMagBase)
+                    .addComponent(spinnerAtaMagBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(baseMagDefLbl)
-                    .addComponent(jSpinner9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDefMagBase)
+                    .addComponent(spinnerDefMagBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(baseMagHRLbl)
-                    .addComponent(jSpinner10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblHRMagBase)
+                    .addComponent(spinnerHRMagBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(baseMagEvaLbl)
-                    .addComponent(jSpinner11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEvaMagBase)
+                    .addComponent(spinnerEvaMagBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(baseCritLbl)
-                    .addComponent(jSpinner12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCritBase)
+                    .addComponent(spinnerCritBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(baseDeadLbl)
-                    .addComponent(jSpinner13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMortalBase)
+                    .addComponent(spinnerMortalBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        classNameTxt.setText("jTextField1");
-        classNameTxt.addActionListener(new java.awt.event.ActionListener() {
+        checkEnableClase.setText("Habilitado/Deshabilitado");
+
+        btnGuardarClase.setText("Guardar");
+        btnGuardarClase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                classNameTxtActionPerformed(evt);
+                btnGuardarClaseActionPerformed(evt);
             }
         });
 
-        enabledClassCheck.setText("Enabled");
-        enabledClassCheck.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                enabledClassCheckActionPerformed(evt);
-            }
-        });
+        btnResetClase.setText("Resetear");
 
-        saveNewClass_btn.setText("Save");
-        saveNewClass_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveNewClass_btnActionPerformed(evt);
-            }
-        });
+        PanelSubirNivel.setBorder(javax.swing.BorderFactory.createTitledBorder(" Incremento de atributos por nivel"));
 
-        resetValues_btn.setText("Reset");
+        lblVidaNivel.setText("Vida");
 
-        LvlUpPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Level Up Attributes Increment"));
+        lblManaNivel.setText("Mana");
 
-        jLabel2.setText("Health");
+        lblAtaFisNivel.setText("Ataque físico");
 
-        jLabel3.setText("Mana");
+        lblDefFisNivel.setText("defensa física");
 
-        jLabel4.setText("Physical Attack");
+        lblHRFisNivel.setText("Tasa de acierto físico");
 
-        jLabel5.setText("Physical Defense");
+        lblEvaFisNivel.setText("Evasión física");
 
-        jLabel6.setText("Physical Hit Rate");
+        lblAtaMagNivel.setText("Ataque mágico");
 
-        jLabel7.setText("Physical Evasion");
+        lblDefMagNivel.setText("Defensa mágica");
 
-        jLabel8.setText("Magical Attack");
+        lblHRMagNivel.setText("Tasa de acierto mágico");
 
-        jLabel9.setText("Magical Defense");
+        lblEvaMagNivel.setText("Evasión mágica");
 
-        jLabel10.setText("Magical Hit Rate");
+        lblCritNivel.setText("Crítico");
 
-        jLabel11.setText("Magical Evasion");
+        lblMortalNivel.setText("Mortal");
 
-        jLabel12.setText("Critical");
+        spinnerVidaNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jLabel13.setText("Deadly");
+        spinnerManaNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner14.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerAtaFisNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner15.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerDefFisNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner16.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerHRFisNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner17.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerEvaFisNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner18.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerAtaMagNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner19.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerDefMagNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner20.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerHRMagNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner21.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerEvaMagNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner22.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerCritNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner23.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerMortalNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        jSpinner24.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
-
-        jSpinner25.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
-
-        javax.swing.GroupLayout LvlUpPanelLayout = new javax.swing.GroupLayout(LvlUpPanel);
-        LvlUpPanel.setLayout(LvlUpPanelLayout);
-        LvlUpPanelLayout.setHorizontalGroup(
-            LvlUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(LvlUpPanelLayout.createSequentialGroup()
-                .addGroup(LvlUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(LvlUpPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel4)
+        javax.swing.GroupLayout PanelSubirNivelLayout = new javax.swing.GroupLayout(PanelSubirNivel);
+        PanelSubirNivel.setLayout(PanelSubirNivelLayout);
+        PanelSubirNivelLayout.setHorizontalGroup(
+            PanelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSubirNivelLayout.createSequentialGroup()
+                .addGroup(PanelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelSubirNivelLayout.createSequentialGroup()
+                        .addComponent(lblAtaFisNivel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner16))
-                    .addGroup(LvlUpPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                        .addComponent(spinnerAtaFisNivel))
+                    .addGroup(PanelSubirNivelLayout.createSequentialGroup()
+                        .addComponent(lblDefFisNivel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner17))
-                    .addGroup(LvlUpPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
+                        .addComponent(spinnerDefFisNivel, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                    .addGroup(PanelSubirNivelLayout.createSequentialGroup()
+                        .addComponent(lblHRFisNivel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner18))
-                    .addGroup(LvlUpPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel7)
+                        .addComponent(spinnerHRFisNivel))
+                    .addGroup(PanelSubirNivelLayout.createSequentialGroup()
+                        .addComponent(lblEvaFisNivel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner19))
-                    .addGroup(LvlUpPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel8)
+                        .addComponent(spinnerEvaFisNivel))
+                    .addGroup(PanelSubirNivelLayout.createSequentialGroup()
+                        .addComponent(lblAtaMagNivel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner20))
-                    .addGroup(LvlUpPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel11)
+                        .addComponent(spinnerAtaMagNivel))
+                    .addGroup(PanelSubirNivelLayout.createSequentialGroup()
+                        .addComponent(lblEvaMagNivel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner23))
-                    .addGroup(LvlUpPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel12)
+                        .addComponent(spinnerEvaMagNivel))
+                    .addGroup(PanelSubirNivelLayout.createSequentialGroup()
+                        .addComponent(lblCritNivel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner24))
-                    .addGroup(LvlUpPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel13)
+                        .addComponent(spinnerCritNivel))
+                    .addGroup(PanelSubirNivelLayout.createSequentialGroup()
+                        .addComponent(lblMortalNivel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner25))
-                    .addGroup(LvlUpPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel9)
+                        .addComponent(spinnerMortalNivel))
+                    .addGroup(PanelSubirNivelLayout.createSequentialGroup()
+                        .addComponent(lblDefMagNivel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner21))
-                    .addGroup(LvlUpPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel10)
+                        .addComponent(spinnerDefMagNivel))
+                    .addGroup(PanelSubirNivelLayout.createSequentialGroup()
+                        .addComponent(lblHRMagNivel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner22)))
+                        .addComponent(spinnerHRMagNivel)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LvlUpPanelLayout.createSequentialGroup()
-                .addGroup(LvlUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, LvlUpPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel3)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelSubirNivelLayout.createSequentialGroup()
+                .addGroup(PanelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelSubirNivelLayout.createSequentialGroup()
+                        .addComponent(lblManaNivel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner15))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, LvlUpPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(spinnerManaNivel))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelSubirNivelLayout.createSequentialGroup()
+                        .addComponent(lblVidaNivel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner14)))
+                        .addComponent(spinnerVidaNivel)))
                 .addGap(10, 10, 10))
         );
-        LvlUpPanelLayout.setVerticalGroup(
-            LvlUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(LvlUpPanelLayout.createSequentialGroup()
+        PanelSubirNivelLayout.setVerticalGroup(
+            PanelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSubirNivelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(LvlUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jSpinner14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblVidaNivel)
+                    .addComponent(spinnerVidaNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(9, 9, 9)
-                .addGroup(LvlUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jSpinner15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblManaNivel)
+                    .addComponent(spinnerManaNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(LvlUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jSpinner16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAtaFisNivel)
+                    .addComponent(spinnerAtaFisNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(LvlUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jSpinner17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDefFisNivel)
+                    .addComponent(spinnerDefFisNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(LvlUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jSpinner18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblHRFisNivel)
+                    .addComponent(spinnerHRFisNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(LvlUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jSpinner19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEvaFisNivel)
+                    .addComponent(spinnerEvaFisNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(LvlUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jSpinner20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAtaMagNivel)
+                    .addComponent(spinnerAtaMagNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(LvlUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jSpinner21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDefMagNivel)
+                    .addComponent(spinnerDefMagNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(LvlUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(jSpinner22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblHRMagNivel)
+                    .addComponent(spinnerHRMagNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(LvlUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(jSpinner23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblEvaMagNivel)
+                    .addComponent(spinnerEvaMagNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(LvlUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jSpinner24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCritNivel)
+                    .addComponent(spinnerCritNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(LvlUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jSpinner25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMortalNivel)
+                    .addComponent(spinnerMortalNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+
+        PanelPuntoHabilidad.setBorder(javax.swing.BorderFactory.createTitledBorder("Incremento de atributos por punto de habilidad"));
+
+        PanelHabFuerza.setBorder(javax.swing.BorderFactory.createTitledBorder("Punto de habilidad de fuerza"));
+
+        lblVidaAP.setText("Vida");
+
+        lblAtaFisAP.setText("Ataque físico");
+
+        spinnerVidaAP.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+
+        spinnerAtaFisAP.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+
+        javax.swing.GroupLayout PanelHabFuerzaLayout = new javax.swing.GroupLayout(PanelHabFuerza);
+        PanelHabFuerza.setLayout(PanelHabFuerzaLayout);
+        PanelHabFuerzaLayout.setHorizontalGroup(
+            PanelHabFuerzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelHabFuerzaLayout.createSequentialGroup()
+                .addGroup(PanelHabFuerzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelHabFuerzaLayout.createSequentialGroup()
+                        .addComponent(lblVidaAP)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(spinnerVidaAP))
+                    .addGroup(PanelHabFuerzaLayout.createSequentialGroup()
+                        .addComponent(lblAtaFisAP)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(spinnerAtaFisAP)))
+                .addContainerGap())
+        );
+        PanelHabFuerzaLayout.setVerticalGroup(
+            PanelHabFuerzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelHabFuerzaLayout.createSequentialGroup()
+                .addGroup(PanelHabFuerzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblVidaAP)
+                    .addComponent(spinnerVidaAP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelHabFuerzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAtaFisAP)
+                    .addComponent(spinnerAtaFisAP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        PanelHabConst.setBorder(javax.swing.BorderFactory.createTitledBorder("Punto de habilidad de constitución"));
+
+        lblVidaAP2.setText("Vida");
+
+        lblManaAP.setText("Mana");
+
+        spinnerVidaAP2.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+
+        spinnerManaAP.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+
+        javax.swing.GroupLayout PanelHabConstLayout = new javax.swing.GroupLayout(PanelHabConst);
+        PanelHabConst.setLayout(PanelHabConstLayout);
+        PanelHabConstLayout.setHorizontalGroup(
+            PanelHabConstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelHabConstLayout.createSequentialGroup()
+                .addGroup(PanelHabConstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelHabConstLayout.createSequentialGroup()
+                        .addComponent(lblVidaAP2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(spinnerVidaAP2))
+                    .addGroup(PanelHabConstLayout.createSequentialGroup()
+                        .addComponent(lblManaAP)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(spinnerManaAP)))
+                .addContainerGap())
+        );
+        PanelHabConstLayout.setVerticalGroup(
+            PanelHabConstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelHabConstLayout.createSequentialGroup()
+                .addGroup(PanelHabConstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblVidaAP2)
+                    .addComponent(spinnerVidaAP2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelHabConstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblManaAP)
+                    .addComponent(spinnerManaAP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        PanelHabInt.setBorder(javax.swing.BorderFactory.createTitledBorder("Punto de habilidad de inteligencia"));
+
+        lblManaAP2.setText("Mana");
+
+        lblAtaMagAP.setText("Ataque mágico");
+
+        spinnerManaAP2.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+
+        spinnerAtaMagAP.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+
+        javax.swing.GroupLayout PanelHabIntLayout = new javax.swing.GroupLayout(PanelHabInt);
+        PanelHabInt.setLayout(PanelHabIntLayout);
+        PanelHabIntLayout.setHorizontalGroup(
+            PanelHabIntLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelHabIntLayout.createSequentialGroup()
+                .addGroup(PanelHabIntLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelHabIntLayout.createSequentialGroup()
+                        .addComponent(lblManaAP2)
+                        .addGap(10, 10, 10)
+                        .addComponent(spinnerManaAP2))
+                    .addGroup(PanelHabIntLayout.createSequentialGroup()
+                        .addComponent(lblAtaMagAP)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(spinnerAtaMagAP)))
+                .addContainerGap())
+        );
+        PanelHabIntLayout.setVerticalGroup(
+            PanelHabIntLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelHabIntLayout.createSequentialGroup()
+                .addGroup(PanelHabIntLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblManaAP2)
+                    .addComponent(spinnerManaAP2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelHabIntLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAtaMagAP)
+                    .addComponent(spinnerAtaMagAP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        PanelHabDest.setBorder(javax.swing.BorderFactory.createTitledBorder("Punto de habilidad de destreza"));
+
+        lblCritAP.setText("Crítico");
+
+        lblMortalAP.setText("Mortal");
+
+        spinnerCrtitAP.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+
+        spinnerMortalAP.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+
+        javax.swing.GroupLayout PanelHabDestLayout = new javax.swing.GroupLayout(PanelHabDest);
+        PanelHabDest.setLayout(PanelHabDestLayout);
+        PanelHabDestLayout.setHorizontalGroup(
+            PanelHabDestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelHabDestLayout.createSequentialGroup()
+                .addComponent(lblCritAP)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(spinnerCrtitAP)
+                .addGap(17, 17, 17))
+            .addGroup(PanelHabDestLayout.createSequentialGroup()
+                .addComponent(lblMortalAP)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(spinnerMortalAP)
+                .addGap(16, 16, 16))
+        );
+        PanelHabDestLayout.setVerticalGroup(
+            PanelHabDestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelHabDestLayout.createSequentialGroup()
+                .addGroup(PanelHabDestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCritAP)
+                    .addComponent(spinnerCrtitAP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelHabDestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMortalAP)
+                    .addComponent(spinnerMortalAP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        javax.swing.GroupLayout PanelPuntoHabilidadLayout = new javax.swing.GroupLayout(PanelPuntoHabilidad);
+        PanelPuntoHabilidad.setLayout(PanelPuntoHabilidadLayout);
+        PanelPuntoHabilidadLayout.setHorizontalGroup(
+            PanelPuntoHabilidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(PanelHabFuerza, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PanelHabConst, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PanelHabInt, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(PanelHabDest, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        PanelPuntoHabilidadLayout.setVerticalGroup(
+            PanelPuntoHabilidadLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelPuntoHabilidadLayout.createSequentialGroup()
+                .addComponent(PanelHabFuerza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelHabConst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelHabInt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelHabDest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        SkillPointsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Attributes Increment per Skill Point"));
-
-        jPanel19.setBorder(javax.swing.BorderFactory.createTitledBorder("Strenght Skill Point"));
-
-        jLabel26.setText("Health");
-
-        jLabel27.setText("Physical Attack");
-
-        jSpinner26.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
-
-        jSpinner27.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
-
-        javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
-        jPanel19.setLayout(jPanel19Layout);
-        jPanel19Layout.setHorizontalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel19Layout.createSequentialGroup()
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addComponent(jLabel26)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner26))
-                    .addGroup(jPanel19Layout.createSequentialGroup()
-                        .addComponent(jLabel27)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner27)))
-                .addContainerGap())
-        );
-        jPanel19Layout.setVerticalGroup(
-            jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel19Layout.createSequentialGroup()
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel26)
-                    .addComponent(jSpinner26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel27)
-                    .addComponent(jSpinner27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-
-        jPanel20.setBorder(javax.swing.BorderFactory.createTitledBorder("Constitution Skill Point"));
-
-        jLabel28.setText("Health");
-
-        jLabel29.setText("Mana");
-
-        jSpinner28.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
-
-        jSpinner29.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
-
-        javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
-        jPanel20.setLayout(jPanel20Layout);
-        jPanel20Layout.setHorizontalGroup(
-            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel20Layout.createSequentialGroup()
-                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel20Layout.createSequentialGroup()
-                        .addComponent(jLabel28)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner28))
-                    .addGroup(jPanel20Layout.createSequentialGroup()
-                        .addComponent(jLabel29)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner29)))
-                .addContainerGap())
-        );
-        jPanel20Layout.setVerticalGroup(
-            jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel20Layout.createSequentialGroup()
-                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel28)
-                    .addComponent(jSpinner28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel29)
-                    .addComponent(jSpinner29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-
-        jPanel21.setBorder(javax.swing.BorderFactory.createTitledBorder(" Intelligence Skill Point"));
-
-        jLabel30.setText("Mana");
-
-        jLabel31.setText("Magical Attack");
-
-        jSpinner30.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
-
-        jSpinner31.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
-
-        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
-        jPanel21.setLayout(jPanel21Layout);
-        jPanel21Layout.setHorizontalGroup(
-            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel21Layout.createSequentialGroup()
-                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel21Layout.createSequentialGroup()
-                        .addComponent(jLabel30)
-                        .addGap(10, 10, 10)
-                        .addComponent(jSpinner30))
-                    .addGroup(jPanel21Layout.createSequentialGroup()
-                        .addComponent(jLabel31)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jSpinner31)))
-                .addContainerGap())
-        );
-        jPanel21Layout.setVerticalGroup(
-            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel21Layout.createSequentialGroup()
-                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel30)
-                    .addComponent(jSpinner30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel31)
-                    .addComponent(jSpinner31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-
-        jPanel22.setBorder(javax.swing.BorderFactory.createTitledBorder("Dextery Skill Point"));
-
-        jLabel32.setText("Critical");
-
-        jLabel33.setText("Deadly");
-
-        jSpinner32.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
-
-        jSpinner33.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
-
-        javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
-        jPanel22.setLayout(jPanel22Layout);
-        jPanel22Layout.setHorizontalGroup(
-            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel22Layout.createSequentialGroup()
-                .addComponent(jLabel32)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSpinner32)
-                .addGap(17, 17, 17))
-            .addGroup(jPanel22Layout.createSequentialGroup()
-                .addComponent(jLabel33)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSpinner33)
-                .addGap(16, 16, 16))
-        );
-        jPanel22Layout.setVerticalGroup(
-            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel22Layout.createSequentialGroup()
-                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel32)
-                    .addComponent(jSpinner32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel33)
-                    .addComponent(jSpinner33, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-
-        javax.swing.GroupLayout SkillPointsPanelLayout = new javax.swing.GroupLayout(SkillPointsPanel);
-        SkillPointsPanel.setLayout(SkillPointsPanelLayout);
-        SkillPointsPanelLayout.setHorizontalGroup(
-            SkillPointsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        SkillPointsPanelLayout.setVerticalGroup(
-            SkillPointsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SkillPointsPanelLayout.createSequentialGroup()
-                .addComponent(jPanel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(44, 44, 44))
-        );
-
-        javax.swing.GroupLayout classEditorPanelLayout = new javax.swing.GroupLayout(classEditorPanel);
-        classEditorPanel.setLayout(classEditorPanelLayout);
-        classEditorPanelLayout.setHorizontalGroup(
-            classEditorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(classEditorPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout PanelEditorClaseLayout = new javax.swing.GroupLayout(PanelEditorClase);
+        PanelEditorClase.setLayout(PanelEditorClaseLayout);
+        PanelEditorClaseLayout.setHorizontalGroup(
+            PanelEditorClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelEditorClaseLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(classEditorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(classEditorPanelLayout.createSequentialGroup()
-                        .addComponent(BaseClassPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(PanelEditorClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelEditorClaseLayout.createSequentialGroup()
+                        .addComponent(PanelAtribBasicoClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(2, 2, 2)
-                        .addComponent(LvlUpPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(classEditorPanelLayout.createSequentialGroup()
-                        .addComponent(classNameLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(classNameTxt)))
+                        .addComponent(PanelSubirNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PanelEditorClaseLayout.createSequentialGroup()
+                        .addComponent(lblNombreClase, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNombreClase)
+                        .addGap(53, 53, 53)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(classEditorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(classEditorPanelLayout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addComponent(enabledClassCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(saveNewClass_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(resetValues_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(8, 8, 8))
-                    .addComponent(SkillPointsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(PanelEditorClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelEditorClaseLayout.createSequentialGroup()
+                        .addComponent(checkEnableClase)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnGuardarClase, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnResetClase, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                        .addGap(28, 28, 28))
+                    .addComponent(PanelPuntoHabilidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
-        classEditorPanelLayout.setVerticalGroup(
-            classEditorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(classEditorPanelLayout.createSequentialGroup()
-                .addGroup(classEditorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(classEditorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(classNameLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(classNameTxt))
-                    .addGroup(classEditorPanelLayout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addGroup(classEditorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(enabledClassCheck, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(saveNewClass_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(resetValues_btn))))
+        PanelEditorClaseLayout.setVerticalGroup(
+            PanelEditorClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelEditorClaseLayout.createSequentialGroup()
+                .addGroup(PanelEditorClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombreClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtNombreClase)
+                    .addComponent(checkEnableClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnGuardarClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnResetClase))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(classEditorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(BaseClassPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(LvlUpPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(SkillPointsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0))
+                .addGroup(PanelEditorClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(PanelPuntoHabilidad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelEditorClaseLayout.createSequentialGroup()
+                        .addGroup(PanelEditorClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(PanelAtribBasicoClase, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PanelSubirNivel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 5, Short.MAX_VALUE))))
         );
-
-        jLabel34.setText("Click to add new class");
-
-        jLabel35.setText("Select class to preview:");
 
         javax.swing.GroupLayout PanelConfigClasesLayout = new javax.swing.GroupLayout(PanelConfigClases);
         PanelConfigClases.setLayout(PanelConfigClasesLayout);
@@ -1199,452 +1609,2999 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(PanelConfigClasesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelConfigClasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(classEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelEditorClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(PanelConfigClasesLayout.createSequentialGroup()
-                        .addComponent(jLabel34)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(createNewClassbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 314, Short.MAX_VALUE)
-                        .addComponent(jLabel35)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(editClassbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(deleteClassbtn, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnCrearNuevaClase, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(comboSelectorClases, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditarClase, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminarClase, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         PanelConfigClasesLayout.setVerticalGroup(
             PanelConfigClasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelConfigClasesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PanelConfigClasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(PanelConfigClasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(editClassbtn)
-                        .addComponent(deleteClassbtn)
-                        .addComponent(jLabel35))
-                    .addGroup(PanelConfigClasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel34)
-                        .addComponent(createNewClassbtn)))
+                .addGroup(PanelConfigClasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboSelectorClases, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditarClase)
+                    .addComponent(btnEliminarClase)
+                    .addComponent(btnCrearNuevaClase))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(classEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(PanelEditorClase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(133, Short.MAX_VALUE))
         );
 
-        PanelConfig.addTab("clases", PanelConfigClases);
+        PanelConfig.addTab("Clases", PanelConfigClases);
 
         PanelConfigObjetos.setPreferredSize(new java.awt.Dimension(800, 600));
+
+        btnCrearNuevoObjeto.setText("Nuevo");
+
+        PanelEditorObjetos.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de objetos"));
+
+        lblNombreObjeto.setText("Nombre");
+
+        lblTipoObjeto.setText("Tipo de objeto");
+
+        comboTipoObjeto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        listDescripcionObjeto.setBorder(javax.swing.BorderFactory.createTitledBorder("Descripción objeto"));
+        listDescripcionObjeto.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane2.setViewportView(listDescripcionObjeto);
+
+        lblDescripObjeto.setText("Descripción");
+
+        txtDescripObjeto.setText("jTextField4");
+
+        btnAnadirDesObjeto.setText("Añadir");
+
+        btnEditarDesObjeto.setText("Editar");
+
+        btnEliminarDesObjeto.setText("Eliminar descripción");
+
+        javax.swing.GroupLayout PanelEditorObjetosLayout = new javax.swing.GroupLayout(PanelEditorObjetos);
+        PanelEditorObjetos.setLayout(PanelEditorObjetosLayout);
+        PanelEditorObjetosLayout.setHorizontalGroup(
+            PanelEditorObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelEditorObjetosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelEditorObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(PanelEditorObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(PanelEditorObjetosLayout.createSequentialGroup()
+                            .addGroup(PanelEditorObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(lblDescripObjeto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblNombreObjeto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblTipoObjeto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(PanelEditorObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(comboTipoObjeto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtNombreObjeto)
+                                .addComponent(txtDescripObjeto, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)))
+                        .addGroup(PanelEditorObjetosLayout.createSequentialGroup()
+                            .addComponent(btnAnadirDesObjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnEditarDesObjeto, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)))
+                    .addComponent(btnEliminarDesObjeto, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2)
+                .addContainerGap())
+        );
+        PanelEditorObjetosLayout.setVerticalGroup(
+            PanelEditorObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelEditorObjetosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelEditorObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PanelEditorObjetosLayout.createSequentialGroup()
+                        .addGroup(PanelEditorObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNombreObjeto)
+                            .addComponent(txtNombreObjeto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelEditorObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblTipoObjeto)
+                            .addComponent(comboTipoObjeto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelEditorObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblDescripObjeto)
+                            .addComponent(txtDescripObjeto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelEditorObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAnadirDesObjeto)
+                            .addComponent(btnEditarDesObjeto))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminarDesObjeto)))
+                .addContainerGap(154, Short.MAX_VALUE))
+        );
+
+        comboListaObjetos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnEditarObjeto.setText("Editar");
+
+        btnEliminarObjeto.setText("Eliminar");
 
         javax.swing.GroupLayout PanelConfigObjetosLayout = new javax.swing.GroupLayout(PanelConfigObjetos);
         PanelConfigObjetos.setLayout(PanelConfigObjetosLayout);
         PanelConfigObjetosLayout.setHorizontalGroup(
             PanelConfigObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 933, Short.MAX_VALUE)
+            .addGroup(PanelConfigObjetosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(PanelEditorObjetos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelConfigObjetosLayout.createSequentialGroup()
+                        .addComponent(btnCrearNuevoObjeto)
+                        .addGap(130, 130, 130)
+                        .addComponent(comboListaObjetos, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditarObjeto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminarObjeto)))
+                .addContainerGap(415, Short.MAX_VALUE))
         );
         PanelConfigObjetosLayout.setVerticalGroup(
             PanelConfigObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1154, Short.MAX_VALUE)
+            .addGroup(PanelConfigObjetosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCrearNuevoObjeto)
+                    .addComponent(comboListaObjetos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditarObjeto)
+                    .addComponent(btnEliminarObjeto))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelEditorObjetos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(214, Short.MAX_VALUE))
         );
 
-        PanelConfig.addTab("objetos", PanelConfigObjetos);
-
-        PanelConfigArmor.setPreferredSize(new java.awt.Dimension(800, 600));
-
-        javax.swing.GroupLayout PanelConfigArmorLayout = new javax.swing.GroupLayout(PanelConfigArmor);
-        PanelConfigArmor.setLayout(PanelConfigArmorLayout);
-        PanelConfigArmorLayout.setHorizontalGroup(
-            PanelConfigArmorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 933, Short.MAX_VALUE)
-        );
-        PanelConfigArmorLayout.setVerticalGroup(
-            PanelConfigArmorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1154, Short.MAX_VALUE)
-        );
-
-        PanelConfig.addTab("armaduras", PanelConfigArmor);
+        PanelConfig.addTab("Objetos", PanelConfigObjetos);
 
         PanelConfigWeapon.setPreferredSize(new java.awt.Dimension(800, 600));
+
+        PanelMejoraArma.setBorder(javax.swing.BorderFactory.createTitledBorder("Mejora de armas"));
+
+        btnGuardarConfigArma.setText("Guardar");
+
+        lblTipoMejoradorArma.setText("Objeto mejorador");
+
+        lblNomMejoraArma.setText("Nombre del objeto");
+
+        jComboItemArmadura1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblDescripcionArma.setText("Descripción");
+
+        btnAnadirDescArma.setText("Añadir");
+        btnAnadirDescArma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnadirDescArmaActionPerformed(evt);
+            }
+        });
+
+        btnEditarDEscArma.setText("Editar");
+        btnEditarDEscArma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarDEscArmaActionPerformed(evt);
+            }
+        });
+
+        btnEliminarDescArma.setText("Eliminar");
+        btnEliminarDescArma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarDescArmaActionPerformed(evt);
+            }
+        });
+
+        jListDescArma.setBorder(javax.swing.BorderFactory.createTitledBorder("lista de descripción"));
+        jListDescArma.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane8.setViewportView(jListDescArma);
+
+        lblProbRotArma.setText("Probabilidad de rotura");
+
+        lblProbDetArma.setText("Probabilidad de deterioro");
+
+        lblProbSEArma.setText("Probabilidad sin efecto");
+
+        lblProbExitoArma.setText("Probabilidad de exito");
+
+        javax.swing.GroupLayout PanelMejoraArmaLayout = new javax.swing.GroupLayout(PanelMejoraArma);
+        PanelMejoraArma.setLayout(PanelMejoraArmaLayout);
+        PanelMejoraArmaLayout.setHorizontalGroup(
+            PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelMejoraArmaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(PanelMejoraArmaLayout.createSequentialGroup()
+                        .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblNomMejoraArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTipoMejoradorArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblDescripcionArma, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jComboItemArmadura1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNombreObjetoMejArmadura1)
+                            .addComponent(txtDescripcionArmadura1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(PanelMejoraArmaLayout.createSequentialGroup()
+                        .addComponent(btnAnadirDescArma)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEditarDEscArma, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEliminarDescArma, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelMejoraArmaLayout.createSequentialGroup()
+                        .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(lblProbSEArma, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                            .addComponent(lblProbExitoArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(spinerProbExitoArma, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(spinnerProSEArma, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(PanelMejoraArmaLayout.createSequentialGroup()
+                        .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblProbRotArma, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblProbDetArma, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(spinnerProbRotArma, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(spinnerProbDetArma, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGuardarConfigArma, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        PanelMejoraArmaLayout.setVerticalGroup(
+            PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelMejoraArmaLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(PanelMejoraArmaLayout.createSequentialGroup()
+                            .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblProbRotArma)
+                                .addComponent(spinnerProbRotArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(9, 9, 9)
+                            .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(spinnerProbDetArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblProbDetArma, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(PanelMejoraArmaLayout.createSequentialGroup()
+                            .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblNomMejoraArma)
+                                .addComponent(txtNombreObjetoMejArmadura1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jComboItemArmadura1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblTipoMejoradorArma))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblDescripcionArma)
+                                .addComponent(txtDescripcionArmadura1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnAnadirDescArma)
+                                .addComponent(btnEditarDEscArma)
+                                .addComponent(btnEliminarDescArma)))
+                        .addGroup(PanelMejoraArmaLayout.createSequentialGroup()
+                            .addGap(57, 57, 57)
+                            .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblProbSEArma)
+                                .addComponent(spinnerProSEArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(PanelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(spinerProbExitoArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblProbExitoArma))))))
+            .addComponent(btnGuardarConfigArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        PanelSelectorArma.setBorder(javax.swing.BorderFactory.createTitledBorder("Selector de armas"));
+
+        btnCrearNuevaArma.setText("Nueva");
+
+        PanelEditorArma.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de armas"));
+
+        lblTipoArma.setText("Tipo de arma");
+
+        comboTipoArma.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblNombreArma.setText("Nombre");
+
+        lblNivelMinArma.setText("Nivel minimo para uso");
+
+        lblNivelIniArma.setText("Nivel arma");
+
+        lblCalidadArma.setText("Calidad");
+
+        comboCalidadArma.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        checkComerciableArma.setText("Comerciable");
+
+        checkMejorableArma.setText("Mejorable");
+
+        lblPrecioCArma.setText("Precio compra");
+
+        lblPrecioVArma.setText("Precio de venta");
+
+        lblDineroExtraArma.setText("Dinero extra");
+
+        lblExpExtraArma.setText("Experiencia extra");
+
+        lblAtaFisArma.setText("Daño físico base");
+
+        lblMejAtaFisArma.setText("Daño físico mejora");
+
+        lblAtaMagArma.setText("Daño mágico base");
+
+        lblMejAtaMagArma.setText("Daño mágico mejora");
+
+        lblHRFisArma.setText("Tasa acierto físico");
+
+        lblHRMagArma.setText("Tasa acierto mágico");
+
+        lblMejHRFisArma.setText("Mejora tasa física");
+
+        lblMejHRMagArma.setText("Mejora tasa mágica");
+
+        lblCritArma.setText("Crítico");
+
+        lblMejCritArma.setText("Mejora de crítico");
+
+        lvlRoboVArma.setText("Robo de vida");
+
+        lvlMejRoboVArma.setText("Mejora robo de vida");
+
+        lblRoboMArma.setText("Robo de maná");
+
+        lblMejRoboMArma.setText("Mejora robo de maná");
+
+        btnGuardarArma.setText("Guardar");
+
+        javax.swing.GroupLayout PanelEditorArmaLayout = new javax.swing.GroupLayout(PanelEditorArma);
+        PanelEditorArma.setLayout(PanelEditorArmaLayout);
+        PanelEditorArmaLayout.setHorizontalGroup(
+            PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelEditorArmaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGuardarArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelEditorArmaLayout.createSequentialGroup()
+                        .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(PanelEditorArmaLayout.createSequentialGroup()
+                                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lvlRoboVArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lvlMejRoboVArma, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(spinnerRoboVArma)
+                                    .addComponent(spinnerMejRoboVArma)))
+                            .addGroup(PanelEditorArmaLayout.createSequentialGroup()
+                                .addComponent(checkComerciableArma)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(checkMejorableArma))
+                            .addGroup(PanelEditorArmaLayout.createSequentialGroup()
+                                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lblCalidadArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblNivelIniArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblNivelMinArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblNombreArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblTipoArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(comboTipoArma, 0, 150, Short.MAX_VALUE)
+                                    .addComponent(txtNombreArma)
+                                    .addComponent(spinnerNivelMinArma)
+                                    .addComponent(spinnerNivelIniArma)
+                                    .addComponent(comboCalidadArma, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(PanelEditorArmaLayout.createSequentialGroup()
+                                .addComponent(lblPrecioCArma, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinnerPrecioCArma, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelEditorArmaLayout.createSequentialGroup()
+                                .addComponent(lblPrecioVArma, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinnerPrecioVArma))
+                            .addGroup(PanelEditorArmaLayout.createSequentialGroup()
+                                .addComponent(lblDineroExtraArma, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinnerDineroExtraArma))
+                            .addGroup(PanelEditorArmaLayout.createSequentialGroup()
+                                .addComponent(lblExpExtraArma, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinnerExpExtraArma)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelEditorArmaLayout.createSequentialGroup()
+                                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblMejAtaFisArma, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblAtaMagArma, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblAtaFisArma, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblMejAtaMagArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(5, 5, 5)
+                                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(spinnerMejAtaMagArma)
+                                    .addComponent(spinnerMejAtaFisArma, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(spinnerAtaMagArma)
+                                    .addComponent(spinnerAtaFisArma)))
+                            .addGroup(PanelEditorArmaLayout.createSequentialGroup()
+                                .addComponent(lblMejRoboMArma)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinnerMejRoboMArma))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelEditorArmaLayout.createSequentialGroup()
+                                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblRoboMArma, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblMejCritArma, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblCritArma, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblMejHRMagArma, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblHRMagArma, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblMejHRFisArma, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblHRFisArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(spinnerHRFisArma, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                                    .addComponent(spinnerMejHRFisArma)
+                                    .addComponent(spinnerHRMagArma)
+                                    .addComponent(spinnerMejHRMagArma)
+                                    .addComponent(spinnerCritArma)
+                                    .addComponent(spinnerMejCritArma)
+                                    .addComponent(spinnerRoboMArma))))))
+                .addContainerGap())
+        );
+        PanelEditorArmaLayout.setVerticalGroup(
+            PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelEditorArmaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTipoArma)
+                    .addComponent(comboTipoArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAtaFisArma)
+                    .addComponent(spinnerAtaFisArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombreArma)
+                    .addComponent(txtNombreArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMejAtaFisArma)
+                    .addComponent(spinnerMejAtaFisArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNivelMinArma)
+                    .addComponent(spinnerNivelMinArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAtaMagArma)
+                    .addComponent(spinnerAtaMagArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNivelIniArma)
+                    .addComponent(spinnerNivelIniArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMejAtaMagArma)
+                    .addComponent(spinnerMejAtaMagArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCalidadArma)
+                    .addComponent(comboCalidadArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblHRFisArma)
+                    .addComponent(spinnerHRFisArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkComerciableArma)
+                    .addComponent(checkMejorableArma)
+                    .addComponent(lblMejHRFisArma)
+                    .addComponent(spinnerMejHRFisArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrecioCArma)
+                    .addComponent(spinnerPrecioCArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblHRMagArma)
+                    .addComponent(spinnerHRMagArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrecioVArma)
+                    .addComponent(spinnerPrecioVArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMejHRMagArma)
+                    .addComponent(spinnerMejHRMagArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDineroExtraArma)
+                    .addComponent(spinnerDineroExtraArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCritArma)
+                    .addComponent(spinnerCritArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblExpExtraArma)
+                    .addComponent(spinnerExpExtraArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMejCritArma)
+                    .addComponent(spinnerMejCritArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lvlRoboVArma)
+                    .addComponent(spinnerRoboVArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblRoboMArma)
+                    .addComponent(spinnerRoboMArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lvlMejRoboVArma)
+                    .addComponent(spinnerMejRoboVArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMejRoboMArma)
+                    .addComponent(spinnerMejRoboMArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnGuardarArma))
+        );
+
+        comboListaArmas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnEditarArma.setText("Editar");
+
+        btnEliminarArma.setText("Eliminar");
+
+        javax.swing.GroupLayout PanelSelectorArmaLayout = new javax.swing.GroupLayout(PanelSelectorArma);
+        PanelSelectorArma.setLayout(PanelSelectorArmaLayout);
+        PanelSelectorArmaLayout.setHorizontalGroup(
+            PanelSelectorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSelectorArmaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelSelectorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PanelEditorArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelSelectorArmaLayout.createSequentialGroup()
+                        .addComponent(btnCrearNuevaArma)
+                        .addGap(130, 130, 130)
+                        .addComponent(comboListaArmas, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(btnEditarArma)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEliminarArma)))
+                .addContainerGap())
+        );
+        PanelSelectorArmaLayout.setVerticalGroup(
+            PanelSelectorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSelectorArmaLayout.createSequentialGroup()
+                .addGroup(PanelSelectorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCrearNuevaArma)
+                    .addComponent(comboListaArmas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditarArma)
+                    .addComponent(btnEliminarArma))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelEditorArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout PanelConfigWeaponLayout = new javax.swing.GroupLayout(PanelConfigWeapon);
         PanelConfigWeapon.setLayout(PanelConfigWeaponLayout);
         PanelConfigWeaponLayout.setHorizontalGroup(
             PanelConfigWeaponLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 933, Short.MAX_VALUE)
+            .addGroup(PanelConfigWeaponLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigWeaponLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PanelMejoraArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelConfigWeaponLayout.createSequentialGroup()
+                        .addComponent(PanelSelectorArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         PanelConfigWeaponLayout.setVerticalGroup(
             PanelConfigWeaponLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1154, Short.MAX_VALUE)
+            .addGroup(PanelConfigWeaponLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(PanelMejoraArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelSelectorArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        PanelConfig.addTab("armas", PanelConfigWeapon);
+        PanelConfig.addTab("Armas", PanelConfigWeapon);
+
+        PanelConfigJoyas.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de joyas"));
+
+        lblProbRotJoya.setText("Probabilidad de rotura");
+
+        lblProbDetJoya.setText("Probabilidad de deterioro");
+
+        lblProbSEJoya.setText("Probabilidad sin efecto");
+
+        lblProbExitoJoya.setText("Probabilidad de exito");
+
+        btnGuardarConfigJoyas.setText("Guardar");
+
+        javax.swing.GroupLayout PanelConfigJoyasLayout = new javax.swing.GroupLayout(PanelConfigJoyas);
+        PanelConfigJoyas.setLayout(PanelConfigJoyasLayout);
+        PanelConfigJoyasLayout.setHorizontalGroup(
+            PanelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 393, Short.MAX_VALUE)
+            .addGroup(PanelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PanelConfigJoyasLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(PanelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(PanelConfigJoyasLayout.createSequentialGroup()
+                            .addGroup(PanelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(lblProbSEJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                                .addComponent(lblProbExitoJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(PanelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(spinnerProbExitoJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(spinnerProbSEJoya, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(PanelConfigJoyasLayout.createSequentialGroup()
+                            .addGroup(PanelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(lblProbRotJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblProbDetJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(PanelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(spinnerProbRotJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(spinnerProbDetJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(btnGuardarConfigJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        PanelConfigJoyasLayout.setVerticalGroup(
+            PanelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 125, Short.MAX_VALUE)
+            .addGroup(PanelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(PanelConfigJoyasLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(PanelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(PanelConfigJoyasLayout.createSequentialGroup()
+                            .addGroup(PanelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblProbRotJoya)
+                                .addComponent(spinnerProbRotJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(9, 9, 9)
+                            .addGroup(PanelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(spinnerProbDetJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblProbDetJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(PanelConfigJoyasLayout.createSequentialGroup()
+                            .addGap(57, 57, 57)
+                            .addGroup(PanelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblProbSEJoya)
+                                .addComponent(spinnerProbSEJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(PanelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(spinnerProbExitoJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblProbExitoJoya)))
+                        .addComponent(btnGuardarConfigJoyas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addContainerGap()))
+        );
+
+        PanelSelectorJoyas.setBorder(javax.swing.BorderFactory.createTitledBorder("Selector de joyas"));
+
+        btnCrearNuevaJoya.setText("Nueva");
+
+        PanelEditorJoya.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de joyas"));
+
+        lblNombreJoya.setText("Nombre");
+
+        lblObjetoJoya.setText("Objeto");
+
+        comboObjetoJoya.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblCalidadJoya.setText("Calidad");
+
+        comboCalidadJoya.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblPrecioVJoya.setText("Precio de venta");
+
+        lblPrecioCJoya.setText("Precio de compra");
+
+        checkComerciable.setText("Comerciable");
+
+        checkCombinable.setText("Combinable");
+
+        lblRoboMJoya.setText("Robo de maná");
+
+        lblDefFisJoya.setText("Defensa física");
+
+        lblDefMagJoya.setText("Defensa mágica");
+
+        lblHRFisJoya.setText("Tasa acierto físico");
+
+        lblEvaFisJoya.setText("Evasión física");
+
+        lblAtaFisJoya.setText("Daño físico");
+
+        lblManaJoya.setText("Maná");
+
+        lblManaVidaJoya.setText("Vida");
+
+        lblAtaMagJoya.setText("Daño mágico");
+
+        lvlEvaMagJoya.setText("Evasión mágica");
+
+        lblDineroExtraJoya.setText("Dinero extra");
+
+        lblExpExtraJoya.setText("Experiencia extra");
+
+        lblHRMagJoya.setText("Tasa acierto mágico");
+
+        lblRoboVJoya.setText("Robo de vida");
+
+        javax.swing.GroupLayout PanelEditorJoyaLayout = new javax.swing.GroupLayout(PanelEditorJoya);
+        PanelEditorJoya.setLayout(PanelEditorJoyaLayout);
+        PanelEditorJoyaLayout.setHorizontalGroup(
+            PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelEditorJoyaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelEditorJoyaLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(lblPrecioCJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                            .addComponent(lblNombreJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblObjetoJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblCalidadJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblPrecioVJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lblRoboVJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblDineroExtraJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                        .addComponent(lblExpExtraJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                        .addComponent(checkComerciable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblRoboMJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(comboObjetoJoya, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(comboCalidadJoya, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(spinnerPrecioVJoya, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(spinnerPrecioCJoya)
+                        .addComponent(txtNombreJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spinnerDineroExtraJoya, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(checkCombinable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(spinnerRoboMJoya, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(spinnerExpExtraJoya, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(spinnerRoboVJoya, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lblAtaFisJoya, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblEvaFisJoya)
+                        .addComponent(lblManaJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblHRFisJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblDefFisJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblHRMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lvlEvaMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblAtaMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblDefMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblManaVidaJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(spinnerVidaJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(spinnerManaJoya)
+                    .addComponent(spinnerAtaFisJoya)
+                    .addComponent(spinnerEvaFisJoya)
+                    .addComponent(spinnerHRFisJoya)
+                    .addComponent(spinnerDefFisJoya)
+                    .addComponent(spinnerAtaMagJoya)
+                    .addComponent(spinnerEvaMagJoya)
+                    .addComponent(spinnerHRMagJoya)
+                    .addComponent(spinnerDefMagJoya))
+                .addContainerGap())
+        );
+        PanelEditorJoyaLayout.setVerticalGroup(
+            PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelEditorJoyaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombreJoya)
+                    .addComponent(txtNombreJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblManaVidaJoya)
+                    .addComponent(spinnerVidaJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblObjetoJoya)
+                    .addComponent(comboObjetoJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblManaJoya)
+                    .addComponent(spinnerManaJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCalidadJoya)
+                    .addComponent(comboCalidadJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAtaFisJoya)
+                    .addComponent(spinnerAtaFisJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrecioVJoya)
+                    .addComponent(spinnerPrecioVJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblEvaFisJoya)
+                    .addComponent(spinnerEvaFisJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrecioCJoya)
+                    .addComponent(spinnerPrecioCJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblHRFisJoya)
+                    .addComponent(spinnerHRFisJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkComerciable)
+                    .addComponent(checkCombinable)
+                    .addComponent(lblDefFisJoya)
+                    .addComponent(spinnerDefFisJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDineroExtraJoya)
+                    .addComponent(lblAtaMagJoya)
+                    .addComponent(spinnerDineroExtraJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerAtaMagJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblExpExtraJoya)
+                    .addComponent(lvlEvaMagJoya)
+                    .addComponent(spinnerExpExtraJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerEvaMagJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRoboVJoya)
+                    .addComponent(lblHRMagJoya)
+                    .addComponent(spinnerRoboVJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerHRMagJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(PanelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRoboMJoya)
+                    .addComponent(spinnerRoboMJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDefMagJoya)
+                    .addComponent(spinnerDefMagJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(62, Short.MAX_VALUE))
+        );
+
+        comboSelectorJoyas.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnEditarJoya.setText("Editar");
+
+        btnEliminarJoya.setText("Eliminar");
+
+        javax.swing.GroupLayout PanelSelectorJoyasLayout = new javax.swing.GroupLayout(PanelSelectorJoyas);
+        PanelSelectorJoyas.setLayout(PanelSelectorJoyasLayout);
+        PanelSelectorJoyasLayout.setHorizontalGroup(
+            PanelSelectorJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSelectorJoyasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelSelectorJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PanelEditorJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelSelectorJoyasLayout.createSequentialGroup()
+                        .addComponent(btnCrearNuevaJoya)
+                        .addGap(44, 44, 44)
+                        .addComponent(comboSelectorJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEditarJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminarJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 1, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        PanelSelectorJoyasLayout.setVerticalGroup(
+            PanelSelectorJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSelectorJoyasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelSelectorJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCrearNuevaJoya)
+                    .addComponent(comboSelectorJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditarJoya)
+                    .addComponent(btnEliminarJoya))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelEditorJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout PanelConfigJewelsLayout = new javax.swing.GroupLayout(PanelConfigJewels);
         PanelConfigJewels.setLayout(PanelConfigJewelsLayout);
         PanelConfigJewelsLayout.setHorizontalGroup(
             PanelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 943, Short.MAX_VALUE)
+            .addGroup(PanelConfigJewelsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PanelSelectorJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PanelConfigJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         PanelConfigJewelsLayout.setVerticalGroup(
             PanelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1154, Short.MAX_VALUE)
+            .addGroup(PanelConfigJewelsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(PanelConfigJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(PanelSelectorJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(333, 333, 333))
         );
 
-        PanelConfig.addTab("Jewels", PanelConfigJewels);
+        PanelConfig.addTab("Joyas", PanelConfigJewels);
 
-        javax.swing.GroupLayout PanelConfigFoodLayout = new javax.swing.GroupLayout(PanelConfigFood);
-        PanelConfigFood.setLayout(PanelConfigFoodLayout);
-        PanelConfigFoodLayout.setHorizontalGroup(
-            PanelConfigFoodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 943, Short.MAX_VALUE)
-        );
-        PanelConfigFoodLayout.setVerticalGroup(
-            PanelConfigFoodLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1154, Short.MAX_VALUE)
-        );
-
-        PanelConfig.addTab("Food", PanelConfigFood);
-
-        PanelConfigMobs.setPreferredSize(new java.awt.Dimension(800, 600));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jButton1.setText("Add");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnEditarSpawner.setText("Editar");
+        btnEditarSpawner.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnEditarSpawnerActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Edit");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnEliminarSpawner.setText("Eliminar");
+        btnEliminarSpawner.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnEliminarSpawnerActionPerformed(evt);
             }
         });
 
-        jButton6.setText("Delete");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
+        PanelEditorSpawner.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de Spawner"));
+
+        PanelLocSpawner.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Localización"), "Localización"));
+
+        lblMundoSpawnLoc.setText("Mundo");
+
+        lblXSpawnLoc.setText("X");
+
+        lblYSpawnLoc.setText("Y");
+
+        lblZSpawnLoc.setText("Z");
+
+        txtMundoSpawnLoc.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtMundoSpawnLoc.setText("world");
+        txtMundoSpawnLoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
+                txtMundoSpawnLocActionPerformed(evt);
             }
         });
 
-        classEditorPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Mob Editor"));
-        classEditorPanel1.setName("Class Editor"); // NOI18N
+        spinnerXSpawnLoc.setModel(new javax.swing.SpinnerNumberModel());
 
-        classNameLbl1.setText("DisplayName");
+        spinnerYSpawnLoc.setModel(new javax.swing.SpinnerNumberModel());
 
-        saveNewClass_btn1.setText("Save");
-        saveNewClass_btn1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveNewClass_btn1ActionPerformed(evt);
-            }
-        });
+        spinnerZSpawnLoc.setModel(new javax.swing.SpinnerNumberModel());
 
-        resetValues_btn1.setText("Reset");
-
-        classNameLbl2.setText("Level");
-
-        classNameLbl3.setText("Mob type");
-
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        BaseClassPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Special Attributes"));
-
-        javax.swing.GroupLayout BaseClassPanel3Layout = new javax.swing.GroupLayout(BaseClassPanel3);
-        BaseClassPanel3.setLayout(BaseClassPanel3Layout);
-        BaseClassPanel3Layout.setHorizontalGroup(
-            BaseClassPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        javax.swing.GroupLayout PanelLocSpawnerLayout = new javax.swing.GroupLayout(PanelLocSpawner);
+        PanelLocSpawner.setLayout(PanelLocSpawnerLayout);
+        PanelLocSpawnerLayout.setHorizontalGroup(
+            PanelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelLocSpawnerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblMundoSpawnLoc)
+                    .addComponent(lblXSpawnLoc)
+                    .addComponent(lblYSpawnLoc)
+                    .addComponent(lblZSpawnLoc))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spinnerXSpawnLoc)
+                    .addComponent(txtMundoSpawnLoc, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                    .addComponent(spinnerYSpawnLoc, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(spinnerZSpawnLoc, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
-        BaseClassPanel3Layout.setVerticalGroup(
-            BaseClassPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 201, Short.MAX_VALUE)
+        PanelLocSpawnerLayout.setVerticalGroup(
+            PanelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelLocSpawnerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMundoSpawnLoc)
+                    .addComponent(txtMundoSpawnLoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblXSpawnLoc)
+                    .addComponent(spinnerXSpawnLoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblYSpawnLoc)
+                    .addComponent(spinnerYSpawnLoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblZSpawnLoc)
+                    .addComponent(spinnerZSpawnLoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Mob Drops"));
+        PanelAtribSpawner.setBorder(javax.swing.BorderFactory.createTitledBorder("Propiedades del generador"));
 
-        jLabel15.setText("Money");
+        lblMobSpawner.setText("Monstruo");
 
-        jSpinner43.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        comboMobSpawner.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboMobSpawnerActionPerformed(evt);
+            }
+        });
 
-        jLabel16.setText("Ability points");
+        lblRefrescoSpawner.setText("Cooldown");
 
-        jSpinner44.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        lblIdSpawner.setText("Identificador");
 
-        jLabel17.setText("Experience");
+        spinnerRefrescoSpawner.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(0L), null, null, Long.valueOf(1L)));
 
-        jSpinner45.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        lblRadioSpawner.setText("Radio de generación");
 
-        jTable1.setBorder(javax.swing.BorderFactory.createTitledBorder("item / %drop"));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        spinnerRadioSpawner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+
+        lblNumMaxMobSpawner.setText("Núm maximo de monstruos");
+
+        spinnerNumMaxMobSpawner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+
+        checkEnableSpawner.setText("Habilitado/Deshabilitado");
+        checkEnableSpawner.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkEnableSpawnerActionPerformed(evt);
+            }
+        });
+
+        comboSelectorSpawner.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        javax.swing.GroupLayout PanelAtribSpawnerLayout = new javax.swing.GroupLayout(PanelAtribSpawner);
+        PanelAtribSpawner.setLayout(PanelAtribSpawnerLayout);
+        PanelAtribSpawnerLayout.setHorizontalGroup(
+            PanelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelAtribSpawnerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelAtribSpawnerLayout.createSequentialGroup()
+                        .addComponent(checkEnableSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(164, 164, 164))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelAtribSpawnerLayout.createSequentialGroup()
+                        .addGroup(PanelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblIdSpawner, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblMobSpawner, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblRefrescoSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblRadioSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblNumMaxMobSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(spinnerNumMaxMobSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                            .addComponent(spinnerRadioSpawner)
+                            .addComponent(spinnerRefrescoSpawner)
+                            .addComponent(comboMobSpawner, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboSelectorSpawner))))
+                .addContainerGap())
+        );
+        PanelAtribSpawnerLayout.setVerticalGroup(
+            PanelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelAtribSpawnerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblIdSpawner)
+                    .addComponent(comboSelectorSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
+                .addGroup(PanelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMobSpawner)
+                    .addComponent(comboMobSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(PanelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRefrescoSpawner)
+                    .addComponent(spinnerRefrescoSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRadioSpawner)
+                    .addComponent(spinnerRadioSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNumMaxMobSpawner)
+                    .addComponent(spinnerNumMaxMobSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(checkEnableSpawner)
+                .addContainerGap())
+        );
+
+        btnGuardarSpawner.setText("Guardar");
+
+        btnResetSpawner.setText("Resetear");
+        btnResetSpawner.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetSpawnerActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PanelEditorSpawnerLayout = new javax.swing.GroupLayout(PanelEditorSpawner);
+        PanelEditorSpawner.setLayout(PanelEditorSpawnerLayout);
+        PanelEditorSpawnerLayout.setHorizontalGroup(
+            PanelEditorSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelEditorSpawnerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(PanelAtribSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelLocSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGuardarSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnResetSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        PanelEditorSpawnerLayout.setVerticalGroup(
+            PanelEditorSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelEditorSpawnerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelEditorSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelEditorSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(PanelLocSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(PanelAtribSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PanelEditorSpawnerLayout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(btnGuardarSpawner)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnResetSpawner)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnCrearSpawner.setText("Nuevo");
+
+        javax.swing.GroupLayout PanelConfigSpawnersLayout = new javax.swing.GroupLayout(PanelConfigSpawners);
+        PanelConfigSpawners.setLayout(PanelConfigSpawnersLayout);
+        PanelConfigSpawnersLayout.setHorizontalGroup(
+            PanelConfigSpawnersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelConfigSpawnersLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigSpawnersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(PanelEditorSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelConfigSpawnersLayout.createSequentialGroup()
+                        .addComponent(btnCrearSpawner)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditarSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminarSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(245, 245, 245))
+        );
+        PanelConfigSpawnersLayout.setVerticalGroup(
+            PanelConfigSpawnersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigSpawnersLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigSpawnersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCrearSpawner)
+                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditarSpawner)
+                    .addComponent(btnEliminarSpawner))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelEditorSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(314, Short.MAX_VALUE))
+        );
+
+        PanelConfig.addTab("Spawners", PanelConfigSpawners);
+
+        PanelConfigGuilds.setPreferredSize(new java.awt.Dimension(800, 600));
+
+        btnResetConfigClan.setText("Resetear configuración");
+
+        btnGuardarConfigClan.setText("Guardar");
+
+        PanelConfigClanes.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración clanes"));
+
+        PanelNumJugClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Número de jugadores"));
+
+        rdBtnNumIlimitadosClan.setSelected(true);
+        rdBtnNumIlimitadosClan.setText("Ilimitados");
+
+        rdBtnNumFijosClan.setText("Fijos");
+
+        rdBtnLimitNivClan.setText("Limitado por nivel del clan");
+
+        lblJugadoresClan.setText("jugadores");
+
+        javax.swing.GroupLayout PanelNumJugClanLayout = new javax.swing.GroupLayout(PanelNumJugClan);
+        PanelNumJugClan.setLayout(PanelNumJugClanLayout);
+        PanelNumJugClanLayout.setHorizontalGroup(
+            PanelNumJugClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelNumJugClanLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelNumJugClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rdBtnNumIlimitadosClan)
+                    .addGroup(PanelNumJugClanLayout.createSequentialGroup()
+                        .addComponent(rdBtnNumFijosClan)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spinnerNumFijosClan, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblJugadoresClan))
+                    .addComponent(rdBtnLimitNivClan))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        PanelNumJugClanLayout.setVerticalGroup(
+            PanelNumJugClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelNumJugClanLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(rdBtnNumIlimitadosClan)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelNumJugClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rdBtnNumFijosClan)
+                    .addComponent(spinnerNumFijosClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblJugadoresClan))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdBtnLimitNivClan))
+        );
+
+        PanelSisContNivelClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Sistema de contribución clan limitado por nivel"));
+
+        rdBtnContriSoloDon.setSelected(true);
+        rdBtnContriSoloDon.setText("Sólo donación");
+
+        rdBtnContriSoloContri.setText("Sólo contribución");
+
+        rdBtnContriAmbos.setText("Ambos");
+
+        lblporcMuertesClan.setText("%muertes");
+
+        javax.swing.GroupLayout PanelSisContNivelClanLayout = new javax.swing.GroupLayout(PanelSisContNivelClan);
+        PanelSisContNivelClan.setLayout(PanelSisContNivelClanLayout);
+        PanelSisContNivelClanLayout.setHorizontalGroup(
+            PanelSisContNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSisContNivelClanLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelSisContNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rdBtnContriSoloDon)
+                    .addGroup(PanelSisContNivelClanLayout.createSequentialGroup()
+                        .addComponent(rdBtnContriSoloContri)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spinnerContriPorcentajeMuertes, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblporcMuertesClan))
+                    .addComponent(rdBtnContriAmbos))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        PanelSisContNivelClanLayout.setVerticalGroup(
+            PanelSisContNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSisContNivelClanLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(rdBtnContriSoloDon)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelSisContNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rdBtnContriSoloContri)
+                    .addComponent(spinnerContriPorcentajeMuertes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblporcMuertesClan))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdBtnContriAmbos))
+        );
+
+        lblnivMinJugCrearClan.setText("Nivel minimo del jugador para crear un clan");
+
+        PanelOpcLimNivelClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones de clan limitado por nivel"));
+
+        rdBtnOpcDinFijo.setSelected(true);
+        rdBtnOpcDinFijo.setText("Dinero Fijo");
+
+        rdBtnOpcDinForm.setText("Formula de dinero");
+
+        PanelFormulaClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Formula"));
+
+        lblfdex.setText("f(x)=");
+
+        spinnerformulax2clan.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
+
+        lblx2clan.setText("x^2+");
+
+        spinnerformulaxclan.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
+
+        lblxclan.setText("x");
+
+        lblMaxNivelClan.setText("Nivel máximo del clan");
+
+        spinnerNivelMaxClan.setModel(new javax.swing.SpinnerNumberModel());
+
+        btnValidarFormulaClan.setText("Validar");
+        btnValidarFormulaClan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnValidarFormulaClanActionPerformed(evt);
+            }
+        });
+
+        btnResetearFormulaClan.setText("Resetear");
+        btnResetearFormulaClan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetearFormulaClanActionPerformed(evt);
+            }
+        });
+
+        lblFormJugXNivelClan.setText("Jugadores por nivel");
+
+        spinnerFormJugXNivelClan.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+
+        lblFormJugIniClan.setText("Jugadores inicial");
+
+        spinnerFormJugIniClan.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+
+        javax.swing.GroupLayout PanelFormulaClanLayout = new javax.swing.GroupLayout(PanelFormulaClan);
+        PanelFormulaClan.setLayout(PanelFormulaClanLayout);
+        PanelFormulaClanLayout.setHorizontalGroup(
+            PanelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelFormulaClanLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnValidarFormulaClan)
+                .addGap(26, 26, 26)
+                .addComponent(btnResetearFormulaClan)
+                .addGap(10, 10, 10))
+            .addGroup(PanelFormulaClanLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelFormulaClanLayout.createSequentialGroup()
+                        .addGroup(PanelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(PanelFormulaClanLayout.createSequentialGroup()
+                                .addComponent(lblfdex)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinnerformulax2clan, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblx2clan)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinnerformulaxclan, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelFormulaClanLayout.createSequentialGroup()
+                                .addComponent(lblMaxNivelClan)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinnerNivelMaxClan))
+                            .addGroup(PanelFormulaClanLayout.createSequentialGroup()
+                                .addComponent(lblFormJugXNivelClan, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(spinnerFormJugXNivelClan, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblxclan))
+                    .addGroup(PanelFormulaClanLayout.createSequentialGroup()
+                        .addComponent(lblFormJugIniClan, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spinnerFormJugIniClan, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        PanelFormulaClanLayout.setVerticalGroup(
+            PanelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelFormulaClanLayout.createSequentialGroup()
+                .addGroup(PanelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblfdex)
+                    .addComponent(spinnerformulax2clan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblx2clan)
+                    .addComponent(spinnerformulaxclan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblxclan))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMaxNivelClan)
+                    .addComponent(spinnerNivelMaxClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFormJugXNivelClan)
+                    .addComponent(spinnerFormJugXNivelClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFormJugIniClan)
+                    .addComponent(spinnerFormJugIniClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(PanelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnValidarFormulaClan)
+                    .addComponent(btnResetearFormulaClan)))
+        );
+
+        PanelEditNivelesClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor/Visor de niveles"));
+
+        tablaClanes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-
+                "Nivel", "Dinero", "Núm. Jug."
             }
         ));
-        jScrollPane4.setViewportView(jTable1);
+        tablaClanes.getTableHeader().setReorderingAllowed(false);
+        tablaClanes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaClanesMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaClanesMouseReleased(evt);
+            }
+        });
+        jScrollPane7.setViewportView(tablaClanes);
 
-        jLabel23.setText("ItemType");
+        btnAnadirNivel.setText("Añadir nivel");
+        btnAnadirNivel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnadirNivelActionPerformed(evt);
+            }
+        });
 
-        jLabel36.setText("Item");
+        btnEditarNivel.setText("Editar nivel");
+        btnEditarNivel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarNivelActionPerformed(evt);
+            }
+        });
 
-        jComboBox8.setToolTipText("");
+        btnEliminarNivel.setText("Eliminar nivel");
+        btnEliminarNivel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarNivelActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        lblDineroEditNivelClan.setText("Dinero");
+
+        lblNumJugEditNivelClan.setText("Número Jugadores");
+
+        javax.swing.GroupLayout PanelEditNivelesClanLayout = new javax.swing.GroupLayout(PanelEditNivelesClan);
+        PanelEditNivelesClan.setLayout(PanelEditNivelesClanLayout);
+        PanelEditNivelesClanLayout.setHorizontalGroup(
+            PanelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelEditNivelesClanLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel23)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox7, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel36)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox8, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel23)
-                    .addComponent(jComboBox7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel36)
-                    .addComponent(jComboBox8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(118, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 10, Short.MAX_VALUE)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel15)
+                .addGroup(PanelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(PanelEditNivelesClanLayout.createSequentialGroup()
+                        .addGroup(PanelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelEditNivelesClanLayout.createSequentialGroup()
+                                .addGap(49, 49, 49)
+                                .addComponent(btnAnadirNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelEditNivelesClanLayout.createSequentialGroup()
+                                .addGroup(PanelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnEditarNivel, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                                    .addComponent(lblDineroEditNivelClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSpinner43))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel16)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSpinner44, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel17)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jSpinner45, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(PanelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnEliminarNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spinnerDineroEditClan, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(PanelEditNivelesClanLayout.createSequentialGroup()
+                                .addComponent(lblNumJugEditNivelClan, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(spinnerNumJugEditClan, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        PanelEditNivelesClanLayout.setVerticalGroup(
+            PanelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelEditNivelesClanLayout.createSequentialGroup()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEditarNivel)
+                    .addComponent(btnEliminarNivel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spinnerDineroEditClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDineroEditNivelClan))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNumJugEditNivelClan)
+                    .addComponent(spinnerNumJugEditClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAnadirNivel)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+
+        javax.swing.GroupLayout PanelOpcLimNivelClanLayout = new javax.swing.GroupLayout(PanelOpcLimNivelClan);
+        PanelOpcLimNivelClan.setLayout(PanelOpcLimNivelClanLayout);
+        PanelOpcLimNivelClanLayout.setHorizontalGroup(
+            PanelOpcLimNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelOpcLimNivelClanLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel15)
-                    .addComponent(jSpinner43, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelOpcLimNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rdBtnOpcDinFijo)
+                    .addComponent(rdBtnOpcDinForm)
+                    .addComponent(PanelFormulaClan, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(jSpinner44, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
-                    .addComponent(jSpinner45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(107, Short.MAX_VALUE))
-        );
-
-        BaseClassPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Attack Type"));
-
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        javax.swing.GroupLayout BaseClassPanel2Layout = new javax.swing.GroupLayout(BaseClassPanel2);
-        BaseClassPanel2.setLayout(BaseClassPanel2Layout);
-        BaseClassPanel2Layout.setHorizontalGroup(
-            BaseClassPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BaseClassPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(PanelEditNivelesClan, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        BaseClassPanel2Layout.setVerticalGroup(
-            BaseClassPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BaseClassPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(16, Short.MAX_VALUE))
-        );
-
-        BaseClassPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Mob Base Attributes"));
-
-        baseHealthLbl1.setText("physical damage");
-
-        baseManaLbl1.setText("ranged damage");
-
-        basePhyAttLbl1.setText("movement speed");
-
-        basePhyDefLbl1.setText("attack speed");
-
-        basePhyHRLbl1.setText("knockback");
-
-        basePhyEvaLbl1.setText("follow range");
-
-        basePhyEvaLbl2.setText("max health");
-
-        basePhyEvaLbl3.setText("ranged strength");
-
-        javax.swing.GroupLayout BaseClassPanel1Layout = new javax.swing.GroupLayout(BaseClassPanel1);
-        BaseClassPanel1.setLayout(BaseClassPanel1Layout);
-        BaseClassPanel1Layout.setHorizontalGroup(
-            BaseClassPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BaseClassPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(BaseClassPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(BaseClassPanel1Layout.createSequentialGroup()
-                        .addComponent(baseHealthLbl1)
+        PanelOpcLimNivelClanLayout.setVerticalGroup(
+            PanelOpcLimNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelOpcLimNivelClanLayout.createSequentialGroup()
+                .addGroup(PanelOpcLimNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelOpcLimNivelClanLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(rdBtnOpcDinFijo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner42))
-                    .addGroup(BaseClassPanel1Layout.createSequentialGroup()
-                        .addComponent(basePhyEvaLbl1)
+                        .addComponent(rdBtnOpcDinForm)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner39))
-                    .addGroup(BaseClassPanel1Layout.createSequentialGroup()
-                        .addComponent(baseManaLbl1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner35))
-                    .addGroup(BaseClassPanel1Layout.createSequentialGroup()
-                        .addComponent(basePhyAttLbl1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner36, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
-                    .addGroup(BaseClassPanel1Layout.createSequentialGroup()
-                        .addComponent(basePhyDefLbl1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner37))
-                    .addGroup(BaseClassPanel1Layout.createSequentialGroup()
-                        .addComponent(basePhyHRLbl1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner38))
-                    .addGroup(BaseClassPanel1Layout.createSequentialGroup()
-                        .addComponent(basePhyEvaLbl2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner40))
-                    .addGroup(BaseClassPanel1Layout.createSequentialGroup()
-                        .addComponent(basePhyEvaLbl3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinner41)))
+                        .addComponent(PanelFormulaClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(PanelEditNivelesClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        BaseClassPanel1Layout.setVerticalGroup(
-            BaseClassPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(BaseClassPanel1Layout.createSequentialGroup()
+
+        javax.swing.GroupLayout PanelConfigClanesLayout = new javax.swing.GroupLayout(PanelConfigClanes);
+        PanelConfigClanes.setLayout(PanelConfigClanesLayout);
+        PanelConfigClanesLayout.setHorizontalGroup(
+            PanelConfigClanesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigClanesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigClanesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PanelOpcLimNivelClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelConfigClanesLayout.createSequentialGroup()
+                        .addComponent(PanelNumJugClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PanelSisContNivelClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PanelConfigClanesLayout.createSequentialGroup()
+                        .addComponent(lblnivMinJugCrearClan)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spinnerNivelMinJugClan, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        PanelConfigClanesLayout.setVerticalGroup(
+            PanelConfigClanesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigClanesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigClanesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblnivMinJugCrearClan)
+                    .addComponent(spinnerNivelMinJugClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
+                .addGroup(PanelConfigClanesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(PanelNumJugClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelSisContNivelClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelOpcLimNivelClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout PanelConfigGuildsLayout = new javax.swing.GroupLayout(PanelConfigGuilds);
+        PanelConfigGuilds.setLayout(PanelConfigGuildsLayout);
+        PanelConfigGuildsLayout.setHorizontalGroup(
+            PanelConfigGuildsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigGuildsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigGuildsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelConfigGuildsLayout.createSequentialGroup()
+                        .addGap(229, 229, 229)
+                        .addComponent(btnResetConfigClan)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnGuardarConfigClan))
+                    .addComponent(PanelConfigClanes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(681, 681, 681))
+        );
+        PanelConfigGuildsLayout.setVerticalGroup(
+            PanelConfigGuildsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigGuildsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigGuildsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnResetConfigClan)
+                    .addComponent(btnGuardarConfigClan))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelConfigClanes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(113, Short.MAX_VALUE))
+        );
+
+        PanelConfig.addTab("Clanes", PanelConfigGuilds);
+        if(checkClanes.isSelected()){
+            lblnivMinJugCrearClan.setEnabled(checkClanes.isSelected());
+            spinnerNivelMinJugClan.setEnabled(checkClanes.isSelected());
+            PanelNumJugClan.setEnabled(checkClanes.isSelected());
+            rdBtnNumIlimitadosClan.setEnabled(checkClanes.isSelected());
+            rdBtnNumFijosClan.setEnabled(checkClanes.isSelected());
+            rdBtnLimitNivClan.setEnabled(checkClanes.isSelected());
+            if(rdBtnNumIlimitadosClan.isSelected()){
+                spinnerNumFijosClan.setEnabled(false);
+                lblJugadoresClan.setEnabled(false);
+                PanelOpcLimNivelClan.setEnabled(false);
+                rdBtnOpcDinFijo.setEnabled(false);
+                rdBtnOpcDinForm.setEnabled(false);
+                PanelFormulaClan.setEnabled(false);
+                lblfdex.setEnabled(false);
+                spinnerformulax2clan.setEnabled(false);
+                lblx2clan.setEnabled(false);
+                spinnerformulaxclan.setEnabled(false);
+                lblxclan.setEnabled(false);
+                lblMaxNivelClan.setEnabled(false);
+                lblFormJugIniClan.setEnabled(false);
+                spinnerFormJugIniClan.setEnabled(false);
+                lblFormJugXNivelClan.setEnabled(false);
+                spinnerFormJugXNivelClan.setEnabled(false);
+                btnValidarFormulaClan.setEnabled(false);
+                PanelSisContNivelClan.setEnabled(false);
+                rdBtnContriAmbos.setEnabled(false);
+                rdBtnContriSoloContri.setEnabled(false);
+                rdBtnContriSoloDon.setEnabled(false);
+                spinnerContriPorcentajeMuertes.setEnabled(false);
+                lblporcMuertesClan.setEnabled(false);
+                PanelEditNivelesClan.setEnabled(false);
+                tablaClanes.setEnabled(false);
+                btnEditarNivel.setEnabled(false);
+                btnEliminarNivel.setEnabled(false);
+                lblDineroEditNivelClan.setEnabled(false);
+                spinnerDineroEditClan.setEnabled(false);
+                lblNumJugEditNivelClan.setEnabled(false);
+                spinnerNumJugEditClan.setEnabled(false);
+                btnAnadirNivel.setEnabled(false);
+            }
+            if(rdBtnNumFijosClan.isSelected()){
+                spinnerNumFijosClan.setEnabled(true);
+                lblJugadoresClan.setEnabled(true);
+
+                PanelOpcLimNivelClan.setEnabled(false);
+                rdBtnOpcDinFijo.setEnabled(false);
+                rdBtnOpcDinForm.setEnabled(false);
+                PanelFormulaClan.setEnabled(false);
+                lblfdex.setEnabled(false);
+                spinnerformulax2clan.setEnabled(false);
+                lblx2clan.setEnabled(false);
+                spinnerformulaxclan.setEnabled(false);
+                lblxclan.setEnabled(false);
+                lblMaxNivelClan.setEnabled(false);
+                lblFormJugIniClan.setEnabled(false);
+                spinnerFormJugIniClan.setEnabled(false);
+                lblFormJugXNivelClan.setEnabled(false);
+                spinnerFormJugXNivelClan.setEnabled(false);
+                btnValidarFormulaClan.setEnabled(false);
+                PanelSisContNivelClan.setEnabled(false);
+                rdBtnContriAmbos.setEnabled(false);
+                rdBtnContriSoloContri.setEnabled(false);
+                rdBtnContriSoloDon.setEnabled(false);
+                spinnerContriPorcentajeMuertes.setEnabled(false);
+                lblporcMuertesClan.setEnabled(false);
+                PanelEditNivelesClan.setEnabled(false);
+                tablaClanes.setEnabled(false);
+                btnEditarNivel.setEnabled(false);
+                btnEliminarNivel.setEnabled(false);
+                lblDineroEditNivelClan.setEnabled(false);
+                spinnerDineroEditClan.setEnabled(false);
+                lblNumJugEditNivelClan.setEnabled(false);
+                spinnerNumJugEditClan.setEnabled(false);
+                btnAnadirNivel.setEnabled(false);
+            }
+            if(rdBtnLimitNivClan.isSelected()){
+                spinnerNumFijosClan.setEnabled(false);
+                lblJugadoresClan.setEnabled(false);
+                PanelSisContNivelClan.setEnabled(true);
+                rdBtnContriSoloContri.setEnabled(true);
+                rdBtnContriSoloDon.setEnabled(true);
+                rdBtnContriAmbos.setEnabled(true);
+                if(rdBtnContriSoloDon.isSelected()){
+                    spinnerContriPorcentajeMuertes.setEnabled(false);
+                    lblporcMuertesClan.setEnabled(false);
+                }
+                if(rdBtnContriSoloContri.isSelected() || rdBtnContriAmbos.isSelected()){
+                    spinnerContriPorcentajeMuertes.setEnabled(true);
+                    lblporcMuertesClan.setEnabled(true);
+                }
+                PanelOpcLimNivelClan.setEnabled(true);
+                rdBtnOpcDinFijo.setEnabled(true);
+                rdBtnOpcDinForm.setEnabled(true);
+                PanelEditNivelesClan.setEnabled(true);
+                tablaClanes.setEnabled(true);
+                if(rdBtnOpcDinFijo.isSelected()){
+                    PanelFormulaClan.setEnabled(false);
+                    lblfdex.setEnabled(false);
+                    spinnerformulax2clan.setEnabled(false);
+                    lblx2clan.setEnabled(false);
+                    spinnerformulaxclan.setEnabled(false);
+                    lblxclan.setEnabled(false);
+                    lblMaxNivelClan.setEnabled(false);
+                    spinnerNivelMaxClan.setEnabled(false);
+                    lblFormJugIniClan.setEnabled(false);
+                    spinnerFormJugIniClan.setEnabled(false);
+                    lblFormJugXNivelClan.setEnabled(false);
+                    spinnerFormJugXNivelClan.setEnabled(false);
+                    btnValidarFormulaClan.setEnabled(false);
+                    btnResetearFormulaClan.setEnabled(false);
+
+                    btnEditarNivel.setEnabled(true);
+                    btnEliminarNivel.setEnabled(true);
+                    btnAnadirNivel.setEnabled(true);
+                    lblDineroEditNivelClan.setEnabled(true);
+                    spinnerDineroEditClan.setEnabled(true);
+                    lblNumJugEditNivelClan.setEnabled(true);
+                    spinnerNumJugEditClan.setEnabled(true);
+                }
+                if(rdBtnOpcDinForm.isSelected()){
+                    PanelFormulaClan.setEnabled(true);
+                    lblfdex.setEnabled(true);
+                    spinnerformulax2clan.setEnabled(true);
+                    lblx2clan.setEnabled(true);
+                    spinnerformulaxclan.setEnabled(true);
+                    lblxclan.setEnabled(true);
+                    lblMaxNivelClan.setEnabled(true);
+                    spinnerNivelMaxClan.setEnabled(true);
+                    lblFormJugIniClan.setEnabled(true);
+                    spinnerFormJugIniClan.setEnabled(true);
+                    lblFormJugXNivelClan.setEnabled(true);
+                    spinnerFormJugXNivelClan.setEnabled(true);
+                    btnValidarFormulaClan.setEnabled(true);
+                    btnResetearFormulaClan.setEnabled(true);
+
+                    btnEditarNivel.setEnabled(false);
+                    btnEliminarNivel.setEnabled(false);
+                    btnAnadirNivel.setEnabled(false);
+                    lblDineroEditNivelClan.setEnabled(false);
+                    spinnerDineroEditClan.setEnabled(false);
+                    lblNumJugEditNivelClan.setEnabled(false);
+                    spinnerNumJugEditClan.setEnabled(false);
+                }
+            }
+        }
+
+        btnGuardarConfigGrupos.setText("Guardar");
+
+        btnResetConfigGrupos.setText("Resetear configuracion");
+
+        PanelConfigGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de grupos"));
+
+        PanelNumJugGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Número de jugadores"));
+
+        lblJugadoresGrupo.setText("jugadores");
+
+        rdBtnIlimitadosGrupo.setSelected(true);
+        rdBtnIlimitadosGrupo.setText("Ilimitados");
+
+        rdBtnFijosGrupo.setText("Fijos");
+        rdBtnFijosGrupo.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                rdBtnFijosGrupoStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PanelNumJugGruposLayout = new javax.swing.GroupLayout(PanelNumJugGrupos);
+        PanelNumJugGrupos.setLayout(PanelNumJugGruposLayout);
+        PanelNumJugGruposLayout.setHorizontalGroup(
+            PanelNumJugGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelNumJugGruposLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(BaseClassPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(baseHealthLbl1)
-                    .addComponent(jSpinner42, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelNumJugGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelNumJugGruposLayout.createSequentialGroup()
+                        .addComponent(rdBtnFijosGrupo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spinnerNumeroFijoJugGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblJugadoresGrupo))
+                    .addComponent(rdBtnIlimitadosGrupo)))
+        );
+        PanelNumJugGruposLayout.setVerticalGroup(
+            PanelNumJugGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelNumJugGruposLayout.createSequentialGroup()
+                .addComponent(rdBtnIlimitadosGrupo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(baseManaLbl1)
-                    .addComponent(jSpinner35, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(basePhyAttLbl1)
-                    .addComponent(jSpinner36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(basePhyDefLbl1)
-                    .addComponent(jSpinner37, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(basePhyHRLbl1)
-                    .addComponent(jSpinner38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(basePhyEvaLbl1)
-                    .addComponent(jSpinner39, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(basePhyEvaLbl2)
-                    .addComponent(jSpinner40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(BaseClassPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(basePhyEvaLbl3)
-                    .addComponent(jSpinner41, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(PanelNumJugGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rdBtnFijosGrupo)
+                    .addComponent(spinnerNumeroFijoJugGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblJugadoresGrupo)))
         );
 
-        javax.swing.GroupLayout classEditorPanel1Layout = new javax.swing.GroupLayout(classEditorPanel1);
-        classEditorPanel1.setLayout(classEditorPanel1Layout);
-        classEditorPanel1Layout.setHorizontalGroup(
-            classEditorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(classEditorPanel1Layout.createSequentialGroup()
-                .addComponent(classNameLbl1)
+        PanelPvpGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("PvP"));
+
+        rdBtnPermitidoPvpGrupo.setSelected(true);
+        rdBtnPermitidoPvpGrupo.setText("Permitido");
+
+        rdBtnNoPermitidoPvpGrupo.setText("No permitido");
+
+        javax.swing.GroupLayout PanelPvpGruposLayout = new javax.swing.GroupLayout(PanelPvpGrupos);
+        PanelPvpGrupos.setLayout(PanelPvpGruposLayout);
+        PanelPvpGruposLayout.setHorizontalGroup(
+            PanelPvpGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelPvpGruposLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelPvpGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rdBtnPermitidoPvpGrupo)
+                    .addComponent(rdBtnNoPermitidoPvpGrupo))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        PanelPvpGruposLayout.setVerticalGroup(
+            PanelPvpGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelPvpGruposLayout.createSequentialGroup()
+                .addComponent(rdBtnPermitidoPvpGrupo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(rdBtnNoPermitidoPvpGrupo))
+        );
+
+        PanelSistRepGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Sistema de reparto"));
+
+        rdBtnSinRepartoGrupo.setSelected(true);
+        rdBtnSinRepartoGrupo.setText("Sin reparto");
+
+        rdBtnSoloDineroGrupo.setText("Sólo dinero");
+
+        rdBtnSoloExpGrupo.setText("Sólo experiencia");
+
+        rdBtnAmbosGrupo.setText("Dinero y experiencia");
+
+        javax.swing.GroupLayout PanelSistRepGruposLayout = new javax.swing.GroupLayout(PanelSistRepGrupos);
+        PanelSistRepGrupos.setLayout(PanelSistRepGruposLayout);
+        PanelSistRepGruposLayout.setHorizontalGroup(
+            PanelSistRepGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSistRepGruposLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelSistRepGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rdBtnSinRepartoGrupo)
+                    .addComponent(rdBtnSoloDineroGrupo)
+                    .addComponent(rdBtnSoloExpGrupo)
+                    .addComponent(rdBtnAmbosGrupo))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        PanelSistRepGruposLayout.setVerticalGroup(
+            PanelSistRepGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSistRepGruposLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(rdBtnSinRepartoGrupo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(classNameTxt1, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                .addComponent(rdBtnSoloDineroGrupo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(classNameLbl2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(rdBtnSoloExpGrupo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(classNameLbl3)
+                .addComponent(rdBtnAmbosGrupo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PanelOpcRepGRupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones de reparto"));
+
+        rdBtnOpcionigualitarioGrupo.setSelected(true);
+        rdBtnOpcionigualitarioGrupo.setText("Reparto igualitario");
+
+        rdBtnOpcionProporcionalGrupo.setText("Reparto proporcional");
+
+        PanelOpcRepProp.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones reparto proporcional"));
+
+        rdBtnProNivelGrupo.setSelected(true);
+        rdBtnProNivelGrupo.setText("Por nivel del jugador");
+
+        rdBtnProKillsGrupo.setText("Por muertes del jugador");
+        rdBtnProKillsGrupo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdBtnProKillsGrupoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PanelOpcRepPropLayout = new javax.swing.GroupLayout(PanelOpcRepProp);
+        PanelOpcRepProp.setLayout(PanelOpcRepPropLayout);
+        PanelOpcRepPropLayout.setHorizontalGroup(
+            PanelOpcRepPropLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelOpcRepPropLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelOpcRepPropLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rdBtnProNivelGrupo)
+                    .addComponent(rdBtnProKillsGrupo))
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+        PanelOpcRepPropLayout.setVerticalGroup(
+            PanelOpcRepPropLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelOpcRepPropLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(rdBtnProNivelGrupo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(rdBtnProKillsGrupo))
+        );
+
+        javax.swing.GroupLayout PanelOpcRepGRuposLayout = new javax.swing.GroupLayout(PanelOpcRepGRupos);
+        PanelOpcRepGRupos.setLayout(PanelOpcRepGRuposLayout);
+        PanelOpcRepGRuposLayout.setHorizontalGroup(
+            PanelOpcRepGRuposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelOpcRepGRuposLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelOpcRepGRuposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PanelOpcRepProp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelOpcRepGRuposLayout.createSequentialGroup()
+                        .addGroup(PanelOpcRepGRuposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rdBtnOpcionigualitarioGrupo)
+                            .addComponent(rdBtnOpcionProporcionalGrupo))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        PanelOpcRepGRuposLayout.setVerticalGroup(
+            PanelOpcRepGRuposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelOpcRepGRuposLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(rdBtnOpcionigualitarioGrupo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(saveNewClass_btn1)
+                .addComponent(rdBtnOpcionProporcionalGrupo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(resetValues_btn1)
-                .addGap(324, 324, 324))
-            .addGroup(classEditorPanel1Layout.createSequentialGroup()
-                .addGroup(classEditorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(BaseClassPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BaseClassPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(BaseClassPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(PanelOpcRepProp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout PanelConfigGruposLayout = new javax.swing.GroupLayout(PanelConfigGrupos);
+        PanelConfigGrupos.setLayout(PanelConfigGruposLayout);
+        PanelConfigGruposLayout.setHorizontalGroup(
+            PanelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigGruposLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(PanelSistRepGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelNumJugGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PanelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PanelPvpGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelOpcRepGRupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        PanelConfigGruposLayout.setVerticalGroup(
+            PanelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigGruposLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(PanelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(PanelNumJugGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelPvpGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(PanelOpcRepGRupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelSistRepGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        javax.swing.GroupLayout PanelConfigPartiesLayout = new javax.swing.GroupLayout(PanelConfigParties);
+        PanelConfigParties.setLayout(PanelConfigPartiesLayout);
+        PanelConfigPartiesLayout.setHorizontalGroup(
+            PanelConfigPartiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigPartiesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigPartiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(PanelConfigGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelConfigPartiesLayout.createSequentialGroup()
+                        .addGap(208, 208, 208)
+                        .addComponent(btnResetConfigGrupos)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnGuardarConfigGrupos)))
+                .addContainerGap(467, Short.MAX_VALUE))
+        );
+        PanelConfigPartiesLayout.setVerticalGroup(
+            PanelConfigPartiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigPartiesLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addGroup(PanelConfigPartiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnResetConfigGrupos)
+                    .addComponent(btnGuardarConfigGrupos))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelConfigGrupos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(280, Short.MAX_VALUE))
+        );
+
+        PanelConfig.addTab("Grupos", PanelConfigParties);
+
+        PanelConfigArmor.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración armaduras"));
+        PanelConfigArmor.setPreferredSize(new java.awt.Dimension(800, 600));
+
+        jScrollPane6.setMaximumSize(new java.awt.Dimension(1000, 600));
+        jScrollPane6.setMinimumSize(new java.awt.Dimension(800, 600));
+        jScrollPane6.setPreferredSize(new java.awt.Dimension(1000, 600));
+
+        PanelSelectorArmadura.setBorder(javax.swing.BorderFactory.createTitledBorder("Selector de sets de armadura"));
+
+        jLabel107.setText("Seleccion de set");
+
+        jComboset.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnNuevoSet.setText("Nuevo set");
+
+        btnEditarSet.setText("Editar set");
+
+        btnEliminarSet.setText("Eliminar set");
+
+        PanelEditarSet.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de sets de armadura"));
+
+        lblNombreSet.setText("Nombre de la armadura");
+
+        lblNivel.setText("Nivel");
+
+        comboMaterial.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblMaterial.setText("Material base del set");
+
+        comboCalidad.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblCalidad.setText("Calidad del set");
+
+        checkComerciableArmadura.setText("Comerciable");
+
+        checkMejorableArmadura.setText("Mejorable");
+
+        PanelPechera.setBorder(javax.swing.BorderFactory.createTitledBorder("Pechera"));
+
+        lblDefFisPechera.setText("Defensa física");
+
+        lblMejDefFisPechera.setText("Inc. Defensa física");
+
+        lblMejEvaFisPechera.setText("Inc. Evasión física");
+
+        lblEvaFisPechera.setText("Evasión física");
+
+        lblPrecioVPechera.setText("Precio venta");
+
+        lblPrecioCPechera.setText("Precio compra");
+
+        lblExpExtraPechera.setText("Exp. extra");
+
+        lblDineroExtraPechera.setText("Dinero extra");
+
+        javax.swing.GroupLayout PanelPecheraLayout = new javax.swing.GroupLayout(PanelPechera);
+        PanelPechera.setLayout(PanelPecheraLayout);
+        PanelPecheraLayout.setHorizontalGroup(
+            PanelPecheraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelPecheraLayout.createSequentialGroup()
+                .addGroup(PanelPecheraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(lblPrecioVPechera, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblMejDefFisPechera, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                    .addComponent(lblDefFisPechera, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblEvaFisPechera, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblMejEvaFisPechera, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPrecioCPechera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelPecheraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelPecheraLayout.createSequentialGroup()
+                        .addComponent(spinnerDefFisPechera, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelPecheraLayout.createSequentialGroup()
+                        .addGroup(PanelPecheraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(spinnerPrecioVPechera, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(spinnerMejDefFisPechera, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(spinnerEvaFisPechera, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(spinnerMejEvaFisPechera))
+                        .addGap(10, 10, 10))
+                    .addGroup(PanelPecheraLayout.createSequentialGroup()
+                        .addComponent(spinnerPrecioCPechera)
+                        .addContainerGap())))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelPecheraLayout.createSequentialGroup()
+                .addGroup(PanelPecheraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblExpExtraPechera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblDineroExtraPechera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelPecheraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(spinnerDineroExtraPechera, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                    .addComponent(spinnerExpExtraPechera))
+                .addContainerGap())
+        );
+        PanelPecheraLayout.setVerticalGroup(
+            PanelPecheraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelPecheraLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelPecheraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDefFisPechera)
+                    .addComponent(spinnerDefFisPechera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelPecheraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMejDefFisPechera)
+                    .addComponent(spinnerMejDefFisPechera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelPecheraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEvaFisPechera)
+                    .addComponent(spinnerEvaFisPechera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelPecheraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMejEvaFisPechera)
+                    .addComponent(spinnerMejEvaFisPechera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelPecheraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrecioVPechera)
+                    .addComponent(spinnerPrecioVPechera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelPecheraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrecioCPechera)
+                    .addComponent(spinnerPrecioCPechera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelPecheraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblExpExtraPechera)
+                    .addComponent(spinnerExpExtraPechera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelPecheraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDineroExtraPechera)
+                    .addComponent(spinnerDineroExtraPechera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PanelPantalones.setBorder(javax.swing.BorderFactory.createTitledBorder("Grebas"));
+
+        lblDefFisGrebas.setText("Defensa física");
+
+        lblMejDefFisGrebas.setText("Inc. Defensa física");
+
+        lvlMejEvaFisGrebas.setText("Inc. Evasión física");
+
+        lblEvaFisGrebas.setText("Evasión física");
+
+        lblPrecioVGrebas.setText("Precio venta");
+
+        lblPrecioCGrebas.setText("Precio compra");
+
+        lblExpExtraGrebas.setText("Exp. extra");
+
+        lblDineroExtraGrebas.setText("Dinero extra");
+
+        javax.swing.GroupLayout PanelPantalonesLayout = new javax.swing.GroupLayout(PanelPantalones);
+        PanelPantalones.setLayout(PanelPantalonesLayout);
+        PanelPantalonesLayout.setHorizontalGroup(
+            PanelPantalonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelPantalonesLayout.createSequentialGroup()
+                .addGroup(PanelPantalonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(lblExpExtraGrebas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPrecioVGrebas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblDefFisGrebas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblMejDefFisGrebas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblEvaFisGrebas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lvlMejEvaFisGrebas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPrecioCGrebas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblDineroExtraGrebas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelPantalonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spinnerDineroExtraGrebas)
+                    .addComponent(spinnerPrecioVGrebas)
+                    .addComponent(spinnerPrecioCGrebas)
+                    .addComponent(spinnerExpExtraGrebas)
+                    .addComponent(spinnerDefFisGrebas)
+                    .addComponent(spinnerMejDefFisGrebas)
+                    .addComponent(spinnerEvaFisGrebas)
+                    .addComponent(spinnerMejEvaFisGrebas))
+                .addContainerGap())
+        );
+        PanelPantalonesLayout.setVerticalGroup(
+            PanelPantalonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelPantalonesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelPantalonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDefFisGrebas)
+                    .addComponent(spinnerDefFisGrebas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelPantalonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMejDefFisGrebas)
+                    .addComponent(spinnerMejDefFisGrebas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelPantalonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEvaFisGrebas)
+                    .addComponent(spinnerEvaFisGrebas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(PanelPantalonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lvlMejEvaFisGrebas)
+                    .addComponent(spinnerMejEvaFisGrebas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelPantalonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrecioVGrebas)
+                    .addComponent(spinnerPrecioVGrebas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelPantalonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrecioCGrebas)
+                    .addComponent(spinnerPrecioCGrebas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelPantalonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblExpExtraGrebas)
+                    .addComponent(spinnerExpExtraGrebas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelPantalonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDineroExtraGrebas)
+                    .addComponent(spinnerDineroExtraGrebas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        PanelBotas.setBorder(javax.swing.BorderFactory.createTitledBorder("Botas"));
+
+        lblDefFisBotas.setText("Defensa física");
+
+        lblMejDefFisBotas.setText("Inc. Defensa física");
+
+        lblMejEvaFisBotas.setText("Inc. Evasión física");
+
+        lblEvaFisBotas.setText("Evasión física");
+
+        lblPrecioVBotas.setText("Precio venta");
+
+        lblPrecioCBotas.setText("Precio compra");
+
+        lblExpExtraBotas.setText("Exp. extra");
+
+        lblDineroExtraBotas.setText("Dinero extra");
+
+        javax.swing.GroupLayout PanelBotasLayout = new javax.swing.GroupLayout(PanelBotas);
+        PanelBotas.setLayout(PanelBotasLayout);
+        PanelBotasLayout.setHorizontalGroup(
+            PanelBotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelBotasLayout.createSequentialGroup()
+                .addGroup(PanelBotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(lblPrecioVBotas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblMejDefFisBotas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                    .addComponent(lblDefFisBotas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblEvaFisBotas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblMejEvaFisBotas, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPrecioCBotas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelBotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBotasLayout.createSequentialGroup()
+                        .addComponent(spinnerPrecioVBotas)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBotasLayout.createSequentialGroup()
+                        .addComponent(spinnerPrecioCBotas)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBotasLayout.createSequentialGroup()
+                        .addGroup(PanelBotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(spinnerDefFisBotas, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(spinnerEvaFisBotas, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(spinnerMejEvaFisBotas)
+                            .addComponent(spinnerMejDefFisBotas, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(10, 10, 10))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelBotasLayout.createSequentialGroup()
+                .addGroup(PanelBotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblExpExtraBotas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblDineroExtraBotas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelBotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(spinnerDineroExtraBotas, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                    .addComponent(spinnerExpExtraBotas))
+                .addContainerGap())
+        );
+        PanelBotasLayout.setVerticalGroup(
+            PanelBotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelBotasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelBotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDefFisBotas)
+                    .addComponent(spinnerDefFisBotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelBotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMejDefFisBotas)
+                    .addComponent(spinnerMejDefFisBotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelBotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEvaFisBotas)
+                    .addComponent(spinnerEvaFisBotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelBotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMejEvaFisBotas)
+                    .addComponent(spinnerMejEvaFisBotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelBotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrecioVBotas)
+                    .addComponent(spinnerPrecioVBotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelBotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrecioCBotas)
+                    .addComponent(spinnerPrecioCBotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelBotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblExpExtraBotas)
+                    .addComponent(spinnerExpExtraBotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelBotasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDineroExtraBotas)
+                    .addComponent(spinnerDineroExtraBotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        PanelCasco.setBorder(javax.swing.BorderFactory.createTitledBorder("Yelmo"));
+
+        lblDefFisCasco.setText("Defensa física");
+
+        lblMejDefFisCasco.setText("Inc. Defensa física");
+
+        lblMejEvaFisCasco.setText("Inc. Evasión física");
+
+        lblEvaFisCasco.setText("Evasión física");
+
+        lblPrecioVCasco.setText("Precio venta");
+
+        lblPrecioCCasco.setText("Precio compra");
+
+        lblExpExtraCasco.setText("Exp. extra");
+
+        lblDineroExtraCasco.setText("Dinero extra");
+
+        javax.swing.GroupLayout PanelCascoLayout = new javax.swing.GroupLayout(PanelCasco);
+        PanelCasco.setLayout(PanelCascoLayout);
+        PanelCascoLayout.setHorizontalGroup(
+            PanelCascoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelCascoLayout.createSequentialGroup()
+                .addGroup(PanelCascoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(lblPrecioVCasco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblMejDefFisCasco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                    .addComponent(lblDefFisCasco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblEvaFisCasco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblMejEvaFisCasco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPrecioCCasco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelCascoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelCascoLayout.createSequentialGroup()
+                        .addGroup(PanelCascoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(spinnerMejDefFisCasco, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                            .addComponent(spinnerEvaFisCasco, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(spinnerMejEvaFisCasco))
+                        .addGap(10, 10, 10))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelCascoLayout.createSequentialGroup()
+                        .addComponent(spinnerDefFisCasco)
+                        .addContainerGap())
+                    .addGroup(PanelCascoLayout.createSequentialGroup()
+                        .addGroup(PanelCascoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(spinnerPrecioVCasco)
+                            .addComponent(spinnerPrecioCCasco))
+                        .addContainerGap())))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelCascoLayout.createSequentialGroup()
+                .addGroup(PanelCascoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblExpExtraCasco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblDineroExtraCasco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(4, 4, 4)
+                .addGroup(PanelCascoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(spinnerExpExtraCasco, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                    .addComponent(spinnerDineroExtraCasco))
+                .addContainerGap())
+        );
+        PanelCascoLayout.setVerticalGroup(
+            PanelCascoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelCascoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelCascoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDefFisCasco)
+                    .addComponent(spinnerDefFisCasco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelCascoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMejDefFisCasco)
+                    .addComponent(spinnerMejDefFisCasco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelCascoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblEvaFisCasco)
+                    .addComponent(spinnerEvaFisCasco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelCascoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMejEvaFisCasco)
+                    .addComponent(spinnerMejEvaFisCasco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelCascoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrecioVCasco)
+                    .addComponent(spinnerPrecioVCasco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelCascoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrecioCCasco)
+                    .addComponent(spinnerPrecioCCasco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelCascoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblExpExtraCasco)
+                    .addComponent(spinnerExpExtraCasco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelCascoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDineroExtraCasco)
+                    .addComponent(spinnerDineroExtraCasco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnGuardarSet.setText("Guardar");
+
+        javax.swing.GroupLayout PanelEditarSetLayout = new javax.swing.GroupLayout(PanelEditarSet);
+        PanelEditarSet.setLayout(PanelEditarSetLayout);
+        PanelEditarSetLayout.setHorizontalGroup(
+            PanelEditarSetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelEditarSetLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelEditarSetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnGuardarSet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelEditarSetLayout.createSequentialGroup()
+                        .addGroup(PanelEditarSetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(PanelPechera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PanelBotas, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(checkComerciableArmadura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(PanelEditarSetLayout.createSequentialGroup()
+                                .addGroup(PanelEditarSetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblNombreSet, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblMaterial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(PanelEditarSetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(comboMaterial, 0, 165, Short.MAX_VALUE)
+                                    .addComponent(txtNombreSet))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(PanelEditarSetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(PanelEditarSetLayout.createSequentialGroup()
+                                .addComponent(lblNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinnerNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PanelEditarSetLayout.createSequentialGroup()
+                                .addComponent(lblCalidad, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(comboCalidad, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(checkMejorableArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(PanelCasco, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PanelPantalones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        PanelEditarSetLayout.setVerticalGroup(
+            PanelEditarSetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelEditarSetLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelEditarSetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombreSet)
+                    .addComponent(txtNombreSet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNivel)
+                    .addComponent(spinnerNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditarSetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMaterial)
+                    .addComponent(comboMaterial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCalidad)
+                    .addComponent(comboCalidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditarSetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkComerciableArmadura)
+                    .addComponent(checkMejorableArmadura))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(PanelEditarSetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PanelPechera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PanelPantalones, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(PanelEditarSetLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PanelBotas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PanelCasco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGuardarSet)
+                .addGap(16, 16, 16))
+        );
+
+        javax.swing.GroupLayout PanelSelectorArmaduraLayout = new javax.swing.GroupLayout(PanelSelectorArmadura);
+        PanelSelectorArmadura.setLayout(PanelSelectorArmaduraLayout);
+        PanelSelectorArmaduraLayout.setHorizontalGroup(
+            PanelSelectorArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSelectorArmaduraLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelSelectorArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(PanelEditarSet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PanelSelectorArmaduraLayout.createSequentialGroup()
+                        .addComponent(jLabel107)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboset, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEditarSet)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminarSet)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnNuevoSet)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        PanelSelectorArmaduraLayout.setVerticalGroup(
+            PanelSelectorArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelSelectorArmaduraLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelSelectorArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel107)
+                    .addComponent(jComboset, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNuevoSet)
+                    .addComponent(btnEditarSet)
+                    .addComponent(btnEliminarSet))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelEditarSet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        PanelMejoraArmadura.setBorder(javax.swing.BorderFactory.createTitledBorder("Mejora de armaduras"));
+
+        btnGuardarConfigArmadura.setText("Guardar");
+
+        lblMejoradorArmadura.setText("objeto mejorador");
+
+        lblNombreMejoradorArmadura.setText("Nombre del objeto");
+
+        txtNombreObjetoMejArmadura.setText("jTextField3");
+
+        comboMejoradorArmadura.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        txtDescripcionArmadura.setText("jTextField4");
+
+        lblDescripcionMejoradorArmadura.setText("descripción");
+
+        btnAnadirDescArmadura.setText("Añadir");
+        btnAnadirDescArmadura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnadirDescArmaduraActionPerformed(evt);
+            }
+        });
+
+        btnEditarDEscArmadura.setText("Editar");
+        btnEditarDEscArmadura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarDEscArmaduraActionPerformed(evt);
+            }
+        });
+
+        btnEliminarDescArmadura.setText("Eliminar");
+        btnEliminarDescArmadura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarDescArmaduraActionPerformed(evt);
+            }
+        });
+
+        jListDescArmadura.setBorder(javax.swing.BorderFactory.createTitledBorder("lista de descripción"));
+        jListDescArmadura.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane3.setViewportView(jListDescArmadura);
+
+        lblProbRotArmadura.setText("Probabilidad de rotura");
+
+        lblProbDetArmadura.setText("Probabilidad de deterioro");
+
+        lblProbSEArmadura.setText("Probabilidad sin efecto");
+
+        lblProbExitoArmadura.setText("Probabilidad de exito");
+
+        javax.swing.GroupLayout PanelMejoraArmaduraLayout = new javax.swing.GroupLayout(PanelMejoraArmadura);
+        PanelMejoraArmadura.setLayout(PanelMejoraArmaduraLayout);
+        PanelMejoraArmaduraLayout.setHorizontalGroup(
+            PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(PanelMejoraArmaduraLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelMejoraArmaduraLayout.createSequentialGroup()
+                        .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(PanelMejoraArmaduraLayout.createSequentialGroup()
+                                .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblNombreMejoradorArmadura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblMejoradorArmadura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblDescripcionMejoradorArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(comboMejoradorArmadura, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtNombreObjetoMejArmadura)
+                                    .addComponent(txtDescripcionArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(PanelMejoraArmaduraLayout.createSequentialGroup()
+                                .addComponent(btnAnadirDescArmadura)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnEditarDEscArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnEliminarDescArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelMejoraArmaduraLayout.createSequentialGroup()
+                                .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblProbRotArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblProbDetArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(spinnerProbRotArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spinnerProbDetArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(PanelMejoraArmaduraLayout.createSequentialGroup()
+                                .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(lblProbSEArmadura, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                                    .addComponent(lblProbExitoArmadura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(spinnerProbExitoArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spinnerProbSEArmadura, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(btnGuardarConfigArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+        PanelMejoraArmaduraLayout.setVerticalGroup(
+            PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelMejoraArmaduraLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(PanelMejoraArmaduraLayout.createSequentialGroup()
+                            .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblProbRotArmadura)
+                                .addComponent(spinnerProbRotArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(9, 9, 9)
+                            .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(spinnerProbDetArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblProbDetArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(PanelMejoraArmaduraLayout.createSequentialGroup()
+                            .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblNombreMejoradorArmadura)
+                                .addComponent(txtNombreObjetoMejArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(comboMejoradorArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblMejoradorArmadura))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblDescripcionMejoradorArmadura)
+                                .addComponent(txtDescripcionArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnAnadirDescArmadura)
+                                .addComponent(btnEditarDEscArmadura)
+                                .addComponent(btnEliminarDescArmadura)))
+                        .addGroup(PanelMejoraArmaduraLayout.createSequentialGroup()
+                            .addGap(57, 57, 57)
+                            .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblProbSEArmadura)
+                                .addComponent(spinnerProbSEArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(PanelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(spinnerProbExitoArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblProbExitoArmadura)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                .addComponent(btnGuardarConfigArmadura)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout PanelConfigArmadurasLayout = new javax.swing.GroupLayout(PanelConfigArmaduras);
+        PanelConfigArmaduras.setLayout(PanelConfigArmadurasLayout);
+        PanelConfigArmadurasLayout.setHorizontalGroup(
+            PanelConfigArmadurasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigArmadurasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigArmadurasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PanelMejoraArmadura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelSelectorArmadura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        PanelConfigArmadurasLayout.setVerticalGroup(
+            PanelConfigArmadurasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigArmadurasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(PanelMejoraArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelSelectorArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(133, Short.MAX_VALUE))
+        );
+
+        jScrollPane6.setViewportView(PanelConfigArmaduras);
+
+        javax.swing.GroupLayout PanelConfigArmorLayout = new javax.swing.GroupLayout(PanelConfigArmor);
+        PanelConfigArmor.setLayout(PanelConfigArmorLayout);
+        PanelConfigArmorLayout.setHorizontalGroup(
+            PanelConfigArmorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelConfigArmorLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PanelConfigArmorLayout.setVerticalGroup(
+            PanelConfigArmorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigArmorLayout.createSequentialGroup()
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-        classEditorPanel1Layout.setVerticalGroup(
-            classEditorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(classEditorPanel1Layout.createSequentialGroup()
-                .addGap(2, 2, 2)
-                .addGroup(classEditorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(classNameTxt1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(classNameLbl2)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(classNameLbl3)
-                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(saveNewClass_btn1)
-                    .addComponent(resetValues_btn1)
-                    .addComponent(classNameLbl1))
-                .addGap(2, 2, 2)
-                .addGroup(classEditorPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(classEditorPanel1Layout.createSequentialGroup()
-                        .addComponent(BaseClassPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+
+        PanelConfig.addTab("Armaduras", PanelConfigArmor);
+
+        PanelConfigMobs.setPreferredSize(new java.awt.Dimension(800, 600));
+
+        comboSelectorMobs.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnNuevoMob.setText("Nuevo");
+        btnNuevoMob.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoMobActionPerformed(evt);
+            }
+        });
+
+        btnEditMob.setText("Editar");
+        btnEditMob.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditMobActionPerformed(evt);
+            }
+        });
+
+        btnEliminarMob.setText("Eliminar");
+        btnEliminarMob.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarMobActionPerformed(evt);
+            }
+        });
+
+        PanelEditorMobs.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de monstruos"));
+        PanelEditorMobs.setName("Class Editor"); // NOI18N
+
+        lblNombreMob.setText("Nombre");
+
+        btnGuardarMob.setText("Guardar");
+        btnGuardarMob.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarMobActionPerformed(evt);
+            }
+        });
+
+        btnResetearMob.setText("Resetear");
+
+        lblNivelMob.setText("Nivel");
+
+        lblTipoMob.setText("Tipo de monstruo");
+
+        comboSelectorTipoMob.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        PanelComportamientoMob.setBorder(javax.swing.BorderFactory.createTitledBorder("Comportamiento"));
+
+        comboComportamiento.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout PanelComportamientoMobLayout = new javax.swing.GroupLayout(PanelComportamientoMob);
+        PanelComportamientoMob.setLayout(PanelComportamientoMobLayout);
+        PanelComportamientoMobLayout.setHorizontalGroup(
+            PanelComportamientoMobLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelComportamientoMobLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(comboComportamiento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PanelComportamientoMobLayout.setVerticalGroup(
+            PanelComportamientoMobLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelComportamientoMobLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(comboComportamiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        PanelDropsMobs.setBorder(javax.swing.BorderFactory.createTitledBorder("Drops del monstruo"));
+
+        PanelDropsObjetosMobs.setBorder(javax.swing.BorderFactory.createTitledBorder("Drop de objetos"));
+
+        lblObjetoDropMob.setText("Objeto");
+
+        lblCantidadDropMob.setText("Cantidad");
+
+        lblProbDropMob.setText("Probabilidad");
+
+        spinnerCantidadDropMob.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+
+        spinnerProbDropMob.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+
+        tablaDropsMob.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Tipo de objeto", "Objeto", "Cantidad", "Probabilidad"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Float.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(tablaDropsMob);
+
+        lblTipoDropMob.setText("Tipo de objeto");
+
+        comboTipoDropMob.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnAnadirDropMob.setText("Añadir");
+
+        btnEditarDropMob.setText("Editar");
+
+        btnEliminarDropMob.setText("Eliminar");
+
+        javax.swing.GroupLayout PanelDropsObjetosMobsLayout = new javax.swing.GroupLayout(PanelDropsObjetosMobs);
+        PanelDropsObjetosMobs.setLayout(PanelDropsObjetosMobsLayout);
+        PanelDropsObjetosMobsLayout.setHorizontalGroup(
+            PanelDropsObjetosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelDropsObjetosMobsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelDropsObjetosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(PanelDropsObjetosMobsLayout.createSequentialGroup()
+                        .addGroup(PanelDropsObjetosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(lblTipoDropMob, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblObjetoDropMob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblCantidadDropMob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblProbDropMob, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(BaseClassPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(PanelDropsObjetosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(spinnerCantidadDropMob, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+                            .addComponent(spinnerProbDropMob)
+                            .addComponent(comboObjetoDropMob, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboTipoDropMob, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(PanelDropsObjetosMobsLayout.createSequentialGroup()
+                        .addComponent(btnAnadirDropMob, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditarDropMob, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminarDropMob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        PanelDropsObjetosMobsLayout.setVerticalGroup(
+            PanelDropsObjetosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelDropsObjetosMobsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelDropsObjetosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTipoDropMob)
+                    .addComponent(comboTipoDropMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(BaseClassPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(214, 214, 214))
+                .addGroup(PanelDropsObjetosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblObjetoDropMob)
+                    .addComponent(comboObjetoDropMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelDropsObjetosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCantidadDropMob)
+                    .addComponent(spinnerCantidadDropMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelDropsObjetosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblProbDropMob)
+                    .addComponent(spinnerProbDropMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelDropsObjetosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAnadirDropMob)
+                    .addComponent(btnEditarDropMob)
+                    .addComponent(btnEliminarDropMob))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        PanelDropsDefault.setBorder(javax.swing.BorderFactory.createTitledBorder("Drops básicos"));
+
+        spinnerDineroDropMob.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+
+        spinnerExpDropMob.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+
+        lblDineroDropMob.setText("Dinero");
+
+        lblExpDropMob.setText("Experiencia");
+
+        javax.swing.GroupLayout PanelDropsDefaultLayout = new javax.swing.GroupLayout(PanelDropsDefault);
+        PanelDropsDefault.setLayout(PanelDropsDefaultLayout);
+        PanelDropsDefaultLayout.setHorizontalGroup(
+            PanelDropsDefaultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelDropsDefaultLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelDropsDefaultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblDineroDropMob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblExpDropMob, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelDropsDefaultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spinnerDineroDropMob, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                    .addComponent(spinnerExpDropMob))
+                .addContainerGap())
+        );
+        PanelDropsDefaultLayout.setVerticalGroup(
+            PanelDropsDefaultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelDropsDefaultLayout.createSequentialGroup()
+                .addGroup(PanelDropsDefaultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDineroDropMob)
+                    .addComponent(spinnerDineroDropMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelDropsDefaultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblExpDropMob)
+                    .addComponent(spinnerExpDropMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout PanelDropsMobsLayout = new javax.swing.GroupLayout(PanelDropsMobs);
+        PanelDropsMobs.setLayout(PanelDropsMobsLayout);
+        PanelDropsMobsLayout.setHorizontalGroup(
+            PanelDropsMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelDropsMobsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelDropsMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(PanelDropsDefault, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelDropsObjetosMobs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        PanelDropsMobsLayout.setVerticalGroup(
+            PanelDropsMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelDropsMobsLayout.createSequentialGroup()
+                .addComponent(PanelDropsDefault, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelDropsObjetosMobs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        PanelAtaqueMobs.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de ataque"));
+
+        comboTipoAtaqueMob.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout PanelAtaqueMobsLayout = new javax.swing.GroupLayout(PanelAtaqueMobs);
+        PanelAtaqueMobs.setLayout(PanelAtaqueMobsLayout);
+        PanelAtaqueMobsLayout.setHorizontalGroup(
+            PanelAtaqueMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelAtaqueMobsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(comboTipoAtaqueMob, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PanelAtaqueMobsLayout.setVerticalGroup(
+            PanelAtaqueMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelAtaqueMobsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(comboTipoAtaqueMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        PanelAtributosMobs.setBorder(javax.swing.BorderFactory.createTitledBorder("Atributos básicos del monstruo"));
+
+        lblAtaFisMob.setText("Daño físico");
+
+        lblAtaDistMob.setText("Daño a distancia");
+
+        lblVelocidadMob.setText("Velocidad");
+
+        lblVelocidadAtaqueMob.setText("Velocidad de ataque");
+
+        lblRetrocesoMob.setText("Retroceso");
+
+        lblRangoSeguiMob.setText("Rango de persecución");
+
+        spinnerAtaDistMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(2.0d), Double.valueOf(1.0d), null, Double.valueOf(1.0d)));
+
+        spinnerVelocidadMob.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.23f), Float.valueOf(0.01f), Float.valueOf(0.5f), Float.valueOf(0.01f)));
+
+        spinnerVelocidadAtaqueMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(4.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
+
+        spinnerRetrocesoMob.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+
+        spinnerRangoSeguiMob.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(23), Integer.valueOf(1), null, Integer.valueOf(1)));
+
+        lblMaxVidaMob.setText("Vida máxima");
+
+        spinnerMaxVidaMob.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(20), Integer.valueOf(1), null, Integer.valueOf(1)));
+
+        lblFuerzaDistMob.setText("Fuerza a distancia");
+
+        spinnerAtaFisMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(2.0d), Double.valueOf(1.0d), null, Double.valueOf(1.0d)));
+
+        javax.swing.GroupLayout PanelAtributosMobsLayout = new javax.swing.GroupLayout(PanelAtributosMobs);
+        PanelAtributosMobs.setLayout(PanelAtributosMobsLayout);
+        PanelAtributosMobsLayout.setHorizontalGroup(
+            PanelAtributosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelAtributosMobsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelAtributosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblFuerzaDistMob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblMaxVidaMob, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblRangoSeguiMob, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblRetrocesoMob, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblVelocidadAtaqueMob, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblVelocidadMob, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblAtaFisMob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblAtaDistMob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelAtributosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spinnerVelocidadMob, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                    .addComponent(spinnerAtaFisMob)
+                    .addComponent(spinnerRangoSeguiMob)
+                    .addComponent(spinnerRetrocesoMob)
+                    .addComponent(spinnerVelocidadAtaqueMob)
+                    .addComponent(spinnerAtaDistMob)
+                    .addComponent(spinnerMaxVidaMob)
+                    .addComponent(spinnerFuerzaDistMob))
+                .addContainerGap())
+        );
+        PanelAtributosMobsLayout.setVerticalGroup(
+            PanelAtributosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelAtributosMobsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(PanelAtributosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAtaFisMob)
+                    .addComponent(spinnerAtaFisMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelAtributosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblAtaDistMob)
+                    .addComponent(spinnerAtaDistMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelAtributosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblVelocidadMob)
+                    .addComponent(spinnerVelocidadMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelAtributosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblVelocidadAtaqueMob)
+                    .addComponent(spinnerVelocidadAtaqueMob, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelAtributosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRetrocesoMob)
+                    .addComponent(spinnerRetrocesoMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelAtributosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRangoSeguiMob)
+                    .addComponent(spinnerRangoSeguiMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelAtributosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMaxVidaMob)
+                    .addComponent(spinnerMaxVidaMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelAtributosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFuerzaDistMob)
+                    .addComponent(spinnerFuerzaDistMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        javax.swing.GroupLayout PanelEditorMobsLayout = new javax.swing.GroupLayout(PanelEditorMobs);
+        PanelEditorMobs.setLayout(PanelEditorMobsLayout);
+        PanelEditorMobsLayout.setHorizontalGroup(
+            PanelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelEditorMobsLayout.createSequentialGroup()
+                .addGroup(PanelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(PanelEditorMobsLayout.createSequentialGroup()
+                        .addGroup(PanelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(PanelAtributosMobs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PanelAtaqueMobs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PanelComportamientoMob, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PanelDropsMobs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(PanelEditorMobsLayout.createSequentialGroup()
+                        .addComponent(lblNombreMob)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtNombreMob, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblNivelMob, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spinnerNivelMob, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblTipoMob)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboSelectorTipoMob, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnGuardarMob, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnResetearMob, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        PanelEditorMobsLayout.setVerticalGroup(
+            PanelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelEditorMobsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNombreMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNivelMob)
+                    .addComponent(spinnerNivelMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTipoMob)
+                    .addComponent(comboSelectorTipoMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGuardarMob)
+                    .addComponent(btnResetearMob)
+                    .addComponent(lblNombreMob))
+                .addGap(2, 2, 2)
+                .addGroup(PanelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelEditorMobsLayout.createSequentialGroup()
+                        .addComponent(PanelAtributosMobs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PanelAtaqueMobs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PanelComportamientoMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(PanelDropsMobs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         javax.swing.GroupLayout PanelConfigMobsLayout = new javax.swing.GroupLayout(PanelConfigMobs);
@@ -1652,359 +4609,346 @@ public class GUI extends javax.swing.JFrame {
         PanelConfigMobsLayout.setHorizontalGroup(
             PanelConfigMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelConfigMobsLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(PanelConfigMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelConfigMobsLayout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(276, 276, 276)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(PanelConfigMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(PanelEditorMobs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PanelConfigMobsLayout.createSequentialGroup()
+                        .addComponent(btnNuevoMob, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(comboSelectorMobs, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEditMob, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(265, 265, 265))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelConfigMobsLayout.createSequentialGroup()
-                        .addComponent(classEditorPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(btnEliminarMob, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(237, Short.MAX_VALUE))
         );
         PanelConfigMobsLayout.setVerticalGroup(
             PanelConfigMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelConfigMobsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelConfigMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton3)
-                    .addComponent(jButton6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(classEditorPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(70, 70, 70))
-        );
-
-        PanelConfig.addTab("monstruos", PanelConfigMobs);
-
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("This section is empty by default. \nYou must add in-game spawners of mobs in order to remotely manage them here.\nAny changes done in this section will need a restart of the server to apply changes.\nYou can manage aswell in-game with commands.");
-        jScrollPane2.setViewportView(jTextArea1);
-
-        jButton4.setText("Edit");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
-        jButton7.setText("Delete");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Spawner attributes"));
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Location"));
-
-        jLabel1.setText("World");
-
-        jLabel14.setText("X");
-
-        jLabel18.setText("Y");
-
-        jLabel19.setText("Z");
-
-        jTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextField1.setText("world");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
-        jSpinner48.setModel(new javax.swing.SpinnerNumberModel());
-
-        jSpinner51.setModel(new javax.swing.SpinnerNumberModel());
-
-        jSpinner52.setModel(new javax.swing.SpinnerNumberModel());
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel18)
-                    .addComponent(jLabel19))
+                    .addComponent(comboSelectorMobs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNuevoMob)
+                    .addComponent(btnEditMob)
+                    .addComponent(btnEliminarMob))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSpinner48)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                    .addComponent(jSpinner51, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSpinner52, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(jSpinner48, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(jSpinner51, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19)
-                    .addComponent(jSpinner52, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(PanelEditorMobs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(101, Short.MAX_VALUE))
         );
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Spawner properties"));
-
-        jLabel20.setText("Mob");
-
-        jComboBox6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox6ActionPerformed(evt);
-            }
-        });
-
-        jLabel21.setText("Cooldown");
-
-        jLabel22.setText("Id");
-
-        jSpinner34.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(0L), null, null, Long.valueOf(1L)));
-
-        jLabel24.setText("Spawn radius");
-
-        jSpinner46.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
-
-        jLabel25.setText("Max Mobs");
-
-        jSpinner47.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
-
-        jCheckBox1.setText("enabled");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
-            }
-        });
-
-        jTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextField2.setText("null");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(164, 164, 164))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel20, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel25, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jSpinner47, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
-                            .addComponent(jSpinner46)
-                            .addComponent(jSpinner34)
-                            .addComponent(jComboBox6, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField2))))
-                .addContainerGap())
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel22)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(2, 2, 2)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel20)
-                    .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel21)
-                    .addComponent(jSpinner34, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel24)
-                    .addComponent(jSpinner46, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel25)
-                    .addComponent(jSpinner47, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(jCheckBox1)
-                .addContainerGap())
-        );
-
-        jButton5.setText("Save");
-
-        jButton8.setText("Reset");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(142, 142, 142)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton5)
-                    .addComponent(jButton8))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton8))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(784, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout PanelConfigSpawnersLayout = new javax.swing.GroupLayout(PanelConfigSpawners);
-        PanelConfigSpawners.setLayout(PanelConfigSpawnersLayout);
-        PanelConfigSpawnersLayout.setHorizontalGroup(
-            PanelConfigSpawnersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelConfigSpawnersLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(PanelConfigSpawnersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelConfigSpawnersLayout.createSequentialGroup()
-                        .addGap(0, 570, Short.MAX_VALUE)
-                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        PanelConfigSpawnersLayout.setVerticalGroup(
-            PanelConfigSpawnersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PanelConfigSpawnersLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(PanelConfigSpawnersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        PanelConfig.addTab("Spawners", PanelConfigSpawners);
-
-        PanelConfigNpcs.setPreferredSize(new java.awt.Dimension(800, 600));
-
-        javax.swing.GroupLayout PanelConfigNpcsLayout = new javax.swing.GroupLayout(PanelConfigNpcs);
-        PanelConfigNpcs.setLayout(PanelConfigNpcsLayout);
-        PanelConfigNpcsLayout.setHorizontalGroup(
-            PanelConfigNpcsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 933, Short.MAX_VALUE)
-        );
-        PanelConfigNpcsLayout.setVerticalGroup(
-            PanelConfigNpcsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1154, Short.MAX_VALUE)
-        );
-
-        PanelConfig.addTab("npcs", PanelConfigNpcs);
-
-        PanelConfigQuests.setPreferredSize(new java.awt.Dimension(800, 600));
-
-        javax.swing.GroupLayout PanelConfigQuestsLayout = new javax.swing.GroupLayout(PanelConfigQuests);
-        PanelConfigQuests.setLayout(PanelConfigQuestsLayout);
-        PanelConfigQuestsLayout.setHorizontalGroup(
-            PanelConfigQuestsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 933, Short.MAX_VALUE)
-        );
-        PanelConfigQuestsLayout.setVerticalGroup(
-            PanelConfigQuestsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1154, Short.MAX_VALUE)
-        );
-
-        PanelConfig.addTab("quests", PanelConfigQuests);
+        PanelConfig.addTab("Monstruos", PanelConfigMobs);
 
         getContentPane().add(PanelConfig, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void editClassbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editClassbtnActionPerformed
+    private void btnGuardarMobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarMobActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_editClassbtnActionPerformed
+    }//GEN-LAST:event_btnGuardarMobActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnEliminarMobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarMobActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnEliminarMobActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnEditMobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditMobActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnEditMobActionPerformed
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    private void btnNuevoMobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoMobActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton6ActionPerformed
+    }//GEN-LAST:event_btnNuevoMobActionPerformed
 
-    private void saveNewClass_btn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveNewClass_btn1ActionPerformed
+    private void btnEliminarDescArmaduraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarDescArmaduraActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_saveNewClass_btn1ActionPerformed
+    }//GEN-LAST:event_btnEliminarDescArmaduraActionPerformed
 
-    private void lvlDrawGraphActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lvlDrawGraphActionPerformed
+    private void btnEditarDEscArmaduraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarDEscArmaduraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarDEscArmaduraActionPerformed
+
+    private void btnAnadirDescArmaduraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirDescArmaduraActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAnadirDescArmaduraActionPerformed
+
+    private void rdBtnProKillsGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdBtnProKillsGrupoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdBtnProKillsGrupoActionPerformed
+
+    private void rdBtnFijosGrupoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rdBtnFijosGrupoStateChanged
+        spinnerNumeroFijoJugGrupo.setEnabled(rdBtnFijosGrupo.isSelected());
+    }//GEN-LAST:event_rdBtnFijosGrupoStateChanged
+
+    private void btnEliminarNivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarNivelActionPerformed
+        // TODO add your handling code here:
+        int row = tablaClanes.getRowCount();
+        try {
+            if (row == 0) {
+                throw new Exception("No existen niveles para eliminar");
+            } else {
+                DefaultTableModel tdm = (DefaultTableModel) tablaClanes.getModel();
+                tdm.removeRow(row - 1);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Error al eliminar", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarNivelActionPerformed
+
+    private void btnEditarNivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarNivelActionPerformed
+        // TODO add your handling code here:
+        int row = tablaClanes.getSelectedRow();
+        int dinero = (Integer) spinnerDineroEditClan.getValue();
+        int jugadores = (Integer) spinnerNumJugEditClan.getValue();
+        try {
+            if (dinero <= 0) {
+                spinnerDineroEditClan.setBackground(Color.red);
+                throw new Exception("El dinero debe ser superior a 0");
+            }
+            if (jugadores <= 0) {
+                spinnerNumJugEditClan.setBackground(Color.red);
+                throw new Exception("Los jugadores deben ser superiores a 0");
+            }
+            if (row == -1) {
+                tablaClanes.setBackground(Color.red);
+                throw new Exception("Debes seleccionar primero una celda o fila de la tabla para editar.");
+            } else {
+                spinnerDineroEditClan.setBackground(Color.white);
+                spinnerNumJugEditClan.setBackground(Color.white);
+                tablaClanes.setBackground(Color.white);
+                tablaClanes.setValueAt(dinero, row, 1);
+                tablaClanes.setValueAt(jugadores, row, 2);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Error en la validación", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditarNivelActionPerformed
+
+    private void btnAnadirNivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirNivelActionPerformed
+        // TODO add your handling code here:
+        // TODO add your handling code here:
+        int row = tablaClanes.getRowCount();
+        int dinero = (Integer) spinnerDineroEditClan.getValue();
+        int jugadores = (Integer) spinnerNumJugEditClan.getValue();
+        try {
+            if (dinero <= 0) {
+                spinnerDineroEditClan.setBackground(Color.red);
+                throw new Exception("El dinero debe ser superior a 0");
+            }
+            if (jugadores <= 0) {
+                spinnerNumJugEditClan.setBackground(Color.red);
+                throw new Exception("Los jugadores deben ser superiores a 0");
+            }
+
+            spinnerDineroEditClan.setBackground(Color.white);
+            spinnerNumJugEditClan.setBackground(Color.white);
+            tablaClanes.setBackground(Color.white);
+            Object[] data = new Object[3];
+            data[0] = row + 1;
+            data[1] = dinero;
+            data[2] = jugadores;
+            DefaultTableModel tdm = (DefaultTableModel) tablaClanes.getModel();
+            tdm.addRow(data);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Error en la validación", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAnadirNivelActionPerformed
+
+    private void tablaClanesMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClanesMouseReleased
+        // TODO add your handling code here:
+        Object data[] = new Object[3];
+        data[0] = tablaClanes.getValueAt(tablaClanes.getSelectedRow(), 0);
+        data[1] = tablaClanes.getValueAt(tablaClanes.getSelectedRow(), 1);
+        data[2] = tablaClanes.getValueAt(tablaClanes.getSelectedRow(), 2);
+        spinnerDineroEditClan.setValue(data[1]);
+        spinnerNumJugEditClan.setValue(data[2]);
+    }//GEN-LAST:event_tablaClanesMouseReleased
+
+    private void tablaClanesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClanesMouseClicked
+        // TODO add your handling code here
+        Object data[] = new Object[3];
+        data[0] = tablaClanes.getValueAt(tablaClanes.getSelectedRow(), 0);
+        data[1] = tablaClanes.getValueAt(tablaClanes.getSelectedRow(), 1);
+        data[2] = tablaClanes.getValueAt(tablaClanes.getSelectedRow(), 2);
+        spinnerDineroEditClan.setValue(data[1]);
+        spinnerNumJugEditClan.setValue(data[2]);
+    }//GEN-LAST:event_tablaClanesMouseClicked
+
+    private void btnResetearFormulaClanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetearFormulaClanActionPerformed
+        // TODO add your handling code here:
+        spinnerformulax2clan.setValue(1);
+        spinnerformulaxclan.setValue(1);
+        spinnerNivelMaxClan.setValue(1);
+        spinnerFormJugXNivelClan.setValue(1);
+        spinnerFormJugIniClan.setValue(1);
+    }//GEN-LAST:event_btnResetearFormulaClanActionPerformed
+
+    private void btnValidarFormulaClanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarFormulaClanActionPerformed
+        // TODO add your handling code here:
+        double a;
+        double b;
+        int jugini;
+        int jugxnivel;
+        int nivel;
+        boolean error = false;
+        boolean error_c = false;
+        boolean error_jugini = false;
+        boolean error_level = false;
+        boolean error_jugxnivel = false;
+        try {
+            a = (Double) spinnerformulax2clan.getValue();
+            b = (Double) spinnerformulaxclan.getValue();
+            nivel = (Integer) spinnerNivelMaxClan.getValue();
+            jugini = (Integer) spinnerFormJugIniClan.getValue();
+            jugxnivel = (Integer) spinnerFormJugXNivelClan.getValue();
+            if (nivel <= 0) {
+                spinnerNivelMaxClan.setBackground(Color.red);
+                error_level = true;
+            }
+            if (jugxnivel < 1) {
+                spinnerFormJugXNivelClan.setBackground(Color.red);
+                error_jugxnivel = true;
+            }
+            if (jugini < 1) {
+                spinnerFormJugIniClan.setBackground(Color.red);
+                error_jugini = true;
+            }
+            if (a < 0) {
+                spinnerformulax2clan.setBackground(Color.red);
+                error = true;
+            }
+            if (b <= 0) {
+                spinnerformulaxclan.setBackground(Color.red);
+                error_c = true;
+            }
+            if (a > 0 && b == 0) {
+                error_c = true;
+            }
+            if (error) {
+                throw new Exception("Los valores no pueden ser negativos");
+            } else if (error_c) {
+                throw new Exception("Al menos el último componente debe ser positivo y mayor que cero");
+            } else if (error_level) {
+                throw new Exception("El nivel maximo tiene que ser positivo y mayor que cero");
+            } else if (error_jugxnivel) {
+                throw new Exception("El número de jugadores por nivel debes ser igual o superior a 1");
+            } else if (error_jugini) {
+                throw new Exception("El numero minimo de jugadores por nivel debe ser igual o superior a 1");
+            } else {
+                spinnerformulax2clan.setBackground(Color.white);
+                spinnerformulaxclan.setBackground(Color.white);
+                spinnerNivelMaxClan.setBackground(Color.white);
+                spinnerFormJugXNivelClan.setBackground(Color.white);
+                DefaultTableModel dtm = new DefaultTableModel() {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                dtm.addColumn("Nivel");
+                dtm.addColumn("Dinero");
+                dtm.addColumn("Jugadores");
+                long resdinero;
+                int jugadores = 0;
+                Object[] data = new Object[3];
+
+                for (int i = 1; i <= nivel; i++) {
+                    resdinero = (long) (Math.pow(i, 2) * a + b * i);
+                    if (i == 1) {
+                        jugadores = jugini;
+                    } else {
+                        jugadores += jugxnivel;
+                    }
+                    data[0] = i;
+                    data[1] = resdinero;
+                    data[2] = jugadores;
+                    dtm.addRow(data);
+                }
+                tablaClanes.setModel(dtm);
+                tablaClanes.setCellSelectionEnabled(false);
+                tablaClanes.setRowSelectionAllowed(true);
+                tablaClanes.setCellSelectionEnabled(false);
+                tablaClanes.setEnabled(true);
+                tablaClanes.setVisible(true);
+                tablaClanes.validate();
+                tablaClanes.repaint();
+
+            }
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(rootPane, "No pueden existir campos sin dato...", "Error en la validación", JOptionPane.ERROR_MESSAGE);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(rootPane, "Solucione los errores en la formula para continuar...", "Error en la validación", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en la validación", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnValidarFormulaClanActionPerformed
+
+    private void btnResetSpawnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetSpawnerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnResetSpawnerActionPerformed
+
+    private void checkEnableSpawnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkEnableSpawnerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_checkEnableSpawnerActionPerformed
+
+    private void comboMobSpawnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMobSpawnerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboMobSpawnerActionPerformed
+
+    private void txtMundoSpawnLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMundoSpawnLocActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMundoSpawnLocActionPerformed
+
+    private void btnEliminarSpawnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarSpawnerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarSpawnerActionPerformed
+
+    private void btnEditarSpawnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarSpawnerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarSpawnerActionPerformed
+
+    private void btnEliminarDescArmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarDescArmaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarDescArmaActionPerformed
+
+    private void btnEditarDEscArmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarDEscArmaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarDEscArmaActionPerformed
+
+    private void btnAnadirDescArmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirDescArmaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAnadirDescArmaActionPerformed
+
+    private void btnGuardarClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarClaseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarClaseActionPerformed
+
+    private void btnEditarClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarClaseActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarClaseActionPerformed
+
+    private void lblMaxNivelNivelPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_lblMaxNivelNivelPropertyChange
+        btnDibujarGraficoNiveles.setEnabled(false);
+        btnGuardarConfigNiveles.setEnabled(false);
+    }//GEN-LAST:event_lblMaxNivelNivelPropertyChange
+
+    private void btnDibujarGraficoNivelesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDibujarGraficoNivelesActionPerformed
         int level;
         boolean error;
         RPGLevels levels;
         //Draw graph
         try {
-            lvlPanelGraph.removeAll();
-            if ((Integer) lvl_MaxLevel.getValue() == 0) {
-                lvl_MaxLevel.setBackground(Color.red);
+            PanelGraficosNivel.removeAll();
+            if ((Integer) lblMaxNivelNivel.getValue() == 0) {
+                lblMaxNivelNivel.setBackground(Color.red);
                 throw new Exception("Rellena el campo nivel máximo");
             } else {
-                level = (Integer) lvl_MaxLevel.getValue();
-                levels = new RPGLevels((Double) lvl_ValueA.getValue(), (Double) lvl_ValueB.getValue(), (Double) lvl_ValueC.getValue(), level);
+                level = (Integer) lblMaxNivelNivel.getValue();
+                levels = new RPGLevels((Double) txtX3Nivel.getValue(), (Double) txtX2Nivel.getValue(), (Double) txtXNivel.getValue(), level);
                 if (level <= 0) {
-                    lvl_MaxLevel.setBackground(Color.red);
+                    lblMaxNivelNivel.setBackground(Color.red);
                     throw new Exception("Selecciona un nivel mayor que 0 para continuar");
                 } else {
-                    lvl_MaxLevel.setBackground(Color.white);
+                    lblMaxNivelNivel.setBackground(Color.white);
                     //dibujar grafico
                     XYDataset dataset = createDataset(level);
 
@@ -2019,20 +4963,20 @@ public class GUI extends javax.swing.JFrame {
                         data[1] = entrySet.getKey();
                         dtm.addRow(data);
                     }
-                    lvl_TablaExpLvl.setModel(dtm);
-                    lvl_TablaExpLvl.setCellSelectionEnabled(false);
-                    lvl_TablaExpLvl.setEnabled(false);
-                    lvl_TablaExpLvl.setVisible(true);
-                    lvl_TablaExpLvl.validate();
-                    lvl_TablaExpLvl.repaint();
+                    tablaExpNivel.setModel(dtm);
+                    tablaExpNivel.setCellSelectionEnabled(false);
+                    tablaExpNivel.setEnabled(false);
+                    tablaExpNivel.setVisible(true);
+                    tablaExpNivel.validate();
+                    tablaExpNivel.repaint();
 
                     ChartPanel chartPanel = new ChartPanel(chart);
                     chartPanel.setPreferredSize(new Dimension(800, 500));
                     chartPanel.setMouseWheelEnabled(true);
-                    lvlPanelGraph.setLayout(new java.awt.BorderLayout());
-                    lvlPanelGraph.add(chartPanel, BorderLayout.CENTER);
-                    lvlPanelGraph.validate();
-                    lvlPanelGraph.repaint();
+                    PanelGraficosNivel.setLayout(new java.awt.BorderLayout());
+                    PanelGraficosNivel.add(chartPanel, BorderLayout.CENTER);
+                    PanelGraficosNivel.validate();
+                    PanelGraficosNivel.repaint();
                 }
             }
         } catch (NumberFormatException e) {
@@ -2042,17 +4986,15 @@ public class GUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Error en nivel maximo", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
+    }//GEN-LAST:event_btnDibujarGraficoNivelesActionPerformed
 
-
-    }//GEN-LAST:event_lvlDrawGraphActionPerformed
-
-    private void lvlSaveConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lvlSaveConfigActionPerformed
+    private void btnGuardarConfigNivelesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarConfigNivelesActionPerformed
         //Comprobar si el fichero existe
         //Si existe modificarlo
         //Si no existe crear en la ruta que toque
-    }//GEN-LAST:event_lvlSaveConfigActionPerformed
+    }//GEN-LAST:event_btnGuardarConfigNivelesActionPerformed
 
-    private void lvlValidateFunctionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lvlValidateFunctionActionPerformed
+    private void btnValidarFormulaNivelesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarFormulaNivelesActionPerformed
         double a;
         double b;
         double c;
@@ -2060,19 +5002,19 @@ public class GUI extends javax.swing.JFrame {
         boolean error_c = false;
         double auxres = 0.00;
         try {
-            a = (Double) lvl_ValueA.getValue();
-            b = (Double) lvl_ValueB.getValue();
-            c = (Double) lvl_ValueC.getValue();
+            a = (Double) txtX3Nivel.getValue();
+            b = (Double) txtX2Nivel.getValue();
+            c = (Double) txtXNivel.getValue();
             if (a < 0) {
-                lvl_ValueA.setBackground(Color.red);
+                txtX3Nivel.setBackground(Color.red);
                 error = true;
             }
             if (b < 0) {
-                lvl_ValueB.setBackground(Color.red);
+                txtX2Nivel.setBackground(Color.red);
                 error = true;
             }
             if (c <= 0) {
-                lvl_ValueC.setBackground(Color.red);
+                txtXNivel.setBackground(Color.red);
                 error_c = true;
             }
             if ((a > 0 || b > 0) && c == 0) {
@@ -2085,13 +5027,13 @@ public class GUI extends javax.swing.JFrame {
                 throw new Exception("Al menos el ultimo componente debe ser positivo y mayor que cero");
             } else {
                 //habilitar botones Draw y save
-                lvl_ValueA.setBackground(Color.white);
-                lvl_ValueB.setBackground(Color.white);
-                lvl_ValueC.setBackground(Color.white);
+                txtX3Nivel.setBackground(Color.white);
+                txtX2Nivel.setBackground(Color.white);
+                txtXNivel.setBackground(Color.white);
 
-                lvlSaveConfig.setEnabled(true);
-                lvlDrawGraph.setEnabled(true);
-                lvl_MaxLevel.setEnabled(true);
+                btnGuardarConfigNiveles.setEnabled(true);
+                btnDibujarGraficoNiveles.setEnabled(true);
+                lblMaxNivelNivel.setEnabled(true);
             }
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(rootPane, "No pueden existir campos sin dato...", "Error en la validación", JOptionPane.ERROR_MESSAGE);
@@ -2100,48 +5042,20 @@ public class GUI extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error en la validación", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_lvlValidateFunctionActionPerformed
+    }//GEN-LAST:event_btnValidarFormulaNivelesActionPerformed
 
-    private void lvl_MaxLevelPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_lvl_MaxLevelPropertyChange
-        lvlDrawGraph.setEnabled(false);
-        lvlSaveConfig.setEnabled(false);
-    }//GEN-LAST:event_lvl_MaxLevelPropertyChange
+    private void btnpruebaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpruebaActionPerformed
+        JOptionPane.showMessageDialog(null, "Tamaño ventana: " + this.getBounds().width + "," + this.getBounds().height, "RPGCraftCosta-Información", 1);
+    }//GEN-LAST:event_btnpruebaActionPerformed
 
-    private void saveNewClass_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveNewClass_btnActionPerformed
+    private void checkClanesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkClanesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_saveNewClass_btnActionPerformed
-
-    private void enabledClassCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enabledClassCheckActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_enabledClassCheckActionPerformed
-
-    private void classNameTxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classNameTxtActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_classNameTxtActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jComboBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox6ActionPerformed
-
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
-
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton8ActionPerformed
+        if(checkClanes.isSelected()){
+            
+        }else{
+        
+        }
+    }//GEN-LAST:event_checkClanesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2188,202 +5102,538 @@ public class GUI extends javax.swing.JFrame {
         //</editor-fold>
     }
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel BaseClassPanel;
-    private javax.swing.JPanel BaseClassPanel1;
-    private javax.swing.JPanel BaseClassPanel2;
-    private javax.swing.JPanel BaseClassPanel3;
-    private javax.swing.JCheckBox CBHungerSystem;
-    private javax.swing.JPanel LvlUpPanel;
+    private javax.swing.JPanel PanelAtaqueMobs;
+    private javax.swing.JPanel PanelAtribBasicoClase;
+    private javax.swing.JPanel PanelAtribSpawner;
+    private javax.swing.JPanel PanelAtributosMobs;
+    private javax.swing.JPanel PanelBotas;
+    private javax.swing.JPanel PanelCasco;
+    private javax.swing.JPanel PanelComportamientoMob;
     private javax.swing.JTabbedPane PanelConfig;
+    private javax.swing.JPanel PanelConfigArmaduras;
     private javax.swing.JPanel PanelConfigArmor;
+    private javax.swing.JPanel PanelConfigClanes;
     private javax.swing.JPanel PanelConfigClases;
-    private javax.swing.JPanel PanelConfigFood;
     private javax.swing.JPanel PanelConfigGeneral;
+    private javax.swing.JPanel PanelConfigGrupos;
+    private javax.swing.JPanel PanelConfigGuilds;
     private javax.swing.JPanel PanelConfigJewels;
+    private javax.swing.JPanel PanelConfigJoyas;
     private javax.swing.JPanel PanelConfigLevel;
     private javax.swing.JPanel PanelConfigMobs;
-    private javax.swing.JPanel PanelConfigNpcs;
     private javax.swing.JPanel PanelConfigObjetos;
-    private javax.swing.JPanel PanelConfigQuests;
+    private javax.swing.JPanel PanelConfigParties;
     private javax.swing.JPanel PanelConfigSpawners;
     private javax.swing.JPanel PanelConfigWeapon;
+    private javax.swing.JPanel PanelDropsDefault;
+    private javax.swing.JPanel PanelDropsMobs;
+    private javax.swing.JPanel PanelDropsObjetosMobs;
+    private javax.swing.JPanel PanelEditNivelesClan;
+    private javax.swing.JPanel PanelEditarSet;
+    private javax.swing.JPanel PanelEditorArma;
+    private javax.swing.JPanel PanelEditorClase;
+    private javax.swing.JPanel PanelEditorJoya;
+    private javax.swing.JPanel PanelEditorMobs;
+    private javax.swing.JPanel PanelEditorObjetos;
+    private javax.swing.JPanel PanelEditorSpawner;
+    private javax.swing.JPanel PanelFormulaClan;
+    private javax.swing.JPanel PanelGraficosNivel;
+    private javax.swing.JPanel PanelHabConst;
+    private javax.swing.JPanel PanelHabDest;
+    private javax.swing.JPanel PanelHabFuerza;
+    private javax.swing.JPanel PanelHabInt;
     private javax.swing.JPanel PanelInicio;
-    private javax.swing.JPanel PanelLevelExperience;
-    private javax.swing.JPanel SkillPointsPanel;
-    private javax.swing.JLabel baseCritLbl;
-    private javax.swing.JLabel baseDeadLbl;
-    private javax.swing.JLabel baseHealthLbl;
-    private javax.swing.JLabel baseHealthLbl1;
-    private javax.swing.JLabel baseMagAttLbl;
-    private javax.swing.JLabel baseMagDefLbl;
-    private javax.swing.JLabel baseMagEvaLbl;
-    private javax.swing.JLabel baseMagHRLbl;
-    private javax.swing.JLabel baseManaLbl;
-    private javax.swing.JLabel baseManaLbl1;
-    private javax.swing.JLabel basePhyAttLbl;
-    private javax.swing.JLabel basePhyAttLbl1;
-    private javax.swing.JLabel basePhyDefLbl;
-    private javax.swing.JLabel basePhyDefLbl1;
-    private javax.swing.JLabel basePhyEvaLbl;
-    private javax.swing.JLabel basePhyEvaLbl1;
-    private javax.swing.JLabel basePhyEvaLbl2;
-    private javax.swing.JLabel basePhyEvaLbl3;
-    private javax.swing.JLabel basePhyHRLbl;
-    private javax.swing.JLabel basePhyHRLbl1;
-    private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JPanel classEditorPanel;
-    private javax.swing.JPanel classEditorPanel1;
-    private javax.swing.JLabel classNameLbl;
-    private javax.swing.JLabel classNameLbl1;
-    private javax.swing.JLabel classNameLbl2;
-    private javax.swing.JLabel classNameLbl3;
-    private javax.swing.JTextField classNameTxt;
-    private javax.swing.JTextField classNameTxt1;
-    private javax.swing.JButton createNewClassbtn;
-    private javax.swing.JButton deleteClassbtn;
-    private javax.swing.JButton editClassbtn;
-    private javax.swing.JCheckBox enabledClassCheck;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
-    private javax.swing.JComboBox jComboBox3;
-    private javax.swing.JComboBox jComboBox4;
+    private javax.swing.JPanel PanelLocSpawner;
+    private javax.swing.JPanel PanelMejoraArma;
+    private javax.swing.JPanel PanelMejoraArmadura;
+    private javax.swing.JPanel PanelNivelExpNivel;
+    private javax.swing.JPanel PanelNumJugClan;
+    private javax.swing.JPanel PanelNumJugGrupos;
+    private javax.swing.JPanel PanelOpcLimNivelClan;
+    private javax.swing.JPanel PanelOpcRepGRupos;
+    private javax.swing.JPanel PanelOpcRepProp;
+    private javax.swing.JPanel PanelPantalones;
+    private javax.swing.JPanel PanelPechera;
+    private javax.swing.JPanel PanelPuntoHabilidad;
+    private javax.swing.JPanel PanelPvpGrupos;
+    private javax.swing.JPanel PanelSelectorArma;
+    private javax.swing.JPanel PanelSelectorArmadura;
+    private javax.swing.JPanel PanelSelectorJoyas;
+    private javax.swing.JPanel PanelSisContNivelClan;
+    private javax.swing.JPanel PanelSistRepGrupos;
+    private javax.swing.JPanel PanelSubirNivel;
+    private javax.swing.JButton btnAnadirDesObjeto;
+    private javax.swing.JButton btnAnadirDescArma;
+    private javax.swing.JButton btnAnadirDescArmadura;
+    private javax.swing.JButton btnAnadirDropMob;
+    private javax.swing.JButton btnAnadirNivel;
+    private javax.swing.JButton btnCrearNuevaArma;
+    private javax.swing.JButton btnCrearNuevaClase;
+    private javax.swing.JButton btnCrearNuevaJoya;
+    private javax.swing.JButton btnCrearNuevoObjeto;
+    private javax.swing.JButton btnCrearSpawner;
+    private javax.swing.JButton btnDibujarGraficoNiveles;
+    private javax.swing.JButton btnEditMob;
+    private javax.swing.JButton btnEditarArma;
+    private javax.swing.JButton btnEditarClase;
+    private javax.swing.JButton btnEditarDEscArma;
+    private javax.swing.JButton btnEditarDEscArmadura;
+    private javax.swing.JButton btnEditarDesObjeto;
+    private javax.swing.JButton btnEditarDropMob;
+    private javax.swing.JButton btnEditarJoya;
+    private javax.swing.JButton btnEditarNivel;
+    private javax.swing.JButton btnEditarObjeto;
+    private javax.swing.JButton btnEditarSet;
+    private javax.swing.JButton btnEditarSpawner;
+    private javax.swing.JButton btnEliminarArma;
+    private javax.swing.JButton btnEliminarClase;
+    private javax.swing.JButton btnEliminarDesObjeto;
+    private javax.swing.JButton btnEliminarDescArma;
+    private javax.swing.JButton btnEliminarDescArmadura;
+    private javax.swing.JButton btnEliminarDropMob;
+    private javax.swing.JButton btnEliminarJoya;
+    private javax.swing.JButton btnEliminarMob;
+    private javax.swing.JButton btnEliminarNivel;
+    private javax.swing.JButton btnEliminarObjeto;
+    private javax.swing.JButton btnEliminarSet;
+    private javax.swing.JButton btnEliminarSpawner;
+    private javax.swing.ButtonGroup btnGroupOpcionRepartoGrupo;
+    private javax.swing.JButton btnGuardarArma;
+    private javax.swing.JButton btnGuardarClase;
+    private javax.swing.JButton btnGuardarConfigArma;
+    private javax.swing.JButton btnGuardarConfigArmadura;
+    private javax.swing.JButton btnGuardarConfigClan;
+    private javax.swing.JButton btnGuardarConfigGrupos;
+    private javax.swing.JButton btnGuardarConfigJoyas;
+    private javax.swing.JButton btnGuardarConfigNiveles;
+    private javax.swing.JButton btnGuardarMob;
+    private javax.swing.JButton btnGuardarSet;
+    private javax.swing.JButton btnGuardarSpawner;
+    private javax.swing.JButton btnNuevoMob;
+    private javax.swing.JButton btnNuevoSet;
+    private javax.swing.JButton btnResetClase;
+    private javax.swing.JButton btnResetConfigClan;
+    private javax.swing.JButton btnResetConfigGrupos;
+    private javax.swing.JButton btnResetSpawner;
+    private javax.swing.JButton btnResetearFormulaClan;
+    private javax.swing.JButton btnResetearMob;
+    private javax.swing.JButton btnValidarFormulaClan;
+    private javax.swing.JButton btnValidarFormulaNiveles;
+    private javax.swing.ButtonGroup btngroupNumJugClan;
+    private javax.swing.ButtonGroup btngroupNumJugGrupo;
+    private javax.swing.ButtonGroup btngroupOpcLimNivelClan;
+    private javax.swing.ButtonGroup btngroupOpcionRepartoPropGrupo;
+    private javax.swing.ButtonGroup btngroupPvpGrupo;
+    private javax.swing.ButtonGroup btngroupRepartoGrupo;
+    private javax.swing.ButtonGroup btngroupSistContrClan;
+    private javax.swing.JButton btnprueba;
+    private javax.swing.JCheckBox checkClanes;
+    private javax.swing.JCheckBox checkCombinable;
+    private javax.swing.JCheckBox checkComerciable;
+    private javax.swing.JCheckBox checkComerciableArma;
+    private javax.swing.JCheckBox checkComerciableArmadura;
+    private javax.swing.JCheckBox checkDanioAhogo;
+    private javax.swing.JCheckBox checkDanioCaida;
+    private javax.swing.JCheckBox checkEnableClase;
+    private javax.swing.JCheckBox checkEnableGrupos;
+    private javax.swing.JCheckBox checkEnableSpawner;
+    private javax.swing.JCheckBox checkMejorableArma;
+    private javax.swing.JCheckBox checkMejorableArmadura;
+    private javax.swing.JCheckBox checkSistHambre;
+    private javax.swing.JComboBox comboCalidad;
+    private javax.swing.JComboBox comboCalidadArma;
+    private javax.swing.JComboBox comboCalidadJoya;
+    private javax.swing.JComboBox comboComportamiento;
+    private javax.swing.JComboBox comboListaArmas;
+    private javax.swing.JComboBox comboListaObjetos;
+    private javax.swing.JComboBox comboMaterial;
+    private javax.swing.JComboBox comboMejoradorArmadura;
+    private javax.swing.JComboBox comboMobSpawner;
+    private javax.swing.JComboBox comboObjetoDropMob;
+    private javax.swing.JComboBox comboObjetoJoya;
+    private javax.swing.JComboBox comboSelectorClases;
+    private javax.swing.JComboBox comboSelectorJoyas;
+    private javax.swing.JComboBox comboSelectorMobs;
+    private javax.swing.JTextField comboSelectorSpawner;
+    private javax.swing.JComboBox comboSelectorTipoMob;
+    private javax.swing.JComboBox comboTipoArma;
+    private javax.swing.JComboBox comboTipoAtaqueMob;
+    private javax.swing.JComboBox comboTipoDropMob;
+    private javax.swing.JComboBox comboTipoObjeto;
     private javax.swing.JComboBox jComboBox5;
-    private javax.swing.JComboBox jComboBox6;
-    private javax.swing.JComboBox jComboBox7;
-    private javax.swing.JComboBox jComboBox8;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
-    private javax.swing.JLabel jLabel35;
-    private javax.swing.JLabel jLabel36;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel19;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel21;
-    private javax.swing.JPanel jPanel22;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
+    private javax.swing.JComboBox jComboItemArmadura1;
+    private javax.swing.JComboBox jComboset;
+    private javax.swing.JLabel jLabel107;
+    private javax.swing.JList jListDescArma;
+    private javax.swing.JList jListDescArmadura;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JSpinner jSpinner10;
-    private javax.swing.JSpinner jSpinner11;
-    private javax.swing.JSpinner jSpinner12;
-    private javax.swing.JSpinner jSpinner13;
-    private javax.swing.JSpinner jSpinner14;
-    private javax.swing.JSpinner jSpinner15;
-    private javax.swing.JSpinner jSpinner16;
-    private javax.swing.JSpinner jSpinner17;
-    private javax.swing.JSpinner jSpinner18;
-    private javax.swing.JSpinner jSpinner19;
-    private javax.swing.JSpinner jSpinner2;
-    private javax.swing.JSpinner jSpinner20;
-    private javax.swing.JSpinner jSpinner21;
-    private javax.swing.JSpinner jSpinner22;
-    private javax.swing.JSpinner jSpinner23;
-    private javax.swing.JSpinner jSpinner24;
-    private javax.swing.JSpinner jSpinner25;
-    private javax.swing.JSpinner jSpinner26;
-    private javax.swing.JSpinner jSpinner27;
-    private javax.swing.JSpinner jSpinner28;
-    private javax.swing.JSpinner jSpinner29;
-    private javax.swing.JSpinner jSpinner3;
-    private javax.swing.JSpinner jSpinner30;
-    private javax.swing.JSpinner jSpinner31;
-    private javax.swing.JSpinner jSpinner32;
-    private javax.swing.JSpinner jSpinner33;
-    private javax.swing.JSpinner jSpinner34;
-    private javax.swing.JSpinner jSpinner35;
-    private javax.swing.JSpinner jSpinner36;
-    private javax.swing.JSpinner jSpinner37;
-    private javax.swing.JSpinner jSpinner38;
-    private javax.swing.JSpinner jSpinner39;
-    private javax.swing.JSpinner jSpinner4;
-    private javax.swing.JSpinner jSpinner40;
-    private javax.swing.JSpinner jSpinner41;
-    private javax.swing.JSpinner jSpinner42;
-    private javax.swing.JSpinner jSpinner43;
-    private javax.swing.JSpinner jSpinner44;
-    private javax.swing.JSpinner jSpinner45;
-    private javax.swing.JSpinner jSpinner46;
-    private javax.swing.JSpinner jSpinner47;
-    private javax.swing.JSpinner jSpinner48;
-    private javax.swing.JSpinner jSpinner5;
-    private javax.swing.JSpinner jSpinner51;
-    private javax.swing.JSpinner jSpinner52;
-    private javax.swing.JSpinner jSpinner6;
-    private javax.swing.JSpinner jSpinner7;
-    private javax.swing.JSpinner jSpinner8;
-    private javax.swing.JSpinner jSpinner9;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JButton lvlDrawGraph;
-    private javax.swing.JLabel lvlInfo1;
-    private javax.swing.JLabel lvlInfo2;
-    private javax.swing.JLabel lvlInfoMaxLevel;
-    private javax.swing.JLabel lvlLabelFunction1;
-    private javax.swing.JLabel lvlLabelFunction2;
-    private javax.swing.JLabel lvlLabelFunction3;
-    private javax.swing.JLabel lvlLabelFunction4;
-    private javax.swing.JPanel lvlPanelGraph;
-    private javax.swing.JButton lvlSaveConfig;
-    private javax.swing.JButton lvlValidateFunction;
-    private javax.swing.JSpinner lvl_MaxLevel;
-    private javax.swing.JTable lvl_TablaExpLvl;
-    private javax.swing.JSpinner lvl_ValueA;
-    private javax.swing.JSpinner lvl_ValueB;
-    private javax.swing.JSpinner lvl_ValueC;
-    private javax.swing.JButton resetValues_btn;
-    private javax.swing.JButton resetValues_btn1;
-    private javax.swing.JButton saveNewClass_btn;
-    private javax.swing.JButton saveNewClass_btn1;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JLabel lblAtaDistMob;
+    private javax.swing.JLabel lblAtaFisAP;
+    private javax.swing.JLabel lblAtaFisArma;
+    private javax.swing.JLabel lblAtaFisBase;
+    private javax.swing.JLabel lblAtaFisJoya;
+    private javax.swing.JLabel lblAtaFisMob;
+    private javax.swing.JLabel lblAtaFisNivel;
+    private javax.swing.JLabel lblAtaMagAP;
+    private javax.swing.JLabel lblAtaMagArma;
+    private javax.swing.JLabel lblAtaMagBase;
+    private javax.swing.JLabel lblAtaMagJoya;
+    private javax.swing.JLabel lblAtaMagNivel;
+    private javax.swing.JLabel lblCalidad;
+    private javax.swing.JLabel lblCalidadArma;
+    private javax.swing.JLabel lblCalidadJoya;
+    private javax.swing.JLabel lblCantidadDropMob;
+    private javax.swing.JLabel lblCritAP;
+    private javax.swing.JLabel lblCritArma;
+    private javax.swing.JLabel lblCritBase;
+    private javax.swing.JLabel lblCritNivel;
+    private javax.swing.JLabel lblDefFisBase;
+    private javax.swing.JLabel lblDefFisBotas;
+    private javax.swing.JLabel lblDefFisCasco;
+    private javax.swing.JLabel lblDefFisGrebas;
+    private javax.swing.JLabel lblDefFisJoya;
+    private javax.swing.JLabel lblDefFisNivel;
+    private javax.swing.JLabel lblDefFisPechera;
+    private javax.swing.JLabel lblDefMagBase;
+    private javax.swing.JLabel lblDefMagJoya;
+    private javax.swing.JLabel lblDefMagNivel;
+    private javax.swing.JLabel lblDescripObjeto;
+    private javax.swing.JLabel lblDescripcionArma;
+    private javax.swing.JLabel lblDescripcionMejoradorArmadura;
+    private javax.swing.JLabel lblDineroDropMob;
+    private javax.swing.JLabel lblDineroEditNivelClan;
+    private javax.swing.JLabel lblDineroExtraArma;
+    private javax.swing.JLabel lblDineroExtraBotas;
+    private javax.swing.JLabel lblDineroExtraCasco;
+    private javax.swing.JLabel lblDineroExtraGrebas;
+    private javax.swing.JLabel lblDineroExtraJoya;
+    private javax.swing.JLabel lblDineroExtraPechera;
+    private javax.swing.JLabel lblEvaFisBase;
+    private javax.swing.JLabel lblEvaFisBotas;
+    private javax.swing.JLabel lblEvaFisCasco;
+    private javax.swing.JLabel lblEvaFisGrebas;
+    private javax.swing.JLabel lblEvaFisJoya;
+    private javax.swing.JLabel lblEvaFisNivel;
+    private javax.swing.JLabel lblEvaFisPechera;
+    private javax.swing.JLabel lblEvaMagBase;
+    private javax.swing.JLabel lblEvaMagNivel;
+    private javax.swing.JLabel lblExpDropMob;
+    private javax.swing.JLabel lblExpExtraArma;
+    private javax.swing.JLabel lblExpExtraBotas;
+    private javax.swing.JLabel lblExpExtraCasco;
+    private javax.swing.JLabel lblExpExtraGrebas;
+    private javax.swing.JLabel lblExpExtraJoya;
+    private javax.swing.JLabel lblExpExtraPechera;
+    private javax.swing.JLabel lblFdeXNivel;
+    private javax.swing.JLabel lblFormJugIniClan;
+    private javax.swing.JLabel lblFormJugXNivelClan;
+    private javax.swing.JLabel lblFuerzaDistMob;
+    private javax.swing.JLabel lblHRFisArma;
+    private javax.swing.JLabel lblHRFisBase;
+    private javax.swing.JLabel lblHRFisJoya;
+    private javax.swing.JLabel lblHRFisNivel;
+    private javax.swing.JLabel lblHRMagArma;
+    private javax.swing.JLabel lblHRMagBase;
+    private javax.swing.JLabel lblHRMagJoya;
+    private javax.swing.JLabel lblHRMagNivel;
+    private javax.swing.JLabel lblIdSpawner;
+    private javax.swing.JLabel lblInfoNivel;
+    private javax.swing.JLabel lblInfoNivel2;
+    private javax.swing.JLabel lblInfoNivelMaxNivel;
+    private javax.swing.JLabel lblJugadoresClan;
+    private javax.swing.JLabel lblJugadoresGrupo;
+    private javax.swing.JLabel lblManaAP;
+    private javax.swing.JLabel lblManaAP2;
+    private javax.swing.JLabel lblManaBase;
+    private javax.swing.JLabel lblManaJoya;
+    private javax.swing.JLabel lblManaNivel;
+    private javax.swing.JLabel lblManaVidaJoya;
+    private javax.swing.JLabel lblMaterial;
+    private javax.swing.JLabel lblMaxNivelClan;
+    private javax.swing.JSpinner lblMaxNivelNivel;
+    private javax.swing.JLabel lblMaxVidaMob;
+    private javax.swing.JLabel lblMejAtaFisArma;
+    private javax.swing.JLabel lblMejAtaMagArma;
+    private javax.swing.JLabel lblMejCritArma;
+    private javax.swing.JLabel lblMejDefFisBotas;
+    private javax.swing.JLabel lblMejDefFisCasco;
+    private javax.swing.JLabel lblMejDefFisGrebas;
+    private javax.swing.JLabel lblMejDefFisPechera;
+    private javax.swing.JLabel lblMejEvaFisBotas;
+    private javax.swing.JLabel lblMejEvaFisCasco;
+    private javax.swing.JLabel lblMejEvaFisPechera;
+    private javax.swing.JLabel lblMejHRFisArma;
+    private javax.swing.JLabel lblMejHRMagArma;
+    private javax.swing.JLabel lblMejRoboMArma;
+    private javax.swing.JLabel lblMejoradorArmadura;
+    private javax.swing.JLabel lblMobSpawner;
+    private javax.swing.JLabel lblMortalAP;
+    private javax.swing.JLabel lblMortalBase;
+    private javax.swing.JLabel lblMortalNivel;
+    private javax.swing.JLabel lblMundoSpawnLoc;
+    private javax.swing.JLabel lblNivel;
+    private javax.swing.JLabel lblNivelIniArma;
+    private javax.swing.JLabel lblNivelMinArma;
+    private javax.swing.JLabel lblNivelMob;
+    private javax.swing.JLabel lblNomMejoraArma;
+    private javax.swing.JLabel lblNombreArma;
+    private javax.swing.JLabel lblNombreClase;
+    private javax.swing.JLabel lblNombreJoya;
+    private javax.swing.JLabel lblNombreMejoradorArmadura;
+    private javax.swing.JLabel lblNombreMob;
+    private javax.swing.JLabel lblNombreObjeto;
+    private javax.swing.JLabel lblNombreSet;
+    private javax.swing.JLabel lblNumJugEditNivelClan;
+    private javax.swing.JLabel lblNumMaxMobSpawner;
+    private javax.swing.JLabel lblObjetoDropMob;
+    private javax.swing.JLabel lblObjetoJoya;
+    private javax.swing.JLabel lblPrecioCArma;
+    private javax.swing.JLabel lblPrecioCBotas;
+    private javax.swing.JLabel lblPrecioCCasco;
+    private javax.swing.JLabel lblPrecioCGrebas;
+    private javax.swing.JLabel lblPrecioCJoya;
+    private javax.swing.JLabel lblPrecioCPechera;
+    private javax.swing.JLabel lblPrecioVArma;
+    private javax.swing.JLabel lblPrecioVBotas;
+    private javax.swing.JLabel lblPrecioVCasco;
+    private javax.swing.JLabel lblPrecioVGrebas;
+    private javax.swing.JLabel lblPrecioVJoya;
+    private javax.swing.JLabel lblPrecioVPechera;
+    private javax.swing.JLabel lblProbDetArma;
+    private javax.swing.JLabel lblProbDetArmadura;
+    private javax.swing.JLabel lblProbDetJoya;
+    private javax.swing.JLabel lblProbDropMob;
+    private javax.swing.JLabel lblProbExitoArma;
+    private javax.swing.JLabel lblProbExitoArmadura;
+    private javax.swing.JLabel lblProbExitoJoya;
+    private javax.swing.JLabel lblProbRotArma;
+    private javax.swing.JLabel lblProbRotArmadura;
+    private javax.swing.JLabel lblProbRotJoya;
+    private javax.swing.JLabel lblProbSEArma;
+    private javax.swing.JLabel lblProbSEArmadura;
+    private javax.swing.JLabel lblProbSEJoya;
+    private javax.swing.JLabel lblRadioSpawner;
+    private javax.swing.JLabel lblRangoSeguiMob;
+    private javax.swing.JLabel lblRefrescoSpawner;
+    private javax.swing.JLabel lblRetrocesoMob;
+    private javax.swing.JLabel lblRoboMArma;
+    private javax.swing.JLabel lblRoboMJoya;
+    private javax.swing.JLabel lblRoboVJoya;
+    private javax.swing.JLabel lblTipoArma;
+    private javax.swing.JLabel lblTipoDropMob;
+    private javax.swing.JLabel lblTipoMejoradorArma;
+    private javax.swing.JLabel lblTipoMob;
+    private javax.swing.JLabel lblTipoObjeto;
+    private javax.swing.JLabel lblVelocidadAtaqueMob;
+    private javax.swing.JLabel lblVelocidadMob;
+    private javax.swing.JLabel lblVidaAP;
+    private javax.swing.JLabel lblVidaAP2;
+    private javax.swing.JLabel lblVidaBase;
+    private javax.swing.JLabel lblVidaNivel;
+    private javax.swing.JLabel lblXSpawnLoc;
+    private javax.swing.JLabel lblYSpawnLoc;
+    private javax.swing.JLabel lblZSpawnLoc;
+    private javax.swing.JLabel lblfdex;
+    private javax.swing.JLabel lblnivMinJugCrearClan;
+    private javax.swing.JLabel lblporcMuertesClan;
+    private javax.swing.JLabel lblx2Nivel;
+    private javax.swing.JLabel lblx2clan;
+    private javax.swing.JLabel lblx3Nivel;
+    private javax.swing.JLabel lblxNivel;
+    private javax.swing.JLabel lblxclan;
+    private javax.swing.JList listDescripcionObjeto;
+    private javax.swing.JLabel lvlEvaMagJoya;
+    private javax.swing.JLabel lvlMejEvaFisGrebas;
+    private javax.swing.JLabel lvlMejRoboVArma;
+    private javax.swing.JLabel lvlRoboVArma;
+    private javax.swing.JRadioButton rdBtnAmbosGrupo;
+    private javax.swing.JRadioButton rdBtnContriAmbos;
+    private javax.swing.JRadioButton rdBtnContriSoloContri;
+    private javax.swing.JRadioButton rdBtnContriSoloDon;
+    private javax.swing.JRadioButton rdBtnFijosGrupo;
+    private javax.swing.JRadioButton rdBtnIlimitadosGrupo;
+    private javax.swing.JRadioButton rdBtnLimitNivClan;
+    private javax.swing.JRadioButton rdBtnNoPermitidoPvpGrupo;
+    private javax.swing.JRadioButton rdBtnNumFijosClan;
+    private javax.swing.JRadioButton rdBtnNumIlimitadosClan;
+    private javax.swing.JRadioButton rdBtnOpcDinFijo;
+    private javax.swing.JRadioButton rdBtnOpcDinForm;
+    private javax.swing.JRadioButton rdBtnOpcionProporcionalGrupo;
+    private javax.swing.JRadioButton rdBtnOpcionigualitarioGrupo;
+    private javax.swing.JRadioButton rdBtnPermitidoPvpGrupo;
+    private javax.swing.JRadioButton rdBtnProKillsGrupo;
+    private javax.swing.JRadioButton rdBtnProNivelGrupo;
+    private javax.swing.JRadioButton rdBtnSinRepartoGrupo;
+    private javax.swing.JRadioButton rdBtnSoloDineroGrupo;
+    private javax.swing.JRadioButton rdBtnSoloExpGrupo;
+    private javax.swing.JSpinner spinerProbExitoArma;
+    private javax.swing.JSpinner spinnerAtaDistMob;
+    private javax.swing.JSpinner spinnerAtaFisAP;
+    private javax.swing.JSpinner spinnerAtaFisArma;
+    private javax.swing.JSpinner spinnerAtaFisBase;
+    private javax.swing.JSpinner spinnerAtaFisJoya;
+    private javax.swing.JSpinner spinnerAtaFisMob;
+    private javax.swing.JSpinner spinnerAtaFisNivel;
+    private javax.swing.JSpinner spinnerAtaMagAP;
+    private javax.swing.JSpinner spinnerAtaMagArma;
+    private javax.swing.JSpinner spinnerAtaMagBase;
+    private javax.swing.JSpinner spinnerAtaMagJoya;
+    private javax.swing.JSpinner spinnerAtaMagNivel;
+    private javax.swing.JSpinner spinnerCantidadDropMob;
+    private javax.swing.JSpinner spinnerContriPorcentajeMuertes;
+    private javax.swing.JSpinner spinnerCritArma;
+    private javax.swing.JSpinner spinnerCritBase;
+    private javax.swing.JSpinner spinnerCritNivel;
+    private javax.swing.JSpinner spinnerCrtitAP;
+    private javax.swing.JSpinner spinnerDefFisBase;
+    private javax.swing.JSpinner spinnerDefFisBotas;
+    private javax.swing.JSpinner spinnerDefFisCasco;
+    private javax.swing.JSpinner spinnerDefFisGrebas;
+    private javax.swing.JSpinner spinnerDefFisJoya;
+    private javax.swing.JSpinner spinnerDefFisNivel;
+    private javax.swing.JSpinner spinnerDefFisPechera;
+    private javax.swing.JSpinner spinnerDefMagBase;
+    private javax.swing.JSpinner spinnerDefMagJoya;
+    private javax.swing.JSpinner spinnerDefMagNivel;
+    private javax.swing.JSpinner spinnerDineroDropMob;
+    private javax.swing.JSpinner spinnerDineroEditClan;
+    private javax.swing.JSpinner spinnerDineroExtraArma;
+    private javax.swing.JSpinner spinnerDineroExtraBotas;
+    private javax.swing.JSpinner spinnerDineroExtraCasco;
+    private javax.swing.JSpinner spinnerDineroExtraGrebas;
+    private javax.swing.JSpinner spinnerDineroExtraJoya;
+    private javax.swing.JSpinner spinnerDineroExtraPechera;
+    private javax.swing.JSpinner spinnerEvaBase;
+    private javax.swing.JSpinner spinnerEvaFisBotas;
+    private javax.swing.JSpinner spinnerEvaFisCasco;
+    private javax.swing.JSpinner spinnerEvaFisGrebas;
+    private javax.swing.JSpinner spinnerEvaFisJoya;
+    private javax.swing.JSpinner spinnerEvaFisNivel;
+    private javax.swing.JSpinner spinnerEvaFisPechera;
+    private javax.swing.JSpinner spinnerEvaMagBase;
+    private javax.swing.JSpinner spinnerEvaMagJoya;
+    private javax.swing.JSpinner spinnerEvaMagNivel;
+    private javax.swing.JSpinner spinnerExpDropMob;
+    private javax.swing.JSpinner spinnerExpExtraArma;
+    private javax.swing.JSpinner spinnerExpExtraBotas;
+    private javax.swing.JSpinner spinnerExpExtraCasco;
+    private javax.swing.JSpinner spinnerExpExtraGrebas;
+    private javax.swing.JSpinner spinnerExpExtraJoya;
+    private javax.swing.JSpinner spinnerExpExtraPechera;
+    private javax.swing.JSpinner spinnerFormJugIniClan;
+    private javax.swing.JSpinner spinnerFormJugXNivelClan;
+    private javax.swing.JSpinner spinnerFuerzaDistMob;
+    private javax.swing.JSpinner spinnerHRFisArma;
+    private javax.swing.JSpinner spinnerHRFisBase;
+    private javax.swing.JSpinner spinnerHRFisJoya;
+    private javax.swing.JSpinner spinnerHRFisNivel;
+    private javax.swing.JSpinner spinnerHRMagArma;
+    private javax.swing.JSpinner spinnerHRMagBase;
+    private javax.swing.JSpinner spinnerHRMagJoya;
+    private javax.swing.JSpinner spinnerHRMagNivel;
+    private javax.swing.JSpinner spinnerManaAP;
+    private javax.swing.JSpinner spinnerManaAP2;
+    private javax.swing.JSpinner spinnerManaJoya;
+    private javax.swing.JSpinner spinnerManaNivel;
+    private javax.swing.JSpinner spinnerMaxManaBase;
+    private javax.swing.JSpinner spinnerMaxVidaBase;
+    private javax.swing.JSpinner spinnerMaxVidaMob;
+    private javax.swing.JSpinner spinnerMejAtaFisArma;
+    private javax.swing.JSpinner spinnerMejAtaMagArma;
+    private javax.swing.JSpinner spinnerMejCritArma;
+    private javax.swing.JSpinner spinnerMejDefFisBotas;
+    private javax.swing.JSpinner spinnerMejDefFisCasco;
+    private javax.swing.JSpinner spinnerMejDefFisGrebas;
+    private javax.swing.JSpinner spinnerMejDefFisPechera;
+    private javax.swing.JSpinner spinnerMejEvaFisBotas;
+    private javax.swing.JSpinner spinnerMejEvaFisCasco;
+    private javax.swing.JSpinner spinnerMejEvaFisGrebas;
+    private javax.swing.JSpinner spinnerMejEvaFisPechera;
+    private javax.swing.JSpinner spinnerMejHRFisArma;
+    private javax.swing.JSpinner spinnerMejHRMagArma;
+    private javax.swing.JSpinner spinnerMejRoboMArma;
+    private javax.swing.JSpinner spinnerMejRoboVArma;
+    private javax.swing.JSpinner spinnerMortalAP;
+    private javax.swing.JSpinner spinnerMortalBase;
+    private javax.swing.JSpinner spinnerMortalNivel;
+    private javax.swing.JSpinner spinnerNivel;
+    private javax.swing.JSpinner spinnerNivelIniArma;
+    private javax.swing.JSpinner spinnerNivelMaxClan;
+    private javax.swing.JSpinner spinnerNivelMinArma;
+    private javax.swing.JSpinner spinnerNivelMinJugClan;
+    private javax.swing.JSpinner spinnerNivelMob;
+    private javax.swing.JSpinner spinnerNumFijosClan;
+    private javax.swing.JSpinner spinnerNumJugEditClan;
+    private javax.swing.JSpinner spinnerNumMaxMobSpawner;
+    private javax.swing.JSpinner spinnerNumeroFijoJugGrupo;
+    private javax.swing.JSpinner spinnerPrecioCArma;
+    private javax.swing.JSpinner spinnerPrecioCBotas;
+    private javax.swing.JSpinner spinnerPrecioCCasco;
+    private javax.swing.JSpinner spinnerPrecioCGrebas;
+    private javax.swing.JSpinner spinnerPrecioCJoya;
+    private javax.swing.JSpinner spinnerPrecioCPechera;
+    private javax.swing.JSpinner spinnerPrecioVArma;
+    private javax.swing.JSpinner spinnerPrecioVBotas;
+    private javax.swing.JSpinner spinnerPrecioVCasco;
+    private javax.swing.JSpinner spinnerPrecioVGrebas;
+    private javax.swing.JSpinner spinnerPrecioVJoya;
+    private javax.swing.JSpinner spinnerPrecioVPechera;
+    private javax.swing.JSpinner spinnerProSEArma;
+    private javax.swing.JSpinner spinnerProbDetArma;
+    private javax.swing.JSpinner spinnerProbDetArmadura;
+    private javax.swing.JSpinner spinnerProbDetJoya;
+    private javax.swing.JSpinner spinnerProbDropMob;
+    private javax.swing.JSpinner spinnerProbExitoArmadura;
+    private javax.swing.JSpinner spinnerProbExitoJoya;
+    private javax.swing.JSpinner spinnerProbRotArma;
+    private javax.swing.JSpinner spinnerProbRotArmadura;
+    private javax.swing.JSpinner spinnerProbRotJoya;
+    private javax.swing.JSpinner spinnerProbSEArmadura;
+    private javax.swing.JSpinner spinnerProbSEJoya;
+    private javax.swing.JSpinner spinnerRadioSpawner;
+    private javax.swing.JSpinner spinnerRangoSeguiMob;
+    private javax.swing.JSpinner spinnerRefrescoSpawner;
+    private javax.swing.JSpinner spinnerRetrocesoMob;
+    private javax.swing.JSpinner spinnerRoboMArma;
+    private javax.swing.JSpinner spinnerRoboMJoya;
+    private javax.swing.JSpinner spinnerRoboVArma;
+    private javax.swing.JSpinner spinnerRoboVJoya;
+    private javax.swing.JSpinner spinnerVelocidadAtaqueMob;
+    private javax.swing.JSpinner spinnerVelocidadMob;
+    private javax.swing.JSpinner spinnerVidaAP;
+    private javax.swing.JSpinner spinnerVidaAP2;
+    private javax.swing.JSpinner spinnerVidaJoya;
+    private javax.swing.JSpinner spinnerVidaNivel;
+    private javax.swing.JSpinner spinnerXSpawnLoc;
+    private javax.swing.JSpinner spinnerYSpawnLoc;
+    private javax.swing.JSpinner spinnerZSpawnLoc;
+    private javax.swing.JSpinner spinnerformulax2clan;
+    private javax.swing.JSpinner spinnerformulaxclan;
+    private javax.swing.JTable tablaClanes;
+    private javax.swing.JTable tablaDropsMob;
+    private javax.swing.JTable tablaExpNivel;
+    private javax.swing.JTextField txtDescripObjeto;
+    private javax.swing.JTextField txtDescripcionArmadura;
+    private javax.swing.JTextField txtDescripcionArmadura1;
+    private javax.swing.JTextField txtMundoSpawnLoc;
+    private javax.swing.JTextField txtNombreArma;
+    private javax.swing.JTextField txtNombreClase;
+    private javax.swing.JTextField txtNombreJoya;
+    private javax.swing.JTextField txtNombreMob;
+    private javax.swing.JTextField txtNombreObjeto;
+    private javax.swing.JTextField txtNombreObjetoMejArmadura;
+    private javax.swing.JTextField txtNombreObjetoMejArmadura1;
+    private javax.swing.JTextField txtNombreSet;
+    private javax.swing.JSpinner txtX2Nivel;
+    private javax.swing.JSpinner txtX3Nivel;
+    private javax.swing.JSpinner txtXNivel;
     // End of variables declaration//GEN-END:variables
 
     private XYDataset createDataset(int max_lvl) {
@@ -2391,9 +5641,9 @@ public class GUI extends javax.swing.JFrame {
         XYSeries series = new XYSeries("nivel");
         double res = 0.0;
         for (int i = 0; i <= max_lvl; i++) {
-            res = (Double) lvl_ValueA.getValue() * Math.pow(i, 3)
-                    + (Double) lvl_ValueB.getValue() * Math.pow(i, 2)
-                    + (Double) lvl_ValueC.getValue() * i;
+            res = (Double) txtX3Nivel.getValue() * Math.pow(i, 3)
+                    + (Double) txtX2Nivel.getValue() * Math.pow(i, 2)
+                    + (Double) txtXNivel.getValue() * i;
             series.add(i, res);
         }
         XYSeriesCollection data = new XYSeriesCollection(series);
