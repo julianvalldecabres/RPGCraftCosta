@@ -25,6 +25,7 @@ import org.bukkit.World;
  * @author jail
  */
 public class RPGChunk {
+
     private int x;
     private int z;
     private World world;
@@ -87,24 +88,24 @@ public class RPGChunk {
      * @param world
      */
     public void setWorldByName(String world) {
-        this.world=Bukkit.getServer().getWorld(world);
+        this.world = Bukkit.getServer().getWorld(world);
     }
-    
+
     /**
      *
      * @param world
      */
-    public void setWorld(World world){
-        this.world= world;
-                
+    public void setWorld(World world) {
+        this.world = world;
+
     }
-    
+
     /**
      *
      * @param chunk
      * @return
      */
-    public RPGChunk getRPGChunkfromChunk(Chunk chunk){
+    public RPGChunk getRPGChunkfromChunk(Chunk chunk) {
         return new RPGChunk(chunk.getX(), chunk.getZ(), chunk.getWorld());
     }
 }

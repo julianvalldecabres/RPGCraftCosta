@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright 2016 jail.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,7 +51,7 @@ public class RPGGuildListener implements Listener {
         Entity ent = e.getEntity();
         if (ent.getLastDamageCause() instanceof EntityDamageByEntityEvent) {
             //Mirar config si toca robar money del mob xD
-            
+
         }
 
     }
@@ -83,7 +83,7 @@ public class RPGGuildListener implements Listener {
                 rpgp.setGuild("");
             } else {
                 rpgGMan.getGuildByName(rpgp.getGuild()).addOnlinePlayer(rpgp.getPlayer());
-                rpgGMan.sendMessageToGuild(rpgp.getGuild(), " El camarada " + rpgp.getName() + " se ha conectado al servidor");                
+                rpgGMan.sendMessageToGuild(rpgp.getGuild(), " El camarada " + rpgp.getName() + " se ha conectado al servidor");
             }
         }
     }

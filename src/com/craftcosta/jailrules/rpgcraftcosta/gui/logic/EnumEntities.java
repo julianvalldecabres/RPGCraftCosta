@@ -26,162 +26,131 @@ public enum EnumEntities {
     /**
      *
      */
-    BATX(RPGFinals.entitiesImagePackage+"bat.png","Bat","BatX",60),
-
+    BATX(RPGFinals.entitiesImagePackage + "bat.png", "Bat", "BatX", 60),
     /**
      *
      */
-    BLAZEX(RPGFinals.entitiesImagePackage+"blaze.png","Blaze","BlazeX", 61),
-
+    BLAZEX(RPGFinals.entitiesImagePackage + "blaze.png", "Blaze", "BlazeX", 61),
     /**
      *
      */
-    CAVESPIDERX(RPGFinals.entitiesImagePackage+"cavespider.png","Cavespider","CaveSpiderX", 59),
-
+    CAVESPIDERX(RPGFinals.entitiesImagePackage + "cavespider.png", "Cavespider", "CaveSpiderX", 59),
     /**
      *
      */
-    CHICKENX(RPGFinals.entitiesImagePackage+"chicken.png","Chicken","ChickenX", 93),
-
+    CHICKENX(RPGFinals.entitiesImagePackage + "chicken.png", "Chicken", "ChickenX", 93),
     /**
      *
      */
-    COWX(RPGFinals.entitiesImagePackage+"cow.png","Cow","CowX", 92),
-
+    COWX(RPGFinals.entitiesImagePackage + "cow.png", "Cow", "CowX", 92),
     /**
      *
      */
-    CREEPERX(RPGFinals.entitiesImagePackage+"creeper.png","Creeper","CreeperX", 50),
-
+    CREEPERX(RPGFinals.entitiesImagePackage + "creeper.png", "Creeper", "CreeperX", 50),
     /**
      *
      */
-    ENDERDRAGONX(RPGFinals.entitiesImagePackage+"enderdragon.png","Enderdragon","EnderDragonX", 63),
-
+    ENDERDRAGONX(RPGFinals.entitiesImagePackage + "enderdragon.png", "Enderdragon", "EnderDragonX", 63),
     /**
      *
      */
-    ENDERMANX(RPGFinals.entitiesImagePackage+"endermen.png","Enderman","EndermanX", 58),
-
+    ENDERMANX(RPGFinals.entitiesImagePackage + "endermen.png", "Enderman", "EndermanX", 58),
     /**
      *
      */
-    ENDERMITEX(RPGFinals.entitiesImagePackage+"endermite.png","Endermite","EndermiteX", 67),
-
+    ENDERMITEX(RPGFinals.entitiesImagePackage + "endermite.png", "Endermite", "EndermiteX", 67),
     /**
      *
      */
-    GHASTX(RPGFinals.entitiesImagePackage+"ghast.png","Ghast","GhastX", 56),
-
+    GHASTX(RPGFinals.entitiesImagePackage + "ghast.png", "Ghast", "GhastX", 56),
     /**
      *
      */
-    GIANTX(RPGFinals.entitiesImagePackage+"giantzombie.png","Giant","GiantX", 53),
-
+    GIANTX(RPGFinals.entitiesImagePackage + "giantzombie.png", "Giant", "GiantX", 53),
     /**
      *
      */
-    GUARDIANX(RPGFinals.entitiesImagePackage+"guardian.png","Guardian","GuardianX", 68),
-
+    GUARDIANX(RPGFinals.entitiesImagePackage + "guardian.png", "Guardian", "GuardianX", 68),
     /**
      *
      */
-    HORSEX(RPGFinals.entitiesImagePackage+"horse.png","Horse","HorseX", 100),
-
+    HORSEX(RPGFinals.entitiesImagePackage + "horse.png", "Horse", "HorseX", 100),
     /**
      *
      */
-    IRONGOLEMX(RPGFinals.entitiesImagePackage+"irongolem.png","Irongolem","IronGolemX", 99),
-
+    IRONGOLEMX(RPGFinals.entitiesImagePackage + "irongolem.png", "Irongolem", "IronGolemX", 99),
     /**
      *
      */
-    MAGMACUBEX(RPGFinals.entitiesImagePackage+"magmacube.png","Magmacube","MagmaCubeX", 62),
-
+    MAGMACUBEX(RPGFinals.entitiesImagePackage + "magmacube.png", "Magmacube", "MagmaCubeX", 62),
     /**
      *
      */
-    MUSHROOMCOWX(RPGFinals.entitiesImagePackage+"mushroomcow.png","Mushroomcow","MushroomCowX", 96),
-
+    MUSHROOMCOWX(RPGFinals.entitiesImagePackage + "mushroomcow.png", "Mushroomcow", "MushroomCowX", 96),
     /**
      *
      */
-    OCELOTX(RPGFinals.entitiesImagePackage+"ocelot.png","Ocelot","OcelotX", 98),
-
+    OCELOTX(RPGFinals.entitiesImagePackage + "ocelot.png", "Ocelot", "OcelotX", 98),
     /**
      *
      */
-    PIGX(RPGFinals.entitiesImagePackage+"pig.png","Pig","PigX", 90),
-
+    PIGX(RPGFinals.entitiesImagePackage + "pig.png", "Pig", "PigX", 90),
     /**
      *
      */
-    PIGZOMBIEX(RPGFinals.entitiesImagePackage+"zombiepigmen.png","Pigzombie","PigZombieX", 57),
-
+    PIGZOMBIEX(RPGFinals.entitiesImagePackage + "zombiepigmen.png", "Pigzombie", "PigZombieX", 57),
     /**
      *
      */
-    RABBITX(RPGFinals.entitiesImagePackage+"rabbit.png","Rabbit","RabbitX", 101),
-
+    RABBITX(RPGFinals.entitiesImagePackage + "rabbit.png", "Rabbit", "RabbitX", 101),
     /**
      *
      */
-    SHEEPX(RPGFinals.entitiesImagePackage+"sheep.png","Sheep","SheepX", 91),
-
+    SHEEPX(RPGFinals.entitiesImagePackage + "sheep.png", "Sheep", "SheepX", 91),
     /**
      *
      */
-    SILVERFISHX(RPGFinals.entitiesImagePackage+"silverfish.png","Sirverfish","SilverFishX", 60),
-
+    SILVERFISHX(RPGFinals.entitiesImagePackage + "silverfish.png", "Sirverfish", "SilverFishX", 60),
     /**
      *
      */
-    SKELETONX(RPGFinals.entitiesImagePackage+"skeleton.png","Skeleton","SkeletonX", 51),
-
+    SKELETONX(RPGFinals.entitiesImagePackage + "skeleton.png", "Skeleton", "SkeletonX", 51),
     /**
      *
      */
-    SLIMEX(RPGFinals.entitiesImagePackage+"slime.png","Slime","SlimeX", 55),
-
+    SLIMEX(RPGFinals.entitiesImagePackage + "slime.png", "Slime", "SlimeX", 55),
     /**
      *
      */
-    SNOWGOLEMX(RPGFinals.entitiesImagePackage+"snowgolem.png","Snowgolem","SnowGolemX", 97),
-
+    SNOWGOLEMX(RPGFinals.entitiesImagePackage + "snowgolem.png", "Snowgolem", "SnowGolemX", 97),
     /**
      *
      */
-    SPIDERX(RPGFinals.entitiesImagePackage+"spider.png","Spider","SpiderX", 52),
-
+    SPIDERX(RPGFinals.entitiesImagePackage + "spider.png", "Spider", "SpiderX", 52),
     /**
      *
      */
-    SQUIDX(RPGFinals.entitiesImagePackage+"squid.png","Squid","SquidX", 94),
-
+    SQUIDX(RPGFinals.entitiesImagePackage + "squid.png", "Squid", "SquidX", 94),
     /**
      *
      */
-    VILLAGERX(RPGFinals.entitiesImagePackage+"villager.png","Villager","VillagerX", 120),
-
+    VILLAGERX(RPGFinals.entitiesImagePackage + "villager.png", "Villager", "VillagerX", 120),
     /**
      *
      */
-    WITCHX(RPGFinals.entitiesImagePackage+"witch.png","Witch","WitchX", 66),
-
+    WITCHX(RPGFinals.entitiesImagePackage + "witch.png", "Witch", "WitchX", 66),
     /**
      *
      */
-    WITHERX(RPGFinals.entitiesImagePackage+"wither.png","wither","WitherX", 64),
-
+    WITHERX(RPGFinals.entitiesImagePackage + "wither.png", "wither", "WitherX", 64),
     /**
      *
      */
-    WOLFX(RPGFinals.entitiesImagePackage+"wolf.png","Wolf","WolfX", 95),
-
+    WOLFX(RPGFinals.entitiesImagePackage + "wolf.png", "Wolf", "WolfX", 95),
     /**
      *
      */
-    ZOMBIEX(RPGFinals.entitiesImagePackage+"zombie.png","Zombie","ZombieX", 54);
+    ZOMBIEX(RPGFinals.entitiesImagePackage + "zombie.png", "Zombie", "ZombieX", 54);
 
     private String path;
     private String name;
@@ -259,5 +228,4 @@ public enum EnumEntities {
         this.id = id;
     }
 
-    
 }

@@ -25,6 +25,7 @@ import org.bukkit.Location;
  * @author jail
  */
 public class RPGSpawner {
+
     private Integer id;
     private Location loc;
     private RPGMob rpgmob;
@@ -50,26 +51,26 @@ public class RPGSpawner {
      */
     public boolean enabled;
 
-    RPGSpawner(int id,Location loc, RPGMob mob, int maxmobs, int radius, int cooldown) {
-        this.id= id;
-        this.loc=loc;
-        this.rpgmob=mob;
-        this.maxMobs=maxmobs;
-        this.radius=radius;
-        this.cooldown= cooldown;        
-        this.enabled=true;
-        this.entitiesIds=new ArrayList<>();
+    RPGSpawner(int id, Location loc, RPGMob mob, int maxmobs, int radius, int cooldown) {
+        this.id = id;
+        this.loc = loc;
+        this.rpgmob = mob;
+        this.maxMobs = maxmobs;
+        this.radius = radius;
+        this.cooldown = cooldown;
+        this.enabled = true;
+        this.entitiesIds = new ArrayList<>();
     }
-    
+
     RPGSpawner(Location loc, RPGMob mob, int maxmobs, int radius, int cooldown, boolean enabled) {
-        this.id= id;
-        this.loc=loc;
-        this.rpgmob=mob;
-        this.maxMobs=maxmobs;
-        this.radius=radius;
-        this.cooldown= cooldown;        
-        this.enabled=enabled;
-        this.entitiesIds=new ArrayList<>();
+        this.id = id;
+        this.loc = loc;
+        this.rpgmob = mob;
+        this.maxMobs = maxmobs;
+        this.radius = radius;
+        this.cooldown = cooldown;
+        this.enabled = enabled;
+        this.entitiesIds = new ArrayList<>();
     }
 
     /**
@@ -199,13 +200,13 @@ public class RPGSpawner {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
- 
+
     /**
      *
      * @param uuid
      * @return
      */
-    public boolean hasMobWithUUID(UUID uuid){
+    public boolean hasMobWithUUID(UUID uuid) {
         return this.entitiesIds.contains(uuid);
     }
 }

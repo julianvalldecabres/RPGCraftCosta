@@ -24,7 +24,8 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
  *
  * @author jail
  */
-public class RPGChicken extends RPGMob{
+public class RPGChicken extends RPGMob {
+
     private boolean baby;
 
     /**
@@ -83,6 +84,5 @@ public class RPGChicken extends RPGMob{
      */
     public void setBaby(boolean baby) {
         this.baby = baby;
-    }   
+    }
 }
-

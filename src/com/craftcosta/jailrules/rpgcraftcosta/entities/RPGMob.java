@@ -381,6 +381,5 @@ public abstract class RPGMob {
     public void setAp(double ap) {
         this.ap = ap;
     }
-    
-    
+
 }

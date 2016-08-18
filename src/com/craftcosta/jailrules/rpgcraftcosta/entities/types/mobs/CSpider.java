@@ -61,7 +61,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
  */
 public class CSpider extends EntityMonster implements IRangedEntity {
 
-      //VARIABLES AÑADIDAS QUE DEFINEN EL TIPO DE MOB
+    //VARIABLES AÑADIDAS QUE DEFINEN EL TIPO DE MOB
     private AttackType aType;
     private MobBehaviour mType;
     //VARIBLES ATRIBUTOS DEL MOB
@@ -69,7 +69,7 @@ public class CSpider extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-        public Location spawnLoc;
+    public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -88,7 +88,7 @@ public class CSpider extends EntityMonster implements IRangedEntity {
      */
     public CSpider(World world) {
         super(world);
-        this.spawnLoc = new Location(world.getWorld(), 0,4,0);
+        this.spawnLoc = new Location(world.getWorld(), 0, 4, 0);
         //tipos por defecto
         this.attackSpeed = 1.0D;
         this.rangedDamage = 1.0D;
@@ -119,13 +119,13 @@ public class CSpider extends EntityMonster implements IRangedEntity {
         //añadimos los pathfindergoals
         initPathfinderGoals();
     }
-    
+
     /**
      *
      * @param world
      * @param spawnLoc
      */
-    public CSpider(World world,Location spawnLoc) {
+    public CSpider(World world, Location spawnLoc) {
         super(world);
         this.spawnLoc = spawnLoc;
         //tipos por defecto
@@ -215,20 +215,19 @@ public class CSpider extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-
     /**
      *
      * @param el
      * @param f
      */
-        @Override
+    @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
         int j = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_KNOCKBACK.id, bA());
 
         entityarrow.b(this.rangedDamage);
-        
+
         if (j > 0) {
             entityarrow.setKnockbackStrength(j);
         }
@@ -264,13 +263,12 @@ public class CSpider extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYSPIDER
-
     /**
      *
      * @param world
      * @return
      */
-        protected NavigationAbstract b(World world) {
+    protected NavigationAbstract b(World world) {
         return new NavigationSpider(this, world);
     }
 
@@ -386,7 +384,7 @@ public class CSpider extends EntityMonster implements IRangedEntity {
      */
     public GroupDataEntity prepare(DifficultyDamageScaler difficultydamagescaler, GroupDataEntity groupdataentity) {
         Object object = super.prepare(difficultydamagescaler, groupdataentity);
-        
+
         return (GroupDataEntity) object;
     }
 
@@ -398,5 +396,4 @@ public class CSpider extends EntityMonster implements IRangedEntity {
         return 0.65F;
     }
 
-    
 }

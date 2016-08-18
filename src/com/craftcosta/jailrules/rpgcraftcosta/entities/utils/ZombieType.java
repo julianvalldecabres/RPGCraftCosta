@@ -24,17 +24,17 @@ public enum ZombieType {
     /**
      *
      */
-    NORMAL("normal",0),
-
+    NORMAL("normal", 0),
     /**
      *
      */
-    VILLAGER("villager",1);
+    VILLAGER("villager", 1);
     private int number;
     private String sType;
-    ZombieType(String stype,int number){
-        this.sType=stype;
-        this.number=number;
+
+    ZombieType(String stype, int number) {
+        this.sType = stype;
+        this.number = number;
     }
 
     /**
@@ -68,8 +68,5 @@ public enum ZombieType {
     public void setsType(String sType) {
         this.sType = sType;
     }
-    
-    
-    
-    
+
 }

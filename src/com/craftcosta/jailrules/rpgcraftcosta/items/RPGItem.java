@@ -213,5 +213,4 @@ public abstract class RPGItem {
         this.comerciable = comerciable;
     }
 
-    
 }

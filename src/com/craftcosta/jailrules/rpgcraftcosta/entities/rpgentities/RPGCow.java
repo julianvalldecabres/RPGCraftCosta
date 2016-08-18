@@ -24,7 +24,8 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
  *
  * @author jail
  */
-public class RPGCow extends RPGMob{
+public class RPGCow extends RPGMob {
+
     private boolean baby;
 
     /**

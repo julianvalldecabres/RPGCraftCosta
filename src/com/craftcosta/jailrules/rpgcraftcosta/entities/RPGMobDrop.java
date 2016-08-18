@@ -23,6 +23,7 @@ import org.bukkit.inventory.ItemStack;
  * @author jail
  */
 public class RPGMobDrop {
+
     private ItemStack item;
     private float dropChance;
 

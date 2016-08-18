@@ -33,7 +33,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  *
  * @author jail
  */
-public class PathfinderGoalExplodeLikeCreeper extends PathfinderGoal{
+public class PathfinderGoalExplodeLikeCreeper extends PathfinderGoal {
 
     private EntityMonster entity;
     private float prob;
@@ -50,7 +50,7 @@ public class PathfinderGoalExplodeLikeCreeper extends PathfinderGoal{
         this.prob = prob;
         this.radius = radius;
     }
-    
+
     /**
      *
      * @return
@@ -58,33 +58,33 @@ public class PathfinderGoalExplodeLikeCreeper extends PathfinderGoal{
     @Override
     public boolean a() {
         EntityLiving entityliving = this.entity.getGoalTarget();
-        double aHealth= this.entity.getHealth();
-        double mHealth= this.entity.getMaxHealth();
-        double pHealth= aHealth/mHealth;
-        if(entityliving != null && entityliving.isAlive() && pHealth<this.prob){
+        double aHealth = this.entity.getHealth();
+        double mHealth = this.entity.getMaxHealth();
+        double pHealth = aHealth / mHealth;
+        if (entityliving != null && entityliving.isAlive() && pHealth < this.prob) {
             return true;
         }
-        if(entityliving != null && entityliving.isAlive() && pHealth<(this.prob*2)){
+        if (entityliving != null && entityliving.isAlive() && pHealth < (this.prob * 2)) {
             //Seria interesante invocar un metodo que llegado a este punto muestre una animacion
             //que ayude a preveer una explosion
 //            Packet packet = new PacketPlayOutWorldParticles(EnumParticle.HEART, true,(float)this.entity.locX,(float) this.entity.locY,(float) this.entity.locZ, 1.0F, 1.0F, 1.0F, 1.0F, 1, 1);
 //                ((CraftPlayer) entityliving.getBukkitEntity()).getHandle().playerConnection.sendPacket(packet);
             return false;
         }
-        
+
         return false;
     }
-    
+
     /**
      *
      */
-    public void c(){
-        ExplosionPrimeEvent event = new ExplosionPrimeEvent(this.entity.getBukkitEntity(),(float)this.entity.getAttributeInstance(GenericAttributes.FOLLOW_RANGE).getValue() , false);
-            this.entity.getWorld().getServer().getPluginManager().callEvent(event);
-            if (!event.isCancelled()) {
-                this.entity.getWorld().createExplosion(this.entity, this.entity.locX, this.entity.locY, this.entity.locZ, event.getRadius(), event.getFire(), true);
-                this.entity.die();
-            }
+    public void c() {
+        ExplosionPrimeEvent event = new ExplosionPrimeEvent(this.entity.getBukkitEntity(), (float) this.entity.getAttributeInstance(GenericAttributes.FOLLOW_RANGE).getValue(), false);
+        this.entity.getWorld().getServer().getPluginManager().callEvent(event);
+        if (!event.isCancelled()) {
+            this.entity.getWorld().createExplosion(this.entity, this.entity.locX, this.entity.locY, this.entity.locZ, event.getRadius(), event.getFire(), true);
+            this.entity.die();
+        }
     }
-    
+
 }

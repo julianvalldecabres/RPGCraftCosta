@@ -53,7 +53,6 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 public class CSquid extends EntityMonster implements IRangedEntity {
 
     //VARIABLES AÑADIDAS QUE DEFINEN EL TIPO DE MOB
-
     private AttackType aType;
     private MobBehaviour mType;
     //VARIBLES ATRIBUTOS DEL MOB
@@ -61,7 +60,7 @@ public class CSquid extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-        public Location spawnLoc;
+    public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -209,13 +208,12 @@ public class CSquid extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-
     /**
      *
      * @param el
      * @param f
      */
-        @Override
+    @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -258,12 +256,11 @@ public class CSquid extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DEL ENTITYSQUID
-
     /**
      *
      * @return
      */
-        public float getHeadHeight() {
+    public float getHeadHeight() {
         return this.length * 0.5F;
     }
 
@@ -304,11 +301,9 @@ public class CSquid extends EntityMonster implements IRangedEntity {
      return this.world.a(this.getBoundingBox().grow(0.0D, -0.6000000238418579D, 0.0D), Material.WATER, (Entity) this);
      }
      // CraftBukkit end */
-
     /**
      *
      */
-    
     public void m() {
         super.m();
     }

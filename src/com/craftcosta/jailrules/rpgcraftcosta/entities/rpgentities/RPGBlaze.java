@@ -24,7 +24,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
  *
  * @author jail
  */
-public class RPGBlaze extends RPGMob{
+public class RPGBlaze extends RPGMob {
 
     /**
      *

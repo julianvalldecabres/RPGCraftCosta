@@ -84,7 +84,7 @@ public class RPGCreatureListener implements Listener {
                 + "\n reason: " + e.getSpawnReason().name()
                 + "\n loc: " + loc.toString()
                 + "\n id: " + e.getEntity().getEntityId()
-                + "\n UUID: "+e.getEntity().getUniqueId().toString());
+                + "\n UUID: " + e.getEntity().getUniqueId().toString());
         e.getEntity().setCustomName(name);
         e.getEntity().setCustomNameVisible(true);
 
@@ -109,7 +109,7 @@ public class RPGCreatureListener implements Listener {
                 realDamage += random.nextInt(((int) realDamage) / 2 + 2);
             }
             e.setDamage(realDamage);
-      //Entities always burn "5" seconds for Flame enchantments
+            //Entities always burn "5" seconds for Flame enchantments
             //Since this is hard coded I might change it later to use the EntityCombustByEntityEvent
             if (damager.getFireTicks() > 0) {
                 e.getEntity().setFireTicks(100);

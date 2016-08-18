@@ -84,7 +84,7 @@ public class RPGPlayerListener implements Listener {
             rpgP.setMove(false);
             p.sendMessage(ChatColor.YELLOW + "Selecciona una clase antes de continuar...");
             p.sendMessage(plugin.getRPGClassManager().getListAvailableClasses());
-        }        
+        }
         rpgPMan.saveRPGPlayer(rpgP);
         rpgPMan.addRPGPlayerToList(rpgP);
         RPGWeaponManager rpgWMan = plugin.getRPGItemManager().getRPGWeaponManager();

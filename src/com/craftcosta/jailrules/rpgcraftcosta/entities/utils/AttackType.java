@@ -24,8 +24,7 @@ public enum AttackType {
     /**
      *
      */
-    RANGED, 
-
+    RANGED,
     /**
      *
      */

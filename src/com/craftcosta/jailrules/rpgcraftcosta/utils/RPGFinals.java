@@ -26,7 +26,7 @@ public abstract class RPGFinals {
     /**
      *
      */
-    public final static String itemImagePackage= "/com/craftcosta/jailrules/rpgcraftcosta/gui/logic/resources/items/";
+    public final static String itemImagePackage = "/com/craftcosta/jailrules/rpgcraftcosta/gui/logic/resources/items/";
 
     /**
      *
@@ -36,7 +36,7 @@ public abstract class RPGFinals {
     /**
      *
      */
-    public final static String pluginNameFolder= "RPGCraftCosta"+File.separator;
+    public final static String pluginNameFolder = "RPGCraftCosta" + File.separator;
 
     /**
      *
@@ -56,7 +56,7 @@ public abstract class RPGFinals {
     /**
      *
      */
-    public final static String dataFolderA = pluginNameFolder+"data"+File.separator;
+    public final static String dataFolderA = pluginNameFolder + "data" + File.separator;
 
     /**
      *
@@ -201,11 +201,11 @@ public abstract class RPGFinals {
     /**
      *
      */
-    public static String spawnersFilePath= dataFolder + "spawners.yml";
+    public static String spawnersFilePath = dataFolder + "spawners.yml";
 
     /**
      *
      */
-    public static String entitiesImagePackage= "/com/craftcosta/jailrules/rpgcraftcosta/gui/logic/resources/entities/";
-    
+    public static String entitiesImagePackage = "/com/craftcosta/jailrules/rpgcraftcosta/gui/logic/resources/entities/";
+
 }

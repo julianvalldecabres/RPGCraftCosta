@@ -19,10 +19,10 @@ package com.craftcosta.jailrules.rpgcraftcosta.economy;
  *
  * @author jail
  */
-public class InsufficientFundsException extends Exception{
+public class InsufficientFundsException extends Exception {
 
     public InsufficientFundsException(String message) {
         super(message);
     }
-    
+
 }

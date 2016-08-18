@@ -22,27 +22,22 @@ package com.craftcosta.jailrules.rpgcraftcosta.entities.utils;
 public enum VillagerType {
 
     //AQUI NOS QUEDAMOS CON LOS VILLAGERS
-
     /**
      *
      */
-        FARMER(0),
-
+    FARMER(0),
     /**
      *
      */
     LIBRARIAN(1),
-
     /**
      *
      */
     CURE(2),
-
     /**
      *
      */
     BLACKSMITH(3),
-
     /**
      *
      */

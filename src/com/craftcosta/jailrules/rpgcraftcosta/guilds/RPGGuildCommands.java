@@ -183,7 +183,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                     if (rpgP.getGuild().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " Para poder realizar una donacion debes pertenecer a un clan");
                         return true;
-                    } else if(rpgGMan.isBothContribution() || rpgGMan.isOnlyDonation()){
+                    } else if (rpgGMan.isBothContribution() || rpgGMan.isOnlyDonation()) {
                         RPGGuild guild = rpgGMan.getGuildByName(rpgP.getGuild());
                         double amount = 0;
                         try {

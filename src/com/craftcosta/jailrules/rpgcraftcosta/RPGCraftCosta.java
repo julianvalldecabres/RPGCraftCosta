@@ -52,7 +52,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class RPGCraftCosta extends JavaPlugin {
 
     //Campos de la clase
-
     static RPGCraftCosta rpgCraftCosta;
     private final FileConfiguration config;
     private RPGChatManager rpgChatManager;
@@ -70,7 +69,6 @@ public class RPGCraftCosta extends JavaPlugin {
     private RPGPartyManager rpgPartyManager;
     private RPGGuildCommands myGuildCommands;
     private RPGPlayerCommands myPlayerCommands;
-
 
     /**
      * Constructor de la clase RPGCraftCosta Se hace uso del patron singleton
@@ -118,9 +116,9 @@ public class RPGCraftCosta extends JavaPlugin {
     }//Cierre del metodo
 
     /**
-     * Metodo necesario para que el plugin se inicie. Al iniciar el servidor este
-     * metodo se encarga de inicializar todos los objetos necesarios para la
-     * ejecucion del plugin en el servidor
+     * Metodo necesario para que el plugin se inicie. Al iniciar el servidor
+     * este metodo se encarga de inicializar todos los objetos necesarios para
+     * la ejecucion del plugin en el servidor
      */
     @Override
     public void onEnable() {
@@ -130,12 +128,12 @@ public class RPGCraftCosta extends JavaPlugin {
         this.rpgChatManager = new RPGChatManager(this);
         this.rpgItemManager = new RPGItemManager(this);
         this.rpgClassManager = new RPGClassManager(this);
-        this.rpgLevelManager= new RPGLevelManager(this);
+        this.rpgLevelManager = new RPGLevelManager(this);
         this.rpgPlayerManager = new RPGPlayerManager(this);
         this.rpgPartyManager = new RPGPartyManager(this);
         this.rpgGuildManager = new RPGGuildManager(this);
         this.rpgMobManager = new RPGMobManager(this);
-        this.rpgTradeManager= new RPGTradeManager(this);
+        this.rpgTradeManager = new RPGTradeManager(this);
         //Commands
         myExecutor = new RPGCommandManager(this);
         myChatCommands = new RPGChatCommands(this);
@@ -220,6 +218,7 @@ public class RPGCraftCosta extends JavaPlugin {
     public RPGLevelManager getRPGLevelManager() {
         return this.rpgLevelManager;
     }
+
     public RPGTradeManager getTradeManager() {
         return this.rpgTradeManager;
     }

@@ -25,10 +25,11 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.SheepColor;
  *
  * @author jail
  */
-public class RPGSheep extends RPGMob{
+public class RPGSheep extends RPGMob {
+
     private boolean baby;
     private SheepColor sColor;
-    
+
     /**
      *
      * @param level
@@ -50,7 +51,7 @@ public class RPGSheep extends RPGMob{
      * @param scolor
      * @param baby
      */
-    public RPGSheep(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap,SheepColor scolor, boolean baby) {
+    public RPGSheep(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap, SheepColor scolor, boolean baby) {
         this.level = level;
         this.name = name;
         this.type = type;
@@ -68,9 +69,9 @@ public class RPGSheep extends RPGMob{
         this.money = money;
         this.exp = exp;
         this.ap = ap;
-        
-        this.baby=baby;
-        this.sColor=scolor;
+
+        this.baby = baby;
+        this.sColor = scolor;
     }
 
     /**
@@ -104,7 +105,5 @@ public class RPGSheep extends RPGMob{
     public void setsColor(SheepColor sColor) {
         this.sColor = sColor;
     }
-    
-    
-    
+
 }

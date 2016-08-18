@@ -348,7 +348,7 @@ public class RPGArmorManager {
         String[] partItem = item.getType().toString().split("_");
         return partItem[1];
     }
-    
+
     /**
      *
      * @param armor

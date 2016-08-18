@@ -62,7 +62,7 @@ public class CCreeper extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-        public Location spawnLoc;
+    public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -82,12 +82,11 @@ public class CCreeper extends EntityMonster implements IRangedEntity {
     //private int explosionRadius = 3;
     //private int bn = 0;
     //private int record = -1;
-
     /**
      *
      * @param world
      */
-        public CCreeper(World world) {
+    public CCreeper(World world) {
         super(world);
         this.spawnLoc = new Location(world.getWorld(), 0, 0, 0);
         //tipos por defecto
@@ -261,11 +260,10 @@ public class CCreeper extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DEL ENTITYCREEPER
-
     /**
      *
      */
-        public void t_() {
+    public void t_() {
         super.t_();
     }
 

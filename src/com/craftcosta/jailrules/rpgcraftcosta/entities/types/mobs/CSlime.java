@@ -65,7 +65,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
  * @author jail
  */
 public class CSlime extends EntityMonster implements IRangedEntity {
-    
+
     //VARIABLES AÑADIDAS
     private Location spawnLoc;
     private AttackType aType;
@@ -80,13 +80,12 @@ public class CSlime extends EntityMonster implements IRangedEntity {
     private float rangedStrenght;
     private double followrange;
     private double maxhealth;
-    
-    //VARIABLES PROPIAS DE ENTITYSLIME
 
+    //VARIABLES PROPIAS DE ENTITYSLIME
     /**
      *
      */
-        public float a;
+    public float a;
 
     /**
      *
@@ -105,7 +104,7 @@ public class CSlime extends EntityMonster implements IRangedEntity {
      */
     public CSlime(World world) {
         super(world);
-        
+
         ((Navigation) getNavigation()).a(true);
         this.spawnLoc = new Location(world.getWorld(), 0, 0, 0);
         this.attackSpeed = 1.0D;
@@ -135,7 +134,7 @@ public class CSlime extends EntityMonster implements IRangedEntity {
         //añadimos los pathfindergoals
         initPathfinderGoals();
     }
-    
+
     /**
      *
      * @param world
@@ -143,9 +142,9 @@ public class CSlime extends EntityMonster implements IRangedEntity {
      */
     public CSlime(World world, Location spawnloc) {
         super(world);
-        
+
         ((Navigation) getNavigation()).a(true);
-        
+
         this.spawnLoc = spawnloc;
         this.attackSpeed = 1.0D;
         this.rangedStrenght = 1.6F;
@@ -179,7 +178,7 @@ public class CSlime extends EntityMonster implements IRangedEntity {
     private void initPathfinderGoals() {
         //default PfG
         this.goalSelector.a(0, new PathfinderGoalFloat(this));
-        this.goalSelector.a(1,new PathfinderGoalExplodeLikeCreeper(this, 0.25F, (float) 5.0D));
+        this.goalSelector.a(1, new PathfinderGoalExplodeLikeCreeper(this, 0.25F, (float) 5.0D));
         this.goalSelector.a(5, new PathFinderGoalGoHome(1.0D, this, spawnLoc));
         this.goalSelector.a(3, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
         this.goalSelector.a(4, new PathfinderGoalRandomLookaround(this));
@@ -233,13 +232,12 @@ public class CSlime extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-
     /**
      *
      * @param el
      * @param f
      */
-        @Override
+    @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, this.rangedStrenght, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -282,13 +280,12 @@ public class CSlime extends EntityMonster implements IRangedEntity {
                 return 0;
         }
     }
-    
-    //METODOS PROPIOS DE LA ENTIDAD ENTITYSLIME
 
+    //METODOS PROPIOS DE LA ENTIDAD ENTITYSLIME
     /**
      *
      */
-        protected void h() {
+    protected void h() {
         super.h();
         this.datawatcher.a(16, Byte.valueOf((byte) 1));
     }
@@ -515,10 +512,10 @@ public class CSlime extends EntityMonster implements IRangedEntity {
      *
      * @return
      */
-    public boolean ciup1(){
-        return this.getSize()>1;
+    public boolean ciup1() {
+        return this.getSize() > 1;
     }
-    
+
     /**
      *
      * @return
@@ -531,14 +528,14 @@ public class CSlime extends EntityMonster implements IRangedEntity {
      *
      */
     public void cj() {
-        this.b=1.0F;
+        this.b = 1.0F;
     }
 
     /**
      *
      * @return
      */
-    public int cuj(){
+    public int cuj() {
         return this.getSize();
     }
 
@@ -557,7 +554,7 @@ public class CSlime extends EntityMonster implements IRangedEntity {
     protected String bp() {
         return "mob.slime." + (this.getSize() > 1 ? "big" : "small");
     }
-    
+
     /**
      *
      * @return

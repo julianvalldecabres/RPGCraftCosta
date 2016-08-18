@@ -24,10 +24,10 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
  *
  * @author jail
  */
-public class RPGMushroomCow extends RPGMob{
+public class RPGMushroomCow extends RPGMob {
 
     private boolean baby;
-    
+
     /**
      *
      * @param level
@@ -48,7 +48,7 @@ public class RPGMushroomCow extends RPGMob{
      * @param ap
      * @param baby
      */
-    public RPGMushroomCow(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap,boolean baby) {
+    public RPGMushroomCow(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap, boolean baby) {
         this.level = level;
         this.name = name;
         this.type = type;
@@ -66,8 +66,8 @@ public class RPGMushroomCow extends RPGMob{
         this.money = money;
         this.exp = exp;
         this.ap = ap;
-        
-        this.baby=baby;
+
+        this.baby = baby;
     }
 
     /**
@@ -85,6 +85,5 @@ public class RPGMushroomCow extends RPGMob{
     public void setBaby(boolean baby) {
         this.baby = baby;
     }
-    
-    
+
 }

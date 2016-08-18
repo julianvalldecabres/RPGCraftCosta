@@ -24,18 +24,15 @@ public enum OcelotType {
     /**
      *
      */
-    JUNGLE(0), 
-
+    JUNGLE(0),
     /**
      *
      */
-    SMOKING(1), 
-
+    SMOKING(1),
     /**
      *
      */
-    TABBY(2), 
-
+    TABBY(2),
     /**
      *
      */

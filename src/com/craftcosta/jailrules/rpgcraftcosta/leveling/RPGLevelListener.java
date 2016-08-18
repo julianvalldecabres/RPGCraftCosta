@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright 2016 jail.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,7 +32,8 @@ import org.bukkit.event.entity.EntityDeathEvent;
  *
  * @author jail
  */
-public class RPGLevelListener implements Listener{
+public class RPGLevelListener implements Listener {
+
     RPGCraftCosta plugin;
     RPGLevelManager rpgLMan;
     RPGPlayerManager rpgPMan;
@@ -41,35 +42,34 @@ public class RPGLevelListener implements Listener{
 
     public RPGLevelListener(RPGCraftCosta plugin) {
         this.plugin = plugin;
-        this.rpgLMan= plugin.getRPGLevelManager();
-        this.rpgMMan= plugin.getRPGMobManager();
-        this.rpgPMan= plugin.getRPGPlayerManager();
-        this.rpgCMan= plugin.getRPGClassManager();
-        
+        this.rpgLMan = plugin.getRPGLevelManager();
+        this.rpgMMan = plugin.getRPGMobManager();
+        this.rpgPMan = plugin.getRPGPlayerManager();
+        this.rpgCMan = plugin.getRPGClassManager();
+
     }
-    
+
     @EventHandler
-    public void onPlayerKillsMonster(EntityDeathEvent e){
+    public void onPlayerKillsMonster(EntityDeathEvent e) {
         Entity ent = e.getEntity();
-            
-		if(ent.getLastDamageCause() instanceof EntityDamageByEntityEvent)
-		{
-			EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent) ent.getLastDamageCause();
-			if(nEvent.getDamager() instanceof Player)
-			{
-                          RPGPlayer rpgp=rpgPMan.getRPGPlayerByName(((Player)nEvent.getDamager()).getName());
-                          if(!(nEvent.getEntity() instanceof Player)){
-                              String mobName=nEvent.getEntity().getCustomName();
-                              RPGMob mob= rpgMMan.getRPGMobByName(mobName);
-                              //Comprobar añadir exp y subir de nivel si toca.
-                              if(rpgLMan.checkLevelUp(rpgp.getActualExp(), (long) mob.exp)){
-                                  //Subir de nivel
-                                  rpgp.setActualExp(rpgp.getActualExp()+mob.exp);
-                                  rpgCMan.levelUP(rpgp);
-                              }else{}
-                                  rpgp.setActualExp(rpgp.getActualExp()+mob.exp);
-                          }
-                        }
+
+        if (ent.getLastDamageCause() instanceof EntityDamageByEntityEvent) {
+            EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent) ent.getLastDamageCause();
+            if (nEvent.getDamager() instanceof Player) {
+                RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(((Player) nEvent.getDamager()).getName());
+                if (!(nEvent.getEntity() instanceof Player)) {
+                    String mobName = nEvent.getEntity().getCustomName();
+                    RPGMob mob = rpgMMan.getRPGMobByName(mobName);
+                    //Comprobar añadir exp y subir de nivel si toca.
+                    if (rpgLMan.checkLevelUp(rpgp.getActualExp(), (long) mob.exp)) {
+                        //Subir de nivel
+                        rpgp.setActualExp(rpgp.getActualExp() + mob.exp);
+                        rpgCMan.levelUP(rpgp);
+                    } else {
+                    }
+                    rpgp.setActualExp(rpgp.getActualExp() + mob.exp);
                 }
+            }
+        }
     }
 }

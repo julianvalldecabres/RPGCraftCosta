@@ -24,27 +24,23 @@ public enum EnumBehaviour {
     /**
      *
      */
-    PEACEFUL("peaceful","The mob acts as a peaceful animal, if it is damaged it will try to flee from his attacker",""),
-
+    PEACEFUL("peaceful", "The mob acts as a peaceful animal, if it is damaged it will try to flee from his attacker", ""),
     /**
      *
      */
-    NORMAL("normal","The mob would not attack unless attacked,  if attacked will pursue his attacker until it comes out of its range",""),
-
+    NORMAL("normal", "The mob would not attack unless attacked,  if attacked will pursue his attacker until it comes out of its range", ""),
     /**
      *
      */
-    NORMAAGGRO("normal_w_agro","The mob would not attack unless attacked, if attacked pursue his attacker and call other mobs to his aid",""),
-
+    NORMAAGGRO("normal_w_agro", "The mob would not attack unless attacked, if attacked pursue his attacker and call other mobs to his aid", ""),
     /**
      *
      */
-    AGGRESSIVE("aggressive","The mob attack anyone that is in its range, only stop if the attacker flees his range",""),
-
+    AGGRESSIVE("aggressive", "The mob attack anyone that is in its range, only stop if the attacker flees his range", ""),
     /**
      *
      */
-    AGGREAGGRO("aggressive_w_agro","The mob attack anyone that is in its range and will call other mobs to his aid","");
+    AGGREAGGRO("aggressive_w_agro", "The mob attack anyone that is in its range and will call other mobs to his aid", "");
     String name;
     String tooltip;
     String path;
@@ -86,6 +82,5 @@ public enum EnumBehaviour {
     public void setTooltip(String tooltip) {
         this.tooltip = tooltip;
     }
-    
-    
+
 }

@@ -1,7 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Copyright 2016 jail.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.economy;
 
@@ -49,7 +59,7 @@ public class RPGTradeCommands implements CommandExecutor, InventoryHolder, Liste
 
     @Override
     public boolean onCommand(final CommandSender cs, Command cmnd, String string, final String[] strings) {
-        
+
         RPGTradeInventory tinv = this.tman.getTradeInventory();
         if (cs instanceof Player) {
             Player p = (Player) cs;
@@ -88,7 +98,7 @@ public class RPGTradeCommands implements CommandExecutor, InventoryHolder, Liste
                                 return true;
                             }
                         }
-                    }else{
+                    } else {
                         p.sendMessage(ChatColor.GOLD + "[TRATO]" + ChatColor.RED + " No tienes ninguna peticion de intercambio actualmente");
                         return true;
                     }
@@ -110,7 +120,7 @@ public class RPGTradeCommands implements CommandExecutor, InventoryHolder, Liste
                                 peticiones.remove(key);
                             }
                         }
-                    }else{
+                    } else {
                         p.sendMessage(ChatColor.GOLD + "[TRATO]" + ChatColor.RED + " No tienes ninguna peticion de intercambio actualmente");
                         return true;
                     }

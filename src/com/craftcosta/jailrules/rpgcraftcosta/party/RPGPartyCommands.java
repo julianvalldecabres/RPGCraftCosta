@@ -107,7 +107,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                         }
                     }
                     return true;
-                }else if (args[0].equalsIgnoreCase("info")) {
+                } else if (args[0].equalsIgnoreCase("info")) {
                     //muestra la informacion de la party a la que pertenece el player
                     if (rpgP.getParty().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " No perteneces a ningún grupo");

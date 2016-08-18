@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright 2016 jail.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -5851,17 +5851,17 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void checkGruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkGruposActionPerformed
-        if(checkGrupos.isSelected()){
+        if (checkGrupos.isSelected()) {
             PanelConfig.setEnabledAt(9, true);
-        }else{
+        } else {
             PanelConfig.setEnabledAt(9, false);
         }
     }//GEN-LAST:event_checkGruposActionPerformed
 
     private void checkClanesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkClanesActionPerformed
-        if(checkClanes.isSelected()){
+        if (checkClanes.isSelected()) {
             PanelConfig.setEnabledAt(8, true);
-        }else{
+        } else {
             PanelConfig.setEnabledAt(8, false);
         }
     }//GEN-LAST:event_checkClanesActionPerformed
@@ -6589,11 +6589,11 @@ public class GUI extends javax.swing.JFrame {
 
     private void loadComboprueba() {
         //prueba de combo colores
-        for(ChatColor color: ChatColor.values()){
+        for (ChatColor color : ChatColor.values()) {
             comboColorPrefijoComercio.addItem(color.name());
         }
-        String caracteresEspeciales="#@$%&\\=?¿¡!'*^{}[],;.:-_<>";
-        for(int i=0;i<caracteresEspeciales.length();i++){
+        String caracteresEspeciales = "#@$%&\\=?¿¡!'*^{}[],;.:-_<>";
+        for (int i = 0; i < caracteresEspeciales.length(); i++) {
             comboPrefijoComercio.addItem(caracteresEspeciales.charAt(i));
         }
     }

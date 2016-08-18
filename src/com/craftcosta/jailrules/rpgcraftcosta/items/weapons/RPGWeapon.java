@@ -184,12 +184,11 @@ public class RPGWeapon extends RPGItem {
     }
 
     //GETTER AND SETTERS
-
     /**
      *
      * @return
      */
-        public int getLevel() {
+    public int getLevel() {
         return level;
     }
 

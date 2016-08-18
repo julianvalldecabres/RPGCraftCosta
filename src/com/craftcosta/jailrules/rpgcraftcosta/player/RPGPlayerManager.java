@@ -69,7 +69,7 @@ public class RPGPlayerManager {
         this.rpgWMan = plugin.getRPGItemManager().getRPGWeaponManager();
         this.rpgJMan = plugin.getRPGItemManager().getRPGJewelManager();
         this.rpgGMan = plugin.getRPGGuildManager();
-        this.rpgCCMan= plugin.getRPGClassManager();
+        this.rpgCCMan = plugin.getRPGClassManager();
     }
 
     /**

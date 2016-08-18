@@ -32,6 +32,7 @@ import org.bukkit.inventory.ItemStack;
  * @author jail
  */
 public class RPGArmorManagerUI {
+
     private HashMap<String, RPGArmorL> armorList;
     private File armorFile;
     private File armorConfig;
@@ -47,12 +48,12 @@ public class RPGArmorManagerUI {
      *
      */
     public RPGArmorManagerUI() {
-        armorList= new HashMap<>();
-        armorFile= new File(RPGFinals.armorFilePath);
-        armorConfig= new File(RPGFinals.armorConfigFilePath);
+        armorList = new HashMap<>();
+        armorFile = new File(RPGFinals.armorFilePath);
+        armorConfig = new File(RPGFinals.armorConfigFilePath);
         loadConfig();
         loadArmor();
-        
+
     }
 
     private void loadConfig() {
@@ -127,6 +128,5 @@ public class RPGArmorManagerUI {
         }
         System.out.println(armorList.size());
     }
-    
-    
+
 }

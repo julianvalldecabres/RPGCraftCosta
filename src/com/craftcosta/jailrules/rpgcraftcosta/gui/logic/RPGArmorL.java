@@ -28,5 +28,5 @@ public class RPGArmorL {
     RPGArmorL(int level, Quality quality, boolean upgradable, boolean comerciable, int armorLevel, Material mat, String setName, double physicaldefense, double incphysicaldefense, double physicalevasion, double incphysicalevasion, double magicaldefense, double incmagicaldefense, double magicalevasion, double incmagicalevasion, double moneybonus, double apbonus, double xpbonus, int buyprice, int sellprice) {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

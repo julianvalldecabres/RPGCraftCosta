@@ -25,7 +25,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.ProjectileType;
  *
  * @author jail
  */
-public class RPGEnderDragon extends RPGMob{
+public class RPGEnderDragon extends RPGMob {
 
     /**
      *

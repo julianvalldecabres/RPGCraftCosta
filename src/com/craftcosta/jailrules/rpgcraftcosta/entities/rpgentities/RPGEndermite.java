@@ -24,7 +24,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
  *
  * @author jail
  */
-public class RPGEndermite extends RPGMob{
+public class RPGEndermite extends RPGMob {
 
     /**
      *
@@ -63,5 +63,5 @@ public class RPGEndermite extends RPGMob{
         this.money = money;
         this.exp = exp;
         this.ap = ap;
-    }    
+    }
 }

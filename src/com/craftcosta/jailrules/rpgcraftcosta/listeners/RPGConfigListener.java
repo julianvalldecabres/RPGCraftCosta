@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright 2016 jail.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,7 +30,8 @@ import org.bukkit.event.player.PlayerAchievementAwardedEvent;
  *
  * @author jail
  */
-public class RPGConfigListener{
+public class RPGConfigListener {
+
     RPGCraftCosta plugin;
 
     public RPGConfigListener(RPGCraftCosta plugin) {
@@ -38,8 +39,11 @@ public class RPGConfigListener{
         //PRUEBAS
         //plugin.getServer().getWorlds().get(0).setGameRuleValue("doDaylightCycle", "false");
     }
+
     /**
-     * onPlayerFoodLevelChange captura el evento cuando el hambre de un usuario cambia
+     * onPlayerFoodLevelChange captura el evento cuando el hambre de un usuario
+     * cambia
+     *
      * @param e evento disparado cuando el hambre de un usuario cambia
      */
     @EventHandler
@@ -49,9 +53,11 @@ public class RPGConfigListener{
             e.setCancelled(true);
         }
     }
-    
+
     /**
-     * onPlayerBreakBlocks captura el evento de romper un bloque disparado por un usuario
+     * onPlayerBreakBlocks captura el evento de romper un bloque disparado por
+     * un usuario
+     *
      * @param e evento que dispara la accion romper un bloque
      */
     @EventHandler
@@ -64,6 +70,7 @@ public class RPGConfigListener{
 
     /**
      * onPlayerPlaceBlocks captura el evento BlockPlaceEvent
+     *
      * @param e evento que captura cuando el usuario coloca un bloque
      */
     @EventHandler
@@ -73,10 +80,13 @@ public class RPGConfigListener{
             e.setCancelled(true);
         }
     }
-    
+
     /**
-     * onPlayerAchievementAccomplished captura el evento PlayerAchievementAwardedEvent
-     * @param event evento que se dispara cuando el usuario completa un reto nativo de minecraft
+     * onPlayerAchievementAccomplished captura el evento
+     * PlayerAchievementAwardedEvent
+     *
+     * @param event evento que se dispara cuando el usuario completa un reto
+     * nativo de minecraft
      */
     @EventHandler
     public void onPlayerAchievementAccomplished(PlayerAchievementAwardedEvent event) {
@@ -85,6 +95,7 @@ public class RPGConfigListener{
 
     /**
      * onProjectileLaunchEvent captura el evento ProjectileLaunchEvent
+     *
      * @param event evento que captura cuando una entidad lanza un proyectil
      */
     @EventHandler

@@ -67,7 +67,7 @@ public class CPig extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-        public Location spawnLoc;
+    public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -88,7 +88,7 @@ public class CPig extends EntityMonster implements IRangedEntity {
         super(world);
         setSize(0.9F, 0.9F);
         ((Navigation) getNavigation()).a(true);
-        this.spawnLoc = new Location(world.getWorld(), 0,4,0);
+        this.spawnLoc = new Location(world.getWorld(), 0, 4, 0);
         this.baby = true;
         //tipos por defecto
         this.attackSpeed = 1.0D;
@@ -125,7 +125,7 @@ public class CPig extends EntityMonster implements IRangedEntity {
      * @param world
      * @param spawnLoc
      */
-    public CPig(World world,Location spawnLoc) {
+    public CPig(World world, Location spawnLoc) {
         super(world);
         setSize(0.9F, 0.9F);
         ((Navigation) getNavigation()).a(true);
@@ -217,13 +217,12 @@ public class CPig extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-
     /**
      *
      * @param el
      * @param f
      */
-        @Override
+    @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -276,12 +275,11 @@ public class CPig extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYPIG
-
     /**
      *
      * @return
      */
-        protected String z() {
+    protected String z() {
         return "mob.pig.say";
     }
 

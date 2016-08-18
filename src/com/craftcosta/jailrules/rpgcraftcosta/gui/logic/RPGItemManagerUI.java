@@ -23,14 +23,15 @@ import java.util.Map;
  * @author jail
  */
 public class RPGItemManagerUI {
+
     RPGArmorManagerUI rpgAManUI;
-    Map <String, RPGItem> listItems;
+    Map<String, RPGItem> listItems;
 
     /**
      *
      */
     public RPGItemManagerUI() {
-        rpgAManUI= new RPGArmorManagerUI();
+        rpgAManUI = new RPGArmorManagerUI();
     }
-    
+
 }

@@ -25,7 +25,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.VillagerType;
  *
  * @author jail
  */
-public class RPGVillager extends RPGMob{
+public class RPGVillager extends RPGMob {
 
     private boolean baby;
     private VillagerType vType;
@@ -51,7 +51,7 @@ public class RPGVillager extends RPGMob{
      * @param vtype
      * @param baby
      */
-    public RPGVillager(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap,VillagerType vtype,boolean baby) {
+    public RPGVillager(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap, VillagerType vtype, boolean baby) {
         this.level = level;
         this.name = name;
         this.type = type;
@@ -69,9 +69,9 @@ public class RPGVillager extends RPGMob{
         this.money = money;
         this.exp = exp;
         this.ap = ap;
-        
-        this.baby=baby;
-        this.vType=vtype;
+
+        this.baby = baby;
+        this.vType = vtype;
     }
 
     /**
@@ -105,6 +105,5 @@ public class RPGVillager extends RPGMob{
     public void setvType(VillagerType vType) {
         this.vType = vType;
     }
-    
-    
+
 }

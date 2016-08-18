@@ -20,5 +20,5 @@ package com.craftcosta.jailrules.rpgcraftcosta.gui.logic;
  * @author jail
  */
 public class RPGItemL {
-    
+
 }
