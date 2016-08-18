@@ -18,18 +18,16 @@ package com.craftcosta.jailrules.rpgcraftcosta.player;
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClass;
+import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
 import com.craftcosta.jailrules.rpgcraftcosta.economy.RPGEconomy;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.armor.RPGArmorManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.jewels.RPGJewelManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
-import com.craftcosta.jailrules.rpgcraftcosta.quests.RPGQuest;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -56,6 +54,7 @@ public class RPGPlayerManager {
     private RPGJewelManager rpgJMan;
     private RPGGuildManager rpgGMan;
     private RPGChatManager rpgCMan;
+    private RPGClassManager rpgCCMan;
     private File playerFilePath;
     private FileConfiguration pFConfig;
 
@@ -70,6 +69,7 @@ public class RPGPlayerManager {
         this.rpgWMan = plugin.getRPGItemManager().getRPGWeaponManager();
         this.rpgJMan = plugin.getRPGItemManager().getRPGJewelManager();
         this.rpgGMan = plugin.getRPGGuildManager();
+        this.rpgCCMan= plugin.getRPGClassManager();
     }
 
     /**
@@ -86,7 +86,7 @@ public class RPGPlayerManager {
      * @param rpgclass
      */
     public void setRPGClassToPlayer(Player p, RPGClass rpgclass) {
-        listRPGPlayers.get(p.getName()).setRPGClass(rpgclass);
+        rpgCCMan.setRPGPlayerRPGClass(listRPGPlayers.get(p.getName()), rpgclass);
     }
 
     /**
@@ -198,8 +198,6 @@ public class RPGPlayerManager {
         boolean globalChat = true;
 
         RPGEconomy econ;
-        List<RPGQuest> finishedQuestsList = new ArrayList<>();
-        List<RPGQuest> inProgressQuestsList = new ArrayList<>();
 
         long experience = 0;
         long ap = 0;
@@ -264,7 +262,7 @@ public class RPGPlayerManager {
         strengthP = section.getInt("strengthp");
 
         //Crear RPGPlayer
-        RPGPlayer rpgp = new RPGPlayer(name, uuid, player, guild, playerClass, party, econ, level, ap, ap, finishedQuestsList, inProgressQuestsList, constitutionP, dexteryP, intelligenceP, strengthP, actualMana, maxMana, actualHealth, maxHealth, physicalAttack, physicalDefense, PhysicalHitRate, physicalEvasion, magicalAttack, magicalDefense, magicalHitRate, magicalEvasion, critical);
+        RPGPlayer rpgp = new RPGPlayer(name, uuid, player, guild, playerClass, party, econ, level, experience, ap, constitutionP, dexteryP, intelligenceP, strengthP, actualMana, maxMana, actualHealth, maxHealth, physicalAttack, physicalDefense, PhysicalHitRate, physicalEvasion, magicalAttack, magicalDefense, magicalHitRate, magicalEvasion, critical);
         //añadir a lista
         checkAllEquipment(rpgp);
         this.listRPGPlayers.put(name, rpgp);

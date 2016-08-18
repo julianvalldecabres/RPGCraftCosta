@@ -110,22 +110,7 @@ public class RPGLevels {
         }
     }
 
-    /**
-     *
-     * @param exp
-     * @param inc
-     * @return
-     */
-    public boolean checkLevelUp(long exp, long inc) {
-        double actualexp = exp;
-        double lvl;
-        long newexp = 0;
-        if (inc > 0) {
-            newexp = exp + inc;
-            return levels.lowerEntry(exp).getValue() != levels.lowerEntry(newexp).getValue();
-        }
-        return false;
-    }
+    
 
     /**
      *
@@ -135,53 +120,5 @@ public class RPGLevels {
         return levels;
     }
 
-    /**
-     *
-     * @param exp
-     * @return
-     */
-    public float getPercentageForNextLevel(long exp) {
-        float result = 0.0f;
-        long nextLvlExp;
-        double actualExp;
-        double actualLvlExp;
-        long startLvlExp;
-        double expOfLvl;
-        actualExp = exp;
-        nextLvlExp = levels.higherKey(exp);
-        startLvlExp = levels.lowerKey(exp);
-        expOfLvl = nextLvlExp - startLvlExp;
-        actualLvlExp = actualExp - startLvlExp;
-        result = (float) Math.abs((actualLvlExp / expOfLvl) - 1);
-        return result;
-    }
-
-    /**
-     *
-     * @param exp
-     * @return
-     */
-    public double getExperienceForNectLevel(long exp) {
-        long nextLvlExp = levels.higherKey(exp);
-        long actualExp = exp;
-        return nextLvlExp - actualExp;
-    }
-
-    /**
-     *
-     * @param exp
-     * @return
-     */
-    public int getNextLevel(long exp) {
-        return levels.higherEntry(exp).getValue();
-    }
-
-    /**
-     *
-     * @param exp
-     * @return
-     */
-    public int getLevelBasedOnExp(long exp) {
-        return levels.floorEntry(exp).getValue();
-    }
+    
 }

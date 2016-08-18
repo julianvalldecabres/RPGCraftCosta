@@ -61,45 +61,7 @@ public class RPGChatCommands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player p = (Player) sender;
         RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
-        if (label.equalsIgnoreCase("task")) {
-            if (p.isOp()) {
-                if (args.length == 1) {
-                    if (args[0].equalsIgnoreCase("list")) {
-                        for (RPGChatBukkitRunnable runable : rpgCMan.getTasklist().values()) {
-                            p.sendMessage(runable.TaskId + " " + runable.rpgChatTask.getName());
-                        }
-                    }
-                }
-                if (args.length == 2) {
-                    if (args[0].equalsIgnoreCase("disable")) {
-                        if (rpgCMan.getTasklist().containsKey(args[1])) {
-                            rpgCMan.getTasklist().get(args[1]).getRPGChatTask().setEnabled(false);
-                            return true;
-                        } else {
-                            p.sendMessage("Tarea no encontrada");
-                            return true;
-                        }
-                    } else if (args[0].equalsIgnoreCase("enable")) {
-                        if (rpgCMan.getTasklist().containsKey(args[1])) {
-                            rpgCMan.getTasklist().get(args[1]).getRPGChatTask().setEnabled(true);
-                            return true;
-                        } else {
-                            p.sendMessage("Tarea no encontrada");
-                            return true;
-                        }
-                    } else {
-                        p.sendMessage("El comando " + args[0] + " no existe");
-                        return true;
-                    }
-                } else {
-                    p.sendMessage("No hay mas opciones");
-                    return true;
-                }
-            } else {
-                p.sendMessage("No tienes permiso");
-                return true;
-            }
-        } else if (label.equals("chat")) {
+        if (label.equals("chat")) {
             if (args.length == 0) {
                 p.sendMessage(ChatColor.YELLOW + "----" + ChatColor.RED + "CHAT HELP" + ChatColor.YELLOW + "----");
                 p.sendMessage(ChatColor.YELLOW + "To activate or deactivate individual chat types use " + ChatColor.RED + "/chat <chat type> <on/off>");

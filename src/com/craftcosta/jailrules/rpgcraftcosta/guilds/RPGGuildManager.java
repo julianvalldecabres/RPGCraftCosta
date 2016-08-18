@@ -52,7 +52,22 @@ public class RPGGuildManager {
     private FileConfiguration gConfig;
     private FileConfiguration gCConfig;
     private Map<String, RPGGuild> listGuilds;
-
+    private boolean ilimitedPlayers;
+    private boolean fixedPlayers;
+    private boolean limitedByGuildLevel;
+    private boolean FixedMoney;
+    private boolean MoneyFormule;
+    private double x2;
+    private double x;
+    private double maxGuildLevel;
+    private double addXPlayersXLevel;
+    private double initialPlayers;
+    private boolean onlyContriSystem;
+    private float percentagekills;
+    private boolean onlyDonation;
+    private boolean bothContribution;
+    private TreeMap<Long,Integer> guildLevels;
+    
     /**
      *
      */
@@ -70,9 +85,7 @@ public class RPGGuildManager {
     private double a;
     private double b;
     private int maxlevel;
-    private Map<Double, Integer> levels;
-    private int maxcontribution;
-
+    private Map<Long, Integer> levels;
     /**
      *
      * @param plugin
@@ -126,9 +139,8 @@ public class RPGGuildManager {
         this.a = gCConfig.getDouble("a");
         this.b = gCConfig.getDouble("b");
         this.maxlevel = gCConfig.getInt("maxlevel");
-        this.maxcontribution = gCConfig.getInt("maxcontribution");
         for (int i = 1; i <= this.maxlevel; i++) {
-            levels.put((Math.pow(a, 2) * i + b * i), i);
+            levels.put((long)(Math.pow(a, 2) * i + b * i), i);
         }
     }
 
@@ -140,7 +152,6 @@ public class RPGGuildManager {
         int level;
         double money;
         String owner;
-        List<String> moderators;
         List<String> members;
 
         Set<String> guilds = gConfig.getKeys(false);
@@ -150,9 +161,8 @@ public class RPGGuildManager {
             level = section.getInt("level");
             money = section.getDouble("money");
             owner = section.getString("owner");
-            moderators = section.getStringList("moderators");
             members = section.getStringList("members");
-            this.listGuilds.put(guildname, new RPGGuild(name, owner, level, money, moderators, members));
+            this.listGuilds.put(guildname, new RPGGuild(name, owner, level, money, members));
         }
     }
 
@@ -215,22 +225,6 @@ public class RPGGuildManager {
     }
     
     /**
-     * Send message to all online players connected to the server of that guild
-     * name
-     *
-     * @param name
-     * @param message to send
-     */
-    public void sendMessageToGuildByName(String name,String message){
-        RPGGuild guild = this.getGuildByName(name);
-        for(Player p: guild.getOnlineMembers()){
-            RPGPlayer rpgp= rpgPMan.getRPGPlayerByName(p.getName());
-            if(rpgp.isGuildChat()){
-                guild.sendMessageToGuildPlayer(p,message);
-            }
-        }
-    }
-    /**
      *
      * @return
      */
@@ -260,14 +254,6 @@ public class RPGGuildManager {
      */
     public int getMaxlevel() {
         return maxlevel;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getMaxcontribution() {
-        return maxcontribution;
     }
 
     /**
@@ -311,27 +297,16 @@ public class RPGGuildManager {
      * @param guild
      */
     public void sendJoinRequestGuild(Player p, RPGGuild guild) {
-        for (Player p1 : Bukkit.getServer().getOnlinePlayers()) {
-            if (guild.getOwner().equals(p1.getName()) || guild.getModerators().contains(p1.getName())) {
-                p1.sendMessage(rpgCMan.getPrefixForGuild() + " El jugador " + p.getName() + " quiere unirse al clan");
-            }
-        }
+        rpgCMan.sendGuildMessageToPlayer(rpgPMan.getRPGPlayerByName(guild.getOwner())," El jugador " + p.getName() + " quiere unirse al clan");
     }
 
     private void sendMessageOwnerChangedToGuild(Player newleaderplayer, RPGGuild guild) {
-        for (Player p : guild.getOnlineMembers()) {
-            if (newleaderplayer.equals(p)) {
-                p.sendMessage(rpgCMan.getPrefixForGuild() + " Eres el nuevo propietario del clan " + guild.getName());
-            } else {
-                p.sendMessage(rpgCMan.getPrefixForGuild() + " El miembro " + newleaderplayer.getName() + " es el nuevo owner del clan");
-            }
-        }
-
+        sendMessageToGuild(guild.getName(), " El miembro " + newleaderplayer.getName() + " es el nuevo owner del clan");
         saveRPGGuild(guild);
     }
 
     private void sendMessagePlayerLeaveGuild(Player p, RPGGuild guild) {
-        guild.sendMessageToGuild(rpgCMan.getPrefixForGuild() + " El jugador " + p.getName() + " ha abandonado el clan");
+        sendMessageToGuild(guild.getName(), "El camarada "+ p.getName() + " ha abandonado el clan");
     }
 
     private void saveRPGGuild(RPGGuild rpgGuild) {
@@ -340,7 +315,6 @@ public class RPGGuildManager {
         section.set("money", rpgGuild.getMoney());
         section.set("level", rpgGuild.getLevel());
         section.set("owner", rpgGuild.getOwner());
-        section.set("moderators", rpgGuild.getModerators());
         section.set("members", rpgGuild.getMembers());
         try {
             gConfig.save(guildsFile);
@@ -351,24 +325,6 @@ public class RPGGuildManager {
 
     void addDonationToGuild(RPGGuild guild, double amount) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    void promotePlayerFromGuild(RPGGuild guild, Player newmodplayer) {
-        if (guild.getModerators().contains(newmodplayer)) {
-            return;
-        } else {
-            guild.getModerators().add(newmodplayer.getName());
-        }
-        saveRPGGuild(guild);
-    }
-
-    void depromotePlayerFromGuild(RPGGuild guild, Player newmodplayer) {
-        if (!guild.getModerators().contains(newmodplayer)) {
-            return;
-        } else {
-            guild.getModerators().remove(newmodplayer.getName());
-        }
-        saveRPGGuild(guild);
     }
 
     /**
@@ -382,7 +338,6 @@ public class RPGGuildManager {
             section.set("money", guild.getMoney());
             section.set("level", guild.getLevel());
             section.set("owner", guild.getOwner());
-            section.set("moderators", guild.getModerators());
             section.set("members", guild.getMembers());
             try {
                 gConfig.save(guildsFile);
@@ -393,18 +348,139 @@ public class RPGGuildManager {
         }
     }
 
-    /**
-     *
-     * @param p
-     * @param guild
-     */
-    public void playerConnectedToGuild(Player p, RPGGuild guild) {
-        guild.addOnlinePlayer(p);
-        guild.sendMessageToGuild(rpgCMan.getPrefixForGuild() + " El camarada " + p.getName() + " se ha conectado");
+    public void sendMessageToGuild(String guildname, String message) {
+        for (Player p:getGuildByName(guildname).getOnlineMembers()){
+            RPGPlayer rpgp= rpgPMan.getRPGPlayerByName(p.getName());
+            rpgCMan.sendGuildMessage(rpgp,message);
+        }
     }
 
-    public void sendMessageToGuild(String name, String string) {
-        getGuildByName(name).sendMessageToGuild(name);
+    public Map<String, RPGGuild> getListGuilds() {
+        return listGuilds;
+    }
+
+    public void setListGuilds(Map<String, RPGGuild> listGuilds) {
+        this.listGuilds = listGuilds;
+    }
+
+    public boolean isIlimitedPlayers() {
+        return ilimitedPlayers;
+    }
+
+    public void setIlimitedPlayers(boolean ilimitedPlayers) {
+        this.ilimitedPlayers = ilimitedPlayers;
+    }
+
+    public boolean isFixedPlayers() {
+        return fixedPlayers;
+    }
+
+    public void setFixedPlayers(boolean fixedPlayers) {
+        this.fixedPlayers = fixedPlayers;
+    }
+
+    public boolean isLimitedByGuildLevel() {
+        return limitedByGuildLevel;
+    }
+
+    public void setLimitedByGuildLevel(boolean limitedByGuildLevel) {
+        this.limitedByGuildLevel = limitedByGuildLevel;
+    }
+
+    public boolean isFixedMoney() {
+        return FixedMoney;
+    }
+
+    public void setFixedMoney(boolean FixedMoney) {
+        this.FixedMoney = FixedMoney;
+    }
+
+    public boolean isMoneyFormule() {
+        return MoneyFormule;
+    }
+
+    public void setMoneyFormule(boolean MoneyFormule) {
+        this.MoneyFormule = MoneyFormule;
+    }
+
+    public double getMaxGuildLevel() {
+        return maxGuildLevel;
+    }
+
+    public void setMaxGuildLevel(double maxGuildLevel) {
+        this.maxGuildLevel = maxGuildLevel;
+    }
+
+    public double getAddXPlayersXLevel() {
+        return addXPlayersXLevel;
+    }
+
+    public void setAddXPlayersXLevel(double addXPlayersXLevel) {
+        this.addXPlayersXLevel = addXPlayersXLevel;
+    }
+
+    public double getInitialPlayers() {
+        return initialPlayers;
+    }
+
+    public void setInitialPlayers(double initialPlayers) {
+        this.initialPlayers = initialPlayers;
+    }
+
+    public boolean isOnlyContriSystem() {
+        return onlyContriSystem;
+    }
+
+    public void setOnlyContriSystem(boolean onlyContriSystem) {
+        this.onlyContriSystem = onlyContriSystem;
+    }
+
+    public float getPercentagekills() {
+        return percentagekills;
+    }
+
+    public void setPercentagekills(float percentagekills) {
+        this.percentagekills = percentagekills;
+    }
+
+    public boolean isOnlyDonation() {
+        return onlyDonation;
+    }
+
+    public void setOnlyDonation(boolean onlyDonation) {
+        this.onlyDonation = onlyDonation;
+    }
+
+    public boolean isBothContribution() {
+        return bothContribution;
+    }
+
+    public void setBothContribution(boolean bothContribution) {
+        this.bothContribution = bothContribution;
+    }
+
+    public TreeMap<Long, Integer> getGuildLevels() {
+        return guildLevels;
+    }
+
+    public void setGuildLevels(TreeMap<Long, Integer> guildLevels) {
+        this.guildLevels = guildLevels;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Map<Long, Integer> getLevels() {
+        return levels;
+    }
+
+    public void setLevels(Map<Long, Integer> levels) {
+        this.levels = levels;
     }
 
 }

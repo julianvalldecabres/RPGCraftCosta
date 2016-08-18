@@ -29,10 +29,5 @@ public enum AttackType {
     /**
      *
      */
-    MELEE, 
-
-    /**
-     *
-     */
-    MAGIC;
+    MELEE;
 }

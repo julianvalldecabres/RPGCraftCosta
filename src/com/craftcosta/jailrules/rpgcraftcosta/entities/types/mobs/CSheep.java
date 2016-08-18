@@ -27,7 +27,6 @@ import net.minecraft.server.v1_8_R3.DifficultyDamageScaler;
 import net.minecraft.server.v1_8_R3.Enchantment;
 import net.minecraft.server.v1_8_R3.EnchantmentManager;
 import net.minecraft.server.v1_8_R3.EntityArrow;
-import net.minecraft.server.v1_8_R3.EntityCreature;
 import net.minecraft.server.v1_8_R3.EntityHuman;
 import net.minecraft.server.v1_8_R3.EntityLiving;
 import net.minecraft.server.v1_8_R3.EntityMonster;
@@ -35,8 +34,6 @@ import net.minecraft.server.v1_8_R3.EnumColor;
 import net.minecraft.server.v1_8_R3.GenericAttributes;
 import net.minecraft.server.v1_8_R3.GroupDataEntity;
 import net.minecraft.server.v1_8_R3.IRangedEntity;
-import net.minecraft.server.v1_8_R3.ItemStack;
-import net.minecraft.server.v1_8_R3.Items;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.Navigation;
 import net.minecraft.server.v1_8_R3.PathfinderGoalArrowAttack;
@@ -255,9 +252,6 @@ public class CSheep extends EntityMonster implements IRangedEntity {
         }
         //attackType PfG
         switch (aType) {
-            case MAGIC:
-                this.goalSelector.a(2, new PathfinderGoalArrowAttack(this, this.attackSpeed, 60, 10.0F));
-                break;
             case RANGED:
                 this.goalSelector.a(2, new PathfinderGoalArrowAttack(this, this.attackSpeed, 20, 60, 15.0F));
                 break;
@@ -309,7 +303,6 @@ public class CSheep extends EntityMonster implements IRangedEntity {
      */
     public int getType() {
         switch (aType) {
-            case MAGIC:
             case MELEE:
                 return 1;
             default:

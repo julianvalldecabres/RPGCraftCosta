@@ -19,7 +19,6 @@ import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClass;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
 import com.craftcosta.jailrules.rpgcraftcosta.economy.RPGEconomy;
 import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore;
-import com.craftcosta.jailrules.rpgcraftcosta.quests.RPGQuest;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
 import java.util.List;
@@ -57,8 +56,6 @@ public class RPGPlayer {
     private int actualLevel;
     private long actualExp;
     private long ap;
-    private List<RPGQuest> finishedQuestsList;
-    private List<RPGQuest> inProgressQuestsList;
 
     //rpg attributes
     private int constitutionP;
@@ -122,8 +119,6 @@ public class RPGPlayer {
      * @param actualLevel
      * @param actualExp
      * @param ap
-     * @param finishedQuests
-     * @param InProgressQuests
      * @param constitutionP
      * @param dexteryP
      * @param intelligenceP
@@ -142,7 +137,7 @@ public class RPGPlayer {
      * @param magicalEvasion
      * @param critical
      */
-    public RPGPlayer(String name, UUID uuid, Player player, String guild, String playerClass, String party, RPGEconomy econ, int actualLevel, long actualExp, long ap, List<RPGQuest> finishedQuests, List<RPGQuest> InProgressQuests, int constitutionP, int dexteryP, int intelligenceP, int strengthP, double actualMana, double maxMana, double actualHealth, double maxHealth, double physicalAttack, double physicalDefense, double physicalHitRate, double physicalEvasion, double magicalAttack, double magicalDefense, double magicalHitRate, double magicalEvasion, double critical) {
+    public RPGPlayer(String name, UUID uuid, Player player, String guild, String playerClass, String party, RPGEconomy econ, int actualLevel, long actualExp, long ap, int constitutionP, int dexteryP, int intelligenceP, int strengthP, double actualMana, double maxMana, double actualHealth, double maxHealth, double physicalAttack, double physicalDefense, double physicalHitRate, double physicalEvasion, double magicalAttack, double magicalDefense, double magicalHitRate, double magicalEvasion, double critical) {
         this.name = name;
         this.uuid = uuid;
         this.player = player;
@@ -153,8 +148,6 @@ public class RPGPlayer {
         this.actualLevel = actualLevel;
         this.actualExp = actualExp;
         this.ap = ap;
-        this.finishedQuestsList = finishedQuests;
-        this.inProgressQuestsList = InProgressQuests;
         this.constitutionP = constitutionP;
         this.dexteryP = dexteryP;
         this.intelligenceP = intelligenceP;
@@ -214,7 +207,7 @@ public class RPGPlayer {
         this.physicalDefense = 0;
         this.finalphysicalDefense = physicalDefense;
         this.physicalHitRate = 0;
-        this.finalphysicalHitRate = this.physicalHitRate;
+        this.finalphysicalHitRate = physicalHitRate;
         this.physicalEvasion = 0;
         this.finalphysicalEvasion = physicalEvasion;
         this.critical = 0;
@@ -280,37 +273,7 @@ public class RPGPlayer {
         }
     }
 
-    void setRPGClass(RPGClass rpgclass) {
-        setPlayerClass(rpgclass.getNameClass());
-        setActualHealth(rpgclass.getBaseHealth());
-        setMaxHealth(rpgclass.getBaseHealth());
-        setActualMana(rpgclass.getBaseMana());
-        setMaxMana(rpgclass.getBaseMana());
-        setPhysicalAttack(rpgclass.getBasePhysicalAttack());
-        setPhysicalDefense(rpgclass.getBasePhysicalDefense());
-        setPhysicalHitRate(rpgclass.getBasePhysicalHitRate());
-        setPhysicalEvasion(rpgclass.getBasePhysicalEvasion());
-        setMagicalAttack(rpgclass.getBaseMagicalAttack());
-        setMagicalDefense(rpgclass.getBaseMagicalDefense());
-        setMagicalHitRate(rpgclass.getBaseMagicalHitRate());
-        setMagicalEvasion(rpgclass.getBaseMagicalEvasion());
-        setCritical(rpgclass.getBaseCritical());
-    }
-
-    /**
-     *
-     */
-    public void levelUP() {
-        //aumentar stats
-        RPGClass rpgclass = RPGClassManager.getRPGClass(getPlayerClass());
-        setActualHealth(rpgclass.getLvlUpHealth() + getMaxHealth());
-        setMaxHealth(rpgclass.getLvlUpHealth() + getMaxHealth());
-        setPhysicalAttack(rpgclass.getLvlUpPhysicalAttack() + getPhysicalAttack());
-        setPhysicalDefense(rpgclass.getLvlUpPhysicalAttack() + getPhysicalDefense());
-        setPhysicalHitRate(rpgclass.getLvlUpPhysicalHitRate() + getPhysicalHitRate());
-        setPhysicalEvasion(rpgclass.getLvlUpPhysicalEvasion() + getPhysicalEvasion());
-        setCritical(rpgclass.getLvlUpCritical() + getCritical());
-    }
+    
 
     /**
      *
@@ -424,21 +387,7 @@ public class RPGPlayer {
         this.slotSelected = slotSelected;
     }
 
-    /**
-     *
-     * @return
-     */
-    public boolean isSetResetRequest() {
-        return setResetRequest;
-    }
 
-    /**
-     *
-     * @param setResetRequest
-     */
-    public void setSetResetRequest(boolean setResetRequest) {
-        this.setResetRequest = setResetRequest;
-    }
 
     /**
      *
@@ -620,38 +569,6 @@ public class RPGPlayer {
      */
     public void setAp(long ap) {
         this.ap = ap;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public List<RPGQuest> getFinishedQuestsList() {
-        return finishedQuestsList;
-    }
-
-    /**
-     *
-     * @param finishedQuestsList
-     */
-    public void setFinishedQuestsList(List<RPGQuest> finishedQuestsList) {
-        this.finishedQuestsList = finishedQuestsList;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public List<RPGQuest> getInProgressQuestsList() {
-        return inProgressQuestsList;
-    }
-
-    /**
-     *
-     * @param inProgressQuestsList
-     */
-    public void setInProgressQuestsList(List<RPGQuest> inProgressQuestsList) {
-        this.inProgressQuestsList = inProgressQuestsList;
     }
 
     /**

@@ -11,6 +11,10 @@ commands:
        permission-message: Usted no puede elegir una clase de nuevo
     task:
         description: administra las tareas de mensajes
+        usage: /<command> [options]
+        permission-message: Usted no tiene permiso para realizar esta accion
+    chat:
+        description: administra los chats
         usage: /<command> [option] [name]
         permission-message: Usted no tiene permiso para realizar esta accion
     party:

@@ -98,12 +98,12 @@ public abstract class RPGMob {
     /**
      *
      */
-    public double money;
+    public long money;
 
     /**
      *
      */
-    public double exp;
+    public long exp;
 
     /**
      *
@@ -338,7 +338,7 @@ public abstract class RPGMob {
      *
      * @return
      */
-    public double getMoney() {
+    public long getMoney() {
         return money;
     }
 
@@ -346,7 +346,7 @@ public abstract class RPGMob {
      *
      * @param money
      */
-    public void setMoney(double money) {
+    public void setMoney(long money) {
         this.money = money;
     }
 
@@ -354,7 +354,7 @@ public abstract class RPGMob {
      *
      * @return
      */
-    public double getExp() {
+    public long getExp() {
         return exp;
     }
 
@@ -362,7 +362,7 @@ public abstract class RPGMob {
      *
      * @param exp
      */
-    public void setExp(double exp) {
+    public void setExp(long exp) {
         this.exp = exp;
     }
 

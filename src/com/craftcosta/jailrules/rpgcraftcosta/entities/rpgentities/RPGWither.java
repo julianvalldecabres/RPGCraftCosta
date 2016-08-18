@@ -45,7 +45,7 @@ public class RPGWither extends RPGMob{
      * @param exp
      * @param ap
      */
-    public RPGWither(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, double money, double exp, double ap) {
+    public RPGWither(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap) {
         this.level = level;
         this.name = name;
         this.type = type;

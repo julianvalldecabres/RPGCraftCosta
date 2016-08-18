@@ -57,6 +57,73 @@ public class RPGLevelManager {
     private RPGLevels createDefaultConfig(File levelCfg) {
         return new RPGLevels();
     }
+    
+    /**
+     *
+     * @param exp
+     * @param inc
+     * @return
+     */
+    public boolean checkLevelUp(long exp, long inc) {
+        double actualexp = exp;
+        double lvl;
+        long newexp = 0;
+        if (inc > 0) {
+            newexp = exp + inc;
+            return levels.getTree().lowerEntry(exp).getValue() != levels.getTree().lowerEntry(newexp).getValue();
+        }
+        return false;
+    }
+    
+    /**
+     *
+     * @param exp
+     * @return
+     */
+    public float getPercentageForNextLevel(long exp) {
+        float result = 0.0f;
+        long nextLvlExp;
+        double actualExp;
+        double actualLvlExp;
+        long startLvlExp;
+        double expOfLvl;
+        actualExp = exp;
+        nextLvlExp = levels.getTree().higherKey(exp);
+        startLvlExp = levels.getTree().lowerKey(exp);
+        expOfLvl = nextLvlExp - startLvlExp;
+        actualLvlExp = actualExp - startLvlExp;
+        result = (float) Math.abs((actualLvlExp / expOfLvl) - 1);
+        return result;
+    }
+
+    /**
+     *
+     * @param exp
+     * @return
+     */
+    public double getExperienceForNectLevel(long exp) {
+        long nextLvlExp = levels.getTree().higherKey(exp);
+        long actualExp = exp;
+        return nextLvlExp - actualExp;
+    }
+
+    /**
+     *
+     * @param exp
+     * @return
+     */
+    public int getNextLevel(long exp) {
+        return levels.getTree().higherEntry(exp).getValue();
+    }
+
+    /**
+     *
+     * @param exp
+     * @return
+     */
+    public int getLevelBasedOnExp(long exp) {
+        return levels.getTree().floorEntry(exp).getValue();
+    }
 
     private RPGLevels loadConfig(File levelCfg) {
         return new RPGLevels(levelCfg);

@@ -82,7 +82,6 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                     p.sendMessage(ChatColor.GOLD + "Comandos de Grupo:");
                     p.sendMessage(ChatColor.GOLD + "/party list: " + ChatColor.WHITE + "Muestra la lista de grupos disponibles");
                     p.sendMessage(ChatColor.GOLD + "/party help: " + ChatColor.WHITE + "Muestra esta ayuda");
-                    p.sendMessage(ChatColor.GOLD + "/party pvpon/pvpoff: " + ChatColor.WHITE + "Activa/Desactiva el pvp en el grupo");
                     p.sendMessage(ChatColor.GOLD + "/party accept/decline: " + ChatColor.WHITE + "Acepta/Declina la invitacion al grupo");
                     p.sendMessage(ChatColor.GOLD + "/party disband: " + ChatColor.WHITE + "Disuelve el grupo actual");
                     p.sendMessage(ChatColor.GOLD + "/party leave: " + ChatColor.WHITE + "Abandona el grupo actual");
@@ -108,39 +107,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                         }
                     }
                     return true;
-                } else if (args[0].equalsIgnoreCase("pvpon")) {
-                    //si el el lider puede modificar que los jugadores se puedan lesionar entre ellos
-                    if (rpgP.getParty().isEmpty()) {
-                        p.sendMessage(prefix + ChatColor.RED + " No perteneces a ningún grupo");
-                        return true;
-                    } else {
-                        RPGParty party = rpgPaMan.getParty(rpgP.getParty());
-                        if (party.getLeader().equals(p.getName())) {
-                            rpgPaMan.setPartyPvPOn(party);
-                            rpgPaMan.sendMessageToParty(party.getName(), "Se ha activado el pvp en el grupo");
-                        } else {
-                            p.sendMessage(prefix + ChatColor.RED + " Debes ser el lider del grupo para realizar esta accion");
-                            return true;
-                        }
-                    }
-                    return true;
-                } else if (args[0].equalsIgnoreCase("pvpoff")) {
-                    //Si es el lider puede modificar que los jugadores no se puedan lesionar entre ellos
-                    if (rpgP.getParty().isEmpty()) {
-                        p.sendMessage(prefix + ChatColor.RED + " No perteneces a ningún grupo");
-                        return true;
-                    } else {
-                        RPGParty party = rpgPaMan.getParty(rpgP.getParty());
-                        if (party.getLeader().equals(p.getName())) {
-                            rpgPaMan.setPartyPvPOff(party);
-                            rpgPaMan.sendMessageToParty(party.getName(), " Se ha desactivado el pvp en el grupo");
-                        } else {
-                            p.sendMessage(prefix + ChatColor.RED + " Debes ser el lider del grupo para realizar esta accion");
-                            return true;
-                        }
-                    }
-                    return true;
-                } else if (args[0].equalsIgnoreCase("info")) {
+                }else if (args[0].equalsIgnoreCase("info")) {
                     //muestra la informacion de la party a la que pertenece el player
                     if (rpgP.getParty().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " No perteneces a ningún grupo");
@@ -150,9 +117,6 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                         p.sendMessage(ChatColor.YELLOW + "Nombre del grupo: " + ChatColor.GOLD + party.getName());
                         p.sendMessage(ChatColor.YELLOW + "Lider: " + ChatColor.GOLD + party.getLeader());
                         p.sendMessage(ChatColor.YELLOW + "Jugadores: " + ChatColor.GOLD + party.getPlayers().toString());
-                        p.sendMessage(ChatColor.YELLOW + "Experiencia compartida: " + ChatColor.GOLD + party.isShareExp());
-                        p.sendMessage(ChatColor.YELLOW + "Dinero compartido: " + ChatColor.GOLD + party.isShareMoney());
-                        p.sendMessage(ChatColor.YELLOW + "PvP: " + ChatColor.GOLD + party.isPvpEnabled());
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("quit") || args[0].equalsIgnoreCase("exit") || args[0].equalsIgnoreCase("leave")) {
@@ -319,9 +283,6 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                         p.sendMessage(ChatColor.YELLOW + "Nombre del grupo: " + ChatColor.GOLD + rpgparty.getName());
                         p.sendMessage(ChatColor.YELLOW + "Lider: " + ChatColor.GOLD + rpgparty.getLeader());
                         p.sendMessage(ChatColor.YELLOW + "Jugadores: " + ChatColor.GOLD + rpgparty.getPlayers().toString());
-                        p.sendMessage(ChatColor.YELLOW + "Experiencia compartida: " + ChatColor.GOLD + rpgparty.isShareExp());
-                        p.sendMessage(ChatColor.YELLOW + "Dinero compartido: " + ChatColor.GOLD + rpgparty.isShareMoney());
-                        p.sendMessage(ChatColor.YELLOW + "PvP: " + ChatColor.GOLD + rpgparty.isPvpEnabled());
                         return true;
                     }
                 }

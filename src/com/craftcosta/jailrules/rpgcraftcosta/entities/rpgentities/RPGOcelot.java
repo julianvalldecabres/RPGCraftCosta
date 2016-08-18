@@ -51,7 +51,7 @@ public class RPGOcelot extends RPGMob{
      * @param baby
      * @param otype
      */
-    public RPGOcelot(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, double money, double exp, double ap,boolean baby,OcelotType otype) {
+    public RPGOcelot(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap,boolean baby,OcelotType otype) {
         this.level = level;
         this.name = name;
         this.type = type;

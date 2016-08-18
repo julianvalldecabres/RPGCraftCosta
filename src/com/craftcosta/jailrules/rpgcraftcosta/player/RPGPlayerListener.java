@@ -19,51 +19,33 @@ import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.CustomEntityType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs.CZombie;
+import com.craftcosta.jailrules.rpgcraftcosta.guilds.OnRPGPlayerJoinEvent;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
 import com.craftcosta.jailrules.rpgcraftcosta.party.RPGParty;
 import com.craftcosta.jailrules.rpgcraftcosta.party.RPGPartyManager;
-import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
-import java.util.Set;
-import net.minecraft.server.v1_8_R3.EntityChicken;
-import net.minecraft.server.v1_8_R3.EnumParticle;
-import net.minecraft.server.v1_8_R3.Packet;
-import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
 
 /**
- * La clase RPGPlayerListener es la encargada de manejar todas las acciones
- * que realice el usuario, entre ellas la conexion, desconexion y aspectos propios
+ * La clase RPGPlayerListener es la encargada de manejar todas las acciones que
+ * realice el usuario, entre ellas la conexion, desconexion y aspectos propios
  * de la configuracion del servidor como el hambre, daño por caida o similares
+ *
  * @author jail
  */
 public class RPGPlayerListener implements Listener {
@@ -76,6 +58,7 @@ public class RPGPlayerListener implements Listener {
 
     /**
      * Constructor de la clase RPGPlayerListener
+     *
      * @param plugin clase RPGCraftCosta
      */
     public RPGPlayerListener(RPGCraftCosta plugin) {
@@ -88,6 +71,7 @@ public class RPGPlayerListener implements Listener {
 
     /**
      * onPlayerJoin captura el evento PlayerJoinEvent
+     *
      * @param e evento que se dispara cuando un jugador se conecta al servidor
      */
     @EventHandler
@@ -95,21 +79,12 @@ public class RPGPlayerListener implements Listener {
         Player p = e.getPlayer();
         plugin.getLogger().info("Jugador con nombre: " + p.getName() + " y uuid: " + p.getUniqueId().toString() + " se ha conectado al servidor");
         RPGPlayer rpgP = rpgPMan.loadOrCreateRPGPlayer(e.getPlayer());
+        Bukkit.getPluginManager().callEvent(new OnRPGPlayerJoinEvent(rpgP));
         if (rpgP.getPlayerClass().isEmpty()) {
             rpgP.setMove(false);
             p.sendMessage(ChatColor.YELLOW + "Selecciona una clase antes de continuar...");
             p.sendMessage(plugin.getRPGClassManager().getListAvailableClasses());
-        }
-        //COMPROBAR QUE AUN EXISTA LA GUILD 
-        //SINO EXISTE INFORMAR Y CAMBIAR
-        if (!rpgP.getGuild().isEmpty()) {
-            if (!rpgGMan.getAllAvailableGuilds().contains(rpgP.getGuild())) {
-                p.sendMessage(rpgCMan.getPrefixForGuild() + ChatColor.RED + " El clan " + rpgP.getGuild() + " ha sido disuelto");
-                rpgP.setGuild("");
-            } else {
-                rpgGMan.playerConnectedToGuild(p, rpgGMan.getGuildByName(rpgP.getGuild()));
-            }
-        }
+        }        
         rpgPMan.saveRPGPlayer(rpgP);
         rpgPMan.addRPGPlayerToList(rpgP);
         RPGWeaponManager rpgWMan = plugin.getRPGItemManager().getRPGWeaponManager();
@@ -117,6 +92,7 @@ public class RPGPlayerListener implements Listener {
 
     /**
      * onPlayerMove captura el evento PlayerMoveEvent
+     *
      * @param e evento que se dispara cuando el usuario se mueve
      */
     @EventHandler
@@ -130,6 +106,7 @@ public class RPGPlayerListener implements Listener {
 
     /**
      * onPlayerKicked captura el evento PlayerKickEvent
+     *
      * @param e evento que sucede al echar a un usuario del servidor
      */
     @EventHandler(priority = EventPriority.LOWEST)
@@ -149,6 +126,7 @@ public class RPGPlayerListener implements Listener {
 
     /**
      * onPlayerDisconnectedFromServer captura el evento PlayerQuitEvent
+     *
      * @param event evento que se reproduce al desconectarse un jugador
      */
     @EventHandler
@@ -167,144 +145,33 @@ public class RPGPlayerListener implements Listener {
     }
 
     /**
-     * onEntityDamage captura el evento EntityDamageEvent
-     * @param e evento que captura cuando un usuario recibe daño que no es una entidad
-     */
-    @EventHandler
-    public void onEntityDamage(EntityDamageEvent e) {
-        if (e.getEntity() instanceof Player) {
-            if (e.getCause().equals(EntityDamageEvent.DamageCause.FALL)) {
-                e.setCancelled(true);
-            }
-            if (e.getCause().equals(EntityDamageEvent.DamageCause.DROWNING)) {
-                e.setCancelled(true);
-            }
-            if (e.getCause().equals(EntityDamageEvent.DamageCause.STARVATION)) {
-                e.setCancelled(true);
-            }
-        }
-    }
-
-    /**
-     * Metodo para testear daño hecho y recibido de/por un jugador a otra entidad
-     * @param e evento que captura la accion de dañar de un usuario
-     */
-    @EventHandler
-    public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-        LivingEntity l = (LivingEntity) e.getEntity();
-        Location loc = e.getEntity().getLocation();
-
-        plugin.getLogger().info("///////////////////////////////");
-        if (e.getDamager() instanceof Player) {
-            Player p = (Player) e.getDamager();
-            Packet packet = new PacketPlayOutWorldParticles(EnumParticle.EXPLOSION_LARGE, true, (float) loc.getX(), (float) loc.getY(), (float) loc.getZ(), 1.0F, 1.0F, 1.0F, 1.0F, 1, 1);
-            ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
-            plugin.getLogger().info("El que realiza el daño es un player");
-            plugin.getLogger().info(p.getLocation().getChunk().getWorld().getName()+"_"+p.getLocation().getChunk().getX()+"_"+p.getLocation().getChunk().getZ());
-        } else {
-            Entity ent = e.getEntity();
-            ent.setCustomName("picha");
-            plugin.getLogger().info("El que realiza el daño es: " + e.getDamager().toString());
-            plugin.getLogger().info("El que realiza el daño es: " + e.getDamager().getType());
-            plugin.getLogger().info("El que realiza el daño es: " + e.getDamager().getClass().toString());
-        }
-        if (e.getEntity() instanceof Player) {
-            plugin.getLogger().info("El que recibe el daño es un player");
-        } else {
-            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().toString());
-            plugin.getLogger().info("El que recibe el daño es: " + e.getEntityType().toString());
-            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().getType());
-            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().getClass().toString());
-            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().getClass().getCanonicalName());
-            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().getClass().getName());
-            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().getClass().getSimpleName());
-            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().getCustomName());
-            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().getName());
-            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().getEntityId());
-            plugin.getLogger().info("El que recibe el daño es: " + CustomEntityType.CHICKENX.getName());
-        }
-        if (e.getEntity() instanceof EntityChicken) {
-            EntityChicken ent = (EntityChicken) e.getEntity();
-            CraftEntity entchi = ent.getBukkitEntity();
-            plugin.getLogger().info("bukkitentity: " + entchi.getCustomName().toString());
-        }
-        plugin.getLogger().info("///////////////////////////////");
-
-        //plugin.getLogger().info("Quien realiza el daño: "+e.getDamager().getType().toString()+" con nombre: " +e.getDamager().getName());
-        //plugin.getLogger().info("Quien recibe el daño: "+e.getEntity().getType().toString()+" con nombre: "+e.getEntity().getName());
-    }
-
-    /**
-     * onPlayerPickupItem captura el evento cuando el usuario recoje un item del suelo
-     * @param e evento disparado cuando un usuario recoje un item del suelo
-     */
-    @EventHandler
-    public void onPlayerPickupItem(PlayerPickupItemEvent e) {
-        ItemStack item = e.getItem().getItemStack();
-        Set<Integer> freeInventorySlots = RPGPlayerUtils.getFreeInventorySlots(e.getPlayer());
-    }
-
-    /**
-     * onPlayerFoodLevelChange captura el evento cuando el hambre de un usuario cambia
-     * @param e evento disparado cuando el hambre de un usuario cambia
-     */
-    @EventHandler
-    public void onPlayerFoodLevelChange(FoodLevelChangeEvent e) {
-        if (!this.plugin.getConfig().getBoolean("Health")) {
-            e.setFoodLevel(20);
-            e.setCancelled(true);
-        }
-    }
-
-    /**
-     * onPlayerBreakBlocks captura el evento de romper un bloque disparado por un usuario
-     * @param e evento que dispara la accion romper un bloque
-     */
-    @EventHandler
-    public void onPlayerBreakBlocks(BlockBreakEvent e) {
-        Player p = e.getPlayer();
-        if (!p.getGameMode().equals(GameMode.CREATIVE)) {
-            e.setCancelled(true);
-        }
-    }
-
-    /**
-     * onPlayerPlaceBlocks captura el evento BlockPlaceEvent
-     * @param e evento que captura cuando el usuario coloca un bloque
-     */
-    @EventHandler
-    public void onPlayerPlaceBlocks(BlockPlaceEvent e) {
-        Player p = e.getPlayer();
-        if (!p.getGameMode().equals(GameMode.CREATIVE)) {
-            e.setCancelled(true);
-        }
-    }
-
-    /**
      * onPlayerRegainHealth captura el evento EntityRegainHealthEvent
+     *
      * @param e evento que captura cuando un usuario recupera vida
      */
     @EventHandler
-    public void onPlayerRegainHealth(EntityRegainHealthEvent e){
-        
-        if(e.getRegainReason().equals(RegainReason.SATIATED)){
+    public void onPlayerRegainHealth(EntityRegainHealthEvent e) {
+
+        if (e.getRegainReason().equals(RegainReason.SATIATED)) {
             plugin.getLogger().info("Player recupera vida por estar saciado");
-            plugin.getLogger().info(e.getAmount()+" de vida");
-        }else if(e.getRegainReason().equals(RegainReason.MAGIC_REGEN)){
+            plugin.getLogger().info(e.getAmount() + " de vida");
+        } else if (e.getRegainReason().equals(RegainReason.MAGIC_REGEN)) {
             plugin.getLogger().info("Player recupera vida por regeneracion magica");
-            plugin.getLogger().info(e.getAmount()+" de vida");
-        }else if(e.getRegainReason().equals(RegainReason.MAGIC)){
+            plugin.getLogger().info(e.getAmount() + " de vida");
+        } else if (e.getRegainReason().equals(RegainReason.MAGIC)) {
             plugin.getLogger().info("Player recupera vida por magia");
-            plugin.getLogger().info(e.getAmount()+" de vida");
-        }else if(e.getRegainReason().equals(RegainReason.CUSTOM)){
+            plugin.getLogger().info(e.getAmount() + " de vida");
+        } else if (e.getRegainReason().equals(RegainReason.CUSTOM)) {
             plugin.getLogger().info("Player recupera vida personalizado");
-            plugin.getLogger().info(e.getAmount()+" de vida");
+            plugin.getLogger().info(e.getAmount() + " de vida");
         }
     }
-    
+
     /**
      * onInteract captura el evento PlayerInteractEntityEvent
-     * @param event evento que captura cuando un usuario interactura con una entidad
+     *
+     * @param event evento que captura cuando un usuario interactura con una
+     * entidad
      */
     @EventHandler
     public void onInteract(PlayerInteractEntityEvent event) {
@@ -313,8 +180,7 @@ public class RPGPlayerListener implements Listener {
         Location loc = rightClicked.getLocation();
         net.minecraft.server.v1_8_R3.World world = ((CraftWorld) loc.getWorld()).getHandle();
         CustomEntityType.spawnEntity(new CZombie(world, loc), new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()));
-        
-        
+
         if (p.hasLineOfSight(rightClicked)) {
 
             if (rightClicked instanceof Player) {
@@ -325,56 +191,5 @@ public class RPGPlayerListener implements Listener {
                 //rightClicked.remove();
             }
         }
-    }
-
-//    @EventHandler
-//    public void onShootBowEvent(PlayerInteractEvent event) {
-//        Player p = event.getPlayer();
-//        Location loc = p.getLocation();
-//        if (event.getItem().getType().equals(Material.BOW)) {
-//            plugin.getLogger().info("entro en PlayerInteractEvent");
-//            if (event.getAction().equals(Action.RIGHT_CLICK_AIR)) {
-//                plugin.getLogger().info("es click derecho");
-//                plugin.getLogger().info("Enviando paquete");
-//                p.playEffect(p.getLocation(), Effect.BOW_FIRE, p);
-//                Packet packet = new PacketPlayOutWorldParticles(EnumParticle.EXPLOSION_LARGE, false, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1, 1);
-//                ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
-//            }
-//        } else {
-//            return;
-//        }
-//    }
-
-    /**
-     * onPlayerAchievementAccomplished captura el evento PlayerAchievementAwardedEvent
-     * @param event evento que se dispara cuando el usuario completa un reto nativo de minecraft
-     */
-    @EventHandler
-    public void onPlayerAchievementAccomplished(PlayerAchievementAwardedEvent event) {
-        event.setCancelled(true);
-    }
-
-    /**
-     * onProjectileLaunchEvent captura el evento ProjectileLaunchEvent
-     * @param event evento que captura cuando una entidad lanza un proyectil
-     */
-    @EventHandler
-    public void onProjectileLaunchEvent(ProjectileLaunchEvent event) {
-        if (event.getEntity().getShooter() instanceof Player && event.getEntityType().equals(EntityType.EGG)) {
-            event.setCancelled(true);
-        }
-    }
-
-    /**
-     * onPlayerClickInventory captura el evento InventoryClickEvent
-     * @param event evento que captura cuando un usuario interactua con el inventario
-     */
-    @EventHandler
-    public void onPlayerClickInventory(InventoryClickEvent event) {
-        plugin.getLogger().info("//////////////");
-        plugin.getLogger().info("Slot: " + event.getSlot());
-        plugin.getLogger().info("RawSlot: " + event.getRawSlot());
-        plugin.getLogger().info("SlotType: " + event.getSlotType().name());
-        plugin.getLogger().info("//////////////");
     }
 }

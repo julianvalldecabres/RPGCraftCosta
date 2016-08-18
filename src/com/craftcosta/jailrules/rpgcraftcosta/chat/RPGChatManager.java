@@ -16,14 +16,12 @@
 package com.craftcosta.jailrules.rpgcraftcosta.chat;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -53,8 +51,6 @@ public class RPGChatManager {
     private File chatTasksFile;
     private FileConfiguration ctConfig;
 
-    private Map<String, RPGChatBukkitRunnable> Tasklist;
-
     /**
      *
      * @param plugin
@@ -62,21 +58,13 @@ public class RPGChatManager {
     public RPGChatManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
         plugin.getLogger().info("Loading chat module....");
-        this.Tasklist = new HashMap<>();
         this.chatFileConfig = new File(RPGFinals.chatFileConfig);
         if (!chatFileConfig.exists()) {
             plugin.getLogger().info("Loading default chat config...");
             chatFileConfig.getParentFile().mkdirs();
             copy(plugin.getResource("chatConfig.yml"), chatFileConfig);
         }
-        this.chatTasksFile = new File(RPGFinals.chatTasksFilePath);
-        if (!chatTasksFile.exists()) {
-            plugin.getLogger().info("Loading default chat tasks...");
-            chatTasksFile.getParentFile().mkdirs();
-            copy(plugin.getResource("chatTasks.yml"), chatTasksFile);
-        }
         loadChatConfig();
-        loadChatTasks();
     }
 
     private void copy(InputStream in, File file) {
@@ -266,40 +254,22 @@ public class RPGChatManager {
         return sender.getLocation().getWorld().equals(receiver.getLocation().getWorld());
     }
 
-    private void loadChatTasks() {
-        if (!chatTasksFile.exists()) {
-            ctConfig = YamlConfiguration.loadConfiguration(new File(RPGFinals.chatTasksFilePath));
-        } else {
-            ctConfig = YamlConfiguration.loadConfiguration(chatTasksFile);
-        }
-        plugin.getLogger().info("Loading chat tasks...");
-        String nametask = "";
-        boolean enabled;
-        String description = "";
-        MessageType type = null;
-        List<String> messages;
-        long interval;
-        Set<String> tasks = ctConfig.getKeys(false);
-
-        for (String task : tasks) {
-            ConfigurationSection section = ctConfig.getConfigurationSection(task);
-            nametask = task;
-            enabled = section.getBoolean("enabled");
-            description = section.getString("description");
-            type = MessageType.valueOf(section.getString("type"));
-            messages = section.getStringList("message");
-            interval = section.getLong("interval");
-            this.Tasklist.put(task, new RPGChatBukkitRunnable(new RPGChatTask(task, type, enabled, description, messages, interval)));
-            this.Tasklist.get(task).setTaskId(this.Tasklist.get(task).runTaskTimer(plugin, 0, interval).getTaskId());
+    public void sendGuildMessage(RPGPlayer rpgp, String message) {
+        if (rpgp.isGuildChat()) {
+            rpgp.getPlayer().sendMessage(getPrefixForGuild() + ChatColor.RED + message);
         }
     }
-
-    /**
-     *
-     * @return
-     */
-    public Map<String, RPGChatBukkitRunnable> getTasklist() {
-        return Tasklist;
+    public void sendGuildMessageToPlayer(RPGPlayer rpgp, String message) {
+        rpgp.getPlayer().sendMessage(getPrefixForGuild() + message);
     }
 
+    public void sendPartyMessage(RPGPlayer rpgp, String message) {
+        if (rpgp.isPartyChat()) {
+            rpgp.getPlayer().sendMessage(getPrefixForParty()+ ChatColor.RED + message);
+        }
+    }
+    
+    public void sendPartyMessageToPlayer(RPGPlayer rpgp, String message) {
+        rpgp.getPlayer().sendMessage(getPrefixForParty() + message);
+    }
 }

@@ -28,9 +28,7 @@ public class RPGParty {
     private String name;
     private String leader;
     private List<Player> players;
-    private boolean shareExp;
-    private boolean shareMoney;
-    private boolean pvpEnabled;
+    private List<Integer> kills;
 
     /**
      *
@@ -44,7 +42,6 @@ public class RPGParty {
         this.name = name;
         this.leader = creator.getName();
         this.players.add(creator);
-        this.pvpEnabled = false;
     }
 
     /**
@@ -59,9 +56,6 @@ public class RPGParty {
         this.name = name;
         this.leader = creator.getName();
         this.players.add(creator);
-        this.shareExp = shareExp;
-        this.shareMoney = shareMoney;
-        this.pvpEnabled = false;
     }
 
     /**
@@ -114,38 +108,6 @@ public class RPGParty {
 
     /**
      *
-     * @return
-     */
-    public boolean isShareExp() {
-        return shareExp;
-    }
-
-    /**
-     *
-     * @param shareExp
-     */
-    public void setShareExp(boolean shareExp) {
-        this.shareExp = shareExp;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean isShareMoney() {
-        return shareMoney;
-    }
-
-    /**
-     *
-     * @param shareMoney
-     */
-    public void setShareMoney(boolean shareMoney) {
-        this.shareMoney = shareMoney;
-    }
-
-    /**
-     *
      * @param player
      */
     public void invitePlayerToParty(Player player) {
@@ -162,16 +124,6 @@ public class RPGParty {
 
     /**
      *
-     * @param shareXP
-     * @param shareMoney
-     */
-    public void changeAllConfig(boolean shareXP, boolean shareMoney) {
-        setShareExp(shareXP);
-        setShareMoney(shareMoney);
-    }
-
-    /**
-     *
      * @param kickplayer
      */
     public void kickplayer(Player kickplayer) {
@@ -184,21 +136,5 @@ public class RPGParty {
      */
     public void addPlayerToParty(Player p) {
         this.players.add(p);
-    }
-
-    /**
-     *
-     * @return
-     */
-    public boolean isPvpEnabled() {
-        return this.pvpEnabled;
-    }
-
-    /**
-     *
-     * @param value
-     */
-    public void setPvpEnabled(boolean value) {
-        this.pvpEnabled = value;
     }
 }

@@ -155,15 +155,8 @@ public class RPGPartyManager {
      * @param p
      * @param rpgParty
      */
-    public void sendMessageOwnerChangedToParty(Player p, RPGParty rpgParty) {
-        String prefix = rpgCMan.getPrefixForParty();
-        for (Player player : rpgParty.getPlayers()) {
-            if (player == p) {
-                p.sendMessage(prefix + " Eres el nuevo lider del grupo " + rpgParty.getName());
-            } else {
-                player.sendMessage(prefix + " " + p.getName() + " es el nuevo lider del grupo " + rpgParty.getName());
-            }
-        }
+    public void sendMessageOwnerChangedToParty(Player p, RPGParty party) {
+        sendMessageToParty(party.getName(), " El compañero "+p.getName()+" es el nuevo lider del grupo");
     }
 
     /**
@@ -171,12 +164,11 @@ public class RPGPartyManager {
      * @param party
      */
     public void disbandParty(String party) {
-        String prefix = rpgCMan.getPrefixForParty();
+        sendMessageToParty(party,"El grupo "+party+" se ha disuelto");
         RPGParty rpgParty = getParty(party);
-        for (Player p : rpgParty.getPlayers()) {
+        for (Player p : getParty(party).getPlayers()) {
             RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
             rpgP.setParty("");
-            p.sendMessage(prefix + " El grupo " + party + " se ha disuelto");
         }
         this.partylist.remove(party);
     }
@@ -187,10 +179,7 @@ public class RPGPartyManager {
      * @param rpgParty
      */
     public void sendMessagePlayerLeaveParty(Player p, RPGParty rpgParty) {
-        String prefix = rpgCMan.getPrefixForParty();
-        for (Player player : rpgParty.getPlayers()) {
-            player.sendMessage(prefix + " " + p.getName() + " ha abandonado el grupo");
-        }
+        sendMessageToParty(rpgParty.getName()," El compañero "+p.getName() +" ha abandonado el grupo");
     }
 
     /**
@@ -199,12 +188,9 @@ public class RPGPartyManager {
      * @param message
      */
     public void sendMessageToParty(String party, String message) {
-        String prefix = rpgCMan.getPrefixForParty();
-        for (Player player : this.partylist.get(party).getPlayers()) {
-            RPGPlayer rpgreceiver = rpgPMan.getRPGPlayerByName(player.getName());
-            if (rpgreceiver.isPartyChat()) {
-                player.sendMessage(prefix + " " + message);
-            }
+        for (Player p : getParty(party).getPlayers()) {
+            RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
+            rpgCMan.sendPartyMessage(rpgp,message);
         }
     }
 
@@ -260,13 +246,5 @@ public class RPGPartyManager {
      */
     public void addPlayerToParty(Player p, RPGParty party) {
         party.addPlayerToParty(p);
-    }
-
-    void setPartyPvPOff(RPGParty party) {
-        party.setPvpEnabled(false);
-    }
-
-    void setPartyPvPOn(RPGParty party) {
-        party.setPvpEnabled(true);
     }
 }

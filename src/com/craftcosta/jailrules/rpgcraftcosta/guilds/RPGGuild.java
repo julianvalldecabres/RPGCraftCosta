@@ -34,7 +34,6 @@ public class RPGGuild {
     private String owner;                   //Owner of the Guild
     private int level;                      //Level of the guild    
     private double money;                      //Guild money
-    private List<String> moderators;        //List of moderators of the Guild
     private List<String> members;           //List of members
     private List<Player> onlineMembers;     //List of players online
 
@@ -47,8 +46,8 @@ public class RPGGuild {
         this.name = name;
         this.owner = owner.getName();
         this.level = 0;
-        this.moderators = new ArrayList<String>();
-        this.members = new ArrayList<String>();
+        this.money=0;
+        this.members = new ArrayList<>();
         this.onlineMembers = new ArrayList<>();
         this.onlineMembers.add(owner);
         this.members.add(owner.getName());
@@ -63,12 +62,11 @@ public class RPGGuild {
      * @param mods
      * @param members
      */
-    public RPGGuild(String name, String owner, int level, double money, List<String> mods, List<String> members) {
+    public RPGGuild(String name, String owner, int level, double money, List<String> members) {
         this.name = name;
         this.owner = owner;
         this.level = level;
         this.money = money;
-        this.moderators = mods;
         this.members = members;
         this.onlineMembers = new ArrayList<>();
     }
@@ -141,22 +139,6 @@ public class RPGGuild {
      *
      * @return
      */
-    public List<String> getModerators() {
-        return moderators;
-    }
-
-    /**
-     *
-     * @param moderators
-     */
-    public void setModerators(List<String> moderators) {
-        this.moderators = moderators;
-    }
-
-    /**
-     *
-     * @return
-     */
     public List<String> getMembers() {
         return members;
     }
@@ -191,7 +173,7 @@ public class RPGGuild {
      * @return
      */
     public boolean addMember(Player member) {
-        if (!this.members.contains(member.getName()) && !this.moderators.contains(member.getName())) {
+        if (!this.members.contains(member.getName()) ) {
             this.members.add(member.getName());
             return true;
         } else {
@@ -204,45 +186,7 @@ public class RPGGuild {
      * @param member
      * @return
      */
-    public boolean addMod(String member) {
-        if (this.moderators.contains(member)) {
-            return false;
-        } else {
-            if (this.members.contains(member)) {
-                this.members.remove(member);
-            }
-            this.moderators.add(member);
-        }
-        return true;
-    }
-
-    /**
-     *
-     * @param mod
-     * @return
-     */
-    public boolean depromote(String mod) {
-        if (this.members.contains(mod)) {
-            return false;
-        }
-        if (this.moderators.contains(mod)) {
-            this.moderators.remove(mod);
-            this.members.add(mod);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     *
-     * @param member
-     * @return
-     */
     public boolean delFromGuild(String member) {
-        if (this.moderators.contains(member)) {
-            this.moderators.remove(member);
-            return true;
-        }
         if (this.members.contains(member)) {
             this.members.remove(member);
             return true;
@@ -271,27 +215,17 @@ public class RPGGuild {
     public ArrayList<String> getNameMembersList() {
         ArrayList<String> namelist = new ArrayList<String>();
         namelist.addAll(members);
-        namelist.addAll(moderators);
         namelist.add(owner);
         return namelist;
     }
 
-    /**
-     *
-     * @param message
-     */
-    public void sendMessageToGuild(String message) {
-        for (Player p1 : onlineMembers) {            
-            p1.sendMessage(message);
-        }
+    public void subOnlinePlayer(Player p){
+        this.onlineMembers.remove(p);
     }
 
     public void leavePlayerFromGuild(Player p) {
         this.members.remove(p.getName());
         this.onlineMembers.remove(p);
-        if (this.moderators.contains(p.getName())) {
-            this.moderators.remove(p.getName());
-        }
     }
 
     public void addOnlinePlayer(Player p) {
@@ -299,9 +233,6 @@ public class RPGGuild {
     }
 
     public void delFromGuild(Player kickplayer) {
-        if (this.moderators.contains(kickplayer.getName())) {
-            this.moderators.remove(kickplayer.getName());
-        }
         if (this.members.contains(kickplayer.getName())) {
             this.members.remove(kickplayer.getName());
         }

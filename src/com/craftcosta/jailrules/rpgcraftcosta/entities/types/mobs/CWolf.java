@@ -258,9 +258,6 @@ public class CWolf extends EntityMonster implements IRangedEntity {
         }
         //attackType PfG
         switch (aType) {
-            case MAGIC:
-                this.goalSelector.a(2, new PathfinderGoalArrowAttack(this, attackSpeed, 60, 10.0F));
-                break;
             case RANGED:
                 this.goalSelector.a(2, new PathfinderGoalArrowAttack(this, attackSpeed, 20, 60, 15.0F));
                 break;
@@ -315,7 +312,6 @@ public class CWolf extends EntityMonster implements IRangedEntity {
      */
     public int getType() {
         switch (aType) {
-            case MAGIC:
             case MELEE:
                 return 1;
             default:

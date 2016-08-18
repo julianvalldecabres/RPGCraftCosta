@@ -33,8 +33,6 @@ import net.minecraft.server.v1_8_R3.EnumMonsterType;
 import net.minecraft.server.v1_8_R3.GenericAttributes;
 import net.minecraft.server.v1_8_R3.GroupDataEntity;
 import net.minecraft.server.v1_8_R3.IRangedEntity;
-import net.minecraft.server.v1_8_R3.ItemStack;
-import net.minecraft.server.v1_8_R3.Items;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.Navigation;
 import net.minecraft.server.v1_8_R3.PathfinderGoalArrowAttack;
@@ -215,9 +213,6 @@ public class COcelot extends EntityMonster implements IRangedEntity {
         }
         //attackType PfG
         switch (aType) {
-            case MAGIC:
-                this.goalSelector.a(2, new PathfinderGoalArrowAttack(this, 1.0D, 60, 10.0F));
-                break;
             case RANGED:
                 this.goalSelector.a(2, new PathfinderGoalArrowAttack(this, 1.0D, 20, 60, 15.0F));
                 break;
@@ -272,7 +267,6 @@ public class COcelot extends EntityMonster implements IRangedEntity {
      */
     public int getType() {
         switch (aType) {
-            case MAGIC:
             case MELEE:
                 return 1;
             default:

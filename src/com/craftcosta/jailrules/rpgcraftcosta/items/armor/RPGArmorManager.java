@@ -17,11 +17,13 @@ package com.craftcosta.jailrules.rpgcraftcosta.items.armor;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.items.Quality;
+import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLores;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -345,5 +347,134 @@ public class RPGArmorManager {
     public String getPart(ItemStack item) {
         String[] partItem = item.getType().toString().split("_");
         return partItem[1];
+    }
+    
+    /**
+     *
+     * @param armor
+     * @return
+     */
+    public ItemStack upgradeArmor(ItemStack armor) {
+        ItemMeta aMeta = armor.getItemMeta();
+        String aLongName = aMeta.getDisplayName();
+        String[] aLongNameParts = aLongName.split(" ");
+
+        int sizeLongNameParts = aLongNameParts.length;
+        String aName = "";
+        for (int i = 1; i < sizeLongNameParts - 1; i++) {
+            aName += aLongNameParts[i] + " ";
+        }
+        RPGArmor rpga = getRPGArmorByItem(armor);
+        int nivelactual = rpga.getLevel(aLongNameParts[sizeLongNameParts - 1]);
+        int nivelup = nivelactual + 1;
+        String displayname = aLongNameParts[0] + " " + aName + "+" + nivelup;
+        aMeta.setDisplayName(displayname);
+        if (aMeta.hasLore()) {
+            List<String> lores = aMeta.getLore();
+            List<String> newLores = new ArrayList<>();
+            for (String lore : lores) {
+                String[] loreparts = lore.split(" ");
+                String newLore = loreparts[0] + " " + loreparts[1];
+                switch (newLore) {
+                    case "Physical Defense":
+                        newLores.add(RPGLores.PHYSICALDEFENSE.getLoreString(RPGLores.PHYSICALDEFENSE, rpga.getPhysicalDefense() + rpga.getIncPhysicalDefense() * nivelup));
+                        break;
+                    case "Physical Evasion":
+                        newLores.add(RPGLores.PHYSICALEVASION.getLoreString(RPGLores.PHYSICALEVASION, rpga.getPhysicalEvasion() + rpga.getIncPhysicalEvasion() * nivelup));
+                        break;
+                    case "Magical Defense":
+                        newLores.add(RPGLores.MAGICALDEFENSE.getLoreString(RPGLores.MAGICALDEFENSE, rpga.getMagicaldefense() + rpga.getIncmagicaldefense() * nivelup));
+                        break;
+                    case "Magical Evasion":
+                        newLores.add(RPGLores.MAGICALEVASION.getLoreString(RPGLores.MAGICALEVASION, rpga.getMagicalevasion() + rpga.getIncmagicalevasion() * nivelup));
+                        break;
+                    case "XP Bonus":
+                        newLores.add(RPGLores.XPBONUS.getLoreString(RPGLores.XPBONUS, rpga.getXPBonus()));
+                        break;
+                    case "AP Bonus":
+                        newLores.add(RPGLores.APBONUS.getLoreString(RPGLores.APBONUS, rpga.getAPBonus()));
+                        break;
+                    case "Money Bonus":
+                        newLores.add(RPGLores.MONEYBONUS.getLoreString(RPGLores.MONEYBONUS, rpga.getMoneyBonus()));
+                        break;
+                }
+            }
+            if (rpga.isComerciable()) {
+                newLores.add(RPGLores.BUYPRICE.getLoreString(RPGLores.BUYPRICE, rpga.getBuyPrice()));
+                newLores.add(RPGLores.SELLPRICE.getLoreString(RPGLores.SELLPRICE, rpga.getSellPrice()));
+            } else {
+                newLores.add(ChatColor.RED + RPGLores.NOCOMERCIABLE.getLoreName());
+            }
+            if (!rpga.isUpgradable()) {
+                newLores.add(ChatColor.RED + RPGLores.NOUPGRADABLE.getLoreName());
+            }
+            aMeta.setLore(newLores);
+            armor.setItemMeta(aMeta);
+        }
+        return armor;
+    }
+
+    /**
+     *
+     * @param armor
+     * @return
+     */
+    public ItemStack downgradeArmor(ItemStack armor) {
+        ItemMeta aMeta = armor.getItemMeta();
+        String aLongName = aMeta.getDisplayName();
+        String[] aLongNameParts = aLongName.split(" ");
+        RPGArmor rpga = getRPGArmorByItem(armor);
+        int sizeLongNameParts = aLongNameParts.length;
+        String aName = "";
+        for (int i = 1; i < sizeLongNameParts - 1; i++) {
+            aName += aLongNameParts[i] + " ";
+        }
+        int nivelactual = rpga.getLevel(aLongNameParts[sizeLongNameParts - 1]);
+        int niveldown = nivelactual - 1;
+        String displayname = aLongNameParts[0] + " " + aName + "+" + niveldown;
+        aMeta.setDisplayName(displayname);
+        if (aMeta.hasLore()) {
+            List<String> lores = aMeta.getLore();
+            List<String> newLores = new ArrayList<>();
+            for (String lore : lores) {
+                String[] loreparts = lore.split(" ");
+                String newLore = loreparts[0] + " " + loreparts[1];
+                switch (newLore) {
+                    case "Physical Defense":
+                        newLores.add(RPGLores.PHYSICALDEFENSE.getLoreString(RPGLores.PHYSICALDEFENSE, rpga.getPhysicalDefense() + rpga.getIncPhysicalDefense() * niveldown));
+                        break;
+                    case "Physical Evasion":
+                        newLores.add(RPGLores.PHYSICALEVASION.getLoreString(RPGLores.PHYSICALEVASION, rpga.getPhysicalEvasion() + rpga.getIncPhysicalEvasion() * niveldown));
+                        break;
+                    case "Magical Defense":
+                        newLores.add(RPGLores.MAGICALDEFENSE.getLoreString(RPGLores.MAGICALDEFENSE, rpga.getMagicaldefense() + rpga.getIncmagicaldefense() * niveldown));
+                        break;
+                    case "Magical Evasion":
+                        newLores.add(RPGLores.MAGICALEVASION.getLoreString(RPGLores.MAGICALEVASION, rpga.getMagicalevasion() + rpga.getIncmagicalevasion() * niveldown));
+                        break;
+                    case "XP Bonus":
+                        newLores.add(RPGLores.XPBONUS.getLoreString(RPGLores.XPBONUS, rpga.getXPBonus()));
+                        break;
+                    case "AP Bonus":
+                        newLores.add(RPGLores.APBONUS.getLoreString(RPGLores.APBONUS, rpga.getAPBonus()));
+                        break;
+                    case "Money Bonus":
+                        newLores.add(RPGLores.MONEYBONUS.getLoreString(RPGLores.MONEYBONUS, rpga.getMoneyBonus()));
+                        break;
+                }
+            }
+            if (rpga.isComerciable()) {
+                newLores.add(RPGLores.BUYPRICE.getLoreString(RPGLores.BUYPRICE, rpga.getBuyPrice()));
+                newLores.add(RPGLores.SELLPRICE.getLoreString(RPGLores.SELLPRICE, rpga.getSellPrice()));
+            } else {
+                newLores.add(ChatColor.RED + RPGLores.NOCOMERCIABLE.getLoreName());
+            }
+            if (!rpga.isUpgradable()) {
+                newLores.add(ChatColor.RED + RPGLores.NOUPGRADABLE.getLoreName());
+            }
+            aMeta.setLore(newLores);
+            armor.setItemMeta(aMeta);
+        }
+        return armor;
     }
 }

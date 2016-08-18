@@ -373,12 +373,12 @@ public class RPGArmorListener implements Listener {
 
     private ItemStack downgradeRPGArmor(ItemStack currentItem) {
         RPGArmor rpga = rpgAMan.getRPGArmorByItem(currentItem);
-        return rpga.downgradeArmor(currentItem);
+        return rpgAMan.downgradeArmor(currentItem);
     }
 
     private ItemStack improveRPGArmor(ItemStack currentItem) {
         RPGArmor rpga = rpgAMan.getRPGArmorByItem(currentItem);
-        return rpga.upgradeArmor(currentItem);
+        return rpgAMan.upgradeArmor(currentItem);
     }
 
 }

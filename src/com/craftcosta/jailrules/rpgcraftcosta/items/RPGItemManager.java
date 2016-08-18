@@ -19,7 +19,6 @@ import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.items.armor.RPGArmorManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.jewels.RPGJewelManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLoreManager;
-import com.craftcosta.jailrules.rpgcraftcosta.items.potions.RPGPotionManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.questitems.RPGQuestItemManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
 import java.util.ArrayList;
@@ -39,7 +38,6 @@ public class RPGItemManager {
     //RPGPotionManager RPGPMan;
     private ArrayList<RPGItem> listItems = new ArrayList<>();
     private RPGLoreManager RPGLMan;
-    private RPGPotionManager RPGPMan;
 
     /**
      *
@@ -127,9 +125,6 @@ public class RPGItemManager {
      * @param name
      * @return
      */
-    public ItemStack getRPGPotion(String name){
-        return RPGPMan.getRPGPotionByName(name);
-    }
 
     /**
      *
@@ -147,8 +142,6 @@ public class RPGItemManager {
                 return RPGQMan.getRPGQuestItemByName(name);
             case JEWEL:
                 return RPGJMan.getRPGJewelByName(name);
-            case POTION:
-                return RPGPMan.getRPGPotionByName(name);
         }
         return null;
     }

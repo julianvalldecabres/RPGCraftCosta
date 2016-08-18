@@ -16,11 +16,16 @@
 package com.craftcosta.jailrules.rpgcraftcosta.items;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
+import java.util.Set;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
+import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  *
@@ -110,5 +115,26 @@ public class RPGItemListener implements Listener {
                 }
             }
         }
+    }
+    /**
+     * onPlayerPickupItem captura el evento cuando el usuario recoje un item del suelo
+     * @param e evento disparado cuando un usuario recoje un item del suelo
+     */
+    @EventHandler
+    public void onPlayerPickupItem(PlayerPickupItemEvent e) {
+        ItemStack item = e.getItem().getItemStack();
+        Set<Integer> freeInventorySlots = RPGPlayerUtils.getFreeInventorySlots(e.getPlayer());
+    }
+    /**
+     * onPlayerClickInventory captura el evento InventoryClickEvent
+     * @param event evento que captura cuando un usuario interactua con el inventario
+     */
+    @EventHandler
+    public void onPlayerClickInventory(InventoryClickEvent event) {
+//        plugin.getLogger().info("//////////////");
+//        plugin.getLogger().info("Slot: " + event.getSlot());
+//        plugin.getLogger().info("RawSlot: " + event.getRawSlot());
+//        plugin.getLogger().info("SlotType: " + event.getSlotType().name());
+//        plugin.getLogger().info("//////////////");
     }
 }

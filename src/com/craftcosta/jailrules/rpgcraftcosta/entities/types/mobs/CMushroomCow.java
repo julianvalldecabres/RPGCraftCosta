@@ -29,8 +29,6 @@ import net.minecraft.server.v1_8_R3.EntityLiving;
 import net.minecraft.server.v1_8_R3.EntityMonster;
 import net.minecraft.server.v1_8_R3.GenericAttributes;
 import net.minecraft.server.v1_8_R3.IRangedEntity;
-import net.minecraft.server.v1_8_R3.ItemStack;
-import net.minecraft.server.v1_8_R3.Items;
 import net.minecraft.server.v1_8_R3.PathfinderGoalArrowAttack;
 import net.minecraft.server.v1_8_R3.PathfinderGoalFloat;
 import net.minecraft.server.v1_8_R3.PathfinderGoalHurtByTarget;
@@ -259,9 +257,6 @@ public class CMushroomCow extends EntityMonster implements IRangedEntity{
         }
         //attackType PfG
         switch (aType) {
-            case MAGIC:
-                this.goalSelector.a(2, new PathfinderGoalArrowAttack(this, attackSpeed, 60, 10.0F));
-                break;
             case RANGED:
                 this.goalSelector.a(2, new PathfinderGoalArrowAttack(this, attackSpeed, 20, 60, 15.0F));
                 break;
@@ -313,7 +308,6 @@ public class CMushroomCow extends EntityMonster implements IRangedEntity{
      */
     public int getType() {
         switch (aType) {
-            case MAGIC:
             case MELEE:
                 return 1;
             default:

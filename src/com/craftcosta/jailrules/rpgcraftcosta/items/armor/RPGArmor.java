@@ -445,133 +445,7 @@ public class RPGArmor extends RPGItem {
                 + "\n\tupgradable: " + isUpgradable();
     }
 
-    /**
-     *
-     * @param armor
-     * @return
-     */
-    public ItemStack upgradeArmor(ItemStack armor) {
-        ItemMeta aMeta = armor.getItemMeta();
-        String aLongName = aMeta.getDisplayName();
-        String[] aLongNameParts = aLongName.split(" ");
-
-        int sizeLongNameParts = aLongNameParts.length;
-        String aName = "";
-        for (int i = 1; i < sizeLongNameParts - 1; i++) {
-            aName += aLongNameParts[i] + " ";
-        }
-        int nivelactual = getLevel(aLongNameParts[sizeLongNameParts - 1]);
-        int nivelup = nivelactual + 1;
-        String displayname = aLongNameParts[0] + " " + aName + "+" + nivelup;
-        aMeta.setDisplayName(displayname);
-        if (aMeta.hasLore()) {
-            List<String> lores = aMeta.getLore();
-            List<String> newLores = new ArrayList<>();
-            for (String lore : lores) {
-                String[] loreparts = lore.split(" ");
-                String newLore = loreparts[0] + " " + loreparts[1];
-                switch (newLore) {
-                    case "Physical Defense":
-                        newLores.add(RPGLores.PHYSICALDEFENSE.getLoreString(RPGLores.PHYSICALDEFENSE, this.physicaldefense + incphysicaldefense * nivelup));
-                        break;
-                    case "Physical Evasion":
-                        newLores.add(RPGLores.PHYSICALEVASION.getLoreString(RPGLores.PHYSICALEVASION, this.physicalevasion + incphysicalevasion * nivelup));
-                        break;
-                    case "Magical Defense":
-                        newLores.add(RPGLores.MAGICALDEFENSE.getLoreString(RPGLores.MAGICALDEFENSE, this.magicaldefense + incmagicaldefense * nivelup));
-                        break;
-                    case "Magical Evasion":
-                        newLores.add(RPGLores.MAGICALEVASION.getLoreString(RPGLores.MAGICALEVASION, this.magicalevasion + incmagicalevasion * nivelup));
-                        break;
-                    case "XP Bonus":
-                        newLores.add(RPGLores.XPBONUS.getLoreString(RPGLores.XPBONUS, XPBonus));
-                        break;
-                    case "AP Bonus":
-                        newLores.add(RPGLores.APBONUS.getLoreString(RPGLores.APBONUS, APBonus));
-                        break;
-                    case "Money Bonus":
-                        newLores.add(RPGLores.MONEYBONUS.getLoreString(RPGLores.MONEYBONUS, moneyBonus));
-                        break;
-                }
-            }
-            if (isComerciable()) {
-                newLores.add(RPGLores.BUYPRICE.getLoreString(RPGLores.BUYPRICE, buyPrice));
-                newLores.add(RPGLores.SELLPRICE.getLoreString(RPGLores.SELLPRICE, sellPrice));
-            } else {
-                newLores.add(ChatColor.RED + RPGLores.NOCOMERCIABLE.getLoreName());
-            }
-            if (!isUpgradable()) {
-                newLores.add(ChatColor.RED + RPGLores.NOUPGRADABLE.getLoreName());
-            }
-            aMeta.setLore(newLores);
-            armor.setItemMeta(aMeta);
-        }
-        return armor;
-    }
-
-    /**
-     *
-     * @param armor
-     * @return
-     */
-    public ItemStack downgradeArmor(ItemStack armor) {
-        ItemMeta aMeta = armor.getItemMeta();
-        String aLongName = aMeta.getDisplayName();
-        String[] aLongNameParts = aLongName.split(" ");
-
-        int sizeLongNameParts = aLongNameParts.length;
-        String aName = "";
-        for (int i = 1; i < sizeLongNameParts - 1; i++) {
-            aName += aLongNameParts[i] + " ";
-        }
-        int nivelactual = getLevel(aLongNameParts[sizeLongNameParts - 1]);
-        int niveldown = nivelactual - 1;
-        String displayname = aLongNameParts[0] + " " + aName + "+" + niveldown;
-        aMeta.setDisplayName(displayname);
-        if (aMeta.hasLore()) {
-            List<String> lores = aMeta.getLore();
-            List<String> newLores = new ArrayList<>();
-            for (String lore : lores) {
-                String[] loreparts = lore.split(" ");
-                String newLore = loreparts[0] + " " + loreparts[1];
-                switch (newLore) {
-                    case "Physical Defense":
-                        newLores.add(RPGLores.PHYSICALDEFENSE.getLoreString(RPGLores.PHYSICALDEFENSE, this.physicaldefense + incphysicaldefense * niveldown));
-                        break;
-                    case "Physical Evasion":
-                        newLores.add(RPGLores.PHYSICALEVASION.getLoreString(RPGLores.PHYSICALEVASION, this.physicalevasion + incphysicalevasion * niveldown));
-                        break;
-                    case "Magical Defense":
-                        newLores.add(RPGLores.MAGICALDEFENSE.getLoreString(RPGLores.MAGICALDEFENSE, this.magicaldefense + incmagicaldefense * niveldown));
-                        break;
-                    case "Magical Evasion":
-                        newLores.add(RPGLores.MAGICALEVASION.getLoreString(RPGLores.MAGICALEVASION, this.magicalevasion + incmagicalevasion * niveldown));
-                        break;
-                    case "XP Bonus":
-                        newLores.add(RPGLores.XPBONUS.getLoreString(RPGLores.XPBONUS, XPBonus));
-                        break;
-                    case "AP Bonus":
-                        newLores.add(RPGLores.APBONUS.getLoreString(RPGLores.APBONUS, APBonus));
-                        break;
-                    case "Money Bonus":
-                        newLores.add(RPGLores.MONEYBONUS.getLoreString(RPGLores.MONEYBONUS, moneyBonus));
-                        break;
-                }
-            }
-            if (isComerciable()) {
-                newLores.add(RPGLores.BUYPRICE.getLoreString(RPGLores.BUYPRICE, buyPrice));
-                newLores.add(RPGLores.SELLPRICE.getLoreString(RPGLores.SELLPRICE, sellPrice));
-            } else {
-                newLores.add(ChatColor.RED + RPGLores.NOCOMERCIABLE.getLoreName());
-            }
-            if (!isUpgradable()) {
-                newLores.add(ChatColor.RED + RPGLores.NOUPGRADABLE.getLoreName());
-            }
-            aMeta.setLore(newLores);
-            armor.setItemMeta(aMeta);
-        }
-        return armor;
-    }
+    
 
     /**
      *
@@ -581,4 +455,102 @@ public class RPGArmor extends RPGItem {
     public int getLevel(String actualLevel) {
         return Integer.parseInt(actualLevel.substring(1));
     }
+
+    public double getPhysicaldefense() {
+        return physicaldefense;
+    }
+
+    public void setPhysicaldefense(double physicaldefense) {
+        this.physicaldefense = physicaldefense;
+    }
+
+    public double getMagicaldefense() {
+        return magicaldefense;
+    }
+
+    public void setMagicaldefense(double magicaldefense) {
+        this.magicaldefense = magicaldefense;
+    }
+
+    public double getIncphysicaldefense() {
+        return incphysicaldefense;
+    }
+
+    public void setIncphysicaldefense(double incphysicaldefense) {
+        this.incphysicaldefense = incphysicaldefense;
+    }
+
+    public double getIncmagicaldefense() {
+        return incmagicaldefense;
+    }
+
+    public void setIncmagicaldefense(double incmagicaldefense) {
+        this.incmagicaldefense = incmagicaldefense;
+    }
+
+    public double getPhysicalevasion() {
+        return physicalevasion;
+    }
+
+    public void setPhysicalevasion(double physicalevasion) {
+        this.physicalevasion = physicalevasion;
+    }
+
+    public double getMagicalevasion() {
+        return magicalevasion;
+    }
+
+    public void setMagicalevasion(double magicalevasion) {
+        this.magicalevasion = magicalevasion;
+    }
+
+    public double getIncmagicalevasion() {
+        return incmagicalevasion;
+    }
+
+    public void setIncmagicalevasion(double incmagicalevasion) {
+        this.incmagicalevasion = incmagicalevasion;
+    }
+
+    public double getIncphysicalevasion() {
+        return incphysicalevasion;
+    }
+
+    public void setIncphysicalevasion(double incphysicalevasion) {
+        this.incphysicalevasion = incphysicalevasion;
+    }
+
+    public double getActualphysicaldefense() {
+        return actualphysicaldefense;
+    }
+
+    public void setActualphysicaldefense(double actualphysicaldefense) {
+        this.actualphysicaldefense = actualphysicaldefense;
+    }
+
+    public double getActualphysicalevasion() {
+        return actualphysicalevasion;
+    }
+
+    public void setActualphysicalevasion(double actualphysicalevasion) {
+        this.actualphysicalevasion = actualphysicalevasion;
+    }
+
+    public double getActualmagicaldefense() {
+        return actualmagicaldefense;
+    }
+
+    public void setActualmagicaldefense(double actualmagicaldefense) {
+        this.actualmagicaldefense = actualmagicaldefense;
+    }
+
+    public double getActualmagicalevasion() {
+        return actualmagicalevasion;
+    }
+
+    public void setActualmagicalevasion(double actualmagicalevasion) {
+        this.actualmagicalevasion = actualmagicalevasion;
+    }
+    
+    
 }

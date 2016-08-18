@@ -155,8 +155,8 @@ public class RPGMobManager {
         double attackspeed;
         double rangeddamage;
         double rangedstrength;
-        int money;
-        int exp;
+        long money;
+        long exp;
         int ap;
         Set<String> mobs = mobFileConfig.getKeys(false);
         for (String id : mobs) {
@@ -174,9 +174,9 @@ public class RPGMobManager {
             attackspeed = section.getDouble("attackspeed");
             rangeddamage = section.getDouble("rangeddamage");
             rangedstrength = section.getDouble("rangedstrength");
-            money = section.getInt("money");
+            money = section.getLong("money");
             ap = section.getInt("ap");
-            exp = section.getInt("exp");
+            exp = section.getLong("exp");
             RPGMob rpgmob = null;
             boolean baby = false;
             boolean villager = false;
@@ -192,115 +192,115 @@ public class RPGMobManager {
             switch (type) {
                 case BATX:
                     asleep = section.getBoolean("asleep");
-                    rpgmob = new RPGBat(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth, asleep);
+                    rpgmob = new RPGBat(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap, asleep);
                     break;
                 case BLAZEX:
-                    rpgmob = new RPGBlaze(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGBlaze(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage,(float)rangedstrength, money, exp, ap);
                     break;
                 case CAVESPIDERX:
-                    rpgmob = new RPGCaveSpider(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGCaveSpider(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage,(float)rangedstrength, money, exp, ap);
                     break;
                 case CHICKENX:
                     baby = section.getBoolean("baby");
-                    rpgmob = new RPGChicken(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth, baby);
+                    rpgmob = new RPGChicken(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage,(float)rangedstrength, money, exp, ap, baby);
                     break;
                 case COWX:
                     baby = section.getBoolean("baby");
-                    rpgmob = new RPGCow(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth, baby);
+                    rpgmob = new RPGCow(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage,(float)rangedstrength, money, exp, ap, baby);
                     break;
                 case CREEPERX:
-                    rpgmob = new RPGCreeper(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGCreeper(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap);
                     break;
                 case ENDERDRAGONX:
-                    rpgmob = new RPGEnderDragon(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGEnderDragon(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap);
                     break;
                 case ENDERMANX:
-                    rpgmob = new RPGEnderman(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGEnderman(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap);
                     break;
                 case ENDERMITEX:
-                    rpgmob = new RPGEndermite(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGEndermite(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap);
                     break;
                 case GHASTX:
-                    rpgmob = new RPGGhast(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGGhast(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap);
                     break;
                 case GIANTX:
-                    rpgmob = new RPGGiant(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGGiant(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap);
                     break;
                 case GUARDIANX:
                     gtype = GuardianType.valueOf(section.getString("guardiantype"));
-                    rpgmob = new RPGGuardian(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth, gtype);
+                    rpgmob = new RPGGuardian(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap, gtype);
                     break;
                 case HORSEX:
                     hvariant = HorseVariant.valueOf(section.getString("horsevariant"));
                     htype = HorseType.valueOf(section.getString("horsetype"));
                     baby = section.getBoolean("baby");
-                    rpgmob = new RPGHorse(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth, baby, htype, hvariant);
+                    rpgmob = new RPGHorse(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap, baby, htype, hvariant);
                     break;
                 case IRONGOLEMX:
-                    rpgmob = new RPGIronGolem(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGIronGolem(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap);
                     break;
                 case MAGMACUBEX:
-                    rpgmob = new RPGMagmaCube(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGMagmaCube(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap);
                     break;
                 case MUSHROOMCOWX:
-                    rpgmob = new RPGMushroomCow(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth, baby);
+                    rpgmob = new RPGMushroomCow(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage,(float)rangedstrength, money, exp, ap, baby);
                     break;
                 case OCELOTX:
                     baby = section.getBoolean("baby");
                     otype = OcelotType.valueOf(section.getString("otype"));
-                    rpgmob = new RPGOcelot(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth, baby, otype);
+                    rpgmob = new RPGOcelot(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap, baby, otype);
                     break;
                 case PIGX:
-                    rpgmob = new RPGPig(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth, baby);
+                    rpgmob = new RPGPig(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage,(float)rangedstrength, money, exp, ap, baby);
                     break;
                 case PIGZOMBIEX:
                     baby = section.getBoolean("baby");
-                    rpgmob = new RPGPigZombie(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth, baby);
+                    rpgmob = new RPGPigZombie(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap, baby);
                     break;
                 case RABBITX:
                     baby = section.getBoolean("baby");
                     rtype = RabbitType.valueOf(section.getString("rtype"));
-                    rpgmob = new RPGRabbit(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth, rtype, baby);
+                    rpgmob = new RPGRabbit(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap, rtype, baby);
                     break;
                 case SHEEPX:
                     baby = section.getBoolean("baby");
                     sColor = SheepColor.valueOf(section.getString("scolor"));
-                    rpgmob = new RPGSheep(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth, sColor, baby);
+                    rpgmob = new RPGSheep(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage,(float)rangedstrength, money, exp, ap, sColor, baby);
                     break;
                 case SILVERFISHX:
-                    rpgmob = new RPGSilverfish(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGSilverfish(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap);
                     break;
                 case SKELETONX:
                     stype = SkeletonType.valueOf(section.getString("stype"));
-                    rpgmob = new RPGSkeleton(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth, stype);
+                    rpgmob = new RPGSkeleton(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap, stype);
                     break;
                 case SLIMEX:
-                    rpgmob = new RPGSlime(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGSlime(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap);
                     break;
                 case SNOWGOLEMX:
-                    rpgmob = new RPGSnowGolem(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGSnowGolem(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap);
                     break;
                 case SPIDERX:
-                    rpgmob = new RPGSpider(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGSpider(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap);
                     break;
                 case SQUIDX:
-                    rpgmob = new RPGSquid(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGSquid(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage,(float)rangedstrength, money, exp, ap);
                     break;
                 case VILLAGERX:
                     baby = section.getBoolean("baby");
                     vType = VillagerType.valueOf(section.getString("vtype"));
-                    rpgmob = new RPGVillager(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth, vType, baby);
+                    rpgmob = new RPGVillager(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap, vType, baby);
                     break;
                 case WITCHX:
-                    rpgmob = new RPGWitch(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGWitch(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap);
                     break;
                 case WITHERX:
-                    rpgmob = new RPGWither(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth);
+                    rpgmob = new RPGWither(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap);
                     break;
                 case ZOMBIEX:
                     baby = section.getBoolean("baby");
                     villager = section.getBoolean("villager");
-                    rpgmob = new RPGZombie(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, money, maxhealth, maxhealth, maxhealth, baby, villager);
+                    rpgmob = new RPGZombie(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float)rangedstrength, money, exp, ap, baby, villager);
                     break;
             }
             mobList.put( "[LVL"+level+"] "+name, rpgmob);
@@ -367,6 +367,10 @@ public class RPGMobManager {
      */
     public boolean chunkHasSpawners(Chunk chunk) {
         return spawnerList.containsKey(new RPGChunk(chunk.getX(), chunk.getZ(), chunk.getWorld()));
+    }
+
+    public RPGMob getRPGMobByName(String mobName) {
+        return mobList.get(mobName);
     }
 
 }

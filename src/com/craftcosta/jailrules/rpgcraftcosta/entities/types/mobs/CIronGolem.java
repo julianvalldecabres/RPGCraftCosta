@@ -16,8 +16,6 @@
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.AttackType;
-import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.HorseType;
-import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.HorseVariant;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.PathFinderGoalGoHome;
 import java.lang.reflect.Field;
@@ -33,8 +31,6 @@ import net.minecraft.server.v1_8_R3.EntityLiving;
 import net.minecraft.server.v1_8_R3.EntityMonster;
 import net.minecraft.server.v1_8_R3.GenericAttributes;
 import net.minecraft.server.v1_8_R3.IRangedEntity;
-import net.minecraft.server.v1_8_R3.ItemStack;
-import net.minecraft.server.v1_8_R3.Items;
 import net.minecraft.server.v1_8_R3.NBTTagCompound;
 import net.minecraft.server.v1_8_R3.Navigation;
 import net.minecraft.server.v1_8_R3.PathfinderGoalArrowAttack;
@@ -197,9 +193,6 @@ public class CIronGolem extends EntityMonster implements IRangedEntity {
         }
         //attackType PfG
         switch (aType) {
-            case MAGIC:
-                this.goalSelector.a(2, new PathfinderGoalArrowAttack(this, this.attackSpeed, 60, 10.0F));
-                break;
             case RANGED:
                 this.goalSelector.a(2, new PathfinderGoalArrowAttack(this, this.attackSpeed, 20, 60, 15.0F));
                 break;
@@ -254,7 +247,6 @@ public class CIronGolem extends EntityMonster implements IRangedEntity {
      */
     public int getAttackType() {
         switch (aType) {
-            case MAGIC:
             case RANGED:
                 return 1;
             default:

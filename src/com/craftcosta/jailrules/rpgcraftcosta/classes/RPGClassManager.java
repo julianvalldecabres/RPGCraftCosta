@@ -16,6 +16,7 @@
 package com.craftcosta.jailrules.rpgcraftcosta.classes;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -192,5 +193,37 @@ public class RPGClassManager {
      */
     public boolean isAValidRPGClassName(String name) {
         return this.listClasses.containsKey(name);
+    }
+    
+    public void setRPGPlayerRPGClass(RPGPlayer rpgp,RPGClass rpgclass) {
+        rpgp.setPlayerClass(rpgclass.getNameClass());
+        rpgp.setActualHealth(rpgclass.getBaseHealth());
+        rpgp.setMaxHealth(rpgclass.getBaseHealth());
+        rpgp.setActualMana(rpgclass.getBaseMana());
+        rpgp.setMaxMana(rpgclass.getBaseMana());
+        rpgp.setPhysicalAttack(rpgclass.getBasePhysicalAttack());
+        rpgp.setPhysicalDefense(rpgclass.getBasePhysicalDefense());
+        rpgp.setPhysicalHitRate(rpgclass.getBasePhysicalHitRate());
+        rpgp.setPhysicalEvasion(rpgclass.getBasePhysicalEvasion());
+        rpgp.setMagicalAttack(rpgclass.getBaseMagicalAttack());
+        rpgp.setMagicalDefense(rpgclass.getBaseMagicalDefense());
+        rpgp.setMagicalHitRate(rpgclass.getBaseMagicalHitRate());
+        rpgp.setMagicalEvasion(rpgclass.getBaseMagicalEvasion());
+        rpgp.setCritical(rpgclass.getBaseCritical());
+    }
+
+    /**
+     *
+     */
+    public void levelUP(RPGPlayer rpgp) {
+        //aumentar stats
+        RPGClass rpgclass = RPGClassManager.getRPGClass(rpgp.getPlayerClass());
+        rpgp.setActualHealth(rpgclass.getLvlUpHealth() + rpgp.getMaxHealth());
+        rpgp.setMaxHealth(rpgclass.getLvlUpHealth() + rpgp.getMaxHealth());
+        rpgp.setPhysicalAttack(rpgclass.getLvlUpPhysicalAttack() + rpgp.getPhysicalAttack());
+        rpgp.setPhysicalDefense(rpgclass.getLvlUpPhysicalAttack() + rpgp.getPhysicalDefense());
+        rpgp.setPhysicalHitRate(rpgclass.getLvlUpPhysicalHitRate() + rpgp.getPhysicalHitRate());
+        rpgp.setPhysicalEvasion(rpgclass.getLvlUpPhysicalEvasion() + rpgp.getPhysicalEvasion());
+        rpgp.setCritical(rpgclass.getLvlUpCritical() + rpgp.getCritical());
     }
 }
