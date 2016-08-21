@@ -68,8 +68,10 @@
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
     <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,88,0,0,3,88"/>
   </AuxValues>
+
+  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
   <SubComponents>
-    <Container class="javax.swing.JTabbedPane" name="PanelConfig">
+    <Container class="javax.swing.JTabbedPane" name="panelConfig">
       <Properties>
         <Property name="tabLayoutPolicy" type="int" value="1"/>
         <Property name="tabPlacement" type="int" value="2"/>
@@ -88,10 +90,15 @@
           <Dimension value="[1000, 600]"/>
         </Property>
       </Properties>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+          <BorderConstraints direction="Center"/>
+        </Constraint>
+      </Constraints>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
-        <Container class="javax.swing.JPanel" name="PanelInicio">
+        <Container class="javax.swing.JPanel" name="panelInicio">
           <Properties>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[800, 600]"/>
@@ -136,7 +143,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="PanelConfigGeneral">
+        <Container class="javax.swing.JPanel" name="panelConfigGeneral">
           <Properties>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[800, 600]"/>
@@ -155,7 +162,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="PanelConfigGeneralGen" min="-2" max="-2" attributes="0"/>
+                      <Component id="panelConfigGeneralGen" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="275" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -164,14 +171,14 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="PanelConfigGeneralGen" min="-2" max="-2" attributes="0"/>
+                      <Component id="panelConfigGeneralGen" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="243" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="PanelConfigGeneralGen">
+            <Container class="javax.swing.JPanel" name="panelConfigGeneralGen">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -189,14 +196,14 @@
                               <Component id="btnGuardarConfigGlobal" alignment="1" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="PanelConfigInicio" max="32767" attributes="0"/>
-                                      <Component id="PanelConfigDanioGeneral" max="32767" attributes="0"/>
+                                      <Component id="panelConfigInicio" max="32767" attributes="0"/>
+                                      <Component id="panelConfigDanioGeneral" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="PanelConfigDayCycle" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="PanelEnableModulosGeneral" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="PanelConfigPlayers" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="panelConfigDayCycle" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="panelEnableModulosGeneral" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="panelConfigPlayers" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -209,16 +216,16 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="PanelConfigDanioGeneral" max="32767" attributes="0"/>
-                              <Component id="PanelEnableModulosGeneral" max="32767" attributes="0"/>
+                              <Component id="panelConfigDanioGeneral" max="32767" attributes="0"/>
+                              <Component id="panelEnableModulosGeneral" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="PanelConfigInicio" min="-2" max="-2" attributes="0"/>
+                              <Component id="panelConfigInicio" min="-2" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Component id="PanelConfigPlayers" min="-2" max="-2" attributes="0"/>
+                                  <Component id="panelConfigPlayers" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="PanelConfigDayCycle" min="-2" max="-2" attributes="0"/>
+                                  <Component id="panelConfigDayCycle" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
@@ -228,7 +235,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Container class="javax.swing.JPanel" name="PanelConfigDanioGeneral">
+                <Container class="javax.swing.JPanel" name="panelConfigDanioGeneral">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -291,7 +298,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="PanelEnableModulosGeneral">
+                <Container class="javax.swing.JPanel" name="panelEnableModulosGeneral">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -346,7 +353,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="PanelConfigInicio">
+                <Container class="javax.swing.JPanel" name="panelConfigInicio">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -436,7 +443,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="PanelConfigPlayers">
+                <Container class="javax.swing.JPanel" name="panelConfigPlayers">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -490,7 +497,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarConfigGlobalActionPerformed"/>
                   </Events>
                 </Component>
-                <Container class="javax.swing.JPanel" name="PanelConfigDayCycle">
+                <Container class="javax.swing.JPanel" name="panelConfigDayCycle">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -532,7 +539,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="PanelConfigLevel">
+        <Container class="javax.swing.JPanel" name="panelConfigLevel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Niveles">
@@ -554,9 +561,9 @@
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="PanelGraficosNivel" min="-2" max="-2" attributes="0"/>
+                                      <Component id="panelGraficosNivel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="PanelNivelExpNivel" min="-2" max="-2" attributes="0"/>
+                                      <Component id="panelNivelExpNivel" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
@@ -638,11 +645,11 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="PanelGraficosNivel" min="-2" max="-2" attributes="0"/>
+                              <Component id="panelGraficosNivel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Component id="PanelNivelExpNivel" max="32767" attributes="0"/>
+                              <Component id="panelNivelExpNivel" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -742,7 +749,7 @@
                 <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="lblMaxNivelNivelPropertyChange"/>
               </Events>
             </Component>
-            <Container class="javax.swing.JPanel" name="PanelGraficosNivel">
+            <Container class="javax.swing.JPanel" name="panelGraficosNivel">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -764,7 +771,7 @@
                 </DimensionLayout>
               </Layout>
             </Container>
-            <Container class="javax.swing.JPanel" name="PanelNivelExpNivel">
+            <Container class="javax.swing.JPanel" name="panelNivelExpNivel">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -820,7 +827,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="PanelConfigClases">
+        <Container class="javax.swing.JPanel" name="panelConfigClases">
           <Properties>
             <Property name="autoscrolls" type="boolean" value="true"/>
             <Property name="name" type="java.lang.String" value="" noResource="true"/>
@@ -842,7 +849,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="PanelEditorClase" max="32767" attributes="0"/>
+                          <Component id="panelEditorClase" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="btnCrearNuevaClase" min="-2" pref="112" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
@@ -868,7 +875,7 @@
                           <Component id="btnCrearNuevaClase" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="PanelEditorClase" min="-2" max="-2" attributes="0"/>
+                      <Component id="panelEditorClase" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="133" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -900,7 +907,7 @@
                 <Property name="text" type="java.lang.String" value="Eliminar"/>
               </Properties>
             </Component>
-            <Container class="javax.swing.JPanel" name="PanelEditorClase">
+            <Container class="javax.swing.JPanel" name="panelEditorClase">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -917,9 +924,9 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="PanelAtribBasicoClase" max="32767" attributes="0"/>
+                                  <Component id="panelAtribBasicoClase" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                                  <Component id="PanelSubirNivel" max="32767" attributes="0"/>
+                                  <Component id="panelSubirNivel" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="lblNombreClase" min="-2" pref="46" max="-2" attributes="0"/>
@@ -938,7 +945,7 @@
                                   <Component id="btnResetClase" pref="135" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="PanelPuntoHabilidad" max="32767" attributes="0"/>
+                              <Component id="panelPuntoHabilidad" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -955,11 +962,11 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="PanelPuntoHabilidad" alignment="0" max="32767" attributes="0"/>
+                              <Component id="panelPuntoHabilidad" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="PanelAtribBasicoClase" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="PanelSubirNivel" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="panelAtribBasicoClase" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="panelSubirNivel" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="0" pref="5" max="32767" attributes="0"/>
                               </Group>
@@ -974,7 +981,7 @@
                     <Property name="text" type="java.lang.String" value="Nombre"/>
                   </Properties>
                 </Component>
-                <Container class="javax.swing.JPanel" name="PanelAtribBasicoClase">
+                <Container class="javax.swing.JPanel" name="panelAtribBasicoClase">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -1288,7 +1295,7 @@
                     <Property name="text" type="java.lang.String" value="Resetear"/>
                   </Properties>
                 </Component>
-                <Container class="javax.swing.JPanel" name="PanelSubirNivel">
+                <Container class="javax.swing.JPanel" name="panelSubirNivel">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -1587,7 +1594,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="PanelPuntoHabilidad">
+                <Container class="javax.swing.JPanel" name="panelPuntoHabilidad">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -1599,29 +1606,29 @@
                   <Layout>
                     <DimensionLayout dim="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="PanelHabFuerza" max="32767" attributes="0"/>
-                          <Component id="PanelHabConst" alignment="0" max="32767" attributes="0"/>
-                          <Component id="PanelHabInt" alignment="0" max="32767" attributes="0"/>
-                          <Component id="PanelHabDest" alignment="0" max="32767" attributes="0"/>
+                          <Component id="panelHabFuerza" max="32767" attributes="0"/>
+                          <Component id="panelHabConst" alignment="0" max="32767" attributes="0"/>
+                          <Component id="panelHabInt" alignment="0" max="32767" attributes="0"/>
+                          <Component id="panelHabDest" alignment="0" max="32767" attributes="0"/>
                       </Group>
                     </DimensionLayout>
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="PanelHabFuerza" min="-2" max="-2" attributes="0"/>
+                              <Component id="panelHabFuerza" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="PanelHabConst" min="-2" max="-2" attributes="0"/>
+                              <Component id="panelHabConst" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="PanelHabInt" min="-2" max="-2" attributes="0"/>
+                              <Component id="panelHabInt" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="PanelHabDest" min="-2" max="-2" attributes="0"/>
+                              <Component id="panelHabDest" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Container class="javax.swing.JPanel" name="PanelHabFuerza">
+                    <Container class="javax.swing.JPanel" name="panelHabFuerza">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -1693,7 +1700,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="PanelHabConst">
+                    <Container class="javax.swing.JPanel" name="panelHabConst">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -1765,7 +1772,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="PanelHabInt">
+                    <Container class="javax.swing.JPanel" name="panelHabInt">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -1837,7 +1844,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="PanelHabDest">
+                    <Container class="javax.swing.JPanel" name="panelHabDest">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -1912,7 +1919,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="PanelConfigObjetos">
+        <Container class="javax.swing.JPanel" name="panelConfigObjetos">
           <Properties>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[800, 600]"/>
@@ -1932,7 +1939,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="PanelEditorObjetos" alignment="0" max="32767" attributes="0"/>
+                          <Component id="panelEditorObjetos" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="btnCrearNuevoObjeto" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
@@ -1943,7 +1950,7 @@
                               <Component id="btnEliminarObjeto" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="270" max="32767" attributes="0"/>
+                      <EmptySpace pref="245" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1958,8 +1965,8 @@
                           <Component id="btnEliminarObjeto" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="PanelEditorObjetos" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="237" max="32767" attributes="0"/>
+                      <Component id="panelEditorObjetos" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="231" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1970,7 +1977,7 @@
                 <Property name="text" type="java.lang.String" value="Nuevo"/>
               </Properties>
             </Component>
-            <Container class="javax.swing.JPanel" name="PanelEditorObjetos">
+            <Container class="javax.swing.JPanel" name="panelEditorObjetos">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -1986,28 +1993,29 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="lblDescripObjeto" max="32767" attributes="0"/>
-                                                  <Component id="lblNombreObjeto" max="32767" attributes="0"/>
-                                                  <Component id="lblTipoObjeto" max="32767" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="comboTipoObjeto" max="32767" attributes="0"/>
-                                                  <Component id="txtNombreObjeto" max="32767" attributes="0"/>
-                                                  <Component id="txtDescripObjeto" pref="122" max="32767" attributes="0"/>
-                                              </Group>
-                                          </Group>
-                                          <Group type="102" attributes="0">
-                                              <Component id="btnAnadirDesObjeto" min="-2" pref="97" max="-2" attributes="0"/>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="btnEditarDesObjeto" pref="88" max="32767" attributes="0"/>
-                                          </Group>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <Component id="btnAnadirDesObjeto" min="-2" pref="97" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="btnEditarDesObjeto" pref="113" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="btnEliminarDesObjeto" min="-2" pref="195" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="lblDescripObjeto" min="-2" max="-2" attributes="0"/>
+                                              <Component id="lblNombreObjeto" max="32767" attributes="0"/>
+                                              <Component id="lblTipoObjeto" pref="94" max="32767" attributes="0"/>
+                                              <Component id="lblCalidadObjeto" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Component id="comboTipoObjeto" max="32767" attributes="0"/>
+                                              <Component id="txtNombreObjeto" max="32767" attributes="0"/>
+                                              <Component id="txtDescripObjeto" pref="122" max="32767" attributes="0"/>
+                                              <Component id="comboCalidadObjeto" max="32767" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      </Group>
+                                      <Component id="btnEliminarDesObjeto" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="jScrollPane2" max="32767" attributes="0"/>
@@ -2023,7 +2031,6 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="lblNombreObjeto" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -2034,10 +2041,15 @@
                                       <Component id="lblTipoObjeto" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="comboTipoObjeto" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblDescripObjeto" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txtDescripObjeto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblCalidadObjeto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="comboCalidadObjeto" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="txtDescripObjeto" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblDescripObjeto" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -2047,10 +2059,11 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btnEliminarDesObjeto" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <Component id="jScrollPane2" min="-2" pref="149" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="btnGuardarObjeto" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="124" max="32767" attributes="0"/>
+                          <EmptySpace pref="112" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -2073,6 +2086,7 @@
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="0"/>
                     </Property>
+                    <Property name="name" type="java.lang.String" value="tipoobjeto" noResource="true"/>
                   </Properties>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane2">
@@ -2126,6 +2140,24 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarObjetoActionPerformed"/>
                   </Events>
                 </Component>
+                <Component class="javax.swing.JLabel" name="lblCalidadObjeto">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Calidad objeto"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="comboCalidadObjeto">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="4">
+                        <StringItem index="0" value="Item 1"/>
+                        <StringItem index="1" value="Item 2"/>
+                        <StringItem index="2" value="Item 3"/>
+                        <StringItem index="3" value="Item 4"/>
+                      </StringArray>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="calidadobjeto" noResource="true"/>
+                  </Properties>
+                </Component>
               </SubComponents>
             </Container>
             <Component class="javax.swing.JComboBox" name="comboListaObjetos">
@@ -2147,7 +2179,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="PanelConfigWeapon">
+        <Container class="javax.swing.JPanel" name="panelConfigWeapon">
           <Properties>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[800, 600]"/>
@@ -2167,9 +2199,9 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="PanelMejoraArma" max="32767" attributes="0"/>
+                          <Component id="panelMejoraArma" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="PanelSelectorArma" min="-2" max="-2" attributes="0"/>
+                              <Component id="panelSelectorArma" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -2181,16 +2213,16 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="PanelMejoraArma" min="-2" max="-2" attributes="0"/>
+                      <Component id="panelMejoraArma" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="PanelSelectorArma" max="32767" attributes="0"/>
+                      <Component id="panelSelectorArma" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="PanelMejoraArma">
+            <Container class="javax.swing.JPanel" name="panelMejoraArma">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -2426,7 +2458,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="PanelSelectorArma">
+            <Container class="javax.swing.JPanel" name="panelSelectorArma">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -2441,7 +2473,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="PanelEditorArma" alignment="0" max="32767" attributes="0"/>
+                              <Component id="panelEditorArma" alignment="0" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="btnCrearNuevaArma" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="130" max="-2" attributes="0"/>
@@ -2466,7 +2498,7 @@
                               <Component id="btnEliminarArma" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="PanelEditorArma" max="32767" attributes="0"/>
+                          <Component id="panelEditorArma" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -2478,7 +2510,7 @@
                     <Property name="text" type="java.lang.String" value="Nueva"/>
                   </Properties>
                 </Component>
-                <Container class="javax.swing.JPanel" name="PanelEditorArma">
+                <Container class="javax.swing.JPanel" name="panelEditorArma">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -2704,6 +2736,7 @@
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="0"/>
                         </Property>
+                        <Property name="name" type="java.lang.String" value="tipoarma" noResource="true"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="lblNombreArma">
@@ -2737,6 +2770,7 @@
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="0"/>
                         </Property>
+                        <Property name="name" type="java.lang.String" value="calidadarma" noResource="true"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JCheckBox" name="checkComerciableArma">
@@ -2903,7 +2937,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="PanelConfigJewels">
+        <Container class="javax.swing.JPanel" name="panelConfigJewels">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Joyas">
@@ -2918,8 +2952,8 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="PanelSelectorJoyas" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="PanelConfigJoyas" min="-2" max="-2" attributes="0"/>
+                          <Component id="panelSelectorJoyas" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="panelConfigJoyas" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="239" max="32767" attributes="0"/>
                   </Group>
@@ -2929,16 +2963,16 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="PanelConfigJoyas" min="-2" max="-2" attributes="0"/>
+                      <Component id="panelConfigJoyas" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="PanelSelectorJoyas" min="-2" max="-2" attributes="0"/>
+                      <Component id="panelSelectorJoyas" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="333" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JPanel" name="PanelConfigJoyas">
+            <Container class="javax.swing.JPanel" name="panelConfigJoyas">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -3059,7 +3093,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Container class="javax.swing.JPanel" name="PanelSelectorJoyas">
+            <Container class="javax.swing.JPanel" name="panelSelectorJoyas">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -3074,7 +3108,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="PanelEditorJoya" max="32767" attributes="0"/>
+                              <Component id="panelEditorJoya" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
                                   <Component id="btnCrearNuevaJoya" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
@@ -3101,7 +3135,7 @@
                               <Component id="btnEliminarJoya" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="PanelEditorJoya" max="32767" attributes="0"/>
+                          <Component id="panelEditorJoya" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -3113,7 +3147,7 @@
                     <Property name="text" type="java.lang.String" value="Nueva"/>
                   </Properties>
                 </Component>
-                <Container class="javax.swing.JPanel" name="PanelEditorJoya">
+                <Container class="javax.swing.JPanel" name="panelEditorJoya">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -3298,6 +3332,7 @@
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="0"/>
                         </Property>
+                        <Property name="name" type="java.lang.String" value="tipojoya" noResource="true"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="lblCalidadJoya">
@@ -3310,6 +3345,7 @@
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="0"/>
                         </Property>
+                        <Property name="name" type="java.lang.String" value="calidadjoya" noResource="true"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="lblPrecioVJoya">
@@ -3462,7 +3498,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="PanelConfigSpawners">
+        <Container class="javax.swing.JPanel" name="panelConfigSpawners">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Spawners">
@@ -3477,7 +3513,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="PanelEditorSpawner" max="32767" attributes="0"/>
+                          <Component id="panelEditorSpawner" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="btnCrearSpawner" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
@@ -3503,7 +3539,7 @@
                           <Component id="btnEliminarSpawner" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="PanelEditorSpawner" min="-2" max="-2" attributes="0"/>
+                      <Component id="panelEditorSpawner" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="314" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -3528,7 +3564,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarSpawnerActionPerformed"/>
               </Events>
             </Component>
-            <Container class="javax.swing.JPanel" name="PanelEditorSpawner">
+            <Container class="javax.swing.JPanel" name="panelEditorSpawner">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -3542,9 +3578,9 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="PanelAtribSpawner" min="-2" max="-2" attributes="0"/>
+                          <Component id="panelAtribSpawner" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="PanelLocSpawner" min="-2" max="-2" attributes="0"/>
+                          <Component id="panelLocSpawner" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="btnGuardarSpawner" max="32767" attributes="0"/>
@@ -3560,8 +3596,8 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="PanelLocSpawner" max="32767" attributes="0"/>
-                                  <Component id="PanelAtribSpawner" max="32767" attributes="0"/>
+                                  <Component id="panelLocSpawner" max="32767" attributes="0"/>
+                                  <Component id="panelAtribSpawner" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
@@ -3576,7 +3612,7 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Container class="javax.swing.JPanel" name="PanelLocSpawner">
+                <Container class="javax.swing.JPanel" name="panelLocSpawner">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -3692,7 +3728,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="PanelAtribSpawner">
+                <Container class="javax.swing.JPanel" name="panelAtribSpawner">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -3857,14 +3893,14 @@
             </Component>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="PanelConfigGuilds">
+        <Container class="javax.swing.JPanel" name="panelConfigGuilds">
           <Properties>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[800, 600]"/>
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if(checkClanes.isSelected()){&#xa;    lblnivMinJugCrearClan.setEnabled(checkClanes.isSelected());&#xa;    spinnerNivelMinJugClan.setEnabled(checkClanes.isSelected());&#xa;    PanelNumJugClan.setEnabled(checkClanes.isSelected());&#xa;    rdBtnNumIlimitadosClan.setEnabled(checkClanes.isSelected());&#xa;    rdBtnNumFijosClan.setEnabled(checkClanes.isSelected());&#xa;    rdBtnLimitNivClan.setEnabled(checkClanes.isSelected());&#xa;    if(rdBtnNumIlimitadosClan.isSelected()){&#xa;        spinnerNumFijosClan.setEnabled(false);&#xa;        lblJugadoresClan.setEnabled(false);&#xa;        PanelOpcLimNivelClan.setEnabled(false);&#xa;        rdBtnOpcDinFijo.setEnabled(false);&#xa;        rdBtnOpcDinForm.setEnabled(false);&#xa;        PanelFormulaClan.setEnabled(false);&#xa;        lblfdex.setEnabled(false);&#xa;        spinnerformulax2clan.setEnabled(false);&#xa;        lblx2clan.setEnabled(false);&#xa;        spinnerformulaxclan.setEnabled(false);&#xa;        lblxclan.setEnabled(false);&#xa;        lblMaxNivelClan.setEnabled(false);&#xa;        lblFormJugIniClan.setEnabled(false);&#xa;        spinnerFormJugIniClan.setEnabled(false);&#xa;        lblFormJugXNivelClan.setEnabled(false);&#xa;        spinnerFormJugXNivelClan.setEnabled(false);&#xa;        btnValidarFormulaClan.setEnabled(false);&#xa;        PanelSisContNivelClan.setEnabled(false);&#xa;        rdBtnContriAmbos.setEnabled(false);&#xa;        rdBtnContriSoloContri.setEnabled(false);&#xa;        rdBtnContriSoloDon.setEnabled(false);&#xa;        spinnerContriPorcentajeMuertes.setEnabled(false);&#xa;        lblporcMuertesClan.setEnabled(false);&#xa;        PanelEditNivelesClan.setEnabled(false);&#xa;        tablaClanes.setEnabled(false);&#xa;        btnEditarNivel.setEnabled(false);&#xa;        btnEliminarNivel.setEnabled(false);&#xa;        lblDineroEditNivelClan.setEnabled(false);&#xa;        spinnerDineroEditClan.setEnabled(false);&#xa;        lblNumJugEditNivelClan.setEnabled(false);&#xa;        spinnerNumJugEditClan.setEnabled(false);&#xa;        btnAnadirNivel.setEnabled(false);&#xa;    }&#xa;    if(rdBtnNumFijosClan.isSelected()){&#xa;        spinnerNumFijosClan.setEnabled(true);&#xa;        lblJugadoresClan.setEnabled(true);&#xa;&#xa;        PanelOpcLimNivelClan.setEnabled(false);&#xa;        rdBtnOpcDinFijo.setEnabled(false);&#xa;        rdBtnOpcDinForm.setEnabled(false);&#xa;        PanelFormulaClan.setEnabled(false);&#xa;        lblfdex.setEnabled(false);&#xa;        spinnerformulax2clan.setEnabled(false);&#xa;        lblx2clan.setEnabled(false);&#xa;        spinnerformulaxclan.setEnabled(false);&#xa;        lblxclan.setEnabled(false);&#xa;        lblMaxNivelClan.setEnabled(false);&#xa;        lblFormJugIniClan.setEnabled(false);&#xa;        spinnerFormJugIniClan.setEnabled(false);&#xa;        lblFormJugXNivelClan.setEnabled(false);&#xa;        spinnerFormJugXNivelClan.setEnabled(false);&#xa;        btnValidarFormulaClan.setEnabled(false);&#xa;        PanelSisContNivelClan.setEnabled(false);&#xa;        rdBtnContriAmbos.setEnabled(false);&#xa;        rdBtnContriSoloContri.setEnabled(false);&#xa;        rdBtnContriSoloDon.setEnabled(false);&#xa;        spinnerContriPorcentajeMuertes.setEnabled(false);&#xa;        lblporcMuertesClan.setEnabled(false);&#xa;        PanelEditNivelesClan.setEnabled(false);&#xa;        tablaClanes.setEnabled(false);&#xa;        btnEditarNivel.setEnabled(false);&#xa;        btnEliminarNivel.setEnabled(false);&#xa;        lblDineroEditNivelClan.setEnabled(false);&#xa;        spinnerDineroEditClan.setEnabled(false);&#xa;        lblNumJugEditNivelClan.setEnabled(false);&#xa;        spinnerNumJugEditClan.setEnabled(false);&#xa;        btnAnadirNivel.setEnabled(false);&#xa;    }&#xa;    if(rdBtnLimitNivClan.isSelected()){&#xa;        spinnerNumFijosClan.setEnabled(false);&#xa;        lblJugadoresClan.setEnabled(false);&#xa;        PanelSisContNivelClan.setEnabled(true);&#xa;        rdBtnContriSoloContri.setEnabled(true);&#xa;        rdBtnContriSoloDon.setEnabled(true);&#xa;        rdBtnContriAmbos.setEnabled(true);&#xa;        if(rdBtnContriSoloDon.isSelected()){&#xa;            spinnerContriPorcentajeMuertes.setEnabled(false);&#xa;            lblporcMuertesClan.setEnabled(false);&#xa;        }&#xa;        if(rdBtnContriSoloContri.isSelected() || rdBtnContriAmbos.isSelected()){&#xa;            spinnerContriPorcentajeMuertes.setEnabled(true);&#xa;            lblporcMuertesClan.setEnabled(true);&#xa;        }&#xa;        PanelOpcLimNivelClan.setEnabled(true);&#xa;        rdBtnOpcDinFijo.setEnabled(true);&#xa;        rdBtnOpcDinForm.setEnabled(true);&#xa;        PanelEditNivelesClan.setEnabled(true);&#xa;        tablaClanes.setEnabled(true);&#xa;        if(rdBtnOpcDinFijo.isSelected()){&#xa;            PanelFormulaClan.setEnabled(false);&#xa;            lblfdex.setEnabled(false);&#xa;            spinnerformulax2clan.setEnabled(false);&#xa;            lblx2clan.setEnabled(false);&#xa;            spinnerformulaxclan.setEnabled(false);&#xa;            lblxclan.setEnabled(false);&#xa;            lblMaxNivelClan.setEnabled(false);&#xa;            spinnerNivelMaxClan.setEnabled(false);&#xa;            lblFormJugIniClan.setEnabled(false);&#xa;            spinnerFormJugIniClan.setEnabled(false);&#xa;            lblFormJugXNivelClan.setEnabled(false);&#xa;            spinnerFormJugXNivelClan.setEnabled(false);&#xa;            btnValidarFormulaClan.setEnabled(false);&#xa;            btnResetearFormulaClan.setEnabled(false);&#xa;&#xa;            btnEditarNivel.setEnabled(true);&#xa;            btnEliminarNivel.setEnabled(true);&#xa;            btnAnadirNivel.setEnabled(true);&#xa;            lblDineroEditNivelClan.setEnabled(true);&#xa;            spinnerDineroEditClan.setEnabled(true);&#xa;            lblNumJugEditNivelClan.setEnabled(true);&#xa;            spinnerNumJugEditClan.setEnabled(true);&#xa;        }&#xa;        if(rdBtnOpcDinForm.isSelected()){&#xa;            PanelFormulaClan.setEnabled(true);&#xa;            lblfdex.setEnabled(true);&#xa;            spinnerformulax2clan.setEnabled(true);&#xa;            lblx2clan.setEnabled(true);&#xa;            spinnerformulaxclan.setEnabled(true);&#xa;            lblxclan.setEnabled(true);&#xa;            lblMaxNivelClan.setEnabled(true);&#xa;            spinnerNivelMaxClan.setEnabled(true);&#xa;            lblFormJugIniClan.setEnabled(true);&#xa;            spinnerFormJugIniClan.setEnabled(true);&#xa;            lblFormJugXNivelClan.setEnabled(true);&#xa;            spinnerFormJugXNivelClan.setEnabled(true);&#xa;            btnValidarFormulaClan.setEnabled(true);&#xa;            btnResetearFormulaClan.setEnabled(true);&#xa;&#xa;            btnEditarNivel.setEnabled(false);&#xa;            btnEliminarNivel.setEnabled(false);&#xa;            btnAnadirNivel.setEnabled(false);&#xa;            lblDineroEditNivelClan.setEnabled(false);&#xa;            spinnerDineroEditClan.setEnabled(false);&#xa;            lblNumJugEditNivelClan.setEnabled(false);&#xa;            spinnerNumJugEditClan.setEnabled(false);&#xa;        }&#xa;    }&#xa;}"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="if(checkClanes.isSelected()){&#xa;    lblnivMinJugCrearClan.setEnabled(checkClanes.isSelected());&#xa;    spinnerNivelMinJugClan.setEnabled(checkClanes.isSelected());&#xa;    panelNumJugClan.setEnabled(checkClanes.isSelected());&#xa;    rdBtnNumIlimitadosClan.setEnabled(checkClanes.isSelected());&#xa;    rdBtnNumFijosClan.setEnabled(checkClanes.isSelected());&#xa;    rdBtnLimitNivClan.setEnabled(checkClanes.isSelected());&#xa;    if(rdBtnNumIlimitadosClan.isSelected()){&#xa;        spinnerNumFijosClan.setEnabled(false);&#xa;        lblJugadoresClan.setEnabled(false);&#xa;        panelOpcLimNivelClan.setEnabled(false);&#xa;        rdBtnOpcDinFijo.setEnabled(false);&#xa;        rdBtnOpcDinForm.setEnabled(false);&#xa;        panelFormulaClan.setEnabled(false);&#xa;        lblfdex.setEnabled(false);&#xa;        spinnerformulax2clan.setEnabled(false);&#xa;        lblx2clan.setEnabled(false);&#xa;        spinnerformulaxclan.setEnabled(false);&#xa;        lblxclan.setEnabled(false);&#xa;        lblMaxNivelClan.setEnabled(false);&#xa;        lblFormJugIniClan.setEnabled(false);&#xa;        spinnerFormJugIniClan.setEnabled(false);&#xa;        lblFormJugXNivelClan.setEnabled(false);&#xa;        spinnerFormJugXNivelClan.setEnabled(false);&#xa;        btnValidarFormulaClan.setEnabled(false);&#xa;        panelSisContNivelClan.setEnabled(false);&#xa;        rdBtnContriAmbos.setEnabled(false);&#xa;        rdBtnContriSoloContri.setEnabled(false);&#xa;        rdBtnContriSoloDon.setEnabled(false);&#xa;        spinnerContriPorcentajeMuertes.setEnabled(false);&#xa;        lblporcMuertesClan.setEnabled(false);&#xa;        panelEditNivelesClan.setEnabled(false);&#xa;        tablaClanes.setEnabled(false);&#xa;        btnEditarNivel.setEnabled(false);&#xa;        btnEliminarNivel.setEnabled(false);&#xa;        lblDineroEditNivelClan.setEnabled(false);&#xa;        spinnerDineroEditClan.setEnabled(false);&#xa;        lblNumJugEditNivelClan.setEnabled(false);&#xa;        spinnerNumJugEditClan.setEnabled(false);&#xa;        btnAnadirNivel.setEnabled(false);&#xa;    }&#xa;    if(rdBtnNumFijosClan.isSelected()){&#xa;        spinnerNumFijosClan.setEnabled(true);&#xa;        lblJugadoresClan.setEnabled(true);&#xa;&#xa;        panelOpcLimNivelClan.setEnabled(false);&#xa;        rdBtnOpcDinFijo.setEnabled(false);&#xa;        rdBtnOpcDinForm.setEnabled(false);&#xa;        panelFormulaClan.setEnabled(false);&#xa;        lblfdex.setEnabled(false);&#xa;        spinnerformulax2clan.setEnabled(false);&#xa;        lblx2clan.setEnabled(false);&#xa;        spinnerformulaxclan.setEnabled(false);&#xa;        lblxclan.setEnabled(false);&#xa;        lblMaxNivelClan.setEnabled(false);&#xa;        lblFormJugIniClan.setEnabled(false);&#xa;        spinnerFormJugIniClan.setEnabled(false);&#xa;        lblFormJugXNivelClan.setEnabled(false);&#xa;        spinnerFormJugXNivelClan.setEnabled(false);&#xa;        btnValidarFormulaClan.setEnabled(false);&#xa;        panelSisContNivelClan.setEnabled(false);&#xa;        rdBtnContriAmbos.setEnabled(false);&#xa;        rdBtnContriSoloContri.setEnabled(false);&#xa;        rdBtnContriSoloDon.setEnabled(false);&#xa;        spinnerContriPorcentajeMuertes.setEnabled(false);&#xa;        lblporcMuertesClan.setEnabled(false);&#xa;        panelEditNivelesClan.setEnabled(false);&#xa;        tablaClanes.setEnabled(false);&#xa;        btnEditarNivel.setEnabled(false);&#xa;        btnEliminarNivel.setEnabled(false);&#xa;        lblDineroEditNivelClan.setEnabled(false);&#xa;        spinnerDineroEditClan.setEnabled(false);&#xa;        lblNumJugEditNivelClan.setEnabled(false);&#xa;        spinnerNumJugEditClan.setEnabled(false);&#xa;        btnAnadirNivel.setEnabled(false);&#xa;    }&#xa;    if(rdBtnLimitNivClan.isSelected()){&#xa;        spinnerNumFijosClan.setEnabled(false);&#xa;        lblJugadoresClan.setEnabled(false);&#xa;        panelSisContNivelClan.setEnabled(true);&#xa;        rdBtnContriSoloContri.setEnabled(true);&#xa;        rdBtnContriSoloDon.setEnabled(true);&#xa;        rdBtnContriAmbos.setEnabled(true);&#xa;        if(rdBtnContriSoloDon.isSelected()){&#xa;            spinnerContriPorcentajeMuertes.setEnabled(false);&#xa;            lblporcMuertesClan.setEnabled(false);&#xa;        }&#xa;        if(rdBtnContriSoloContri.isSelected() || rdBtnContriAmbos.isSelected()){&#xa;            spinnerContriPorcentajeMuertes.setEnabled(true);&#xa;            lblporcMuertesClan.setEnabled(true);&#xa;        }&#xa;        panelOpcLimNivelClan.setEnabled(true);&#xa;        rdBtnOpcDinFijo.setEnabled(true);&#xa;        rdBtnOpcDinForm.setEnabled(true);&#xa;        panelEditNivelesClan.setEnabled(true);&#xa;        tablaClanes.setEnabled(true);&#xa;        if(rdBtnOpcDinFijo.isSelected()){&#xa;            panelFormulaClan.setEnabled(false);&#xa;            lblfdex.setEnabled(false);&#xa;            spinnerformulax2clan.setEnabled(false);&#xa;            lblx2clan.setEnabled(false);&#xa;            spinnerformulaxclan.setEnabled(false);&#xa;            lblxclan.setEnabled(false);&#xa;            lblMaxNivelClan.setEnabled(false);&#xa;            spinnerNivelMaxClan.setEnabled(false);&#xa;            lblFormJugIniClan.setEnabled(false);&#xa;            spinnerFormJugIniClan.setEnabled(false);&#xa;            lblFormJugXNivelClan.setEnabled(false);&#xa;            spinnerFormJugXNivelClan.setEnabled(false);&#xa;            btnValidarFormulaClan.setEnabled(false);&#xa;            btnResetearFormulaClan.setEnabled(false);&#xa;&#xa;            btnEditarNivel.setEnabled(true);&#xa;            btnEliminarNivel.setEnabled(true);&#xa;            btnAnadirNivel.setEnabled(true);&#xa;            lblDineroEditNivelClan.setEnabled(true);&#xa;            spinnerDineroEditClan.setEnabled(true);&#xa;            lblNumJugEditNivelClan.setEnabled(true);&#xa;            spinnerNumJugEditClan.setEnabled(true);&#xa;        }&#xa;        if(rdBtnOpcDinForm.isSelected()){&#xa;            panelFormulaClan.setEnabled(true);&#xa;            lblfdex.setEnabled(true);&#xa;            spinnerformulax2clan.setEnabled(true);&#xa;            lblx2clan.setEnabled(true);&#xa;            spinnerformulaxclan.setEnabled(true);&#xa;            lblxclan.setEnabled(true);&#xa;            lblMaxNivelClan.setEnabled(true);&#xa;            spinnerNivelMaxClan.setEnabled(true);&#xa;            lblFormJugIniClan.setEnabled(true);&#xa;            spinnerFormJugIniClan.setEnabled(true);&#xa;            lblFormJugXNivelClan.setEnabled(true);&#xa;            spinnerFormJugXNivelClan.setEnabled(true);&#xa;            btnValidarFormulaClan.setEnabled(true);&#xa;            btnResetearFormulaClan.setEnabled(true);&#xa;&#xa;            btnEditarNivel.setEnabled(false);&#xa;            btnEliminarNivel.setEnabled(false);&#xa;            btnAnadirNivel.setEnabled(false);&#xa;            lblDineroEditNivelClan.setEnabled(false);&#xa;            spinnerDineroEditClan.setEnabled(false);&#xa;            lblNumJugEditNivelClan.setEnabled(false);&#xa;            spinnerNumJugEditClan.setEnabled(false);&#xa;        }&#xa;    }&#xa;}"/>
           </AuxValues>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
@@ -3886,7 +3922,7 @@
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="btnGuardarConfigClan" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="PanelConfigClanes" max="32767" attributes="0"/>
+                          <Component id="panelConfigClanes" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="681" max="-2" attributes="0"/>
                   </Group>
@@ -3901,7 +3937,7 @@
                           <Component id="btnGuardarConfigClan" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="PanelConfigClanes" min="-2" max="-2" attributes="0"/>
+                      <Component id="panelConfigClanes" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="113" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -3918,7 +3954,7 @@
                 <Property name="text" type="java.lang.String" value="Guardar"/>
               </Properties>
             </Component>
-            <Container class="javax.swing.JPanel" name="PanelConfigClanes">
+            <Container class="javax.swing.JPanel" name="panelConfigClanes">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -3933,11 +3969,11 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="PanelOpcLimNivelClan" max="32767" attributes="0"/>
+                              <Component id="panelOpcLimNivelClan" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="PanelNumJugClan" min="-2" max="-2" attributes="0"/>
+                                  <Component id="panelNumJugClan" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="PanelSisContNivelClan" max="32767" attributes="0"/>
+                                  <Component id="panelSisContNivelClan" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
                                   <Component id="lblnivMinJugCrearClan" min="-2" max="-2" attributes="0"/>
@@ -3960,18 +3996,18 @@
                           </Group>
                           <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="PanelNumJugClan" max="32767" attributes="0"/>
-                              <Component id="PanelSisContNivelClan" min="-2" max="-2" attributes="0"/>
+                              <Component id="panelNumJugClan" max="32767" attributes="0"/>
+                              <Component id="panelSisContNivelClan" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="PanelOpcLimNivelClan" min="-2" max="-2" attributes="0"/>
+                          <Component id="panelOpcLimNivelClan" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Container class="javax.swing.JPanel" name="PanelNumJugClan">
+                <Container class="javax.swing.JPanel" name="panelNumJugClan">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -4043,7 +4079,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="PanelSisContNivelClan">
+                <Container class="javax.swing.JPanel" name="panelSisContNivelClan">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -4122,7 +4158,7 @@
                 </Component>
                 <Component class="javax.swing.JSpinner" name="spinnerNivelMinJugClan">
                 </Component>
-                <Container class="javax.swing.JPanel" name="PanelOpcLimNivelClan">
+                <Container class="javax.swing.JPanel" name="panelOpcLimNivelClan">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -4139,10 +4175,10 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="rdBtnOpcDinFijo" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="rdBtnOpcDinForm" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="PanelFormulaClan" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <Component id="panelFormulaClan" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="PanelEditNivelesClan" pref="0" max="32767" attributes="0"/>
+                              <Component id="panelEditNivelesClan" pref="0" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -4157,9 +4193,9 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="rdBtnOpcDinForm" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="PanelFormulaClan" max="32767" attributes="0"/>
+                                      <Component id="panelFormulaClan" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="PanelEditNivelesClan" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="panelEditNivelesClan" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -4178,7 +4214,7 @@
                         <Property name="text" type="java.lang.String" value="Formula de dinero"/>
                       </Properties>
                     </Component>
-                    <Container class="javax.swing.JPanel" name="PanelFormulaClan">
+                    <Container class="javax.swing.JPanel" name="panelFormulaClan">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -4353,7 +4389,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="PanelEditNivelesClan">
+                    <Container class="javax.swing.JPanel" name="panelEditNivelesClan">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -4498,7 +4534,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="PanelConfigParties">
+        <Container class="javax.swing.JPanel" name="panelConfigParties">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Grupos">
@@ -4513,7 +4549,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="PanelConfigGrupos" max="32767" attributes="0"/>
+                          <Component id="panelConfigGrupos" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="208" max="-2" attributes="0"/>
                               <Component id="btnResetConfigGrupos" min="-2" max="-2" attributes="0"/>
@@ -4534,7 +4570,7 @@
                           <Component id="btnGuardarConfigGrupos" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="PanelConfigGrupos" min="-2" max="-2" attributes="0"/>
+                      <Component id="panelConfigGrupos" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="280" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -4551,7 +4587,7 @@
                 <Property name="text" type="java.lang.String" value="Resetear configuracion"/>
               </Properties>
             </Component>
-            <Container class="javax.swing.JPanel" name="PanelConfigGrupos">
+            <Container class="javax.swing.JPanel" name="panelConfigGrupos">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -4566,13 +4602,13 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="PanelSistRepGrupos" max="32767" attributes="0"/>
-                              <Component id="PanelNumJugGrupos" max="32767" attributes="0"/>
+                              <Component id="panelSistRepGrupos" max="32767" attributes="0"/>
+                              <Component id="panelNumJugGrupos" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="PanelPvpGrupos" max="32767" attributes="0"/>
-                              <Component id="PanelOpcRepGRupos" max="32767" attributes="0"/>
+                              <Component id="panelPvpGrupos" max="32767" attributes="0"/>
+                              <Component id="panelOpcRepGRupos" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -4583,20 +4619,20 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="PanelNumJugGrupos" max="32767" attributes="0"/>
-                              <Component id="PanelPvpGrupos" max="32767" attributes="0"/>
+                              <Component id="panelNumJugGrupos" max="32767" attributes="0"/>
+                              <Component id="panelPvpGrupos" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="PanelOpcRepGRupos" max="32767" attributes="0"/>
-                              <Component id="PanelSistRepGrupos" max="32767" attributes="0"/>
+                              <Component id="panelOpcRepGRupos" max="32767" attributes="0"/>
+                              <Component id="panelSistRepGrupos" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Container class="javax.swing.JPanel" name="PanelNumJugGrupos">
+                <Container class="javax.swing.JPanel" name="panelNumJugGrupos">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -4661,7 +4697,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="PanelPvpGrupos">
+                <Container class="javax.swing.JPanel" name="panelPvpGrupos">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -4707,7 +4743,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="PanelSistRepGrupos">
+                <Container class="javax.swing.JPanel" name="panelSistRepGrupos">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -4771,7 +4807,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="PanelOpcRepGRupos">
+                <Container class="javax.swing.JPanel" name="panelOpcRepGRupos">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -4786,7 +4822,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="PanelOpcRepProp" max="32767" attributes="0"/>
+                                  <Component id="panelOpcRepProp" max="32767" attributes="0"/>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="rdBtnOpcionigualitarioGrupo" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -4807,7 +4843,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="rdBtnOpcionProporcionalGrupo" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="PanelOpcRepProp" min="-2" max="-2" attributes="0"/>
+                              <Component id="panelOpcRepProp" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -4824,7 +4860,7 @@
                         <Property name="text" type="java.lang.String" value="Reparto proporcional"/>
                       </Properties>
                     </Component>
-                    <Container class="javax.swing.JPanel" name="PanelOpcRepProp">
+                    <Container class="javax.swing.JPanel" name="panelOpcRepProp">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -4880,7 +4916,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="PanelConfigArmor">
+        <Container class="javax.swing.JPanel" name="panelConfigArmor">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -4934,7 +4970,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Container class="javax.swing.JPanel" name="PanelConfigArmaduras">
+                <Container class="javax.swing.JPanel" name="panelConfigArmaduras">
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -4942,8 +4978,8 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="PanelMejoraArmadura" max="32767" attributes="0"/>
-                                  <Component id="PanelSelectorArmadura" max="32767" attributes="0"/>
+                                  <Component id="panelMejoraArmadura" max="32767" attributes="0"/>
+                                  <Component id="panelSelectorArmadura" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" max="-2" attributes="0"/>
                           </Group>
@@ -4953,16 +4989,16 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="PanelMejoraArmadura" min="-2" max="-2" attributes="0"/>
+                              <Component id="panelMejoraArmadura" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="PanelSelectorArmadura" min="-2" max="-2" attributes="0"/>
+                              <Component id="panelSelectorArmadura" min="-2" max="-2" attributes="0"/>
                               <EmptySpace pref="133" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Container class="javax.swing.JPanel" name="PanelSelectorArmadura">
+                    <Container class="javax.swing.JPanel" name="panelSelectorArmadura">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -4977,7 +5013,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="PanelEditarSet" min="-2" max="-2" attributes="0"/>
+                                      <Component id="panelEditarSet" min="-2" max="-2" attributes="0"/>
                                       <Group type="102" attributes="0">
                                           <Component id="lblSelectorSet" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -5006,7 +5042,7 @@
                                       <Component id="btnEliminarSet" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="PanelEditarSet" min="-2" max="-2" attributes="0"/>
+                                  <Component id="panelEditarSet" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -5040,7 +5076,7 @@
                             <Property name="text" type="java.lang.String" value="Eliminar set"/>
                           </Properties>
                         </Component>
-                        <Container class="javax.swing.JPanel" name="PanelEditarSet">
+                        <Container class="javax.swing.JPanel" name="panelEditarSet">
                           <Properties>
                             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -5058,8 +5094,8 @@
                                           <Component id="btnGuardarSet" max="32767" attributes="0"/>
                                           <Group type="102" attributes="0">
                                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Component id="PanelPechera" max="32767" attributes="0"/>
-                                                  <Component id="PanelBotas" alignment="1" max="32767" attributes="0"/>
+                                                  <Component id="panelPechera" max="32767" attributes="0"/>
+                                                  <Component id="panelBotas" alignment="1" max="32767" attributes="0"/>
                                                   <Component id="checkComerciableArmadura" alignment="0" max="32767" attributes="0"/>
                                                   <Group type="102" alignment="0" attributes="0">
                                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -5086,8 +5122,8 @@
                                                       <Component id="comboCalidad" min="-2" pref="165" max="-2" attributes="0"/>
                                                   </Group>
                                                   <Component id="checkMejorableArmadura" min="-2" pref="292" max="-2" attributes="0"/>
-                                                  <Component id="PanelCasco" max="32767" attributes="0"/>
-                                                  <Component id="PanelPantalones" alignment="0" max="32767" attributes="0"/>
+                                                  <Component id="panelCasco" max="32767" attributes="0"/>
+                                                  <Component id="panelPantalones" alignment="0" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -5119,13 +5155,13 @@
                                       </Group>
                                       <EmptySpace max="32767" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="PanelPechera" min="-2" max="-2" attributes="0"/>
-                                          <Component id="PanelPantalones" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="panelPechera" min="-2" max="-2" attributes="0"/>
+                                          <Component id="panelPantalones" alignment="1" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="32767" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="PanelBotas" min="-2" max="-2" attributes="0"/>
-                                          <Component id="PanelCasco" min="-2" max="-2" attributes="0"/>
+                                          <Component id="panelBotas" min="-2" max="-2" attributes="0"/>
+                                          <Component id="panelCasco" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="btnGuardarSet" min="-2" max="-2" attributes="0"/>
@@ -5154,6 +5190,7 @@
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                                   <StringArray count="0"/>
                                 </Property>
+                                <Property name="name" type="java.lang.String" value="material" noResource="true"/>
                               </Properties>
                             </Component>
                             <Component class="javax.swing.JLabel" name="lblMaterial">
@@ -5166,6 +5203,7 @@
                                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                                   <StringArray count="0"/>
                                 </Property>
+                                <Property name="name" type="java.lang.String" value="calidadarmor" noResource="true"/>
                               </Properties>
                             </Component>
                             <Component class="javax.swing.JLabel" name="lblCalidad">
@@ -5183,7 +5221,7 @@
                                 <Property name="text" type="java.lang.String" value="Mejorable"/>
                               </Properties>
                             </Component>
-                            <Container class="javax.swing.JPanel" name="PanelPechera">
+                            <Container class="javax.swing.JPanel" name="panelPechera">
                               <Properties>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -5346,7 +5384,7 @@
                                 </Component>
                               </SubComponents>
                             </Container>
-                            <Container class="javax.swing.JPanel" name="PanelPantalones">
+                            <Container class="javax.swing.JPanel" name="panelPantalones">
                               <Properties>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -5491,7 +5529,7 @@
                                 </Component>
                               </SubComponents>
                             </Container>
-                            <Container class="javax.swing.JPanel" name="PanelBotas">
+                            <Container class="javax.swing.JPanel" name="panelBotas">
                               <Properties>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -5654,7 +5692,7 @@
                                 </Component>
                               </SubComponents>
                             </Container>
-                            <Container class="javax.swing.JPanel" name="PanelCasco">
+                            <Container class="javax.swing.JPanel" name="panelCasco">
                               <Properties>
                                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -5828,7 +5866,7 @@
                         </Container>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="PanelMejoraArmadura">
+                    <Container class="javax.swing.JPanel" name="panelMejoraArmadura">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -6074,7 +6112,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="PanelConfigMobs">
+        <Container class="javax.swing.JPanel" name="panelConfigMobs">
           <Properties>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[800, 600]"/>
@@ -6094,7 +6132,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="PanelEditorMobs" min="-2" max="-2" attributes="0"/>
+                          <Component id="panelEditorMobs" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="btnNuevoMob" min="-2" pref="77" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="226" max="-2" attributes="0"/>
@@ -6120,7 +6158,7 @@
                           <Component id="btnEliminarMob" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="PanelEditorMobs" max="32767" attributes="0"/>
+                      <Component id="panelEditorMobs" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -6158,7 +6196,7 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarMobActionPerformed"/>
               </Events>
             </Component>
-            <Container class="javax.swing.JPanel" name="PanelEditorMobs">
+            <Container class="javax.swing.JPanel" name="panelEditorMobs">
               <Properties>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -6190,12 +6228,12 @@
                               <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="PanelAtributosMobs" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="PanelAtaqueMobs" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Component id="PanelComportamientoMob" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="panelAtributosMobs" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="panelAtaqueMobs" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="panelComportamientoMob" alignment="0" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="PanelDropsMobs" min="-2" max="-2" attributes="0"/>
+                                      <Component id="panelDropsMobs" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace max="-2" attributes="0"/>
@@ -6229,14 +6267,14 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="PanelAtributosMobs" min="-2" max="-2" attributes="0"/>
+                                  <Component id="panelAtributosMobs" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="PanelAtaqueMobs" min="-2" max="-2" attributes="0"/>
+                                  <Component id="panelAtaqueMobs" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="PanelComportamientoMob" min="-2" max="-2" attributes="0"/>
+                                  <Component id="panelComportamientoMob" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace pref="94" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="PanelDropsMobs" max="32767" attributes="0"/>
+                              <Component id="panelDropsMobs" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -6270,7 +6308,7 @@
                 </Component>
                 <Component class="javax.swing.JSpinner" name="spinnerNivelMob">
                 </Component>
-                <Container class="javax.swing.JPanel" name="PanelComportamientoMob">
+                <Container class="javax.swing.JPanel" name="panelComportamientoMob">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -6308,7 +6346,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="PanelDropsMobs">
+                <Container class="javax.swing.JPanel" name="panelDropsMobs">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -6323,8 +6361,8 @@
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="PanelDropsObjetosMobs" max="32767" attributes="0"/>
-                                  <Component id="PanelDropsDefault" max="32767" attributes="0"/>
+                                  <Component id="panelDropsObjetosMobs" max="32767" attributes="0"/>
+                                  <Component id="panelDropsDefault" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -6333,16 +6371,16 @@
                     <DimensionLayout dim="1">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="PanelDropsDefault" min="-2" max="-2" attributes="0"/>
+                              <Component id="panelDropsDefault" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="PanelDropsObjetosMobs" max="32767" attributes="0"/>
+                              <Component id="panelDropsObjetosMobs" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Container class="javax.swing.JPanel" name="PanelDropsObjetosMobs">
+                    <Container class="javax.swing.JPanel" name="panelDropsObjetosMobs">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -6503,7 +6541,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="PanelDropsDefault">
+                    <Container class="javax.swing.JPanel" name="panelDropsDefault">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -6576,7 +6614,7 @@
                     </Container>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="PanelAtaqueMobs">
+                <Container class="javax.swing.JPanel" name="panelAtaqueMobs">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -6614,7 +6652,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Container class="javax.swing.JPanel" name="PanelAtributosMobs">
+                <Container class="javax.swing.JPanel" name="panelAtributosMobs">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -6813,7 +6851,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="PanelConfChats">
+        <Container class="javax.swing.JPanel" name="panelConfChats">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Chat">
@@ -6847,7 +6885,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Container class="javax.swing.JPanel" name="PanelConfigChats">
+                <Container class="javax.swing.JPanel" name="panelConfigChats">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -6866,37 +6904,37 @@
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
-                                              <Component id="PanelConfigEnableChats" min="-2" max="-2" attributes="0"/>
+                                              <Component id="panelConfigEnableChats" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace pref="8" max="32767" attributes="0"/>
                                           </Group>
                                           <Group type="102" attributes="0">
-                                              <Component id="PanelConfigGlobal" max="32767" attributes="0"/>
+                                              <Component id="panelConfigGlobal" max="32767" attributes="0"/>
                                               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
-                                              <Component id="PanelConfigLocal" max="32767" attributes="0"/>
+                                              <Component id="panelConfigLocal" max="32767" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="PanelConfigNews" max="32767" attributes="0"/>
-                                          <Component id="PanelConfigMarketChat" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="PanelConfigGuild" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="panelConfigNews" max="32767" attributes="0"/>
+                                          <Component id="panelConfigMarketChat" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="panelConfigGuild" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Group type="102" attributes="0">
-                                                      <Component id="PanelConfigParty" max="32767" attributes="0"/>
+                                                      <Component id="panelConfigParty" max="32767" attributes="0"/>
                                                       <EmptySpace min="-2" pref="347" max="-2" attributes="0"/>
                                                   </Group>
-                                                  <Component id="PaneConfiglPrivate" alignment="0" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="panelConfiglPrivate" alignment="0" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                           <Group type="102" attributes="0">
                                               <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
-                                              <Component id="PanelConfigWarning" min="-2" max="-2" attributes="0"/>
+                                              <Component id="panelConfigWarning" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
@@ -6910,23 +6948,23 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="PanelConfigMarketChat" max="32767" attributes="0"/>
-                                  <Component id="PanelConfigParty" max="32767" attributes="0"/>
-                                  <Component id="PanelConfigEnableChats" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="panelConfigMarketChat" max="32767" attributes="0"/>
+                                  <Component id="panelConfigParty" max="32767" attributes="0"/>
+                                  <Component id="panelConfigEnableChats" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                      <Component id="PanelConfigGuild" min="-2" max="-2" attributes="0"/>
-                                      <Component id="PaneConfiglPrivate" min="-2" max="-2" attributes="0"/>
+                                      <Component id="panelConfigGuild" min="-2" max="-2" attributes="0"/>
+                                      <Component id="panelConfiglPrivate" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="PanelConfigGlobal" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="panelConfigGlobal" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="PanelConfigLocal" max="32767" attributes="0"/>
-                                  <Component id="PanelConfigNews" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="PanelConfigWarning" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="panelConfigLocal" max="32767" attributes="0"/>
+                                  <Component id="panelConfigNews" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="panelConfigWarning" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnGuardarConfigChats" min="-2" max="-2" attributes="0"/>
@@ -6936,7 +6974,7 @@
                     </DimensionLayout>
                   </Layout>
                   <SubComponents>
-                    <Container class="javax.swing.JPanel" name="PanelConfigMarketChat">
+                    <Container class="javax.swing.JPanel" name="panelConfigMarketChat">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -7040,7 +7078,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="PanelConfigGlobal">
+                    <Container class="javax.swing.JPanel" name="panelConfigGlobal">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -7144,7 +7182,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="PanelConfigParty">
+                    <Container class="javax.swing.JPanel" name="panelConfigParty">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -7249,7 +7287,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="PanelConfigGuild">
+                    <Container class="javax.swing.JPanel" name="panelConfigGuild">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -7354,7 +7392,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="PaneConfiglPrivate">
+                    <Container class="javax.swing.JPanel" name="panelConfiglPrivate">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -7459,7 +7497,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="PanelConfigNews">
+                    <Container class="javax.swing.JPanel" name="panelConfigNews">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -7564,7 +7602,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="PanelConfigWarning">
+                    <Container class="javax.swing.JPanel" name="panelConfigWarning">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -7669,7 +7707,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Container class="javax.swing.JPanel" name="PanelConfigLocal">
+                    <Container class="javax.swing.JPanel" name="panelConfigLocal">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -7790,7 +7828,7 @@
                         <Property name="text" type="java.lang.String" value="Guardar configuraci&#xf3;n"/>
                       </Properties>
                     </Component>
-                    <Container class="javax.swing.JPanel" name="PanelConfigEnableChats">
+                    <Container class="javax.swing.JPanel" name="panelConfigEnableChats">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -7889,37 +7927,4 @@
       </SubComponents>
     </Container>
   </SubComponents>
-  <LayoutCode>
-    <CodeStatement>
-      <CodeExpression id="1">
-        <ExpressionOrigin>
-          <CodeExpression id="2">
-            <ExpressionOrigin>
-              <ExpressionProvider type="ComponentRef">
-                <ComponentRef name="."/>
-              </ExpressionProvider>
-            </ExpressionOrigin>
-          </CodeExpression>
-          <ExpressionProvider type="CodeMethod">
-            <CodeMethod name="getContentPane" class="javax.swing.JFrame" parameterTypes=""/>
-          </ExpressionProvider>
-        </ExpressionOrigin>
-      </CodeExpression>
-      <StatementProvider type="CodeMethod">
-        <CodeMethod name="setLayout" class="java.awt.Container" parameterTypes="java.awt.LayoutManager"/>
-      </StatementProvider>
-      <Parameters>
-        <CodeExpression id="3">
-          <ExpressionOrigin>
-            <ExpressionProvider type="CodeConstructor">
-              <CodeConstructor class="javax.swing.OverlayLayout" parameterTypes="java.awt.Container"/>
-            </ExpressionProvider>
-            <Parameters>
-              <CodeExpression id="1"/>
-            </Parameters>
-          </ExpressionOrigin>
-        </CodeExpression>
-      </Parameters>
-    </CodeStatement>
-  </LayoutCode>
 </Form>
