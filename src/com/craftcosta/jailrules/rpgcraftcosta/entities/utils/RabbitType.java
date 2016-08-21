@@ -24,27 +24,33 @@ public enum RabbitType {
     /**
      *
      */
-    BROWN(0),
+    BROWN(0), 
+
     /**
      *
      */
-    WHITE(1),
+    WHITE(1), 
+
     /**
      *
      */
-    BLACK(2),
+    BLACK(2), 
+
     /**
      *
      */
-    BLACKWHITE(3),
+    BLACKWHITE(3), 
+
     /**
      *
      */
-    GOLD(4),
+    GOLD(4), 
+
     /**
      *
      */
-    SALTPEPPER(5),
+    SALTPEPPER(5), 
+
     /**
      *
      */

@@ -61,7 +61,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
  */
 public class CSheep extends EntityMonster implements IRangedEntity {
 
-    //VARIABLES AÑADIDAS QUE DEFINEN EL TIPO DE MOB
+   //VARIABLES AÑADIDAS QUE DEFINEN EL TIPO DE MOB
     private AttackType aType;
     private MobBehaviour mType;
     //VARIBLES ATRIBUTOS DEL MOB
@@ -69,7 +69,7 @@ public class CSheep extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-    public Location spawnLoc;
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -81,14 +81,14 @@ public class CSheep extends EntityMonster implements IRangedEntity {
     private float rangedStrength;
     private double followrange;
     private double maxhealth;
-
+    
     private SheepColor color;
     //VARIABLES PROPIAS DEL ENTITYCHICKEN
 
     /**
      *
      */
-    public float bm;
+        public float bm;
 
     /**
      *
@@ -129,7 +129,7 @@ public class CSheep extends EntityMonster implements IRangedEntity {
         setSize(0.9F, 1.3F);
         ((Navigation) getNavigation()).a(true);
 
-        this.spawnLoc = new Location(world.getWorld(), 0, 4, 0);
+        this.spawnLoc = new Location(world.getWorld(),0,4,0);
         //this.baby = true;
         //tipos por defecto
         this.attackSpeed = 1.0D;
@@ -138,7 +138,7 @@ public class CSheep extends EntityMonster implements IRangedEntity {
         this.aType = AttackType.RANGED;
         this.mType = MobBehaviour.NORMAL;
         this.setBaby(baby);
-        this.color = SheepColor.WHITE;
+        this.color=SheepColor.WHITE;
         this.setColor(color.getColor());
         //reseteamos los pathfinders
         getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(6.0D);
@@ -168,7 +168,7 @@ public class CSheep extends EntityMonster implements IRangedEntity {
      * @param world
      * @param spawnLoc
      */
-    public CSheep(World world, Location spawnLoc) {
+    public CSheep(World world,Location spawnLoc) {
         super(world);
         setSize(0.9F, 1.3F);
         ((Navigation) getNavigation()).a(true);
@@ -182,7 +182,7 @@ public class CSheep extends EntityMonster implements IRangedEntity {
         this.aType = AttackType.RANGED;
         this.mType = MobBehaviour.NORMAL;
         this.setBaby(baby);
-        this.color = SheepColor.WHITE;
+        this.color=SheepColor.WHITE;
         this.setColor(color.getColor());
         //reseteamos los pathfinders
         getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(6.0D);
@@ -263,12 +263,13 @@ public class CSheep extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
+
     /**
      *
      * @param el
      * @param f
      */
-    @Override
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -318,10 +319,11 @@ public class CSheep extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYSHEEP
+
     /**
      *
      */
-    protected void h() {
+        protected void h() {
         super.h();
         this.datawatcher.a(16, new Byte((byte) 0));
     }

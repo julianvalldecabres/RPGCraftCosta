@@ -25,11 +25,11 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.RabbitType;
  *
  * @author jail
  */
-public class RPGRabbit extends RPGMob {
+public class RPGRabbit extends RPGMob{
 
     private boolean baby;
     private RabbitType rtype;
-
+    
     /**
      *
      * @param level
@@ -51,7 +51,7 @@ public class RPGRabbit extends RPGMob {
      * @param rtype
      * @param baby
      */
-    public RPGRabbit(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap, RabbitType rtype, boolean baby) {
+    public RPGRabbit(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap,RabbitType rtype,boolean baby) {
         this.level = level;
         this.name = name;
         this.type = type;
@@ -69,9 +69,9 @@ public class RPGRabbit extends RPGMob {
         this.money = money;
         this.exp = exp;
         this.ap = ap;
-
-        this.baby = baby;
-        this.rtype = rtype;
+        
+        this.baby=baby;
+        this.rtype= rtype;
     }
 
     /**
@@ -105,5 +105,6 @@ public class RPGRabbit extends RPGMob {
     public void setRtype(RabbitType rtype) {
         this.rtype = rtype;
     }
-
+    
+    
 }

@@ -24,19 +24,23 @@ public enum MobBehaviour {
     /**
      *
      */
-    AGGRESSIVE,
+    AGGRESSIVE, 
+
     /**
      *
      */
-    AGGREAGGRO,
+    AGGREAGGRO, 
+
     /**
      *
      */
-    NORMAL,
+    NORMAL, 
+
     /**
      *
      */
-    NORMAGGRO,
+    NORMAGGRO, 
+
     /**
      *
      */

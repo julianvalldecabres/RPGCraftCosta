@@ -20,7 +20,6 @@ import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClass;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
 import com.craftcosta.jailrules.rpgcraftcosta.economy.RPGEconomy;
-import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.armor.RPGArmorManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.jewels.RPGJewelManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
@@ -52,7 +51,6 @@ public class RPGPlayerManager {
     private RPGArmorManager rpgAMan;
     private RPGWeaponManager rpgWMan;
     private RPGJewelManager rpgJMan;
-    private RPGGuildManager rpgGMan;
     private RPGChatManager rpgCMan;
     private RPGClassManager rpgCCMan;
     private File playerFilePath;
@@ -68,7 +66,6 @@ public class RPGPlayerManager {
         this.rpgAMan = plugin.getRPGItemManager().getRPGArmorManager();
         this.rpgWMan = plugin.getRPGItemManager().getRPGWeaponManager();
         this.rpgJMan = plugin.getRPGItemManager().getRPGJewelManager();
-        this.rpgGMan = plugin.getRPGGuildManager();
         this.rpgCCMan = plugin.getRPGClassManager();
     }
 

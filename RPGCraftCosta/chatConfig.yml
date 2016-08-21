@@ -1,0 +1,50 @@
+WARNING:
+    prefix: ATENCION
+    shortcut: '|'
+    prefixcolor: red
+    messagecolor: yellow
+NEWS:
+    prefix: NOTICIA
+    shortcut: '^'
+    prefixcolor: yellow
+    messagecolor: green
+PRIVATE:
+    prefix: PRIVADO
+    shortcut: '&'
+    prefixcolor: green
+    messagecolor: gray
+GUILD:
+    prefix: CLAN
+    shortcut: '@'
+    prefixcolor: dark_purple
+    messagecolor: light_purple
+PARTY:
+    prefix: GRUPO
+    shortcut: '#'
+    prefixcolor: blue
+    messagecolor: aqua
+MARKET:
+    prefix: MERCADO
+    shortcut: '$'
+    prefixcolor: dark_green
+    messagecolor: green
+GLOBAL:
+    prefix: GLOBAL
+    shortcut: '!'
+    prefixcolor: blue
+    messagecolor: yellow
+LOCAL:
+    prefix: 'LOCAL'
+    shortcut: nothing
+    prefixcolor: white
+    messagecolor: white
+globalenabled: true
+guildenabled: true
+partyenabled: true
+marketenabled: true
+privateenabled: true
+localchatdistanceenabled: true
+maxdistance: 100.0
+playerclasscolor: aqua
+playernamecolor: yellow
+locationcolor: white

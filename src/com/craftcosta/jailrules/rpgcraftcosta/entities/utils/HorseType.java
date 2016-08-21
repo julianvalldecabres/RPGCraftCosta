@@ -24,19 +24,23 @@ public enum HorseType {
     /**
      *
      */
-    NORMAL(0),
+    NORMAL(0), 
+
     /**
      *
      */
-    DONKEY(1),
+    DONKEY(1), 
+
     /**
      *
      */
-    MULE(2),
+    MULE(2), 
+
     /**
      *
      */
-    ZOMBIE(3),
+    ZOMBIE(3), 
+
     /**
      *
      */

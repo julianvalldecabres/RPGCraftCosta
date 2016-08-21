@@ -19,7 +19,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.items.armor.RPGArmorManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.jewels.RPGJewelManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLoreManager;
-import com.craftcosta.jailrules.rpgcraftcosta.items.questitems.RPGQuestItemManager;
+import com.craftcosta.jailrules.rpgcraftcosta.items.objects.RPGObjectsManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
 import java.util.ArrayList;
 import org.bukkit.inventory.ItemStack;
@@ -34,7 +34,7 @@ public class RPGItemManager {
     private RPGWeaponManager RPGWMan;
     private RPGArmorManager RPGAMan;
     private RPGJewelManager RPGJMan;
-    private RPGQuestItemManager RPGQMan;
+    private RPGObjectsManager RPGQMan;
     //RPGPotionManager RPGPMan;
     private ArrayList<RPGItem> listItems = new ArrayList<>();
     private RPGLoreManager RPGLMan;
@@ -48,7 +48,7 @@ public class RPGItemManager {
         this.RPGWMan = new RPGWeaponManager(plugin);
         this.RPGAMan = new RPGArmorManager(plugin);
         this.RPGJMan = new RPGJewelManager(plugin);
-        this.RPGQMan = new RPGQuestItemManager(plugin);
+        this.RPGQMan = new RPGObjectsManager(plugin);
         this.RPGLMan = new RPGLoreManager(plugin);
 
     }
@@ -73,7 +73,7 @@ public class RPGItemManager {
      *
      * @return
      */
-    public RPGQuestItemManager getRPGQMan() {
+    public RPGObjectsManager getRPGQMan() {
         return RPGQMan;
     }
 
@@ -125,6 +125,7 @@ public class RPGItemManager {
      * @param name
      * @return
      */
+
     /**
      *
      * @param name

@@ -211,6 +211,7 @@ public class RPGArmorManager {
             config = YamlConfiguration.loadConfiguration(armorFile);
         }
         plugin.getLogger().info("Loading armor...");
+        String id;
         String name;
         ItemStack item;
         String materialS;
@@ -237,18 +238,18 @@ public class RPGArmorManager {
 
         //RECORRER YAML
         Set<String> armorSets = config.getKeys(false);
-        for (String setName : armorSets) {
-            ConfigurationSection section = config.getConfigurationSection(setName);
-            name = setName;
+        for (String idnumber : armorSets) {
+            ConfigurationSection section = config.getConfigurationSection(idnumber);
+            name = section.getString("name");
             level = section.getInt("level");
             armorLevel = section.getInt("armorlevel");
             materialS = section.getString("material");
             quality = Quality.valueOf(section.getString("quality"));
             comerciable = section.getBoolean("comerciable");
             upgradable = section.getBoolean("upgradable");
-            Set<String> partes = config.getConfigurationSection(setName + ".parts").getKeys(false);
+            Set<String> partes = config.getConfigurationSection(idnumber + ".parts").getKeys(false);
             for (String parte : partes) {
-                section = config.getConfigurationSection(setName + ".parts." + parte);
+                section = config.getConfigurationSection(idnumber + ".parts." + parte);
                 materialP = parte;
                 mat = Material.matchMaterial(materialS + "_" + materialP);
                 physicaldefense = section.getDouble("physicaldefense");
@@ -265,7 +266,7 @@ public class RPGArmorManager {
                 xpbonus = section.getDouble("xpbonus");
                 moneybonus = section.getDouble("moneybonus");
                 item = new ItemStack(mat);
-                this.armorList.put(name + " " + materialP.toLowerCase(), new RPGArmor(level, item, quality, upgradable, comerciable, armorLevel, mat, setName, physicaldefense, incphysicaldefense, physicalevasion, incphysicalevasion, magicaldefense, incmagicaldefense, magicalevasion, incmagicalevasion, moneybonus, apbonus, xpbonus, buyprice, sellprice));
+                this.armorList.put(name + " " + materialP.toLowerCase(), new RPGArmor(level, item, quality, upgradable, comerciable, armorLevel, mat, name, physicaldefense, incphysicaldefense, physicalevasion, incphysicalevasion, magicaldefense, incmagicaldefense, magicalevasion, incmagicalevasion, moneybonus, apbonus, xpbonus, buyprice, sellprice));
             }
         }
     }
@@ -348,7 +349,7 @@ public class RPGArmorManager {
         String[] partItem = item.getType().toString().split("_");
         return partItem[1];
     }
-
+    
     /**
      *
      * @param armor

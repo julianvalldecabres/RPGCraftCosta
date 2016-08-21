@@ -25,7 +25,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.ProjectileType;
  *
  * @author jail
  */
-public class RPGCaveSpider extends RPGMob {
+public class RPGCaveSpider extends RPGMob{
 
     /**
      *

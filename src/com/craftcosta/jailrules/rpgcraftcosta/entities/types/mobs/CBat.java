@@ -75,10 +75,11 @@ public final class CBat extends EntityMonster implements IRangedEntity {
     private double maxhealth;
 
     //VARIABLES PROPIAS DEL ENTITYCHICKEN
+
     /**
      *
      */
-    public float bm;
+        public float bm;
 
     /**
      *
@@ -142,9 +143,8 @@ public final class CBat extends EntityMonster implements IRangedEntity {
             bField.set(targetSelector, new UnsafeList<PathfinderGoalSelector>());
             cField.set(goalSelector, new UnsafeList<PathfinderGoalSelector>());
             cField.set(targetSelector, new UnsafeList<PathfinderGoalSelector>());
-        } catch (Exception exc) {
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException exc) {
             System.out.println("Ojo alguna variable ha cambiado y hay que revisarlas");
-            exc.printStackTrace();
         }
         //añadimos los pathfindergoals
         initPathfinderGoals();
@@ -180,9 +180,8 @@ public final class CBat extends EntityMonster implements IRangedEntity {
             bField.set(targetSelector, new UnsafeList<PathfinderGoalSelector>());
             cField.set(goalSelector, new UnsafeList<PathfinderGoalSelector>());
             cField.set(targetSelector, new UnsafeList<PathfinderGoalSelector>());
-        } catch (Exception exc) {
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException exc) {
             System.out.println("Ojo alguna variable ha cambiado y hay que revisarlas");
-            exc.printStackTrace();
         }
         //añadimos los pathfindergoals
         initPathfinderGoals();
@@ -237,9 +236,8 @@ public final class CBat extends EntityMonster implements IRangedEntity {
             bField.set(targetSelector, new UnsafeList<PathfinderGoalSelector>());
             cField.set(goalSelector, new UnsafeList<PathfinderGoalSelector>());
             cField.set(targetSelector, new UnsafeList<PathfinderGoalSelector>());
-        } catch (Exception exc) {
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException exc) {
             System.out.println("Ojo alguna variable ha cambiado y hay que revisarlas");
-            exc.printStackTrace();
         }
         //añadimos los pathfindergoals
         initPathfinderGoals();
@@ -300,12 +298,13 @@ public final class CBat extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
+
     /**
      *
      * @param el
      * @param f
      */
-    @Override
+        @Override
     public void a(EntityLiving el, float f) {
         //Para que nuestras entidades puedan realizar ataques a distancia hay que reescribir el metodo avoid a(EntityLiving el, float f)
         //que define que tipo de ataque a distancia realiza
@@ -355,10 +354,11 @@ public final class CBat extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYBAT
+
     /**
      *
      */
-    protected void h() {
+        protected void h() {
         super.h();
         this.datawatcher.a(16, new Byte((byte) 0));
     }

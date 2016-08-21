@@ -25,8 +25,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
  *
  * @author jail
  */
-public class RPGGuardian extends RPGMob {
-
+public class RPGGuardian extends RPGMob{
     private GuardianType gType;
 
     /**
@@ -67,8 +66,9 @@ public class RPGGuardian extends RPGMob {
         this.money = money;
         this.exp = exp;
         this.ap = ap;
-
+        
         this.gType = gType;
     }
-
+    
+    
 }

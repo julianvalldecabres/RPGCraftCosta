@@ -54,8 +54,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
  *
  * @author jail
  */
-public class CPigZombie extends EntityMonster implements IRangedEntity {
-
+public class CPigZombie extends EntityMonster implements IRangedEntity{
     //VARIABLES AÑADIDAS QUE DEFINEN EL TIPO DE MOB
     private AttackType aType;
     private MobBehaviour mType;
@@ -64,7 +63,7 @@ public class CPigZombie extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-    public Location spawnLoc;
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -78,10 +77,12 @@ public class CPigZombie extends EntityMonster implements IRangedEntity {
     private double maxhealth;
 
     //VARIABLES PROPIAS DEL ENTITYPIGZOMBIE
+    
     /**
      *
      * @param world
      */
+        
     public CPigZombie(World world) {
         super(world);
         this.setSize(0.6F, 1.95F);
@@ -275,12 +276,13 @@ public class CPigZombie extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
+
     /**
      *
      * @param el
      * @param f
      */
-    @Override
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -328,13 +330,15 @@ public class CPigZombie extends EntityMonster implements IRangedEntity {
             this.datawatcher.a(12, new Byte((byte) 1));
         }
     }
-
+    
+    
     //METODOS PROPIOS DEL ENTITYPIGZOMBIE
+
     /**
      *
      * @return
      */
-    protected String z() {
+        protected String z() {
         return "mob.zombiepig.zpig";
     }
 
@@ -375,7 +379,7 @@ public class CPigZombie extends EntityMonster implements IRangedEntity {
      */
     public void a(NBTTagCompound nbttagcompound) {
         super.a(nbttagcompound);
-    }
+    }    
 
     /**
      *

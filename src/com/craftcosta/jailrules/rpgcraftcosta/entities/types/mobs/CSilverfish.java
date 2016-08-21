@@ -54,7 +54,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
  *
  * @author jail
  */
-public class CSilverfish extends EntityMonster implements IRangedEntity {
+public class CSilverfish extends EntityMonster implements IRangedEntity{
 
     //VARIABLES AÑADIDAS QUE DEFINEN EL TIPO DE MOB
     private AttackType aType;
@@ -64,7 +64,7 @@ public class CSilverfish extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-    public Location spawnLoc;
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -76,7 +76,7 @@ public class CSilverfish extends EntityMonster implements IRangedEntity {
     private float rangedStrength;
     private double followrange;
     private double maxhealth;
-
+    
     /**
      *
      * @param world
@@ -84,7 +84,7 @@ public class CSilverfish extends EntityMonster implements IRangedEntity {
     public CSilverfish(World world) {
         super(world);
         this.setSize(0.4F, 0.3F);
-        this.spawnLoc = new Location(world.getWorld(), 0, 4, 0);
+        this.spawnLoc = new Location(world.getWorld(),0,4,0);
         //this.baby = true;
         //tipos por defecto
         this.attackSpeed = 1.0D;
@@ -114,13 +114,13 @@ public class CSilverfish extends EntityMonster implements IRangedEntity {
         //añadimos los pathfindergoals
         initPathfinderGoals();
     }
-
+    
     /**
      *
      * @param world
      * @param spawnLoc
      */
-    public CSilverfish(World world, Location spawnLoc) {
+    public CSilverfish(World world,Location spawnLoc) {
         super(world);
         this.setSize(0.4F, 0.3F);
         this.spawnLoc = spawnLoc;
@@ -210,12 +210,13 @@ public class CSilverfish extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
+
     /**
      *
      * @param el
      * @param f
      */
-    @Override
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -257,11 +258,12 @@ public class CSilverfish extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DEL ENTITYSILVERFISH
+
     /**
      *
      * @return
      */
-    public double am() {
+        public double am() {
         return 0.2D;
     }
 
@@ -304,9 +306,9 @@ public class CSilverfish extends EntityMonster implements IRangedEntity {
      * @return
      */
     public boolean damageEntity(DamageSource damagesource, float f) {
-        return super.damageEntity(damagesource, f);
-    }
-
+            return super.damageEntity(damagesource, f);
+        }
+    
     /**
      *
      * @param blockposition

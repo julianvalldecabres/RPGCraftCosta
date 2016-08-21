@@ -76,7 +76,7 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-    public Location spawnLoc;
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -88,7 +88,7 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
     private float rangedStrength;
     private double followrange;
     private double maxhealth;
-
+    
     private RabbitType rType;
     //VARIABLES PROPIAS DEL ENTITYCHICKEN
     private int bo = 0;
@@ -113,8 +113,8 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
         this.g = new ControllerJumpRabbit(this);
         this.moveController = new ControllerMoveRabbit(this);
         ((Navigation) getNavigation()).a(true);
-        this.rType = RabbitType.KILLER;
-        this.spawnLoc = new Location(world.getWorld(), 0, 4, 0);
+        this.rType= RabbitType.KILLER;
+        this.spawnLoc = new Location(world.getWorld(), 0,4,0);
         this.attackSpeed = 1.0D;
         this.rangedDamage = 3.0D;
         this.rangedStrength = 1.0F;
@@ -146,13 +146,13 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
         //añadimos los pathfindergoals
         initPathfinderGoals();
     }
-
+    
     /**
      *
      * @param world
      * @param spawnLoc
      */
-    public CRabbit(World world, Location spawnLoc) {
+    public CRabbit(World world,Location spawnLoc) {
         super(world);
         this.bt = EnumRabbitState.HOP;
         this.bu = 0;
@@ -161,7 +161,7 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
         this.g = new ControllerJumpRabbit(this);
         this.moveController = new ControllerMoveRabbit(this);
         ((Navigation) getNavigation()).a(true);
-        this.rType = RabbitType.KILLER;
+        this.rType= RabbitType.KILLER;
         this.spawnLoc = spawnLoc;
         this.attackSpeed = 1.0D;
         this.rangedDamage = 3.0D;
@@ -251,12 +251,13 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
+
     /**
      *
      * @param el
      * @param f
      */
-    @Override
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -306,11 +307,12 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYRABBIT
+
     /**
      *
      * @return
      */
-    protected float bE() {
+        protected float bE() {
         return (this.moveController.a()) && (this.moveController.e() > this.locY + 0.5D) ? 0.5F : this.bt.b();
     }
 
@@ -636,6 +638,8 @@ public class CRabbit extends EntityMonster implements IRangedEntity {
             ((EntityLiving) this.passenger).aI = this.aI;
         }
     }
+
+    
 
     static enum EnumRabbitState {
 

@@ -69,7 +69,7 @@ public class CZombie extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-    public Location spawnLoc;
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -147,7 +147,7 @@ public class CZombie extends EntityMonster implements IRangedEntity {
         this.attackSpeed = 1.0D;
         this.rangedDamage = 3.0D;
         this.rangedStrength = 1.0F;
-        this.pType = ProjectileType.SNOWBALL;
+        this.pType=ProjectileType.SNOWBALL;
         this.aType = AttackType.RANGED;
         this.mType = MobBehaviour.AGGRESSIVE;
         //reseteamos los pathfinders
@@ -242,12 +242,13 @@ public class CZombie extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
+
     /**
      *
      * @param entityliving
      * @param f
      */
-    @Override
+        @Override
     public void a(EntityLiving entityliving, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, entityliving, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -279,11 +280,12 @@ public class CZombie extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYSKELETON
+
     /**
      *
      * @return
      */
-    public int getSkeletonType() {
+        public int getSkeletonType() {
         return this.datawatcher.getByte(13);
     }
 

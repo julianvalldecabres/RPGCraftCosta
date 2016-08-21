@@ -194,8 +194,8 @@ public class RPGClassManager {
     public boolean isAValidRPGClassName(String name) {
         return this.listClasses.containsKey(name);
     }
-
-    public void setRPGPlayerRPGClass(RPGPlayer rpgp, RPGClass rpgclass) {
+    
+    public void setRPGPlayerRPGClass(RPGPlayer rpgp,RPGClass rpgclass) {
         rpgp.setPlayerClass(rpgclass.getNameClass());
         rpgp.setActualHealth(rpgclass.getBaseHealth());
         rpgp.setMaxHealth(rpgclass.getBaseHealth());

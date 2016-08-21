@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 jail.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,13 +15,22 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.gui;
 
-import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumArmor;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumEntities;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumItems;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumPotions;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumWeapon;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumQuality;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumArmorMaterial;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumAttackType;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumBehaviour;
 import com.craftcosta.jailrules.rpgcraftcosta.leveling.RPGLevels;
-import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.RPGItemManagerUI;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.LayoutManager;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,11 +49,21 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.ListSelectionModel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -62,9 +81,35 @@ import sun.misc.Launcher;
  *
  * @author Jail
  */
-public class GUI extends javax.swing.JFrame {
+public class GUI extends JFrame {
 
-    private static RPGItemManagerUI rpgIManUI;
+    //Weapons variables
+    public static List<ImageIcon> images1;
+    public static List<String> imagesNames1;
+    //Items variables
+    public static List<ImageIcon> images2;
+    public static List<String> imagesNames2;
+    //Armor variables
+    public static List<ImageIcon> images3;
+    public static List<String> imagesNames3;
+    //Potion Variables
+    public static List<ImageIcon> images4;
+    public static List<String> imagesNames4;
+    //Entities Variables
+    public static List<ImageIcon> images5;
+    public static List<String> imagesNames5;
+    //Entities Behaviour type
+    public static List<ImageIcon> images6;
+    public static List<String> imagesNames6;
+    //Tipos de ataque
+    public static List<ImageIcon> images7;
+    public static List<String> imagesNames7;
+    //Tipos de calidad
+    public static List<ImageIcon> images8;
+    public static List<String> imagesNames8;
+    //Tipos de material de armadura
+    public static List<ImageIcon> images9;
+    public static List<String> imagesNames9;
 
     private static void copy(FileInputStream in, File file) {
         try {
@@ -96,16 +141,11 @@ public class GUI extends javax.swing.JFrame {
         }
     }
 
-    private static void createDefaultDirectories() throws IOException {
+    private static void createDefaultDirectories() {
         //TODO AUTOMATIZAR EL PROCESO DE GENERACION DE LOS FICHEROS DE CONFIGURACION
 
-        File file = new File(RPGFinals.dataFolder);
-        System.out.println(Material.values());
-        for (Material mat : Material.values()) {
-            System.out.println(mat.name() + "(\"\"),");
-        }
+        File file = new File(RPGFinals.pluginNameFolder);
         if (!file.exists()) {
-
             JOptionPane.showMessageDialog(null, "Creating default config folders and files", "RPGCraftCosta-Information", 1);
             file.mkdirs();
         } else {
@@ -116,18 +156,24 @@ public class GUI extends javax.swing.JFrame {
         final String path = "";
         final File jarFile = new File(GUI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
 
-        if (jarFile.isFile()) {  // Run with JAR file
-            final JarFile jar = new JarFile(jarFile);
-            final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
-            while (entries.hasMoreElements()) {
-                final String name = entries.nextElement().getName();
-                if (name.startsWith(path /*+ "/"*/)) { //filter according to the path
-                    System.out.println("1");
-                    System.out.println(name);
-                    System.out.println("2");
+        if (jarFile.isFile()) {
+            try {
+                // Run with JAR file
+                final JarFile jar;
+                jar = new JarFile(jarFile);
+                final Enumeration<JarEntry> entries = jar.entries();
+                while (entries.hasMoreElements()) {
+                    final String name = entries.nextElement().getName();
+                    if (name.startsWith(path /*+ "/"*/)) {
+                        System.out.println("1");
+                        System.out.println(name);
+                        System.out.println("2");
+                    }
                 }
+                jar.close();
+            } catch (IOException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             }
-            jar.close();
         } else { // Run with IDE
             final URL url = Launcher.class.getResource("/" + path);
             if (url != null) {
@@ -168,13 +214,12 @@ public class GUI extends javax.swing.JFrame {
                                 + getList(inexistentfiles) + "Se añadira/n su version por defecto");
                     }
 
-                } catch (URISyntaxException ex) {
-                    // never happens
+                } catch (URISyntaxException | IOException ex) {
+                   
                 }
             }
         }
         //Cargar las diferentes configuraciones con sus propios gestores
-        rpgIManUI = new RPGItemManagerUI();
     }
 
     private static String getList(List<String> inexistentfiles) {
@@ -185,12 +230,294 @@ public class GUI extends javax.swing.JFrame {
         return cadena;
     }
 
+    protected static ImageIcon createImageIcon(String path) {
+        URL imgURL = GUI.class.getResource(path);
+        if (imgURL != null) {
+            System.err.println("Found file: " + path);
+            return new ImageIcon(imgURL);
+
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
+    }
+
     /**
      * Creates new form RPGCraftCosta
      */
     public GUI() {
         initComponents();
-        loadComboprueba();
+        for (ChatColor color : ChatColor.values()) {
+            comboPrefixColorMarketChat.addItem(color.name());
+            comboPrefixColorGlobalChat.addItem(color.name());
+            comboPrefixColorGuildChat.addItem(color.name());
+            comboPrefixColorLocalChat.addItem(color.name());
+            comboPrefixColorPartyChat.addItem(color.name());
+            comboPrefixColorPrivateChat.addItem(color.name());
+            comboPrefixColorNewsChat.addItem(color.name());
+            comboPrefixColorWarningChat.addItem(color.name());
+
+            comboMessageColorGlobalChat.addItem(color.name());
+            comboMessageColorWarningChat.addItem(color.name());
+            comboMessageColorGuildChat.addItem(color.name());
+            comboMessageColorLocalChat.addItem(color.name());
+            comboMessageColorPrivateChat.addItem(color.name());
+            comboMessageColorMarketChat.addItem(color.name());
+            comboMessageColorNewsChat.addItem(color.name());
+            comboMessageColorPartyChat.addItem(color.name());
+        }
+        String caracteresEspeciales = "#@$%&\\=?¿¡!'*^{}[],;.:-_<>";
+        for (int i = 0; i < caracteresEspeciales.length(); i++) {
+            comboShortcutMarketChat.addItem(caracteresEspeciales.charAt(i));
+            comboShortcutGlobalChat.addItem(caracteresEspeciales.charAt(i));
+            comboShortcutGuildChat.addItem(caracteresEspeciales.charAt(i));
+            comboShortcutNewsChat.addItem(caracteresEspeciales.charAt(i));
+            comboShortcutPartyChat.addItem(caracteresEspeciales.charAt(i));
+            comboShortcutPrivateChat.addItem(caracteresEspeciales.charAt(i));
+            comboShortcutWarningChat.addItem(caracteresEspeciales.charAt(i));
+        }
+//        int count = 0;
+//        imagesNames1 = new ArrayList<>();
+//        images1 = new ArrayList<>();
+//        List<Integer> intArray = new ArrayList<>();
+//        for (EnumWeapon weapon : EnumWeapon.values()) {
+//            String name = weapon.name().replaceAll("_", " ").toLowerCase();
+//            //System.out.println(name);
+//            intArray.add(count);
+//            imagesNames1.add(name);
+//            images1.add(createImageIcon(weapon.getPath()));
+//            count++;
+//        }
+//        //prepare item combobox
+//        int count2 = 0;
+//        imagesNames2 = new ArrayList<>();
+//        images2 = new ArrayList<>();
+//        List<Integer> intArray2 = new ArrayList<>();
+//        for (EnumItems items : EnumItems.values()) {
+//            String name2 = items.name().replaceAll("_", " ").toLowerCase();
+//            //System.out.println(name2);
+//            intArray2.add(count2);
+//            imagesNames2.add(name2);
+//            images2.add(createImageIcon(items.getPath()));
+//            count2++;
+//        }
+//        //prepare armor combobox
+//        int count3 = 0;
+//        imagesNames3 = new ArrayList<>();
+//        images3 = new ArrayList<>();
+//        List<Integer> intArray3 = new ArrayList<>();
+//        for (EnumArmor items : EnumArmor.values()) {
+//            String name3 = items.name().replaceAll("_", " ").toLowerCase();
+//            //System.out.println(name3);
+//            intArray3.add(count3);
+//            imagesNames3.add(name3);
+//            images3.add(createImageIcon(items.getPath()));
+//            count3++;
+//        }
+//        //prepare potion combobox
+//        int count4 = 0;
+//        imagesNames4 = new ArrayList<>();
+//        images4 = new ArrayList<>();
+//        List<Integer> intArray4 = new ArrayList<>();
+//        for (EnumPotions items : EnumPotions.values()) {
+//            String name4 = items.name().replaceAll("_", " ").toLowerCase();
+//            //System.out.println(name4);
+//            intArray4.add(count4);
+//            imagesNames4.add(name4);
+//            images4.add(createImageIcon(items.getPath()));
+//            count4++;
+//        }
+        //prepare entities combobox
+        int count5 = 0;
+        imagesNames5 = new ArrayList<>();
+        images5 = new ArrayList<>();
+        List<Integer> intArray5 = new ArrayList<>();
+        for (EnumEntities items : EnumEntities.values()) {
+            String name5 = items.name().replaceAll("_", " ").toLowerCase();
+            System.out.println(name5);
+            intArray5.add(count5);
+            imagesNames5.add(name5);
+            images5.add(createImageIcon(items.getPath()));
+            count5++;
+        }
+//        //prepare behaviours
+//        int count6 = 0;
+//        imagesNames6 = new ArrayList<>();
+//        images6 = new ArrayList<>();
+//        List<Integer> intArray6 = new ArrayList<>();
+//        for (EnumBehaviour items : EnumBehaviour.values()) {
+//            String name6 = items.name().replaceAll("_", " ").toLowerCase();
+//            //System.out.println(name6);
+//            intArray6.add(count6);
+//            imagesNames6.add(name6);
+//            images6.add(createImageIcon(items.getPath()));
+//            count6++;
+//        }
+//        //prepare attack types
+//        int count7 = 0;
+//        imagesNames7 = new ArrayList<>();
+//        images7 = new ArrayList<>();
+//        List<Integer> intArray7 = new ArrayList<>();
+//        for (EnumAttackType items : EnumAttackType.values()) {
+//            String name7 = items.name().replaceAll("_", " ").toLowerCase();
+//            //System.out.println(name7);
+//            intArray7.add(count7);
+//            imagesNames7.add(name7);
+//            images7.add(createImageIcon(items.getPath()));
+//            count7++;
+//        }
+//        //prepare attack types
+//        int count8 = 0;
+//        imagesNames8 = new ArrayList<>();
+//        images8 = new ArrayList<>();
+//        List<Integer> intArray8 = new ArrayList<>();
+//        for (EnumQuality items : EnumQuality.values()) {
+//            String name8 = items.name().replaceAll("_", " ").toLowerCase();
+//            //System.out.println(name8);
+//            intArray8.add(count8);
+//            imagesNames8.add(name8);
+//            images8.add(createImageIcon(items.getPath()));
+//            count8++;
+//        }
+//        //prepare attack types
+//        int count9 = 0;
+//        imagesNames9 = new ArrayList<>();
+//        images9 = new ArrayList<>();
+//        List<Integer> intArray9 = new ArrayList<>();
+//        for (EnumArmorMaterial items : EnumArmorMaterial.values()) {
+//            String name9 = items.name().replaceAll("_", " ").toLowerCase();
+//            //System.out.println(name9);
+//            intArray9.add(count9);
+//            imagesNames9.add(name9);
+//            images9.add(createImageIcon(items.getPath()));
+//            count9++;
+//        }
+
+            
+//        //Monstruos
+//        //comboSelectorTipoMob
+//
+//        //comboTipoAtaqueMob
+//        //comboComportamiento
+//        //comboTipoDropMob
+//        //comboObjetoDropMob
+//        //Armaduras
+//        //comboMejoradorArmadura
+//        //comboMaterial
+//        //comboCalidad
+//        //Joyas
+//        //comboObjetoJoya
+//        //comboCalidadJoya
+//        //Armas
+//        //comboMejoradorArma
+//        //comboTipoArma
+//        //comboCalidadArma
+//        //Objetos
+//        //comboTipoObjeto
+//        comboTipoArma = new JComboBox(intArray.toArray());
+//        ComboBoxRendererWeapons renderer = new ComboBoxRendererWeapons();
+//        renderer.setPreferredSize(new Dimension(225, 50));
+//        comboTipoArma.setRenderer(renderer);
+//        comboTipoArma.setMaximumRowCount(3);
+        //prueba
+//        comboTipoObjeto = new JComboBox(intArray2.toArray());
+//        ComboBoxRendererItems renderer2 = new ComboBoxRendererItems();
+//        renderer2.setPreferredSize(new Dimension(225, 50));
+//        comboTipoObjeto.setRenderer(renderer2);
+//        comboTipoObjeto.setMaximumRowCount(3);
+
+//        jComboBox3= new JComboBox(intArray3.toArray());
+//        ComboBoxRendererArmor renderer3= new ComboBoxRendererArmor();
+//        renderer3.setPreferredSize(new Dimension(225, 50));
+//        jComboBox3.setRenderer(renderer3);
+//        jComboBox3.setMaximumRowCount(3);
+//        jComboBox4= new JComboBox(intArray4.toArray());
+//        ComboBoxRendererPotions renderer4= new ComboBoxRendererPotions();
+//        renderer4.setPreferredSize(new Dimension(225, 50));
+//        jComboBox4.setRenderer(renderer4);
+//        jComboBox4.setMaximumRowCount(3);
+        
+        
+        comboSelectorTipoMob = new JComboBox(intArray5.toArray());
+        ComboBoxRendererEntities renderer5 = new ComboBoxRendererEntities();
+        renderer5.setPreferredSize(new Dimension(225,50));
+        comboSelectorTipoMob.setRenderer(renderer5);
+        comboSelectorTipoMob.setMaximumRowCount(3);
+        
+//        comboComportamiento = new JComboBox(intArray6.toArray());
+//        ComboBoxRendererBehaviour renderer6 = new ComboBoxRendererBehaviour();
+//        renderer6.setPreferredSize(new Dimension(225, 50));
+//        comboComportamiento.setRenderer(renderer6);
+//        comboComportamiento.setMaximumRowCount(3);
+//        
+//        comboTipoAtaqueMob = new JComboBox(intArray7.toArray());
+//        ComboBoxRendererAttackType renderer7 = new ComboBoxRendererAttackType();
+//        renderer7.setPreferredSize(new Dimension(225, 50));
+//        comboTipoAtaqueMob.setRenderer(renderer7);
+//        comboTipoAtaqueMob.setMaximumRowCount(3);
+//
+//        comboCalidad = new JComboBox(intArray8.toArray());
+//        ComboBoxRendererQualityType renderer8 = new ComboBoxRendererQualityType();
+//        renderer8.setPreferredSize(new Dimension(225, 50));
+//        comboCalidad.setRenderer(renderer8);
+//        comboCalidad.setMaximumRowCount(3);
+//
+//        comboCalidadArma = new JComboBox(intArray8.toArray());
+//        ComboBoxRendererQualityType renderer10 = new ComboBoxRendererQualityType();
+//        renderer8.setPreferredSize(new Dimension(225, 50));
+//        comboCalidadArma.setRenderer(renderer10);
+//        comboCalidadArma.setMaximumRowCount(3);
+//
+//        comboCalidadJoya = new JComboBox(intArray8.toArray());
+//        ComboBoxRendererQualityType renderer11 = new ComboBoxRendererQualityType();
+//        renderer8.setPreferredSize(new Dimension(225, 50));
+//        comboCalidadJoya.setRenderer(renderer8);
+//        comboCalidadJoya.setMaximumRowCount(3);
+//
+//        comboMaterial = new JComboBox(intArray9.toArray());
+//        ComboBoxRendererArmorMaterial renderer9 = new ComboBoxRendererArmorMaterial();
+//        renderer9.setPreferredSize(new Dimension(225, 50));
+//        comboMaterial.setRenderer(renderer9);
+//        comboMaterial.setMaximumRowCount(3);
+        
+
+          PanelEditorMobs.add(comboSelectorTipoMob);
+                  
+//          PanelEditorMobs.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+          //PanelEditorMobs.getComponent(PanelEditorMobs.getComponentZOrder(comboSelectorTipoMob)));
+//        PanelConfig.updateUI();
+//        comboSelectorMobs.validate();
+//        PanelEditorMobs.validate();
+        
+//comboSelectorTipoMob.revalidate();
+        System.out.println("Panel: "+PanelEditorMobs.isValid()+" Combo: "+comboSelectorTipoMob.isValid());
+        //comboSelectorTipoMob.validate();
+        System.out.println("Panel: "+PanelEditorMobs.isValid()+" Combo: "+comboSelectorTipoMob.isValid());
+//        //prueba
+//        jPanel1.add(jComboBox2,BorderLayout.PAGE_START);
+//        jPanel1.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+//
+//        jPanel1.add(jComboBox3,BorderLayout.PAGE_START);
+//        jPanel1.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+//
+//        jPanel1.add(jComboBox4,BorderLayout.PAGE_START);
+//        jPanel1.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+//
+//        jPanel1.add(jComboBox5,BorderLayout.PAGE_START);
+//        jPanel1.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+//
+//        jPanel1.add(jComboBox6,BorderLayout.PAGE_START);
+//        jPanel1.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+//
+//        jPanel1.add(jComboBox7,BorderLayout.PAGE_START);
+//        jPanel1.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+//
+//        jPanel1.add(jComboBox8,BorderLayout.PAGE_START);
+//        jPanel1.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+//
+//        jPanel1.add(jComboBox9,BorderLayout.PAGE_START);
+//        jPanel1.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
     }
 
     /**
@@ -235,7 +562,9 @@ public class GUI extends javax.swing.JFrame {
         PanelConfigPlayers = new javax.swing.JPanel();
         checkColocarBloques = new javax.swing.JCheckBox();
         checkDestruirBloques = new javax.swing.JCheckBox();
-        jButton1 = new javax.swing.JButton();
+        btnGuardarConfigGlobal = new javax.swing.JButton();
+        PanelConfigDayCycle = new javax.swing.JPanel();
+        checkDayCycle = new javax.swing.JCheckBox();
         PanelConfigLevel = new javax.swing.JPanel();
         lblx3Nivel = new javax.swing.JLabel();
         lblx2Nivel = new javax.swing.JLabel();
@@ -710,8 +1039,6 @@ public class GUI extends javax.swing.JFrame {
         btnGuardarMob = new javax.swing.JButton();
         btnResetearMob = new javax.swing.JButton();
         lblNivelMob = new javax.swing.JLabel();
-        lblTipoMob = new javax.swing.JLabel();
-        comboSelectorTipoMob = new javax.swing.JComboBox();
         spinnerNivelMob = new javax.swing.JSpinner();
         PanelComportamientoMob = new javax.swing.JPanel();
         comboComportamiento = new javax.swing.JComboBox();
@@ -754,88 +1081,90 @@ public class GUI extends javax.swing.JFrame {
         lblFuerzaDistMob = new javax.swing.JLabel();
         spinnerFuerzaDistMob = new javax.swing.JSpinner();
         spinnerAtaFisMob = new javax.swing.JSpinner();
+        lblTipoMob = new javax.swing.JLabel();
+        comboSelectorTipoMob = new javax.swing.JComboBox();
         PanelConfChats = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        comboColorPrefijoComercio = new javax.swing.JComboBox();
-        comboPrefijoComercio = new javax.swing.JComboBox();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
-        jTextField10 = new javax.swing.JTextField();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField12 = new javax.swing.JTextField();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
-        jTextField17 = new javax.swing.JTextField();
-        jTextField18 = new javax.swing.JTextField();
-        jTextField19 = new javax.swing.JTextField();
-        jTextField20 = new javax.swing.JTextField();
-        jPanel8 = new javax.swing.JPanel();
-        jLabel21 = new javax.swing.JLabel();
-        jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
-        jTextField21 = new javax.swing.JTextField();
-        jTextField22 = new javax.swing.JTextField();
-        jTextField23 = new javax.swing.JTextField();
-        jTextField24 = new javax.swing.JTextField();
-        jPanel9 = new javax.swing.JPanel();
-        jLabel25 = new javax.swing.JLabel();
-        jLabel26 = new javax.swing.JLabel();
-        jLabel27 = new javax.swing.JLabel();
-        jLabel28 = new javax.swing.JLabel();
-        jTextField25 = new javax.swing.JTextField();
-        jTextField26 = new javax.swing.JTextField();
-        jTextField27 = new javax.swing.JTextField();
-        jTextField28 = new javax.swing.JTextField();
-        jPanel10 = new javax.swing.JPanel();
-        jLabel29 = new javax.swing.JLabel();
-        jLabel30 = new javax.swing.JLabel();
-        jLabel31 = new javax.swing.JLabel();
-        jLabel32 = new javax.swing.JLabel();
-        jTextField29 = new javax.swing.JTextField();
-        jTextField30 = new javax.swing.JTextField();
-        jTextField31 = new javax.swing.JTextField();
-        jTextField32 = new javax.swing.JTextField();
-        jPanel12 = new javax.swing.JPanel();
-        jLabel37 = new javax.swing.JLabel();
-        jLabel38 = new javax.swing.JLabel();
-        jLabel39 = new javax.swing.JLabel();
-        jLabel40 = new javax.swing.JLabel();
-        jTextField37 = new javax.swing.JTextField();
-        jTextField38 = new javax.swing.JTextField();
-        jTextField39 = new javax.swing.JTextField();
-        jTextField40 = new javax.swing.JTextField();
-        jPanel14 = new javax.swing.JPanel();
-        jLabel45 = new javax.swing.JLabel();
-        jLabel46 = new javax.swing.JLabel();
-        jLabel48 = new javax.swing.JLabel();
-        jTextField45 = new javax.swing.JTextField();
-        jTextField46 = new javax.swing.JTextField();
-        jTextField47 = new javax.swing.JTextField();
-        jLabel49 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
-        jButton3 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
+        PanelConfigChats = new javax.swing.JPanel();
+        PanelConfigMarketChat = new javax.swing.JPanel();
+        lblPrefixMarket = new javax.swing.JLabel();
+        lblPrefixColorMarket = new javax.swing.JLabel();
+        lblShortcutMarket = new javax.swing.JLabel();
+        lblMessageColorMarket = new javax.swing.JLabel();
+        textPrefixMarketChat = new javax.swing.JTextField();
+        comboPrefixColorMarketChat = new javax.swing.JComboBox();
+        comboShortcutMarketChat = new javax.swing.JComboBox();
+        comboMessageColorMarketChat = new javax.swing.JComboBox();
+        PanelConfigGlobal = new javax.swing.JPanel();
+        lblPrefixGlobal = new javax.swing.JLabel();
+        lblPCG = new javax.swing.JLabel();
+        lblSG = new javax.swing.JLabel();
+        lblMCG = new javax.swing.JLabel();
+        textPrefixGlobalChat = new javax.swing.JTextField();
+        comboPrefixColorGlobalChat = new javax.swing.JComboBox();
+        comboShortcutGlobalChat = new javax.swing.JComboBox();
+        comboMessageColorGlobalChat = new javax.swing.JComboBox();
+        PanelConfigParty = new javax.swing.JPanel();
+        lblPP = new javax.swing.JLabel();
+        lblPCP = new javax.swing.JLabel();
+        lblSP = new javax.swing.JLabel();
+        lblMCP = new javax.swing.JLabel();
+        textPrefixPartyChat = new javax.swing.JTextField();
+        comboPrefixColorPartyChat = new javax.swing.JComboBox();
+        comboShortcutPartyChat = new javax.swing.JComboBox();
+        comboMessageColorPartyChat = new javax.swing.JComboBox();
+        PanelConfigGuild = new javax.swing.JPanel();
+        lblPGuild = new javax.swing.JLabel();
+        lblPCGuild = new javax.swing.JLabel();
+        lblSGuild = new javax.swing.JLabel();
+        lblMCGuild = new javax.swing.JLabel();
+        textPrefixGuildChat = new javax.swing.JTextField();
+        comboPrefixColorGuildChat = new javax.swing.JComboBox();
+        comboShortcutGuildChat = new javax.swing.JComboBox();
+        comboMessageColorGuildChat = new javax.swing.JComboBox();
+        PaneConfiglPrivate = new javax.swing.JPanel();
+        lblPPriv = new javax.swing.JLabel();
+        lblPCPriv = new javax.swing.JLabel();
+        lblSPriv = new javax.swing.JLabel();
+        lblMCPriv = new javax.swing.JLabel();
+        textPrefixPrivateChat = new javax.swing.JTextField();
+        comboPrefixColorPrivateChat = new javax.swing.JComboBox();
+        comboShortcutPrivateChat = new javax.swing.JComboBox();
+        comboMessageColorPrivateChat = new javax.swing.JComboBox();
+        PanelConfigNews = new javax.swing.JPanel();
+        lblPN = new javax.swing.JLabel();
+        lblPCN = new javax.swing.JLabel();
+        lblSN = new javax.swing.JLabel();
+        lblMCN = new javax.swing.JLabel();
+        textPrefixNewsChat = new javax.swing.JTextField();
+        comboPrefixColorNewsChat = new javax.swing.JComboBox();
+        comboShortcutNewsChat = new javax.swing.JComboBox();
+        comboMessageColorNewsChat = new javax.swing.JComboBox();
+        PanelConfigWarning = new javax.swing.JPanel();
+        lblPW = new javax.swing.JLabel();
+        lblPCW = new javax.swing.JLabel();
+        lblSW = new javax.swing.JLabel();
+        lblMCW = new javax.swing.JLabel();
+        textPrefixWarningChat = new javax.swing.JTextField();
+        comboPrefixColorWarningChat = new javax.swing.JComboBox();
+        comboShortcutWarningChat = new javax.swing.JComboBox();
+        comboMessageColorWarningChat = new javax.swing.JComboBox();
+        PanelConfigLocal = new javax.swing.JPanel();
+        lblPL = new javax.swing.JLabel();
+        lblPCL = new javax.swing.JLabel();
+        lblMCL = new javax.swing.JLabel();
+        textPrefixLocalChat = new javax.swing.JTextField();
+        lblDL = new javax.swing.JLabel();
+        spinnerDistanceLocalChat = new javax.swing.JSpinner();
+        comboPrefixColorLocalChat = new javax.swing.JComboBox();
+        comboMessageColorLocalChat = new javax.swing.JComboBox();
+        btnGuardarConfigChats = new javax.swing.JButton();
+        PanelConfigEnableChats = new javax.swing.JPanel();
+        checkEnableGlobalChat = new javax.swing.JCheckBox();
+        checkEnableMarketChat = new javax.swing.JCheckBox();
+        checkGuildChat = new javax.swing.JCheckBox();
+        checkPartyChat = new javax.swing.JCheckBox();
+        checkPrivateChat = new javax.swing.JCheckBox();
 
         btngroupNumJugGrupo.add(rdBtnIlimitadosGrupo);
         btngroupNumJugGrupo.add(rdBtnFijosGrupo);
@@ -868,6 +1197,7 @@ public class GUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1000, 800));
         setMinimumSize(new java.awt.Dimension(600, 400));
+        getContentPane().setLayout(new javax.swing.OverlayLayout(getContentPane()));
 
         PanelConfig.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         PanelConfig.setTabPlacement(javax.swing.JTabbedPane.LEFT);
@@ -894,7 +1224,7 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(PanelInicioLayout.createSequentialGroup()
                 .addGap(122, 122, 122)
                 .addComponent(btnprueba)
-                .addContainerGap(732, Short.MAX_VALUE))
+                .addContainerGap(588, Short.MAX_VALUE))
         );
         PanelInicioLayout.setVerticalGroup(
             PanelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1050,26 +1380,47 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(PanelConfigPlayersLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(PanelConfigPlayersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(checkColocarBloques)
-                    .addComponent(checkDestruirBloques))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(checkColocarBloques, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(checkDestruirBloques, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         PanelConfigPlayersLayout.setVerticalGroup(
             PanelConfigPlayersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelConfigPlayersLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(checkColocarBloques)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(checkDestruirBloques)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(checkDestruirBloques))
         );
 
-        jButton1.setText("Guardar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardarConfigGlobal.setText("Guardar");
+        btnGuardarConfigGlobal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnGuardarConfigGlobalActionPerformed(evt);
             }
         });
+
+        PanelConfigDayCycle.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración global"));
+
+        checkDayCycle.setSelected(true);
+        checkDayCycle.setText("Ciclo de dia");
+
+        javax.swing.GroupLayout PanelConfigDayCycleLayout = new javax.swing.GroupLayout(PanelConfigDayCycle);
+        PanelConfigDayCycle.setLayout(PanelConfigDayCycleLayout);
+        PanelConfigDayCycleLayout.setHorizontalGroup(
+            PanelConfigDayCycleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigDayCycleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(checkDayCycle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PanelConfigDayCycleLayout.setVerticalGroup(
+            PanelConfigDayCycleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigDayCycleLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(checkDayCycle)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout PanelConfigGeneralGenLayout = new javax.swing.GroupLayout(PanelConfigGeneralGen);
         PanelConfigGeneralGen.setLayout(PanelConfigGeneralGenLayout);
@@ -1077,32 +1428,35 @@ public class GUI extends javax.swing.JFrame {
             PanelConfigGeneralGenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelConfigGeneralGenLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PanelConfigGeneralGenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(PanelConfigGeneralGenLayout.createSequentialGroup()
+                .addGroup(PanelConfigGeneralGenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnGuardarConfigGlobal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, PanelConfigGeneralGenLayout.createSequentialGroup()
                         .addGroup(PanelConfigGeneralGenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(PanelConfigInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(PanelConfigDanioGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(PanelConfigGeneralGenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(PanelEnableModulosGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(PanelConfigPlayers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(PanelConfigGeneralGenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(PanelConfigDayCycle, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PanelEnableModulosGeneral, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PanelConfigPlayers, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(67, Short.MAX_VALUE))
         );
         PanelConfigGeneralGenLayout.setVerticalGroup(
             PanelConfigGeneralGenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelConfigGeneralGenLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(PanelConfigGeneralGenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(PanelConfigDanioGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(PanelEnableModulosGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelConfigGeneralGenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(PanelConfigInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PanelConfigPlayers, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(PanelConfigInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PanelConfigGeneralGenLayout.createSequentialGroup()
+                        .addComponent(PanelConfigPlayers, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(PanelConfigDayCycle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addContainerGap(147, Short.MAX_VALUE))
+                .addComponent(btnGuardarConfigGlobal))
         );
 
         javax.swing.GroupLayout PanelConfigGeneralLayout = new javax.swing.GroupLayout(PanelConfigGeneral);
@@ -1112,14 +1466,14 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(PanelConfigGeneralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(PanelConfigGeneralGen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(419, Short.MAX_VALUE))
+                .addContainerGap(275, Short.MAX_VALUE))
         );
         PanelConfigGeneralLayout.setVerticalGroup(
             PanelConfigGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelConfigGeneralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(PanelConfigGeneralGen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addContainerGap(243, Short.MAX_VALUE))
         );
 
         PanelConfig.addTab("General", PanelConfigGeneral);
@@ -1556,7 +1910,7 @@ public class GUI extends javax.swing.JFrame {
                     .addGroup(PanelSubirNivelLayout.createSequentialGroup()
                         .addComponent(lblDefFisNivel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerDefFisNivel, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                        .addComponent(spinnerDefFisNivel))
                     .addGroup(PanelSubirNivelLayout.createSequentialGroup()
                         .addComponent(lblHRFisNivel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1854,7 +2208,7 @@ public class GUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnGuardarClase, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnResetClase, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                        .addComponent(btnResetClase, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
                         .addGap(28, 28, 28))
                     .addComponent(PanelPuntoHabilidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -2018,7 +2372,7 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(btnEditarObjeto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEliminarObjeto)))
-                .addContainerGap(414, Short.MAX_VALUE))
+                .addContainerGap(270, Short.MAX_VALUE))
         );
         PanelConfigObjetosLayout.setVerticalGroup(
             PanelConfigObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2757,7 +3111,7 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(PanelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(PanelSelectorJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(PanelConfigJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(383, Short.MAX_VALUE))
+                .addContainerGap(239, Short.MAX_VALUE))
         );
         PanelConfigJewelsLayout.setVerticalGroup(
             PanelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2960,7 +3314,7 @@ public class GUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelEditorSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnGuardarSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnResetSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))
+                    .addComponent(btnResetSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         PanelEditorSpawnerLayout.setVerticalGroup(
@@ -3769,7 +4123,7 @@ public class GUI extends javax.swing.JFrame {
                         .addComponent(btnResetConfigGrupos)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnGuardarConfigGrupos)))
-                .addContainerGap(467, Short.MAX_VALUE))
+                .addContainerGap(323, Short.MAX_VALUE))
         );
         PanelConfigPartiesLayout.setVerticalGroup(
             PanelConfigPartiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4448,7 +4802,7 @@ public class GUI extends javax.swing.JFrame {
             PanelConfigArmorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelConfigArmorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelConfigArmorLayout.setVerticalGroup(
@@ -4499,8 +4853,6 @@ public class GUI extends javax.swing.JFrame {
 
         lblNivelMob.setText("Nivel");
 
-        lblTipoMob.setText("Tipo de monstruo");
-
         PanelComportamientoMob.setBorder(javax.swing.BorderFactory.createTitledBorder("Comportamiento"));
 
         javax.swing.GroupLayout PanelComportamientoMobLayout = new javax.swing.GroupLayout(PanelComportamientoMob);
@@ -4509,7 +4861,7 @@ public class GUI extends javax.swing.JFrame {
             PanelComportamientoMobLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelComportamientoMobLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(comboComportamiento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(comboComportamiento, 0, 215, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelComportamientoMobLayout.setVerticalGroup(
@@ -4569,10 +4921,10 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(PanelDropsObjetosMobsLayout.createSequentialGroup()
                         .addGroup(PanelDropsObjetosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lblTipoDropMob, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTipoDropMob, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
                             .addComponent(lblObjetoDropMob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lblCantidadDropMob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblProbDropMob, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
+                            .addComponent(lblProbDropMob, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PanelDropsObjetosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(spinnerCantidadDropMob, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
@@ -4584,7 +4936,7 @@ public class GUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditarDropMob, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEliminarDropMob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnEliminarDropMob, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         PanelDropsObjetosMobsLayout.setVerticalGroup(
@@ -4612,7 +4964,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(btnEditarDropMob)
                     .addComponent(btnEliminarDropMob))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -4637,7 +4989,7 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(lblExpDropMob, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(PanelDropsDefaultLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(spinnerDineroDropMob, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                    .addComponent(spinnerDineroDropMob)
                     .addComponent(spinnerExpDropMob))
                 .addContainerGap())
         );
@@ -4660,10 +5012,10 @@ public class GUI extends javax.swing.JFrame {
             PanelDropsMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelDropsMobsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PanelDropsMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(PanelDropsDefault, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PanelDropsObjetosMobs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(PanelDropsMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PanelDropsObjetosMobs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelDropsDefault, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         PanelDropsMobsLayout.setVerticalGroup(
             PanelDropsMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4682,7 +5034,7 @@ public class GUI extends javax.swing.JFrame {
             PanelAtaqueMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelAtaqueMobsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(comboTipoAtaqueMob, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(comboTipoAtaqueMob, 0, 215, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelAtaqueMobsLayout.setVerticalGroup(
@@ -4788,36 +5140,43 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(spinnerFuerzaDistMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
+        lblTipoMob.setText("Tipo de monstruo");
+
+        comboSelectorTipoMob.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout PanelEditorMobsLayout = new javax.swing.GroupLayout(PanelEditorMobs);
         PanelEditorMobs.setLayout(PanelEditorMobsLayout);
         PanelEditorMobsLayout.setHorizontalGroup(
             PanelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelEditorMobsLayout.createSequentialGroup()
-                .addGroup(PanelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(PanelEditorMobsLayout.createSequentialGroup()
+                .addGroup(PanelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelEditorMobsLayout.createSequentialGroup()
-                        .addGroup(PanelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(PanelAtributosMobs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(PanelAtaqueMobs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(PanelComportamientoMob, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(PanelDropsMobs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(PanelEditorMobsLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(lblNombreMob)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtNombreMob, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblNivelMob, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spinnerNivelMob, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblNivelMob, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblTipoMob)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboSelectorTipoMob, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spinnerNivelMob, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnGuardarMob, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnResetearMob, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(btnResetearMob, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(PanelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(PanelEditorMobsLayout.createSequentialGroup()
+                            .addGroup(PanelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(PanelAtributosMobs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(PanelAtaqueMobs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(PanelComportamientoMob, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(PanelDropsMobs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(PanelEditorMobsLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(lblTipoMob)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(comboSelectorTipoMob, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         PanelEditorMobsLayout.setVerticalGroup(
             PanelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4827,20 +5186,23 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(txtNombreMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblNivelMob)
                     .addComponent(spinnerNivelMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblTipoMob)
-                    .addComponent(comboSelectorTipoMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGuardarMob)
                     .addComponent(btnResetearMob)
                     .addComponent(lblNombreMob))
-                .addGap(2, 2, 2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblTipoMob)
+                    .addComponent(comboSelectorTipoMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(PanelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelEditorMobsLayout.createSequentialGroup()
                         .addComponent(PanelAtributosMobs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(PanelAtaqueMobs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(PanelComportamientoMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(PanelDropsMobs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(PanelComportamientoMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(94, Short.MAX_VALUE))
+                    .addComponent(PanelDropsMobs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout PanelConfigMobsLayout = new javax.swing.GroupLayout(PanelConfigMobs);
@@ -4849,17 +5211,17 @@ public class GUI extends javax.swing.JFrame {
             PanelConfigMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelConfigMobsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PanelConfigMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(PanelConfigMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(PanelEditorMobs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(PanelConfigMobsLayout.createSequentialGroup()
                         .addComponent(btnNuevoMob, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(226, 226, 226)
                         .addComponent(comboSelectorMobs, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditMob, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEliminarMob, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(237, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         PanelConfigMobsLayout.setVerticalGroup(
             PanelConfigMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4871,551 +5233,563 @@ public class GUI extends javax.swing.JFrame {
                     .addComponent(btnEditMob)
                     .addComponent(btnEliminarMob))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanelEditorMobs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(101, Short.MAX_VALUE))
+                .addComponent(PanelEditorMobs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         PanelConfig.addTab("Monstruos", PanelConfigMobs);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de chats"));
+        PanelConfigChats.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de chats"));
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat de comercio"));
+        PanelConfigMarketChat.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat de comercio"));
 
-        jLabel1.setText("Prefijo");
+        lblPrefixMarket.setText("Prefijo");
 
-        jLabel2.setText("Color del prefijo");
+        lblPrefixColorMarket.setText("Color del prefijo");
 
-        jLabel3.setText("atajo en el chat");
+        lblShortcutMarket.setText("atajo en el chat");
 
-        jLabel4.setText("Color del mensaje");
+        lblMessageColorMarket.setText("Color del mensaje");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        javax.swing.GroupLayout PanelConfigMarketChatLayout = new javax.swing.GroupLayout(PanelConfigMarketChat);
+        PanelConfigMarketChat.setLayout(PanelConfigMarketChatLayout);
+        PanelConfigMarketChatLayout.setHorizontalGroup(
+            PanelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigMarketChatLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(PanelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMessageColorMarket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPrefixMarket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPrefixColorMarket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblShortcutMarket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(comboColorPrefijoComercio, 0, 154, Short.MAX_VALUE)
-                    .addComponent(jTextField4)
-                    .addComponent(jTextField3)
-                    .addComponent(comboPrefijoComercio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(PanelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(comboPrefixColorMarketChat, 0, 154, Short.MAX_VALUE)
+                    .addComponent(textPrefixMarketChat)
+                    .addComponent(comboShortcutMarketChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboMessageColorMarketChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        PanelConfigMarketChatLayout.setVerticalGroup(
+            PanelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigMarketChatLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrefixMarket)
+                    .addComponent(textPrefixMarketChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(comboColorPrefijoComercio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrefixColorMarket)
+                    .addComponent(comboPrefixColorMarketChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(comboPrefijoComercio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblShortcutMarket)
+                    .addComponent(comboShortcutMarketChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(PanelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMessageColorMarket)
+                    .addComponent(comboMessageColorMarketChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat global"));
+        PanelConfigGlobal.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat global"));
 
-        jLabel9.setText("Prefijo");
+        lblPrefixGlobal.setText("Prefijo");
 
-        jLabel10.setText("Color del prefijo");
+        lblPCG.setText("Color del prefijo");
 
-        jLabel11.setText("atajo en el chat");
+        lblSG.setText("atajo en el chat");
 
-        jLabel12.setText("Color del mensaje");
+        lblMCG.setText("Color del mensaje");
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        javax.swing.GroupLayout PanelConfigGlobalLayout = new javax.swing.GroupLayout(PanelConfigGlobal);
+        PanelConfigGlobal.setLayout(PanelConfigGlobalLayout);
+        PanelConfigGlobalLayout.setHorizontalGroup(
+            PanelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigGlobalLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(PanelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMCG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPrefixGlobal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPCG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField9)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField12))
+                .addGroup(PanelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textPrefixGlobalChat)
+                    .addComponent(comboPrefixColorGlobalChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboShortcutGlobalChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboMessageColorGlobalChat, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
+        PanelConfigGlobalLayout.setVerticalGroup(
+            PanelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigGlobalLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrefixGlobal)
+                    .addComponent(textPrefixGlobalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPCG)
+                    .addComponent(comboPrefixColorGlobalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
-                    .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSG)
+                    .addComponent(comboShortcutGlobalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(PanelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMCG)
+                    .addComponent(comboMessageColorGlobalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat de grupos"));
+        PanelConfigParty.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat de grupos"));
 
-        jLabel17.setText("Prefijo");
+        lblPP.setText("Prefijo");
 
-        jLabel18.setText("Color del prefijo");
+        lblPCP.setText("Color del prefijo");
 
-        jLabel19.setText("atajo en el chat");
+        lblSP.setText("atajo en el chat");
 
-        jLabel20.setText("Color del mensaje");
+        lblMCP.setText("Color del mensaje");
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+        javax.swing.GroupLayout PanelConfigPartyLayout = new javax.swing.GroupLayout(PanelConfigParty);
+        PanelConfigParty.setLayout(PanelConfigPartyLayout);
+        PanelConfigPartyLayout.setHorizontalGroup(
+            PanelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigPartyLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(PanelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField17, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                    .addComponent(jTextField18, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField19, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField20))
+                .addGroup(PanelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textPrefixPartyChat, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                    .addComponent(comboPrefixColorPartyChat, 0, 154, Short.MAX_VALUE)
+                    .addComponent(comboShortcutPartyChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboMessageColorPartyChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+        PanelConfigPartyLayout.setVerticalGroup(
+            PanelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigPartyLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
-                    .addComponent(jTextField17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPP)
+                    .addComponent(textPrefixPartyChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(jTextField18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPCP)
+                    .addComponent(comboPrefixColorPartyChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19)
-                    .addComponent(jTextField20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSP)
+                    .addComponent(comboShortcutPartyChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel20)
-                    .addComponent(jTextField19, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(PanelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMCP)
+                    .addComponent(comboMessageColorPartyChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3))
         );
 
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat de clanes"));
+        PanelConfigGuild.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat de clanes"));
 
-        jLabel21.setText("Prefijo");
+        lblPGuild.setText("Prefijo");
 
-        jLabel22.setText("Color del prefijo");
+        lblPCGuild.setText("Color del prefijo");
 
-        jLabel23.setText("atajo en el chat");
+        lblSGuild.setText("atajo en el chat");
 
-        jLabel24.setText("Color del mensaje");
+        lblMCGuild.setText("Color del mensaje");
 
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
+        javax.swing.GroupLayout PanelConfigGuildLayout = new javax.swing.GroupLayout(PanelConfigGuild);
+        PanelConfigGuild.setLayout(PanelConfigGuildLayout);
+        PanelConfigGuildLayout.setHorizontalGroup(
+            PanelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigGuildLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(PanelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMCGuild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPGuild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPCGuild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSGuild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField21)
-                    .addComponent(jTextField22, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField23, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField24))
+                .addGroup(PanelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textPrefixGuildChat, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                    .addComponent(comboPrefixColorGuildChat, 0, 154, Short.MAX_VALUE)
+                    .addComponent(comboShortcutGuildChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboMessageColorGuildChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel21)
-                    .addComponent(jTextField21, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        PanelConfigGuildLayout.setVerticalGroup(
+            PanelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigGuildLayout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addGroup(PanelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPGuild)
+                    .addComponent(textPrefixGuildChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel22)
-                    .addComponent(jTextField22, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPCGuild)
+                    .addComponent(comboPrefixColorGuildChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel23)
-                    .addComponent(jTextField24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSGuild)
+                    .addComponent(comboShortcutGuildChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel24)
-                    .addComponent(jTextField23, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(PanelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMCGuild)
+                    .addComponent(comboMessageColorGuildChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3))
         );
 
-        jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat privado"));
+        PaneConfiglPrivate.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat privado"));
 
-        jLabel25.setText("Prefijo");
+        lblPPriv.setText("Prefijo");
 
-        jLabel26.setText("Color del prefijo");
+        lblPCPriv.setText("Color del prefijo");
 
-        jLabel27.setText("atajo en el chat");
+        lblSPriv.setText("atajo en el chat");
 
-        jLabel28.setText("Color del mensaje");
+        lblMCPriv.setText("Color del mensaje");
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
+        javax.swing.GroupLayout PaneConfiglPrivateLayout = new javax.swing.GroupLayout(PaneConfiglPrivate);
+        PaneConfiglPrivate.setLayout(PaneConfiglPrivateLayout);
+        PaneConfiglPrivateLayout.setHorizontalGroup(
+            PaneConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PaneConfiglPrivateLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(PaneConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMCPriv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPPriv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPCPriv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSPriv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField25, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                    .addComponent(jTextField26, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField27, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField28))
+                .addGroup(PaneConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textPrefixPrivateChat, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                    .addComponent(comboPrefixColorPrivateChat, 0, 154, Short.MAX_VALUE)
+                    .addComponent(comboShortcutPrivateChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboMessageColorPrivateChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
+        PaneConfiglPrivateLayout.setVerticalGroup(
+            PaneConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PaneConfiglPrivateLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel25)
-                    .addComponent(jTextField25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PaneConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPPriv)
+                    .addComponent(textPrefixPrivateChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel26)
-                    .addComponent(jTextField26, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PaneConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPCPriv)
+                    .addComponent(comboPrefixColorPrivateChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel27)
-                    .addComponent(jTextField28, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PaneConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSPriv)
+                    .addComponent(comboShortcutPrivateChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel28)
-                    .addComponent(jTextField27, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(PaneConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMCPriv)
+                    .addComponent(comboMessageColorPrivateChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3))
         );
 
-        jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat noticias"));
+        PanelConfigNews.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat noticias"));
 
-        jLabel29.setText("Prefijo");
+        lblPN.setText("Prefijo");
 
-        jLabel30.setText("Color del prefijo");
+        lblPCN.setText("Color del prefijo");
 
-        jLabel31.setText("atajo en el chat");
+        lblSN.setText("atajo en el chat");
 
-        jLabel32.setText("Color del mensaje");
+        lblMCN.setText("Color del mensaje");
 
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
+        javax.swing.GroupLayout PanelConfigNewsLayout = new javax.swing.GroupLayout(PanelConfigNews);
+        PanelConfigNews.setLayout(PanelConfigNewsLayout);
+        PanelConfigNewsLayout.setHorizontalGroup(
+            PanelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigNewsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel29, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel30, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(PanelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMCN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPCN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField29)
-                    .addComponent(jTextField30, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField31, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField32))
+                .addGroup(PanelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textPrefixNewsChat, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                    .addComponent(comboPrefixColorNewsChat, 0, 154, Short.MAX_VALUE)
+                    .addComponent(comboShortcutNewsChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboMessageColorNewsChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
+        PanelConfigNewsLayout.setVerticalGroup(
+            PanelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigNewsLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel29)
-                    .addComponent(jTextField29, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPN)
+                    .addComponent(textPrefixNewsChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel30)
-                    .addComponent(jTextField30, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPCN)
+                    .addComponent(comboPrefixColorNewsChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel31)
-                    .addComponent(jTextField32, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSN)
+                    .addComponent(comboShortcutNewsChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel32)
-                    .addComponent(jTextField31, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(146, 146, 146))
-        );
-
-        jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat incidencias"));
-
-        jLabel37.setText("Prefijo");
-
-        jLabel38.setText("Color del prefijo");
-
-        jLabel39.setText("atajo en el chat");
-
-        jLabel40.setText("Color del mensaje");
-
-        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
-        jPanel12.setLayout(jPanel12Layout);
-        jPanel12Layout.setHorizontalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel40, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel38, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel39, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField37, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                    .addComponent(jTextField38, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField39, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField40))
+                .addGroup(PanelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblMCN)
+                    .addComponent(comboMessageColorNewsChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
-        jPanel12Layout.setVerticalGroup(
-            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel12Layout.createSequentialGroup()
+
+        PanelConfigWarning.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat incidencias"));
+
+        lblPW.setText("Prefijo");
+
+        lblPCW.setText("Color del prefijo");
+
+        lblSW.setText("atajo en el chat");
+
+        lblMCW.setText("Color del mensaje");
+
+        javax.swing.GroupLayout PanelConfigWarningLayout = new javax.swing.GroupLayout(PanelConfigWarning);
+        PanelConfigWarning.setLayout(PanelConfigWarningLayout);
+        PanelConfigWarningLayout.setHorizontalGroup(
+            PanelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigWarningLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMCW, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPW, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPCW, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSW, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textPrefixWarningChat, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                    .addComponent(comboPrefixColorWarningChat, 0, 154, Short.MAX_VALUE)
+                    .addComponent(comboShortcutWarningChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboMessageColorWarningChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        PanelConfigWarningLayout.setVerticalGroup(
+            PanelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigWarningLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel37)
-                    .addComponent(jTextField37, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPW)
+                    .addComponent(textPrefixWarningChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel38)
-                    .addComponent(jTextField38, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPCW)
+                    .addComponent(comboPrefixColorWarningChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel39)
-                    .addComponent(jTextField40, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(PanelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSW)
+                    .addComponent(comboShortcutWarningChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel40)
-                    .addComponent(jTextField39, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(PanelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMCW)
+                    .addComponent(comboMessageColorWarningChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3))
         );
 
-        jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat local"));
+        PanelConfigLocal.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat local"));
 
-        jLabel45.setText("Prefijo");
+        lblPL.setText("Prefijo");
 
-        jLabel46.setText("Color del prefijo");
+        lblPCL.setText("Color del prefijo");
 
-        jLabel48.setText("Color del mensaje");
+        lblMCL.setText("Color del mensaje");
 
-        jLabel49.setText("Distancia de recepción");
+        lblDL.setText("Distancia de recepción");
 
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel14Layout.createSequentialGroup()
+        javax.swing.GroupLayout PanelConfigLocalLayout = new javax.swing.GroupLayout(PanelConfigLocal);
+        PanelConfigLocal.setLayout(PanelConfigLocalLayout);
+        PanelConfigLocalLayout.setHorizontalGroup(
+            PanelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigLocalLayout.createSequentialGroup()
                 .addContainerGap(38, Short.MAX_VALUE)
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel46, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField45, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                            .addComponent(jTextField46)))
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel48, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel49, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField47)
-                            .addComponent(jSpinner1, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))))
-                .addContainerGap())
-        );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel45)
-                    .addComponent(jTextField45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel46)
-                    .addComponent(jTextField46, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel48)
-                    .addComponent(jTextField47, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel49)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-
-        jButton3.setText("Guardar configuración");
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Habilitar/Deshabilitar chats"));
-
-        jCheckBox1.setText("Habilitar/Deshabilitar chat global");
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
-            }
-        });
-
-        jCheckBox2.setText("Habilitar/Deshabilitar chat comercio");
-        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox2ActionPerformed(evt);
-            }
-        });
-
-        jCheckBox3.setText("Habilitar/Deshabilitar chat clan");
-        jCheckBox3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox3ActionPerformed(evt);
-            }
-        });
-
-        jCheckBox4.setText("Habilitar/Deshabilitar chat grupo");
-        jCheckBox4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox4ActionPerformed(evt);
-            }
-        });
-
-        jCheckBox5.setText("Habilitar/Deshabilitar chat privado");
-        jCheckBox5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox5ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCheckBox4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCheckBox3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCheckBox2, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-                    .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jCheckBox1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCheckBox5))
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGap(4, 4, 4)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(PanelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelConfigLocalLayout.createSequentialGroup()
+                        .addGroup(PanelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(PanelConfigLocalLayout.createSequentialGroup()
+                                .addComponent(lblPL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(PanelConfigLocalLayout.createSequentialGroup()
+                                .addComponent(lblPCL, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
                                 .addGap(4, 4, 4)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(PanelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(textPrefixLocalChat)
+                            .addComponent(comboPrefixColorLocalChat, 0, 120, Short.MAX_VALUE)))
+                    .addGroup(PanelConfigLocalLayout.createSequentialGroup()
+                        .addGroup(PanelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblMCL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblDL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(spinnerDistanceLocalChat, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                            .addComponent(comboMessageColorLocalChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        PanelConfigLocalLayout.setVerticalGroup(
+            PanelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelConfigLocalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPL)
+                    .addComponent(textPrefixLocalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPCL)
+                    .addComponent(comboPrefixColorLocalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDL)
+                    .addComponent(spinnerDistanceLocalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMCL)
+                    .addComponent(comboMessageColorLocalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnGuardarConfigChats.setText("Guardar configuración");
+
+        PanelConfigEnableChats.setBorder(javax.swing.BorderFactory.createTitledBorder("Habilitar/Deshabilitar chats"));
+
+        checkEnableGlobalChat.setSelected(true);
+        checkEnableGlobalChat.setText("Habilitar/Deshabilitar chat global");
+        checkEnableGlobalChat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkEnableGlobalChatActionPerformed(evt);
+            }
+        });
+
+        checkEnableMarketChat.setSelected(true);
+        checkEnableMarketChat.setText("Habilitar/Deshabilitar chat comercio");
+        checkEnableMarketChat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkEnableMarketChatActionPerformed(evt);
+            }
+        });
+
+        checkGuildChat.setSelected(true);
+        checkGuildChat.setText("Habilitar/Deshabilitar chat clan");
+        checkGuildChat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkGuildChatActionPerformed(evt);
+            }
+        });
+
+        checkPartyChat.setSelected(true);
+        checkPartyChat.setText("Habilitar/Deshabilitar chat grupo");
+        checkPartyChat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkPartyChatActionPerformed(evt);
+            }
+        });
+
+        checkPrivateChat.setSelected(true);
+        checkPrivateChat.setText("Habilitar/Deshabilitar chat privado");
+        checkPrivateChat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkPrivateChatActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout PanelConfigEnableChatsLayout = new javax.swing.GroupLayout(PanelConfigEnableChats);
+        PanelConfigEnableChats.setLayout(PanelConfigEnableChatsLayout);
+        PanelConfigEnableChatsLayout.setHorizontalGroup(
+            PanelConfigEnableChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigEnableChatsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigEnableChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(checkPrivateChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(checkPartyChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(checkGuildChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(checkEnableMarketChat, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                    .addComponent(checkEnableGlobalChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        PanelConfigEnableChatsLayout.setVerticalGroup(
+            PanelConfigEnableChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigEnableChatsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(checkEnableGlobalChat)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkEnableMarketChat, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkGuildChat)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkPartyChat)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkPrivateChat))
+        );
+
+        javax.swing.GroupLayout PanelConfigChatsLayout = new javax.swing.GroupLayout(PanelConfigChats);
+        PanelConfigChats.setLayout(PanelConfigChatsLayout);
+        PanelConfigChatsLayout.setHorizontalGroup(
+            PanelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigChatsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnGuardarConfigChats, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(PanelConfigChatsLayout.createSequentialGroup()
+                        .addGroup(PanelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelConfigChatsLayout.createSequentialGroup()
+                                .addComponent(PanelConfigEnableChats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE))
+                            .addGroup(PanelConfigChatsLayout.createSequentialGroup()
+                                .addComponent(PanelConfigGlobal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(4, 4, 4))
+                            .addGroup(PanelConfigChatsLayout.createSequentialGroup()
+                                .addComponent(PanelConfigLocal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(PanelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(PanelConfigNews, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PanelConfigMarketChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(PanelConfigGuild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(PanelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(PanelConfigChatsLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(PanelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(PanelConfigChatsLayout.createSequentialGroup()
+                                        .addComponent(PanelConfigParty, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(347, 347, 347))
-                                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(PaneConfiglPrivate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(PanelConfigChatsLayout.createSequentialGroup()
                                 .addGap(8, 8, 8)
-                                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(PanelConfigWarning, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        PanelConfigChatsLayout.setVerticalGroup(
+            PanelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelConfigChatsLayout.createSequentialGroup()
+                .addGroup(PanelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PanelConfigMarketChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelConfigParty, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelConfigEnableChats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(PanelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PanelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(PanelConfigGuild, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(PaneConfiglPrivate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(PanelConfigGlobal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(PanelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(PanelConfigLocal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelConfigNews, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PanelConfigWarning, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(btnGuardarConfigChats)
                 .addGap(504, 504, 504))
         );
 
-        jScrollPane4.setViewportView(jPanel1);
+        jScrollPane4.setViewportView(PanelConfigChats);
 
         javax.swing.GroupLayout PanelConfChatsLayout = new javax.swing.GroupLayout(PanelConfChats);
         PanelConfChats.setLayout(PanelConfChatsLayout);
@@ -5423,7 +5797,7 @@ public class GUI extends javax.swing.JFrame {
             PanelConfChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelConfChatsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE)
                 .addContainerGap())
         );
         PanelConfChatsLayout.setVerticalGroup(
@@ -5436,7 +5810,7 @@ public class GUI extends javax.swing.JFrame {
 
         PanelConfig.addTab("Chat", PanelConfChats);
 
-        getContentPane().add(PanelConfig, java.awt.BorderLayout.CENTER);
+        getContentPane().add(PanelConfig);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -5846,9 +6220,9 @@ public class GUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnValidarFormulaNivelesActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnGuardarConfigGlobalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarConfigGlobalActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnGuardarConfigGlobalActionPerformed
 
     private void checkGruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkGruposActionPerformed
         if (checkGrupos.isSelected()) {
@@ -5870,72 +6244,74 @@ public class GUI extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Tamaño ventana: " + this.getBounds().width + "," + this.getBounds().height, "RPGCraftCosta-Información", 1);
     }//GEN-LAST:event_btnpruebaActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+    private void checkEnableGlobalChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkEnableGlobalChatActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_checkEnableGlobalChatActionPerformed
 
-    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+    private void checkEnableMarketChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkEnableMarketChatActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox2ActionPerformed
+    }//GEN-LAST:event_checkEnableMarketChatActionPerformed
 
-    private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
+    private void checkGuildChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkGuildChatActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox3ActionPerformed
+    }//GEN-LAST:event_checkGuildChatActionPerformed
 
-    private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
+    private void checkPartyChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPartyChatActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox4ActionPerformed
+    }//GEN-LAST:event_checkPartyChatActionPerformed
 
-    private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
+    private void checkPrivateChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPrivateChatActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jCheckBox5ActionPerformed
+    }//GEN-LAST:event_checkPrivateChatActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) throws FileNotFoundException {
-
-        try {
-            /* Set the Nimbus look and feel */
-            //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
             /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-             * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-             */
-            try {
-                for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                    if ("Nimbus".equals(info.getName())) {
-                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                        break;
-                    }
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
                 }
-            } catch (ClassNotFoundException ex) {
-                java.util.logging.Logger.getLogger(RPGCraftCosta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (InstantiationException ex) {
-                java.util.logging.Logger.getLogger(RPGCraftCosta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                java.util.logging.Logger.getLogger(RPGCraftCosta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-                java.util.logging.Logger.getLogger(RPGCraftCosta.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
             }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
             //</editor-fold>
 
-            /* Create and display the form */
-            //Create Default config to work with
-            createDefaultDirectories();
-            java.awt.EventQueue.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    new GUI().setVisible(true);
+        /* Create and display the form */
+        //Create Default config to work with
 
-                }
-            });
-        } catch (IOException ex) {
-            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                createDefaultDirectories();
+
+                new GUI().setVisible(true);
+
+            }
+        });
         //</editor-fold>
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PaneConfiglPrivate;
     private javax.swing.JPanel PanelAtaqueMobs;
     private javax.swing.JPanel PanelAtribBasicoClase;
     private javax.swing.JPanel PanelAtribSpawner;
@@ -5947,22 +6323,32 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTabbedPane PanelConfig;
     private javax.swing.JPanel PanelConfigArmaduras;
     private javax.swing.JPanel PanelConfigArmor;
+    private javax.swing.JPanel PanelConfigChats;
     private javax.swing.JPanel PanelConfigClanes;
     private javax.swing.JPanel PanelConfigClases;
     private javax.swing.JPanel PanelConfigDanioGeneral;
+    private javax.swing.JPanel PanelConfigDayCycle;
+    private javax.swing.JPanel PanelConfigEnableChats;
     private javax.swing.JPanel PanelConfigGeneral;
     private javax.swing.JPanel PanelConfigGeneralGen;
+    private javax.swing.JPanel PanelConfigGlobal;
     private javax.swing.JPanel PanelConfigGrupos;
+    private javax.swing.JPanel PanelConfigGuild;
     private javax.swing.JPanel PanelConfigGuilds;
     private javax.swing.JPanel PanelConfigInicio;
     private javax.swing.JPanel PanelConfigJewels;
     private javax.swing.JPanel PanelConfigJoyas;
     private javax.swing.JPanel PanelConfigLevel;
+    private javax.swing.JPanel PanelConfigLocal;
+    private javax.swing.JPanel PanelConfigMarketChat;
     private javax.swing.JPanel PanelConfigMobs;
+    private javax.swing.JPanel PanelConfigNews;
     private javax.swing.JPanel PanelConfigObjetos;
     private javax.swing.JPanel PanelConfigParties;
+    private javax.swing.JPanel PanelConfigParty;
     private javax.swing.JPanel PanelConfigPlayers;
     private javax.swing.JPanel PanelConfigSpawners;
+    private javax.swing.JPanel PanelConfigWarning;
     private javax.swing.JPanel PanelConfigWeapon;
     private javax.swing.JPanel PanelDropsDefault;
     private javax.swing.JPanel PanelDropsMobs;
@@ -6042,7 +6428,9 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton btnGuardarClase;
     private javax.swing.JButton btnGuardarConfigArma;
     private javax.swing.JButton btnGuardarConfigArmadura;
+    private javax.swing.JButton btnGuardarConfigChats;
     private javax.swing.JButton btnGuardarConfigClan;
+    private javax.swing.JButton btnGuardarConfigGlobal;
     private javax.swing.JButton btnGuardarConfigGrupos;
     private javax.swing.JButton btnGuardarConfigJoyas;
     private javax.swing.JButton btnGuardarConfigNiveles;
@@ -6078,17 +6466,22 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox checkDanioAhogo;
     private javax.swing.JCheckBox checkDanioCaida;
     private javax.swing.JCheckBox checkDanioPvp;
+    private javax.swing.JCheckBox checkDayCycle;
     private javax.swing.JCheckBox checkDestruirBloques;
     private javax.swing.JCheckBox checkEnableClase;
+    private javax.swing.JCheckBox checkEnableGlobalChat;
+    private javax.swing.JCheckBox checkEnableMarketChat;
     private javax.swing.JCheckBox checkEnableSpawner;
     private javax.swing.JCheckBox checkGrupos;
+    private javax.swing.JCheckBox checkGuildChat;
     private javax.swing.JCheckBox checkMejorableArma;
     private javax.swing.JCheckBox checkMejorableArmadura;
+    private javax.swing.JCheckBox checkPartyChat;
+    private javax.swing.JCheckBox checkPrivateChat;
     private javax.swing.JCheckBox checkSistHambre;
     private javax.swing.JComboBox comboCalidad;
     private javax.swing.JComboBox comboCalidadArma;
     private javax.swing.JComboBox comboCalidadJoya;
-    private javax.swing.JComboBox comboColorPrefijoComercio;
     private javax.swing.JComboBox comboComportamiento;
     private javax.swing.JComboBox comboListSets;
     private javax.swing.JComboBox comboListaArmas;
@@ -6096,71 +6489,44 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JComboBox comboMaterial;
     private javax.swing.JComboBox comboMejoradorArma;
     private javax.swing.JComboBox comboMejoradorArmadura;
+    private javax.swing.JComboBox comboMessageColorGlobalChat;
+    private javax.swing.JComboBox comboMessageColorGuildChat;
+    private javax.swing.JComboBox comboMessageColorLocalChat;
+    private javax.swing.JComboBox comboMessageColorMarketChat;
+    private javax.swing.JComboBox comboMessageColorNewsChat;
+    private javax.swing.JComboBox comboMessageColorPartyChat;
+    private javax.swing.JComboBox comboMessageColorPrivateChat;
+    private javax.swing.JComboBox comboMessageColorWarningChat;
     private javax.swing.JComboBox comboMobSpawner;
     private javax.swing.JComboBox comboObjetoDropMob;
     private javax.swing.JComboBox comboObjetoJoya;
-    private javax.swing.JComboBox comboPrefijoComercio;
+    private javax.swing.JComboBox comboPrefixColorGlobalChat;
+    private javax.swing.JComboBox comboPrefixColorGuildChat;
+    private javax.swing.JComboBox comboPrefixColorLocalChat;
+    private javax.swing.JComboBox comboPrefixColorMarketChat;
+    private javax.swing.JComboBox comboPrefixColorNewsChat;
+    private javax.swing.JComboBox comboPrefixColorPartyChat;
+    private javax.swing.JComboBox comboPrefixColorPrivateChat;
+    private javax.swing.JComboBox comboPrefixColorWarningChat;
     private javax.swing.JComboBox comboSelectorClases;
     private javax.swing.JComboBox comboSelectorGenerador;
     private javax.swing.JComboBox comboSelectorJoyas;
     private javax.swing.JComboBox comboSelectorMobs;
     private javax.swing.JTextField comboSelectorSpawner;
     private javax.swing.JComboBox comboSelectorTipoMob;
+    private javax.swing.JComboBox comboShortcutGlobalChat;
+    private javax.swing.JComboBox comboShortcutGuildChat;
+    private javax.swing.JComboBox comboShortcutMarketChat;
+    private javax.swing.JComboBox comboShortcutNewsChat;
+    private javax.swing.JComboBox comboShortcutPartyChat;
+    private javax.swing.JComboBox comboShortcutPrivateChat;
+    private javax.swing.JComboBox comboShortcutWarningChat;
     private javax.swing.JComboBox comboTipoArma;
     private javax.swing.JComboBox comboTipoAtaqueMob;
     private javax.swing.JComboBox comboTipoDropMob;
     private javax.swing.JComboBox comboTipoObjeto;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
-    private javax.swing.JLabel jLabel24;
-    private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel28;
-    private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel37;
-    private javax.swing.JLabel jLabel38;
-    private javax.swing.JLabel jLabel39;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel40;
-    private javax.swing.JLabel jLabel45;
-    private javax.swing.JLabel jLabel46;
-    private javax.swing.JLabel jLabel48;
-    private javax.swing.JLabel jLabel49;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JList jListDescArma;
     private javax.swing.JList jListDescArmadura;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -6169,36 +6535,6 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField17;
-    private javax.swing.JTextField jTextField18;
-    private javax.swing.JTextField jTextField19;
-    private javax.swing.JTextField jTextField20;
-    private javax.swing.JTextField jTextField21;
-    private javax.swing.JTextField jTextField22;
-    private javax.swing.JTextField jTextField23;
-    private javax.swing.JTextField jTextField24;
-    private javax.swing.JTextField jTextField25;
-    private javax.swing.JTextField jTextField26;
-    private javax.swing.JTextField jTextField27;
-    private javax.swing.JTextField jTextField28;
-    private javax.swing.JTextField jTextField29;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField30;
-    private javax.swing.JTextField jTextField31;
-    private javax.swing.JTextField jTextField32;
-    private javax.swing.JTextField jTextField37;
-    private javax.swing.JTextField jTextField38;
-    private javax.swing.JTextField jTextField39;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField40;
-    private javax.swing.JTextField jTextField45;
-    private javax.swing.JTextField jTextField46;
-    private javax.swing.JTextField jTextField47;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JLabel lblAtaDistMob;
     private javax.swing.JLabel lblAtaFisAP;
     private javax.swing.JLabel lblAtaFisArma;
@@ -6219,6 +6555,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblCritArma;
     private javax.swing.JLabel lblCritBase;
     private javax.swing.JLabel lblCritNivel;
+    private javax.swing.JLabel lblDL;
     private javax.swing.JLabel lblDefFisBase;
     private javax.swing.JLabel lblDefFisBotas;
     private javax.swing.JLabel lblDefFisCasco;
@@ -6274,6 +6611,13 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblInfoNivelMaxNivel;
     private javax.swing.JLabel lblJugadoresClan;
     private javax.swing.JLabel lblJugadoresGrupo;
+    private javax.swing.JLabel lblMCG;
+    private javax.swing.JLabel lblMCGuild;
+    private javax.swing.JLabel lblMCL;
+    private javax.swing.JLabel lblMCN;
+    private javax.swing.JLabel lblMCP;
+    private javax.swing.JLabel lblMCPriv;
+    private javax.swing.JLabel lblMCW;
     private javax.swing.JLabel lblManaAP;
     private javax.swing.JLabel lblManaAP2;
     private javax.swing.JLabel lblManaBase;
@@ -6298,6 +6642,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblMejHRMagArma;
     private javax.swing.JLabel lblMejRoboMArma;
     private javax.swing.JLabel lblMejoradorArmadura;
+    private javax.swing.JLabel lblMessageColorMarket;
     private javax.swing.JLabel lblMobSpawner;
     private javax.swing.JLabel lblMortalAP;
     private javax.swing.JLabel lblMortalBase;
@@ -6320,7 +6665,20 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblNumMaxMobSpawner;
     private javax.swing.JLabel lblObjetoDropMob;
     private javax.swing.JLabel lblObjetoJoya;
+    private javax.swing.JLabel lblPCG;
+    private javax.swing.JLabel lblPCGuild;
+    private javax.swing.JLabel lblPCL;
+    private javax.swing.JLabel lblPCN;
+    private javax.swing.JLabel lblPCP;
+    private javax.swing.JLabel lblPCPriv;
+    private javax.swing.JLabel lblPCW;
+    private javax.swing.JLabel lblPGuild;
     private javax.swing.JLabel lblPHxNivel;
+    private javax.swing.JLabel lblPL;
+    private javax.swing.JLabel lblPN;
+    private javax.swing.JLabel lblPP;
+    private javax.swing.JLabel lblPPriv;
+    private javax.swing.JLabel lblPW;
     private javax.swing.JLabel lblPrecioCArma;
     private javax.swing.JLabel lblPrecioCBotas;
     private javax.swing.JLabel lblPrecioCCasco;
@@ -6333,6 +6691,9 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblPrecioVGrebas;
     private javax.swing.JLabel lblPrecioVJoya;
     private javax.swing.JLabel lblPrecioVPechera;
+    private javax.swing.JLabel lblPrefixColorMarket;
+    private javax.swing.JLabel lblPrefixGlobal;
+    private javax.swing.JLabel lblPrefixMarket;
     private javax.swing.JLabel lblProbDetArma;
     private javax.swing.JLabel lblProbDetArmadura;
     private javax.swing.JLabel lblProbDetJoya;
@@ -6353,7 +6714,14 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblRoboMArma;
     private javax.swing.JLabel lblRoboMJoya;
     private javax.swing.JLabel lblRoboVJoya;
+    private javax.swing.JLabel lblSG;
+    private javax.swing.JLabel lblSGuild;
+    private javax.swing.JLabel lblSN;
+    private javax.swing.JLabel lblSP;
+    private javax.swing.JLabel lblSPriv;
+    private javax.swing.JLabel lblSW;
     private javax.swing.JLabel lblSelectorSet;
+    private javax.swing.JLabel lblShortcutMarket;
     private javax.swing.JLabel lblTipoArma;
     private javax.swing.JLabel lblTipoDropMob;
     private javax.swing.JLabel lblTipoMejoradorArma;
@@ -6441,6 +6809,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JSpinner spinnerDineroExtraGrebas;
     private javax.swing.JSpinner spinnerDineroExtraJoya;
     private javax.swing.JSpinner spinnerDineroExtraPechera;
+    private javax.swing.JSpinner spinnerDistanceLocalChat;
     private javax.swing.JSpinner spinnerEvaBase;
     private javax.swing.JSpinner spinnerEvaFisBotas;
     private javax.swing.JSpinner spinnerEvaFisCasco;
@@ -6554,6 +6923,14 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JTable tablaClanes;
     private javax.swing.JTable tablaDropsMob;
     private javax.swing.JTable tablaExpNivel;
+    private javax.swing.JTextField textPrefixGlobalChat;
+    private javax.swing.JTextField textPrefixGuildChat;
+    private javax.swing.JTextField textPrefixLocalChat;
+    private javax.swing.JTextField textPrefixMarketChat;
+    private javax.swing.JTextField textPrefixNewsChat;
+    private javax.swing.JTextField textPrefixPartyChat;
+    private javax.swing.JTextField textPrefixPrivateChat;
+    private javax.swing.JTextField textPrefixWarningChat;
     private javax.swing.JTextField txtDescripObjeto;
     private javax.swing.JTextField txtDescripcionArma;
     private javax.swing.JTextField txtDescripcionArmadura;
@@ -6587,15 +6964,2275 @@ public class GUI extends javax.swing.JFrame {
 
     }
 
-    private void loadComboprueba() {
-        //prueba de combo colores
-        for (ChatColor color : ChatColor.values()) {
-            comboColorPrefijoComercio.addItem(color.name());
-        }
-        String caracteresEspeciales = "#@$%&\\=?¿¡!'*^{}[],;.:-_<>";
-        for (int i = 0; i < caracteresEspeciales.length(); i++) {
-            comboPrefijoComercio.addItem(caracteresEspeciales.charAt(i));
-        }
+    public JCheckBox getCheckClanes() {
+        return checkClanes;
     }
 
+    public void setCheckClanes(JCheckBox checkClanes) {
+        this.checkClanes = checkClanes;
+    }
+
+    public JCheckBox getCheckColocarBloques() {
+        return checkColocarBloques;
+    }
+
+    public void setCheckColocarBloques(JCheckBox checkColocarBloques) {
+        this.checkColocarBloques = checkColocarBloques;
+    }
+
+    public JCheckBox getCheckCombinable() {
+        return checkCombinable;
+    }
+
+    public void setCheckCombinable(JCheckBox checkCombinable) {
+        this.checkCombinable = checkCombinable;
+    }
+
+    public JCheckBox getCheckComerciable() {
+        return checkComerciable;
+    }
+
+    public void setCheckComerciable(JCheckBox checkComerciable) {
+        this.checkComerciable = checkComerciable;
+    }
+
+    public JCheckBox getCheckComerciableArma() {
+        return checkComerciableArma;
+    }
+
+    public void setCheckComerciableArma(JCheckBox checkComerciableArma) {
+        this.checkComerciableArma = checkComerciableArma;
+    }
+
+    public JCheckBox getCheckComerciableArmadura() {
+        return checkComerciableArmadura;
+    }
+
+    public void setCheckComerciableArmadura(JCheckBox checkComerciableArmadura) {
+        this.checkComerciableArmadura = checkComerciableArmadura;
+    }
+
+    public JCheckBox getCheckDanioAhogo() {
+        return checkDanioAhogo;
+    }
+
+    public void setCheckDanioAhogo(JCheckBox checkDanioAhogo) {
+        this.checkDanioAhogo = checkDanioAhogo;
+    }
+
+    public JCheckBox getCheckDanioCaida() {
+        return checkDanioCaida;
+    }
+
+    public void setCheckDanioCaida(JCheckBox checkDanioCaida) {
+        this.checkDanioCaida = checkDanioCaida;
+    }
+
+    public JCheckBox getCheckDanioPvp() {
+        return checkDanioPvp;
+    }
+
+    public void setCheckDanioPvp(JCheckBox checkDanioPvp) {
+        this.checkDanioPvp = checkDanioPvp;
+    }
+
+    public JCheckBox getCheckDestruirBloques() {
+        return checkDestruirBloques;
+    }
+
+    public void setCheckDestruirBloques(JCheckBox checkDestruirBloques) {
+        this.checkDestruirBloques = checkDestruirBloques;
+    }
+
+    public JCheckBox getCheckDestruirBloques1() {
+        return checkDayCycle;
+    }
+
+    public void setCheckDestruirBloques1(JCheckBox checkDestruirBloques1) {
+        this.checkDayCycle = checkDestruirBloques1;
+    }
+
+    public JCheckBox getCheckEnableClase() {
+        return checkEnableClase;
+    }
+
+    public void setCheckEnableClase(JCheckBox checkEnableClase) {
+        this.checkEnableClase = checkEnableClase;
+    }
+
+    public JCheckBox getCheckEnableSpawner() {
+        return checkEnableSpawner;
+    }
+
+    public void setCheckEnableSpawner(JCheckBox checkEnableSpawner) {
+        this.checkEnableSpawner = checkEnableSpawner;
+    }
+
+    public JCheckBox getCheckGrupos() {
+        return checkGrupos;
+    }
+
+    public void setCheckGrupos(JCheckBox checkGrupos) {
+        this.checkGrupos = checkGrupos;
+    }
+
+    public JCheckBox getCheckMejorableArma() {
+        return checkMejorableArma;
+    }
+
+    public void setCheckMejorableArma(JCheckBox checkMejorableArma) {
+        this.checkMejorableArma = checkMejorableArma;
+    }
+
+    public JCheckBox getCheckMejorableArmadura() {
+        return checkMejorableArmadura;
+    }
+
+    public void setCheckMejorableArmadura(JCheckBox checkMejorableArmadura) {
+        this.checkMejorableArmadura = checkMejorableArmadura;
+    }
+
+    public JCheckBox getCheckSistHambre() {
+        return checkSistHambre;
+    }
+
+    public void setCheckSistHambre(JCheckBox checkSistHambre) {
+        this.checkSistHambre = checkSistHambre;
+    }
+
+    public JComboBox getComboCalidad() {
+        return comboCalidad;
+    }
+
+    public void setComboCalidad(JComboBox comboCalidad) {
+        this.comboCalidad = comboCalidad;
+    }
+
+    public JComboBox getComboCalidadArma() {
+        return comboCalidadArma;
+    }
+
+    public void setComboCalidadArma(JComboBox comboCalidadArma) {
+        this.comboCalidadArma = comboCalidadArma;
+    }
+
+    public JComboBox getComboCalidadJoya() {
+        return comboCalidadJoya;
+    }
+
+    public void setComboCalidadJoya(JComboBox comboCalidadJoya) {
+        this.comboCalidadJoya = comboCalidadJoya;
+    }
+
+    public JComboBox getComboColorPrefijoComercio() {
+        return comboPrefixColorMarketChat;
+    }
+
+    public void setComboColorPrefijoComercio(JComboBox comboColorPrefijoComercio) {
+        this.comboPrefixColorMarketChat = comboColorPrefijoComercio;
+    }
+
+    public JComboBox getComboComportamiento() {
+        return comboComportamiento;
+    }
+
+    public void setComboComportamiento(JComboBox comboComportamiento) {
+        this.comboComportamiento = comboComportamiento;
+    }
+
+    public JComboBox getComboListSets() {
+        return comboListSets;
+    }
+
+    public void setComboListSets(JComboBox comboListSets) {
+        this.comboListSets = comboListSets;
+    }
+
+    public JComboBox getComboListaArmas() {
+        return comboListaArmas;
+    }
+
+    public void setComboListaArmas(JComboBox comboListaArmas) {
+        this.comboListaArmas = comboListaArmas;
+    }
+
+    public JComboBox getComboListaObjetos() {
+        return comboListaObjetos;
+    }
+
+    public void setComboListaObjetos(JComboBox comboListaObjetos) {
+        this.comboListaObjetos = comboListaObjetos;
+    }
+
+    public JComboBox getComboMaterial() {
+        return comboMaterial;
+    }
+
+    public void setComboMaterial(JComboBox comboMaterial) {
+        this.comboMaterial = comboMaterial;
+    }
+
+    public JComboBox getComboMejoradorArma() {
+        return comboMejoradorArma;
+    }
+
+    public void setComboMejoradorArma(JComboBox comboMejoradorArma) {
+        this.comboMejoradorArma = comboMejoradorArma;
+    }
+
+    public JComboBox getComboMejoradorArmadura() {
+        return comboMejoradorArmadura;
+    }
+
+    public void setComboMejoradorArmadura(JComboBox comboMejoradorArmadura) {
+        this.comboMejoradorArmadura = comboMejoradorArmadura;
+    }
+
+    public JComboBox getComboMobSpawner() {
+        return comboMobSpawner;
+    }
+
+    public void setComboMobSpawner(JComboBox comboMobSpawner) {
+        this.comboMobSpawner = comboMobSpawner;
+    }
+
+    public JComboBox getComboObjetoDropMob() {
+        return comboObjetoDropMob;
+    }
+
+    public void setComboObjetoDropMob(JComboBox comboObjetoDropMob) {
+        this.comboObjetoDropMob = comboObjetoDropMob;
+    }
+
+    public JComboBox getComboObjetoJoya() {
+        return comboObjetoJoya;
+    }
+
+    public void setComboObjetoJoya(JComboBox comboObjetoJoya) {
+        this.comboObjetoJoya = comboObjetoJoya;
+    }
+
+    public JComboBox getComboPrefijoComercio() {
+        return comboShortcutMarketChat;
+    }
+
+    public void setComboPrefijoComercio(JComboBox comboPrefijoComercio) {
+        this.comboShortcutMarketChat = comboPrefijoComercio;
+    }
+
+    public JComboBox getComboSelectorClases() {
+        return comboSelectorClases;
+    }
+
+    public void setComboSelectorClases(JComboBox comboSelectorClases) {
+        this.comboSelectorClases = comboSelectorClases;
+    }
+
+    public JComboBox getComboSelectorGenerador() {
+        return comboSelectorGenerador;
+    }
+
+    public void setComboSelectorGenerador(JComboBox comboSelectorGenerador) {
+        this.comboSelectorGenerador = comboSelectorGenerador;
+    }
+
+    public JComboBox getComboSelectorJoyas() {
+        return comboSelectorJoyas;
+    }
+
+    public void setComboSelectorJoyas(JComboBox comboSelectorJoyas) {
+        this.comboSelectorJoyas = comboSelectorJoyas;
+    }
+
+    public JComboBox getComboSelectorMobs() {
+        return comboSelectorMobs;
+    }
+
+    public void setComboSelectorMobs(JComboBox comboSelectorMobs) {
+        this.comboSelectorMobs = comboSelectorMobs;
+    }
+
+    public JTextField getComboSelectorSpawner() {
+        return comboSelectorSpawner;
+    }
+
+    public void setComboSelectorSpawner(JTextField comboSelectorSpawner) {
+        this.comboSelectorSpawner = comboSelectorSpawner;
+    }
+
+    public JComboBox getComboSelectorTipoMob() {
+        return comboSelectorTipoMob;
+    }
+
+    public void setComboSelectorTipoMob(JComboBox comboSelectorTipoMob) {
+        this.comboSelectorTipoMob = comboSelectorTipoMob;
+    }
+
+    public JComboBox getComboTipoArma() {
+        return comboTipoArma;
+    }
+
+    public void setComboTipoArma(JComboBox comboTipoArma) {
+        this.comboTipoArma = comboTipoArma;
+    }
+
+    public JComboBox getComboTipoAtaqueMob() {
+        return comboTipoAtaqueMob;
+    }
+
+    public void setComboTipoAtaqueMob(JComboBox comboTipoAtaqueMob) {
+        this.comboTipoAtaqueMob = comboTipoAtaqueMob;
+    }
+
+    public JComboBox getComboTipoDropMob() {
+        return comboTipoDropMob;
+    }
+
+    public void setComboTipoDropMob(JComboBox comboTipoDropMob) {
+        this.comboTipoDropMob = comboTipoDropMob;
+    }
+
+    public JComboBox getComboTipoObjeto() {
+        return comboTipoObjeto;
+    }
+
+    public void setComboTipoObjeto(JComboBox comboTipoObjeto) {
+        this.comboTipoObjeto = comboTipoObjeto;
+    }
+
+    public JCheckBox getjCheckBox1() {
+        return checkEnableGlobalChat;
+    }
+
+    public void setjCheckBox1(JCheckBox jCheckBox1) {
+        this.checkEnableGlobalChat = jCheckBox1;
+    }
+
+    public JCheckBox getjCheckBox2() {
+        return checkEnableMarketChat;
+    }
+
+    public void setjCheckBox2(JCheckBox jCheckBox2) {
+        this.checkEnableMarketChat = jCheckBox2;
+    }
+
+    public JCheckBox getjCheckBox3() {
+        return checkGuildChat;
+    }
+
+    public void setjCheckBox3(JCheckBox jCheckBox3) {
+        this.checkGuildChat = jCheckBox3;
+    }
+
+    public JCheckBox getjCheckBox4() {
+        return checkPartyChat;
+    }
+
+    public void setjCheckBox4(JCheckBox jCheckBox4) {
+        this.checkPartyChat = jCheckBox4;
+    }
+
+    public JCheckBox getjCheckBox5() {
+        return checkPrivateChat;
+    }
+
+    public void setjCheckBox5(JCheckBox jCheckBox5) {
+        this.checkPrivateChat = jCheckBox5;
+    }
+
+    public JList getjListDescArma() {
+        return jListDescArma;
+    }
+
+    public void setjListDescArma(JList jListDescArma) {
+        this.jListDescArma = jListDescArma;
+    }
+
+    public JList getjListDescArmadura() {
+        return jListDescArmadura;
+    }
+
+    public void setjListDescArmadura(JList jListDescArmadura) {
+        this.jListDescArmadura = jListDescArmadura;
+    }
+
+    public JSpinner getjSpinner1() {
+        return spinnerDistanceLocalChat;
+    }
+
+    public void setjSpinner1(JSpinner jSpinner1) {
+        this.spinnerDistanceLocalChat = jSpinner1;
+    }
+
+    public JTextField getjTextField17() {
+        return textPrefixPartyChat;
+    }
+
+    public void setjTextField17(JTextField jTextField17) {
+        this.textPrefixPartyChat = jTextField17;
+    }
+
+    public JTextField getjTextField21() {
+        return textPrefixGuildChat;
+    }
+
+    public void setjTextField21(JTextField jTextField21) {
+        this.textPrefixGuildChat = jTextField21;
+    }
+
+    public JTextField getjTextField25() {
+        return textPrefixPrivateChat;
+    }
+
+    public void setjTextField25(JTextField jTextField25) {
+        this.textPrefixPrivateChat = jTextField25;
+    }
+
+    public JTextField getjTextField29() {
+        return textPrefixNewsChat;
+    }
+
+    public void setjTextField29(JTextField jTextField29) {
+        this.textPrefixNewsChat = jTextField29;
+    }
+
+    public JTextField getjTextField3() {
+        return textPrefixMarketChat;
+    }
+
+    public void setjTextField3(JTextField jTextField3) {
+        this.textPrefixMarketChat = jTextField3;
+    }
+
+    public JTextField getjTextField37() {
+        return textPrefixWarningChat;
+    }
+
+    public void setjTextField37(JTextField jTextField37) {
+        this.textPrefixWarningChat = jTextField37;
+    }
+
+    public JTextField getjTextField45() {
+        return textPrefixLocalChat;
+    }
+
+    public void setjTextField45(JTextField jTextField45) {
+        this.textPrefixLocalChat = jTextField45;
+    }
+
+    public JTextField getjTextField9() {
+        return textPrefixGlobalChat;
+    }
+
+    public void setjTextField9(JTextField jTextField9) {
+        this.textPrefixGlobalChat = jTextField9;
+    }
+
+    public JList getListDescripcionObjeto() {
+        return listDescripcionObjeto;
+    }
+
+    public void setListDescripcionObjeto(JList listDescripcionObjeto) {
+        this.listDescripcionObjeto = listDescripcionObjeto;
+    }
+
+    public JRadioButton getRdBtnAmbosGrupo() {
+        return rdBtnAmbosGrupo;
+    }
+
+    public void setRdBtnAmbosGrupo(JRadioButton rdBtnAmbosGrupo) {
+        this.rdBtnAmbosGrupo = rdBtnAmbosGrupo;
+    }
+
+    public JRadioButton getRdBtnContriAmbos() {
+        return rdBtnContriAmbos;
+    }
+
+    public void setRdBtnContriAmbos(JRadioButton rdBtnContriAmbos) {
+        this.rdBtnContriAmbos = rdBtnContriAmbos;
+    }
+
+    public JRadioButton getRdBtnContriSoloContri() {
+        return rdBtnContriSoloContri;
+    }
+
+    public void setRdBtnContriSoloContri(JRadioButton rdBtnContriSoloContri) {
+        this.rdBtnContriSoloContri = rdBtnContriSoloContri;
+    }
+
+    public JRadioButton getRdBtnContriSoloDon() {
+        return rdBtnContriSoloDon;
+    }
+
+    public void setRdBtnContriSoloDon(JRadioButton rdBtnContriSoloDon) {
+        this.rdBtnContriSoloDon = rdBtnContriSoloDon;
+    }
+
+    public JRadioButton getRdBtnFijosGrupo() {
+        return rdBtnFijosGrupo;
+    }
+
+    public void setRdBtnFijosGrupo(JRadioButton rdBtnFijosGrupo) {
+        this.rdBtnFijosGrupo = rdBtnFijosGrupo;
+    }
+
+    public JRadioButton getRdBtnIlimitadosGrupo() {
+        return rdBtnIlimitadosGrupo;
+    }
+
+    public void setRdBtnIlimitadosGrupo(JRadioButton rdBtnIlimitadosGrupo) {
+        this.rdBtnIlimitadosGrupo = rdBtnIlimitadosGrupo;
+    }
+
+    public JRadioButton getRdBtnLimitNivClan() {
+        return rdBtnLimitNivClan;
+    }
+
+    public void setRdBtnLimitNivClan(JRadioButton rdBtnLimitNivClan) {
+        this.rdBtnLimitNivClan = rdBtnLimitNivClan;
+    }
+
+    public JRadioButton getRdBtnNoPermitidoPvpGrupo() {
+        return rdBtnNoPermitidoPvpGrupo;
+    }
+
+    public void setRdBtnNoPermitidoPvpGrupo(JRadioButton rdBtnNoPermitidoPvpGrupo) {
+        this.rdBtnNoPermitidoPvpGrupo = rdBtnNoPermitidoPvpGrupo;
+    }
+
+    public JRadioButton getRdBtnNumFijosClan() {
+        return rdBtnNumFijosClan;
+    }
+
+    public void setRdBtnNumFijosClan(JRadioButton rdBtnNumFijosClan) {
+        this.rdBtnNumFijosClan = rdBtnNumFijosClan;
+    }
+
+    public JRadioButton getRdBtnNumIlimitadosClan() {
+        return rdBtnNumIlimitadosClan;
+    }
+
+    public void setRdBtnNumIlimitadosClan(JRadioButton rdBtnNumIlimitadosClan) {
+        this.rdBtnNumIlimitadosClan = rdBtnNumIlimitadosClan;
+    }
+
+    public JRadioButton getRdBtnOpcDinFijo() {
+        return rdBtnOpcDinFijo;
+    }
+
+    public void setRdBtnOpcDinFijo(JRadioButton rdBtnOpcDinFijo) {
+        this.rdBtnOpcDinFijo = rdBtnOpcDinFijo;
+    }
+
+    public JRadioButton getRdBtnOpcDinForm() {
+        return rdBtnOpcDinForm;
+    }
+
+    public void setRdBtnOpcDinForm(JRadioButton rdBtnOpcDinForm) {
+        this.rdBtnOpcDinForm = rdBtnOpcDinForm;
+    }
+
+    public JRadioButton getRdBtnOpcionProporcionalGrupo() {
+        return rdBtnOpcionProporcionalGrupo;
+    }
+
+    public void setRdBtnOpcionProporcionalGrupo(JRadioButton rdBtnOpcionProporcionalGrupo) {
+        this.rdBtnOpcionProporcionalGrupo = rdBtnOpcionProporcionalGrupo;
+    }
+
+    public JRadioButton getRdBtnOpcionigualitarioGrupo() {
+        return rdBtnOpcionigualitarioGrupo;
+    }
+
+    public void setRdBtnOpcionigualitarioGrupo(JRadioButton rdBtnOpcionigualitarioGrupo) {
+        this.rdBtnOpcionigualitarioGrupo = rdBtnOpcionigualitarioGrupo;
+    }
+
+    public JRadioButton getRdBtnPermitidoPvpGrupo() {
+        return rdBtnPermitidoPvpGrupo;
+    }
+
+    public void setRdBtnPermitidoPvpGrupo(JRadioButton rdBtnPermitidoPvpGrupo) {
+        this.rdBtnPermitidoPvpGrupo = rdBtnPermitidoPvpGrupo;
+    }
+
+    public JRadioButton getRdBtnProKillsGrupo() {
+        return rdBtnProKillsGrupo;
+    }
+
+    public void setRdBtnProKillsGrupo(JRadioButton rdBtnProKillsGrupo) {
+        this.rdBtnProKillsGrupo = rdBtnProKillsGrupo;
+    }
+
+    public JRadioButton getRdBtnProNivelGrupo() {
+        return rdBtnProNivelGrupo;
+    }
+
+    public void setRdBtnProNivelGrupo(JRadioButton rdBtnProNivelGrupo) {
+        this.rdBtnProNivelGrupo = rdBtnProNivelGrupo;
+    }
+
+    public JRadioButton getRdBtnSinRepartoGrupo() {
+        return rdBtnSinRepartoGrupo;
+    }
+
+    public void setRdBtnSinRepartoGrupo(JRadioButton rdBtnSinRepartoGrupo) {
+        this.rdBtnSinRepartoGrupo = rdBtnSinRepartoGrupo;
+    }
+
+    public JRadioButton getRdBtnSoloDineroGrupo() {
+        return rdBtnSoloDineroGrupo;
+    }
+
+    public void setRdBtnSoloDineroGrupo(JRadioButton rdBtnSoloDineroGrupo) {
+        this.rdBtnSoloDineroGrupo = rdBtnSoloDineroGrupo;
+    }
+
+    public JRadioButton getRdBtnSoloExpGrupo() {
+        return rdBtnSoloExpGrupo;
+    }
+
+    public void setRdBtnSoloExpGrupo(JRadioButton rdBtnSoloExpGrupo) {
+        this.rdBtnSoloExpGrupo = rdBtnSoloExpGrupo;
+    }
+
+    public JSpinner getSpinerProbExitoArma() {
+        return spinerProbExitoArma;
+    }
+
+    public void setSpinerProbExitoArma(JSpinner spinerProbExitoArma) {
+        this.spinerProbExitoArma = spinerProbExitoArma;
+    }
+
+    public JSpinner getSpinnerAtaDistMob() {
+        return spinnerAtaDistMob;
+    }
+
+    public void setSpinnerAtaDistMob(JSpinner spinnerAtaDistMob) {
+        this.spinnerAtaDistMob = spinnerAtaDistMob;
+    }
+
+    public JSpinner getSpinnerAtaFisAP() {
+        return spinnerAtaFisAP;
+    }
+
+    public void setSpinnerAtaFisAP(JSpinner spinnerAtaFisAP) {
+        this.spinnerAtaFisAP = spinnerAtaFisAP;
+    }
+
+    public JSpinner getSpinnerAtaFisArma() {
+        return spinnerAtaFisArma;
+    }
+
+    public void setSpinnerAtaFisArma(JSpinner spinnerAtaFisArma) {
+        this.spinnerAtaFisArma = spinnerAtaFisArma;
+    }
+
+    public JSpinner getSpinnerAtaFisBase() {
+        return spinnerAtaFisBase;
+    }
+
+    public void setSpinnerAtaFisBase(JSpinner spinnerAtaFisBase) {
+        this.spinnerAtaFisBase = spinnerAtaFisBase;
+    }
+
+    public JSpinner getSpinnerAtaFisJoya() {
+        return spinnerAtaFisJoya;
+    }
+
+    public void setSpinnerAtaFisJoya(JSpinner spinnerAtaFisJoya) {
+        this.spinnerAtaFisJoya = spinnerAtaFisJoya;
+    }
+
+    public JSpinner getSpinnerAtaFisMob() {
+        return spinnerAtaFisMob;
+    }
+
+    public void setSpinnerAtaFisMob(JSpinner spinnerAtaFisMob) {
+        this.spinnerAtaFisMob = spinnerAtaFisMob;
+    }
+
+    public JSpinner getSpinnerAtaFisNivel() {
+        return spinnerAtaFisNivel;
+    }
+
+    public void setSpinnerAtaFisNivel(JSpinner spinnerAtaFisNivel) {
+        this.spinnerAtaFisNivel = spinnerAtaFisNivel;
+    }
+
+    public JSpinner getSpinnerAtaMagAP() {
+        return spinnerAtaMagAP;
+    }
+
+    public void setSpinnerAtaMagAP(JSpinner spinnerAtaMagAP) {
+        this.spinnerAtaMagAP = spinnerAtaMagAP;
+    }
+
+    public JSpinner getSpinnerAtaMagArma() {
+        return spinnerAtaMagArma;
+    }
+
+    public void setSpinnerAtaMagArma(JSpinner spinnerAtaMagArma) {
+        this.spinnerAtaMagArma = spinnerAtaMagArma;
+    }
+
+    public JSpinner getSpinnerAtaMagBase() {
+        return spinnerAtaMagBase;
+    }
+
+    public void setSpinnerAtaMagBase(JSpinner spinnerAtaMagBase) {
+        this.spinnerAtaMagBase = spinnerAtaMagBase;
+    }
+
+    public JSpinner getSpinnerAtaMagJoya() {
+        return spinnerAtaMagJoya;
+    }
+
+    public void setSpinnerAtaMagJoya(JSpinner spinnerAtaMagJoya) {
+        this.spinnerAtaMagJoya = spinnerAtaMagJoya;
+    }
+
+    public JSpinner getSpinnerAtaMagNivel() {
+        return spinnerAtaMagNivel;
+    }
+
+    public void setSpinnerAtaMagNivel(JSpinner spinnerAtaMagNivel) {
+        this.spinnerAtaMagNivel = spinnerAtaMagNivel;
+    }
+
+    public JSpinner getSpinnerCantidadDropMob() {
+        return spinnerCantidadDropMob;
+    }
+
+    public void setSpinnerCantidadDropMob(JSpinner spinnerCantidadDropMob) {
+        this.spinnerCantidadDropMob = spinnerCantidadDropMob;
+    }
+
+    public JSpinner getSpinnerContriPorcentajeMuertes() {
+        return spinnerContriPorcentajeMuertes;
+    }
+
+    public void setSpinnerContriPorcentajeMuertes(JSpinner spinnerContriPorcentajeMuertes) {
+        this.spinnerContriPorcentajeMuertes = spinnerContriPorcentajeMuertes;
+    }
+
+    public JSpinner getSpinnerCritArma() {
+        return spinnerCritArma;
+    }
+
+    public void setSpinnerCritArma(JSpinner spinnerCritArma) {
+        this.spinnerCritArma = spinnerCritArma;
+    }
+
+    public JSpinner getSpinnerCritBase() {
+        return spinnerCritBase;
+    }
+
+    public void setSpinnerCritBase(JSpinner spinnerCritBase) {
+        this.spinnerCritBase = spinnerCritBase;
+    }
+
+    public JSpinner getSpinnerCritNivel() {
+        return spinnerCritNivel;
+    }
+
+    public void setSpinnerCritNivel(JSpinner spinnerCritNivel) {
+        this.spinnerCritNivel = spinnerCritNivel;
+    }
+
+    public JSpinner getSpinnerCrtitAP() {
+        return spinnerCrtitAP;
+    }
+
+    public void setSpinnerCrtitAP(JSpinner spinnerCrtitAP) {
+        this.spinnerCrtitAP = spinnerCrtitAP;
+    }
+
+    public JSpinner getSpinnerDefFisBase() {
+        return spinnerDefFisBase;
+    }
+
+    public void setSpinnerDefFisBase(JSpinner spinnerDefFisBase) {
+        this.spinnerDefFisBase = spinnerDefFisBase;
+    }
+
+    public JSpinner getSpinnerDefFisBotas() {
+        return spinnerDefFisBotas;
+    }
+
+    public void setSpinnerDefFisBotas(JSpinner spinnerDefFisBotas) {
+        this.spinnerDefFisBotas = spinnerDefFisBotas;
+    }
+
+    public JSpinner getSpinnerDefFisCasco() {
+        return spinnerDefFisCasco;
+    }
+
+    public void setSpinnerDefFisCasco(JSpinner spinnerDefFisCasco) {
+        this.spinnerDefFisCasco = spinnerDefFisCasco;
+    }
+
+    public JSpinner getSpinnerDefFisGrebas() {
+        return spinnerDefFisGrebas;
+    }
+
+    public void setSpinnerDefFisGrebas(JSpinner spinnerDefFisGrebas) {
+        this.spinnerDefFisGrebas = spinnerDefFisGrebas;
+    }
+
+    public JSpinner getSpinnerDefFisJoya() {
+        return spinnerDefFisJoya;
+    }
+
+    public void setSpinnerDefFisJoya(JSpinner spinnerDefFisJoya) {
+        this.spinnerDefFisJoya = spinnerDefFisJoya;
+    }
+
+    public JSpinner getSpinnerDefFisNivel() {
+        return spinnerDefFisNivel;
+    }
+
+    public void setSpinnerDefFisNivel(JSpinner spinnerDefFisNivel) {
+        this.spinnerDefFisNivel = spinnerDefFisNivel;
+    }
+
+    public JSpinner getSpinnerDefFisPechera() {
+        return spinnerDefFisPechera;
+    }
+
+    public void setSpinnerDefFisPechera(JSpinner spinnerDefFisPechera) {
+        this.spinnerDefFisPechera = spinnerDefFisPechera;
+    }
+
+    public JSpinner getSpinnerDefMagBase() {
+        return spinnerDefMagBase;
+    }
+
+    public void setSpinnerDefMagBase(JSpinner spinnerDefMagBase) {
+        this.spinnerDefMagBase = spinnerDefMagBase;
+    }
+
+    public JSpinner getSpinnerDefMagJoya() {
+        return spinnerDefMagJoya;
+    }
+
+    public void setSpinnerDefMagJoya(JSpinner spinnerDefMagJoya) {
+        this.spinnerDefMagJoya = spinnerDefMagJoya;
+    }
+
+    public JSpinner getSpinnerDefMagNivel() {
+        return spinnerDefMagNivel;
+    }
+
+    public void setSpinnerDefMagNivel(JSpinner spinnerDefMagNivel) {
+        this.spinnerDefMagNivel = spinnerDefMagNivel;
+    }
+
+    public JSpinner getSpinnerDineroDropMob() {
+        return spinnerDineroDropMob;
+    }
+
+    public void setSpinnerDineroDropMob(JSpinner spinnerDineroDropMob) {
+        this.spinnerDineroDropMob = spinnerDineroDropMob;
+    }
+
+    public JSpinner getSpinnerDineroEditClan() {
+        return spinnerDineroEditClan;
+    }
+
+    public void setSpinnerDineroEditClan(JSpinner spinnerDineroEditClan) {
+        this.spinnerDineroEditClan = spinnerDineroEditClan;
+    }
+
+    public JSpinner getSpinnerDineroExtraArma() {
+        return spinnerDineroExtraArma;
+    }
+
+    public void setSpinnerDineroExtraArma(JSpinner spinnerDineroExtraArma) {
+        this.spinnerDineroExtraArma = spinnerDineroExtraArma;
+    }
+
+    public JSpinner getSpinnerDineroExtraBotas() {
+        return spinnerDineroExtraBotas;
+    }
+
+    public void setSpinnerDineroExtraBotas(JSpinner spinnerDineroExtraBotas) {
+        this.spinnerDineroExtraBotas = spinnerDineroExtraBotas;
+    }
+
+    public JSpinner getSpinnerDineroExtraCasco() {
+        return spinnerDineroExtraCasco;
+    }
+
+    public void setSpinnerDineroExtraCasco(JSpinner spinnerDineroExtraCasco) {
+        this.spinnerDineroExtraCasco = spinnerDineroExtraCasco;
+    }
+
+    public JSpinner getSpinnerDineroExtraGrebas() {
+        return spinnerDineroExtraGrebas;
+    }
+
+    public void setSpinnerDineroExtraGrebas(JSpinner spinnerDineroExtraGrebas) {
+        this.spinnerDineroExtraGrebas = spinnerDineroExtraGrebas;
+    }
+
+    public JSpinner getSpinnerDineroExtraJoya() {
+        return spinnerDineroExtraJoya;
+    }
+
+    public void setSpinnerDineroExtraJoya(JSpinner spinnerDineroExtraJoya) {
+        this.spinnerDineroExtraJoya = spinnerDineroExtraJoya;
+    }
+
+    public JSpinner getSpinnerDineroExtraPechera() {
+        return spinnerDineroExtraPechera;
+    }
+
+    public void setSpinnerDineroExtraPechera(JSpinner spinnerDineroExtraPechera) {
+        this.spinnerDineroExtraPechera = spinnerDineroExtraPechera;
+    }
+
+    public JSpinner getSpinnerEvaBase() {
+        return spinnerEvaBase;
+    }
+
+    public void setSpinnerEvaBase(JSpinner spinnerEvaBase) {
+        this.spinnerEvaBase = spinnerEvaBase;
+    }
+
+    public JSpinner getSpinnerEvaFisBotas() {
+        return spinnerEvaFisBotas;
+    }
+
+    public void setSpinnerEvaFisBotas(JSpinner spinnerEvaFisBotas) {
+        this.spinnerEvaFisBotas = spinnerEvaFisBotas;
+    }
+
+    public JSpinner getSpinnerEvaFisCasco() {
+        return spinnerEvaFisCasco;
+    }
+
+    public void setSpinnerEvaFisCasco(JSpinner spinnerEvaFisCasco) {
+        this.spinnerEvaFisCasco = spinnerEvaFisCasco;
+    }
+
+    public JSpinner getSpinnerEvaFisGrebas() {
+        return spinnerEvaFisGrebas;
+    }
+
+    public void setSpinnerEvaFisGrebas(JSpinner spinnerEvaFisGrebas) {
+        this.spinnerEvaFisGrebas = spinnerEvaFisGrebas;
+    }
+
+    public JSpinner getSpinnerEvaFisJoya() {
+        return spinnerEvaFisJoya;
+    }
+
+    public void setSpinnerEvaFisJoya(JSpinner spinnerEvaFisJoya) {
+        this.spinnerEvaFisJoya = spinnerEvaFisJoya;
+    }
+
+    public JSpinner getSpinnerEvaFisNivel() {
+        return spinnerEvaFisNivel;
+    }
+
+    public void setSpinnerEvaFisNivel(JSpinner spinnerEvaFisNivel) {
+        this.spinnerEvaFisNivel = spinnerEvaFisNivel;
+    }
+
+    public JSpinner getSpinnerEvaFisPechera() {
+        return spinnerEvaFisPechera;
+    }
+
+    public void setSpinnerEvaFisPechera(JSpinner spinnerEvaFisPechera) {
+        this.spinnerEvaFisPechera = spinnerEvaFisPechera;
+    }
+
+    public JSpinner getSpinnerEvaMagBase() {
+        return spinnerEvaMagBase;
+    }
+
+    public void setSpinnerEvaMagBase(JSpinner spinnerEvaMagBase) {
+        this.spinnerEvaMagBase = spinnerEvaMagBase;
+    }
+
+    public JSpinner getSpinnerEvaMagJoya() {
+        return spinnerEvaMagJoya;
+    }
+
+    public void setSpinnerEvaMagJoya(JSpinner spinnerEvaMagJoya) {
+        this.spinnerEvaMagJoya = spinnerEvaMagJoya;
+    }
+
+    public JSpinner getSpinnerEvaMagNivel() {
+        return spinnerEvaMagNivel;
+    }
+
+    public void setSpinnerEvaMagNivel(JSpinner spinnerEvaMagNivel) {
+        this.spinnerEvaMagNivel = spinnerEvaMagNivel;
+    }
+
+    public JSpinner getSpinnerExpDropMob() {
+        return spinnerExpDropMob;
+    }
+
+    public void setSpinnerExpDropMob(JSpinner spinnerExpDropMob) {
+        this.spinnerExpDropMob = spinnerExpDropMob;
+    }
+
+    public JSpinner getSpinnerExpExtraArma() {
+        return spinnerExpExtraArma;
+    }
+
+    public void setSpinnerExpExtraArma(JSpinner spinnerExpExtraArma) {
+        this.spinnerExpExtraArma = spinnerExpExtraArma;
+    }
+
+    public JSpinner getSpinnerExpExtraBotas() {
+        return spinnerExpExtraBotas;
+    }
+
+    public void setSpinnerExpExtraBotas(JSpinner spinnerExpExtraBotas) {
+        this.spinnerExpExtraBotas = spinnerExpExtraBotas;
+    }
+
+    public JSpinner getSpinnerExpExtraCasco() {
+        return spinnerExpExtraCasco;
+    }
+
+    public void setSpinnerExpExtraCasco(JSpinner spinnerExpExtraCasco) {
+        this.spinnerExpExtraCasco = spinnerExpExtraCasco;
+    }
+
+    public JSpinner getSpinnerExpExtraGrebas() {
+        return spinnerExpExtraGrebas;
+    }
+
+    public void setSpinnerExpExtraGrebas(JSpinner spinnerExpExtraGrebas) {
+        this.spinnerExpExtraGrebas = spinnerExpExtraGrebas;
+    }
+
+    public JSpinner getSpinnerExpExtraJoya() {
+        return spinnerExpExtraJoya;
+    }
+
+    public void setSpinnerExpExtraJoya(JSpinner spinnerExpExtraJoya) {
+        this.spinnerExpExtraJoya = spinnerExpExtraJoya;
+    }
+
+    public JSpinner getSpinnerExpExtraPechera() {
+        return spinnerExpExtraPechera;
+    }
+
+    public void setSpinnerExpExtraPechera(JSpinner spinnerExpExtraPechera) {
+        this.spinnerExpExtraPechera = spinnerExpExtraPechera;
+    }
+
+    public JSpinner getSpinnerFormJugIniClan() {
+        return spinnerFormJugIniClan;
+    }
+
+    public void setSpinnerFormJugIniClan(JSpinner spinnerFormJugIniClan) {
+        this.spinnerFormJugIniClan = spinnerFormJugIniClan;
+    }
+
+    public JSpinner getSpinnerFormJugXNivelClan() {
+        return spinnerFormJugXNivelClan;
+    }
+
+    public void setSpinnerFormJugXNivelClan(JSpinner spinnerFormJugXNivelClan) {
+        this.spinnerFormJugXNivelClan = spinnerFormJugXNivelClan;
+    }
+
+    public JSpinner getSpinnerFuerzaDistMob() {
+        return spinnerFuerzaDistMob;
+    }
+
+    public void setSpinnerFuerzaDistMob(JSpinner spinnerFuerzaDistMob) {
+        this.spinnerFuerzaDistMob = spinnerFuerzaDistMob;
+    }
+
+    public JSpinner getSpinnerHRFisArma() {
+        return spinnerHRFisArma;
+    }
+
+    public void setSpinnerHRFisArma(JSpinner spinnerHRFisArma) {
+        this.spinnerHRFisArma = spinnerHRFisArma;
+    }
+
+    public JSpinner getSpinnerHRFisBase() {
+        return spinnerHRFisBase;
+    }
+
+    public void setSpinnerHRFisBase(JSpinner spinnerHRFisBase) {
+        this.spinnerHRFisBase = spinnerHRFisBase;
+    }
+
+    public JSpinner getSpinnerHRFisJoya() {
+        return spinnerHRFisJoya;
+    }
+
+    public void setSpinnerHRFisJoya(JSpinner spinnerHRFisJoya) {
+        this.spinnerHRFisJoya = spinnerHRFisJoya;
+    }
+
+    public JSpinner getSpinnerHRFisNivel() {
+        return spinnerHRFisNivel;
+    }
+
+    public void setSpinnerHRFisNivel(JSpinner spinnerHRFisNivel) {
+        this.spinnerHRFisNivel = spinnerHRFisNivel;
+    }
+
+    public JSpinner getSpinnerHRMagArma() {
+        return spinnerHRMagArma;
+    }
+
+    public void setSpinnerHRMagArma(JSpinner spinnerHRMagArma) {
+        this.spinnerHRMagArma = spinnerHRMagArma;
+    }
+
+    public JSpinner getSpinnerHRMagBase() {
+        return spinnerHRMagBase;
+    }
+
+    public void setSpinnerHRMagBase(JSpinner spinnerHRMagBase) {
+        this.spinnerHRMagBase = spinnerHRMagBase;
+    }
+
+    public JSpinner getSpinnerHRMagJoya() {
+        return spinnerHRMagJoya;
+    }
+
+    public void setSpinnerHRMagJoya(JSpinner spinnerHRMagJoya) {
+        this.spinnerHRMagJoya = spinnerHRMagJoya;
+    }
+
+    public JSpinner getSpinnerHRMagNivel() {
+        return spinnerHRMagNivel;
+    }
+
+    public void setSpinnerHRMagNivel(JSpinner spinnerHRMagNivel) {
+        this.spinnerHRMagNivel = spinnerHRMagNivel;
+    }
+
+    public JSpinner getSpinnerManaAP() {
+        return spinnerManaAP;
+    }
+
+    public void setSpinnerManaAP(JSpinner spinnerManaAP) {
+        this.spinnerManaAP = spinnerManaAP;
+    }
+
+    public JSpinner getSpinnerManaAP2() {
+        return spinnerManaAP2;
+    }
+
+    public void setSpinnerManaAP2(JSpinner spinnerManaAP2) {
+        this.spinnerManaAP2 = spinnerManaAP2;
+    }
+
+    public JSpinner getSpinnerManaJoya() {
+        return spinnerManaJoya;
+    }
+
+    public void setSpinnerManaJoya(JSpinner spinnerManaJoya) {
+        this.spinnerManaJoya = spinnerManaJoya;
+    }
+
+    public JSpinner getSpinnerManaNivel() {
+        return spinnerManaNivel;
+    }
+
+    public void setSpinnerManaNivel(JSpinner spinnerManaNivel) {
+        this.spinnerManaNivel = spinnerManaNivel;
+    }
+
+    public JSpinner getSpinnerMaxManaBase() {
+        return spinnerMaxManaBase;
+    }
+
+    public void setSpinnerMaxManaBase(JSpinner spinnerMaxManaBase) {
+        this.spinnerMaxManaBase = spinnerMaxManaBase;
+    }
+
+    public JSpinner getSpinnerMaxVidaBase() {
+        return spinnerMaxVidaBase;
+    }
+
+    public void setSpinnerMaxVidaBase(JSpinner spinnerMaxVidaBase) {
+        this.spinnerMaxVidaBase = spinnerMaxVidaBase;
+    }
+
+    public JSpinner getSpinnerMaxVidaMob() {
+        return spinnerMaxVidaMob;
+    }
+
+    public void setSpinnerMaxVidaMob(JSpinner spinnerMaxVidaMob) {
+        this.spinnerMaxVidaMob = spinnerMaxVidaMob;
+    }
+
+    public JSpinner getSpinnerMejAtaFisArma() {
+        return spinnerMejAtaFisArma;
+    }
+
+    public void setSpinnerMejAtaFisArma(JSpinner spinnerMejAtaFisArma) {
+        this.spinnerMejAtaFisArma = spinnerMejAtaFisArma;
+    }
+
+    public JSpinner getSpinnerMejAtaMagArma() {
+        return spinnerMejAtaMagArma;
+    }
+
+    public void setSpinnerMejAtaMagArma(JSpinner spinnerMejAtaMagArma) {
+        this.spinnerMejAtaMagArma = spinnerMejAtaMagArma;
+    }
+
+    public JSpinner getSpinnerMejCritArma() {
+        return spinnerMejCritArma;
+    }
+
+    public void setSpinnerMejCritArma(JSpinner spinnerMejCritArma) {
+        this.spinnerMejCritArma = spinnerMejCritArma;
+    }
+
+    public JSpinner getSpinnerMejDefFisBotas() {
+        return spinnerMejDefFisBotas;
+    }
+
+    public void setSpinnerMejDefFisBotas(JSpinner spinnerMejDefFisBotas) {
+        this.spinnerMejDefFisBotas = spinnerMejDefFisBotas;
+    }
+
+    public JSpinner getSpinnerMejDefFisCasco() {
+        return spinnerMejDefFisCasco;
+    }
+
+    public void setSpinnerMejDefFisCasco(JSpinner spinnerMejDefFisCasco) {
+        this.spinnerMejDefFisCasco = spinnerMejDefFisCasco;
+    }
+
+    public JSpinner getSpinnerMejDefFisGrebas() {
+        return spinnerMejDefFisGrebas;
+    }
+
+    public void setSpinnerMejDefFisGrebas(JSpinner spinnerMejDefFisGrebas) {
+        this.spinnerMejDefFisGrebas = spinnerMejDefFisGrebas;
+    }
+
+    public JSpinner getSpinnerMejDefFisPechera() {
+        return spinnerMejDefFisPechera;
+    }
+
+    public void setSpinnerMejDefFisPechera(JSpinner spinnerMejDefFisPechera) {
+        this.spinnerMejDefFisPechera = spinnerMejDefFisPechera;
+    }
+
+    public JSpinner getSpinnerMejEvaFisBotas() {
+        return spinnerMejEvaFisBotas;
+    }
+
+    public void setSpinnerMejEvaFisBotas(JSpinner spinnerMejEvaFisBotas) {
+        this.spinnerMejEvaFisBotas = spinnerMejEvaFisBotas;
+    }
+
+    public JSpinner getSpinnerMejEvaFisCasco() {
+        return spinnerMejEvaFisCasco;
+    }
+
+    public void setSpinnerMejEvaFisCasco(JSpinner spinnerMejEvaFisCasco) {
+        this.spinnerMejEvaFisCasco = spinnerMejEvaFisCasco;
+    }
+
+    public JSpinner getSpinnerMejEvaFisGrebas() {
+        return spinnerMejEvaFisGrebas;
+    }
+
+    public void setSpinnerMejEvaFisGrebas(JSpinner spinnerMejEvaFisGrebas) {
+        this.spinnerMejEvaFisGrebas = spinnerMejEvaFisGrebas;
+    }
+
+    public JSpinner getSpinnerMejEvaFisPechera() {
+        return spinnerMejEvaFisPechera;
+    }
+
+    public void setSpinnerMejEvaFisPechera(JSpinner spinnerMejEvaFisPechera) {
+        this.spinnerMejEvaFisPechera = spinnerMejEvaFisPechera;
+    }
+
+    public JSpinner getSpinnerMejHRFisArma() {
+        return spinnerMejHRFisArma;
+    }
+
+    public void setSpinnerMejHRFisArma(JSpinner spinnerMejHRFisArma) {
+        this.spinnerMejHRFisArma = spinnerMejHRFisArma;
+    }
+
+    public JSpinner getSpinnerMejHRMagArma() {
+        return spinnerMejHRMagArma;
+    }
+
+    public void setSpinnerMejHRMagArma(JSpinner spinnerMejHRMagArma) {
+        this.spinnerMejHRMagArma = spinnerMejHRMagArma;
+    }
+
+    public JSpinner getSpinnerMejRoboMArma() {
+        return spinnerMejRoboMArma;
+    }
+
+    public void setSpinnerMejRoboMArma(JSpinner spinnerMejRoboMArma) {
+        this.spinnerMejRoboMArma = spinnerMejRoboMArma;
+    }
+
+    public JSpinner getSpinnerMejRoboVArma() {
+        return spinnerMejRoboVArma;
+    }
+
+    public void setSpinnerMejRoboVArma(JSpinner spinnerMejRoboVArma) {
+        this.spinnerMejRoboVArma = spinnerMejRoboVArma;
+    }
+
+    public JSpinner getSpinnerMortalAP() {
+        return spinnerMortalAP;
+    }
+
+    public void setSpinnerMortalAP(JSpinner spinnerMortalAP) {
+        this.spinnerMortalAP = spinnerMortalAP;
+    }
+
+    public JSpinner getSpinnerMortalBase() {
+        return spinnerMortalBase;
+    }
+
+    public void setSpinnerMortalBase(JSpinner spinnerMortalBase) {
+        this.spinnerMortalBase = spinnerMortalBase;
+    }
+
+    public JSpinner getSpinnerMortalNivel() {
+        return spinnerMortalNivel;
+    }
+
+    public void setSpinnerMortalNivel(JSpinner spinnerMortalNivel) {
+        this.spinnerMortalNivel = spinnerMortalNivel;
+    }
+
+    public JSpinner getSpinnerNivel() {
+        return spinnerNivel;
+    }
+
+    public void setSpinnerNivel(JSpinner spinnerNivel) {
+        this.spinnerNivel = spinnerNivel;
+    }
+
+    public JSpinner getSpinnerNivelIniArma() {
+        return spinnerNivelIniArma;
+    }
+
+    public void setSpinnerNivelIniArma(JSpinner spinnerNivelIniArma) {
+        this.spinnerNivelIniArma = spinnerNivelIniArma;
+    }
+
+    public JSpinner getSpinnerNivelMaxClan() {
+        return spinnerNivelMaxClan;
+    }
+
+    public void setSpinnerNivelMaxClan(JSpinner spinnerNivelMaxClan) {
+        this.spinnerNivelMaxClan = spinnerNivelMaxClan;
+    }
+
+    public JSpinner getSpinnerNivelMinArma() {
+        return spinnerNivelMinArma;
+    }
+
+    public void setSpinnerNivelMinArma(JSpinner spinnerNivelMinArma) {
+        this.spinnerNivelMinArma = spinnerNivelMinArma;
+    }
+
+    public JSpinner getSpinnerNivelMinJugClan() {
+        return spinnerNivelMinJugClan;
+    }
+
+    public void setSpinnerNivelMinJugClan(JSpinner spinnerNivelMinJugClan) {
+        this.spinnerNivelMinJugClan = spinnerNivelMinJugClan;
+    }
+
+    public JSpinner getSpinnerNivelMob() {
+        return spinnerNivelMob;
+    }
+
+    public void setSpinnerNivelMob(JSpinner spinnerNivelMob) {
+        this.spinnerNivelMob = spinnerNivelMob;
+    }
+
+    public JSpinner getSpinnerNumFijosClan() {
+        return spinnerNumFijosClan;
+    }
+
+    public void setSpinnerNumFijosClan(JSpinner spinnerNumFijosClan) {
+        this.spinnerNumFijosClan = spinnerNumFijosClan;
+    }
+
+    public JSpinner getSpinnerNumJugEditClan() {
+        return spinnerNumJugEditClan;
+    }
+
+    public void setSpinnerNumJugEditClan(JSpinner spinnerNumJugEditClan) {
+        this.spinnerNumJugEditClan = spinnerNumJugEditClan;
+    }
+
+    public JSpinner getSpinnerNumMaxMobSpawner() {
+        return spinnerNumMaxMobSpawner;
+    }
+
+    public void setSpinnerNumMaxMobSpawner(JSpinner spinnerNumMaxMobSpawner) {
+        this.spinnerNumMaxMobSpawner = spinnerNumMaxMobSpawner;
+    }
+
+    public JSpinner getSpinnerNumeroFijoJugGrupo() {
+        return spinnerNumeroFijoJugGrupo;
+    }
+
+    public void setSpinnerNumeroFijoJugGrupo(JSpinner spinnerNumeroFijoJugGrupo) {
+        this.spinnerNumeroFijoJugGrupo = spinnerNumeroFijoJugGrupo;
+    }
+
+    public JSpinner getSpinnerPHxNivel() {
+        return spinnerPHxNivel;
+    }
+
+    public void setSpinnerPHxNivel(JSpinner spinnerPHxNivel) {
+        this.spinnerPHxNivel = spinnerPHxNivel;
+    }
+
+    public JSpinner getSpinnerPrecioCArma() {
+        return spinnerPrecioCArma;
+    }
+
+    public void setSpinnerPrecioCArma(JSpinner spinnerPrecioCArma) {
+        this.spinnerPrecioCArma = spinnerPrecioCArma;
+    }
+
+    public JSpinner getSpinnerPrecioCBotas() {
+        return spinnerPrecioCBotas;
+    }
+
+    public void setSpinnerPrecioCBotas(JSpinner spinnerPrecioCBotas) {
+        this.spinnerPrecioCBotas = spinnerPrecioCBotas;
+    }
+
+    public JSpinner getSpinnerPrecioCCasco() {
+        return spinnerPrecioCCasco;
+    }
+
+    public void setSpinnerPrecioCCasco(JSpinner spinnerPrecioCCasco) {
+        this.spinnerPrecioCCasco = spinnerPrecioCCasco;
+    }
+
+    public JSpinner getSpinnerPrecioCGrebas() {
+        return spinnerPrecioCGrebas;
+    }
+
+    public void setSpinnerPrecioCGrebas(JSpinner spinnerPrecioCGrebas) {
+        this.spinnerPrecioCGrebas = spinnerPrecioCGrebas;
+    }
+
+    public JSpinner getSpinnerPrecioCJoya() {
+        return spinnerPrecioCJoya;
+    }
+
+    public void setSpinnerPrecioCJoya(JSpinner spinnerPrecioCJoya) {
+        this.spinnerPrecioCJoya = spinnerPrecioCJoya;
+    }
+
+    public JSpinner getSpinnerPrecioCPechera() {
+        return spinnerPrecioCPechera;
+    }
+
+    public void setSpinnerPrecioCPechera(JSpinner spinnerPrecioCPechera) {
+        this.spinnerPrecioCPechera = spinnerPrecioCPechera;
+    }
+
+    public JSpinner getSpinnerPrecioVArma() {
+        return spinnerPrecioVArma;
+    }
+
+    public void setSpinnerPrecioVArma(JSpinner spinnerPrecioVArma) {
+        this.spinnerPrecioVArma = spinnerPrecioVArma;
+    }
+
+    public JSpinner getSpinnerPrecioVBotas() {
+        return spinnerPrecioVBotas;
+    }
+
+    public void setSpinnerPrecioVBotas(JSpinner spinnerPrecioVBotas) {
+        this.spinnerPrecioVBotas = spinnerPrecioVBotas;
+    }
+
+    public JSpinner getSpinnerPrecioVCasco() {
+        return spinnerPrecioVCasco;
+    }
+
+    public void setSpinnerPrecioVCasco(JSpinner spinnerPrecioVCasco) {
+        this.spinnerPrecioVCasco = spinnerPrecioVCasco;
+    }
+
+    public JSpinner getSpinnerPrecioVGrebas() {
+        return spinnerPrecioVGrebas;
+    }
+
+    public void setSpinnerPrecioVGrebas(JSpinner spinnerPrecioVGrebas) {
+        this.spinnerPrecioVGrebas = spinnerPrecioVGrebas;
+    }
+
+    public JSpinner getSpinnerPrecioVJoya() {
+        return spinnerPrecioVJoya;
+    }
+
+    public void setSpinnerPrecioVJoya(JSpinner spinnerPrecioVJoya) {
+        this.spinnerPrecioVJoya = spinnerPrecioVJoya;
+    }
+
+    public JSpinner getSpinnerPrecioVPechera() {
+        return spinnerPrecioVPechera;
+    }
+
+    public void setSpinnerPrecioVPechera(JSpinner spinnerPrecioVPechera) {
+        this.spinnerPrecioVPechera = spinnerPrecioVPechera;
+    }
+
+    public JSpinner getSpinnerProSEArma() {
+        return spinnerProSEArma;
+    }
+
+    public void setSpinnerProSEArma(JSpinner spinnerProSEArma) {
+        this.spinnerProSEArma = spinnerProSEArma;
+    }
+
+    public JSpinner getSpinnerProbDetArma() {
+        return spinnerProbDetArma;
+    }
+
+    public void setSpinnerProbDetArma(JSpinner spinnerProbDetArma) {
+        this.spinnerProbDetArma = spinnerProbDetArma;
+    }
+
+    public JSpinner getSpinnerProbDetArmadura() {
+        return spinnerProbDetArmadura;
+    }
+
+    public void setSpinnerProbDetArmadura(JSpinner spinnerProbDetArmadura) {
+        this.spinnerProbDetArmadura = spinnerProbDetArmadura;
+    }
+
+    public JSpinner getSpinnerProbDetJoya() {
+        return spinnerProbDetJoya;
+    }
+
+    public void setSpinnerProbDetJoya(JSpinner spinnerProbDetJoya) {
+        this.spinnerProbDetJoya = spinnerProbDetJoya;
+    }
+
+    public JSpinner getSpinnerProbDropMob() {
+        return spinnerProbDropMob;
+    }
+
+    public void setSpinnerProbDropMob(JSpinner spinnerProbDropMob) {
+        this.spinnerProbDropMob = spinnerProbDropMob;
+    }
+
+    public JSpinner getSpinnerProbExitoArmadura() {
+        return spinnerProbExitoArmadura;
+    }
+
+    public void setSpinnerProbExitoArmadura(JSpinner spinnerProbExitoArmadura) {
+        this.spinnerProbExitoArmadura = spinnerProbExitoArmadura;
+    }
+
+    public JSpinner getSpinnerProbExitoJoya() {
+        return spinnerProbExitoJoya;
+    }
+
+    public void setSpinnerProbExitoJoya(JSpinner spinnerProbExitoJoya) {
+        this.spinnerProbExitoJoya = spinnerProbExitoJoya;
+    }
+
+    public JSpinner getSpinnerProbRotArma() {
+        return spinnerProbRotArma;
+    }
+
+    public void setSpinnerProbRotArma(JSpinner spinnerProbRotArma) {
+        this.spinnerProbRotArma = spinnerProbRotArma;
+    }
+
+    public JSpinner getSpinnerProbRotArmadura() {
+        return spinnerProbRotArmadura;
+    }
+
+    public void setSpinnerProbRotArmadura(JSpinner spinnerProbRotArmadura) {
+        this.spinnerProbRotArmadura = spinnerProbRotArmadura;
+    }
+
+    public JSpinner getSpinnerProbRotJoya() {
+        return spinnerProbRotJoya;
+    }
+
+    public void setSpinnerProbRotJoya(JSpinner spinnerProbRotJoya) {
+        this.spinnerProbRotJoya = spinnerProbRotJoya;
+    }
+
+    public JSpinner getSpinnerProbSEArmadura() {
+        return spinnerProbSEArmadura;
+    }
+
+    public void setSpinnerProbSEArmadura(JSpinner spinnerProbSEArmadura) {
+        this.spinnerProbSEArmadura = spinnerProbSEArmadura;
+    }
+
+    public JSpinner getSpinnerProbSEJoya() {
+        return spinnerProbSEJoya;
+    }
+
+    public void setSpinnerProbSEJoya(JSpinner spinnerProbSEJoya) {
+        this.spinnerProbSEJoya = spinnerProbSEJoya;
+    }
+
+    public JSpinner getSpinnerRadioSpawner() {
+        return spinnerRadioSpawner;
+    }
+
+    public void setSpinnerRadioSpawner(JSpinner spinnerRadioSpawner) {
+        this.spinnerRadioSpawner = spinnerRadioSpawner;
+    }
+
+    public JSpinner getSpinnerRangoSeguiMob() {
+        return spinnerRangoSeguiMob;
+    }
+
+    public void setSpinnerRangoSeguiMob(JSpinner spinnerRangoSeguiMob) {
+        this.spinnerRangoSeguiMob = spinnerRangoSeguiMob;
+    }
+
+    public JSpinner getSpinnerRefrescoSpawner() {
+        return spinnerRefrescoSpawner;
+    }
+
+    public void setSpinnerRefrescoSpawner(JSpinner spinnerRefrescoSpawner) {
+        this.spinnerRefrescoSpawner = spinnerRefrescoSpawner;
+    }
+
+    public JSpinner getSpinnerRetrocesoMob() {
+        return spinnerRetrocesoMob;
+    }
+
+    public void setSpinnerRetrocesoMob(JSpinner spinnerRetrocesoMob) {
+        this.spinnerRetrocesoMob = spinnerRetrocesoMob;
+    }
+
+    public JSpinner getSpinnerRoboMArma() {
+        return spinnerRoboMArma;
+    }
+
+    public void setSpinnerRoboMArma(JSpinner spinnerRoboMArma) {
+        this.spinnerRoboMArma = spinnerRoboMArma;
+    }
+
+    public JSpinner getSpinnerRoboMJoya() {
+        return spinnerRoboMJoya;
+    }
+
+    public void setSpinnerRoboMJoya(JSpinner spinnerRoboMJoya) {
+        this.spinnerRoboMJoya = spinnerRoboMJoya;
+    }
+
+    public JSpinner getSpinnerRoboVArma() {
+        return spinnerRoboVArma;
+    }
+
+    public void setSpinnerRoboVArma(JSpinner spinnerRoboVArma) {
+        this.spinnerRoboVArma = spinnerRoboVArma;
+    }
+
+    public JSpinner getSpinnerRoboVJoya() {
+        return spinnerRoboVJoya;
+    }
+
+    public void setSpinnerRoboVJoya(JSpinner spinnerRoboVJoya) {
+        this.spinnerRoboVJoya = spinnerRoboVJoya;
+    }
+
+    public JSpinner getSpinnerVelocidadAtaqueMob() {
+        return spinnerVelocidadAtaqueMob;
+    }
+
+    public void setSpinnerVelocidadAtaqueMob(JSpinner spinnerVelocidadAtaqueMob) {
+        this.spinnerVelocidadAtaqueMob = spinnerVelocidadAtaqueMob;
+    }
+
+    public JSpinner getSpinnerVelocidadMob() {
+        return spinnerVelocidadMob;
+    }
+
+    public void setSpinnerVelocidadMob(JSpinner spinnerVelocidadMob) {
+        this.spinnerVelocidadMob = spinnerVelocidadMob;
+    }
+
+    public JSpinner getSpinnerVidaAP() {
+        return spinnerVidaAP;
+    }
+
+    public void setSpinnerVidaAP(JSpinner spinnerVidaAP) {
+        this.spinnerVidaAP = spinnerVidaAP;
+    }
+
+    public JSpinner getSpinnerVidaAP2() {
+        return spinnerVidaAP2;
+    }
+
+    public void setSpinnerVidaAP2(JSpinner spinnerVidaAP2) {
+        this.spinnerVidaAP2 = spinnerVidaAP2;
+    }
+
+    public JSpinner getSpinnerVidaJoya() {
+        return spinnerVidaJoya;
+    }
+
+    public void setSpinnerVidaJoya(JSpinner spinnerVidaJoya) {
+        this.spinnerVidaJoya = spinnerVidaJoya;
+    }
+
+    public JSpinner getSpinnerVidaNivel() {
+        return spinnerVidaNivel;
+    }
+
+    public void setSpinnerVidaNivel(JSpinner spinnerVidaNivel) {
+        this.spinnerVidaNivel = spinnerVidaNivel;
+    }
+
+    public JSpinner getSpinnerXInicio() {
+        return spinnerXInicio;
+    }
+
+    public void setSpinnerXInicio(JSpinner spinnerXInicio) {
+        this.spinnerXInicio = spinnerXInicio;
+    }
+
+    public JSpinner getSpinnerXSpawnLoc() {
+        return spinnerXSpawnLoc;
+    }
+
+    public void setSpinnerXSpawnLoc(JSpinner spinnerXSpawnLoc) {
+        this.spinnerXSpawnLoc = spinnerXSpawnLoc;
+    }
+
+    public JSpinner getSpinnerYInicio() {
+        return spinnerYInicio;
+    }
+
+    public void setSpinnerYInicio(JSpinner spinnerYInicio) {
+        this.spinnerYInicio = spinnerYInicio;
+    }
+
+    public JSpinner getSpinnerYSpawnLoc() {
+        return spinnerYSpawnLoc;
+    }
+
+    public void setSpinnerYSpawnLoc(JSpinner spinnerYSpawnLoc) {
+        this.spinnerYSpawnLoc = spinnerYSpawnLoc;
+    }
+
+    public JSpinner getSpinnerZInicio() {
+        return spinnerZInicio;
+    }
+
+    public void setSpinnerZInicio(JSpinner spinnerZInicio) {
+        this.spinnerZInicio = spinnerZInicio;
+    }
+
+    public JSpinner getSpinnerZSpawnLoc() {
+        return spinnerZSpawnLoc;
+    }
+
+    public void setSpinnerZSpawnLoc(JSpinner spinnerZSpawnLoc) {
+        this.spinnerZSpawnLoc = spinnerZSpawnLoc;
+    }
+
+    public JSpinner getSpinnerformulax2clan() {
+        return spinnerformulax2clan;
+    }
+
+    public void setSpinnerformulax2clan(JSpinner spinnerformulax2clan) {
+        this.spinnerformulax2clan = spinnerformulax2clan;
+    }
+
+    public JSpinner getSpinnerformulaxclan() {
+        return spinnerformulaxclan;
+    }
+
+    public void setSpinnerformulaxclan(JSpinner spinnerformulaxclan) {
+        this.spinnerformulaxclan = spinnerformulaxclan;
+    }
+
+    public JTable getTablaClanes() {
+        return tablaClanes;
+    }
+
+    public void setTablaClanes(JTable tablaClanes) {
+        this.tablaClanes = tablaClanes;
+    }
+
+    public JTable getTablaDropsMob() {
+        return tablaDropsMob;
+    }
+
+    public void setTablaDropsMob(JTable tablaDropsMob) {
+        this.tablaDropsMob = tablaDropsMob;
+    }
+
+    public JTable getTablaExpNivel() {
+        return tablaExpNivel;
+    }
+
+    public void setTablaExpNivel(JTable tablaExpNivel) {
+        this.tablaExpNivel = tablaExpNivel;
+    }
+
+    public JTextField getTxtDescripObjeto() {
+        return txtDescripObjeto;
+    }
+
+    public void setTxtDescripObjeto(JTextField txtDescripObjeto) {
+        this.txtDescripObjeto = txtDescripObjeto;
+    }
+
+    public JTextField getTxtDescripcionArma() {
+        return txtDescripcionArma;
+    }
+
+    public void setTxtDescripcionArma(JTextField txtDescripcionArma) {
+        this.txtDescripcionArma = txtDescripcionArma;
+    }
+
+    public JTextField getTxtDescripcionArmadura() {
+        return txtDescripcionArmadura;
+    }
+
+    public void setTxtDescripcionArmadura(JTextField txtDescripcionArmadura) {
+        this.txtDescripcionArmadura = txtDescripcionArmadura;
+    }
+
+    public JTextField getTxtMundoInicio() {
+        return txtMundoInicio;
+    }
+
+    public void setTxtMundoInicio(JTextField txtMundoInicio) {
+        this.txtMundoInicio = txtMundoInicio;
+    }
+
+    public JTextField getTxtMundoSpawnLoc() {
+        return txtMundoSpawnLoc;
+    }
+
+    public void setTxtMundoSpawnLoc(JTextField txtMundoSpawnLoc) {
+        this.txtMundoSpawnLoc = txtMundoSpawnLoc;
+    }
+
+    public JTextField getTxtNombreArma() {
+        return txtNombreArma;
+    }
+
+    public void setTxtNombreArma(JTextField txtNombreArma) {
+        this.txtNombreArma = txtNombreArma;
+    }
+
+    public JTextField getTxtNombreClase() {
+        return txtNombreClase;
+    }
+
+    public void setTxtNombreClase(JTextField txtNombreClase) {
+        this.txtNombreClase = txtNombreClase;
+    }
+
+    public JTextField getTxtNombreJoya() {
+        return txtNombreJoya;
+    }
+
+    public void setTxtNombreJoya(JTextField txtNombreJoya) {
+        this.txtNombreJoya = txtNombreJoya;
+    }
+
+    public JTextField getTxtNombreMob() {
+        return txtNombreMob;
+    }
+
+    public void setTxtNombreMob(JTextField txtNombreMob) {
+        this.txtNombreMob = txtNombreMob;
+    }
+
+    public JTextField getTxtNombreObjeto() {
+        return txtNombreObjeto;
+    }
+
+    public void setTxtNombreObjeto(JTextField txtNombreObjeto) {
+        this.txtNombreObjeto = txtNombreObjeto;
+    }
+
+    public JTextField getTxtNombreObjetoMejArma() {
+        return txtNombreObjetoMejArma;
+    }
+
+    public void setTxtNombreObjetoMejArma(JTextField txtNombreObjetoMejArma) {
+        this.txtNombreObjetoMejArma = txtNombreObjetoMejArma;
+    }
+
+    public JTextField getTxtNombreObjetoMejArmadura() {
+        return txtNombreObjetoMejArmadura;
+    }
+
+    public void setTxtNombreObjetoMejArmadura(JTextField txtNombreObjetoMejArmadura) {
+        this.txtNombreObjetoMejArmadura = txtNombreObjetoMejArmadura;
+    }
+
+    public JTextField getTxtNombreSet() {
+        return txtNombreSet;
+    }
+
+    public void setTxtNombreSet(JTextField txtNombreSet) {
+        this.txtNombreSet = txtNombreSet;
+    }
+
+    public JSpinner getTxtX2Nivel() {
+        return txtX2Nivel;
+    }
+
+    public void setTxtX2Nivel(JSpinner txtX2Nivel) {
+        this.txtX2Nivel = txtX2Nivel;
+    }
+
+    public JSpinner getTxtX3Nivel() {
+        return txtX3Nivel;
+    }
+
+    public void setTxtX3Nivel(JSpinner txtX3Nivel) {
+        this.txtX3Nivel = txtX3Nivel;
+    }
+
+    public JSpinner getTxtXNivel() {
+        return txtXNivel;
+    }
+
+    public void setTxtXNivel(JSpinner txtXNivel) {
+        this.txtXNivel = txtXNivel;
+    }
+
+    public JCheckBox getCheckDayCycle() {
+        return checkDayCycle;
+    }
+
+    public void setCheckDayCycle(JCheckBox checkDayCycle) {
+        this.checkDayCycle = checkDayCycle;
+    }
+
+    public JCheckBox getCheckEnableGlobalChat() {
+        return checkEnableGlobalChat;
+    }
+
+    public void setCheckEnableGlobalChat(JCheckBox checkEnableGlobalChat) {
+        this.checkEnableGlobalChat = checkEnableGlobalChat;
+    }
+
+    public JCheckBox getCheckEnableMarketChat() {
+        return checkEnableMarketChat;
+    }
+
+    public void setCheckEnableMarketChat(JCheckBox checkEnableMarketChat) {
+        this.checkEnableMarketChat = checkEnableMarketChat;
+    }
+
+    public JCheckBox getCheckGuildChat() {
+        return checkGuildChat;
+    }
+
+    public void setCheckGuildChat(JCheckBox checkGuildChat) {
+        this.checkGuildChat = checkGuildChat;
+    }
+
+    public JCheckBox getCheckPartyChat() {
+        return checkPartyChat;
+    }
+
+    public void setCheckPartyChat(JCheckBox checkPartyChat) {
+        this.checkPartyChat = checkPartyChat;
+    }
+
+    public JCheckBox getCheckPrivateChat() {
+        return checkPrivateChat;
+    }
+
+    public void setCheckPrivateChat(JCheckBox checkPrivateChat) {
+        this.checkPrivateChat = checkPrivateChat;
+    }
+
+    public JComboBox getComboMessageColorGlobalChat() {
+        return comboMessageColorGlobalChat;
+    }
+
+    public void setComboMessageColorGlobalChat(JComboBox comboMessageColorGlobalChat) {
+        this.comboMessageColorGlobalChat = comboMessageColorGlobalChat;
+    }
+
+    public JComboBox getComboMessageColorGuildChat() {
+        return comboMessageColorGuildChat;
+    }
+
+    public void setComboMessageColorGuildChat(JComboBox comboMessageColorGuildChat) {
+        this.comboMessageColorGuildChat = comboMessageColorGuildChat;
+    }
+
+    public JComboBox getComboMessageColorLocalChat() {
+        return comboMessageColorLocalChat;
+    }
+
+    public void setComboMessageColorLocalChat(JComboBox comboMessageColorLocalChat) {
+        this.comboMessageColorLocalChat = comboMessageColorLocalChat;
+    }
+
+    public JComboBox getComboMessageColorMarketChat() {
+        return comboMessageColorMarketChat;
+    }
+
+    public void setComboMessageColorMarketChat(JComboBox comboMessageColorMarketChat) {
+        this.comboMessageColorMarketChat = comboMessageColorMarketChat;
+    }
+
+    public JComboBox getComboMessageColorNewsChat() {
+        return comboMessageColorNewsChat;
+    }
+
+    public void setComboMessageColorNewsChat(JComboBox comboMessageColorNewsChat) {
+        this.comboMessageColorNewsChat = comboMessageColorNewsChat;
+    }
+
+    public JComboBox getComboMessageColorPartyChat() {
+        return comboMessageColorPartyChat;
+    }
+
+    public void setComboMessageColorPartyChat(JComboBox comboMessageColorPartyChat) {
+        this.comboMessageColorPartyChat = comboMessageColorPartyChat;
+    }
+
+    public JComboBox getComboMessageColorPrivateChat() {
+        return comboMessageColorPrivateChat;
+    }
+
+    public void setComboMessageColorPrivateChat(JComboBox comboMessageColorPrivateChat) {
+        this.comboMessageColorPrivateChat = comboMessageColorPrivateChat;
+    }
+
+    public JComboBox getComboMessageColorWarningChat() {
+        return comboMessageColorWarningChat;
+    }
+
+    public void setComboMessageColorWarningChat(JComboBox comboMessageColorWarningChat) {
+        this.comboMessageColorWarningChat = comboMessageColorWarningChat;
+    }
+
+    public JComboBox getComboPrefixColorGlobalChat() {
+        return comboPrefixColorGlobalChat;
+    }
+
+    public void setComboPrefixColorGlobalChat(JComboBox comboPrefixColorGlobalChat) {
+        this.comboPrefixColorGlobalChat = comboPrefixColorGlobalChat;
+    }
+
+    public JComboBox getComboPrefixColorGuildChat() {
+        return comboPrefixColorGuildChat;
+    }
+
+    public void setComboPrefixColorGuildChat(JComboBox comboPrefixColorGuildChat) {
+        this.comboPrefixColorGuildChat = comboPrefixColorGuildChat;
+    }
+
+    public JComboBox getComboPrefixColorLocalChat() {
+        return comboPrefixColorLocalChat;
+    }
+
+    public void setComboPrefixColorLocalChat(JComboBox comboPrefixColorLocalChat) {
+        this.comboPrefixColorLocalChat = comboPrefixColorLocalChat;
+    }
+
+    public JComboBox getComboPrefixColorMarketChat() {
+        return comboPrefixColorMarketChat;
+    }
+
+    public void setComboPrefixColorMarketChat(JComboBox comboPrefixColorMarketChat) {
+        this.comboPrefixColorMarketChat = comboPrefixColorMarketChat;
+    }
+
+    public JComboBox getComboPrefixColorNewsChat() {
+        return comboPrefixColorNewsChat;
+    }
+
+    public void setComboPrefixColorNewsChat(JComboBox comboPrefixColorNewsChat) {
+        this.comboPrefixColorNewsChat = comboPrefixColorNewsChat;
+    }
+
+    public JComboBox getComboPrefixColorPartyChat() {
+        return comboPrefixColorPartyChat;
+    }
+
+    public void setComboPrefixColorPartyChat(JComboBox comboPrefixColorPartyChat) {
+        this.comboPrefixColorPartyChat = comboPrefixColorPartyChat;
+    }
+
+    public JComboBox getComboPrefixColorPrivateChat() {
+        return comboPrefixColorPrivateChat;
+    }
+
+    public void setComboPrefixColorPrivateChat(JComboBox comboPrefixColorPrivateChat) {
+        this.comboPrefixColorPrivateChat = comboPrefixColorPrivateChat;
+    }
+
+    public JComboBox getComboPrefixColorWarningChat() {
+        return comboPrefixColorWarningChat;
+    }
+
+    public void setComboPrefixColorWarningChat(JComboBox comboPrefixColorWarningChat) {
+        this.comboPrefixColorWarningChat = comboPrefixColorWarningChat;
+    }
+
+    public JComboBox getComboShortcutGlobalChat() {
+        return comboShortcutGlobalChat;
+    }
+
+    public void setComboShortcutGlobalChat(JComboBox comboShortcutGlobalChat) {
+        this.comboShortcutGlobalChat = comboShortcutGlobalChat;
+    }
+
+    public JComboBox getComboShortcutGuildChat() {
+        return comboShortcutGuildChat;
+    }
+
+    public void setComboShortcutGuildChat(JComboBox comboShortcutGuildChat) {
+        this.comboShortcutGuildChat = comboShortcutGuildChat;
+    }
+
+    public JComboBox getComboShortcutMarketChat() {
+        return comboShortcutMarketChat;
+    }
+
+    public void setComboShortcutMarketChat(JComboBox comboShortcutMarketChat) {
+        this.comboShortcutMarketChat = comboShortcutMarketChat;
+    }
+
+    public JComboBox getComboShortcutNewsChat() {
+        return comboShortcutNewsChat;
+    }
+
+    public void setComboShortcutNewsChat(JComboBox comboShortcutNewsChat) {
+        this.comboShortcutNewsChat = comboShortcutNewsChat;
+    }
+
+    public JComboBox getComboShortcutPartyChat() {
+        return comboShortcutPartyChat;
+    }
+
+    public void setComboShortcutPartyChat(JComboBox comboShortcutPartyChat) {
+        this.comboShortcutPartyChat = comboShortcutPartyChat;
+    }
+
+    public JComboBox getComboShortcutPrivateChat() {
+        return comboShortcutPrivateChat;
+    }
+
+    public void setComboShortcutPrivateChat(JComboBox comboShortcutPrivateChat) {
+        this.comboShortcutPrivateChat = comboShortcutPrivateChat;
+    }
+
+    public JComboBox getComboShortcutWarningChat() {
+        return comboShortcutWarningChat;
+    }
+
+    public void setComboShortcutWarningChat(JComboBox comboShortcutWarningChat) {
+        this.comboShortcutWarningChat = comboShortcutWarningChat;
+    }
+
+    public JSpinner getLblMaxNivelNivel() {
+        return lblMaxNivelNivel;
+    }
+
+    public void setLblMaxNivelNivel(JSpinner lblMaxNivelNivel) {
+        this.lblMaxNivelNivel = lblMaxNivelNivel;
+    }
+
+    public JSpinner getSpinnerDistanceLocalChat() {
+        return spinnerDistanceLocalChat;
+    }
+
+    public void setSpinnerDistanceLocalChat(JSpinner spinnerDistanceLocalChat) {
+        this.spinnerDistanceLocalChat = spinnerDistanceLocalChat;
+    }
+
+    public JTextField getTextPrefixGlobalChat() {
+        return textPrefixGlobalChat;
+    }
+
+    public void setTextPrefixGlobalChat(JTextField textPrefixGlobalChat) {
+        this.textPrefixGlobalChat = textPrefixGlobalChat;
+    }
+
+    public JTextField getTextPrefixGuildChat() {
+        return textPrefixGuildChat;
+    }
+
+    public void setTextPrefixGuildChat(JTextField textPrefixGuildChat) {
+        this.textPrefixGuildChat = textPrefixGuildChat;
+    }
+
+    public JTextField getTextPrefixLocalChat() {
+        return textPrefixLocalChat;
+    }
+
+    public void setTextPrefixLocalChat(JTextField textPrefixLocalChat) {
+        this.textPrefixLocalChat = textPrefixLocalChat;
+    }
+
+    public JTextField getTextPrefixMarketChat() {
+        return textPrefixMarketChat;
+    }
+
+    public void setTextPrefixMarketChat(JTextField textPrefixMarketChat) {
+        this.textPrefixMarketChat = textPrefixMarketChat;
+    }
+
+    public JTextField getTextPrefixNewsChat() {
+        return textPrefixNewsChat;
+    }
+
+    public void setTextPrefixNewsChat(JTextField textPrefixNewsChat) {
+        this.textPrefixNewsChat = textPrefixNewsChat;
+    }
+
+    public JTextField getTextPrefixPartyChat() {
+        return textPrefixPartyChat;
+    }
+
+    public void setTextPrefixPartyChat(JTextField textPrefixPartyChat) {
+        this.textPrefixPartyChat = textPrefixPartyChat;
+    }
+
+    public JTextField getTextPrefixPrivateChat() {
+        return textPrefixPrivateChat;
+    }
+
+    public void setTextPrefixPrivateChat(JTextField textPrefixPrivateChat) {
+        this.textPrefixPrivateChat = textPrefixPrivateChat;
+    }
+
+    public JTextField getTextPrefixWarningChat() {
+        return textPrefixWarningChat;
+    }
+
+    public void setTextPrefixWarningChat(JTextField textPrefixWarningChat) {
+        this.textPrefixWarningChat = textPrefixWarningChat;
+    }
 }

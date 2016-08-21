@@ -24,7 +24,8 @@ public enum GuardianType {
     /**
      *
      */
-    NORMAL(0),
+    NORMAL(0), 
+
     /**
      *
      */

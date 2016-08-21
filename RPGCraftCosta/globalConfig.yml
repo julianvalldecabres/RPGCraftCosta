@@ -1,0 +1,12 @@
+spawnx: 0
+spawny: 64
+spawnz: 0
+world: world
+hunger: true
+falldamage: false
+drowndamage: false
+enablePvp: false
+enableGuilds: true
+enableParties: true
+allowBlockPlace: false
+allowBlockDestroy: false

@@ -52,8 +52,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
  *
  * @author jail
  */
-public class CMushroomCow extends EntityMonster implements IRangedEntity {
-
+public class CMushroomCow extends EntityMonster implements IRangedEntity{
     //VARIABLES AÑADIDAS QUE DEFINEN EL TIPO DE MOB
     private AttackType aType;
     private MobBehaviour mType;
@@ -62,7 +61,7 @@ public class CMushroomCow extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-    public Location spawnLoc;
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -74,7 +73,7 @@ public class CMushroomCow extends EntityMonster implements IRangedEntity {
     private float rangedStrength;
     private double followrange;
     private double maxhealth;
-
+    
     /**
      *
      * @param world
@@ -269,12 +268,13 @@ public class CMushroomCow extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
+
     /**
      *
      * @param el
      * @param f
      */
-    @Override
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -324,11 +324,12 @@ public class CMushroomCow extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE LA ENTITYMUSHROOMCOW
+
     /**
      *
      * @return
      */
-    protected String z() {
+        protected String z() {
         return "mob.cow.say";
     }
 
@@ -356,7 +357,7 @@ public class CMushroomCow extends EntityMonster implements IRangedEntity {
     protected void a(BlockPosition blockposition, Block block) {
         this.makeSound("mob.cow.step", 0.15F, 1.0F);
     }
-
+    
     /**
      *
      * @return

@@ -71,7 +71,7 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-    public Location spawnLoc;
+        public Location spawnLoc;
     private GuardianType gtype;
     private String name;
     private int level;
@@ -192,7 +192,7 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
 
     private void initPathfinderGoals() {
         this.goalSelector.a(0, new PathfinderGoalFloat(this));
-        this.moveController = new ControllerMoveGuardian(this);
+        this.moveController= new ControllerMoveGuardian(this);
         this.goalSelector.a(9, new PathFinderGoalGoHome(1.0D, this, spawnLoc));
         this.goalSelector.a(3, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
         this.goalSelector.a(4, new PathfinderGoalRandomLookaround(this));
@@ -246,12 +246,13 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
+
     /**
      *
      * @param el
      * @param f
      */
-    @Override
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -296,12 +297,13 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DEL ENTITYGUARDIAN
+
     /**
      *
      * @param f
      * @param f1
      */
-    public void e(float f, float f1) {
+        public void e(float f, float f1) {
     }
 
     /**
@@ -323,10 +325,11 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
 //    protected NavigationAbstract b(World world) {
 //        return new Navigation(this, world);
 //    }
+
     /**
      *
      */
-    protected void h() {
+        protected void h() {
         super.h();
         this.datawatcher.a(16, Integer.valueOf(0));
         this.datawatcher.a(17, Integer.valueOf(0));
@@ -349,11 +352,12 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
     }
 
     //devuelve true si el guardian es normal
+
     /**
      *
      * @return
      */
-    public boolean n() {
+        public boolean n() {
         return this.a(2);
     }
 
@@ -370,20 +374,22 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
     }
 
     //devuelve true si el guardian es elder
+
     /**
      *
      * @return
      */
-    public boolean isElder() {
+        public boolean isElder() {
         return this.a(4);
     }
 
     //modifica la entidad para que tenga aspecto de elder
+
     /**
      *
      * @param flag
      */
-    public void setElder(boolean flag) {
+        public void setElder(boolean flag) {
         this.a(4, flag);
     }
 
@@ -392,20 +398,22 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
     }
 
     //devuelve true si el guardian tiene un objetivo
+
     /**
      *
      * @return
      */
-    public boolean cp() {
+        public boolean cp() {
         return this.datawatcher.getInt(17) != 0;
     }
 
     //devuelve si el guardian tiene un objetivo
+
     /**
      *
      * @return
      */
-    public EntityLiving cq() {
+        public EntityLiving cq() {
         if (!this.cp()) {
             return null;
         } else {
@@ -571,6 +579,7 @@ public class CGuardian extends EntityMonster implements IRangedEntity {
 //            }
 //
 //        }
+
         super.m();
     }
 

@@ -24,11 +24,13 @@ public enum AttackResult {
     /**
      *
      */
-    MISS,
+    MISS, 
+
     /**
      *
      */
-    NORMAL,
+    NORMAL, 
+
     /**
      *
      */

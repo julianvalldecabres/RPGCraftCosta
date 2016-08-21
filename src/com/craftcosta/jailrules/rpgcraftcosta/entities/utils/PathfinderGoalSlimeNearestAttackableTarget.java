@@ -63,7 +63,7 @@ public class PathfinderGoalSlimeNearestAttackableTarget<T extends EntityLiving> 
      * @param flag
      */
     public PathfinderGoalSlimeNearestAttackableTarget(EntityCreature entitycreature, Class<T> oclass, boolean flag) {
-
+        
         this(entitycreature, oclass, flag, false);
     }
 
@@ -155,7 +155,7 @@ public class PathfinderGoalSlimeNearestAttackableTarget<T extends EntityLiving> 
      *
      */
     public void c() {
-        this.b = 300;
+        this.b=300;
         this.e.setGoalTarget(this.d, d instanceof EntityPlayer ? org.bukkit.event.entity.EntityTargetEvent.TargetReason.CLOSEST_PLAYER : org.bukkit.event.entity.EntityTargetEvent.TargetReason.CLOSEST_ENTITY, true); // Craftbukkit - reason
         super.c();
     }

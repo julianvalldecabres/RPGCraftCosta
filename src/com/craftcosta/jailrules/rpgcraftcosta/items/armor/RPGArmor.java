@@ -445,6 +445,8 @@ public class RPGArmor extends RPGItem {
                 + "\n\tupgradable: " + isUpgradable();
     }
 
+    
+
     /**
      *
      * @param actualLevel
@@ -549,5 +551,6 @@ public class RPGArmor extends RPGItem {
     public void setActualmagicalevasion(double actualmagicalevasion) {
         this.actualmagicalevasion = actualmagicalevasion;
     }
-
+    
+    
 }

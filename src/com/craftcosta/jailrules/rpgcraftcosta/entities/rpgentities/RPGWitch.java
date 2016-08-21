@@ -24,7 +24,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
  *
  * @author jail
  */
-public class RPGWitch extends RPGMob {
+public class RPGWitch extends RPGMob{
 
     /**
      *
@@ -63,5 +63,5 @@ public class RPGWitch extends RPGMob {
         this.money = money;
         this.exp = exp;
         this.ap = ap;
-    }
+    }    
 }

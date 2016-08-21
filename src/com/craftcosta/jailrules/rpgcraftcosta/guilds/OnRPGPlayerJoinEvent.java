@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 jail.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,15 +27,15 @@ public final class OnRPGPlayerJoinEvent extends Event {
 
     private static final HandlerList handlers = new HandlerList();
     private RPGPlayer rpgp;
-
     public OnRPGPlayerJoinEvent(RPGPlayer rpgp) {
-        this.rpgp = rpgp;
+        this.rpgp=rpgp;
     }
 
     public RPGPlayer getRPGPlayer() {
         return rpgp;
     }
 
+    
     public HandlerList getHandlers() {
         return handlers;
     }

@@ -64,8 +64,12 @@ public class RPGPlayerListener implements Listener {
     public RPGPlayerListener(RPGCraftCosta plugin) {
         this.plugin = plugin;
         this.rpgPMan = plugin.getRPGPlayerManager();
-        this.rpgPaMan = plugin.getRPGPartyManager();
-        this.rpgGMan = plugin.getRPGGuildManager();
+        if (plugin.getRpgConfig().isEnableParties()) {
+            this.rpgPaMan = plugin.getRPGPartyManager();
+        }
+        if (plugin.getRpgConfig().isEnableGuilds()) {
+            this.rpgGMan = plugin.getRPGGuildManager();
+        }
         this.rpgCMan = plugin.getRPGChatManager();
     }
 
@@ -113,12 +117,16 @@ public class RPGPlayerListener implements Listener {
     public void onPlayerKicked(PlayerKickEvent e) {
         Player p = e.getPlayer();
         RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
-        if (!rpgP.getParty().isEmpty()) {
-            RPGParty rpgParty = rpgPaMan.getParty(rpgP.getParty());
-            rpgPaMan.leavePlayerFromParty(p, rpgP.getParty());
+        if (plugin.getRpgConfig().isEnableParties()) {
+            if (!rpgP.getParty().isEmpty()) {
+                RPGParty rpgParty = rpgPaMan.getParty(rpgP.getParty());
+                rpgPaMan.leavePlayerFromParty(p, rpgP.getParty());
+            }
         }
-        if (!rpgP.getGuild().isEmpty()) {
-            rpgGMan.sendMessageToGuild(rpgP.getGuild(), ChatColor.LIGHT_PURPLE + "El camarada " + p.getName() + " ha abandonado la partida");
+        if (plugin.getRpgConfig().isEnableGuilds()) {
+            if (!rpgP.getGuild().isEmpty()) {
+                rpgGMan.sendMessageToGuild(rpgP.getGuild(), ChatColor.LIGHT_PURPLE + "El camarada " + p.getName() + " ha abandonado la partida");
+            }
         }
         rpgPMan.saveRPGPlayer(rpgPMan.getRPGPlayerByName(e.getPlayer().getName()));
         rpgPMan.delPlayerFromList(e.getPlayer());
@@ -133,12 +141,16 @@ public class RPGPlayerListener implements Listener {
     public void onPlayerDisconnectedFromServer(PlayerQuitEvent event) {
         Player p = event.getPlayer();
         RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
-        if (!rpgP.getParty().isEmpty()) {
-            RPGParty rpgParty = rpgPaMan.getParty(rpgP.getParty());
-            rpgPaMan.leavePlayerFromParty(p, rpgP.getParty());
+        if (plugin.getRpgConfig().isEnableParties()) {
+            if (!rpgP.getParty().isEmpty()) {
+                RPGParty rpgParty = rpgPaMan.getParty(rpgP.getParty());
+                rpgPaMan.leavePlayerFromParty(p, rpgP.getParty());
+            }
         }
-        if (!rpgP.getGuild().isEmpty()) {
-            rpgGMan.sendMessageToGuild(rpgP.getGuild(), ChatColor.LIGHT_PURPLE + "El camarada " + p.getName() + " ha abandonado la partida");
+        if (plugin.getRpgConfig().isEnableGuilds()) {
+            if (!rpgP.getGuild().isEmpty()) {
+                rpgGMan.sendMessageToGuild(rpgP.getGuild(), ChatColor.LIGHT_PURPLE + "El camarada " + p.getName() + " ha abandonado la partida");
+            }
         }
         rpgPMan.saveRPGPlayer(rpgPMan.getRPGPlayerByName(p.getName()));
         rpgPMan.delPlayerFromList(p);

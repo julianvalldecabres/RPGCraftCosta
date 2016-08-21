@@ -61,6 +61,7 @@ import org.bukkit.event.entity.EntityShootBowEvent;
 public class CWither extends EntityMonster implements IRangedEntity {
 
     //VARIABLES AÑADIDAS QUE DEFINEN EL TIPO DE MOB
+
     private AttackType aType;
     private MobBehaviour mType;
     //VARIBLES ATRIBUTOS DEL MOB
@@ -68,7 +69,7 @@ public class CWither extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-    public Location spawnLoc;
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -218,12 +219,13 @@ public class CWither extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
+
     /**
      *
      * @param el
      * @param f
      */
-    @Override
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -266,11 +268,13 @@ public class CWither extends EntityMonster implements IRangedEntity {
                 return 0;
         }
     }
-
+    
     //METODOS PROPIOS DEL ENTITYWITHER
+    
     /**
      *
      */
+        
     protected void h() {
         super.h();
         this.datawatcher.a(17, new Integer(0));
@@ -332,7 +336,7 @@ public class CWither extends EntityMonster implements IRangedEntity {
      *
      */
     protected void E() {
-
+        
     }
 
     /**
@@ -346,8 +350,7 @@ public class CWither extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-    public void aA() {
-    }
+    public void aA() {}
 
     /**
      *
@@ -443,15 +446,13 @@ public class CWither extends EntityMonster implements IRangedEntity {
      * @param f
      * @param f1
      */
-    public void e(float f, float f1) {
-    }
+    public void e(float f, float f1) {}
 
     /**
      *
      * @param mobeffect
      */
-    public void addEffect(MobEffect mobeffect) {
-    }
+    public void addEffect(MobEffect mobeffect) {}
 
     /**
      *

@@ -198,12 +198,13 @@ public class CGhast extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
+
     /**
      *
      * @param el
      * @param f
      */
-    @Override
+        @Override
     public void a(EntityLiving el, float f) {
         //Para que nuestras entidades puedan realizar ataques a distancia hay que reescribir el metodo avoid a(EntityLiving el, float f)
         //que define que tipo de ataque a distancia realiza
@@ -253,10 +254,11 @@ public class CGhast extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DEL ENTITYGHAST
+
     /**
      *
      */
-    protected void h() {
+        protected void h() {
         super.h();
     }
 

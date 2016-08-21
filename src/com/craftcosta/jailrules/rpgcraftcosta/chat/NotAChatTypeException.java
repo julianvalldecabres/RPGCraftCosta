@@ -17,11 +17,10 @@ package com.craftcosta.jailrules.rpgcraftcosta.chat;
 
 /**
  * Excepcion que denota que el tipo de Chat especificado no existe
- *
  * @author jail
  */
 public class NotAChatTypeException extends Exception {
-
+    
     public NotAChatTypeException(String message) {
         super(message);
     }

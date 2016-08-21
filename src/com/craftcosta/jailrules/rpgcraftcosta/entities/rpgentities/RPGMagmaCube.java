@@ -24,7 +24,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
  *
  * @author jail
  */
-public class RPGMagmaCube extends RPGMob {
+public class RPGMagmaCube extends RPGMob{
 
     /**
      *

@@ -1,17 +1,7 @@
-/* 
- * Copyright 2016 jail.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package com.craftcosta.jailrules.rpgcraftcosta.economy;
 
@@ -52,12 +42,12 @@ public class RPGTradeInventory {
         ItemMeta dineroMeta = totaldinero.getItemMeta();
         dineroMeta.setDisplayName(ChatColor.GOLD + "Dinero");
         List<String> lores = new ArrayList<String>();
-        lores.add(dinero + "$");
+        lores.add(dinero+"$");
         dineroMeta.setLore(lores);
         totaldinero.setItemMeta(dineroMeta);
         return totaldinero;
     }
-
+    
     public ItemStack noaceptado() {
         ItemStack aceptar = new ItemStack(Material.WOOL, 1, (short) 0, (byte) 0);
         ItemMeta aceptarMeta = aceptar.getItemMeta();
@@ -65,7 +55,7 @@ public class RPGTradeInventory {
         aceptar.setItemMeta(aceptarMeta);
         return aceptar;
     }
-
+    
     public ItemStack aceptar() {
         ItemStack aceptar = new ItemStack(Material.WOOL, 1, (short) 0, (byte) 5);
         ItemMeta aceptarMeta = aceptar.getItemMeta();
@@ -190,7 +180,7 @@ public class RPGTradeInventory {
 
     public void rellenarInventarioplayer1(Inventory inv1) {
         ItemStack divisor = divisor();
-        ItemStack noaceptado = noaceptado();
+        ItemStack noaceptado= noaceptado();
         ItemStack aceptar = aceptar();
         ItemStack cancelar = cancelar();
         ItemStack dinero1 = dinero1();
@@ -229,7 +219,7 @@ public class RPGTradeInventory {
     public void rellenarInventarioplayer2(Inventory inv2) {
         ItemStack divisor = divisor();
         ItemStack aceptar = aceptar();
-        ItemStack noaceptado = noaceptado();
+        ItemStack noaceptado= noaceptado();
         ItemStack cancelar = cancelar();
         ItemStack dinero1 = dinero1();
         ItemStack dinero10 = dinero10();

@@ -85,7 +85,7 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     private HorseVariant hVariant;
     private HorseType hType;
     //VARIABLES PROPIAS DEL ENTITYHORSE
-
+    
     /**
      *
      * @param world
@@ -94,16 +94,16 @@ public class CHorse extends EntityMonster implements IRangedEntity {
         super(world);
         setSize(1.4F, 1.6F);
         ((Navigation) getNavigation()).a(true);
-        this.spawnLoc = new Location(world.getWorld(), 0, 0, 0);
+        this.spawnLoc = new Location(world.getWorld(),0, 0, 0);
         this.baby = true;
         //tipos por defecto
-        this.hVariant = HorseVariant.WHITE;
-        this.hType = HorseType.ZOMBIE;
-
+        this.hVariant=HorseVariant.WHITE;
+        this.hType=HorseType.ZOMBIE;
+                
         this.setVariant(0);
         this.setType(3);
         this.rangedStrenght = 1.6F;
-        this.rangedDamage = 20.0D;
+        this.rangedDamage=20.0D;
         this.aType = AttackType.RANGED;
         this.mType = MobBehaviour.NORMAL;
         this.setBaby(baby);
@@ -129,27 +129,27 @@ public class CHorse extends EntityMonster implements IRangedEntity {
         //añadimos los pathfindergoals
         initPathfinderGoals();
     }
-
+    
     /**
      *
      * @param world
      * @param spawnloc
      */
-    public CHorse(World world, Location spawnloc) {
+    public CHorse(World world,Location spawnloc) {
         super(world);
         setSize(1.4F, 1.6F);
         ((Navigation) getNavigation()).a(true);
         this.spawnLoc = spawnloc;
         this.baby = false;
         //tipos por defecto
-        this.hVariant = HorseVariant.WHITE;
-        this.hType = HorseType.ZOMBIE;
-
+        this.hVariant=HorseVariant.WHITE;
+        this.hType=HorseType.ZOMBIE;
+                
         this.setVariant(0);
         this.setType(3);
-        this.attackSpeed = 1.0D;
+        this.attackSpeed=1.0D;
         this.rangedStrenght = 1.6F;
-        this.rangedDamage = 20.0D;
+        this.rangedDamage=20.0D;
         this.aType = AttackType.MELEE;
         this.mType = MobBehaviour.NORMAL;
         this.setBaby(baby);
@@ -234,7 +234,7 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     private void initPathfinderGoals() {
         //default PfG
         this.goalSelector.a(0, new PathfinderGoalFloat(this));
-        this.goalSelector.a(5, new PathFinderGoalGoHome(1.0D, this, spawnLoc));
+        this.goalSelector.a(5,new PathFinderGoalGoHome(1.0D, this, spawnLoc));
         this.goalSelector.a(3, new PathfinderGoalLookAtPlayer(this, EntityHuman.class, 8.0F));
         this.goalSelector.a(4, new PathfinderGoalRandomLookaround(this));
         //mobType PfG
@@ -287,12 +287,13 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
+
     /**
      *
      * @param el
      * @param f
      */
-    @Override
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, this.rangedStrenght, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -345,11 +346,12 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYHORSE
+
     /**
      *
      * @return
      */
-    protected String z() {
+        protected String z() {
         int i = getType();
 
         return (i != 1) && (i != 2) ? "mob.horse.idle" : i == 4 ? "mob.horse.skeleton.idle" : i == 3 ? "mob.horse.zombie.idle" : "mob.horse.donkey.idle";
@@ -391,15 +393,16 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     private void df() {
-        c(128, true);
+            c(128, true);
     }
 
     //devuelve true si es un caballo zombie esqueleto o mula
+
     /**
      *
      * @return
      */
-    public boolean cS() {
+        public boolean cS() {
         return (cR()) || (getType() == 2);
     }
 
@@ -431,7 +434,7 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     private void dh() {
-        s(true);
+            s(true);
     }
 
     /**
@@ -445,23 +448,25 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     //Devuelve el string sonido del tipo de caballo enfadado
+
     /**
      *
      * @return
      */
-    protected String cH() {
+        protected String cH() {
         int i = getType();
         return (i != 3) && (i != 4) ? "mob.horse.donkey.angry" : (i != 1) && (i != 2) ? "mob.horse.angry" : null;
     }
 
     //CONTROLA EL MOVIMIENTO
+
     /**
      *
      * @param f
      * @param f1
      */
-    public void g(float f, float f1) {
-        super.g(f, f1);
+        public void g(float f, float f1) {
+        super.g(f,f1);
     }
 
     /**
@@ -473,12 +478,13 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     //Sonidos del caballo al andar
+
     /**
      *
      * @param blockposition
      * @param block
      */
-    protected void a(BlockPosition blockposition, Block block) {
+        protected void a(BlockPosition blockposition, Block block) {
         Block.StepSound block_stepsound = block.stepSound;
         if (this.world.getType(blockposition.up()).getBlock() == Blocks.SNOW_LAYER) {
             block_stepsound = Blocks.SNOW_LAYER.stepSound;
@@ -566,13 +572,14 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     public boolean cG() {
         return w(4);
     }
-
+    
     //metodo que acciona el salto del caballo dependiendo de la fuerza que imprima el jugador
+
     /**
      *
      * @param i
      */
-    public void v(int i) {
+        public void v(int i) {
     }
 
     /**
@@ -584,10 +591,11 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     //inicializa el data de la entityhorse
+
     /**
      *
      */
-    protected void h() {
+        protected void h() {
         super.h();
         this.datawatcher.a(16, Integer.valueOf(0));
         this.datawatcher.a(19, Byte.valueOf((byte) 0));
@@ -597,47 +605,52 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     //establece el tipo de caballo del tipo i
+
     /**
      *
      * @param i
      */
-    public void setType(int i) {
+        public void setType(int i) {
         this.datawatcher.watch(19, Byte.valueOf((byte) hType.getNumber()));
     }
-
+    
     //consulta el tipo de caballo
+
     /**
      *
      * @return
      */
-    public int getType() {
+        public int getType() {
         return this.datawatcher.getByte(19);
     }
 
     //establece la variante dentro del tipo del caballo
+
     /**
      *
      * @param i
      */
-    public void setVariant(int i) {
+        public void setVariant(int i) {
         this.datawatcher.watch(20, Integer.valueOf(hVariant.getNumber()));
     }
 
     //consulta la variante de caballo
+
     /**
      *
      * @return
      */
-    public int getVariant() {
+        public int getVariant() {
         return this.datawatcher.getInt(20);
     }
 
     //obtiene el nombre si tiene uno propio o el heredado del tipo de caballo
+
     /**
      *
      * @return
      */
-    public String getName() {
+        public String getName() {
         if (hasCustomName()) {
             return getCustomName();
         }
@@ -673,20 +686,22 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     //true si el caballo no es un potro
+
     /**
      *
      * @return
      */
-    public boolean cp() {
+        public boolean cp() {
         return !isBaby();
     }
 
     //aun por determinar puede ser la altura de la cabeza suponiendo que sea un potro
+
     /**
      *
      * @return
      */
-    public float cu() {
+        public float cu() {
         return 0.5F;
     }
 
@@ -724,18 +739,20 @@ public class CHorse extends EntityMonster implements IRangedEntity {
 //        nbttagcompound.setInt("Temper", getTemper());
     }
 
+    
     //metodo que añade sonido al salto del caballo, dependiendo del tipo de bloque que pise
+
     /**
      *
      * @param f
      * @param f1
      */
-    public void e(float f, float f1) {
+        public void e(float f, float f1) {
         if (f > 1.0F) {
             makeSound("mob.horse.land", 0.4F, 1.0F);
         }
         int i = MathHelper.f((f * 0.5F - 3.0F) * f1);
-        if (i > 0) {
+        if (i > 0) {            
             Block block = this.world.getType(new BlockPosition(this.locX, this.locY - 0.2D - this.lastYaw, this.locZ)).getBlock();
             if ((block.getMaterial() != Material.AIR) && (!R())) {
                 Block.StepSound block_stepsound = block.stepSound;
@@ -745,11 +762,12 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     }
 
     //devuelve true si el caballo es de tipo zombie o esqueleto
+
     /**
      *
      * @return
      */
-    public boolean cR() {
+        public boolean cR() {
         int i = getType();
 
         return (i == 3) || (i == 4);
@@ -774,21 +792,24 @@ public class CHorse extends EntityMonster implements IRangedEntity {
 //            entityhuman.mount(this);
 //        }
 //    }
+    
     //devuelve true si es un caballo normal
+
     /**
      *
      * @return
      */
-    public boolean cO() {
+        public boolean cO() {
         return getType() == 0;
     }
 
     //devuelve true si es un burro o asno
+
     /**
      *
      * @return
      */
-    public boolean cP() {
+        public boolean cP() {
         int i = getType();
 
         return (i == 2) || (i == 1);

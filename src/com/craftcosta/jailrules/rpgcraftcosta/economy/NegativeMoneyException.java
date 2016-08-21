@@ -24,5 +24,5 @@ class NegativeMoneyException extends Exception {
     public NegativeMoneyException(String msg) {
         super(msg);
     }
-
+    
 }

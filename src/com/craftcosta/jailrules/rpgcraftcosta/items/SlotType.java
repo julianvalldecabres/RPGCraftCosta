@@ -24,19 +24,23 @@ public enum SlotType {
     /**
      *
      */
-    HELMET("helmet"),
+    HELMET("helmet"), 
+
     /**
      *
      */
-    LEGGINGS("leggings"),
+    LEGGINGS("leggings"), 
+
     /**
      *
      */
-    CHESTPLATE("chestplate"),
+    CHESTPLATE("chestplate"), 
+
     /**
      *
      */
-    BOOTS("boots"),
+    BOOTS("boots"), 
+
     /**
      *
      */

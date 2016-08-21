@@ -27,82 +27,102 @@ public enum EnumLores {
      *
      */
     PHYSICALATTACK("Physical Attack", RPGLoreValueType.VALUEDOUBLE, "Increments the player's physical attack"),
+
     /**
      *
      */
     PHYSICALDEFENSE("Physical Defense", RPGLoreValueType.VALUEDOUBLE, "Increments the player´s physical defense"),
+
     /**
      *
      */
     PHYSICALEVASION("Physical Evasion", RPGLoreValueType.PERCENTAGE, "Increments player physical evasion in a percentage"),
+
     /**
      *
      */
     PHYSICALHITRATE("Physical HitRate", RPGLoreValueType.PERCENTAGE, "Increments player physical hitrate in a percentage"),
+
     /**
      *
      */
     MAGICALATTACK("Magical Attack", RPGLoreValueType.VALUEDOUBLE, "Increments player magical attack"),
+
     /**
      *
      */
     MAGICALDEFENSE("Magical Defense", RPGLoreValueType.VALUEDOUBLE, "Increments player magical defense"),
+
     /**
      *
      */
     MAGICALEVASION("Magical Evasion", RPGLoreValueType.PERCENTAGE, "Increments player magical evasion in a percentage"),
+
     /**
      *
      */
     MAGICALHITRATE("Magical HitRate", RPGLoreValueType.PERCENTAGE, "Increments player magical hitrate in a percentage"),
+
     /**
      *
      */
     XPBONUS("XP Bonus", RPGLoreValueType.PERCENTAGE, "Increments player experience in a percentage"),
+
     /**
      *
      */
     APBONUS("AP Bonus", RPGLoreValueType.PERCENTAGE, "Increments player ability points in a percentage"),
+
     /**
      *
      */
     MONEYBONUS("Money Bonus", RPGLoreValueType.PERCENTAGE, "Increments player money bonus in a percentage"),
+
     /**
      *
      */
     CRITICAL("Critical", RPGLoreValueType.PERCENTAGE, "Increments critical's player in a percentage"),
+
     /**
      *
      */
     HEALTHSTEAL("Health Steal", RPGLoreValueType.PERCENTAGE, "Increments player health steal in a percentage"),
+
     /**
      *
      */
     MANASTEAL("Mana Steal", RPGLoreValueType.PERCENTAGE, "Increments player mana stesl in a percentage"),
+
     /**
      *
      */
     HEALTH("Max Health", RPGLoreValueType.PERCENTAGE, "Increments health's player in a percentage"),
+
     /**
      *
      */
     MANA("Max Mana", RPGLoreValueType.PERCENTAGE, "Increments mana's player in a percentage"),
+
     /**
      *
      */
     SELLPRICE("Sell Price", RPGLoreValueType.VALUEINT, "Default sell price of the object"),
+
     /**
      *
      */
     BUYPRICE("Buy Price", RPGLoreValueType.VALUEINT, "Default buy price of the object"),
+
     /**
      *
      */
     NOCOMERCIABLE("No comerciable", RPGLoreValueType.NONE, "Avoid the object to be commerced"),
+
     /**
      *
      */
     NOCOMBINABLE("No combinable", RPGLoreValueType.NONE, "Avoid the object to be combinable"),
+
     /**
      *
      */

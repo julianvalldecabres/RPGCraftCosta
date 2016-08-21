@@ -24,10 +24,9 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
  *
  * @author jail
  */
-public class RPGWolf extends RPGMob {
-
+public class RPGWolf extends RPGMob{
     private boolean baby;
-
+    
     /**
      *
      * @param level
@@ -84,5 +83,5 @@ public class RPGWolf extends RPGMob {
      */
     public void setBaby(boolean baby) {
         this.baby = baby;
-    }
+    }  
 }

@@ -104,7 +104,9 @@ public class RPGWeaponManager {
             config = YamlConfiguration.loadConfiguration(weaponFile);
         }
         plugin.getLogger().info("Loading weapons...");
+        String id;
         String name;
+        String mat;
         ItemStack item;
         int sellprice;
         int buyprice;
@@ -132,9 +134,10 @@ public class RPGWeaponManager {
         double moneybonus;
 
         Set<String> armas = config.getKeys(false);
-        for (String arma : armas) {
-            ConfigurationSection section = config.getConfigurationSection(arma);
-            name = arma;
+        for (String armaid : armas) {
+            ConfigurationSection section = config.getConfigurationSection(armaid);
+            name = section.getString("name");
+            mat= section.getString("item");
             item = new ItemStack(Material.matchMaterial(section.getString("item")));
             comerciable = section.getBoolean("comerciable");
             sellprice = section.getInt("sellprice");
@@ -160,7 +163,7 @@ public class RPGWeaponManager {
             apbonus = section.getDouble("apbonus");
             xpbonus = section.getDouble("xpbonus");
             moneybonus = section.getDouble("moneybonus");
-            weaponList.put(arma, new RPGWeapon(item, name, comerciable, sellprice, buyprice, quality, level, upgradable, weaponLevel, physicalattack, incphysicalattack, physicalhitrate, incphysicalhitrate, magicalattack, incmagicalattack, magicalhitrate, incmagicalhitrate, healthsteal, inchealthsteal, manasteal, incmanasteal, critical, inccritical, apbonus, xpbonus, moneybonus));
+            weaponList.put(name+" "+mat.toLowerCase(), new RPGWeapon(item, name, comerciable, sellprice, buyprice, quality, level, upgradable, weaponLevel, physicalattack, incphysicalattack, physicalhitrate, incphysicalhitrate, magicalattack, incmagicalattack, magicalhitrate, incmagicalhitrate, healthsteal, inchealthsteal, manasteal, incmanasteal, critical, inccritical, apbonus, xpbonus, moneybonus));
 
         }
     }

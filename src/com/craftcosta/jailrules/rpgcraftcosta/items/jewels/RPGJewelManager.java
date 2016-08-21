@@ -104,6 +104,7 @@ public class RPGJewelManager {
             config = YamlConfiguration.loadConfiguration(jewelFile);
         }
         plugin.getLogger().info("Loading jewels...");
+        String id;
         String name;
         ItemStack item; //En el fichero se guardara y salvara el ID del Material (ej. DIAMOND_SWORD)
         int sellprice;
@@ -129,9 +130,9 @@ public class RPGJewelManager {
         double moneybonus;
 
         Set<String> jewels = config.getKeys(false);
-        for (String jewel : jewels) {
-            ConfigurationSection section = config.getConfigurationSection(jewel);
-            name = jewel;
+        for (String idjewel : jewels) {
+            ConfigurationSection section = config.getConfigurationSection(idjewel);
+            name = section.getString("name");
             item = new ItemStack(Material.matchMaterial(section.getString("item")));
             comerciable = section.getBoolean("comerciable");
             sellprice = section.getInt("sellprice");
@@ -154,7 +155,7 @@ public class RPGJewelManager {
             apbonus = section.getDouble("apbonus");
             xpbonus = section.getDouble("xpbonus");
             moneybonus = section.getDouble("moneybonus");
-            jewelList.put(jewel, new RPGJewel(item, name, sellprice, buyprice, quality, combinable, comerciable, physicalattack, physicaldefense, physicalevasion, physicalhitrate, magicalattack, magicaldefense, magicalevasion, magicalhitrate, health, mana, critical, healthsteal, manasteal, apbonus, xpbonus, moneybonus));
+            jewelList.put(name, new RPGJewel(item, name, sellprice, buyprice, quality, combinable, comerciable, physicalattack, physicaldefense, physicalevasion, physicalhitrate, magicalattack, magicaldefense, magicalevasion, magicalhitrate, health, mana, critical, healthsteal, manasteal, apbonus, xpbonus, moneybonus));
 
             //modificar constructor
         }

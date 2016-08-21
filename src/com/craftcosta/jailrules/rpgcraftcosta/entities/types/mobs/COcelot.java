@@ -68,7 +68,7 @@ public class COcelot extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-    public Location spawnLoc;
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -91,7 +91,7 @@ public class COcelot extends EntityMonster implements IRangedEntity {
         super(world);
         setSize(0.6F, 0.7F);
         ((Navigation) getNavigation()).a(true);
-        this.spawnLoc = new Location(world.getWorld(), 0, 4, 0);
+        this.spawnLoc = new Location(world.getWorld(), 0,4,0);
         this.baby = true;
         this.catType = OcelotType.JUNGLE;
         //tipos por defecto
@@ -124,13 +124,13 @@ public class COcelot extends EntityMonster implements IRangedEntity {
         //añadimos los pathfindergoals
         initPathfinderGoals();
     }
-
+    
     /**
      *
      * @param world
      * @param spawnLoc
      */
-    public COcelot(World world, Location spawnLoc) {
+    public COcelot(World world,Location spawnLoc) {
         super(world);
         setSize(0.6F, 0.7F);
         ((Navigation) getNavigation()).a(true);
@@ -224,12 +224,13 @@ public class COcelot extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
+
     /**
      *
      * @param el
      * @param f
      */
-    @Override
+        @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -282,11 +283,12 @@ public class COcelot extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYPIG
+
     /**
      *
      * @return
      */
-    public int getCatType() {
+        public int getCatType() {
         return this.datawatcher.getByte(18);
     }
 

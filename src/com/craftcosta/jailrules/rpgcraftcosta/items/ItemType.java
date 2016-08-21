@@ -24,23 +24,28 @@ public enum ItemType {
     /**
      *
      */
-    WEAPON(0),
+    WEAPON(0), 
+
     /**
      *
      */
-    ARMOR(1),
+    ARMOR(1), 
+
     /**
      *
      */
-    JEWEL(2),
+    JEWEL(2), 
+
     /**
      *
      */
-    POTION(3),
+    POTION(3), 
+
     /**
      *
      */
-    FOOD(4),
+    FOOD(4), 
+
     /**
      *
      */

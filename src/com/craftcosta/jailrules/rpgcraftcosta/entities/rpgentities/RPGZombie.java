@@ -24,8 +24,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
  *
  * @author jail
  */
-public class RPGZombie extends RPGMob {
-
+public class RPGZombie extends RPGMob{
     private boolean villager;
     private boolean baby;
 
@@ -50,7 +49,7 @@ public class RPGZombie extends RPGMob {
      * @param baby
      * @param villager
      */
-    public RPGZombie(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap, boolean baby, boolean villager) {
+    public RPGZombie(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType,  double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap, boolean baby, boolean villager) {
         this.level = level;
         this.name = name;
         this.type = CustomEntityType.ZOMBIEX;
@@ -68,9 +67,9 @@ public class RPGZombie extends RPGMob {
         this.money = money;
         this.exp = exp;
         this.ap = ap;
-
-        this.villager = villager;
-        this.baby = baby;
+        
+        this.villager=villager;
+        this.baby=baby;
     }
 
     /**

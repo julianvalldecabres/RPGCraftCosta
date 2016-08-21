@@ -62,7 +62,7 @@ public class CBlaze extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-    public Location spawnLoc;
+        public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -311,10 +311,11 @@ public class CBlaze extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE LA ENTIDAD
+
     /**
      *
      */
-    protected void h() {
+        protected void h() {
         super.h();
         this.datawatcher.a(16, new Byte((byte) 0));
     }

@@ -17,7 +17,6 @@ package com.craftcosta.jailrules.rpgcraftcosta.chat;
 
 /**
  * Excepcion que denota que el Color especificado no existe
- *
  * @author jail
  */
 public class NotAColorException extends Exception {

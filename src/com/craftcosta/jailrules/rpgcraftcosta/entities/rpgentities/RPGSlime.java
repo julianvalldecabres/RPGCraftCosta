@@ -24,7 +24,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
  *
  * @author jail
  */
-public class RPGSlime extends RPGMob {
+public class RPGSlime extends RPGMob{
 
     /**
      *
@@ -63,6 +63,6 @@ public class RPGSlime extends RPGMob {
         this.money = money;
         this.exp = exp;
         this.ap = ap;
-    }
+    }    
 
 }
