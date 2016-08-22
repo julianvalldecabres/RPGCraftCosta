@@ -29,7 +29,7 @@ world:
             y: 5
             maxmobs: 1
             radius: 5
-    -1x2st:
+    -1x2:
         1:
             rpgmob: 1
             enabled: true

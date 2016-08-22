@@ -15,6 +15,10 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.gui;
 
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.classes.GUIClassesManager;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.config.GUIConfigManager;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.leveling.GUILevelManager;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.objects.GUIItemManager;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumArmor;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumEntities;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumItems;
@@ -30,7 +34,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.LayoutManager;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -49,7 +52,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -111,6 +114,12 @@ public class GUI extends JFrame {
     public static List<ImageIcon> images9;
     public static List<String> imagesNames9;
 
+    //Managers
+    private static GUIConfigManager guiConfigMan;
+    private static GUILevelManager guiLevelMan;
+    private static GUIClassesManager guiClassMan;
+    private static GUIItemManager guiItemMan;
+
     private static void copy(FileInputStream in, File file) {
         try {
             OutputStream out = new FileOutputStream(file);
@@ -141,55 +150,90 @@ public class GUI extends JFrame {
         }
     }
 
+    public static void copyFileFromJar(String source, String destination) {
+        File dest = new File(destination);
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            if (!dest.exists()) {
+                dest.createNewFile();
+            }
+
+            in = GUI.class.getClassLoader().getResourceAsStream(source); //Important step, it returns InputStream which can be manipulated as per need.
+            if (in == null) {
+                JOptionPane.showMessageDialog(null, "No se puede tener acceso al recurso \"" + dest + "\" del archivo Jar");
+            }
+            out = new FileOutputStream(dest);
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+        } catch (FileNotFoundException ex) {
+            //JOptionPane.showMessageDialog(null, ex.printStackTrace());
+        } catch (IOException ex) {
+            //JOptionPane.showMessageDialog(null, ex.printStackTrace());
+        } finally {
+            try {
+                in.close();
+                out.close();
+            } catch (IOException ex) {
+                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
     private static void createDefaultDirectories() {
         //TODO AUTOMATIZAR EL PROCESO DE GENERACION DE LOS FICHEROS DE CONFIGURACION
-
-        File file = new File(RPGFinals.pluginNameFolder);
+        File file = new File(RPGFinals.pluginDataFolder);
         if (!file.exists()) {
-            JOptionPane.showMessageDialog(null, "Creating default config folders and files", "RPGCraftCosta-Information", 1);
+            JOptionPane.showMessageDialog(null, "Creando ficheros con configuración por defecto", "RPGCraftCosta-Información", 1);
             file.mkdirs();
         } else {
-            JOptionPane.showMessageDialog(null, "Loading config from config files\nIf any config file or folder doesn't exists will be created by default", "RPGCraftCosta-Information", 1);
+            JOptionPane.showMessageDialog(null, "Cargando configuracion desde los ficheros\nSi los ficheros no son encontrados seran creados por defecto", "RPGCraftCosta-Informacion", 1);
         }
 
         //LISTADO DE FICHEROS YAMLS PARA COPIAR POR DEFECTO
         final String path = "";
         final File jarFile = new File(GUI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-
         if (jarFile.isFile()) {
             try {
                 // Run with JAR file
-                final JarFile jar;
-                jar = new JarFile(jarFile);
-                final Enumeration<JarEntry> entries = jar.entries();
+                List<String> inexistentfiles = new ArrayList<>();
+                final JarFile jar = new JarFile(jarFile);
+                final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
                 while (entries.hasMoreElements()) {
                     final String name = entries.nextElement().getName();
-                    if (name.startsWith(path /*+ "/"*/)) {
-                        System.out.println("1");
-                        System.out.println(name);
-                        System.out.println("2");
+                    if (name.contains(".yml") && !name.equals("plugin.yml")) {
+                        File dest = new File(RPGFinals.pluginDataFolder + File.separator + name);
+                        if (!dest.exists()) {
+                            inexistentfiles.add(name);
+                            copyFileFromJar(name, RPGFinals.pluginDataFolder + name);
+                        }
                     }
                 }
                 jar.close();
+                if (!inexistentfiles.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Los siguientes ficheros de configuracion no existen:\n"
+                            + getList(inexistentfiles) + "Se añadira/n su version por defecto");
+                }
             } catch (IOException ex) {
                 Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else { // Run with IDE
             final URL url = Launcher.class.getResource("/" + path);
             if (url != null) {
+                //Funciona en el IDE
                 try {
                     List<String> inexistentfiles = new ArrayList<>();
                     final File apps = new File(url.toURI());
                     for (File app : apps.listFiles()) {
-                        if (app.getName().contains(".yml")) {
-
+                        if (app.getName().contains(".yml") && !app.getName().equals("plugin.yml")) {
                             File configfile = new File(file.getAbsolutePath() + File.separator + app.getName());
                             if (!configfile.exists()) {
                                 inexistentfiles.add(app.getName());
                                 InputStream in = GUI.class.getClassLoader().getResourceAsStream(app.getName());
-                                FileOutputStream fos = null;
-                                try {
-                                    fos = new FileOutputStream(file.getAbsolutePath() + File.separator + app.getName());
+                                try (FileOutputStream fos = new FileOutputStream(file.getAbsolutePath() + File.separator + app.getName())) {
                                     byte[] buf = new byte[2048];
                                     int r = in.read(buf);
                                     while (r != -1) {
@@ -200,10 +244,6 @@ public class GUI extends JFrame {
                                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
                                 } catch (IOException ex) {
                                     Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
-                                } finally {
-                                    if (fos != null) {
-                                        fos.close();
-                                    }
                                 }
                             }
 
@@ -214,8 +254,8 @@ public class GUI extends JFrame {
                                 + getList(inexistentfiles) + "Se añadira/n su version por defecto");
                     }
 
-                } catch (URISyntaxException | IOException ex) {
-
+                } catch (URISyntaxException ex) {
+                    // never happens
                 }
             }
         }
@@ -499,6 +539,11 @@ public class GUI extends JFrame {
             calidadjoy.addItem(i);
         }
 
+        //Managers
+        this.guiConfigMan = new GUIConfigManager(this);
+        this.guiLevelMan = new GUILevelManager(this);
+        this.guiClassMan = new GUIClassesManager(this);
+        this.guiItemMan = new GUIItemManager(this);
     }
 
     /**
@@ -557,10 +602,10 @@ public class GUI extends JFrame {
         lblInfoNivel2 = new javax.swing.JLabel();
         btnDibujarGraficoNiveles = new javax.swing.JButton();
         lblInfoNivelMaxNivel = new javax.swing.JLabel();
-        txtX3Nivel = new javax.swing.JSpinner();
-        txtX2Nivel = new javax.swing.JSpinner();
-        txtXNivel = new javax.swing.JSpinner();
-        lblMaxNivelNivel = new javax.swing.JSpinner();
+        spinnerX3Nivel = new javax.swing.JSpinner();
+        spinnerX2Nivel = new javax.swing.JSpinner();
+        spinnerXNivel = new javax.swing.JSpinner();
+        spinnerMaxNivel = new javax.swing.JSpinner();
         panelGraficosNivel = new javax.swing.JPanel();
         panelNivelExpNivel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -592,7 +637,7 @@ public class GUI extends JFrame {
         spinnerDefFisBase = new javax.swing.JSpinner();
         spinnerAtaFisBase = new javax.swing.JSpinner();
         spinnerHRFisBase = new javax.swing.JSpinner();
-        spinnerEvaBase = new javax.swing.JSpinner();
+        spinnerEvaFisBase = new javax.swing.JSpinner();
         spinnerAtaMagBase = new javax.swing.JSpinner();
         spinnerDefMagBase = new javax.swing.JSpinner();
         spinnerHRMagBase = new javax.swing.JSpinner();
@@ -647,7 +692,7 @@ public class GUI extends JFrame {
         panelHabDest = new javax.swing.JPanel();
         lblCritAP = new javax.swing.JLabel();
         lblMortalAP = new javax.swing.JLabel();
-        spinnerCrtitAP = new javax.swing.JSpinner();
+        spinnerCritAP = new javax.swing.JSpinner();
         spinnerMortalAP = new javax.swing.JSpinner();
         panelConfigObjetos = new javax.swing.JPanel();
         btnCrearNuevoObjeto = new javax.swing.JButton();
@@ -1206,7 +1251,7 @@ public class GUI extends JFrame {
             .addGroup(panelInicioLayout.createSequentialGroup()
                 .addGap(122, 122, 122)
                 .addComponent(btnprueba)
-                .addContainerGap(588, Short.MAX_VALUE))
+                .addContainerGap(619, Short.MAX_VALUE))
         );
         panelInicioLayout.setVerticalGroup(
             panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1307,6 +1352,12 @@ public class GUI extends JFrame {
         lblYInicio.setText("Y");
 
         lblZInicio.setText("Z");
+
+        spinnerXInicio.setModel(new javax.swing.SpinnerNumberModel());
+
+        spinnerYInicio.setModel(new javax.swing.SpinnerNumberModel(0, 0, 256, 1));
+
+        spinnerZInicio.setModel(new javax.swing.SpinnerNumberModel());
 
         javax.swing.GroupLayout panelConfigInicioLayout = new javax.swing.GroupLayout(panelConfigInicio);
         panelConfigInicio.setLayout(panelConfigInicioLayout);
@@ -1448,7 +1499,7 @@ public class GUI extends JFrame {
             .addGroup(panelConfigGeneralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panelConfigGeneralGen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(275, Short.MAX_VALUE))
+                .addContainerGap(306, Short.MAX_VALUE))
         );
         panelConfigGeneralLayout.setVerticalGroup(
             panelConfigGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1495,17 +1546,17 @@ public class GUI extends JFrame {
 
         lblInfoNivelMaxNivel.setText("Selecciona el nivel máximo que el jugador alcanzará");
 
-        txtX3Nivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
-        txtX3Nivel.setAutoscrolls(true);
+        spinnerX3Nivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerX3Nivel.setAutoscrolls(true);
 
-        txtX2Nivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerX2Nivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        txtXNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerXNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        lblMaxNivelNivel.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
-        lblMaxNivelNivel.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        spinnerMaxNivel.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spinnerMaxNivel.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                lblMaxNivelNivelPropertyChange(evt);
+                spinnerMaxNivelPropertyChange(evt);
             }
         });
 
@@ -1515,11 +1566,11 @@ public class GUI extends JFrame {
         panelGraficosNivel.setLayout(panelGraficosNivelLayout);
         panelGraficosNivelLayout.setHorizontalGroup(
             panelGraficosNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 655, Short.MAX_VALUE)
+            .addGap(0, 541, Short.MAX_VALUE)
         );
         panelGraficosNivelLayout.setVerticalGroup(
             panelGraficosNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 438, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         panelNivelExpNivel.setBorder(javax.swing.BorderFactory.createTitledBorder("Tabla de experiencia"));
@@ -1539,14 +1590,22 @@ public class GUI extends JFrame {
         panelNivelExpNivel.setLayout(panelNivelExpNivelLayout);
         panelNivelExpNivelLayout.setHorizontalGroup(
             panelNivelExpNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(panelNivelExpNivelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                .addContainerGap())
         );
         panelNivelExpNivelLayout.setVerticalGroup(
             panelNivelExpNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(panelNivelExpNivelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         lblPHxNivel.setText("Puntos de habilidad por nivel alcanzado");
+
+        spinnerPHxNivel.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
 
         javax.swing.GroupLayout panelConfigLevelLayout = new javax.swing.GroupLayout(panelConfigLevel);
         panelConfigLevel.setLayout(panelConfigLevelLayout);
@@ -1563,24 +1622,25 @@ public class GUI extends JFrame {
                             .addGroup(panelConfigLevelLayout.createSequentialGroup()
                                 .addComponent(panelGraficosNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(panelNivelExpNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(panelNivelExpNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(panelConfigLevelLayout.createSequentialGroup()
                                 .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panelConfigLevelLayout.createSequentialGroup()
                                         .addComponent(lblFdeXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtX3Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(spinnerX3Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(lblx3Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtX2Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(spinnerX2Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(lblInfoNivelMaxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panelConfigLevelLayout.createSequentialGroup()
                                         .addComponent(lblx2Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(spinnerXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(lblxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1590,7 +1650,7 @@ public class GUI extends JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btnGuardarConfigNiveles, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(panelConfigLevelLayout.createSequentialGroup()
-                                        .addComponent(lblMaxNivelNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(spinnerMaxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(lblPHxNivel)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1610,11 +1670,11 @@ public class GUI extends JFrame {
                 .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblFdeXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtX3Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(spinnerX3Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblx3Nivel)
-                        .addComponent(txtX2Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(spinnerX2Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblx2Nivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(spinnerXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblxNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnValidarFormulaNiveles)
@@ -1623,17 +1683,14 @@ public class GUI extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblInfoNivelMaxNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblMaxNivelNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerMaxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblPHxNivel)
                     .addComponent(spinnerPHxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelConfigLevelLayout.createSequentialGroup()
-                        .addComponent(panelGraficosNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67))
-                    .addGroup(panelConfigLevelLayout.createSequentialGroup()
-                        .addComponent(panelNivelExpNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelNivelExpNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelGraficosNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(67, 67, 67))
         );
 
         panelConfig.addTab("Niveles", panelConfigLevel);
@@ -1643,6 +1700,11 @@ public class GUI extends JFrame {
         panelConfigClases.setPreferredSize(new java.awt.Dimension(800, 600));
 
         btnCrearNuevaClase.setText("Nueva clase");
+        btnCrearNuevaClase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearNuevaClaseActionPerformed(evt);
+            }
+        });
 
         btnEditarClase.setText("Editar");
         btnEditarClase.addActionListener(new java.awt.event.ActionListener() {
@@ -1652,6 +1714,11 @@ public class GUI extends JFrame {
         });
 
         btnEliminarClase.setText("Eliminar");
+        btnEliminarClase.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarClaseActionPerformed(evt);
+            }
+        });
 
         panelEditorClase.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de clases"));
         panelEditorClase.setName("Class Editor"); // NOI18N
@@ -1692,9 +1759,9 @@ public class GUI extends JFrame {
 
         spinnerAtaFisBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        spinnerHRFisBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerHRFisBase.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
 
-        spinnerEvaBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerEvaFisBase.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
 
         spinnerAtaMagBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
@@ -1704,9 +1771,9 @@ public class GUI extends JFrame {
 
         spinnerEvaMagBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        spinnerCritBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerCritBase.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
 
-        spinnerMortalBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerMortalBase.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
 
         javax.swing.GroupLayout panelAtribBasicoClaseLayout = new javax.swing.GroupLayout(panelAtribBasicoClase);
         panelAtribBasicoClase.setLayout(panelAtribBasicoClaseLayout);
@@ -1737,7 +1804,7 @@ public class GUI extends JFrame {
                     .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
                         .addComponent(lblEvaFisBase)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerEvaBase))
+                        .addComponent(spinnerEvaFisBase))
                     .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
                         .addComponent(lblAtaMagBase)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1749,7 +1816,7 @@ public class GUI extends JFrame {
                     .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
                         .addComponent(lblHRMagBase)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerHRMagBase))
+                        .addComponent(spinnerHRMagBase, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE))
                     .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
                         .addComponent(lblEvaMagBase)
                         .addGap(12, 12, 12)
@@ -1790,7 +1857,7 @@ public class GUI extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEvaFisBase)
-                    .addComponent(spinnerEvaBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spinnerEvaFisBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblAtaMagBase)
@@ -1863,9 +1930,9 @@ public class GUI extends JFrame {
 
         spinnerDefFisNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        spinnerHRFisNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerHRFisNivel.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
 
-        spinnerEvaFisNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerEvaFisNivel.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
 
         spinnerAtaMagNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
@@ -1875,9 +1942,9 @@ public class GUI extends JFrame {
 
         spinnerEvaMagNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        spinnerCritNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerCritNivel.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
 
-        spinnerMortalNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerMortalNivel.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
 
         javax.swing.GroupLayout panelSubirNivelLayout = new javax.swing.GroupLayout(panelSubirNivel);
         panelSubirNivel.setLayout(panelSubirNivelLayout);
@@ -1924,7 +1991,7 @@ public class GUI extends JFrame {
                     .addGroup(panelSubirNivelLayout.createSequentialGroup()
                         .addComponent(lblHRMagNivel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerHRMagNivel)))
+                        .addComponent(spinnerHRMagNivel, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSubirNivelLayout.createSequentialGroup()
                 .addGroup(panelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -2114,9 +2181,9 @@ public class GUI extends JFrame {
 
         lblMortalAP.setText("Mortal");
 
-        spinnerCrtitAP.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerCritAP.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
 
-        spinnerMortalAP.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerMortalAP.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
 
         javax.swing.GroupLayout panelHabDestLayout = new javax.swing.GroupLayout(panelHabDest);
         panelHabDest.setLayout(panelHabDestLayout);
@@ -2125,7 +2192,7 @@ public class GUI extends JFrame {
             .addGroup(panelHabDestLayout.createSequentialGroup()
                 .addComponent(lblCritAP)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(spinnerCrtitAP)
+                .addComponent(spinnerCritAP)
                 .addGap(17, 17, 17))
             .addGroup(panelHabDestLayout.createSequentialGroup()
                 .addComponent(lblMortalAP)
@@ -2138,7 +2205,7 @@ public class GUI extends JFrame {
             .addGroup(panelHabDestLayout.createSequentialGroup()
                 .addGroup(panelHabDestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblCritAP)
-                    .addComponent(spinnerCrtitAP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spinnerCritAP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelHabDestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblMortalAP)
@@ -2190,7 +2257,7 @@ public class GUI extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnGuardarClase, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnResetClase, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                        .addComponent(btnResetClase, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                         .addGap(28, 28, 28))
                     .addComponent(panelPuntoHabilidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -2224,7 +2291,7 @@ public class GUI extends JFrame {
                     .addGroup(panelConfigClasesLayout.createSequentialGroup()
                         .addComponent(btnCrearNuevaClase, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(comboSelectorClases, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(comboSelectorClases, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditarClase, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -2250,6 +2317,11 @@ public class GUI extends JFrame {
         panelConfigObjetos.setPreferredSize(new java.awt.Dimension(800, 600));
 
         btnCrearNuevoObjeto.setText("Nuevo");
+        btnCrearNuevoObjeto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearNuevoObjetoActionPerformed(evt);
+            }
+        });
 
         panelEditorObjetos.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de objetos"));
 
@@ -2260,15 +2332,31 @@ public class GUI extends JFrame {
         comboTipoObjeto.setName("tipoobjeto"); // NOI18N
 
         listDescripcionObjeto.setBorder(javax.swing.BorderFactory.createTitledBorder("Descripción objeto"));
+        listDescripcionObjeto.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(listDescripcionObjeto);
 
         lblDescripObjeto.setText("Descripción");
 
         btnAnadirDesObjeto.setText("Añadir");
+        btnAnadirDesObjeto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnadirDesObjetoActionPerformed(evt);
+            }
+        });
 
         btnEditarDesObjeto.setText("Editar");
+        btnEditarDesObjeto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarDesObjetoActionPerformed(evt);
+            }
+        });
 
         btnEliminarDesObjeto.setText("Eliminar descripción");
+        btnEliminarDesObjeto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarDesObjetoActionPerformed(evt);
+            }
+        });
 
         btnGuardarObjeto.setText("Guardar");
         btnGuardarObjeto.addActionListener(new java.awt.event.ActionListener() {
@@ -2348,6 +2436,11 @@ public class GUI extends JFrame {
         );
 
         btnEditarObjeto.setText("Editar");
+        btnEditarObjeto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarObjetoActionPerformed(evt);
+            }
+        });
 
         btnEliminarObjeto.setText("Eliminar");
 
@@ -2367,7 +2460,7 @@ public class GUI extends JFrame {
                         .addComponent(btnEditarObjeto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEliminarObjeto)))
-                .addContainerGap(245, Short.MAX_VALUE))
+                .addContainerGap(276, Short.MAX_VALUE))
         );
         panelConfigObjetosLayout.setVerticalGroup(
             panelConfigObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -3114,7 +3207,7 @@ public class GUI extends JFrame {
                 .addGroup(panelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panelSelectorJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(panelConfigJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(239, Short.MAX_VALUE))
+                .addContainerGap(270, Short.MAX_VALUE))
         );
         panelConfigJewelsLayout.setVerticalGroup(
             panelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4126,7 +4219,7 @@ public class GUI extends JFrame {
                         .addComponent(btnResetConfigGrupos)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnGuardarConfigGrupos)))
-                .addContainerGap(323, Short.MAX_VALUE))
+                .addContainerGap(354, Short.MAX_VALUE))
         );
         panelConfigPartiesLayout.setVerticalGroup(
             panelConfigPartiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -5228,7 +5321,7 @@ public class GUI extends JFrame {
                         .addComponent(btnEditMob, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEliminarMob, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
         panelConfigMobsLayout.setVerticalGroup(
             panelConfigMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -5804,7 +5897,7 @@ public class GUI extends JFrame {
             panelConfChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConfChatsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 763, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 794, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelConfChatsLayout.setVerticalGroup(
@@ -5961,6 +6054,9 @@ public class GUI extends JFrame {
         spinnerFormJugIniClan.setValue(1);
     }//GEN-LAST:event_btnResetearFormulaClanActionPerformed
 
+    public void sendMessageWarning(String title, String Message) {
+        JOptionPane.showMessageDialog(null, Message, title, 2);
+    }
     private void btnValidarFormulaClanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarFormulaClanActionPerformed
         // TODO add your handling code here:
         double a;
@@ -6098,21 +6194,21 @@ public class GUI extends JFrame {
     }//GEN-LAST:event_btnAnadirDescArmaActionPerformed
 
     private void btnGuardarObjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarObjetoActionPerformed
-        // TODO add your handling code here:
+        guiItemMan.saveItem();
     }//GEN-LAST:event_btnGuardarObjetoActionPerformed
 
     private void btnGuardarClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarClaseActionPerformed
-        // TODO add your handling code here:
+        guiClassMan.saveClass();
     }//GEN-LAST:event_btnGuardarClaseActionPerformed
 
     private void btnEditarClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarClaseActionPerformed
-        // TODO add your handling code here:
+        guiClassMan.loadValuesForClassSelected();
     }//GEN-LAST:event_btnEditarClaseActionPerformed
 
-    private void lblMaxNivelNivelPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_lblMaxNivelNivelPropertyChange
+    private void spinnerMaxNivelPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_spinnerMaxNivelPropertyChange
         btnDibujarGraficoNiveles.setEnabled(false);
         btnGuardarConfigNiveles.setEnabled(false);
-    }//GEN-LAST:event_lblMaxNivelNivelPropertyChange
+    }//GEN-LAST:event_spinnerMaxNivelPropertyChange
 
     private void btnDibujarGraficoNivelesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDibujarGraficoNivelesActionPerformed
         int level;
@@ -6121,17 +6217,17 @@ public class GUI extends JFrame {
         //Draw graph
         try {
             panelGraficosNivel.removeAll();
-            if ((Integer) lblMaxNivelNivel.getValue() == 0) {
-                lblMaxNivelNivel.setBackground(Color.red);
+            if ((Integer) spinnerMaxNivel.getValue() == 0) {
+                spinnerMaxNivel.setBackground(Color.red);
                 throw new Exception("Rellena el campo nivel máximo");
             } else {
-                level = (Integer) lblMaxNivelNivel.getValue();
-                levels = new RPGLevels((Double) txtX3Nivel.getValue(), (Double) txtX2Nivel.getValue(), (Double) txtXNivel.getValue(), level);
+                level = (Integer) spinnerMaxNivel.getValue();
+                levels = new RPGLevels((Double) spinnerX3Nivel.getValue(), (Double) spinnerX2Nivel.getValue(), (Double) spinnerXNivel.getValue(), level);
                 if (level <= 0) {
-                    lblMaxNivelNivel.setBackground(Color.red);
+                    spinnerMaxNivel.setBackground(Color.red);
                     throw new Exception("Selecciona un nivel mayor que 0 para continuar");
                 } else {
-                    lblMaxNivelNivel.setBackground(Color.white);
+                    spinnerMaxNivel.setBackground(Color.white);
                     //dibujar grafico
                     XYDataset dataset = createDataset(level);
 
@@ -6172,9 +6268,7 @@ public class GUI extends JFrame {
     }//GEN-LAST:event_btnDibujarGraficoNivelesActionPerformed
 
     private void btnGuardarConfigNivelesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarConfigNivelesActionPerformed
-        //Comprobar si el fichero existe
-        //Si existe modificarlo
-        //Si no existe crear en la ruta que toque
+        guiLevelMan.saveConfig();
     }//GEN-LAST:event_btnGuardarConfigNivelesActionPerformed
 
     private void btnValidarFormulaNivelesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnValidarFormulaNivelesActionPerformed
@@ -6185,19 +6279,19 @@ public class GUI extends JFrame {
         boolean error_c = false;
         double auxres = 0.00;
         try {
-            a = (Double) txtX3Nivel.getValue();
-            b = (Double) txtX2Nivel.getValue();
-            c = (Double) txtXNivel.getValue();
+            a = (Double) spinnerX3Nivel.getValue();
+            b = (Double) spinnerX2Nivel.getValue();
+            c = (Double) spinnerXNivel.getValue();
             if (a < 0) {
-                txtX3Nivel.setBackground(Color.red);
+                spinnerX3Nivel.setBackground(Color.red);
                 error = true;
             }
             if (b < 0) {
-                txtX2Nivel.setBackground(Color.red);
+                spinnerX2Nivel.setBackground(Color.red);
                 error = true;
             }
             if (c <= 0) {
-                txtXNivel.setBackground(Color.red);
+                spinnerXNivel.setBackground(Color.red);
                 error_c = true;
             }
             if ((a > 0 || b > 0) && c == 0) {
@@ -6210,13 +6304,13 @@ public class GUI extends JFrame {
                 throw new Exception("Al menos el ultimo componente debe ser positivo y mayor que cero");
             } else {
                 //habilitar botones Draw y save
-                txtX3Nivel.setBackground(Color.white);
-                txtX2Nivel.setBackground(Color.white);
-                txtXNivel.setBackground(Color.white);
+                spinnerX3Nivel.setBackground(Color.white);
+                spinnerX2Nivel.setBackground(Color.white);
+                spinnerXNivel.setBackground(Color.white);
 
                 btnGuardarConfigNiveles.setEnabled(true);
                 btnDibujarGraficoNiveles.setEnabled(true);
-                lblMaxNivelNivel.setEnabled(true);
+                spinnerMaxNivel.setEnabled(true);
             }
         } catch (NullPointerException e) {
             JOptionPane.showMessageDialog(rootPane, "No pueden existir campos sin dato...", "Error en la validación", JOptionPane.ERROR_MESSAGE);
@@ -6228,7 +6322,7 @@ public class GUI extends JFrame {
     }//GEN-LAST:event_btnValidarFormulaNivelesActionPerformed
 
     private void btnGuardarConfigGlobalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarConfigGlobalActionPerformed
-        // TODO add your handling code here:
+        this.guiConfigMan.saveConfig();
     }//GEN-LAST:event_btnGuardarConfigGlobalActionPerformed
 
     private void checkGruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkGruposActionPerformed
@@ -6271,6 +6365,104 @@ public class GUI extends JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_checkPrivateChatActionPerformed
 
+    private void btnCrearNuevaClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevaClaseActionPerformed
+        getTxtNombreClase().setText("");
+        getCheckEnableClase().setSelected(true);
+        getSpinnerMaxVidaBase().setValue(0);
+        getSpinnerMaxManaBase().setValue(0);
+        getSpinnerAtaFisBase().setValue(0);
+        getSpinnerDefFisBase().setValue(0);
+        getSpinnerEvaFisBase().setValue(0);
+        getSpinnerHRFisBase().setValue(0);
+        getSpinnerAtaMagBase().setValue(0);
+        getSpinnerDefMagBase().setValue(0);
+        getSpinnerHRMagBase().setValue(0);
+        getSpinnerEvaMagBase().setValue(0);
+        getSpinnerCritBase().setValue(0);
+        getSpinnerMortalBase().setValue(0);
+
+        getSpinnerVidaNivel().setValue(0);
+        getSpinnerManaNivel().setValue(0);
+        getSpinnerAtaFisNivel().setValue(0);
+        getSpinnerDefFisNivel().setValue(0);
+        getSpinnerEvaFisNivel().setValue(0);
+        getSpinnerHRFisNivel().setValue(0);
+        getSpinnerAtaMagNivel().setValue(0);
+        getSpinnerDefMagNivel().setValue(0);
+        getSpinnerEvaMagNivel().setValue(0);
+        getSpinnerHRMagNivel().setValue(0);
+        getSpinnerCritNivel().setValue(0);
+        getSpinnerMortalNivel().setValue(0);
+
+        getSpinnerAtaFisAP().setValue(0);
+        getSpinnerVidaAP().setValue(0);
+
+        getSpinnerVidaAP2().setValue(0);
+        getSpinnerManaAP().setValue(0);
+
+        getSpinnerAtaMagAP().setValue(0);
+        getSpinnerManaAP2().setValue(0);
+
+        getSpinnerMortalAP().setValue(0);
+        getSpinnerCritAP().setValue(0);
+        recursivelyEnableDisablePanel(getPanelEditorClase(), true);
+    }//GEN-LAST:event_btnCrearNuevaClaseActionPerformed
+
+    private void btnEliminarClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarClaseActionPerformed
+        guiClassMan.deleteClassSelected();
+
+    }//GEN-LAST:event_btnEliminarClaseActionPerformed
+
+    private void btnCrearNuevoObjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevoObjetoActionPerformed
+        getTxtNombreObjeto().setText("");
+        getListDescripcionObjeto().setListData(new Object[0]);
+        getComboTipoObjeto().setSelectedIndex(0);
+        getComboCalidadObjeto().setSelectedIndex(0);
+        getTxtDescripObjeto().setText("");
+        recursivelyEnableDisablePanel(getPanelEditorObjetos(), true);
+
+    }//GEN-LAST:event_btnCrearNuevoObjetoActionPerformed
+
+    private void btnEditarObjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarObjetoActionPerformed
+        guiItemMan.loadValuesForItemSelected();
+    }//GEN-LAST:event_btnEditarObjetoActionPerformed
+
+    private void btnAnadirDesObjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirDesObjetoActionPerformed
+        List<String> desc;
+        desc = new ArrayList<>();
+        for (int i = 0; i < getListDescripcionObjeto().getModel().getSize(); i++) {
+            desc.add(getListDescripcionObjeto().getModel().getElementAt(i).toString());
+        }
+        desc.add(getTxtDescripObjeto().getText());
+        getListDescripcionObjeto().setListData(desc.toArray());
+    }//GEN-LAST:event_btnAnadirDesObjetoActionPerformed
+
+    private void btnEliminarDesObjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarDesObjetoActionPerformed
+        int index = getListDescripcionObjeto().getSelectedIndex();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(null, "Selecciona una linea de la lista antes de intentar eliminar", "Error en la selección", 2);
+        } else {
+            //ahora a borrar...
+            List<String> desc;
+            desc = new ArrayList<>();
+            for (int i = 0; i < getListDescripcionObjeto().getModel().getSize(); i++) {
+                if(index!=i)desc.add(getListDescripcionObjeto().getModel().getElementAt(i).toString());
+            }
+            getListDescripcionObjeto().setListData(desc.toArray());
+            getListDescripcionObjeto().repaint();
+        }
+    }//GEN-LAST:event_btnEliminarDesObjetoActionPerformed
+
+    private void btnEditarDesObjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarDesObjetoActionPerformed
+        int index = getListDescripcionObjeto().getSelectedIndex();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(null, "Selecciona una linea de la lista antes de intentar eliminar", "Error en la selección", 2);
+        } else {
+            //ahora a borrar...
+            getTxtDescripObjeto().setText(getListDescripcionObjeto().getModel().getElementAt(index).toString());
+        }
+    }//GEN-LAST:event_btnEditarDesObjetoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -6283,7 +6475,7 @@ public class GUI extends JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -6557,7 +6749,6 @@ public class GUI extends JFrame {
     private javax.swing.JLabel lblManaVidaJoya;
     private javax.swing.JLabel lblMaterial;
     private javax.swing.JLabel lblMaxNivelClan;
-    private javax.swing.JSpinner lblMaxNivelNivel;
     private javax.swing.JLabel lblMaxVidaMob;
     private javax.swing.JLabel lblMejAtaFisArma;
     private javax.swing.JLabel lblMejAtaMagArma;
@@ -6795,10 +6986,10 @@ public class GUI extends JFrame {
     private javax.swing.JSpinner spinnerAtaMagNivel;
     private javax.swing.JSpinner spinnerCantidadDropMob;
     private javax.swing.JSpinner spinnerContriPorcentajeMuertes;
+    private javax.swing.JSpinner spinnerCritAP;
     private javax.swing.JSpinner spinnerCritArma;
     private javax.swing.JSpinner spinnerCritBase;
     private javax.swing.JSpinner spinnerCritNivel;
-    private javax.swing.JSpinner spinnerCrtitAP;
     private javax.swing.JSpinner spinnerDefFisBase;
     private javax.swing.JSpinner spinnerDefFisBotas;
     private javax.swing.JSpinner spinnerDefFisCasco;
@@ -6818,7 +7009,7 @@ public class GUI extends JFrame {
     private javax.swing.JSpinner spinnerDineroExtraJoya;
     private javax.swing.JSpinner spinnerDineroExtraPechera;
     private javax.swing.JSpinner spinnerDistanceLocalChat;
-    private javax.swing.JSpinner spinnerEvaBase;
+    private javax.swing.JSpinner spinnerEvaFisBase;
     private javax.swing.JSpinner spinnerEvaFisBotas;
     private javax.swing.JSpinner spinnerEvaFisCasco;
     private javax.swing.JSpinner spinnerEvaFisGrebas;
@@ -6851,6 +7042,7 @@ public class GUI extends JFrame {
     private javax.swing.JSpinner spinnerManaJoya;
     private javax.swing.JSpinner spinnerManaNivel;
     private javax.swing.JSpinner spinnerMaxManaBase;
+    private javax.swing.JSpinner spinnerMaxNivel;
     private javax.swing.JSpinner spinnerMaxVidaBase;
     private javax.swing.JSpinner spinnerMaxVidaMob;
     private javax.swing.JSpinner spinnerMejAtaFisArma;
@@ -6920,7 +7112,10 @@ public class GUI extends JFrame {
     private javax.swing.JSpinner spinnerVidaAP2;
     private javax.swing.JSpinner spinnerVidaJoya;
     private javax.swing.JSpinner spinnerVidaNivel;
+    private javax.swing.JSpinner spinnerX2Nivel;
+    private javax.swing.JSpinner spinnerX3Nivel;
     private javax.swing.JSpinner spinnerXInicio;
+    private javax.swing.JSpinner spinnerXNivel;
     private javax.swing.JSpinner spinnerXSpawnLoc;
     private javax.swing.JSpinner spinnerYInicio;
     private javax.swing.JSpinner spinnerYSpawnLoc;
@@ -6952,9 +7147,6 @@ public class GUI extends JFrame {
     private javax.swing.JTextField txtNombreObjetoMejArma;
     private javax.swing.JTextField txtNombreObjetoMejArmadura;
     private javax.swing.JTextField txtNombreSet;
-    private javax.swing.JSpinner txtX2Nivel;
-    private javax.swing.JSpinner txtX3Nivel;
-    private javax.swing.JSpinner txtXNivel;
     // End of variables declaration//GEN-END:variables
 
     private XYDataset createDataset(int max_lvl) {
@@ -6962,9 +7154,9 @@ public class GUI extends JFrame {
         XYSeries series = new XYSeries("nivel");
         double res = 0.0;
         for (int i = 0; i <= max_lvl; i++) {
-            res = (Double) txtX3Nivel.getValue() * Math.pow(i, 3)
-                    + (Double) txtX2Nivel.getValue() * Math.pow(i, 2)
-                    + (Double) txtXNivel.getValue() * i;
+            res = (Double) spinnerX3Nivel.getValue() * Math.pow(i, 3)
+                    + (Double) spinnerX2Nivel.getValue() * Math.pow(i, 2)
+                    + (Double) spinnerXNivel.getValue() * i;
             series.add(i, res);
         }
         XYSeriesCollection data = new XYSeriesCollection(series);
@@ -6972,2275 +7164,1397 @@ public class GUI extends JFrame {
 
     }
 
-    public JCheckBox getCheckClanes() {
-        return checkClanes;
+    public static GUIConfigManager getGuiConfigMan() {
+        return guiConfigMan;
     }
 
-    public void setCheckClanes(JCheckBox checkClanes) {
-        this.checkClanes = checkClanes;
+    public JCheckBox getCheckClanes() {
+        return checkClanes;
     }
 
     public JCheckBox getCheckColocarBloques() {
         return checkColocarBloques;
     }
 
-    public void setCheckColocarBloques(JCheckBox checkColocarBloques) {
-        this.checkColocarBloques = checkColocarBloques;
-    }
-
     public JCheckBox getCheckCombinable() {
         return checkCombinable;
-    }
-
-    public void setCheckCombinable(JCheckBox checkCombinable) {
-        this.checkCombinable = checkCombinable;
     }
 
     public JCheckBox getCheckComerciable() {
         return checkComerciable;
     }
 
-    public void setCheckComerciable(JCheckBox checkComerciable) {
-        this.checkComerciable = checkComerciable;
-    }
-
     public JCheckBox getCheckComerciableArma() {
         return checkComerciableArma;
-    }
-
-    public void setCheckComerciableArma(JCheckBox checkComerciableArma) {
-        this.checkComerciableArma = checkComerciableArma;
     }
 
     public JCheckBox getCheckComerciableArmadura() {
         return checkComerciableArmadura;
     }
 
-    public void setCheckComerciableArmadura(JCheckBox checkComerciableArmadura) {
-        this.checkComerciableArmadura = checkComerciableArmadura;
-    }
-
     public JCheckBox getCheckDanioAhogo() {
         return checkDanioAhogo;
-    }
-
-    public void setCheckDanioAhogo(JCheckBox checkDanioAhogo) {
-        this.checkDanioAhogo = checkDanioAhogo;
     }
 
     public JCheckBox getCheckDanioCaida() {
         return checkDanioCaida;
     }
 
-    public void setCheckDanioCaida(JCheckBox checkDanioCaida) {
-        this.checkDanioCaida = checkDanioCaida;
-    }
-
     public JCheckBox getCheckDanioPvp() {
         return checkDanioPvp;
-    }
-
-    public void setCheckDanioPvp(JCheckBox checkDanioPvp) {
-        this.checkDanioPvp = checkDanioPvp;
-    }
-
-    public JCheckBox getCheckDestruirBloques() {
-        return checkDestruirBloques;
-    }
-
-    public void setCheckDestruirBloques(JCheckBox checkDestruirBloques) {
-        this.checkDestruirBloques = checkDestruirBloques;
-    }
-
-    public JCheckBox getCheckDestruirBloques1() {
-        return checkDayCycle;
-    }
-
-    public void setCheckDestruirBloques1(JCheckBox checkDestruirBloques1) {
-        this.checkDayCycle = checkDestruirBloques1;
-    }
-
-    public JCheckBox getCheckEnableClase() {
-        return checkEnableClase;
-    }
-
-    public void setCheckEnableClase(JCheckBox checkEnableClase) {
-        this.checkEnableClase = checkEnableClase;
-    }
-
-    public JCheckBox getCheckEnableSpawner() {
-        return checkEnableSpawner;
-    }
-
-    public void setCheckEnableSpawner(JCheckBox checkEnableSpawner) {
-        this.checkEnableSpawner = checkEnableSpawner;
-    }
-
-    public JCheckBox getCheckGrupos() {
-        return checkGrupos;
-    }
-
-    public void setCheckGrupos(JCheckBox checkGrupos) {
-        this.checkGrupos = checkGrupos;
-    }
-
-    public JCheckBox getCheckMejorableArma() {
-        return checkMejorableArma;
-    }
-
-    public void setCheckMejorableArma(JCheckBox checkMejorableArma) {
-        this.checkMejorableArma = checkMejorableArma;
-    }
-
-    public JCheckBox getCheckMejorableArmadura() {
-        return checkMejorableArmadura;
-    }
-
-    public void setCheckMejorableArmadura(JCheckBox checkMejorableArmadura) {
-        this.checkMejorableArmadura = checkMejorableArmadura;
-    }
-
-    public JCheckBox getCheckSistHambre() {
-        return checkSistHambre;
-    }
-
-    public void setCheckSistHambre(JCheckBox checkSistHambre) {
-        this.checkSistHambre = checkSistHambre;
-    }
-
-    public JComboBox getComboCalidad() {
-        return comboCalidad;
-    }
-
-    public void setComboCalidad(JComboBox comboCalidad) {
-        this.comboCalidad = comboCalidad;
-    }
-
-    public JComboBox getComboCalidadArma() {
-        return comboCalidadArma;
-    }
-
-    public void setComboCalidadArma(JComboBox comboCalidadArma) {
-        this.comboCalidadArma = comboCalidadArma;
-    }
-
-    public JComboBox getComboCalidadJoya() {
-        return comboCalidadJoya;
-    }
-
-    public void setComboCalidadJoya(JComboBox comboCalidadJoya) {
-        this.comboCalidadJoya = comboCalidadJoya;
-    }
-
-    public JComboBox getComboColorPrefijoComercio() {
-        return comboPrefixColorMarketChat;
-    }
-
-    public void setComboColorPrefijoComercio(JComboBox comboColorPrefijoComercio) {
-        this.comboPrefixColorMarketChat = comboColorPrefijoComercio;
-    }
-
-    public JComboBox getComboComportamiento() {
-        return comboComportamiento;
-    }
-
-    public void setComboComportamiento(JComboBox comboComportamiento) {
-        this.comboComportamiento = comboComportamiento;
-    }
-
-    public JComboBox getComboListSets() {
-        return comboListSets;
-    }
-
-    public void setComboListSets(JComboBox comboListSets) {
-        this.comboListSets = comboListSets;
-    }
-
-    public JComboBox getComboListaArmas() {
-        return comboListaArmas;
-    }
-
-    public void setComboListaArmas(JComboBox comboListaArmas) {
-        this.comboListaArmas = comboListaArmas;
-    }
-
-    public JComboBox getComboListaObjetos() {
-        return comboListaObjetos;
-    }
-
-    public void setComboListaObjetos(JComboBox comboListaObjetos) {
-        this.comboListaObjetos = comboListaObjetos;
-    }
-
-    public JComboBox getComboMaterial() {
-        return comboMaterial;
-    }
-
-    public void setComboMaterial(JComboBox comboMaterial) {
-        this.comboMaterial = comboMaterial;
-    }
-
-    public JComboBox getComboMejoradorArma() {
-        return comboMejoradorArma;
-    }
-
-    public void setComboMejoradorArma(JComboBox comboMejoradorArma) {
-        this.comboMejoradorArma = comboMejoradorArma;
-    }
-
-    public JComboBox getComboMejoradorArmadura() {
-        return comboMejoradorArmadura;
-    }
-
-    public void setComboMejoradorArmadura(JComboBox comboMejoradorArmadura) {
-        this.comboMejoradorArmadura = comboMejoradorArmadura;
-    }
-
-    public JComboBox getComboMobSpawner() {
-        return comboMobSpawner;
-    }
-
-    public void setComboMobSpawner(JComboBox comboMobSpawner) {
-        this.comboMobSpawner = comboMobSpawner;
-    }
-
-    public JComboBox getComboObjetoDropMob() {
-        return comboObjetoDropMob;
-    }
-
-    public void setComboObjetoDropMob(JComboBox comboObjetoDropMob) {
-        this.comboObjetoDropMob = comboObjetoDropMob;
-    }
-
-    public JComboBox getComboObjetoJoya() {
-        return comboObjetoJoya;
-    }
-
-    public void setComboObjetoJoya(JComboBox comboObjetoJoya) {
-        this.comboObjetoJoya = comboObjetoJoya;
-    }
-
-    public JComboBox getComboPrefijoComercio() {
-        return comboShortcutMarketChat;
-    }
-
-    public void setComboPrefijoComercio(JComboBox comboPrefijoComercio) {
-        this.comboShortcutMarketChat = comboPrefijoComercio;
-    }
-
-    public JComboBox getComboSelectorClases() {
-        return comboSelectorClases;
-    }
-
-    public void setComboSelectorClases(JComboBox comboSelectorClases) {
-        this.comboSelectorClases = comboSelectorClases;
-    }
-
-    public JComboBox getComboSelectorGenerador() {
-        return comboSelectorGenerador;
-    }
-
-    public void setComboSelectorGenerador(JComboBox comboSelectorGenerador) {
-        this.comboSelectorGenerador = comboSelectorGenerador;
-    }
-
-    public JComboBox getComboSelectorJoyas() {
-        return comboSelectorJoyas;
-    }
-
-    public void setComboSelectorJoyas(JComboBox comboSelectorJoyas) {
-        this.comboSelectorJoyas = comboSelectorJoyas;
-    }
-
-    public JComboBox getComboSelectorMobs() {
-        return comboSelectorMobs;
-    }
-
-    public void setComboSelectorMobs(JComboBox comboSelectorMobs) {
-        this.comboSelectorMobs = comboSelectorMobs;
-    }
-
-    public JTextField getComboSelectorSpawner() {
-        return comboSelectorSpawner;
-    }
-
-    public void setComboSelectorSpawner(JTextField comboSelectorSpawner) {
-        this.comboSelectorSpawner = comboSelectorSpawner;
-    }
-
-    public JComboBox getComboSelectorTipoMob() {
-        return comboSelectorTipoMob;
-    }
-
-    public void setComboSelectorTipoMob(JComboBox comboSelectorTipoMob) {
-        this.comboSelectorTipoMob = comboSelectorTipoMob;
-    }
-
-    public JComboBox getComboTipoArma() {
-        return comboTipoArma;
-    }
-
-    public void setComboTipoArma(JComboBox comboTipoArma) {
-        this.comboTipoArma = comboTipoArma;
-    }
-
-    public JComboBox getComboTipoAtaqueMob() {
-        return comboTipoAtaqueMob;
-    }
-
-    public void setComboTipoAtaqueMob(JComboBox comboTipoAtaqueMob) {
-        this.comboTipoAtaqueMob = comboTipoAtaqueMob;
-    }
-
-    public JComboBox getComboTipoDropMob() {
-        return comboTipoDropMob;
-    }
-
-    public void setComboTipoDropMob(JComboBox comboTipoDropMob) {
-        this.comboTipoDropMob = comboTipoDropMob;
-    }
-
-    public JComboBox getComboTipoObjeto() {
-        return comboTipoObjeto;
-    }
-
-    public void setComboTipoObjeto(JComboBox comboTipoObjeto) {
-        this.comboTipoObjeto = comboTipoObjeto;
-    }
-
-    public JCheckBox getjCheckBox1() {
-        return checkEnableGlobalChat;
-    }
-
-    public void setjCheckBox1(JCheckBox jCheckBox1) {
-        this.checkEnableGlobalChat = jCheckBox1;
-    }
-
-    public JCheckBox getjCheckBox2() {
-        return checkEnableMarketChat;
-    }
-
-    public void setjCheckBox2(JCheckBox jCheckBox2) {
-        this.checkEnableMarketChat = jCheckBox2;
-    }
-
-    public JCheckBox getjCheckBox3() {
-        return checkGuildChat;
-    }
-
-    public void setjCheckBox3(JCheckBox jCheckBox3) {
-        this.checkGuildChat = jCheckBox3;
-    }
-
-    public JCheckBox getjCheckBox4() {
-        return checkPartyChat;
-    }
-
-    public void setjCheckBox4(JCheckBox jCheckBox4) {
-        this.checkPartyChat = jCheckBox4;
-    }
-
-    public JCheckBox getjCheckBox5() {
-        return checkPrivateChat;
-    }
-
-    public void setjCheckBox5(JCheckBox jCheckBox5) {
-        this.checkPrivateChat = jCheckBox5;
-    }
-
-    public JList getjListDescArma() {
-        return jListDescArma;
-    }
-
-    public void setjListDescArma(JList jListDescArma) {
-        this.jListDescArma = jListDescArma;
-    }
-
-    public JList getjListDescArmadura() {
-        return jListDescArmadura;
-    }
-
-    public void setjListDescArmadura(JList jListDescArmadura) {
-        this.jListDescArmadura = jListDescArmadura;
-    }
-
-    public JSpinner getjSpinner1() {
-        return spinnerDistanceLocalChat;
-    }
-
-    public void setjSpinner1(JSpinner jSpinner1) {
-        this.spinnerDistanceLocalChat = jSpinner1;
-    }
-
-    public JTextField getjTextField17() {
-        return textPrefixPartyChat;
-    }
-
-    public void setjTextField17(JTextField jTextField17) {
-        this.textPrefixPartyChat = jTextField17;
-    }
-
-    public JTextField getjTextField21() {
-        return textPrefixGuildChat;
-    }
-
-    public void setjTextField21(JTextField jTextField21) {
-        this.textPrefixGuildChat = jTextField21;
-    }
-
-    public JTextField getjTextField25() {
-        return textPrefixPrivateChat;
-    }
-
-    public void setjTextField25(JTextField jTextField25) {
-        this.textPrefixPrivateChat = jTextField25;
-    }
-
-    public JTextField getjTextField29() {
-        return textPrefixNewsChat;
-    }
-
-    public void setjTextField29(JTextField jTextField29) {
-        this.textPrefixNewsChat = jTextField29;
-    }
-
-    public JTextField getjTextField3() {
-        return textPrefixMarketChat;
-    }
-
-    public void setjTextField3(JTextField jTextField3) {
-        this.textPrefixMarketChat = jTextField3;
-    }
-
-    public JTextField getjTextField37() {
-        return textPrefixWarningChat;
-    }
-
-    public void setjTextField37(JTextField jTextField37) {
-        this.textPrefixWarningChat = jTextField37;
-    }
-
-    public JTextField getjTextField45() {
-        return textPrefixLocalChat;
-    }
-
-    public void setjTextField45(JTextField jTextField45) {
-        this.textPrefixLocalChat = jTextField45;
-    }
-
-    public JTextField getjTextField9() {
-        return textPrefixGlobalChat;
-    }
-
-    public void setjTextField9(JTextField jTextField9) {
-        this.textPrefixGlobalChat = jTextField9;
-    }
-
-    public JList getListDescripcionObjeto() {
-        return listDescripcionObjeto;
-    }
-
-    public void setListDescripcionObjeto(JList listDescripcionObjeto) {
-        this.listDescripcionObjeto = listDescripcionObjeto;
-    }
-
-    public JRadioButton getRdBtnAmbosGrupo() {
-        return rdBtnAmbosGrupo;
-    }
-
-    public void setRdBtnAmbosGrupo(JRadioButton rdBtnAmbosGrupo) {
-        this.rdBtnAmbosGrupo = rdBtnAmbosGrupo;
-    }
-
-    public JRadioButton getRdBtnContriAmbos() {
-        return rdBtnContriAmbos;
-    }
-
-    public void setRdBtnContriAmbos(JRadioButton rdBtnContriAmbos) {
-        this.rdBtnContriAmbos = rdBtnContriAmbos;
-    }
-
-    public JRadioButton getRdBtnContriSoloContri() {
-        return rdBtnContriSoloContri;
-    }
-
-    public void setRdBtnContriSoloContri(JRadioButton rdBtnContriSoloContri) {
-        this.rdBtnContriSoloContri = rdBtnContriSoloContri;
-    }
-
-    public JRadioButton getRdBtnContriSoloDon() {
-        return rdBtnContriSoloDon;
-    }
-
-    public void setRdBtnContriSoloDon(JRadioButton rdBtnContriSoloDon) {
-        this.rdBtnContriSoloDon = rdBtnContriSoloDon;
-    }
-
-    public JRadioButton getRdBtnFijosGrupo() {
-        return rdBtnFijosGrupo;
-    }
-
-    public void setRdBtnFijosGrupo(JRadioButton rdBtnFijosGrupo) {
-        this.rdBtnFijosGrupo = rdBtnFijosGrupo;
-    }
-
-    public JRadioButton getRdBtnIlimitadosGrupo() {
-        return rdBtnIlimitadosGrupo;
-    }
-
-    public void setRdBtnIlimitadosGrupo(JRadioButton rdBtnIlimitadosGrupo) {
-        this.rdBtnIlimitadosGrupo = rdBtnIlimitadosGrupo;
-    }
-
-    public JRadioButton getRdBtnLimitNivClan() {
-        return rdBtnLimitNivClan;
-    }
-
-    public void setRdBtnLimitNivClan(JRadioButton rdBtnLimitNivClan) {
-        this.rdBtnLimitNivClan = rdBtnLimitNivClan;
-    }
-
-    public JRadioButton getRdBtnNoPermitidoPvpGrupo() {
-        return rdBtnNoPermitidoPvpGrupo;
-    }
-
-    public void setRdBtnNoPermitidoPvpGrupo(JRadioButton rdBtnNoPermitidoPvpGrupo) {
-        this.rdBtnNoPermitidoPvpGrupo = rdBtnNoPermitidoPvpGrupo;
-    }
-
-    public JRadioButton getRdBtnNumFijosClan() {
-        return rdBtnNumFijosClan;
-    }
-
-    public void setRdBtnNumFijosClan(JRadioButton rdBtnNumFijosClan) {
-        this.rdBtnNumFijosClan = rdBtnNumFijosClan;
-    }
-
-    public JRadioButton getRdBtnNumIlimitadosClan() {
-        return rdBtnNumIlimitadosClan;
-    }
-
-    public void setRdBtnNumIlimitadosClan(JRadioButton rdBtnNumIlimitadosClan) {
-        this.rdBtnNumIlimitadosClan = rdBtnNumIlimitadosClan;
-    }
-
-    public JRadioButton getRdBtnOpcDinFijo() {
-        return rdBtnOpcDinFijo;
-    }
-
-    public void setRdBtnOpcDinFijo(JRadioButton rdBtnOpcDinFijo) {
-        this.rdBtnOpcDinFijo = rdBtnOpcDinFijo;
-    }
-
-    public JRadioButton getRdBtnOpcDinForm() {
-        return rdBtnOpcDinForm;
-    }
-
-    public void setRdBtnOpcDinForm(JRadioButton rdBtnOpcDinForm) {
-        this.rdBtnOpcDinForm = rdBtnOpcDinForm;
-    }
-
-    public JRadioButton getRdBtnOpcionProporcionalGrupo() {
-        return rdBtnOpcionProporcionalGrupo;
-    }
-
-    public void setRdBtnOpcionProporcionalGrupo(JRadioButton rdBtnOpcionProporcionalGrupo) {
-        this.rdBtnOpcionProporcionalGrupo = rdBtnOpcionProporcionalGrupo;
-    }
-
-    public JRadioButton getRdBtnOpcionigualitarioGrupo() {
-        return rdBtnOpcionigualitarioGrupo;
-    }
-
-    public void setRdBtnOpcionigualitarioGrupo(JRadioButton rdBtnOpcionigualitarioGrupo) {
-        this.rdBtnOpcionigualitarioGrupo = rdBtnOpcionigualitarioGrupo;
-    }
-
-    public JRadioButton getRdBtnPermitidoPvpGrupo() {
-        return rdBtnPermitidoPvpGrupo;
-    }
-
-    public void setRdBtnPermitidoPvpGrupo(JRadioButton rdBtnPermitidoPvpGrupo) {
-        this.rdBtnPermitidoPvpGrupo = rdBtnPermitidoPvpGrupo;
-    }
-
-    public JRadioButton getRdBtnProKillsGrupo() {
-        return rdBtnProKillsGrupo;
-    }
-
-    public void setRdBtnProKillsGrupo(JRadioButton rdBtnProKillsGrupo) {
-        this.rdBtnProKillsGrupo = rdBtnProKillsGrupo;
-    }
-
-    public JRadioButton getRdBtnProNivelGrupo() {
-        return rdBtnProNivelGrupo;
-    }
-
-    public void setRdBtnProNivelGrupo(JRadioButton rdBtnProNivelGrupo) {
-        this.rdBtnProNivelGrupo = rdBtnProNivelGrupo;
-    }
-
-    public JRadioButton getRdBtnSinRepartoGrupo() {
-        return rdBtnSinRepartoGrupo;
-    }
-
-    public void setRdBtnSinRepartoGrupo(JRadioButton rdBtnSinRepartoGrupo) {
-        this.rdBtnSinRepartoGrupo = rdBtnSinRepartoGrupo;
-    }
-
-    public JRadioButton getRdBtnSoloDineroGrupo() {
-        return rdBtnSoloDineroGrupo;
-    }
-
-    public void setRdBtnSoloDineroGrupo(JRadioButton rdBtnSoloDineroGrupo) {
-        this.rdBtnSoloDineroGrupo = rdBtnSoloDineroGrupo;
-    }
-
-    public JRadioButton getRdBtnSoloExpGrupo() {
-        return rdBtnSoloExpGrupo;
-    }
-
-    public void setRdBtnSoloExpGrupo(JRadioButton rdBtnSoloExpGrupo) {
-        this.rdBtnSoloExpGrupo = rdBtnSoloExpGrupo;
-    }
-
-    public JSpinner getSpinerProbExitoArma() {
-        return spinerProbExitoArma;
-    }
-
-    public void setSpinerProbExitoArma(JSpinner spinerProbExitoArma) {
-        this.spinerProbExitoArma = spinerProbExitoArma;
-    }
-
-    public JSpinner getSpinnerAtaDistMob() {
-        return spinnerAtaDistMob;
-    }
-
-    public void setSpinnerAtaDistMob(JSpinner spinnerAtaDistMob) {
-        this.spinnerAtaDistMob = spinnerAtaDistMob;
-    }
-
-    public JSpinner getSpinnerAtaFisAP() {
-        return spinnerAtaFisAP;
-    }
-
-    public void setSpinnerAtaFisAP(JSpinner spinnerAtaFisAP) {
-        this.spinnerAtaFisAP = spinnerAtaFisAP;
-    }
-
-    public JSpinner getSpinnerAtaFisArma() {
-        return spinnerAtaFisArma;
-    }
-
-    public void setSpinnerAtaFisArma(JSpinner spinnerAtaFisArma) {
-        this.spinnerAtaFisArma = spinnerAtaFisArma;
-    }
-
-    public JSpinner getSpinnerAtaFisBase() {
-        return spinnerAtaFisBase;
-    }
-
-    public void setSpinnerAtaFisBase(JSpinner spinnerAtaFisBase) {
-        this.spinnerAtaFisBase = spinnerAtaFisBase;
-    }
-
-    public JSpinner getSpinnerAtaFisJoya() {
-        return spinnerAtaFisJoya;
-    }
-
-    public void setSpinnerAtaFisJoya(JSpinner spinnerAtaFisJoya) {
-        this.spinnerAtaFisJoya = spinnerAtaFisJoya;
-    }
-
-    public JSpinner getSpinnerAtaFisMob() {
-        return spinnerAtaFisMob;
-    }
-
-    public void setSpinnerAtaFisMob(JSpinner spinnerAtaFisMob) {
-        this.spinnerAtaFisMob = spinnerAtaFisMob;
-    }
-
-    public JSpinner getSpinnerAtaFisNivel() {
-        return spinnerAtaFisNivel;
-    }
-
-    public void setSpinnerAtaFisNivel(JSpinner spinnerAtaFisNivel) {
-        this.spinnerAtaFisNivel = spinnerAtaFisNivel;
-    }
-
-    public JSpinner getSpinnerAtaMagAP() {
-        return spinnerAtaMagAP;
-    }
-
-    public void setSpinnerAtaMagAP(JSpinner spinnerAtaMagAP) {
-        this.spinnerAtaMagAP = spinnerAtaMagAP;
-    }
-
-    public JSpinner getSpinnerAtaMagArma() {
-        return spinnerAtaMagArma;
-    }
-
-    public void setSpinnerAtaMagArma(JSpinner spinnerAtaMagArma) {
-        this.spinnerAtaMagArma = spinnerAtaMagArma;
-    }
-
-    public JSpinner getSpinnerAtaMagBase() {
-        return spinnerAtaMagBase;
-    }
-
-    public void setSpinnerAtaMagBase(JSpinner spinnerAtaMagBase) {
-        this.spinnerAtaMagBase = spinnerAtaMagBase;
-    }
-
-    public JSpinner getSpinnerAtaMagJoya() {
-        return spinnerAtaMagJoya;
-    }
-
-    public void setSpinnerAtaMagJoya(JSpinner spinnerAtaMagJoya) {
-        this.spinnerAtaMagJoya = spinnerAtaMagJoya;
-    }
-
-    public JSpinner getSpinnerAtaMagNivel() {
-        return spinnerAtaMagNivel;
-    }
-
-    public void setSpinnerAtaMagNivel(JSpinner spinnerAtaMagNivel) {
-        this.spinnerAtaMagNivel = spinnerAtaMagNivel;
-    }
-
-    public JSpinner getSpinnerCantidadDropMob() {
-        return spinnerCantidadDropMob;
-    }
-
-    public void setSpinnerCantidadDropMob(JSpinner spinnerCantidadDropMob) {
-        this.spinnerCantidadDropMob = spinnerCantidadDropMob;
-    }
-
-    public JSpinner getSpinnerContriPorcentajeMuertes() {
-        return spinnerContriPorcentajeMuertes;
-    }
-
-    public void setSpinnerContriPorcentajeMuertes(JSpinner spinnerContriPorcentajeMuertes) {
-        this.spinnerContriPorcentajeMuertes = spinnerContriPorcentajeMuertes;
-    }
-
-    public JSpinner getSpinnerCritArma() {
-        return spinnerCritArma;
-    }
-
-    public void setSpinnerCritArma(JSpinner spinnerCritArma) {
-        this.spinnerCritArma = spinnerCritArma;
-    }
-
-    public JSpinner getSpinnerCritBase() {
-        return spinnerCritBase;
-    }
-
-    public void setSpinnerCritBase(JSpinner spinnerCritBase) {
-        this.spinnerCritBase = spinnerCritBase;
-    }
-
-    public JSpinner getSpinnerCritNivel() {
-        return spinnerCritNivel;
-    }
-
-    public void setSpinnerCritNivel(JSpinner spinnerCritNivel) {
-        this.spinnerCritNivel = spinnerCritNivel;
-    }
-
-    public JSpinner getSpinnerCrtitAP() {
-        return spinnerCrtitAP;
-    }
-
-    public void setSpinnerCrtitAP(JSpinner spinnerCrtitAP) {
-        this.spinnerCrtitAP = spinnerCrtitAP;
-    }
-
-    public JSpinner getSpinnerDefFisBase() {
-        return spinnerDefFisBase;
-    }
-
-    public void setSpinnerDefFisBase(JSpinner spinnerDefFisBase) {
-        this.spinnerDefFisBase = spinnerDefFisBase;
-    }
-
-    public JSpinner getSpinnerDefFisBotas() {
-        return spinnerDefFisBotas;
-    }
-
-    public void setSpinnerDefFisBotas(JSpinner spinnerDefFisBotas) {
-        this.spinnerDefFisBotas = spinnerDefFisBotas;
-    }
-
-    public JSpinner getSpinnerDefFisCasco() {
-        return spinnerDefFisCasco;
-    }
-
-    public void setSpinnerDefFisCasco(JSpinner spinnerDefFisCasco) {
-        this.spinnerDefFisCasco = spinnerDefFisCasco;
-    }
-
-    public JSpinner getSpinnerDefFisGrebas() {
-        return spinnerDefFisGrebas;
-    }
-
-    public void setSpinnerDefFisGrebas(JSpinner spinnerDefFisGrebas) {
-        this.spinnerDefFisGrebas = spinnerDefFisGrebas;
-    }
-
-    public JSpinner getSpinnerDefFisJoya() {
-        return spinnerDefFisJoya;
-    }
-
-    public void setSpinnerDefFisJoya(JSpinner spinnerDefFisJoya) {
-        this.spinnerDefFisJoya = spinnerDefFisJoya;
-    }
-
-    public JSpinner getSpinnerDefFisNivel() {
-        return spinnerDefFisNivel;
-    }
-
-    public void setSpinnerDefFisNivel(JSpinner spinnerDefFisNivel) {
-        this.spinnerDefFisNivel = spinnerDefFisNivel;
-    }
-
-    public JSpinner getSpinnerDefFisPechera() {
-        return spinnerDefFisPechera;
-    }
-
-    public void setSpinnerDefFisPechera(JSpinner spinnerDefFisPechera) {
-        this.spinnerDefFisPechera = spinnerDefFisPechera;
-    }
-
-    public JSpinner getSpinnerDefMagBase() {
-        return spinnerDefMagBase;
-    }
-
-    public void setSpinnerDefMagBase(JSpinner spinnerDefMagBase) {
-        this.spinnerDefMagBase = spinnerDefMagBase;
-    }
-
-    public JSpinner getSpinnerDefMagJoya() {
-        return spinnerDefMagJoya;
-    }
-
-    public void setSpinnerDefMagJoya(JSpinner spinnerDefMagJoya) {
-        this.spinnerDefMagJoya = spinnerDefMagJoya;
-    }
-
-    public JSpinner getSpinnerDefMagNivel() {
-        return spinnerDefMagNivel;
-    }
-
-    public void setSpinnerDefMagNivel(JSpinner spinnerDefMagNivel) {
-        this.spinnerDefMagNivel = spinnerDefMagNivel;
-    }
-
-    public JSpinner getSpinnerDineroDropMob() {
-        return spinnerDineroDropMob;
-    }
-
-    public void setSpinnerDineroDropMob(JSpinner spinnerDineroDropMob) {
-        this.spinnerDineroDropMob = spinnerDineroDropMob;
-    }
-
-    public JSpinner getSpinnerDineroEditClan() {
-        return spinnerDineroEditClan;
-    }
-
-    public void setSpinnerDineroEditClan(JSpinner spinnerDineroEditClan) {
-        this.spinnerDineroEditClan = spinnerDineroEditClan;
-    }
-
-    public JSpinner getSpinnerDineroExtraArma() {
-        return spinnerDineroExtraArma;
-    }
-
-    public void setSpinnerDineroExtraArma(JSpinner spinnerDineroExtraArma) {
-        this.spinnerDineroExtraArma = spinnerDineroExtraArma;
-    }
-
-    public JSpinner getSpinnerDineroExtraBotas() {
-        return spinnerDineroExtraBotas;
-    }
-
-    public void setSpinnerDineroExtraBotas(JSpinner spinnerDineroExtraBotas) {
-        this.spinnerDineroExtraBotas = spinnerDineroExtraBotas;
-    }
-
-    public JSpinner getSpinnerDineroExtraCasco() {
-        return spinnerDineroExtraCasco;
-    }
-
-    public void setSpinnerDineroExtraCasco(JSpinner spinnerDineroExtraCasco) {
-        this.spinnerDineroExtraCasco = spinnerDineroExtraCasco;
-    }
-
-    public JSpinner getSpinnerDineroExtraGrebas() {
-        return spinnerDineroExtraGrebas;
-    }
-
-    public void setSpinnerDineroExtraGrebas(JSpinner spinnerDineroExtraGrebas) {
-        this.spinnerDineroExtraGrebas = spinnerDineroExtraGrebas;
-    }
-
-    public JSpinner getSpinnerDineroExtraJoya() {
-        return spinnerDineroExtraJoya;
-    }
-
-    public void setSpinnerDineroExtraJoya(JSpinner spinnerDineroExtraJoya) {
-        this.spinnerDineroExtraJoya = spinnerDineroExtraJoya;
-    }
-
-    public JSpinner getSpinnerDineroExtraPechera() {
-        return spinnerDineroExtraPechera;
-    }
-
-    public void setSpinnerDineroExtraPechera(JSpinner spinnerDineroExtraPechera) {
-        this.spinnerDineroExtraPechera = spinnerDineroExtraPechera;
-    }
-
-    public JSpinner getSpinnerEvaBase() {
-        return spinnerEvaBase;
-    }
-
-    public void setSpinnerEvaBase(JSpinner spinnerEvaBase) {
-        this.spinnerEvaBase = spinnerEvaBase;
-    }
-
-    public JSpinner getSpinnerEvaFisBotas() {
-        return spinnerEvaFisBotas;
-    }
-
-    public void setSpinnerEvaFisBotas(JSpinner spinnerEvaFisBotas) {
-        this.spinnerEvaFisBotas = spinnerEvaFisBotas;
-    }
-
-    public JSpinner getSpinnerEvaFisCasco() {
-        return spinnerEvaFisCasco;
-    }
-
-    public void setSpinnerEvaFisCasco(JSpinner spinnerEvaFisCasco) {
-        this.spinnerEvaFisCasco = spinnerEvaFisCasco;
-    }
-
-    public JSpinner getSpinnerEvaFisGrebas() {
-        return spinnerEvaFisGrebas;
-    }
-
-    public void setSpinnerEvaFisGrebas(JSpinner spinnerEvaFisGrebas) {
-        this.spinnerEvaFisGrebas = spinnerEvaFisGrebas;
-    }
-
-    public JSpinner getSpinnerEvaFisJoya() {
-        return spinnerEvaFisJoya;
-    }
-
-    public void setSpinnerEvaFisJoya(JSpinner spinnerEvaFisJoya) {
-        this.spinnerEvaFisJoya = spinnerEvaFisJoya;
-    }
-
-    public JSpinner getSpinnerEvaFisNivel() {
-        return spinnerEvaFisNivel;
-    }
-
-    public void setSpinnerEvaFisNivel(JSpinner spinnerEvaFisNivel) {
-        this.spinnerEvaFisNivel = spinnerEvaFisNivel;
-    }
-
-    public JSpinner getSpinnerEvaFisPechera() {
-        return spinnerEvaFisPechera;
-    }
-
-    public void setSpinnerEvaFisPechera(JSpinner spinnerEvaFisPechera) {
-        this.spinnerEvaFisPechera = spinnerEvaFisPechera;
-    }
-
-    public JSpinner getSpinnerEvaMagBase() {
-        return spinnerEvaMagBase;
-    }
-
-    public void setSpinnerEvaMagBase(JSpinner spinnerEvaMagBase) {
-        this.spinnerEvaMagBase = spinnerEvaMagBase;
-    }
-
-    public JSpinner getSpinnerEvaMagJoya() {
-        return spinnerEvaMagJoya;
-    }
-
-    public void setSpinnerEvaMagJoya(JSpinner spinnerEvaMagJoya) {
-        this.spinnerEvaMagJoya = spinnerEvaMagJoya;
-    }
-
-    public JSpinner getSpinnerEvaMagNivel() {
-        return spinnerEvaMagNivel;
-    }
-
-    public void setSpinnerEvaMagNivel(JSpinner spinnerEvaMagNivel) {
-        this.spinnerEvaMagNivel = spinnerEvaMagNivel;
-    }
-
-    public JSpinner getSpinnerExpDropMob() {
-        return spinnerExpDropMob;
-    }
-
-    public void setSpinnerExpDropMob(JSpinner spinnerExpDropMob) {
-        this.spinnerExpDropMob = spinnerExpDropMob;
-    }
-
-    public JSpinner getSpinnerExpExtraArma() {
-        return spinnerExpExtraArma;
-    }
-
-    public void setSpinnerExpExtraArma(JSpinner spinnerExpExtraArma) {
-        this.spinnerExpExtraArma = spinnerExpExtraArma;
-    }
-
-    public JSpinner getSpinnerExpExtraBotas() {
-        return spinnerExpExtraBotas;
-    }
-
-    public void setSpinnerExpExtraBotas(JSpinner spinnerExpExtraBotas) {
-        this.spinnerExpExtraBotas = spinnerExpExtraBotas;
-    }
-
-    public JSpinner getSpinnerExpExtraCasco() {
-        return spinnerExpExtraCasco;
-    }
-
-    public void setSpinnerExpExtraCasco(JSpinner spinnerExpExtraCasco) {
-        this.spinnerExpExtraCasco = spinnerExpExtraCasco;
-    }
-
-    public JSpinner getSpinnerExpExtraGrebas() {
-        return spinnerExpExtraGrebas;
-    }
-
-    public void setSpinnerExpExtraGrebas(JSpinner spinnerExpExtraGrebas) {
-        this.spinnerExpExtraGrebas = spinnerExpExtraGrebas;
-    }
-
-    public JSpinner getSpinnerExpExtraJoya() {
-        return spinnerExpExtraJoya;
-    }
-
-    public void setSpinnerExpExtraJoya(JSpinner spinnerExpExtraJoya) {
-        this.spinnerExpExtraJoya = spinnerExpExtraJoya;
-    }
-
-    public JSpinner getSpinnerExpExtraPechera() {
-        return spinnerExpExtraPechera;
-    }
-
-    public void setSpinnerExpExtraPechera(JSpinner spinnerExpExtraPechera) {
-        this.spinnerExpExtraPechera = spinnerExpExtraPechera;
-    }
-
-    public JSpinner getSpinnerFormJugIniClan() {
-        return spinnerFormJugIniClan;
-    }
-
-    public void setSpinnerFormJugIniClan(JSpinner spinnerFormJugIniClan) {
-        this.spinnerFormJugIniClan = spinnerFormJugIniClan;
-    }
-
-    public JSpinner getSpinnerFormJugXNivelClan() {
-        return spinnerFormJugXNivelClan;
-    }
-
-    public void setSpinnerFormJugXNivelClan(JSpinner spinnerFormJugXNivelClan) {
-        this.spinnerFormJugXNivelClan = spinnerFormJugXNivelClan;
-    }
-
-    public JSpinner getSpinnerFuerzaDistMob() {
-        return spinnerFuerzaDistMob;
-    }
-
-    public void setSpinnerFuerzaDistMob(JSpinner spinnerFuerzaDistMob) {
-        this.spinnerFuerzaDistMob = spinnerFuerzaDistMob;
-    }
-
-    public JSpinner getSpinnerHRFisArma() {
-        return spinnerHRFisArma;
-    }
-
-    public void setSpinnerHRFisArma(JSpinner spinnerHRFisArma) {
-        this.spinnerHRFisArma = spinnerHRFisArma;
-    }
-
-    public JSpinner getSpinnerHRFisBase() {
-        return spinnerHRFisBase;
-    }
-
-    public void setSpinnerHRFisBase(JSpinner spinnerHRFisBase) {
-        this.spinnerHRFisBase = spinnerHRFisBase;
-    }
-
-    public JSpinner getSpinnerHRFisJoya() {
-        return spinnerHRFisJoya;
-    }
-
-    public void setSpinnerHRFisJoya(JSpinner spinnerHRFisJoya) {
-        this.spinnerHRFisJoya = spinnerHRFisJoya;
-    }
-
-    public JSpinner getSpinnerHRFisNivel() {
-        return spinnerHRFisNivel;
-    }
-
-    public void setSpinnerHRFisNivel(JSpinner spinnerHRFisNivel) {
-        this.spinnerHRFisNivel = spinnerHRFisNivel;
-    }
-
-    public JSpinner getSpinnerHRMagArma() {
-        return spinnerHRMagArma;
-    }
-
-    public void setSpinnerHRMagArma(JSpinner spinnerHRMagArma) {
-        this.spinnerHRMagArma = spinnerHRMagArma;
-    }
-
-    public JSpinner getSpinnerHRMagBase() {
-        return spinnerHRMagBase;
-    }
-
-    public void setSpinnerHRMagBase(JSpinner spinnerHRMagBase) {
-        this.spinnerHRMagBase = spinnerHRMagBase;
-    }
-
-    public JSpinner getSpinnerHRMagJoya() {
-        return spinnerHRMagJoya;
-    }
-
-    public void setSpinnerHRMagJoya(JSpinner spinnerHRMagJoya) {
-        this.spinnerHRMagJoya = spinnerHRMagJoya;
-    }
-
-    public JSpinner getSpinnerHRMagNivel() {
-        return spinnerHRMagNivel;
-    }
-
-    public void setSpinnerHRMagNivel(JSpinner spinnerHRMagNivel) {
-        this.spinnerHRMagNivel = spinnerHRMagNivel;
-    }
-
-    public JSpinner getSpinnerManaAP() {
-        return spinnerManaAP;
-    }
-
-    public void setSpinnerManaAP(JSpinner spinnerManaAP) {
-        this.spinnerManaAP = spinnerManaAP;
-    }
-
-    public JSpinner getSpinnerManaAP2() {
-        return spinnerManaAP2;
-    }
-
-    public void setSpinnerManaAP2(JSpinner spinnerManaAP2) {
-        this.spinnerManaAP2 = spinnerManaAP2;
-    }
-
-    public JSpinner getSpinnerManaJoya() {
-        return spinnerManaJoya;
-    }
-
-    public void setSpinnerManaJoya(JSpinner spinnerManaJoya) {
-        this.spinnerManaJoya = spinnerManaJoya;
-    }
-
-    public JSpinner getSpinnerManaNivel() {
-        return spinnerManaNivel;
-    }
-
-    public void setSpinnerManaNivel(JSpinner spinnerManaNivel) {
-        this.spinnerManaNivel = spinnerManaNivel;
-    }
-
-    public JSpinner getSpinnerMaxManaBase() {
-        return spinnerMaxManaBase;
-    }
-
-    public void setSpinnerMaxManaBase(JSpinner spinnerMaxManaBase) {
-        this.spinnerMaxManaBase = spinnerMaxManaBase;
-    }
-
-    public JSpinner getSpinnerMaxVidaBase() {
-        return spinnerMaxVidaBase;
-    }
-
-    public void setSpinnerMaxVidaBase(JSpinner spinnerMaxVidaBase) {
-        this.spinnerMaxVidaBase = spinnerMaxVidaBase;
-    }
-
-    public JSpinner getSpinnerMaxVidaMob() {
-        return spinnerMaxVidaMob;
-    }
-
-    public void setSpinnerMaxVidaMob(JSpinner spinnerMaxVidaMob) {
-        this.spinnerMaxVidaMob = spinnerMaxVidaMob;
-    }
-
-    public JSpinner getSpinnerMejAtaFisArma() {
-        return spinnerMejAtaFisArma;
-    }
-
-    public void setSpinnerMejAtaFisArma(JSpinner spinnerMejAtaFisArma) {
-        this.spinnerMejAtaFisArma = spinnerMejAtaFisArma;
-    }
-
-    public JSpinner getSpinnerMejAtaMagArma() {
-        return spinnerMejAtaMagArma;
-    }
-
-    public void setSpinnerMejAtaMagArma(JSpinner spinnerMejAtaMagArma) {
-        this.spinnerMejAtaMagArma = spinnerMejAtaMagArma;
-    }
-
-    public JSpinner getSpinnerMejCritArma() {
-        return spinnerMejCritArma;
-    }
-
-    public void setSpinnerMejCritArma(JSpinner spinnerMejCritArma) {
-        this.spinnerMejCritArma = spinnerMejCritArma;
-    }
-
-    public JSpinner getSpinnerMejDefFisBotas() {
-        return spinnerMejDefFisBotas;
-    }
-
-    public void setSpinnerMejDefFisBotas(JSpinner spinnerMejDefFisBotas) {
-        this.spinnerMejDefFisBotas = spinnerMejDefFisBotas;
-    }
-
-    public JSpinner getSpinnerMejDefFisCasco() {
-        return spinnerMejDefFisCasco;
-    }
-
-    public void setSpinnerMejDefFisCasco(JSpinner spinnerMejDefFisCasco) {
-        this.spinnerMejDefFisCasco = spinnerMejDefFisCasco;
-    }
-
-    public JSpinner getSpinnerMejDefFisGrebas() {
-        return spinnerMejDefFisGrebas;
-    }
-
-    public void setSpinnerMejDefFisGrebas(JSpinner spinnerMejDefFisGrebas) {
-        this.spinnerMejDefFisGrebas = spinnerMejDefFisGrebas;
-    }
-
-    public JSpinner getSpinnerMejDefFisPechera() {
-        return spinnerMejDefFisPechera;
-    }
-
-    public void setSpinnerMejDefFisPechera(JSpinner spinnerMejDefFisPechera) {
-        this.spinnerMejDefFisPechera = spinnerMejDefFisPechera;
-    }
-
-    public JSpinner getSpinnerMejEvaFisBotas() {
-        return spinnerMejEvaFisBotas;
-    }
-
-    public void setSpinnerMejEvaFisBotas(JSpinner spinnerMejEvaFisBotas) {
-        this.spinnerMejEvaFisBotas = spinnerMejEvaFisBotas;
-    }
-
-    public JSpinner getSpinnerMejEvaFisCasco() {
-        return spinnerMejEvaFisCasco;
-    }
-
-    public void setSpinnerMejEvaFisCasco(JSpinner spinnerMejEvaFisCasco) {
-        this.spinnerMejEvaFisCasco = spinnerMejEvaFisCasco;
-    }
-
-    public JSpinner getSpinnerMejEvaFisGrebas() {
-        return spinnerMejEvaFisGrebas;
-    }
-
-    public void setSpinnerMejEvaFisGrebas(JSpinner spinnerMejEvaFisGrebas) {
-        this.spinnerMejEvaFisGrebas = spinnerMejEvaFisGrebas;
-    }
-
-    public JSpinner getSpinnerMejEvaFisPechera() {
-        return spinnerMejEvaFisPechera;
-    }
-
-    public void setSpinnerMejEvaFisPechera(JSpinner spinnerMejEvaFisPechera) {
-        this.spinnerMejEvaFisPechera = spinnerMejEvaFisPechera;
-    }
-
-    public JSpinner getSpinnerMejHRFisArma() {
-        return spinnerMejHRFisArma;
-    }
-
-    public void setSpinnerMejHRFisArma(JSpinner spinnerMejHRFisArma) {
-        this.spinnerMejHRFisArma = spinnerMejHRFisArma;
-    }
-
-    public JSpinner getSpinnerMejHRMagArma() {
-        return spinnerMejHRMagArma;
-    }
-
-    public void setSpinnerMejHRMagArma(JSpinner spinnerMejHRMagArma) {
-        this.spinnerMejHRMagArma = spinnerMejHRMagArma;
-    }
-
-    public JSpinner getSpinnerMejRoboMArma() {
-        return spinnerMejRoboMArma;
-    }
-
-    public void setSpinnerMejRoboMArma(JSpinner spinnerMejRoboMArma) {
-        this.spinnerMejRoboMArma = spinnerMejRoboMArma;
-    }
-
-    public JSpinner getSpinnerMejRoboVArma() {
-        return spinnerMejRoboVArma;
-    }
-
-    public void setSpinnerMejRoboVArma(JSpinner spinnerMejRoboVArma) {
-        this.spinnerMejRoboVArma = spinnerMejRoboVArma;
-    }
-
-    public JSpinner getSpinnerMortalAP() {
-        return spinnerMortalAP;
-    }
-
-    public void setSpinnerMortalAP(JSpinner spinnerMortalAP) {
-        this.spinnerMortalAP = spinnerMortalAP;
-    }
-
-    public JSpinner getSpinnerMortalBase() {
-        return spinnerMortalBase;
-    }
-
-    public void setSpinnerMortalBase(JSpinner spinnerMortalBase) {
-        this.spinnerMortalBase = spinnerMortalBase;
-    }
-
-    public JSpinner getSpinnerMortalNivel() {
-        return spinnerMortalNivel;
-    }
-
-    public void setSpinnerMortalNivel(JSpinner spinnerMortalNivel) {
-        this.spinnerMortalNivel = spinnerMortalNivel;
-    }
-
-    public JSpinner getSpinnerNivel() {
-        return spinnerNivel;
-    }
-
-    public void setSpinnerNivel(JSpinner spinnerNivel) {
-        this.spinnerNivel = spinnerNivel;
-    }
-
-    public JSpinner getSpinnerNivelIniArma() {
-        return spinnerNivelIniArma;
-    }
-
-    public void setSpinnerNivelIniArma(JSpinner spinnerNivelIniArma) {
-        this.spinnerNivelIniArma = spinnerNivelIniArma;
-    }
-
-    public JSpinner getSpinnerNivelMaxClan() {
-        return spinnerNivelMaxClan;
-    }
-
-    public void setSpinnerNivelMaxClan(JSpinner spinnerNivelMaxClan) {
-        this.spinnerNivelMaxClan = spinnerNivelMaxClan;
-    }
-
-    public JSpinner getSpinnerNivelMinArma() {
-        return spinnerNivelMinArma;
-    }
-
-    public void setSpinnerNivelMinArma(JSpinner spinnerNivelMinArma) {
-        this.spinnerNivelMinArma = spinnerNivelMinArma;
-    }
-
-    public JSpinner getSpinnerNivelMinJugClan() {
-        return spinnerNivelMinJugClan;
-    }
-
-    public void setSpinnerNivelMinJugClan(JSpinner spinnerNivelMinJugClan) {
-        this.spinnerNivelMinJugClan = spinnerNivelMinJugClan;
-    }
-
-    public JSpinner getSpinnerNivelMob() {
-        return spinnerNivelMob;
-    }
-
-    public void setSpinnerNivelMob(JSpinner spinnerNivelMob) {
-        this.spinnerNivelMob = spinnerNivelMob;
-    }
-
-    public JSpinner getSpinnerNumFijosClan() {
-        return spinnerNumFijosClan;
-    }
-
-    public void setSpinnerNumFijosClan(JSpinner spinnerNumFijosClan) {
-        this.spinnerNumFijosClan = spinnerNumFijosClan;
-    }
-
-    public JSpinner getSpinnerNumJugEditClan() {
-        return spinnerNumJugEditClan;
-    }
-
-    public void setSpinnerNumJugEditClan(JSpinner spinnerNumJugEditClan) {
-        this.spinnerNumJugEditClan = spinnerNumJugEditClan;
-    }
-
-    public JSpinner getSpinnerNumMaxMobSpawner() {
-        return spinnerNumMaxMobSpawner;
-    }
-
-    public void setSpinnerNumMaxMobSpawner(JSpinner spinnerNumMaxMobSpawner) {
-        this.spinnerNumMaxMobSpawner = spinnerNumMaxMobSpawner;
-    }
-
-    public JSpinner getSpinnerNumeroFijoJugGrupo() {
-        return spinnerNumeroFijoJugGrupo;
-    }
-
-    public void setSpinnerNumeroFijoJugGrupo(JSpinner spinnerNumeroFijoJugGrupo) {
-        this.spinnerNumeroFijoJugGrupo = spinnerNumeroFijoJugGrupo;
-    }
-
-    public JSpinner getSpinnerPHxNivel() {
-        return spinnerPHxNivel;
-    }
-
-    public void setSpinnerPHxNivel(JSpinner spinnerPHxNivel) {
-        this.spinnerPHxNivel = spinnerPHxNivel;
-    }
-
-    public JSpinner getSpinnerPrecioCArma() {
-        return spinnerPrecioCArma;
-    }
-
-    public void setSpinnerPrecioCArma(JSpinner spinnerPrecioCArma) {
-        this.spinnerPrecioCArma = spinnerPrecioCArma;
-    }
-
-    public JSpinner getSpinnerPrecioCBotas() {
-        return spinnerPrecioCBotas;
-    }
-
-    public void setSpinnerPrecioCBotas(JSpinner spinnerPrecioCBotas) {
-        this.spinnerPrecioCBotas = spinnerPrecioCBotas;
-    }
-
-    public JSpinner getSpinnerPrecioCCasco() {
-        return spinnerPrecioCCasco;
-    }
-
-    public void setSpinnerPrecioCCasco(JSpinner spinnerPrecioCCasco) {
-        this.spinnerPrecioCCasco = spinnerPrecioCCasco;
-    }
-
-    public JSpinner getSpinnerPrecioCGrebas() {
-        return spinnerPrecioCGrebas;
-    }
-
-    public void setSpinnerPrecioCGrebas(JSpinner spinnerPrecioCGrebas) {
-        this.spinnerPrecioCGrebas = spinnerPrecioCGrebas;
-    }
-
-    public JSpinner getSpinnerPrecioCJoya() {
-        return spinnerPrecioCJoya;
-    }
-
-    public void setSpinnerPrecioCJoya(JSpinner spinnerPrecioCJoya) {
-        this.spinnerPrecioCJoya = spinnerPrecioCJoya;
-    }
-
-    public JSpinner getSpinnerPrecioCPechera() {
-        return spinnerPrecioCPechera;
-    }
-
-    public void setSpinnerPrecioCPechera(JSpinner spinnerPrecioCPechera) {
-        this.spinnerPrecioCPechera = spinnerPrecioCPechera;
-    }
-
-    public JSpinner getSpinnerPrecioVArma() {
-        return spinnerPrecioVArma;
-    }
-
-    public void setSpinnerPrecioVArma(JSpinner spinnerPrecioVArma) {
-        this.spinnerPrecioVArma = spinnerPrecioVArma;
-    }
-
-    public JSpinner getSpinnerPrecioVBotas() {
-        return spinnerPrecioVBotas;
-    }
-
-    public void setSpinnerPrecioVBotas(JSpinner spinnerPrecioVBotas) {
-        this.spinnerPrecioVBotas = spinnerPrecioVBotas;
-    }
-
-    public JSpinner getSpinnerPrecioVCasco() {
-        return spinnerPrecioVCasco;
-    }
-
-    public void setSpinnerPrecioVCasco(JSpinner spinnerPrecioVCasco) {
-        this.spinnerPrecioVCasco = spinnerPrecioVCasco;
-    }
-
-    public JSpinner getSpinnerPrecioVGrebas() {
-        return spinnerPrecioVGrebas;
-    }
-
-    public void setSpinnerPrecioVGrebas(JSpinner spinnerPrecioVGrebas) {
-        this.spinnerPrecioVGrebas = spinnerPrecioVGrebas;
-    }
-
-    public JSpinner getSpinnerPrecioVJoya() {
-        return spinnerPrecioVJoya;
-    }
-
-    public void setSpinnerPrecioVJoya(JSpinner spinnerPrecioVJoya) {
-        this.spinnerPrecioVJoya = spinnerPrecioVJoya;
-    }
-
-    public JSpinner getSpinnerPrecioVPechera() {
-        return spinnerPrecioVPechera;
-    }
-
-    public void setSpinnerPrecioVPechera(JSpinner spinnerPrecioVPechera) {
-        this.spinnerPrecioVPechera = spinnerPrecioVPechera;
-    }
-
-    public JSpinner getSpinnerProSEArma() {
-        return spinnerProSEArma;
-    }
-
-    public void setSpinnerProSEArma(JSpinner spinnerProSEArma) {
-        this.spinnerProSEArma = spinnerProSEArma;
-    }
-
-    public JSpinner getSpinnerProbDetArma() {
-        return spinnerProbDetArma;
-    }
-
-    public void setSpinnerProbDetArma(JSpinner spinnerProbDetArma) {
-        this.spinnerProbDetArma = spinnerProbDetArma;
-    }
-
-    public JSpinner getSpinnerProbDetArmadura() {
-        return spinnerProbDetArmadura;
-    }
-
-    public void setSpinnerProbDetArmadura(JSpinner spinnerProbDetArmadura) {
-        this.spinnerProbDetArmadura = spinnerProbDetArmadura;
-    }
-
-    public JSpinner getSpinnerProbDetJoya() {
-        return spinnerProbDetJoya;
-    }
-
-    public void setSpinnerProbDetJoya(JSpinner spinnerProbDetJoya) {
-        this.spinnerProbDetJoya = spinnerProbDetJoya;
-    }
-
-    public JSpinner getSpinnerProbDropMob() {
-        return spinnerProbDropMob;
-    }
-
-    public void setSpinnerProbDropMob(JSpinner spinnerProbDropMob) {
-        this.spinnerProbDropMob = spinnerProbDropMob;
-    }
-
-    public JSpinner getSpinnerProbExitoArmadura() {
-        return spinnerProbExitoArmadura;
-    }
-
-    public void setSpinnerProbExitoArmadura(JSpinner spinnerProbExitoArmadura) {
-        this.spinnerProbExitoArmadura = spinnerProbExitoArmadura;
-    }
-
-    public JSpinner getSpinnerProbExitoJoya() {
-        return spinnerProbExitoJoya;
-    }
-
-    public void setSpinnerProbExitoJoya(JSpinner spinnerProbExitoJoya) {
-        this.spinnerProbExitoJoya = spinnerProbExitoJoya;
-    }
-
-    public JSpinner getSpinnerProbRotArma() {
-        return spinnerProbRotArma;
-    }
-
-    public void setSpinnerProbRotArma(JSpinner spinnerProbRotArma) {
-        this.spinnerProbRotArma = spinnerProbRotArma;
-    }
-
-    public JSpinner getSpinnerProbRotArmadura() {
-        return spinnerProbRotArmadura;
-    }
-
-    public void setSpinnerProbRotArmadura(JSpinner spinnerProbRotArmadura) {
-        this.spinnerProbRotArmadura = spinnerProbRotArmadura;
-    }
-
-    public JSpinner getSpinnerProbRotJoya() {
-        return spinnerProbRotJoya;
-    }
-
-    public void setSpinnerProbRotJoya(JSpinner spinnerProbRotJoya) {
-        this.spinnerProbRotJoya = spinnerProbRotJoya;
-    }
-
-    public JSpinner getSpinnerProbSEArmadura() {
-        return spinnerProbSEArmadura;
-    }
-
-    public void setSpinnerProbSEArmadura(JSpinner spinnerProbSEArmadura) {
-        this.spinnerProbSEArmadura = spinnerProbSEArmadura;
-    }
-
-    public JSpinner getSpinnerProbSEJoya() {
-        return spinnerProbSEJoya;
-    }
-
-    public void setSpinnerProbSEJoya(JSpinner spinnerProbSEJoya) {
-        this.spinnerProbSEJoya = spinnerProbSEJoya;
-    }
-
-    public JSpinner getSpinnerRadioSpawner() {
-        return spinnerRadioSpawner;
-    }
-
-    public void setSpinnerRadioSpawner(JSpinner spinnerRadioSpawner) {
-        this.spinnerRadioSpawner = spinnerRadioSpawner;
-    }
-
-    public JSpinner getSpinnerRangoSeguiMob() {
-        return spinnerRangoSeguiMob;
-    }
-
-    public void setSpinnerRangoSeguiMob(JSpinner spinnerRangoSeguiMob) {
-        this.spinnerRangoSeguiMob = spinnerRangoSeguiMob;
-    }
-
-    public JSpinner getSpinnerRefrescoSpawner() {
-        return spinnerRefrescoSpawner;
-    }
-
-    public void setSpinnerRefrescoSpawner(JSpinner spinnerRefrescoSpawner) {
-        this.spinnerRefrescoSpawner = spinnerRefrescoSpawner;
-    }
-
-    public JSpinner getSpinnerRetrocesoMob() {
-        return spinnerRetrocesoMob;
-    }
-
-    public void setSpinnerRetrocesoMob(JSpinner spinnerRetrocesoMob) {
-        this.spinnerRetrocesoMob = spinnerRetrocesoMob;
-    }
-
-    public JSpinner getSpinnerRoboMArma() {
-        return spinnerRoboMArma;
-    }
-
-    public void setSpinnerRoboMArma(JSpinner spinnerRoboMArma) {
-        this.spinnerRoboMArma = spinnerRoboMArma;
-    }
-
-    public JSpinner getSpinnerRoboMJoya() {
-        return spinnerRoboMJoya;
-    }
-
-    public void setSpinnerRoboMJoya(JSpinner spinnerRoboMJoya) {
-        this.spinnerRoboMJoya = spinnerRoboMJoya;
-    }
-
-    public JSpinner getSpinnerRoboVArma() {
-        return spinnerRoboVArma;
-    }
-
-    public void setSpinnerRoboVArma(JSpinner spinnerRoboVArma) {
-        this.spinnerRoboVArma = spinnerRoboVArma;
-    }
-
-    public JSpinner getSpinnerRoboVJoya() {
-        return spinnerRoboVJoya;
-    }
-
-    public void setSpinnerRoboVJoya(JSpinner spinnerRoboVJoya) {
-        this.spinnerRoboVJoya = spinnerRoboVJoya;
-    }
-
-    public JSpinner getSpinnerVelocidadAtaqueMob() {
-        return spinnerVelocidadAtaqueMob;
-    }
-
-    public void setSpinnerVelocidadAtaqueMob(JSpinner spinnerVelocidadAtaqueMob) {
-        this.spinnerVelocidadAtaqueMob = spinnerVelocidadAtaqueMob;
-    }
-
-    public JSpinner getSpinnerVelocidadMob() {
-        return spinnerVelocidadMob;
-    }
-
-    public void setSpinnerVelocidadMob(JSpinner spinnerVelocidadMob) {
-        this.spinnerVelocidadMob = spinnerVelocidadMob;
-    }
-
-    public JSpinner getSpinnerVidaAP() {
-        return spinnerVidaAP;
-    }
-
-    public void setSpinnerVidaAP(JSpinner spinnerVidaAP) {
-        this.spinnerVidaAP = spinnerVidaAP;
-    }
-
-    public JSpinner getSpinnerVidaAP2() {
-        return spinnerVidaAP2;
-    }
-
-    public void setSpinnerVidaAP2(JSpinner spinnerVidaAP2) {
-        this.spinnerVidaAP2 = spinnerVidaAP2;
-    }
-
-    public JSpinner getSpinnerVidaJoya() {
-        return spinnerVidaJoya;
-    }
-
-    public void setSpinnerVidaJoya(JSpinner spinnerVidaJoya) {
-        this.spinnerVidaJoya = spinnerVidaJoya;
-    }
-
-    public JSpinner getSpinnerVidaNivel() {
-        return spinnerVidaNivel;
-    }
-
-    public void setSpinnerVidaNivel(JSpinner spinnerVidaNivel) {
-        this.spinnerVidaNivel = spinnerVidaNivel;
-    }
-
-    public JSpinner getSpinnerXInicio() {
-        return spinnerXInicio;
-    }
-
-    public void setSpinnerXInicio(JSpinner spinnerXInicio) {
-        this.spinnerXInicio = spinnerXInicio;
-    }
-
-    public JSpinner getSpinnerXSpawnLoc() {
-        return spinnerXSpawnLoc;
-    }
-
-    public void setSpinnerXSpawnLoc(JSpinner spinnerXSpawnLoc) {
-        this.spinnerXSpawnLoc = spinnerXSpawnLoc;
-    }
-
-    public JSpinner getSpinnerYInicio() {
-        return spinnerYInicio;
-    }
-
-    public void setSpinnerYInicio(JSpinner spinnerYInicio) {
-        this.spinnerYInicio = spinnerYInicio;
-    }
-
-    public JSpinner getSpinnerYSpawnLoc() {
-        return spinnerYSpawnLoc;
-    }
-
-    public void setSpinnerYSpawnLoc(JSpinner spinnerYSpawnLoc) {
-        this.spinnerYSpawnLoc = spinnerYSpawnLoc;
-    }
-
-    public JSpinner getSpinnerZInicio() {
-        return spinnerZInicio;
-    }
-
-    public void setSpinnerZInicio(JSpinner spinnerZInicio) {
-        this.spinnerZInicio = spinnerZInicio;
-    }
-
-    public JSpinner getSpinnerZSpawnLoc() {
-        return spinnerZSpawnLoc;
-    }
-
-    public void setSpinnerZSpawnLoc(JSpinner spinnerZSpawnLoc) {
-        this.spinnerZSpawnLoc = spinnerZSpawnLoc;
-    }
-
-    public JSpinner getSpinnerformulax2clan() {
-        return spinnerformulax2clan;
-    }
-
-    public void setSpinnerformulax2clan(JSpinner spinnerformulax2clan) {
-        this.spinnerformulax2clan = spinnerformulax2clan;
-    }
-
-    public JSpinner getSpinnerformulaxclan() {
-        return spinnerformulaxclan;
-    }
-
-    public void setSpinnerformulaxclan(JSpinner spinnerformulaxclan) {
-        this.spinnerformulaxclan = spinnerformulaxclan;
-    }
-
-    public JTable getTablaClanes() {
-        return tablaClanes;
-    }
-
-    public void setTablaClanes(JTable tablaClanes) {
-        this.tablaClanes = tablaClanes;
-    }
-
-    public JTable getTablaDropsMob() {
-        return tablaDropsMob;
-    }
-
-    public void setTablaDropsMob(JTable tablaDropsMob) {
-        this.tablaDropsMob = tablaDropsMob;
-    }
-
-    public JTable getTablaExpNivel() {
-        return tablaExpNivel;
-    }
-
-    public void setTablaExpNivel(JTable tablaExpNivel) {
-        this.tablaExpNivel = tablaExpNivel;
-    }
-
-    public JTextField getTxtDescripObjeto() {
-        return txtDescripObjeto;
-    }
-
-    public void setTxtDescripObjeto(JTextField txtDescripObjeto) {
-        this.txtDescripObjeto = txtDescripObjeto;
-    }
-
-    public JTextField getTxtDescripcionArma() {
-        return txtDescripcionArma;
-    }
-
-    public void setTxtDescripcionArma(JTextField txtDescripcionArma) {
-        this.txtDescripcionArma = txtDescripcionArma;
-    }
-
-    public JTextField getTxtDescripcionArmadura() {
-        return txtDescripcionArmadura;
-    }
-
-    public void setTxtDescripcionArmadura(JTextField txtDescripcionArmadura) {
-        this.txtDescripcionArmadura = txtDescripcionArmadura;
-    }
-
-    public JTextField getTxtMundoInicio() {
-        return txtMundoInicio;
-    }
-
-    public void setTxtMundoInicio(JTextField txtMundoInicio) {
-        this.txtMundoInicio = txtMundoInicio;
-    }
-
-    public JTextField getTxtMundoSpawnLoc() {
-        return txtMundoSpawnLoc;
-    }
-
-    public void setTxtMundoSpawnLoc(JTextField txtMundoSpawnLoc) {
-        this.txtMundoSpawnLoc = txtMundoSpawnLoc;
-    }
-
-    public JTextField getTxtNombreArma() {
-        return txtNombreArma;
-    }
-
-    public void setTxtNombreArma(JTextField txtNombreArma) {
-        this.txtNombreArma = txtNombreArma;
-    }
-
-    public JTextField getTxtNombreClase() {
-        return txtNombreClase;
-    }
-
-    public void setTxtNombreClase(JTextField txtNombreClase) {
-        this.txtNombreClase = txtNombreClase;
-    }
-
-    public JTextField getTxtNombreJoya() {
-        return txtNombreJoya;
-    }
-
-    public void setTxtNombreJoya(JTextField txtNombreJoya) {
-        this.txtNombreJoya = txtNombreJoya;
-    }
-
-    public JTextField getTxtNombreMob() {
-        return txtNombreMob;
-    }
-
-    public void setTxtNombreMob(JTextField txtNombreMob) {
-        this.txtNombreMob = txtNombreMob;
-    }
-
-    public JTextField getTxtNombreObjeto() {
-        return txtNombreObjeto;
-    }
-
-    public void setTxtNombreObjeto(JTextField txtNombreObjeto) {
-        this.txtNombreObjeto = txtNombreObjeto;
-    }
-
-    public JTextField getTxtNombreObjetoMejArma() {
-        return txtNombreObjetoMejArma;
-    }
-
-    public void setTxtNombreObjetoMejArma(JTextField txtNombreObjetoMejArma) {
-        this.txtNombreObjetoMejArma = txtNombreObjetoMejArma;
-    }
-
-    public JTextField getTxtNombreObjetoMejArmadura() {
-        return txtNombreObjetoMejArmadura;
-    }
-
-    public void setTxtNombreObjetoMejArmadura(JTextField txtNombreObjetoMejArmadura) {
-        this.txtNombreObjetoMejArmadura = txtNombreObjetoMejArmadura;
-    }
-
-    public JTextField getTxtNombreSet() {
-        return txtNombreSet;
-    }
-
-    public void setTxtNombreSet(JTextField txtNombreSet) {
-        this.txtNombreSet = txtNombreSet;
-    }
-
-    public JSpinner getTxtX2Nivel() {
-        return txtX2Nivel;
-    }
-
-    public void setTxtX2Nivel(JSpinner txtX2Nivel) {
-        this.txtX2Nivel = txtX2Nivel;
-    }
-
-    public JSpinner getTxtX3Nivel() {
-        return txtX3Nivel;
-    }
-
-    public void setTxtX3Nivel(JSpinner txtX3Nivel) {
-        this.txtX3Nivel = txtX3Nivel;
-    }
-
-    public JSpinner getTxtXNivel() {
-        return txtXNivel;
-    }
-
-    public void setTxtXNivel(JSpinner txtXNivel) {
-        this.txtXNivel = txtXNivel;
     }
 
     public JCheckBox getCheckDayCycle() {
         return checkDayCycle;
     }
 
-    public void setCheckDayCycle(JCheckBox checkDayCycle) {
-        this.checkDayCycle = checkDayCycle;
+    public JCheckBox getCheckDestruirBloques() {
+        return checkDestruirBloques;
+    }
+
+    public JCheckBox getCheckEnableClase() {
+        return checkEnableClase;
     }
 
     public JCheckBox getCheckEnableGlobalChat() {
         return checkEnableGlobalChat;
     }
 
-    public void setCheckEnableGlobalChat(JCheckBox checkEnableGlobalChat) {
-        this.checkEnableGlobalChat = checkEnableGlobalChat;
-    }
-
     public JCheckBox getCheckEnableMarketChat() {
         return checkEnableMarketChat;
     }
 
-    public void setCheckEnableMarketChat(JCheckBox checkEnableMarketChat) {
-        this.checkEnableMarketChat = checkEnableMarketChat;
+    public JCheckBox getCheckEnableSpawner() {
+        return checkEnableSpawner;
+    }
+
+    public JCheckBox getCheckGrupos() {
+        return checkGrupos;
     }
 
     public JCheckBox getCheckGuildChat() {
         return checkGuildChat;
     }
 
-    public void setCheckGuildChat(JCheckBox checkGuildChat) {
-        this.checkGuildChat = checkGuildChat;
+    public JCheckBox getCheckMejorableArma() {
+        return checkMejorableArma;
+    }
+
+    public JCheckBox getCheckMejorableArmadura() {
+        return checkMejorableArmadura;
     }
 
     public JCheckBox getCheckPartyChat() {
         return checkPartyChat;
     }
 
-    public void setCheckPartyChat(JCheckBox checkPartyChat) {
-        this.checkPartyChat = checkPartyChat;
-    }
-
     public JCheckBox getCheckPrivateChat() {
         return checkPrivateChat;
     }
 
-    public void setCheckPrivateChat(JCheckBox checkPrivateChat) {
-        this.checkPrivateChat = checkPrivateChat;
+    public JCheckBox getCheckSistHambre() {
+        return checkSistHambre;
+    }
+
+    public JComboBox getComboCalidad() {
+        return comboCalidad;
+    }
+
+    public JComboBox getComboCalidadArma() {
+        return comboCalidadArma;
+    }
+
+    public JComboBox getComboCalidadJoya() {
+        return comboCalidadJoya;
+    }
+
+    public JComboBox getComboCalidadObjeto() {
+        return comboCalidadObjeto;
+    }
+
+    public JComboBox getComboComportamiento() {
+        return comboComportamiento;
+    }
+
+    public JComboBox getComboListSets() {
+        return comboListSets;
+    }
+
+    public JComboBox getComboListaArmas() {
+        return comboListaArmas;
+    }
+
+    public JComboBox getComboListaObjetos() {
+        return comboListaObjetos;
+    }
+
+    public JComboBox getComboMaterial() {
+        return comboMaterial;
+    }
+
+    public JComboBox getComboMejoradorArma() {
+        return comboMejoradorArma;
+    }
+
+    public JComboBox getComboMejoradorArmadura() {
+        return comboMejoradorArmadura;
     }
 
     public JComboBox getComboMessageColorGlobalChat() {
         return comboMessageColorGlobalChat;
     }
 
-    public void setComboMessageColorGlobalChat(JComboBox comboMessageColorGlobalChat) {
-        this.comboMessageColorGlobalChat = comboMessageColorGlobalChat;
-    }
-
     public JComboBox getComboMessageColorGuildChat() {
         return comboMessageColorGuildChat;
-    }
-
-    public void setComboMessageColorGuildChat(JComboBox comboMessageColorGuildChat) {
-        this.comboMessageColorGuildChat = comboMessageColorGuildChat;
     }
 
     public JComboBox getComboMessageColorLocalChat() {
         return comboMessageColorLocalChat;
     }
 
-    public void setComboMessageColorLocalChat(JComboBox comboMessageColorLocalChat) {
-        this.comboMessageColorLocalChat = comboMessageColorLocalChat;
-    }
-
     public JComboBox getComboMessageColorMarketChat() {
         return comboMessageColorMarketChat;
-    }
-
-    public void setComboMessageColorMarketChat(JComboBox comboMessageColorMarketChat) {
-        this.comboMessageColorMarketChat = comboMessageColorMarketChat;
     }
 
     public JComboBox getComboMessageColorNewsChat() {
         return comboMessageColorNewsChat;
     }
 
-    public void setComboMessageColorNewsChat(JComboBox comboMessageColorNewsChat) {
-        this.comboMessageColorNewsChat = comboMessageColorNewsChat;
-    }
-
     public JComboBox getComboMessageColorPartyChat() {
         return comboMessageColorPartyChat;
-    }
-
-    public void setComboMessageColorPartyChat(JComboBox comboMessageColorPartyChat) {
-        this.comboMessageColorPartyChat = comboMessageColorPartyChat;
     }
 
     public JComboBox getComboMessageColorPrivateChat() {
         return comboMessageColorPrivateChat;
     }
 
-    public void setComboMessageColorPrivateChat(JComboBox comboMessageColorPrivateChat) {
-        this.comboMessageColorPrivateChat = comboMessageColorPrivateChat;
-    }
-
     public JComboBox getComboMessageColorWarningChat() {
         return comboMessageColorWarningChat;
     }
 
-    public void setComboMessageColorWarningChat(JComboBox comboMessageColorWarningChat) {
-        this.comboMessageColorWarningChat = comboMessageColorWarningChat;
+    public JComboBox getComboMobSpawner() {
+        return comboMobSpawner;
+    }
+
+    public JComboBox getComboObjetoDropMob() {
+        return comboObjetoDropMob;
+    }
+
+    public JComboBox getComboObjetoJoya() {
+        return comboObjetoJoya;
     }
 
     public JComboBox getComboPrefixColorGlobalChat() {
         return comboPrefixColorGlobalChat;
     }
 
-    public void setComboPrefixColorGlobalChat(JComboBox comboPrefixColorGlobalChat) {
-        this.comboPrefixColorGlobalChat = comboPrefixColorGlobalChat;
-    }
-
     public JComboBox getComboPrefixColorGuildChat() {
         return comboPrefixColorGuildChat;
-    }
-
-    public void setComboPrefixColorGuildChat(JComboBox comboPrefixColorGuildChat) {
-        this.comboPrefixColorGuildChat = comboPrefixColorGuildChat;
     }
 
     public JComboBox getComboPrefixColorLocalChat() {
         return comboPrefixColorLocalChat;
     }
 
-    public void setComboPrefixColorLocalChat(JComboBox comboPrefixColorLocalChat) {
-        this.comboPrefixColorLocalChat = comboPrefixColorLocalChat;
-    }
-
     public JComboBox getComboPrefixColorMarketChat() {
         return comboPrefixColorMarketChat;
-    }
-
-    public void setComboPrefixColorMarketChat(JComboBox comboPrefixColorMarketChat) {
-        this.comboPrefixColorMarketChat = comboPrefixColorMarketChat;
     }
 
     public JComboBox getComboPrefixColorNewsChat() {
         return comboPrefixColorNewsChat;
     }
 
-    public void setComboPrefixColorNewsChat(JComboBox comboPrefixColorNewsChat) {
-        this.comboPrefixColorNewsChat = comboPrefixColorNewsChat;
-    }
-
     public JComboBox getComboPrefixColorPartyChat() {
         return comboPrefixColorPartyChat;
-    }
-
-    public void setComboPrefixColorPartyChat(JComboBox comboPrefixColorPartyChat) {
-        this.comboPrefixColorPartyChat = comboPrefixColorPartyChat;
     }
 
     public JComboBox getComboPrefixColorPrivateChat() {
         return comboPrefixColorPrivateChat;
     }
 
-    public void setComboPrefixColorPrivateChat(JComboBox comboPrefixColorPrivateChat) {
-        this.comboPrefixColorPrivateChat = comboPrefixColorPrivateChat;
-    }
-
     public JComboBox getComboPrefixColorWarningChat() {
         return comboPrefixColorWarningChat;
     }
 
-    public void setComboPrefixColorWarningChat(JComboBox comboPrefixColorWarningChat) {
-        this.comboPrefixColorWarningChat = comboPrefixColorWarningChat;
+    public JComboBox getComboSelectorClases() {
+        return comboSelectorClases;
+    }
+
+    public JComboBox getComboSelectorGenerador() {
+        return comboSelectorGenerador;
+    }
+
+    public JComboBox getComboSelectorJoyas() {
+        return comboSelectorJoyas;
+    }
+
+    public JComboBox getComboSelectorMobs() {
+        return comboSelectorMobs;
+    }
+
+    public JTextField getComboSelectorSpawner() {
+        return comboSelectorSpawner;
+    }
+
+    public JComboBox getComboSelectorTipoMob() {
+        return comboSelectorTipoMob;
     }
 
     public JComboBox getComboShortcutGlobalChat() {
         return comboShortcutGlobalChat;
     }
 
-    public void setComboShortcutGlobalChat(JComboBox comboShortcutGlobalChat) {
-        this.comboShortcutGlobalChat = comboShortcutGlobalChat;
-    }
-
     public JComboBox getComboShortcutGuildChat() {
         return comboShortcutGuildChat;
-    }
-
-    public void setComboShortcutGuildChat(JComboBox comboShortcutGuildChat) {
-        this.comboShortcutGuildChat = comboShortcutGuildChat;
     }
 
     public JComboBox getComboShortcutMarketChat() {
         return comboShortcutMarketChat;
     }
 
-    public void setComboShortcutMarketChat(JComboBox comboShortcutMarketChat) {
-        this.comboShortcutMarketChat = comboShortcutMarketChat;
-    }
-
     public JComboBox getComboShortcutNewsChat() {
         return comboShortcutNewsChat;
-    }
-
-    public void setComboShortcutNewsChat(JComboBox comboShortcutNewsChat) {
-        this.comboShortcutNewsChat = comboShortcutNewsChat;
     }
 
     public JComboBox getComboShortcutPartyChat() {
         return comboShortcutPartyChat;
     }
 
-    public void setComboShortcutPartyChat(JComboBox comboShortcutPartyChat) {
-        this.comboShortcutPartyChat = comboShortcutPartyChat;
-    }
-
     public JComboBox getComboShortcutPrivateChat() {
         return comboShortcutPrivateChat;
-    }
-
-    public void setComboShortcutPrivateChat(JComboBox comboShortcutPrivateChat) {
-        this.comboShortcutPrivateChat = comboShortcutPrivateChat;
     }
 
     public JComboBox getComboShortcutWarningChat() {
         return comboShortcutWarningChat;
     }
 
-    public void setComboShortcutWarningChat(JComboBox comboShortcutWarningChat) {
-        this.comboShortcutWarningChat = comboShortcutWarningChat;
+    public JComboBox getComboTipoArma() {
+        return comboTipoArma;
     }
 
-    public JSpinner getLblMaxNivelNivel() {
-        return lblMaxNivelNivel;
+    public JComboBox getComboTipoAtaqueMob() {
+        return comboTipoAtaqueMob;
     }
 
-    public void setLblMaxNivelNivel(JSpinner lblMaxNivelNivel) {
-        this.lblMaxNivelNivel = lblMaxNivelNivel;
+    public JComboBox getComboTipoDropMob() {
+        return comboTipoDropMob;
+    }
+
+    public JComboBox getComboTipoObjeto() {
+        return comboTipoObjeto;
+    }
+
+    public JList getjListDescArma() {
+        return jListDescArma;
+    }
+
+    public JList getjListDescArmadura() {
+        return jListDescArmadura;
+    }
+
+    public JRadioButton getRdBtnAmbosGrupo() {
+        return rdBtnAmbosGrupo;
+    }
+
+    public JRadioButton getRdBtnContriAmbos() {
+        return rdBtnContriAmbos;
+    }
+
+    public JRadioButton getRdBtnContriSoloContri() {
+        return rdBtnContriSoloContri;
+    }
+
+    public JRadioButton getRdBtnContriSoloDon() {
+        return rdBtnContriSoloDon;
+    }
+
+    public JRadioButton getRdBtnFijosGrupo() {
+        return rdBtnFijosGrupo;
+    }
+
+    public JRadioButton getRdBtnIlimitadosGrupo() {
+        return rdBtnIlimitadosGrupo;
+    }
+
+    public JRadioButton getRdBtnLimitNivClan() {
+        return rdBtnLimitNivClan;
+    }
+
+    public JRadioButton getRdBtnNoPermitidoPvpGrupo() {
+        return rdBtnNoPermitidoPvpGrupo;
+    }
+
+    public JRadioButton getRdBtnNumFijosClan() {
+        return rdBtnNumFijosClan;
+    }
+
+    public JRadioButton getRdBtnNumIlimitadosClan() {
+        return rdBtnNumIlimitadosClan;
+    }
+
+    public JRadioButton getRdBtnOpcDinFijo() {
+        return rdBtnOpcDinFijo;
+    }
+
+    public JRadioButton getRdBtnOpcDinForm() {
+        return rdBtnOpcDinForm;
+    }
+
+    public JRadioButton getRdBtnOpcionProporcionalGrupo() {
+        return rdBtnOpcionProporcionalGrupo;
+    }
+
+    public JRadioButton getRdBtnOpcionigualitarioGrupo() {
+        return rdBtnOpcionigualitarioGrupo;
+    }
+
+    public JRadioButton getRdBtnPermitidoPvpGrupo() {
+        return rdBtnPermitidoPvpGrupo;
+    }
+
+    public JRadioButton getRdBtnProKillsGrupo() {
+        return rdBtnProKillsGrupo;
+    }
+
+    public JRadioButton getRdBtnProNivelGrupo() {
+        return rdBtnProNivelGrupo;
+    }
+
+    public JRadioButton getRdBtnSinRepartoGrupo() {
+        return rdBtnSinRepartoGrupo;
+    }
+
+    public JRadioButton getRdBtnSoloDineroGrupo() {
+        return rdBtnSoloDineroGrupo;
+    }
+
+    public JRadioButton getRdBtnSoloExpGrupo() {
+        return rdBtnSoloExpGrupo;
+    }
+
+    public JSpinner getSpinerProbExitoArma() {
+        return spinerProbExitoArma;
+    }
+
+    public JSpinner getSpinnerAtaDistMob() {
+        return spinnerAtaDistMob;
+    }
+
+    public JSpinner getSpinnerAtaFisAP() {
+        return spinnerAtaFisAP;
+    }
+
+    public JSpinner getSpinnerAtaFisArma() {
+        return spinnerAtaFisArma;
+    }
+
+    public JSpinner getSpinnerAtaFisBase() {
+        return spinnerAtaFisBase;
+    }
+
+    public JSpinner getSpinnerAtaFisJoya() {
+        return spinnerAtaFisJoya;
+    }
+
+    public JSpinner getSpinnerAtaFisMob() {
+        return spinnerAtaFisMob;
+    }
+
+    public JSpinner getSpinnerAtaFisNivel() {
+        return spinnerAtaFisNivel;
+    }
+
+    public JSpinner getSpinnerAtaMagAP() {
+        return spinnerAtaMagAP;
+    }
+
+    public JSpinner getSpinnerAtaMagArma() {
+        return spinnerAtaMagArma;
+    }
+
+    public JSpinner getSpinnerAtaMagBase() {
+        return spinnerAtaMagBase;
+    }
+
+    public JSpinner getSpinnerAtaMagJoya() {
+        return spinnerAtaMagJoya;
+    }
+
+    public JSpinner getSpinnerAtaMagNivel() {
+        return spinnerAtaMagNivel;
+    }
+
+    public JSpinner getSpinnerCantidadDropMob() {
+        return spinnerCantidadDropMob;
+    }
+
+    public JSpinner getSpinnerContriPorcentajeMuertes() {
+        return spinnerContriPorcentajeMuertes;
+    }
+
+    public JSpinner getSpinnerCritArma() {
+        return spinnerCritArma;
+    }
+
+    public JSpinner getSpinnerCritBase() {
+        return spinnerCritBase;
+    }
+
+    public JSpinner getSpinnerCritNivel() {
+        return spinnerCritNivel;
+    }
+
+    public JSpinner getSpinnerCritAP() {
+        return spinnerCritAP;
+    }
+
+    public JSpinner getSpinnerDefFisBase() {
+        return spinnerDefFisBase;
+    }
+
+    public JSpinner getSpinnerDefFisBotas() {
+        return spinnerDefFisBotas;
+    }
+
+    public JSpinner getSpinnerDefFisCasco() {
+        return spinnerDefFisCasco;
+    }
+
+    public JSpinner getSpinnerDefFisGrebas() {
+        return spinnerDefFisGrebas;
+    }
+
+    public JSpinner getSpinnerDefFisJoya() {
+        return spinnerDefFisJoya;
+    }
+
+    public JSpinner getSpinnerDefFisNivel() {
+        return spinnerDefFisNivel;
+    }
+
+    public JSpinner getSpinnerDefFisPechera() {
+        return spinnerDefFisPechera;
+    }
+
+    public JSpinner getSpinnerDefMagBase() {
+        return spinnerDefMagBase;
+    }
+
+    public JSpinner getSpinnerDefMagJoya() {
+        return spinnerDefMagJoya;
+    }
+
+    public JSpinner getSpinnerDefMagNivel() {
+        return spinnerDefMagNivel;
+    }
+
+    public JSpinner getSpinnerDineroDropMob() {
+        return spinnerDineroDropMob;
+    }
+
+    public JSpinner getSpinnerDineroEditClan() {
+        return spinnerDineroEditClan;
+    }
+
+    public JSpinner getSpinnerDineroExtraArma() {
+        return spinnerDineroExtraArma;
+    }
+
+    public JSpinner getSpinnerDineroExtraBotas() {
+        return spinnerDineroExtraBotas;
+    }
+
+    public JSpinner getSpinnerDineroExtraCasco() {
+        return spinnerDineroExtraCasco;
+    }
+
+    public JSpinner getSpinnerDineroExtraGrebas() {
+        return spinnerDineroExtraGrebas;
+    }
+
+    public JSpinner getSpinnerDineroExtraJoya() {
+        return spinnerDineroExtraJoya;
+    }
+
+    public JSpinner getSpinnerDineroExtraPechera() {
+        return spinnerDineroExtraPechera;
     }
 
     public JSpinner getSpinnerDistanceLocalChat() {
         return spinnerDistanceLocalChat;
     }
 
-    public void setSpinnerDistanceLocalChat(JSpinner spinnerDistanceLocalChat) {
-        this.spinnerDistanceLocalChat = spinnerDistanceLocalChat;
+    public JSpinner getSpinnerEvaFisBase() {
+        return spinnerEvaFisBase;
+    }
+
+    public JSpinner getSpinnerEvaFisBotas() {
+        return spinnerEvaFisBotas;
+    }
+
+    public JSpinner getSpinnerEvaFisCasco() {
+        return spinnerEvaFisCasco;
+    }
+
+    public JSpinner getSpinnerEvaFisGrebas() {
+        return spinnerEvaFisGrebas;
+    }
+
+    public JSpinner getSpinnerEvaFisJoya() {
+        return spinnerEvaFisJoya;
+    }
+
+    public JSpinner getSpinnerEvaFisNivel() {
+        return spinnerEvaFisNivel;
+    }
+
+    public JSpinner getSpinnerEvaFisPechera() {
+        return spinnerEvaFisPechera;
+    }
+
+    public JSpinner getSpinnerEvaMagBase() {
+        return spinnerEvaMagBase;
+    }
+
+    public JSpinner getSpinnerEvaMagJoya() {
+        return spinnerEvaMagJoya;
+    }
+
+    public JSpinner getSpinnerEvaMagNivel() {
+        return spinnerEvaMagNivel;
+    }
+
+    public JSpinner getSpinnerExpDropMob() {
+        return spinnerExpDropMob;
+    }
+
+    public JSpinner getSpinnerExpExtraArma() {
+        return spinnerExpExtraArma;
+    }
+
+    public JSpinner getSpinnerExpExtraBotas() {
+        return spinnerExpExtraBotas;
+    }
+
+    public JSpinner getSpinnerExpExtraCasco() {
+        return spinnerExpExtraCasco;
+    }
+
+    public JSpinner getSpinnerExpExtraGrebas() {
+        return spinnerExpExtraGrebas;
+    }
+
+    public JSpinner getSpinnerExpExtraJoya() {
+        return spinnerExpExtraJoya;
+    }
+
+    public JSpinner getSpinnerExpExtraPechera() {
+        return spinnerExpExtraPechera;
+    }
+
+    public JSpinner getSpinnerFormJugIniClan() {
+        return spinnerFormJugIniClan;
+    }
+
+    public JSpinner getSpinnerFormJugXNivelClan() {
+        return spinnerFormJugXNivelClan;
+    }
+
+    public JSpinner getSpinnerFuerzaDistMob() {
+        return spinnerFuerzaDistMob;
+    }
+
+    public JSpinner getSpinnerHRFisArma() {
+        return spinnerHRFisArma;
+    }
+
+    public JSpinner getSpinnerHRFisBase() {
+        return spinnerHRFisBase;
+    }
+
+    public JSpinner getSpinnerHRFisJoya() {
+        return spinnerHRFisJoya;
+    }
+
+    public JSpinner getSpinnerHRFisNivel() {
+        return spinnerHRFisNivel;
+    }
+
+    public JSpinner getSpinnerHRMagArma() {
+        return spinnerHRMagArma;
+    }
+
+    public JSpinner getSpinnerHRMagBase() {
+        return spinnerHRMagBase;
+    }
+
+    public JSpinner getSpinnerHRMagJoya() {
+        return spinnerHRMagJoya;
+    }
+
+    public JSpinner getSpinnerHRMagNivel() {
+        return spinnerHRMagNivel;
+    }
+
+    public JSpinner getSpinnerManaAP() {
+        return spinnerManaAP;
+    }
+
+    public JSpinner getSpinnerManaAP2() {
+        return spinnerManaAP2;
+    }
+
+    public JSpinner getSpinnerManaJoya() {
+        return spinnerManaJoya;
+    }
+
+    public JSpinner getSpinnerManaNivel() {
+        return spinnerManaNivel;
+    }
+
+    public JSpinner getSpinnerMaxManaBase() {
+        return spinnerMaxManaBase;
+    }
+
+    public JSpinner getSpinnerMaxNivel() {
+        return spinnerMaxNivel;
+    }
+
+    public JSpinner getSpinnerMaxVidaBase() {
+        return spinnerMaxVidaBase;
+    }
+
+    public JSpinner getSpinnerMaxVidaMob() {
+        return spinnerMaxVidaMob;
+    }
+
+    public JSpinner getSpinnerMejAtaFisArma() {
+        return spinnerMejAtaFisArma;
+    }
+
+    public JSpinner getSpinnerMejAtaMagArma() {
+        return spinnerMejAtaMagArma;
+    }
+
+    public JSpinner getSpinnerMejCritArma() {
+        return spinnerMejCritArma;
+    }
+
+    public JSpinner getSpinnerMejDefFisBotas() {
+        return spinnerMejDefFisBotas;
+    }
+
+    public JSpinner getSpinnerMejDefFisCasco() {
+        return spinnerMejDefFisCasco;
+    }
+
+    public JSpinner getSpinnerMejDefFisGrebas() {
+        return spinnerMejDefFisGrebas;
+    }
+
+    public JSpinner getSpinnerMejDefFisPechera() {
+        return spinnerMejDefFisPechera;
+    }
+
+    public JSpinner getSpinnerMejEvaFisBotas() {
+        return spinnerMejEvaFisBotas;
+    }
+
+    public JSpinner getSpinnerMejEvaFisCasco() {
+        return spinnerMejEvaFisCasco;
+    }
+
+    public JSpinner getSpinnerMejEvaFisGrebas() {
+        return spinnerMejEvaFisGrebas;
+    }
+
+    public JSpinner getSpinnerMejEvaFisPechera() {
+        return spinnerMejEvaFisPechera;
+    }
+
+    public JSpinner getSpinnerMejHRFisArma() {
+        return spinnerMejHRFisArma;
+    }
+
+    public JSpinner getSpinnerMejHRMagArma() {
+        return spinnerMejHRMagArma;
+    }
+
+    public JSpinner getSpinnerMejRoboMArma() {
+        return spinnerMejRoboMArma;
+    }
+
+    public JSpinner getSpinnerMejRoboVArma() {
+        return spinnerMejRoboVArma;
+    }
+
+    public JSpinner getSpinnerMortalAP() {
+        return spinnerMortalAP;
+    }
+
+    public JSpinner getSpinnerMortalBase() {
+        return spinnerMortalBase;
+    }
+
+    public JSpinner getSpinnerMortalNivel() {
+        return spinnerMortalNivel;
+    }
+
+    public JSpinner getSpinnerNivel() {
+        return spinnerNivel;
+    }
+
+    public JSpinner getSpinnerNivelIniArma() {
+        return spinnerNivelIniArma;
+    }
+
+    public JSpinner getSpinnerNivelMaxClan() {
+        return spinnerNivelMaxClan;
+    }
+
+    public JSpinner getSpinnerNivelMinArma() {
+        return spinnerNivelMinArma;
+    }
+
+    public JSpinner getSpinnerNivelMinJugClan() {
+        return spinnerNivelMinJugClan;
+    }
+
+    public JSpinner getSpinnerNivelMob() {
+        return spinnerNivelMob;
+    }
+
+    public JSpinner getSpinnerNumFijosClan() {
+        return spinnerNumFijosClan;
+    }
+
+    public JSpinner getSpinnerNumJugEditClan() {
+        return spinnerNumJugEditClan;
+    }
+
+    public JSpinner getSpinnerNumMaxMobSpawner() {
+        return spinnerNumMaxMobSpawner;
+    }
+
+    public JSpinner getSpinnerNumeroFijoJugGrupo() {
+        return spinnerNumeroFijoJugGrupo;
+    }
+
+    public JSpinner getSpinnerPHxNivel() {
+        return spinnerPHxNivel;
+    }
+
+    public JSpinner getSpinnerPrecioCArma() {
+        return spinnerPrecioCArma;
+    }
+
+    public JSpinner getSpinnerPrecioCBotas() {
+        return spinnerPrecioCBotas;
+    }
+
+    public JSpinner getSpinnerPrecioCCasco() {
+        return spinnerPrecioCCasco;
+    }
+
+    public JSpinner getSpinnerPrecioCGrebas() {
+        return spinnerPrecioCGrebas;
+    }
+
+    public JSpinner getSpinnerPrecioCJoya() {
+        return spinnerPrecioCJoya;
+    }
+
+    public JSpinner getSpinnerPrecioCPechera() {
+        return spinnerPrecioCPechera;
+    }
+
+    public JSpinner getSpinnerPrecioVArma() {
+        return spinnerPrecioVArma;
+    }
+
+    public JSpinner getSpinnerPrecioVBotas() {
+        return spinnerPrecioVBotas;
+    }
+
+    public JSpinner getSpinnerPrecioVCasco() {
+        return spinnerPrecioVCasco;
+    }
+
+    public JSpinner getSpinnerPrecioVGrebas() {
+        return spinnerPrecioVGrebas;
+    }
+
+    public JSpinner getSpinnerPrecioVJoya() {
+        return spinnerPrecioVJoya;
+    }
+
+    public JSpinner getSpinnerPrecioVPechera() {
+        return spinnerPrecioVPechera;
+    }
+
+    public JSpinner getSpinnerProSEArma() {
+        return spinnerProSEArma;
+    }
+
+    public JSpinner getSpinnerProbDetArma() {
+        return spinnerProbDetArma;
+    }
+
+    public JSpinner getSpinnerProbDetArmadura() {
+        return spinnerProbDetArmadura;
+    }
+
+    public JSpinner getSpinnerProbDetJoya() {
+        return spinnerProbDetJoya;
+    }
+
+    public JSpinner getSpinnerProbDropMob() {
+        return spinnerProbDropMob;
+    }
+
+    public JSpinner getSpinnerProbExitoArmadura() {
+        return spinnerProbExitoArmadura;
+    }
+
+    public JSpinner getSpinnerProbExitoJoya() {
+        return spinnerProbExitoJoya;
+    }
+
+    public JSpinner getSpinnerProbRotArma() {
+        return spinnerProbRotArma;
+    }
+
+    public JSpinner getSpinnerProbRotArmadura() {
+        return spinnerProbRotArmadura;
+    }
+
+    public JSpinner getSpinnerProbRotJoya() {
+        return spinnerProbRotJoya;
+    }
+
+    public JSpinner getSpinnerProbSEArmadura() {
+        return spinnerProbSEArmadura;
+    }
+
+    public JSpinner getSpinnerProbSEJoya() {
+        return spinnerProbSEJoya;
+    }
+
+    public JSpinner getSpinnerRadioSpawner() {
+        return spinnerRadioSpawner;
+    }
+
+    public JSpinner getSpinnerRangoSeguiMob() {
+        return spinnerRangoSeguiMob;
+    }
+
+    public JSpinner getSpinnerRefrescoSpawner() {
+        return spinnerRefrescoSpawner;
+    }
+
+    public JSpinner getSpinnerRetrocesoMob() {
+        return spinnerRetrocesoMob;
+    }
+
+    public JSpinner getSpinnerRoboMArma() {
+        return spinnerRoboMArma;
+    }
+
+    public JSpinner getSpinnerRoboMJoya() {
+        return spinnerRoboMJoya;
+    }
+
+    public JSpinner getSpinnerRoboVArma() {
+        return spinnerRoboVArma;
+    }
+
+    public JSpinner getSpinnerRoboVJoya() {
+        return spinnerRoboVJoya;
+    }
+
+    public JSpinner getSpinnerVelocidadAtaqueMob() {
+        return spinnerVelocidadAtaqueMob;
+    }
+
+    public JSpinner getSpinnerVelocidadMob() {
+        return spinnerVelocidadMob;
+    }
+
+    public JSpinner getSpinnerVidaAP() {
+        return spinnerVidaAP;
+    }
+
+    public JSpinner getSpinnerVidaAP2() {
+        return spinnerVidaAP2;
+    }
+
+    public JSpinner getSpinnerVidaJoya() {
+        return spinnerVidaJoya;
+    }
+
+    public JSpinner getSpinnerVidaNivel() {
+        return spinnerVidaNivel;
+    }
+
+    public JSpinner getSpinnerX2Nivel() {
+        return spinnerX2Nivel;
+    }
+
+    public JSpinner getSpinnerX3Nivel() {
+        return spinnerX3Nivel;
+    }
+
+    public JSpinner getSpinnerXInicio() {
+        return spinnerXInicio;
+    }
+
+    public JSpinner getSpinnerXNivel() {
+        return spinnerXNivel;
+    }
+
+    public JSpinner getSpinnerXSpawnLoc() {
+        return spinnerXSpawnLoc;
+    }
+
+    public JSpinner getSpinnerYInicio() {
+        return spinnerYInicio;
+    }
+
+    public JSpinner getSpinnerYSpawnLoc() {
+        return spinnerYSpawnLoc;
+    }
+
+    public JSpinner getSpinnerZInicio() {
+        return spinnerZInicio;
+    }
+
+    public JSpinner getSpinnerZSpawnLoc() {
+        return spinnerZSpawnLoc;
+    }
+
+    public JSpinner getSpinnerformulax2clan() {
+        return spinnerformulax2clan;
+    }
+
+    public JSpinner getSpinnerformulaxclan() {
+        return spinnerformulaxclan;
+    }
+
+    public JTable getTablaClanes() {
+        return tablaClanes;
+    }
+
+    public JTable getTablaDropsMob() {
+        return tablaDropsMob;
+    }
+
+    public JTable getTablaExpNivel() {
+        return tablaExpNivel;
     }
 
     public JTextField getTextPrefixGlobalChat() {
         return textPrefixGlobalChat;
     }
 
-    public void setTextPrefixGlobalChat(JTextField textPrefixGlobalChat) {
-        this.textPrefixGlobalChat = textPrefixGlobalChat;
-    }
-
     public JTextField getTextPrefixGuildChat() {
         return textPrefixGuildChat;
-    }
-
-    public void setTextPrefixGuildChat(JTextField textPrefixGuildChat) {
-        this.textPrefixGuildChat = textPrefixGuildChat;
     }
 
     public JTextField getTextPrefixLocalChat() {
         return textPrefixLocalChat;
     }
 
-    public void setTextPrefixLocalChat(JTextField textPrefixLocalChat) {
-        this.textPrefixLocalChat = textPrefixLocalChat;
-    }
-
     public JTextField getTextPrefixMarketChat() {
         return textPrefixMarketChat;
-    }
-
-    public void setTextPrefixMarketChat(JTextField textPrefixMarketChat) {
-        this.textPrefixMarketChat = textPrefixMarketChat;
     }
 
     public JTextField getTextPrefixNewsChat() {
         return textPrefixNewsChat;
     }
 
-    public void setTextPrefixNewsChat(JTextField textPrefixNewsChat) {
-        this.textPrefixNewsChat = textPrefixNewsChat;
-    }
-
     public JTextField getTextPrefixPartyChat() {
         return textPrefixPartyChat;
-    }
-
-    public void setTextPrefixPartyChat(JTextField textPrefixPartyChat) {
-        this.textPrefixPartyChat = textPrefixPartyChat;
     }
 
     public JTextField getTextPrefixPrivateChat() {
         return textPrefixPrivateChat;
     }
 
-    public void setTextPrefixPrivateChat(JTextField textPrefixPrivateChat) {
-        this.textPrefixPrivateChat = textPrefixPrivateChat;
-    }
-
     public JTextField getTextPrefixWarningChat() {
         return textPrefixWarningChat;
     }
 
-    public void setTextPrefixWarningChat(JTextField textPrefixWarningChat) {
-        this.textPrefixWarningChat = textPrefixWarningChat;
+    public JTextField getTxtDescripObjeto() {
+        return txtDescripObjeto;
     }
+
+    public JTextField getTxtDescripcionArma() {
+        return txtDescripcionArma;
+    }
+
+    public JTextField getTxtDescripcionArmadura() {
+        return txtDescripcionArmadura;
+    }
+
+    public JTextField getTxtMundoInicio() {
+        return txtMundoInicio;
+    }
+
+    public JTextField getTxtMundoSpawnLoc() {
+        return txtMundoSpawnLoc;
+    }
+
+    public JTextField getTxtNombreArma() {
+        return txtNombreArma;
+    }
+
+    public JTextField getTxtNombreClase() {
+        return txtNombreClase;
+    }
+
+    public JTextField getTxtNombreJoya() {
+        return txtNombreJoya;
+    }
+
+    public JTextField getTxtNombreMob() {
+        return txtNombreMob;
+    }
+
+    public JTextField getTxtNombreObjeto() {
+        return txtNombreObjeto;
+    }
+
+    public JTextField getTxtNombreObjetoMejArma() {
+        return txtNombreObjetoMejArma;
+    }
+
+    public JTextField getTxtNombreObjetoMejArmadura() {
+        return txtNombreObjetoMejArmadura;
+    }
+
+    public JTextField getTxtNombreSet() {
+        return txtNombreSet;
+    }
+
+    public JPanel getPanelAtaqueMobs() {
+        return panelAtaqueMobs;
+    }
+
+    public JPanel getPanelAtribBasicoClase() {
+        return panelAtribBasicoClase;
+    }
+
+    public JPanel getPanelAtribSpawner() {
+        return panelAtribSpawner;
+    }
+
+    public JPanel getPanelAtributosMobs() {
+        return panelAtributosMobs;
+    }
+
+    public JPanel getPanelBotas() {
+        return panelBotas;
+    }
+
+    public JPanel getPanelCasco() {
+        return panelCasco;
+    }
+
+    public JPanel getPanelComportamientoMob() {
+        return panelComportamientoMob;
+    }
+
+    public JPanel getPanelConfChats() {
+        return panelConfChats;
+    }
+
+    public JTabbedPane getPanelConfig() {
+        return panelConfig;
+    }
+
+    public JPanel getPanelConfigArmaduras() {
+        return panelConfigArmaduras;
+    }
+
+    public JPanel getPanelConfigArmor() {
+        return panelConfigArmor;
+    }
+
+    public JPanel getPanelConfigChats() {
+        return panelConfigChats;
+    }
+
+    public JPanel getPanelConfigClanes() {
+        return panelConfigClanes;
+    }
+
+    public JPanel getPanelConfigClases() {
+        return panelConfigClases;
+    }
+
+    public JPanel getPanelConfigDanioGeneral() {
+        return panelConfigDanioGeneral;
+    }
+
+    public JPanel getPanelConfigDayCycle() {
+        return panelConfigDayCycle;
+    }
+
+    public JPanel getPanelConfigEnableChats() {
+        return panelConfigEnableChats;
+    }
+
+    public JPanel getPanelConfigGeneral() {
+        return panelConfigGeneral;
+    }
+
+    public JPanel getPanelConfigGeneralGen() {
+        return panelConfigGeneralGen;
+    }
+
+    public JPanel getPanelConfigGlobal() {
+        return panelConfigGlobal;
+    }
+
+    public JPanel getPanelConfigGrupos() {
+        return panelConfigGrupos;
+    }
+
+    public JPanel getPanelConfigGuild() {
+        return panelConfigGuild;
+    }
+
+    public JPanel getPanelConfigGuilds() {
+        return panelConfigGuilds;
+    }
+
+    public JPanel getPanelConfigInicio() {
+        return panelConfigInicio;
+    }
+
+    public JPanel getPanelConfigJewels() {
+        return panelConfigJewels;
+    }
+
+    public JPanel getPanelConfigJoyas() {
+        return panelConfigJoyas;
+    }
+
+    public JPanel getPanelConfigLevel() {
+        return panelConfigLevel;
+    }
+
+    public JPanel getPanelConfigLocal() {
+        return panelConfigLocal;
+    }
+
+    public JPanel getPanelConfigMarketChat() {
+        return panelConfigMarketChat;
+    }
+
+    public JPanel getPanelConfigMobs() {
+        return panelConfigMobs;
+    }
+
+    public JPanel getPanelConfigNews() {
+        return panelConfigNews;
+    }
+
+    public JPanel getPanelConfigObjetos() {
+        return panelConfigObjetos;
+    }
+
+    public JPanel getPanelConfigParties() {
+        return panelConfigParties;
+    }
+
+    public JPanel getPanelConfigParty() {
+        return panelConfigParty;
+    }
+
+    public JPanel getPanelConfigPlayers() {
+        return panelConfigPlayers;
+    }
+
+    public JPanel getPanelConfigSpawners() {
+        return panelConfigSpawners;
+    }
+
+    public JPanel getPanelConfigWarning() {
+        return panelConfigWarning;
+    }
+
+    public JPanel getPanelConfigWeapon() {
+        return panelConfigWeapon;
+    }
+
+    public JPanel getPanelConfiglPrivate() {
+        return panelConfiglPrivate;
+    }
+
+    public JPanel getPanelDropsDefault() {
+        return panelDropsDefault;
+    }
+
+    public JPanel getPanelDropsMobs() {
+        return panelDropsMobs;
+    }
+
+    public JPanel getPanelDropsObjetosMobs() {
+        return panelDropsObjetosMobs;
+    }
+
+    public JPanel getPanelEditNivelesClan() {
+        return panelEditNivelesClan;
+    }
+
+    public JPanel getPanelEditarSet() {
+        return panelEditarSet;
+    }
+
+    public JPanel getPanelEditorArma() {
+        return panelEditorArma;
+    }
+
+    public JPanel getPanelEditorClase() {
+        return panelEditorClase;
+    }
+
+    public JPanel getPanelEditorJoya() {
+        return panelEditorJoya;
+    }
+
+    public JPanel getPanelEditorMobs() {
+        return panelEditorMobs;
+    }
+
+    public JPanel getPanelEditorObjetos() {
+        return panelEditorObjetos;
+    }
+
+    public JPanel getPanelEditorSpawner() {
+        return panelEditorSpawner;
+    }
+
+    public JPanel getPanelEnableModulosGeneral() {
+        return panelEnableModulosGeneral;
+    }
+
+    public JPanel getPanelFormulaClan() {
+        return panelFormulaClan;
+    }
+
+    public JPanel getPanelGraficosNivel() {
+        return panelGraficosNivel;
+    }
+
+    public JPanel getPanelHabConst() {
+        return panelHabConst;
+    }
+
+    public JPanel getPanelHabDest() {
+        return panelHabDest;
+    }
+
+    public JPanel getPanelHabFuerza() {
+        return panelHabFuerza;
+    }
+
+    public JPanel getPanelHabInt() {
+        return panelHabInt;
+    }
+
+    public JPanel getPanelInicio() {
+        return panelInicio;
+    }
+
+    public JPanel getPanelLocSpawner() {
+        return panelLocSpawner;
+    }
+
+    public JPanel getPanelMejoraArma() {
+        return panelMejoraArma;
+    }
+
+    public JPanel getPanelMejoraArmadura() {
+        return panelMejoraArmadura;
+    }
+
+    public JPanel getPanelNivelExpNivel() {
+        return panelNivelExpNivel;
+    }
+
+    public JPanel getPanelNumJugClan() {
+        return panelNumJugClan;
+    }
+
+    public JPanel getPanelNumJugGrupos() {
+        return panelNumJugGrupos;
+    }
+
+    public JPanel getPanelOpcLimNivelClan() {
+        return panelOpcLimNivelClan;
+    }
+
+    public JPanel getPanelOpcRepGRupos() {
+        return panelOpcRepGRupos;
+    }
+
+    public JPanel getPanelOpcRepProp() {
+        return panelOpcRepProp;
+    }
+
+    public JPanel getPanelPantalones() {
+        return panelPantalones;
+    }
+
+    public JPanel getPanelPechera() {
+        return panelPechera;
+    }
+
+    public JPanel getPanelPuntoHabilidad() {
+        return panelPuntoHabilidad;
+    }
+
+    public JPanel getPanelPvpGrupos() {
+        return panelPvpGrupos;
+    }
+
+    public JPanel getPanelSelectorArma() {
+        return panelSelectorArma;
+    }
+
+    public JPanel getPanelSelectorArmadura() {
+        return panelSelectorArmadura;
+    }
+
+    public JPanel getPanelSelectorJoyas() {
+        return panelSelectorJoyas;
+    }
+
+    public JPanel getPanelSisContNivelClan() {
+        return panelSisContNivelClan;
+    }
+
+    public JPanel getPanelSistRepGrupos() {
+        return panelSistRepGrupos;
+    }
+
+    public JPanel getPanelSubirNivel() {
+        return panelSubirNivel;
+    }
+
+    public void recursivelyEnableDisablePanel(JPanel panel, boolean bool) {
+        for (Component c : panel.getComponents()) {
+            c.setEnabled(bool);
+            if (c instanceof JPanel) {
+                recursivelyEnableDisablePanel(((JPanel) c), bool);
+            }
+        }
+    }
+
+    public JList getListDescripcionObjeto() {
+        return listDescripcionObjeto;
+    }
+
 }

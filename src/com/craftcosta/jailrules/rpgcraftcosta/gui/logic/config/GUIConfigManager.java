@@ -16,14 +16,25 @@
 package com.craftcosta.jailrules.rpgcraftcosta.gui.logic.config;
 
 import com.craftcosta.jailrules.rpgcraftcosta.gui.GUI;
+import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.bukkit.World;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 /**
  *
  * @author jail
  */
 public class GUIConfigManager {
+
     GUI gui;
-    private boolean daycicle;
+    File file;
+    FileConfiguration fileConfig;
+    private boolean daycycle;
     private boolean enablePvP;
     private boolean enableGuilds;
     private boolean enableParties;
@@ -39,15 +50,24 @@ public class GUIConfigManager {
 
     public GUIConfigManager(GUI gui) {
         this.gui = gui;
-        
+        file = new File(RPGFinals.globalConfigFile);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException ex) {
+                Logger.getLogger(GUIConfigManager.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        loadConfigFromFile();
+
     }
 
-    public boolean isDaycicle() {
-        return daycicle;
+    public boolean isDaycycle() {
+        return daycycle;
     }
 
-    public void setDaycicle(boolean daycicle) {
-        this.daycicle = daycicle;
+    public void setDaycicle(boolean daycycle) {
+        this.daycycle = daycycle;
     }
 
     public boolean isEnablePvP() {
@@ -145,6 +165,65 @@ public class GUIConfigManager {
     public void setWorld(String world) {
         this.world = world;
     }
-    
-    
+
+    private void loadConfigFromFile() {
+        fileConfig = YamlConfiguration.loadConfiguration(file);
+        this.spawnx = fileConfig.getDouble("spawnx");
+        gui.getSpinnerXInicio().setValue(this.spawnx);
+        this.spawny = fileConfig.getDouble("spawny");
+        gui.getSpinnerYInicio().setValue(this.spawny);
+        this.spawnz = fileConfig.getDouble("spawnz");
+        gui.getSpinnerZInicio().setValue(this.spawnz);
+        this.daycycle = fileConfig.getBoolean("daycycle");
+        gui.getCheckDayCycle().setSelected(this.daycycle);
+        this.world = fileConfig.getString("world");
+        gui.getTxtMundoInicio().setText(this.world);
+        this.allowBlockDestroy = fileConfig.getBoolean("allowBlockDestroy");
+        gui.getCheckDestruirBloques().setSelected(this.allowBlockDestroy);
+        this.allowBlockPlace = fileConfig.getBoolean("allowBlockPlace");
+        gui.getCheckColocarBloques().setSelected(this.allowBlockPlace);
+        this.falldamage = fileConfig.getBoolean("falldamage");
+        gui.getCheckDanioCaida().setSelected(this.falldamage);
+        this.drowndamage = fileConfig.getBoolean("drowndamage");
+        gui.getCheckDanioAhogo().setSelected(this.drowndamage);
+        this.enablePvP = fileConfig.getBoolean("enablePvP");
+        gui.getCheckDanioPvp().setSelected(this.enablePvP);
+        this.hunger = fileConfig.getBoolean("hunger");
+        gui.getCheckSistHambre().setSelected(this.hunger);
+        this.enableGuilds = fileConfig.getBoolean("enableGuilds");
+        gui.getCheckClanes().setSelected(this.enableGuilds);
+        this.enableParties = fileConfig.getBoolean("enableParties");
+        gui.getCheckGrupos().setSelected(this.enableParties);
+        gui.repaint();
+    }
+
+    public void saveConfig() {
+        file = new File(RPGFinals.globalConfigFile);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        }
+        fileConfig = YamlConfiguration.loadConfiguration(file);
+        fileConfig.set("hunger", gui.getCheckSistHambre().isSelected());
+        fileConfig.set("falldamage", gui.getCheckDanioCaida().isSelected());
+        fileConfig.set("drowndamage", gui.getCheckDanioAhogo().isSelected());
+        fileConfig.set("daycycle", gui.getCheckDayCycle().isSelected());
+        fileConfig.set("enablePvP", gui.getCheckDanioPvp().isSelected());
+        fileConfig.set("spawnx", gui.getSpinnerXInicio().getValue());
+        fileConfig.set("spawny", gui.getSpinnerYInicio().getValue());
+        fileConfig.set("spawnz", gui.getSpinnerZInicio().getValue());
+        fileConfig.set("world", gui.getTxtMundoInicio().getText());
+        fileConfig.set("enableGuilds", gui.getCheckClanes().isSelected());
+        fileConfig.set("enableParties", gui.getCheckGrupos().isSelected());
+        fileConfig.set("allowBlockPlace", gui.getCheckColocarBloques().isSelected());
+        fileConfig.set("allowBlockDestroy", gui.getCheckDestruirBloques().isSelected());
+        try {
+            fileConfig.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

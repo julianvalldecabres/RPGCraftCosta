@@ -66,7 +66,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,88,0,0,3,88"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,88,0,0,3,119"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -118,7 +118,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="122" max="-2" attributes="0"/>
                       <Component id="btnprueba" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="588" max="32767" attributes="0"/>
+                      <EmptySpace pref="619" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -163,7 +163,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="panelConfigGeneralGen" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="275" max="32767" attributes="0"/>
+                      <EmptySpace pref="306" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -436,10 +436,25 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JSpinner" name="spinnerXInicio">
+                      <Properties>
+                        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                          <SpinnerModel initial="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                        </Property>
+                      </Properties>
                     </Component>
                     <Component class="javax.swing.JSpinner" name="spinnerYInicio">
+                      <Properties>
+                        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                          <SpinnerModel initial="0" maximum="256" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                        </Property>
+                      </Properties>
                     </Component>
                     <Component class="javax.swing.JSpinner" name="spinnerZInicio">
+                      <Properties>
+                        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                          <SpinnerModel initial="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                        </Property>
+                      </Properties>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -560,21 +575,22 @@
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="102" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
                                       <Component id="panelGraficosNivel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="panelNivelExpNivel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
                                               <Component id="lblFdeXNivel" min="-2" pref="34" max="-2" attributes="0"/>
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="txtX3Nivel" min="-2" pref="104" max="-2" attributes="0"/>
+                                              <Component id="spinnerX3Nivel" min="-2" pref="104" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="lblx3Nivel" min="-2" pref="33" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="txtX2Nivel" min="-2" pref="86" max="-2" attributes="0"/>
+                                              <Component id="spinnerX2Nivel" min="-2" pref="86" max="-2" attributes="0"/>
                                           </Group>
                                           <Component id="lblInfoNivelMaxNivel" min="-2" pref="267" max="-2" attributes="0"/>
                                       </Group>
@@ -583,7 +599,7 @@
                                           <Group type="102" attributes="0">
                                               <Component id="lblx2Nivel" min="-2" pref="27" max="-2" attributes="0"/>
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="txtXNivel" min="-2" pref="81" max="-2" attributes="0"/>
+                                              <Component id="spinnerXNivel" min="-2" pref="81" max="-2" attributes="0"/>
                                               <EmptySpace max="32767" attributes="0"/>
                                               <Component id="lblxNivel" min="-2" pref="23" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
@@ -594,7 +610,7 @@
                                               <Component id="btnGuardarConfigNiveles" min="-2" pref="80" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" attributes="0">
-                                              <Component id="lblMaxNivelNivel" min="-2" pref="88" max="-2" attributes="0"/>
+                                              <Component id="spinnerMaxNivel" min="-2" pref="88" max="-2" attributes="0"/>
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                               <Component id="lblPHxNivel" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -622,11 +638,11 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="lblFdeXNivel" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
-                              <Component id="txtX3Nivel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="spinnerX3Nivel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lblx3Nivel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtX2Nivel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="spinnerX2Nivel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lblx2Nivel" alignment="3" max="32767" attributes="0"/>
-                              <Component id="txtXNivel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="spinnerXNivel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="lblxNivel" alignment="3" max="32767" attributes="0"/>
                           </Group>
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
@@ -638,21 +654,16 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="lblInfoNivelMaxNivel" alignment="3" max="32767" attributes="0"/>
-                          <Component id="lblMaxNivelNivel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="spinnerMaxNivel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblPHxNivel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="spinnerPHxNivel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="panelGraficosNivel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="panelNivelExpNivel" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                          </Group>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="panelNivelExpNivel" max="32767" attributes="0"/>
+                          <Component id="panelGraficosNivel" max="32767" attributes="0"/>
                       </Group>
+                      <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -717,7 +728,7 @@
                 <Property name="text" type="java.lang.String" value="Selecciona el nivel m&#xe1;ximo que el jugador alcanzar&#xe1;"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JSpinner" name="txtX3Nivel">
+            <Component class="javax.swing.JSpinner" name="spinnerX3Nivel">
               <Properties>
                 <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
                   <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
@@ -725,28 +736,28 @@
                 <Property name="autoscrolls" type="boolean" value="true"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JSpinner" name="txtX2Nivel">
+            <Component class="javax.swing.JSpinner" name="spinnerX2Nivel">
               <Properties>
                 <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
                   <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JSpinner" name="txtXNivel">
+            <Component class="javax.swing.JSpinner" name="spinnerXNivel">
               <Properties>
                 <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
                   <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JSpinner" name="lblMaxNivelNivel">
+            <Component class="javax.swing.JSpinner" name="spinnerMaxNivel">
               <Properties>
                 <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                  <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                  <SpinnerModel initial="1" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="lblMaxNivelNivelPropertyChange"/>
+                <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="spinnerMaxNivelPropertyChange"/>
               </Events>
             </Component>
             <Container class="javax.swing.JPanel" name="panelGraficosNivel">
@@ -761,12 +772,12 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="655" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="541" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="438" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -783,12 +794,20 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane1" alignment="1" min="-2" pref="214" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" pref="194" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane1" alignment="0" min="-2" pref="494" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" pref="416" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
@@ -824,6 +843,11 @@
               </Properties>
             </Component>
             <Component class="javax.swing.JSpinner" name="spinnerPHxNivel">
+              <Properties>
+                <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                  <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                </Property>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -853,7 +877,7 @@
                           <Group type="102" attributes="0">
                               <Component id="btnCrearNuevaClase" min="-2" pref="112" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="comboSelectorClases" min="-2" pref="156" max="-2" attributes="0"/>
+                              <Component id="comboSelectorClases" min="-2" pref="325" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="btnEditarClase" min="-2" pref="75" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -893,6 +917,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nueva clase"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCrearNuevaClaseActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnEditarClase">
               <Properties>
@@ -906,6 +933,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Eliminar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarClaseActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JPanel" name="panelEditorClase">
               <Properties>
@@ -942,7 +972,7 @@
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btnGuardarClase" min="-2" pref="75" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btnResetClase" pref="135" max="32767" attributes="0"/>
+                                  <Component id="btnResetClase" pref="150" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                               </Group>
                               <Component id="panelPuntoHabilidad" max="32767" attributes="0"/>
@@ -1023,7 +1053,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lblEvaFisBase" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="spinnerEvaBase" max="32767" attributes="0"/>
+                                      <Component id="spinnerEvaFisBase" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lblAtaMagBase" min="-2" max="-2" attributes="0"/>
@@ -1038,7 +1068,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lblHRMagBase" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="spinnerHRMagBase" max="32767" attributes="0"/>
+                                      <Component id="spinnerHRMagBase" pref="39" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lblEvaMagBase" min="-2" max="-2" attributes="0"/>
@@ -1091,7 +1121,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="lblEvaFisBase" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="spinnerEvaBase" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="spinnerEvaFisBase" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -1220,14 +1250,14 @@
                     <Component class="javax.swing.JSpinner" name="spinnerHRFisBase">
                       <Properties>
                         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                          <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                          <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
                         </Property>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JSpinner" name="spinnerEvaBase">
+                    <Component class="javax.swing.JSpinner" name="spinnerEvaFisBase">
                       <Properties>
                         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                          <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                          <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
                         </Property>
                       </Properties>
                     </Component>
@@ -1262,14 +1292,14 @@
                     <Component class="javax.swing.JSpinner" name="spinnerCritBase">
                       <Properties>
                         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                          <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                          <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
                         </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JSpinner" name="spinnerMortalBase">
                       <Properties>
                         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                          <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                          <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
                         </Property>
                       </Properties>
                     </Component>
@@ -1357,7 +1387,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lblHRMagNivel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="spinnerHRMagNivel" max="32767" attributes="0"/>
+                                      <Component id="spinnerHRMagNivel" pref="39" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -1539,14 +1569,14 @@
                     <Component class="javax.swing.JSpinner" name="spinnerHRFisNivel">
                       <Properties>
                         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                          <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                          <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
                         </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JSpinner" name="spinnerEvaFisNivel">
                       <Properties>
                         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                          <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                          <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
                         </Property>
                       </Properties>
                     </Component>
@@ -1581,14 +1611,14 @@
                     <Component class="javax.swing.JSpinner" name="spinnerCritNivel">
                       <Properties>
                         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                          <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                          <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
                         </Property>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JSpinner" name="spinnerMortalNivel">
                       <Properties>
                         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                          <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                          <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
                         </Property>
                       </Properties>
                     </Component>
@@ -1859,7 +1889,7 @@
                               <Group type="102" attributes="0">
                                   <Component id="lblCritAP" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="spinnerCrtitAP" max="32767" attributes="0"/>
+                                  <Component id="spinnerCritAP" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -1875,7 +1905,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="lblCritAP" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="spinnerCrtitAP" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="spinnerCritAP" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
@@ -1897,17 +1927,17 @@
                             <Property name="text" type="java.lang.String" value="Mortal"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JSpinner" name="spinnerCrtitAP">
+                        <Component class="javax.swing.JSpinner" name="spinnerCritAP">
                           <Properties>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
                             </Property>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerMortalAP">
                           <Properties>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
                             </Property>
                           </Properties>
                         </Component>
@@ -1950,7 +1980,7 @@
                               <Component id="btnEliminarObjeto" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="245" max="32767" attributes="0"/>
+                      <EmptySpace pref="276" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1976,6 +2006,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Nuevo"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCrearNuevoObjetoActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JPanel" name="panelEditorObjetos">
               <Properties>
@@ -2106,6 +2139,7 @@
                         <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                           <StringArray count="0"/>
                         </Property>
+                        <Property name="selectionMode" type="int" value="0"/>
                       </Properties>
                     </Component>
                   </SubComponents>
@@ -2121,16 +2155,25 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="A&#xf1;adir"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAnadirDesObjetoActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnEditarDesObjeto">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Editar"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarDesObjetoActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnEliminarDesObjeto">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Eliminar descripci&#xf3;n"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarDesObjetoActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnGuardarObjeto">
                   <Properties>
@@ -2171,6 +2214,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Editar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEditarObjetoActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnEliminarObjeto">
               <Properties>
@@ -2955,7 +3001,7 @@
                           <Component id="panelSelectorJoyas" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="panelConfigJoyas" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="239" max="32767" attributes="0"/>
+                      <EmptySpace pref="270" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -4557,7 +4603,7 @@
                               <Component id="btnGuardarConfigGrupos" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="323" max="32767" attributes="0"/>
+                      <EmptySpace pref="354" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -6143,7 +6189,7 @@
                               <Component id="btnEliminarMob" min="-2" pref="96" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="33" max="32767" attributes="0"/>
+                      <EmptySpace pref="64" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -6865,7 +6911,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane4" pref="763" max="32767" attributes="0"/>
+                      <Component id="jScrollPane4" pref="794" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
