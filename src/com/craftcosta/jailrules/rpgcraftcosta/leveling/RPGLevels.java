@@ -50,11 +50,11 @@ public class RPGLevels {
      * @param c
      * @param max_level
      */
-    public RPGLevels(double a, double b,double c, int max_level){
-        this.a= a;
-        this.b= b;
-        this.c= c;
-        this.max_level= max_level;
+    public RPGLevels(double a, double b, double c, int max_level) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+        this.max_level = max_level;
         createTreeLevels();
     }
 
@@ -110,8 +110,6 @@ public class RPGLevels {
         }
     }
 
-    
-
     /**
      *
      * @return
@@ -120,5 +118,4 @@ public class RPGLevels {
         return levels;
     }
 
-    
 }

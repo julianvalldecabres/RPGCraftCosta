@@ -51,9 +51,9 @@ import org.bukkit.event.entity.EntityShootBowEvent;
  *
  * @author jail
  */
-public class CSnowGolem extends EntityMonster implements IRangedEntity{
-    
-     //VARIABLES AÑADIDAS QUE DEFINEN EL TIPO DE MOB
+public class CSnowGolem extends EntityMonster implements IRangedEntity {
+
+    //VARIABLES AÑADIDAS QUE DEFINEN EL TIPO DE MOB
     private AttackType aType;
     private MobBehaviour mType;
     //VARIBLES ATRIBUTOS DEL MOB
@@ -61,7 +61,7 @@ public class CSnowGolem extends EntityMonster implements IRangedEntity{
     /**
      *
      */
-        public Location spawnLoc;
+    public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -73,7 +73,7 @@ public class CSnowGolem extends EntityMonster implements IRangedEntity{
     private float rangedStrength;
     private double followrange;
     private double maxhealth;
-    
+
     /**
      *
      * @param world
@@ -82,7 +82,7 @@ public class CSnowGolem extends EntityMonster implements IRangedEntity{
         super(world);
         this.setSize(0.7F, 1.9F);
         ((Navigation) this.getNavigation()).a(true);
-        this.spawnLoc = new Location(world.getWorld(), 0,4,0);
+        this.spawnLoc = new Location(world.getWorld(), 0, 4, 0);
         //tipos por defecto
         this.attackSpeed = 1.0D;
         this.rangedDamage = 1.0D;
@@ -112,7 +112,7 @@ public class CSnowGolem extends EntityMonster implements IRangedEntity{
         //añadimos los pathfindergoals
         initPathfinderGoals();
     }
-    
+
     /**
      *
      * @param world
@@ -222,20 +222,19 @@ public class CSnowGolem extends EntityMonster implements IRangedEntity{
     }
 
     //Override de IRangedEntity
-
     /**
      *
      * @param entityliving
      * @param f
      */
-        @Override
+    @Override
     public void a(EntityLiving entityliving, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, entityliving, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
         int j = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_KNOCKBACK.id, bA());
 
         entityarrow.b(this.rangedDamage);
-        
+
         if (j > 0) {
             entityarrow.setKnockbackStrength(j);
         }
@@ -256,13 +255,12 @@ public class CSnowGolem extends EntityMonster implements IRangedEntity{
         }
         makeSound("random.bow", 1.0F, 1.0F / (bc().nextFloat() * 0.4F + 0.8F));
     }
-    
-    //METODOS PROPIOS DE ENTITYSNOWMAN
 
+    //METODOS PROPIOS DE ENTITYSNOWMAN
     /**
      *
      */
-        public void m() {
+    public void m() {
         super.m();
     }
 

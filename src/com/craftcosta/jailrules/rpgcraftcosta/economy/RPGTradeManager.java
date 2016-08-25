@@ -15,10 +15,12 @@ public class RPGTradeManager {
 
     private RPGCraftCosta plugin;
     private RPGTradeInventory tinv;
+
     public RPGTradeManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
-        tinv= new RPGTradeInventory(plugin);
+        tinv = new RPGTradeInventory(plugin);
     }
+
     public RPGTradeManager getTradeManager() {
         return this;
     }
@@ -26,6 +28,5 @@ public class RPGTradeManager {
     public RPGTradeInventory getTinv() {
         return tinv;
     }
-    
-    
+
 }

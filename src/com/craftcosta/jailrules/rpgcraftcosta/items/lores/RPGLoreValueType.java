@@ -24,18 +24,15 @@ public enum RPGLoreValueType {
     /**
      *
      */
-    VALUEINT, 
-
+    VALUEINT,
     /**
      *
      */
-    VALUEDOUBLE, 
-
+    VALUEDOUBLE,
     /**
      *
      */
-    PERCENTAGE, 
-
+    PERCENTAGE,
     /**
      *
      */

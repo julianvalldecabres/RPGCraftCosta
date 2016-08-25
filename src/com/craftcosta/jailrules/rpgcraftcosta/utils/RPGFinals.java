@@ -26,7 +26,7 @@ public abstract class RPGFinals {
     /**
      *
      */
-    public final static String itemImagePackage= "/com/craftcosta/jailrules/rpgcraftcosta/gui/logic/resources/items/";
+    public final static String itemImagePackage = "/com/craftcosta/jailrules/rpgcraftcosta/gui/logic/resources/items/";
 
     /**
      *
@@ -36,8 +36,8 @@ public abstract class RPGFinals {
     /**
      *
      */
-    public final static String pluginNameFolder= "RPGCraftCosta"+File.separator;
-    public final static String pluginDataFolder= pluginNameFolder+File.separator+"data"+File.separator;
+    public final static String pluginNameFolder = "RPGCraftCosta" + File.separator;
+    public final static String pluginDataFolder = pluginNameFolder + File.separator + "data" + File.separator;
     /**
      *
      */
@@ -56,7 +56,7 @@ public abstract class RPGFinals {
     /**
      *
      */
-    public final static String dataFolderA = pluginNameFolder+"data"+File.separator;
+    public final static String dataFolderA = pluginNameFolder + "data" + File.separator;
 
     /**
      *
@@ -113,7 +113,7 @@ public abstract class RPGFinals {
      *
      */
     public final static String jewelFilePath = dataFolder + "jewels.yml";
-    public final static String jewelFile= pluginDataFolder + "jewels.yml";
+    public final static String jewelFile = pluginDataFolder + "jewels.yml";
     /**
      *
      */
@@ -124,7 +124,6 @@ public abstract class RPGFinals {
      */
     public final static String weaponsConfigPath = dataFolder + "weaponsConfig.yml";
     public final static String weaponsConfig = pluginDataFolder + "weaponsConfig.yml";
-
 
     /**
      *
@@ -151,12 +150,12 @@ public abstract class RPGFinals {
      *
      */
     public final static String loresFilePath = dataFolder + "lores.yml";
-    public final static String loresFile= pluginDataFolder+"lores.yml";
+    public final static String loresFile = pluginDataFolder + "lores.yml";
     /**
      *
      */
-    public final static String guildsConfigPath = dataFolder + "guildConfig.yml";
-    public final static String guildsConfig = pluginDataFolder + "guildConfig.yml";
+    public final static String guildsConfigPath = dataFolder + "guildsConfig.yml";
+    public final static String guildsConfig = pluginDataFolder + "guildsConfig.yml";
 
     /**
      *
@@ -166,14 +165,14 @@ public abstract class RPGFinals {
     /**
      *
      */
-    public static String spawnersFilePath= dataFolder + "spawners.yml";
+    public static String spawnersFilePath = dataFolder + "spawners.yml";
     public static String spawnersFile = pluginDataFolder + "spawners.yml";
 
     /**
      *
      */
-    public static String entitiesImagePackage= "/com/craftcosta/jailrules/rpgcraftcosta/gui/logic/resources/entities/";
-    public static String globalConfigFilePath= dataFolder + "globalConfig.yml";
-    public static String globalConfigFile= pluginDataFolder + "globalConfig.yml";
-    public static String configFile= pluginDataFolder + "config.yml";
+    public static String entitiesImagePackage = "/com/craftcosta/jailrules/rpgcraftcosta/gui/logic/resources/entities/";
+    public static String globalConfigFilePath = dataFolder + "globalConfig.yml";
+    public static String globalConfigFile = pluginDataFolder + "globalConfig.yml";
+    public static String configFile = pluginDataFolder + "config.yml";
 }

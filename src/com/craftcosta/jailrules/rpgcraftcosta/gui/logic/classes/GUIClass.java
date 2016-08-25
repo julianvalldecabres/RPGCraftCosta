@@ -20,6 +20,7 @@ package com.craftcosta.jailrules.rpgcraftcosta.gui.logic.classes;
  * @author jail
  */
 public class GUIClass {
+
     private String name;
     private boolean enabled;
     private double baseHealth;
@@ -363,8 +364,5 @@ public class GUIClass {
     public void setSPUpIntelligence_MagicAttack(double SPUpIntelligence_MagicAttack) {
         this.SPUpIntelligence_MagicAttack = SPUpIntelligence_MagicAttack;
     }
-    
-    
+
 }
-
-

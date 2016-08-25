@@ -46,7 +46,7 @@ public class RPGTradeCommands implements CommandExecutor, InventoryHolder, Liste
 
     @Override
     public boolean onCommand(final CommandSender cs, Command cmnd, String string, final String[] strings) {
-        
+
         RPGTradeInventory tinv = this.tman.getTinv();
         if (cs instanceof Player) {
             Player p = (Player) cs;
@@ -85,7 +85,7 @@ public class RPGTradeCommands implements CommandExecutor, InventoryHolder, Liste
                                 return true;
                             }
                         }
-                    }else{
+                    } else {
                         p.sendMessage(ChatColor.GOLD + "[TRATO]" + ChatColor.RED + " No tienes ninguna peticion de intercambio actualmente");
                         return true;
                     }
@@ -107,7 +107,7 @@ public class RPGTradeCommands implements CommandExecutor, InventoryHolder, Liste
                                 peticiones.remove(key);
                             }
                         }
-                    }else{
+                    } else {
                         p.sendMessage(ChatColor.GOLD + "[TRATO]" + ChatColor.RED + " No tienes ninguna peticion de intercambio actualmente");
                         return true;
                     }

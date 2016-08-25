@@ -37,7 +37,7 @@ public class ComboBoxRendererItems extends JLabel implements ListCellRenderer {
             int index,
             boolean isSelected,
             boolean cellHasFocus) {
-            //Get the selected index. (The index param isn't
+        //Get the selected index. (The index param isn't
         //always valid, so just use the value.)
         int selectedIndex = ((Integer) value).intValue();
 

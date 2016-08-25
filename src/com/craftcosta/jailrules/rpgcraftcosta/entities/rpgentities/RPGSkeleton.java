@@ -25,10 +25,10 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.SkeletonType;
  *
  * @author jail
  */
-public class RPGSkeleton extends RPGMob{
+public class RPGSkeleton extends RPGMob {
 
     private SkeletonType sType;
-    
+
     /**
      *
      * @param level
@@ -46,10 +46,9 @@ public class RPGSkeleton extends RPGMob{
      * @param rangedstrength
      * @param money
      * @param exp
-     * @param ap
      * @param stype
      */
-    public RPGSkeleton(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap,SkeletonType stype) {
+    public RPGSkeleton(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, SkeletonType stype) {
         this.level = level;
         this.name = name;
         this.type = type;
@@ -66,9 +65,7 @@ public class RPGSkeleton extends RPGMob{
         this.rangedstrength = rangedstrength;
         this.money = money;
         this.exp = exp;
-        this.ap = ap;
-        
-        this.sType= stype;
+        this.sType = stype;
     }
 
     /**
@@ -86,6 +83,5 @@ public class RPGSkeleton extends RPGMob{
     public void setsType(SkeletonType sType) {
         this.sType = sType;
     }
-    
-    
+
 }

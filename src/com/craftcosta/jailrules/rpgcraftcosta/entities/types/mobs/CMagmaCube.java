@@ -122,13 +122,13 @@ public class CMagmaCube extends EntityMonster implements IRangedEntity {
         //añadimos los pathfindergoals
         initPathfinderGoals();
     }
-    
+
     /**
      *
      * @param world
      * @param spawnloc
      */
-    public CMagmaCube(World world,Location spawnloc) {
+    public CMagmaCube(World world, Location spawnloc) {
         super(world);
 
         this.spawnLoc = spawnloc;
@@ -159,7 +159,7 @@ public class CMagmaCube extends EntityMonster implements IRangedEntity {
         //añadimos los pathfindergoals
         initPathfinderGoals();
     }
-    
+
     private void initPathfinderGoals() {
         //default PfG
         this.goalSelector.a(0, new PathfinderGoalFloat(this));
@@ -216,13 +216,12 @@ public class CMagmaCube extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-
     /**
      *
      * @param el
      * @param f
      */
-        @Override
+    @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, this.rangedStrenght, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -265,14 +264,12 @@ public class CMagmaCube extends EntityMonster implements IRangedEntity {
                 return 0;
         }
     }
-    
-    //METODOS PROPIOS DEL ENTITYMAGMACUBE
 
+    //METODOS PROPIOS DEL ENTITYMAGMACUBE
     /**
      *
      * @return
      */
-    
     public int br() {
         return this.getSize() * 3;
     }
@@ -315,7 +312,8 @@ public class CMagmaCube extends EntityMonster implements IRangedEntity {
      * @param f
      * @param f1
      */
-    public void e(float f, float f1) {}
+    public void e(float f, float f1) {
+    }
 
     /**
      *
@@ -324,13 +322,12 @@ public class CMagmaCube extends EntityMonster implements IRangedEntity {
     protected boolean cl() {
         return true;
     }
-    
-    //METODOS DEL ENTITY SLIME
 
+    //METODOS DEL ENTITY SLIME
     /**
      *
      */
-        protected void h() {
+    protected void h() {
         super.h();
         this.datawatcher.a(16, Byte.valueOf((byte) 1));
     }
@@ -447,10 +444,8 @@ public class CMagmaCube extends EntityMonster implements IRangedEntity {
     protected void e(EntityLiving entityliving) {
         int i = this.getSize();
 
-        
-            this.makeSound("mob.attack", 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-            this.a((EntityLiving) this, (Entity) entityliving);
-        
+        this.makeSound("mob.attack", 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+        this.a((EntityLiving) this, (Entity) entityliving);
 
     }
 

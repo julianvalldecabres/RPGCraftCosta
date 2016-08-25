@@ -15,12 +15,32 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.gui;
 
+import com.craftcosta.jailrules.rpgcraftcosta.entities.CustomEntityType;
+import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.GuardianType;
+import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.HorseType;
+import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.HorseVariant;
+import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.OcelotType;
+import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.RabbitType;
+import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.SheepColor;
+import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.SkeletonType;
+import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.VillagerType;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.armor.GUIArmorManager;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.armor.GUISet;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.armor.GUIArmor;
+
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.chat.GUIChatManager;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.classes.GUIClassesManager;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.config.GUIConfigManager;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.entities.EnumTypeDrop;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.entities.GUIMobManager;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.guilds.GUIGuildManager;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.jewels.GUIJewelManager;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.leveling.GUILevelManager;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.objects.GUIItemManager;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.objects.GUIItem;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.parties.GUIPartyManager;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumArmor;
-import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumEntities;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumArmorPart;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumItems;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumPotions;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumWeapon;
@@ -28,6 +48,8 @@ import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumQuality;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumArmorMaterial;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumAttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumBehaviour;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.weapons.GUIWeaponManager;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.weapons.GUIWeapon;
 import com.craftcosta.jailrules.rpgcraftcosta.leveling.RPGLevels;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.awt.BorderLayout;
@@ -52,11 +74,11 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -118,7 +140,14 @@ public class GUI extends JFrame {
     private static GUIConfigManager guiConfigMan;
     private static GUILevelManager guiLevelMan;
     private static GUIClassesManager guiClassMan;
+    private static GUIWeaponManager guiWeaponMan;
+    private static GUIJewelManager guiJewelMan;
+    private static GUIPartyManager guiPartyMan;
+    private static GUIGuildManager guiGuildMan;
+    private static GUIChatManager guiChatMan;
+    private static GUIArmorManager guiArmorMan;
     private static GUIItemManager guiItemMan;
+    private static GUIMobManager guiMobMan;
 
     private static void copy(FileInputStream in, File file) {
         try {
@@ -306,7 +335,7 @@ public class GUI extends JFrame {
             comboMessageColorNewsChat.addItem(color.name());
             comboMessageColorPartyChat.addItem(color.name());
         }
-        String caracteresEspeciales = "#@$%&\\=?¿¡!'*^{}[],;.:-_<>";
+        String caracteresEspeciales = "|#@$%&\\=?¿¡!'*^{}[],;.:-_<>";
         for (int i = 0; i < caracteresEspeciales.length(); i++) {
             comboShortcutMarketChat.addItem(caracteresEspeciales.charAt(i));
             comboShortcutGlobalChat.addItem(caracteresEspeciales.charAt(i));
@@ -368,7 +397,7 @@ public class GUI extends JFrame {
         imagesNames5 = new ArrayList<>();
         images5 = new ArrayList<>();
         List<Integer> intArray5 = new ArrayList<>();
-        for (EnumEntities items : EnumEntities.values()) {
+        for (CustomEntityType items : CustomEntityType.values()) {
             String name5 = items.name().replaceAll("_", " ").toLowerCase();
             intArray5.add(count5);
             imagesNames5.add(name5);
@@ -440,32 +469,40 @@ public class GUI extends JFrame {
         this.comboObjetoJoya.removeAllItems();
         this.comboCalidadJoya.removeAllItems();
 
+        this.comboMejoradorArma.removeAllItems();
+        this.comboMejoradorArmadura.removeAllItems();
+
         ComboBoxRendererWeapons renderer = new ComboBoxRendererWeapons();
-        renderer.setPreferredSize(new Dimension(225, 50));
+        renderer.setPreferredSize(new Dimension(175, 40));
         ComboBoxRendererQualityType renderer2 = new ComboBoxRendererQualityType();
-        renderer2.setPreferredSize(new Dimension(225, 50));
+        renderer2.setPreferredSize(new Dimension(175, 40));
 
         ComboBoxRendererItems renderer3 = new ComboBoxRendererItems();
-        renderer3.setPreferredSize(new Dimension(225, 50));
+        renderer3.setPreferredSize(new Dimension(175, 40));
         ComboBoxRendererQualityType renderer4 = new ComboBoxRendererQualityType();
-        renderer4.setPreferredSize(new Dimension(225, 50));
+        renderer4.setPreferredSize(new Dimension(175, 40));
 
         ComboBoxRendererEntities renderer5 = new ComboBoxRendererEntities();
-        renderer5.setPreferredSize(new Dimension(225, 50));
+        renderer5.setPreferredSize(new Dimension(175, 40));
         ComboBoxRendererBehaviour renderer6 = new ComboBoxRendererBehaviour();
-        renderer6.setPreferredSize(new Dimension(225, 50));
+        renderer6.setPreferredSize(new Dimension(175, 40));
         ComboBoxRendererAttackType renderer7 = new ComboBoxRendererAttackType();
         renderer7.setPreferredSize(new Dimension(225, 50));
 
         ComboBoxRendererQualityType renderer8 = new ComboBoxRendererQualityType();
-        renderer8.setPreferredSize(new Dimension(225, 50));
+        renderer8.setPreferredSize(new Dimension(175, 40));
         ComboBoxRendererArmorMaterial renderer9 = new ComboBoxRendererArmorMaterial();
-        renderer9.setPreferredSize(new Dimension(225, 50));
+        renderer9.setPreferredSize(new Dimension(175, 40));
 
         ComboBoxRendererQualityType renderer10 = new ComboBoxRendererQualityType();
-        renderer10.setPreferredSize(new Dimension(225, 50));
+        renderer10.setPreferredSize(new Dimension(175, 40));
         ComboBoxRendererItems renderer11 = new ComboBoxRendererItems();
-        renderer11.setPreferredSize(new Dimension(225, 50));
+        renderer11.setPreferredSize(new Dimension(175, 40));
+
+        ComboBoxRendererItems renderer12 = new ComboBoxRendererItems();
+        renderer12.setPreferredSize(new Dimension(175, 40));
+        ComboBoxRendererItems renderer13 = new ComboBoxRendererItems();
+        renderer13.setPreferredSize(new Dimension(175, 40));
 
         //ARMAS
         JComboBox tipoarma = (JComboBox) panelEditorArma.getComponent(panelEditorArma.getComponentZOrder(this.comboTipoArma));
@@ -479,6 +516,12 @@ public class GUI extends JFrame {
         calidadarma.setMaximumRowCount(3);
         for (Integer i : intArray8) {
             calidadarma.addItem(i);
+        }
+        JComboBox objetomejoradorarma = (JComboBox) panelMejoraArma.getComponent(panelMejoraArma.getComponentZOrder(this.comboMejoradorArma));
+        objetomejoradorarma.setRenderer(renderer12);
+        objetomejoradorarma.setMaximumRowCount(3);
+        for (Integer i : intArray2) {
+            objetomejoradorarma.addItem(i);
         }
         //OBJETOS
         JComboBox tipoobjeto = (JComboBox) panelEditorObjetos.getComponent(panelEditorObjetos.getComponentZOrder(this.comboTipoObjeto));
@@ -525,6 +568,12 @@ public class GUI extends JFrame {
         for (Integer i : intArray8) {
             calidadarm.addItem(i);
         }
+        JComboBox objetomejoradorarmadura = (JComboBox) panelMejoraArmadura.getComponent(panelMejoraArmadura.getComponentZOrder(this.comboMejoradorArmadura));
+        objetomejoradorarmadura.setRenderer(renderer12);
+        objetomejoradorarmadura.setMaximumRowCount(3);
+        for (Integer i : intArray2) {
+            objetomejoradorarmadura.addItem(i);
+        }
         //JOYAS
         JComboBox tipojoy = (JComboBox) panelEditorJoya.getComponent(panelEditorJoya.getComponentZOrder(this.comboObjetoJoya));
         tipojoy.setRenderer(renderer3);
@@ -539,11 +588,34 @@ public class GUI extends JFrame {
             calidadjoy.addItem(i);
         }
 
+        for (EnumTypeDrop e : EnumTypeDrop.values()) {
+            comboTipoDropMob.addItem(e.name());
+        }
         //Managers
         this.guiConfigMan = new GUIConfigManager(this);
+        this.guiWeaponMan = new GUIWeaponManager(this);
+        this.guiJewelMan = new GUIJewelManager(this);
+        this.guiArmorMan = new GUIArmorManager(this);
         this.guiLevelMan = new GUILevelManager(this);
         this.guiClassMan = new GUIClassesManager(this);
+        this.guiPartyMan = new GUIPartyManager(this);
+        this.guiGuildMan = new GUIGuildManager(this);
+        this.guiChatMan = new GUIChatManager(this);
         this.guiItemMan = new GUIItemManager(this);
+        this.guiMobMan = new GUIMobManager(this);
+        dibujarComponentesMobs();
+    }
+
+    public static GUIWeaponManager getGuiWeaponMan() {
+        return guiWeaponMan;
+    }
+
+    public static GUIArmorManager getGuiArmorMan() {
+        return guiArmorMan;
+    }
+
+    public static GUIItemManager getGuiItemMan() {
+        return guiItemMan;
     }
 
     /**
@@ -557,15 +629,11 @@ public class GUI extends JFrame {
 
         btngroupNumJugGrupo = new javax.swing.ButtonGroup();
         btngroupPvpGrupo = new javax.swing.ButtonGroup();
-        btngroupRepartoGrupo = new javax.swing.ButtonGroup();
         btnGroupOpcionRepartoGrupo = new javax.swing.ButtonGroup();
         btngroupOpcionRepartoPropGrupo = new javax.swing.ButtonGroup();
         btngroupNumJugClan = new javax.swing.ButtonGroup();
         btngroupOpcLimNivelClan = new javax.swing.ButtonGroup();
-        btngroupSistContrClan = new javax.swing.ButtonGroup();
         panelConfig = new javax.swing.JTabbedPane();
-        panelInicio = new javax.swing.JPanel();
-        btnprueba = new javax.swing.JButton();
         panelConfigGeneral = new javax.swing.JPanel();
         panelConfigGeneralGen = new javax.swing.JPanel();
         panelConfigDanioGeneral = new javax.swing.JPanel();
@@ -592,31 +660,34 @@ public class GUI extends JFrame {
         panelConfigDayCycle = new javax.swing.JPanel();
         checkDayCycle = new javax.swing.JCheckBox();
         panelConfigLevel = new javax.swing.JPanel();
-        lblx3Nivel = new javax.swing.JLabel();
-        lblx2Nivel = new javax.swing.JLabel();
-        lblxNivel = new javax.swing.JLabel();
-        lblFdeXNivel = new javax.swing.JLabel();
-        btnValidarFormulaNiveles = new javax.swing.JButton();
-        btnGuardarConfigNiveles = new javax.swing.JButton();
+        jScrollPane13 = new javax.swing.JScrollPane();
+        jPanel1 = new javax.swing.JPanel();
         lblInfoNivel = new javax.swing.JLabel();
         lblInfoNivel2 = new javax.swing.JLabel();
-        btnDibujarGraficoNiveles = new javax.swing.JButton();
-        lblInfoNivelMaxNivel = new javax.swing.JLabel();
+        lblFdeXNivel = new javax.swing.JLabel();
         spinnerX3Nivel = new javax.swing.JSpinner();
+        lblx3Nivel = new javax.swing.JLabel();
         spinnerX2Nivel = new javax.swing.JSpinner();
+        lblx2Nivel = new javax.swing.JLabel();
         spinnerXNivel = new javax.swing.JSpinner();
+        lblxNivel = new javax.swing.JLabel();
+        btnValidarFormulaNiveles = new javax.swing.JButton();
+        btnDibujarGraficoNiveles = new javax.swing.JButton();
+        btnGuardarConfigNiveles = new javax.swing.JButton();
+        lblInfoNivelMaxNivel = new javax.swing.JLabel();
         spinnerMaxNivel = new javax.swing.JSpinner();
+        lblPHxNivel = new javax.swing.JLabel();
+        spinnerPHxNivel = new javax.swing.JSpinner();
         panelGraficosNivel = new javax.swing.JPanel();
         panelNivelExpNivel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaExpNivel = new javax.swing.JTable();
-        lblPHxNivel = new javax.swing.JLabel();
-        spinnerPHxNivel = new javax.swing.JSpinner();
         panelConfigClases = new javax.swing.JPanel();
         comboSelectorClases = new javax.swing.JComboBox();
         btnCrearNuevaClase = new javax.swing.JButton();
         btnEditarClase = new javax.swing.JButton();
         btnEliminarClase = new javax.swing.JButton();
+        jScrollPane11 = new javax.swing.JScrollPane();
         panelEditorClase = new javax.swing.JPanel();
         lblNombreClase = new javax.swing.JLabel();
         panelAtribBasicoClase = new javax.swing.JPanel();
@@ -715,6 +786,7 @@ public class GUI extends JFrame {
         btnEditarObjeto = new javax.swing.JButton();
         btnEliminarObjeto = new javax.swing.JButton();
         panelConfigWeapon = new javax.swing.JPanel();
+        jScrollPane9 = new javax.swing.JScrollPane();
         panelMejoraArma = new javax.swing.JPanel();
         btnGuardarConfigArma = new javax.swing.JButton();
         lblTipoMejoradorArma = new javax.swing.JLabel();
@@ -734,8 +806,9 @@ public class GUI extends JFrame {
         lblProbExitoArma = new javax.swing.JLabel();
         spinnerProbRotArma = new javax.swing.JSpinner();
         spinnerProbDetArma = new javax.swing.JSpinner();
-        spinnerProSEArma = new javax.swing.JSpinner();
-        spinerProbExitoArma = new javax.swing.JSpinner();
+        spinnerProbSEArma = new javax.swing.JSpinner();
+        spinnerProbExitoArma = new javax.swing.JSpinner();
+        jScrollPane10 = new javax.swing.JScrollPane();
         panelSelectorArma = new javax.swing.JPanel();
         btnCrearNuevaArma = new javax.swing.JButton();
         panelEditorArma = new javax.swing.JPanel();
@@ -802,6 +875,9 @@ public class GUI extends JFrame {
         spinnerProbExitoJoya = new javax.swing.JSpinner();
         lblProbExitoJoya = new javax.swing.JLabel();
         btnGuardarConfigJoyas = new javax.swing.JButton();
+        lblProbExitoJoya1 = new javax.swing.JLabel();
+        spinnerProblosepperloreJoya = new javax.swing.JSpinner();
+        jScrollPane12 = new javax.swing.JScrollPane();
         panelSelectorJoyas = new javax.swing.JPanel();
         btnCrearNuevaJoya = new javax.swing.JButton();
         panelEditorJoya = new javax.swing.JPanel();
@@ -846,6 +922,8 @@ public class GUI extends JFrame {
         spinnerHRMagJoya = new javax.swing.JSpinner();
         spinnerDefMagJoya = new javax.swing.JSpinner();
         btnGuardarJoya = new javax.swing.JButton();
+        lblPrecioCJoya1 = new javax.swing.JLabel();
+        spinnerCritJoya = new javax.swing.JSpinner();
         comboSelectorJoyas = new javax.swing.JComboBox();
         btnEditarJoya = new javax.swing.JButton();
         btnEliminarJoya = new javax.swing.JButton();
@@ -879,21 +957,18 @@ public class GUI extends JFrame {
         btnResetSpawner = new javax.swing.JButton();
         btnCrearSpawner = new javax.swing.JButton();
         panelConfigGuilds = new javax.swing.JPanel();
-        btnResetConfigClan = new javax.swing.JButton();
         btnGuardarConfigClan = new javax.swing.JButton();
         panelConfigClanes = new javax.swing.JPanel();
         panelNumJugClan = new javax.swing.JPanel();
-        rdBtnNumIlimitadosClan = new javax.swing.JRadioButton();
         rdBtnNumFijosClan = new javax.swing.JRadioButton();
         rdBtnLimitNivClan = new javax.swing.JRadioButton();
         spinnerNumFijosClan = new javax.swing.JSpinner();
         lblJugadoresClan = new javax.swing.JLabel();
         panelSisContNivelClan = new javax.swing.JPanel();
-        rdBtnContriSoloDon = new javax.swing.JRadioButton();
-        rdBtnContriSoloContri = new javax.swing.JRadioButton();
-        rdBtnContriAmbos = new javax.swing.JRadioButton();
         spinnerContriPorcentajeMuertes = new javax.swing.JSpinner();
         lblporcMuertesClan = new javax.swing.JLabel();
+        checkDonationClan = new javax.swing.JCheckBox();
+        checkContributionClan = new javax.swing.JCheckBox();
         lblnivMinJugCrearClan = new javax.swing.JLabel();
         spinnerNivelMinJugClan = new javax.swing.JSpinner();
         panelOpcLimNivelClan = new javax.swing.JPanel();
@@ -925,7 +1000,6 @@ public class GUI extends JFrame {
         spinnerNumJugEditClan = new javax.swing.JSpinner();
         panelConfigParties = new javax.swing.JPanel();
         btnGuardarConfigGrupos = new javax.swing.JButton();
-        btnResetConfigGrupos = new javax.swing.JButton();
         panelConfigGrupos = new javax.swing.JPanel();
         panelNumJugGrupos = new javax.swing.JPanel();
         spinnerNumeroFijoJugGrupo = new javax.swing.JSpinner();
@@ -936,10 +1010,8 @@ public class GUI extends JFrame {
         rdBtnPermitidoPvpGrupo = new javax.swing.JRadioButton();
         rdBtnNoPermitidoPvpGrupo = new javax.swing.JRadioButton();
         panelSistRepGrupos = new javax.swing.JPanel();
-        rdBtnSinRepartoGrupo = new javax.swing.JRadioButton();
-        rdBtnSoloDineroGrupo = new javax.swing.JRadioButton();
-        rdBtnSoloExpGrupo = new javax.swing.JRadioButton();
-        rdBtnAmbosGrupo = new javax.swing.JRadioButton();
+        checkDineroGrupo = new javax.swing.JCheckBox();
+        checkExpGrupo = new javax.swing.JCheckBox();
         panelOpcRepGRupos = new javax.swing.JPanel();
         rdBtnOpcionigualitarioGrupo = new javax.swing.JRadioButton();
         rdBtnOpcionProporcionalGrupo = new javax.swing.JRadioButton();
@@ -1061,6 +1133,7 @@ public class GUI extends JFrame {
         btnNuevoMob = new javax.swing.JButton();
         btnEditMob = new javax.swing.JButton();
         btnEliminarMob = new javax.swing.JButton();
+        jScrollPane14 = new javax.swing.JScrollPane();
         panelEditorMobs = new javax.swing.JPanel();
         lblNombreMob = new javax.swing.JLabel();
         txtNombreMob = new javax.swing.JTextField();
@@ -1111,6 +1184,13 @@ public class GUI extends JFrame {
         spinnerAtaFisMob = new javax.swing.JSpinner();
         lblTipoMob = new javax.swing.JLabel();
         comboSelectorTipoMob = new javax.swing.JComboBox();
+        PanelAtributosMob = new javax.swing.JPanel();
+        checkAtribMob1 = new javax.swing.JCheckBox();
+        checkAtribMob2 = new javax.swing.JCheckBox();
+        comboAtribMob1 = new javax.swing.JComboBox();
+        lblAtribMob1 = new javax.swing.JLabel();
+        lblAtribMob2 = new javax.swing.JLabel();
+        comboAtribMob2 = new javax.swing.JComboBox();
         panelConfChats = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         panelConfigChats = new javax.swing.JPanel();
@@ -1200,27 +1280,17 @@ public class GUI extends JFrame {
         btngroupPvpGrupo.add(rdBtnPermitidoPvpGrupo);
         btngroupPvpGrupo.add(rdBtnNoPermitidoPvpGrupo);
 
-        btngroupRepartoGrupo.add(rdBtnSinRepartoGrupo);
-        btngroupRepartoGrupo.add(rdBtnSoloDineroGrupo);
-        btngroupRepartoGrupo.add(rdBtnSoloExpGrupo);
-        btngroupRepartoGrupo.add(rdBtnAmbosGrupo);
-
         btnGroupOpcionRepartoGrupo.add(rdBtnOpcionigualitarioGrupo);
         btnGroupOpcionRepartoGrupo.add(rdBtnOpcionProporcionalGrupo);
 
         btngroupOpcionRepartoPropGrupo.add(rdBtnProNivelGrupo);
         btngroupOpcionRepartoPropGrupo.add(rdBtnProKillsGrupo);
 
-        btngroupNumJugClan.add(rdBtnNumIlimitadosClan);
         btngroupNumJugClan.add(rdBtnNumFijosClan);
         btngroupNumJugClan.add(rdBtnLimitNivClan);
 
         btngroupOpcLimNivelClan.add(rdBtnOpcDinFijo);
         btngroupOpcLimNivelClan.add(rdBtnOpcDinForm);
-
-        btngroupSistContrClan.add(rdBtnContriAmbos);
-        btngroupSistContrClan.add(rdBtnContriSoloContri);
-        btngroupSistContrClan.add(rdBtnContriSoloDon);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1000, 800));
@@ -1235,34 +1305,6 @@ public class GUI extends JFrame {
         panelConfig.setMinimumSize(new java.awt.Dimension(800, 500));
         panelConfig.setPreferredSize(new java.awt.Dimension(1000, 600));
 
-        panelInicio.setPreferredSize(new java.awt.Dimension(800, 600));
-
-        btnprueba.setText("jButton2");
-        btnprueba.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnpruebaActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panelInicioLayout = new javax.swing.GroupLayout(panelInicio);
-        panelInicio.setLayout(panelInicioLayout);
-        panelInicioLayout.setHorizontalGroup(
-            panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelInicioLayout.createSequentialGroup()
-                .addGap(122, 122, 122)
-                .addComponent(btnprueba)
-                .addContainerGap(619, Short.MAX_VALUE))
-        );
-        panelInicioLayout.setVerticalGroup(
-            panelInicioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelInicioLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(btnprueba)
-                .addContainerGap(533, Short.MAX_VALUE))
-        );
-
-        panelConfig.addTab("Inicio", panelInicio);
-
         panelConfigGeneral.setPreferredSize(new java.awt.Dimension(800, 600));
 
         panelConfigGeneralGen.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración general"));
@@ -1276,6 +1318,11 @@ public class GUI extends JFrame {
         checkDanioAhogo.setText("Daño por ahogamiento");
 
         checkDanioPvp.setText("Habilitar/Deshabilitar PvP");
+        checkDanioPvp.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                checkDanioPvpStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelConfigDanioGeneralLayout = new javax.swing.GroupLayout(panelConfigDanioGeneral);
         panelConfigDanioGeneral.setLayout(panelConfigDanioGeneralLayout);
@@ -1499,30 +1546,48 @@ public class GUI extends JFrame {
             .addGroup(panelConfigGeneralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panelConfigGeneralGen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(306, Short.MAX_VALUE))
+                .addContainerGap(419, Short.MAX_VALUE))
         );
         panelConfigGeneralLayout.setVerticalGroup(
             panelConfigGeneralLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConfigGeneralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panelConfigGeneralGen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(243, Short.MAX_VALUE))
+                .addContainerGap(291, Short.MAX_VALUE))
         );
 
         panelConfig.addTab("General", panelConfigGeneral);
 
+        lblInfoNivel.setText("Para crear una formula de niveles rellenar los huecos con números, acepta decimales");
+
+        lblInfoNivel2.setText("El resultado de la formula representa el total de experiencia que necesita el jugador para alcanzar el nivel X");
+
+        lblFdeXNivel.setText("f(x)=");
+
+        spinnerX3Nivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerX3Nivel.setAutoscrolls(true);
+
         lblx3Nivel.setText("x³+");
+
+        spinnerX2Nivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
         lblx2Nivel.setText("x²+");
 
-        lblxNivel.setText("x");
+        spinnerXNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
-        lblFdeXNivel.setText("f(x)=");
+        lblxNivel.setText("x");
 
         btnValidarFormulaNiveles.setText("Validar");
         btnValidarFormulaNiveles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnValidarFormulaNivelesActionPerformed(evt);
+            }
+        });
+
+        btnDibujarGraficoNiveles.setText("Dibujar gráfico");
+        btnDibujarGraficoNiveles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDibujarGraficoNivelesActionPerformed(evt);
             }
         });
 
@@ -1533,25 +1598,7 @@ public class GUI extends JFrame {
             }
         });
 
-        lblInfoNivel.setText("Para crear una formula de niveles rellenar los huecos con números, acepta decimales");
-
-        lblInfoNivel2.setText("El resultado de la formula representa el total de experiencia que necesita el jugador para alcanzar el nivel X");
-
-        btnDibujarGraficoNiveles.setText("Dibujar gráfico");
-        btnDibujarGraficoNiveles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDibujarGraficoNivelesActionPerformed(evt);
-            }
-        });
-
         lblInfoNivelMaxNivel.setText("Selecciona el nivel máximo que el jugador alcanzará");
-
-        spinnerX3Nivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
-        spinnerX3Nivel.setAutoscrolls(true);
-
-        spinnerX2Nivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
-
-        spinnerXNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
 
         spinnerMaxNivel.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
         spinnerMaxNivel.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -1559,6 +1606,10 @@ public class GUI extends JFrame {
                 spinnerMaxNivelPropertyChange(evt);
             }
         });
+
+        lblPHxNivel.setText("Puntos de habilidad por nivel alcanzado");
+
+        spinnerPHxNivel.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
 
         panelGraficosNivel.setBorder(javax.swing.BorderFactory.createTitledBorder("Gráfico"));
 
@@ -1570,7 +1621,7 @@ public class GUI extends JFrame {
         );
         panelGraficosNivelLayout.setVerticalGroup(
             panelGraficosNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 397, Short.MAX_VALUE)
         );
 
         panelNivelExpNivel.setBorder(javax.swing.BorderFactory.createTitledBorder("Tabla de experiencia"));
@@ -1592,20 +1643,97 @@ public class GUI extends JFrame {
             panelNivelExpNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelNivelExpNivelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelNivelExpNivelLayout.setVerticalGroup(
             panelNivelExpNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelNivelExpNivelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        lblPHxNivel.setText("Puntos de habilidad por nivel alcanzado");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lblInfoNivel)
+                        .addComponent(lblInfoNivel2)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(lblFdeXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(spinnerX3Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lblx3Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(spinnerX2Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lblx2Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(spinnerXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lblxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnValidarFormulaNiveles, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnDibujarGraficoNiveles, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnGuardarConfigNiveles, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(lblInfoNivelMaxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(spinnerMaxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(lblPHxNivel)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(spinnerPHxNivel)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(panelGraficosNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelNivelExpNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblInfoNivel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblInfoNivel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFdeXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerX3Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblx3Nivel)
+                    .addComponent(spinnerX2Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblx2Nivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(spinnerXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblxNivel)
+                    .addComponent(btnValidarFormulaNiveles)
+                    .addComponent(btnDibujarGraficoNiveles)
+                    .addComponent(btnGuardarConfigNiveles))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblInfoNivelMaxNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(spinnerMaxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPHxNivel)
+                    .addComponent(spinnerPHxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(panelNivelExpNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(478, 478, 478))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(panelGraficosNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
 
-        spinnerPHxNivel.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        jScrollPane13.setViewportView(jPanel1);
 
         javax.swing.GroupLayout panelConfigLevelLayout = new javax.swing.GroupLayout(panelConfigLevel);
         panelConfigLevel.setLayout(panelConfigLevelLayout);
@@ -1613,84 +1741,15 @@ public class GUI extends JFrame {
             panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConfigLevelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelConfigLevelLayout.createSequentialGroup()
-                        .addComponent(lblInfoNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(177, 177, 177))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigLevelLayout.createSequentialGroup()
-                        .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(panelConfigLevelLayout.createSequentialGroup()
-                                .addComponent(panelGraficosNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(panelNivelExpNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(panelConfigLevelLayout.createSequentialGroup()
-                                .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panelConfigLevelLayout.createSequentialGroup()
-                                        .addComponent(lblFdeXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(spinnerX3Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(lblx3Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(spinnerX2Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(lblInfoNivelMaxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panelConfigLevelLayout.createSequentialGroup()
-                                        .addComponent(lblx2Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(spinnerXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lblxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnValidarFormulaNiveles, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnDibujarGraficoNiveles, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnGuardarConfigNiveles, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(panelConfigLevelLayout.createSequentialGroup()
-                                        .addComponent(spinnerMaxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(lblPHxNivel)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(spinnerPHxNivel)))
-                                .addGap(184, 184, 184)))
-                        .addGap(18, 18, 18))
-                    .addComponent(lblInfoNivel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 907, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelConfigLevelLayout.setVerticalGroup(
             panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConfigLevelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblInfoNivel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblInfoNivel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblFdeXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(spinnerX3Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblx3Nivel)
-                        .addComponent(spinnerX2Nivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblx2Nivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(spinnerXNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblxNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnValidarFormulaNiveles)
-                        .addComponent(btnDibujarGraficoNiveles)
-                        .addComponent(btnGuardarConfigNiveles)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblInfoNivelMaxNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(spinnerMaxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPHxNivel)
-                    .addComponent(spinnerPHxNivel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelNivelExpNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelGraficosNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(67, 67, 67))
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         panelConfig.addTab("Niveles", panelConfigLevel);
@@ -1781,56 +1840,39 @@ public class GUI extends JFrame {
             panelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
                 .addGroup(panelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
-                        .addComponent(lblVidaBase)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerMaxVidaBase))
-                    .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
-                        .addComponent(lblManaBase)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerMaxManaBase))
-                    .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
-                        .addComponent(lblDefFisBase)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerDefFisBase))
-                    .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
-                        .addComponent(lblAtaFisBase)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerAtaFisBase))
-                    .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
-                        .addComponent(lblHRFisBase)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerHRFisBase))
-                    .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
-                        .addComponent(lblEvaFisBase)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerEvaFisBase))
-                    .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
-                        .addComponent(lblAtaMagBase)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerAtaMagBase))
-                    .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
-                        .addComponent(lblDefMagBase)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerDefMagBase))
-                    .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
-                        .addComponent(lblHRMagBase)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerHRMagBase, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE))
-                    .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
-                        .addComponent(lblEvaMagBase)
-                        .addGap(12, 12, 12)
-                        .addComponent(spinnerEvaMagBase))
-                    .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
-                        .addComponent(lblMortalBase)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerMortalBase))
-                    .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
-                        .addComponent(lblCritBase)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerCritBase)))
+                    .addComponent(lblVidaBase)
+                    .addComponent(lblManaBase)
+                    .addComponent(lblAtaFisBase)
+                    .addComponent(lblDefFisBase)
+                    .addComponent(lblHRFisBase)
+                    .addComponent(lblEvaFisBase)
+                    .addComponent(lblAtaMagBase)
+                    .addComponent(lblDefMagBase)
+                    .addComponent(lblHRMagBase)
+                    .addComponent(lblEvaMagBase)
+                    .addComponent(lblCritBase)
+                    .addComponent(lblMortalBase))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spinnerMaxVidaBase, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerMaxManaBase, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerAtaFisBase, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerDefFisBase, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerHRFisBase, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerEvaFisBase, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerAtaMagBase, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerDefMagBase, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerMortalBase, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerCritBase, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerEvaMagBase, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerHRMagBase, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
+
+        panelAtribBasicoClaseLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblAtaFisBase, lblAtaMagBase, lblCritBase, lblDefFisBase, lblDefMagBase, lblEvaFisBase, lblEvaMagBase, lblHRFisBase, lblHRMagBase, lblManaBase, lblMortalBase, lblVidaBase});
+
+        panelAtribBasicoClaseLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {spinnerAtaFisBase, spinnerAtaMagBase, spinnerCritBase, spinnerDefFisBase, spinnerDefMagBase, spinnerEvaFisBase, spinnerEvaMagBase, spinnerHRFisBase, spinnerHRMagBase, spinnerMaxManaBase, spinnerMaxVidaBase, spinnerMortalBase});
+
         panelAtribBasicoClaseLayout.setVerticalGroup(
             panelAtribBasicoClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAtribBasicoClaseLayout.createSequentialGroup()
@@ -1884,6 +1926,10 @@ public class GUI extends JFrame {
                     .addComponent(spinnerMortalBase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        panelAtribBasicoClaseLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblAtaFisBase, lblAtaMagBase, lblCritBase, lblDefFisBase, lblDefMagBase, lblEvaFisBase, lblEvaMagBase, lblHRFisBase, lblHRMagBase, lblManaBase, lblMortalBase, lblVidaBase});
+
+        panelAtribBasicoClaseLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {spinnerAtaFisBase, spinnerAtaMagBase, spinnerCritBase, spinnerDefFisBase, spinnerDefMagBase, spinnerEvaFisBase, spinnerEvaMagBase, spinnerHRFisBase, spinnerHRMagBase, spinnerMaxManaBase, spinnerMaxVidaBase, spinnerMortalBase});
 
         checkEnableClase.setText("Habilitado/Deshabilitado");
 
@@ -1952,59 +1998,39 @@ public class GUI extends JFrame {
             panelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSubirNivelLayout.createSequentialGroup()
                 .addGroup(panelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelSubirNivelLayout.createSequentialGroup()
-                        .addComponent(lblAtaFisNivel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerAtaFisNivel))
-                    .addGroup(panelSubirNivelLayout.createSequentialGroup()
-                        .addComponent(lblDefFisNivel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerDefFisNivel))
-                    .addGroup(panelSubirNivelLayout.createSequentialGroup()
-                        .addComponent(lblHRFisNivel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerHRFisNivel))
-                    .addGroup(panelSubirNivelLayout.createSequentialGroup()
-                        .addComponent(lblEvaFisNivel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerEvaFisNivel))
-                    .addGroup(panelSubirNivelLayout.createSequentialGroup()
-                        .addComponent(lblAtaMagNivel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerAtaMagNivel))
-                    .addGroup(panelSubirNivelLayout.createSequentialGroup()
-                        .addComponent(lblEvaMagNivel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerEvaMagNivel))
-                    .addGroup(panelSubirNivelLayout.createSequentialGroup()
-                        .addComponent(lblCritNivel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerCritNivel))
-                    .addGroup(panelSubirNivelLayout.createSequentialGroup()
-                        .addComponent(lblMortalNivel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerMortalNivel))
-                    .addGroup(panelSubirNivelLayout.createSequentialGroup()
-                        .addComponent(lblDefMagNivel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerDefMagNivel))
-                    .addGroup(panelSubirNivelLayout.createSequentialGroup()
-                        .addComponent(lblHRMagNivel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerHRMagNivel, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)))
+                    .addComponent(lblVidaNivel)
+                    .addComponent(lblManaNivel)
+                    .addComponent(lblAtaFisNivel)
+                    .addComponent(lblDefFisNivel)
+                    .addComponent(lblHRFisNivel)
+                    .addComponent(lblEvaFisNivel)
+                    .addComponent(lblAtaMagNivel)
+                    .addComponent(lblDefMagNivel)
+                    .addComponent(lblHRMagNivel)
+                    .addComponent(lblEvaMagNivel)
+                    .addComponent(lblCritNivel)
+                    .addComponent(lblMortalNivel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spinnerVidaNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerManaNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerAtaFisNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerDefFisNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerHRFisNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerMortalNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerCritNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerEvaMagNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerHRMagNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerDefMagNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerAtaMagNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerEvaFisNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSubirNivelLayout.createSequentialGroup()
-                .addGroup(panelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelSubirNivelLayout.createSequentialGroup()
-                        .addComponent(lblManaNivel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerManaNivel))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelSubirNivelLayout.createSequentialGroup()
-                        .addComponent(lblVidaNivel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spinnerVidaNivel)))
-                .addGap(10, 10, 10))
         );
+
+        panelSubirNivelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {spinnerAtaFisNivel, spinnerAtaMagNivel, spinnerCritNivel, spinnerDefFisNivel, spinnerDefMagNivel, spinnerEvaFisNivel, spinnerEvaMagNivel, spinnerHRFisNivel, spinnerHRMagNivel, spinnerManaNivel, spinnerMortalNivel, spinnerVidaNivel});
+
+        panelSubirNivelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblAtaFisNivel, lblAtaMagNivel, lblCritNivel, lblDefFisNivel, lblDefMagNivel, lblEvaFisNivel, lblEvaMagNivel, lblHRFisNivel, lblHRMagNivel, lblManaNivel, lblMortalNivel, lblVidaNivel});
+
         panelSubirNivelLayout.setVerticalGroup(
             panelSubirNivelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSubirNivelLayout.createSequentialGroup()
@@ -2059,6 +2085,8 @@ public class GUI extends JFrame {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
+        panelSubirNivelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblAtaFisNivel, lblAtaMagNivel, lblCritNivel, lblDefFisNivel, lblDefMagNivel, lblEvaFisNivel, lblEvaMagNivel, lblHRFisNivel, lblHRMagNivel, lblManaNivel, lblMortalNivel, lblVidaNivel});
+
         panelPuntoHabilidad.setBorder(javax.swing.BorderFactory.createTitledBorder("Incremento de atributos por punto de habilidad"));
 
         panelHabFuerza.setBorder(javax.swing.BorderFactory.createTitledBorder("Punto de habilidad de fuerza"));
@@ -2077,15 +2105,12 @@ public class GUI extends JFrame {
             panelHabFuerzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelHabFuerzaLayout.createSequentialGroup()
                 .addGroup(panelHabFuerzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelHabFuerzaLayout.createSequentialGroup()
-                        .addComponent(lblVidaAP)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerVidaAP))
-                    .addGroup(panelHabFuerzaLayout.createSequentialGroup()
-                        .addComponent(lblAtaFisAP)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerAtaFisAP)))
-                .addContainerGap())
+                    .addComponent(lblAtaFisAP)
+                    .addComponent(lblVidaAP))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelHabFuerzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spinnerVidaAP)
+                    .addComponent(spinnerAtaFisAP)))
         );
         panelHabFuerzaLayout.setVerticalGroup(
             panelHabFuerzaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2115,15 +2140,12 @@ public class GUI extends JFrame {
             panelHabConstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelHabConstLayout.createSequentialGroup()
                 .addGroup(panelHabConstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelHabConstLayout.createSequentialGroup()
-                        .addComponent(lblVidaAP2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerVidaAP2))
-                    .addGroup(panelHabConstLayout.createSequentialGroup()
-                        .addComponent(lblManaAP)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerManaAP)))
-                .addContainerGap())
+                    .addComponent(lblManaAP)
+                    .addComponent(lblVidaAP2))
+                .addGap(28, 28, 28)
+                .addGroup(panelHabConstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spinnerVidaAP2)
+                    .addComponent(spinnerManaAP)))
         );
         panelHabConstLayout.setVerticalGroup(
             panelHabConstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2153,15 +2175,12 @@ public class GUI extends JFrame {
             panelHabIntLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelHabIntLayout.createSequentialGroup()
                 .addGroup(panelHabIntLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelHabIntLayout.createSequentialGroup()
-                        .addComponent(lblManaAP2)
-                        .addGap(10, 10, 10)
-                        .addComponent(spinnerManaAP2))
-                    .addGroup(panelHabIntLayout.createSequentialGroup()
-                        .addComponent(lblAtaMagAP)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(spinnerAtaMagAP)))
-                .addContainerGap())
+                    .addComponent(lblAtaMagAP)
+                    .addComponent(lblManaAP2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelHabIntLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spinnerManaAP2, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                    .addComponent(spinnerAtaMagAP)))
         );
         panelHabIntLayout.setVerticalGroup(
             panelHabIntLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2190,15 +2209,15 @@ public class GUI extends JFrame {
         panelHabDestLayout.setHorizontalGroup(
             panelHabDestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelHabDestLayout.createSequentialGroup()
-                .addComponent(lblCritAP)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(spinnerCritAP)
-                .addGap(17, 17, 17))
-            .addGroup(panelHabDestLayout.createSequentialGroup()
-                .addComponent(lblMortalAP)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(spinnerMortalAP)
-                .addGap(16, 16, 16))
+                .addGroup(panelHabDestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblCritAP)
+                    .addComponent(lblMortalAP))
+                .addGap(18, 18, 18)
+                .addGroup(panelHabDestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelHabDestLayout.createSequentialGroup()
+                        .addComponent(spinnerCritAP)
+                        .addGap(1, 1, 1))
+                    .addComponent(spinnerMortalAP)))
         );
         panelHabDestLayout.setVerticalGroup(
             panelHabDestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2242,8 +2261,8 @@ public class GUI extends JFrame {
                 .addContainerGap()
                 .addGroup(panelEditorClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelEditorClaseLayout.createSequentialGroup()
-                        .addComponent(panelAtribBasicoClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(2, 2, 2)
+                        .addComponent(panelAtribBasicoClase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(panelSubirNivel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(panelEditorClaseLayout.createSequentialGroup()
                         .addComponent(lblNombreClase, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2257,9 +2276,11 @@ public class GUI extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnGuardarClase, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnResetClase, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                        .addGap(28, 28, 28))
-                    .addComponent(panelPuntoHabilidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnResetClase, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE))
+                    .addGroup(panelEditorClaseLayout.createSequentialGroup()
+                        .addComponent(panelPuntoHabilidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         panelEditorClaseLayout.setVerticalGroup(
             panelEditorClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2271,14 +2292,14 @@ public class GUI extends JFrame {
                     .addComponent(btnGuardarClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnResetClase))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelEditorClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(panelPuntoHabilidad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelEditorClaseLayout.createSequentialGroup()
-                        .addGroup(panelEditorClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(panelAtribBasicoClase, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelSubirNivel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 5, Short.MAX_VALUE))))
+                .addGroup(panelEditorClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(panelAtribBasicoClase, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelSubirNivel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelPuntoHabilidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 156, Short.MAX_VALUE))
         );
+
+        jScrollPane11.setViewportView(panelEditorClase);
 
         javax.swing.GroupLayout panelConfigClasesLayout = new javax.swing.GroupLayout(panelConfigClases);
         panelConfigClases.setLayout(panelConfigClasesLayout);
@@ -2287,7 +2308,7 @@ public class GUI extends JFrame {
             .addGroup(panelConfigClasesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelConfigClasesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelEditorClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE)
                     .addGroup(panelConfigClasesLayout.createSequentialGroup()
                         .addComponent(btnCrearNuevaClase, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2308,8 +2329,8 @@ public class GUI extends JFrame {
                     .addComponent(btnEliminarClase)
                     .addComponent(btnCrearNuevaClase))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelEditorClase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         panelConfig.addTab("Clases", panelConfigClases);
@@ -2460,7 +2481,7 @@ public class GUI extends JFrame {
                         .addComponent(btnEditarObjeto)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEliminarObjeto)))
-                .addContainerGap(276, Short.MAX_VALUE))
+                .addContainerGap(389, Short.MAX_VALUE))
         );
         panelConfigObjetosLayout.setVerticalGroup(
             panelConfigObjetosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2473,7 +2494,7 @@ public class GUI extends JFrame {
                     .addComponent(btnEliminarObjeto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelEditorObjetos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(231, Short.MAX_VALUE))
+                .addContainerGap(279, Short.MAX_VALUE))
         );
 
         panelConfig.addTab("Objetos", panelConfigObjetos);
@@ -2483,6 +2504,11 @@ public class GUI extends JFrame {
         panelMejoraArma.setBorder(javax.swing.BorderFactory.createTitledBorder("Mejora de armas"));
 
         btnGuardarConfigArma.setText("Guardar");
+        btnGuardarConfigArma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarConfigArmaActionPerformed(evt);
+            }
+        });
 
         lblTipoMejoradorArma.setText("Objeto mejorador");
 
@@ -2523,100 +2549,115 @@ public class GUI extends JFrame {
 
         lblProbExitoArma.setText("Probabilidad de exito");
 
+        spinnerProbRotArma.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+
+        spinnerProbDetArma.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+
+        spinnerProbSEArma.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+
+        spinnerProbExitoArma.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+
         javax.swing.GroupLayout panelMejoraArmaLayout = new javax.swing.GroupLayout(panelMejoraArma);
         panelMejoraArma.setLayout(panelMejoraArmaLayout);
         panelMejoraArmaLayout.setHorizontalGroup(
             panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMejoraArmaLayout.createSequentialGroup()
+            .addGroup(panelMejoraArmaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnGuardarConfigArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelMejoraArmaLayout.createSequentialGroup()
                         .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblNomMejoraArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblTipoMejoradorArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblDescripcionArma, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(comboMejoradorArma, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtNombreObjetoMejArma)
-                            .addComponent(txtDescripcionArma, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelMejoraArmaLayout.createSequentialGroup()
-                        .addComponent(btnAnadirDescArma)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnEditarDEscArma, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnEliminarDescArma, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelMejoraArmaLayout.createSequentialGroup()
-                        .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lblProbSEArma, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                            .addComponent(lblProbExitoArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(panelMejoraArmaLayout.createSequentialGroup()
+                                .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lblNomMejoraArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblTipoMejoradorArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblDescripcionArma, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(comboMejoradorArma, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtNombreObjetoMejArma)
+                                    .addComponent(txtDescripcionArma, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelMejoraArmaLayout.createSequentialGroup()
+                                .addComponent(btnAnadirDescArma)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnEditarDEscArma, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnEliminarDescArma, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(spinerProbExitoArma, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(spinnerProSEArma, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelMejoraArmaLayout.createSequentialGroup()
-                        .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(lblProbSEArma, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+                                .addComponent(lblProbExitoArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(lblProbRotArma, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblProbDetArma, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(spinnerProbExitoArma, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(spinnerProbRotArma, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(spinnerProbDetArma, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnGuardarConfigArma, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                            .addComponent(spinnerProbDetArma, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(spinnerProbSEArma, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(132, 132, 132))
         );
+
+        panelMejoraArmaLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {spinnerProbDetArma, spinnerProbExitoArma, spinnerProbRotArma, spinnerProbSEArma});
+
         panelMejoraArmaLayout.setVerticalGroup(
             panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMejoraArmaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(panelMejoraArmaLayout.createSequentialGroup()
-                            .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblProbRotArma)
-                                .addComponent(spinnerProbRotArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(9, 9, 9)
-                            .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(spinnerProbDetArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblProbDetArma, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(panelMejoraArmaLayout.createSequentialGroup()
-                            .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblNomMejoraArma)
-                                .addComponent(txtNombreObjetoMejArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(comboMejoradorArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblTipoMejoradorArma))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblDescripcionArma)
-                                .addComponent(txtDescripcionArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnAnadirDescArma)
-                                .addComponent(btnEditarDEscArma)
-                                .addComponent(btnEliminarDescArma)))
-                        .addGroup(panelMejoraArmaLayout.createSequentialGroup()
-                            .addGap(57, 57, 57)
-                            .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblProbSEArma)
-                                .addComponent(spinnerProSEArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(spinerProbExitoArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblProbExitoArma))))))
-            .addComponent(btnGuardarConfigArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMejoraArmaLayout.createSequentialGroup()
+                        .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblProbRotArma)
+                            .addComponent(spinnerProbRotArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)
+                        .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(spinnerProbDetArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblProbDetArma, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMejoraArmaLayout.createSequentialGroup()
+                        .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNomMejoraArma)
+                            .addComponent(txtNombreObjetoMejArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(comboMejoradorArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblTipoMejoradorArma))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblDescripcionArma)
+                            .addComponent(txtDescripcionArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAnadirDescArma)
+                            .addComponent(btnEditarDEscArma)
+                            .addComponent(btnEliminarDescArma)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMejoraArmaLayout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblProbSEArma)
+                            .addComponent(spinnerProbSEArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelMejoraArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(spinnerProbExitoArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblProbExitoArma))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGuardarConfigArma)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
+
+        jScrollPane9.setViewportView(panelMejoraArma);
 
         panelSelectorArma.setBorder(javax.swing.BorderFactory.createTitledBorder("Selector de armas"));
 
         btnCrearNuevaArma.setText("Nueva");
+        btnCrearNuevaArma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearNuevaArmaActionPerformed(evt);
+            }
+        });
 
         panelEditorArma.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de armas"));
 
@@ -2675,6 +2716,11 @@ public class GUI extends JFrame {
         lblMejRoboMArma.setText("Mejora robo de maná");
 
         btnGuardarArma.setText("Guardar");
+        btnGuardarArma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarArmaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelEditorArmaLayout = new javax.swing.GroupLayout(panelEditorArma);
         panelEditorArma.setLayout(panelEditorArmaLayout);
@@ -2707,9 +2753,9 @@ public class GUI extends JFrame {
                                     .addComponent(lblTipoArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(panelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(comboTipoArma, 0, 150, Short.MAX_VALUE)
+                                    .addComponent(comboTipoArma, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(txtNombreArma)
-                                    .addComponent(spinnerNivelMinArma)
+                                    .addComponent(spinnerNivelMinArma, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
                                     .addComponent(spinnerNivelIniArma)
                                     .addComponent(comboCalidadArma, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(panelEditorArmaLayout.createSequentialGroup()
@@ -2728,44 +2774,44 @@ public class GUI extends JFrame {
                                 .addComponent(lblExpExtraArma, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(spinnerExpExtraArma)))
+                        .addGap(32, 32, 32)
+                        .addGroup(panelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblAtaFisArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblMejAtaFisArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblAtaMagArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblMejAtaMagArma)
+                            .addComponent(lblHRFisArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblMejHRFisArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblHRMagArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblMejHRMagArma)
+                            .addComponent(lblCritArma)
+                            .addComponent(lblMejCritArma)
+                            .addComponent(lblRoboMArma)
+                            .addComponent(lblMejRoboMArma))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(panelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelEditorArmaLayout.createSequentialGroup()
-                                .addGroup(panelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblMejAtaFisArma, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblAtaMagArma, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblAtaFisArma, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblMejAtaMagArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(5, 5, 5)
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(panelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(spinnerMejAtaMagArma)
-                                    .addComponent(spinnerMejAtaFisArma, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(spinnerAtaMagArma)
-                                    .addComponent(spinnerAtaFisArma)))
-                            .addGroup(panelEditorArmaLayout.createSequentialGroup()
-                                .addComponent(lblMejRoboMArma)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(spinnerMejRoboMArma))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditorArmaLayout.createSequentialGroup()
-                                .addGroup(panelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblRoboMArma, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblMejCritArma, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblCritArma, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblMejHRMagArma, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblHRMagArma, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblMejHRFisArma, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblHRFisArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(spinnerHRFisArma, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
-                                    .addComponent(spinnerMejHRFisArma)
-                                    .addComponent(spinnerHRMagArma)
-                                    .addComponent(spinnerMejHRMagArma)
-                                    .addComponent(spinnerCritArma)
-                                    .addComponent(spinnerMejCritArma)
-                                    .addComponent(spinnerRoboMArma))))))
+                                    .addComponent(spinnerHRMagArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spinnerMejHRFisArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spinnerHRFisArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spinnerMejAtaMagArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spinnerAtaMagArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spinnerMejAtaFisArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spinnerAtaFisArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spinnerMejHRMagArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spinnerCritArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spinnerMejCritArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spinnerRoboMArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(spinnerMejRoboMArma, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
+
+        panelEditorArmaLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {spinnerAtaFisArma, spinnerAtaMagArma, spinnerCritArma, spinnerHRFisArma, spinnerHRMagArma, spinnerMejAtaFisArma, spinnerMejAtaMagArma, spinnerMejCritArma, spinnerMejHRFisArma, spinnerMejHRMagArma, spinnerMejRoboMArma, spinnerRoboMArma});
+
+        panelEditorArmaLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblAtaFisArma, lblAtaMagArma, lblCritArma, lblHRFisArma, lblHRMagArma, lblMejAtaFisArma, lblMejAtaMagArma, lblMejCritArma, lblMejHRFisArma, lblMejHRMagArma, lblMejRoboMArma, lblRoboMArma});
+
         panelEditorArmaLayout.setVerticalGroup(
             panelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelEditorArmaLayout.createSequentialGroup()
@@ -2806,11 +2852,12 @@ public class GUI extends JFrame {
                     .addComponent(lblMejHRFisArma)
                     .addComponent(spinnerMejHRFisArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPrecioCArma)
-                    .addComponent(spinnerPrecioCArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblHRMagArma)
-                    .addComponent(spinnerHRMagArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblPrecioCArma)
+                        .addComponent(spinnerPrecioCArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(spinnerHRMagArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblHRMagArma))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelEditorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblPrecioVArma)
@@ -2841,13 +2888,23 @@ public class GUI extends JFrame {
                     .addComponent(spinnerMejRoboVArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblMejRoboMArma)
                     .addComponent(spinnerMejRoboMArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addComponent(btnGuardarArma))
         );
 
         btnEditarArma.setText("Editar");
+        btnEditarArma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarArmaActionPerformed(evt);
+            }
+        });
 
         btnEliminarArma.setText("Eliminar");
+        btnEliminarArma.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarArmaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelSelectorArmaLayout = new javax.swing.GroupLayout(panelSelectorArma);
         panelSelectorArma.setLayout(panelSelectorArmaLayout);
@@ -2855,17 +2912,17 @@ public class GUI extends JFrame {
             panelSelectorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSelectorArmaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelSelectorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelEditorArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelSelectorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelEditorArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelSelectorArmaLayout.createSequentialGroup()
                         .addComponent(btnCrearNuevaArma)
                         .addGap(130, 130, 130)
                         .addComponent(comboListaArmas, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(2, 2, 2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEditarArma)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEliminarArma)))
-                .addContainerGap())
+                .addContainerGap(358, Short.MAX_VALUE))
         );
         panelSelectorArmaLayout.setVerticalGroup(
             panelSelectorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2880,6 +2937,8 @@ public class GUI extends JFrame {
                 .addContainerGap())
         );
 
+        jScrollPane10.setViewportView(panelSelectorArma);
+
         javax.swing.GroupLayout panelConfigWeaponLayout = new javax.swing.GroupLayout(panelConfigWeapon);
         panelConfigWeapon.setLayout(panelConfigWeaponLayout);
         panelConfigWeaponLayout.setHorizontalGroup(
@@ -2887,9 +2946,9 @@ public class GUI extends JFrame {
             .addGroup(panelConfigWeaponLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelConfigWeaponLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelMejoraArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(panelConfigWeaponLayout.createSequentialGroup()
-                        .addComponent(panelSelectorArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -2897,9 +2956,9 @@ public class GUI extends JFrame {
             panelConfigWeaponLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConfigWeaponLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelMejoraArma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelSelectorArma, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -2909,74 +2968,100 @@ public class GUI extends JFrame {
 
         lblProbRotJoya.setText("Probabilidad de rotura");
 
-        lblProbDetJoya.setText("Probabilidad de deterioro");
+        spinnerProbRotJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
 
-        lblProbSEJoya.setText("Probabilidad sin efecto");
+        spinnerProbDetJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+
+        lblProbDetJoya.setText("Probabilidad combinacion con perdida atributos");
+
+        lblProbSEJoya.setText("Probabilidad combinacion sin sumar atributos");
+
+        spinnerProbSEJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+
+        spinnerProbExitoJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
 
         lblProbExitoJoya.setText("Probabilidad de exito");
 
         btnGuardarConfigJoyas.setText("Guardar");
+        btnGuardarConfigJoyas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarConfigJoyasActionPerformed(evt);
+            }
+        });
+
+        lblProbExitoJoya1.setText("Probabilidad de perdida de atributos");
+
+        spinnerProblosepperloreJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
 
         javax.swing.GroupLayout panelConfigJoyasLayout = new javax.swing.GroupLayout(panelConfigJoyas);
         panelConfigJoyas.setLayout(panelConfigJoyasLayout);
         panelConfigJoyasLayout.setHorizontalGroup(
             panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 393, Short.MAX_VALUE)
-            .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelConfigJoyasLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(panelConfigJoyasLayout.createSequentialGroup()
-                            .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(lblProbSEJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-                                .addComponent(lblProbExitoJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(spinnerProbExitoJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(spinnerProbSEJoya, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(panelConfigJoyasLayout.createSequentialGroup()
-                            .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblProbRotJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblProbDetJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(spinnerProbRotJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(spinnerProbDetJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(btnGuardarConfigJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(panelConfigJoyasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigJoyasLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblProbSEJoya))
+                    .addGroup(panelConfigJoyasLayout.createSequentialGroup()
+                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblProbRotJoya)
+                            .addComponent(lblProbDetJoya)
+                            .addComponent(lblProbExitoJoya)
+                            .addComponent(lblProbExitoJoya1))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spinnerProbDetJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerProbRotJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerProbSEJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerProbExitoJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerProblosepperloreJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addComponent(btnGuardarConfigJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(87, 87, 87))
         );
+
+        panelConfigJoyasLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblProbDetJoya, lblProbExitoJoya, lblProbRotJoya, lblProbSEJoya});
+
         panelConfigJoyasLayout.setVerticalGroup(
             panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 125, Short.MAX_VALUE)
-            .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelConfigJoyasLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(panelConfigJoyasLayout.createSequentialGroup()
-                            .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblProbRotJoya)
-                                .addComponent(spinnerProbRotJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(9, 9, 9)
-                            .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(spinnerProbDetJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblProbDetJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(panelConfigJoyasLayout.createSequentialGroup()
-                            .addGap(57, 57, 57)
-                            .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblProbSEJoya)
-                                .addComponent(spinnerProbSEJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(spinnerProbExitoJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblProbExitoJoya)))
-                        .addComponent(btnGuardarConfigJoyas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addContainerGap()))
+            .addGroup(panelConfigJoyasLayout.createSequentialGroup()
+                .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnGuardarConfigJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelConfigJoyasLayout.createSequentialGroup()
+                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(spinnerProbRotJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblProbRotJoya))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(spinnerProbDetJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblProbDetJoya))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(spinnerProbSEJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblProbSEJoya))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(spinnerProbExitoJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblProbExitoJoya))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(spinnerProblosepperloreJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblProbExitoJoya1))))
+                .addGap(0, 4, Short.MAX_VALUE))
         );
+
+        panelConfigJoyasLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblProbDetJoya, lblProbExitoJoya, lblProbRotJoya, lblProbSEJoya});
 
         panelSelectorJoyas.setBorder(javax.swing.BorderFactory.createTitledBorder("Selector de joyas"));
 
         btnCrearNuevaJoya.setText("Nueva");
+        btnCrearNuevaJoya.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearNuevaJoyaActionPerformed(evt);
+            }
+        });
 
         panelEditorJoya.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de joyas"));
 
@@ -3027,6 +3112,13 @@ public class GUI extends JFrame {
         lblRoboVJoya.setText("Robo de vida");
 
         btnGuardarJoya.setText("Guardar");
+        btnGuardarJoya.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarJoyaActionPerformed(evt);
+            }
+        });
+
+        lblPrecioCJoya1.setText("Critico");
 
         javax.swing.GroupLayout panelEditorJoyaLayout = new javax.swing.GroupLayout(panelEditorJoya);
         panelEditorJoya.setLayout(panelEditorJoyaLayout);
@@ -3038,59 +3130,70 @@ public class GUI extends JFrame {
                     .addComponent(btnGuardarJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelEditorJoyaLayout.createSequentialGroup()
                         .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelEditorJoyaLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(lblPrecioCJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-                                    .addComponent(lblNombreJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblObjetoJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblCalidadJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblPrecioVJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(lblRoboVJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblDineroExtraJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-                                .addComponent(lblExpExtraJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-                                .addComponent(checkComerciable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblRoboMJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(comboObjetoJoya, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(comboCalidadJoya, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(spinnerPrecioVJoya, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(spinnerPrecioCJoya)
-                                .addComponent(txtNombreJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(spinnerDineroExtraJoya, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(checkCombinable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(spinnerRoboMJoya, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(spinnerExpExtraJoya, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(spinnerRoboVJoya, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelEditorJoyaLayout.createSequentialGroup()
+                                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblPrecioCJoya1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelEditorJoyaLayout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(lblPrecioCJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                                            .addComponent(lblNombreJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblObjetoJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblCalidadJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblPrecioVJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelEditorJoyaLayout.createSequentialGroup()
+                                        .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(lblRoboVJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblDineroExtraJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblExpExtraJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                                            .addComponent(lblRoboMJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(spinnerDineroExtraJoya, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(spinnerCritJoya)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditorJoyaLayout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(comboObjetoJoya, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(comboCalidadJoya, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(spinnerPrecioVJoya, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                                                .addComponent(spinnerPrecioCJoya)
+                                                .addComponent(txtNombreJoya))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(spinnerRoboMJoya, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(spinnerExpExtraJoya, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(spinnerRoboVJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)))))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(lblAtaFisJoya, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblEvaFisJoya)
-                                .addComponent(lblManaJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblHRFisJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblDefFisJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblHRMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lvlEvaMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblAtaMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblDefMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblManaVidaJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(spinnerVidaJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                            .addComponent(spinnerManaJoya)
-                            .addComponent(spinnerAtaFisJoya)
-                            .addComponent(spinnerEvaFisJoya)
-                            .addComponent(spinnerHRFisJoya)
-                            .addComponent(spinnerDefFisJoya)
-                            .addComponent(spinnerAtaMagJoya)
-                            .addComponent(spinnerEvaMagJoya)
-                            .addComponent(spinnerHRMagJoya)
-                            .addComponent(spinnerDefMagJoya))))
+                            .addGroup(panelEditorJoyaLayout.createSequentialGroup()
+                                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(lblAtaFisJoya, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblEvaFisJoya)
+                                        .addComponent(lblManaJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblHRFisJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblDefFisJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblHRMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lvlEvaMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblAtaMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblDefMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblManaVidaJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(spinnerVidaJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                                    .addComponent(spinnerManaJoya)
+                                    .addComponent(spinnerAtaFisJoya)
+                                    .addComponent(spinnerEvaFisJoya)
+                                    .addComponent(spinnerHRFisJoya)
+                                    .addComponent(spinnerDefFisJoya)
+                                    .addComponent(spinnerAtaMagJoya)
+                                    .addComponent(spinnerEvaMagJoya)
+                                    .addComponent(spinnerHRMagJoya)
+                                    .addComponent(spinnerDefMagJoya)))
+                            .addComponent(checkComerciable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         panelEditorJoyaLayout.setVerticalGroup(
@@ -3128,10 +3231,10 @@ public class GUI extends JFrame {
                     .addComponent(spinnerHRFisJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(checkComerciable)
-                    .addComponent(checkCombinable)
                     .addComponent(lblDefFisJoya)
-                    .addComponent(spinnerDefFisJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(spinnerDefFisJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPrecioCJoya1)
+                    .addComponent(spinnerCritJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDineroExtraJoya)
@@ -3157,13 +3260,27 @@ public class GUI extends JFrame {
                     .addComponent(lblDefMagJoya)
                     .addComponent(spinnerDefMagJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkComerciable)
+                    .addComponent(checkCombinable))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnGuardarJoya)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         btnEditarJoya.setText("Editar");
+        btnEditarJoya.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarJoyaActionPerformed(evt);
+            }
+        });
 
         btnEliminarJoya.setText("Eliminar");
+        btnEliminarJoya.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarJoyaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelSelectorJoyasLayout = new javax.swing.GroupLayout(panelSelectorJoyas);
         panelSelectorJoyas.setLayout(panelSelectorJoyasLayout);
@@ -3181,7 +3298,7 @@ public class GUI extends JFrame {
                         .addComponent(btnEditarJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEliminarJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 1, Short.MAX_VALUE)))
+                        .addGap(0, 48, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelSelectorJoyasLayout.setVerticalGroup(
@@ -3198,25 +3315,27 @@ public class GUI extends JFrame {
                 .addContainerGap())
         );
 
+        jScrollPane12.setViewportView(panelSelectorJoyas);
+
         javax.swing.GroupLayout panelConfigJewelsLayout = new javax.swing.GroupLayout(panelConfigJewels);
         panelConfigJewels.setLayout(panelConfigJewelsLayout);
         panelConfigJewelsLayout.setHorizontalGroup(
             panelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConfigJewelsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelSelectorJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelConfigJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(270, Short.MAX_VALUE))
+                .addGroup(panelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane12)
+                    .addComponent(panelConfigJoyas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(331, Short.MAX_VALUE))
         );
         panelConfigJewelsLayout.setVerticalGroup(
             panelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConfigJewelsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panelConfigJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panelSelectorJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(333, 333, 333))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         panelConfig.addTab("Joyas", panelConfigJewels);
@@ -3410,7 +3529,7 @@ public class GUI extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelEditorSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnGuardarSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnResetSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnResetSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelEditorSpawnerLayout.setVerticalGroup(
@@ -3460,27 +3579,38 @@ public class GUI extends JFrame {
                     .addComponent(btnEliminarSpawner))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelEditorSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(314, Short.MAX_VALUE))
+                .addContainerGap(362, Short.MAX_VALUE))
         );
 
         panelConfig.addTab("Spawners", panelConfigSpawners);
 
         panelConfigGuilds.setPreferredSize(new java.awt.Dimension(800, 600));
 
-        btnResetConfigClan.setText("Resetear configuración");
-
         btnGuardarConfigClan.setText("Guardar");
+        btnGuardarConfigClan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarConfigClanActionPerformed(evt);
+            }
+        });
 
         panelConfigClanes.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración clanes"));
 
         panelNumJugClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Número de jugadores"));
 
-        rdBtnNumIlimitadosClan.setSelected(true);
-        rdBtnNumIlimitadosClan.setText("Ilimitados");
-
+        rdBtnNumFijosClan.setSelected(true);
         rdBtnNumFijosClan.setText("Fijos");
+        rdBtnNumFijosClan.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                rdBtnNumFijosClanStateChanged(evt);
+            }
+        });
 
         rdBtnLimitNivClan.setText("Limitado por nivel del clan");
+        rdBtnLimitNivClan.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                rdBtnLimitNivClanStateChanged(evt);
+            }
+        });
 
         lblJugadoresClan.setText("jugadores");
 
@@ -3491,7 +3621,6 @@ public class GUI extends JFrame {
             .addGroup(panelNumJugClanLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelNumJugClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rdBtnNumIlimitadosClan)
                     .addGroup(panelNumJugClanLayout.createSequentialGroup()
                         .addComponent(rdBtnNumFijosClan)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3504,27 +3633,28 @@ public class GUI extends JFrame {
         panelNumJugClanLayout.setVerticalGroup(
             panelNumJugClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelNumJugClanLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(rdBtnNumIlimitadosClan)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addGroup(panelNumJugClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdBtnNumFijosClan)
                     .addComponent(spinnerNumFijosClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblJugadoresClan))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rdBtnLimitNivClan))
+                .addComponent(rdBtnLimitNivClan)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelSisContNivelClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Sistema de contribución clan limitado por nivel"));
 
-        rdBtnContriSoloDon.setSelected(true);
-        rdBtnContriSoloDon.setText("Sólo donación");
-
-        rdBtnContriSoloContri.setText("Sólo contribución");
-
-        rdBtnContriAmbos.setText("Ambos");
-
         lblporcMuertesClan.setText("%muertes");
+
+        checkDonationClan.setText("Donacion");
+
+        checkContributionClan.setText("Contribucion");
+        checkContributionClan.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                checkContributionClanStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelSisContNivelClanLayout = new javax.swing.GroupLayout(panelSisContNivelClan);
         panelSisContNivelClan.setLayout(panelSisContNivelClanLayout);
@@ -3533,28 +3663,26 @@ public class GUI extends JFrame {
             .addGroup(panelSisContNivelClanLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelSisContNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rdBtnContriSoloDon)
                     .addGroup(panelSisContNivelClanLayout.createSequentialGroup()
-                        .addComponent(rdBtnContriSoloContri)
+                        .addComponent(checkContributionClan)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spinnerContriPorcentajeMuertes, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(spinnerContriPorcentajeMuertes, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblporcMuertesClan))
-                    .addComponent(rdBtnContriAmbos))
+                    .addComponent(checkDonationClan))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelSisContNivelClanLayout.setVerticalGroup(
             panelSisContNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSisContNivelClanLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(rdBtnContriSoloDon)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
+                .addComponent(checkDonationClan)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 2, Short.MAX_VALUE)
                 .addGroup(panelSisContNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdBtnContriSoloContri)
                     .addComponent(spinnerContriPorcentajeMuertes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblporcMuertesClan))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rdBtnContriAmbos))
+                    .addComponent(lblporcMuertesClan)
+                    .addComponent(checkContributionClan))
+                .addContainerGap())
         );
 
         lblnivMinJugCrearClan.setText("Nivel minimo del jugador para crear un clan");
@@ -3565,6 +3693,11 @@ public class GUI extends JFrame {
         rdBtnOpcDinFijo.setText("Dinero Fijo");
 
         rdBtnOpcDinForm.setText("Formula de dinero");
+        rdBtnOpcDinForm.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                rdBtnOpcDinFormStateChanged(evt);
+            }
+        });
 
         panelFormulaClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Formula"));
 
@@ -3775,7 +3908,7 @@ public class GUI extends JFrame {
                     .addComponent(rdBtnOpcDinForm)
                     .addComponent(panelFormulaClan, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelEditNivelesClan, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(panelEditNivelesClan, javax.swing.GroupLayout.PREFERRED_SIZE, 225, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelOpcLimNivelClanLayout.setVerticalGroup(
@@ -3821,8 +3954,8 @@ public class GUI extends JFrame {
                     .addComponent(spinnerNivelMinJugClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(14, 14, 14)
                 .addGroup(panelConfigClanesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelNumJugClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelSisContNivelClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelSisContNivelClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelNumJugClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelOpcLimNivelClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -3835,11 +3968,7 @@ public class GUI extends JFrame {
             .addGroup(panelConfigGuildsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelConfigGuildsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelConfigGuildsLayout.createSequentialGroup()
-                        .addGap(229, 229, 229)
-                        .addComponent(btnResetConfigClan)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnGuardarConfigClan))
+                    .addComponent(btnGuardarConfigClan)
                     .addComponent(panelConfigClanes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(681, 681, 681))
         );
@@ -3847,165 +3976,15 @@ public class GUI extends JFrame {
             panelConfigGuildsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConfigGuildsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelConfigGuildsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnResetConfigClan)
-                    .addComponent(btnGuardarConfigClan))
+                .addComponent(btnGuardarConfigClan)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelConfigClanes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(174, Short.MAX_VALUE))
         );
 
         panelConfig.addTab("Clanes", panelConfigGuilds);
-        if(checkClanes.isSelected()){
-            lblnivMinJugCrearClan.setEnabled(checkClanes.isSelected());
-            spinnerNivelMinJugClan.setEnabled(checkClanes.isSelected());
-            panelNumJugClan.setEnabled(checkClanes.isSelected());
-            rdBtnNumIlimitadosClan.setEnabled(checkClanes.isSelected());
-            rdBtnNumFijosClan.setEnabled(checkClanes.isSelected());
-            rdBtnLimitNivClan.setEnabled(checkClanes.isSelected());
-            if(rdBtnNumIlimitadosClan.isSelected()){
-                spinnerNumFijosClan.setEnabled(false);
-                lblJugadoresClan.setEnabled(false);
-                panelOpcLimNivelClan.setEnabled(false);
-                rdBtnOpcDinFijo.setEnabled(false);
-                rdBtnOpcDinForm.setEnabled(false);
-                panelFormulaClan.setEnabled(false);
-                lblfdex.setEnabled(false);
-                spinnerformulax2clan.setEnabled(false);
-                lblx2clan.setEnabled(false);
-                spinnerformulaxclan.setEnabled(false);
-                lblxclan.setEnabled(false);
-                lblMaxNivelClan.setEnabled(false);
-                lblFormJugIniClan.setEnabled(false);
-                spinnerFormJugIniClan.setEnabled(false);
-                lblFormJugXNivelClan.setEnabled(false);
-                spinnerFormJugXNivelClan.setEnabled(false);
-                btnValidarFormulaClan.setEnabled(false);
-                panelSisContNivelClan.setEnabled(false);
-                rdBtnContriAmbos.setEnabled(false);
-                rdBtnContriSoloContri.setEnabled(false);
-                rdBtnContriSoloDon.setEnabled(false);
-                spinnerContriPorcentajeMuertes.setEnabled(false);
-                lblporcMuertesClan.setEnabled(false);
-                panelEditNivelesClan.setEnabled(false);
-                tablaClanes.setEnabled(false);
-                btnEditarNivel.setEnabled(false);
-                btnEliminarNivel.setEnabled(false);
-                lblDineroEditNivelClan.setEnabled(false);
-                spinnerDineroEditClan.setEnabled(false);
-                lblNumJugEditNivelClan.setEnabled(false);
-                spinnerNumJugEditClan.setEnabled(false);
-                btnAnadirNivel.setEnabled(false);
-            }
-            if(rdBtnNumFijosClan.isSelected()){
-                spinnerNumFijosClan.setEnabled(true);
-                lblJugadoresClan.setEnabled(true);
-
-                panelOpcLimNivelClan.setEnabled(false);
-                rdBtnOpcDinFijo.setEnabled(false);
-                rdBtnOpcDinForm.setEnabled(false);
-                panelFormulaClan.setEnabled(false);
-                lblfdex.setEnabled(false);
-                spinnerformulax2clan.setEnabled(false);
-                lblx2clan.setEnabled(false);
-                spinnerformulaxclan.setEnabled(false);
-                lblxclan.setEnabled(false);
-                lblMaxNivelClan.setEnabled(false);
-                lblFormJugIniClan.setEnabled(false);
-                spinnerFormJugIniClan.setEnabled(false);
-                lblFormJugXNivelClan.setEnabled(false);
-                spinnerFormJugXNivelClan.setEnabled(false);
-                btnValidarFormulaClan.setEnabled(false);
-                panelSisContNivelClan.setEnabled(false);
-                rdBtnContriAmbos.setEnabled(false);
-                rdBtnContriSoloContri.setEnabled(false);
-                rdBtnContriSoloDon.setEnabled(false);
-                spinnerContriPorcentajeMuertes.setEnabled(false);
-                lblporcMuertesClan.setEnabled(false);
-                panelEditNivelesClan.setEnabled(false);
-                tablaClanes.setEnabled(false);
-                btnEditarNivel.setEnabled(false);
-                btnEliminarNivel.setEnabled(false);
-                lblDineroEditNivelClan.setEnabled(false);
-                spinnerDineroEditClan.setEnabled(false);
-                lblNumJugEditNivelClan.setEnabled(false);
-                spinnerNumJugEditClan.setEnabled(false);
-                btnAnadirNivel.setEnabled(false);
-            }
-            if(rdBtnLimitNivClan.isSelected()){
-                spinnerNumFijosClan.setEnabled(false);
-                lblJugadoresClan.setEnabled(false);
-                panelSisContNivelClan.setEnabled(true);
-                rdBtnContriSoloContri.setEnabled(true);
-                rdBtnContriSoloDon.setEnabled(true);
-                rdBtnContriAmbos.setEnabled(true);
-                if(rdBtnContriSoloDon.isSelected()){
-                    spinnerContriPorcentajeMuertes.setEnabled(false);
-                    lblporcMuertesClan.setEnabled(false);
-                }
-                if(rdBtnContriSoloContri.isSelected() || rdBtnContriAmbos.isSelected()){
-                    spinnerContriPorcentajeMuertes.setEnabled(true);
-                    lblporcMuertesClan.setEnabled(true);
-                }
-                panelOpcLimNivelClan.setEnabled(true);
-                rdBtnOpcDinFijo.setEnabled(true);
-                rdBtnOpcDinForm.setEnabled(true);
-                panelEditNivelesClan.setEnabled(true);
-                tablaClanes.setEnabled(true);
-                if(rdBtnOpcDinFijo.isSelected()){
-                    panelFormulaClan.setEnabled(false);
-                    lblfdex.setEnabled(false);
-                    spinnerformulax2clan.setEnabled(false);
-                    lblx2clan.setEnabled(false);
-                    spinnerformulaxclan.setEnabled(false);
-                    lblxclan.setEnabled(false);
-                    lblMaxNivelClan.setEnabled(false);
-                    spinnerNivelMaxClan.setEnabled(false);
-                    lblFormJugIniClan.setEnabled(false);
-                    spinnerFormJugIniClan.setEnabled(false);
-                    lblFormJugXNivelClan.setEnabled(false);
-                    spinnerFormJugXNivelClan.setEnabled(false);
-                    btnValidarFormulaClan.setEnabled(false);
-                    btnResetearFormulaClan.setEnabled(false);
-
-                    btnEditarNivel.setEnabled(true);
-                    btnEliminarNivel.setEnabled(true);
-                    btnAnadirNivel.setEnabled(true);
-                    lblDineroEditNivelClan.setEnabled(true);
-                    spinnerDineroEditClan.setEnabled(true);
-                    lblNumJugEditNivelClan.setEnabled(true);
-                    spinnerNumJugEditClan.setEnabled(true);
-                }
-                if(rdBtnOpcDinForm.isSelected()){
-                    panelFormulaClan.setEnabled(true);
-                    lblfdex.setEnabled(true);
-                    spinnerformulax2clan.setEnabled(true);
-                    lblx2clan.setEnabled(true);
-                    spinnerformulaxclan.setEnabled(true);
-                    lblxclan.setEnabled(true);
-                    lblMaxNivelClan.setEnabled(true);
-                    spinnerNivelMaxClan.setEnabled(true);
-                    lblFormJugIniClan.setEnabled(true);
-                    spinnerFormJugIniClan.setEnabled(true);
-                    lblFormJugXNivelClan.setEnabled(true);
-                    spinnerFormJugXNivelClan.setEnabled(true);
-                    btnValidarFormulaClan.setEnabled(true);
-                    btnResetearFormulaClan.setEnabled(true);
-
-                    btnEditarNivel.setEnabled(false);
-                    btnEliminarNivel.setEnabled(false);
-                    btnAnadirNivel.setEnabled(false);
-                    lblDineroEditNivelClan.setEnabled(false);
-                    spinnerDineroEditClan.setEnabled(false);
-                    lblNumJugEditNivelClan.setEnabled(false);
-                    spinnerNumJugEditClan.setEnabled(false);
-                }
-            }
-        }
 
         btnGuardarConfigGrupos.setText("Guardar");
-
-        btnResetConfigGrupos.setText("Resetear configuracion");
 
         panelConfigGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de grupos"));
 
@@ -4015,8 +3994,10 @@ public class GUI extends JFrame {
 
         rdBtnIlimitadosGrupo.setSelected(true);
         rdBtnIlimitadosGrupo.setText("Ilimitados");
+        rdBtnIlimitadosGrupo.setName("0"); // NOI18N
 
         rdBtnFijosGrupo.setText("Fijos");
+        rdBtnFijosGrupo.setName(""); // NOI18N
         rdBtnFijosGrupo.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 rdBtnFijosGrupoStateChanged(evt);
@@ -4077,39 +4058,28 @@ public class GUI extends JFrame {
 
         panelSistRepGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Sistema de reparto"));
 
-        rdBtnSinRepartoGrupo.setSelected(true);
-        rdBtnSinRepartoGrupo.setText("Sin reparto");
+        checkDineroGrupo.setText("Dinero");
 
-        rdBtnSoloDineroGrupo.setText("Sólo dinero");
-
-        rdBtnSoloExpGrupo.setText("Sólo experiencia");
-
-        rdBtnAmbosGrupo.setText("Dinero y experiencia");
+        checkExpGrupo.setText("Experiencia");
 
         javax.swing.GroupLayout panelSistRepGruposLayout = new javax.swing.GroupLayout(panelSistRepGrupos);
         panelSistRepGrupos.setLayout(panelSistRepGruposLayout);
         panelSistRepGruposLayout.setHorizontalGroup(
             panelSistRepGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSistRepGruposLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(15, 15, 15)
                 .addGroup(panelSistRepGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rdBtnSinRepartoGrupo)
-                    .addComponent(rdBtnSoloDineroGrupo)
-                    .addComponent(rdBtnSoloExpGrupo)
-                    .addComponent(rdBtnAmbosGrupo))
+                    .addComponent(checkExpGrupo)
+                    .addComponent(checkDineroGrupo))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelSistRepGruposLayout.setVerticalGroup(
             panelSistRepGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSistRepGruposLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(rdBtnSinRepartoGrupo)
+                .addGap(18, 18, 18)
+                .addComponent(checkDineroGrupo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rdBtnSoloDineroGrupo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rdBtnSoloExpGrupo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rdBtnAmbosGrupo)
+                .addComponent(checkExpGrupo)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -4119,6 +4089,11 @@ public class GUI extends JFrame {
         rdBtnOpcionigualitarioGrupo.setText("Reparto igualitario");
 
         rdBtnOpcionProporcionalGrupo.setText("Reparto proporcional");
+        rdBtnOpcionProporcionalGrupo.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                rdBtnOpcionProporcionalGrupoStateChanged(evt);
+            }
+        });
 
         panelOpcRepProp.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones reparto proporcional"));
 
@@ -4215,22 +4190,18 @@ public class GUI extends JFrame {
                 .addGroup(panelConfigPartiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelConfigGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelConfigPartiesLayout.createSequentialGroup()
-                        .addGap(208, 208, 208)
-                        .addComponent(btnResetConfigGrupos)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(357, 357, 357)
                         .addComponent(btnGuardarConfigGrupos)))
-                .addContainerGap(354, Short.MAX_VALUE))
+                .addContainerGap(467, Short.MAX_VALUE))
         );
         panelConfigPartiesLayout.setVerticalGroup(
             panelConfigPartiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConfigPartiesLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(panelConfigPartiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnResetConfigGrupos)
-                    .addComponent(btnGuardarConfigGrupos))
+                .addComponent(btnGuardarConfigGrupos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelConfigGrupos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(280, Short.MAX_VALUE))
+                .addContainerGap(328, Short.MAX_VALUE))
         );
 
         panelConfig.addTab("Grupos", panelConfigParties);
@@ -4247,10 +4218,25 @@ public class GUI extends JFrame {
         lblSelectorSet.setText("Seleccion de set");
 
         btnNuevoSet.setText("Nuevo set");
+        btnNuevoSet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoSetActionPerformed(evt);
+            }
+        });
 
         btnEditarSet.setText("Editar set");
+        btnEditarSet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarSetActionPerformed(evt);
+            }
+        });
 
         btnEliminarSet.setText("Eliminar set");
+        btnEliminarSet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarSetActionPerformed(evt);
+            }
+        });
 
         panelEditarSet.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de sets de armadura"));
 
@@ -4740,6 +4726,11 @@ public class GUI extends JFrame {
         panelMejoraArmadura.setBorder(javax.swing.BorderFactory.createTitledBorder("Mejora de armaduras"));
 
         btnGuardarConfigArmadura.setText("Guardar");
+        btnGuardarConfigArmadura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarConfigArmaduraActionPerformed(evt);
+            }
+        });
 
         lblMejoradorArmadura.setText("objeto mejorador");
 
@@ -4780,13 +4771,22 @@ public class GUI extends JFrame {
 
         lblProbExitoArmadura.setText("Probabilidad de exito");
 
+        spinnerProbRotArmadura.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+
+        spinnerProbDetArmadura.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+
+        spinnerProbSEArmadura.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+
+        spinnerProbExitoArmadura.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+
         javax.swing.GroupLayout panelMejoraArmaduraLayout = new javax.swing.GroupLayout(panelMejoraArmadura);
         panelMejoraArmadura.setLayout(panelMejoraArmaduraLayout);
         panelMejoraArmaduraLayout.setHorizontalGroup(
             panelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(panelMejoraArmaduraLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnGuardarConfigArmadura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelMejoraArmaduraLayout.createSequentialGroup()
                         .addGroup(panelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(panelMejoraArmaduraLayout.createSequentialGroup()
@@ -4824,8 +4824,8 @@ public class GUI extends JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(panelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(spinnerProbExitoArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(spinnerProbSEArmadura, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addComponent(btnGuardarConfigArmadura, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(spinnerProbSEArmadura, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addGap(81, 81, 81))
         );
         panelMejoraArmaduraLayout.setVerticalGroup(
             panelMejoraArmaduraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -4902,14 +4902,14 @@ public class GUI extends JFrame {
             panelConfigArmorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigArmorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 895, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelConfigArmorLayout.setVerticalGroup(
             panelConfigArmorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConfigArmorLayout.createSequentialGroup()
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 49, Short.MAX_VALUE))
         );
 
         panelConfig.addTab("Armaduras", panelConfigArmor);
@@ -4953,6 +4953,8 @@ public class GUI extends JFrame {
 
         lblNivelMob.setText("Nivel");
 
+        spinnerNivelMob.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+
         panelComportamientoMob.setBorder(javax.swing.BorderFactory.createTitledBorder("Comportamiento"));
 
         javax.swing.GroupLayout panelComportamientoMobLayout = new javax.swing.GroupLayout(panelComportamientoMob);
@@ -4961,7 +4963,7 @@ public class GUI extends JFrame {
             panelComportamientoMobLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelComportamientoMobLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(comboComportamiento, 0, 215, Short.MAX_VALUE)
+                .addComponent(comboComportamiento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelComportamientoMobLayout.setVerticalGroup(
@@ -5004,6 +5006,12 @@ public class GUI extends JFrame {
         jScrollPane5.setViewportView(tablaDropsMob);
 
         lblTipoDropMob.setText("Tipo de objeto");
+
+        comboTipoDropMob.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboTipoDropMobItemStateChanged(evt);
+            }
+        });
 
         btnAnadirDropMob.setText("Añadir");
 
@@ -5070,9 +5078,9 @@ public class GUI extends JFrame {
 
         panelDropsDefault.setBorder(javax.swing.BorderFactory.createTitledBorder("Drops básicos"));
 
-        spinnerDineroDropMob.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spinnerDineroDropMob.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(1L), Long.valueOf(1L), null, Long.valueOf(1L)));
 
-        spinnerExpDropMob.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spinnerExpDropMob.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(0L), Long.valueOf(0L), null, Long.valueOf(1L)));
 
         lblDineroDropMob.setText("Dinero");
 
@@ -5134,7 +5142,7 @@ public class GUI extends JFrame {
             panelAtaqueMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelAtaqueMobsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(comboTipoAtaqueMob, 0, 215, Short.MAX_VALUE)
+                .addComponent(comboTipoAtaqueMob, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelAtaqueMobsLayout.setVerticalGroup(
@@ -5158,23 +5166,25 @@ public class GUI extends JFrame {
 
         lblRangoSeguiMob.setText("Rango de persecución");
 
-        spinnerAtaDistMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(2.0d), Double.valueOf(1.0d), null, Double.valueOf(1.0d)));
+        spinnerAtaDistMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
 
-        spinnerVelocidadMob.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.23f), Float.valueOf(0.01f), Float.valueOf(0.5f), Float.valueOf(0.01f)));
+        spinnerVelocidadMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
 
-        spinnerVelocidadAtaqueMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(4.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
+        spinnerVelocidadAtaqueMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
 
-        spinnerRetrocesoMob.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerRetrocesoMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
 
-        spinnerRangoSeguiMob.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(23), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spinnerRangoSeguiMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
 
         lblMaxVidaMob.setText("Vida máxima");
 
-        spinnerMaxVidaMob.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(20), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spinnerMaxVidaMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
 
         lblFuerzaDistMob.setText("Fuerza a distancia");
 
-        spinnerAtaFisMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(2.0d), Double.valueOf(1.0d), null, Double.valueOf(1.0d)));
+        spinnerFuerzaDistMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(1.0d)));
+
+        spinnerAtaFisMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
 
         javax.swing.GroupLayout panelAtributosMobsLayout = new javax.swing.GroupLayout(panelAtributosMobs);
         panelAtributosMobs.setLayout(panelAtributosMobsLayout);
@@ -5193,7 +5203,7 @@ public class GUI extends JFrame {
                     .addComponent(lblAtaDistMob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelAtributosMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(spinnerVelocidadMob, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                    .addComponent(spinnerVelocidadMob, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
                     .addComponent(spinnerAtaFisMob)
                     .addComponent(spinnerRangoSeguiMob)
                     .addComponent(spinnerRetrocesoMob)
@@ -5243,6 +5253,68 @@ public class GUI extends JFrame {
         lblTipoMob.setText("Tipo de monstruo");
 
         comboSelectorTipoMob.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboSelectorTipoMob.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboSelectorTipoMobItemStateChanged(evt);
+            }
+        });
+
+        PanelAtributosMob.setBorder(javax.swing.BorderFactory.createTitledBorder("Atributos del monstruo"));
+
+        checkAtribMob1.setSelected(true);
+        checkAtribMob1.setText("Bebé");
+        checkAtribMob1.setName("asleep"); // NOI18N
+
+        checkAtribMob2.setSelected(true);
+        checkAtribMob2.setText("Despierto");
+        checkAtribMob2.setName("asleep"); // NOI18N
+
+        comboAtribMob1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblAtribMob1.setText("jLabel1");
+
+        lblAtribMob2.setText("jLabel1");
+
+        comboAtribMob2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout PanelAtributosMobLayout = new javax.swing.GroupLayout(PanelAtributosMob);
+        PanelAtributosMob.setLayout(PanelAtributosMobLayout);
+        PanelAtributosMobLayout.setHorizontalGroup(
+            PanelAtributosMobLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelAtributosMobLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelAtributosMobLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelAtributosMobLayout.createSequentialGroup()
+                        .addComponent(checkAtribMob1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(checkAtribMob2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelAtributosMobLayout.createSequentialGroup()
+                        .addGroup(PanelAtributosMobLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblAtribMob2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblAtribMob1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(PanelAtributosMobLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(comboAtribMob2, 0, 150, Short.MAX_VALUE)
+                            .addComponent(comboAtribMob1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        PanelAtributosMobLayout.setVerticalGroup(
+            PanelAtributosMobLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelAtributosMobLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PanelAtributosMobLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkAtribMob1)
+                    .addComponent(checkAtribMob2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelAtributosMobLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboAtribMob1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAtribMob1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(PanelAtributosMobLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(comboAtribMob2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAtribMob2))
+                .addContainerGap(33, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout panelEditorMobsLayout = new javax.swing.GroupLayout(panelEditorMobs);
         panelEditorMobs.setLayout(panelEditorMobsLayout);
@@ -5265,10 +5337,11 @@ public class GUI extends JFrame {
                         .addComponent(btnResetearMob, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(panelEditorMobsLayout.createSequentialGroup()
-                            .addGroup(panelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(panelAtributosMobs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(panelAtaqueMobs, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(panelComportamientoMob, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(panelAtributosMobs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(panelAtaqueMobs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(panelComportamientoMob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(PanelAtributosMob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(panelDropsMobs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(panelEditorMobsLayout.createSequentialGroup()
@@ -5276,7 +5349,7 @@ public class GUI extends JFrame {
                             .addComponent(lblTipoMob)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(comboSelectorTipoMob, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelEditorMobsLayout.setVerticalGroup(
             panelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -5301,9 +5374,12 @@ public class GUI extends JFrame {
                         .addComponent(panelAtaqueMobs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(panelComportamientoMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(94, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(PanelAtributosMob, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(panelDropsMobs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
+
+        jScrollPane14.setViewportView(panelEditorMobs);
 
         javax.swing.GroupLayout panelConfigMobsLayout = new javax.swing.GroupLayout(panelConfigMobs);
         panelConfigMobs.setLayout(panelConfigMobsLayout);
@@ -5312,16 +5388,16 @@ public class GUI extends JFrame {
             .addGroup(panelConfigMobsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelConfigMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelEditorMobs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelConfigMobsLayout.createSequentialGroup()
                         .addComponent(btnNuevoMob, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(226, 226, 226)
-                        .addComponent(comboSelectorMobs, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77)
+                        .addComponent(comboSelectorMobs, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEditMob, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEliminarMob, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(178, Short.MAX_VALUE))
         );
         panelConfigMobsLayout.setVerticalGroup(
             panelConfigMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -5333,7 +5409,7 @@ public class GUI extends JFrame {
                     .addComponent(btnEditMob)
                     .addComponent(btnEliminarMob))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelEditorMobs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane14)
                 .addContainerGap())
         );
 
@@ -5757,6 +5833,11 @@ public class GUI extends JFrame {
         );
 
         btnGuardarConfigChats.setText("Guardar configuración");
+        btnGuardarConfigChats.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarConfigChatsActionPerformed(evt);
+            }
+        });
 
         panelConfigEnableChats.setBorder(javax.swing.BorderFactory.createTitledBorder("Habilitar/Deshabilitar chats"));
 
@@ -5835,10 +5916,10 @@ public class GUI extends JFrame {
             panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConfigChatsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnGuardarConfigChats, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGuardarConfigChats, javax.swing.GroupLayout.PREFERRED_SIZE, 855, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelConfigChatsLayout.createSequentialGroup()
-                        .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(panelConfigChatsLayout.createSequentialGroup()
                                 .addComponent(panelConfigEnableChats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE))
@@ -5848,23 +5929,22 @@ public class GUI extends JFrame {
                             .addGroup(panelConfigChatsLayout.createSequentialGroup()
                                 .addComponent(panelConfigLocal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(panelConfigNews, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(panelConfigMarketChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(panelConfigGuild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(panelConfigChatsLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(panelConfigChatsLayout.createSequentialGroup()
                                         .addComponent(panelConfigParty, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(347, 347, 347))
+                                        .addContainerGap(357, Short.MAX_VALUE))
                                     .addComponent(panelConfiglPrivate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(panelConfigChatsLayout.createSequentialGroup()
                                 .addGap(8, 8, 8)
                                 .addComponent(panelConfigWarning, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addContainerGap())))))
         );
         panelConfigChatsLayout.setVerticalGroup(
             panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -5897,15 +5977,15 @@ public class GUI extends JFrame {
             panelConfChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConfChatsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 794, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelConfChatsLayout.setVerticalGroup(
             panelConfChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConfChatsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(119, Short.MAX_VALUE))
         );
 
         panelConfig.addTab("Chat", panelConfChats);
@@ -5916,40 +5996,78 @@ public class GUI extends JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarMobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarMobActionPerformed
-        // TODO add your handling code here:
+        guiMobMan.saveMob();
     }//GEN-LAST:event_btnGuardarMobActionPerformed
 
     private void btnEliminarMobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarMobActionPerformed
-        // TODO add your handling code here:
+        guiMobMan.deleteMobSelected();
     }//GEN-LAST:event_btnEliminarMobActionPerformed
 
     private void btnEditMobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditMobActionPerformed
-        // TODO add your handling code here:
+        guiMobMan.loadValuesForMobSelected();
     }//GEN-LAST:event_btnEditMobActionPerformed
 
     private void btnNuevoMobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoMobActionPerformed
-        // TODO add your handling code here:
+        getTxtNombreMob().setText("");
+        getComboSelectorTipoMob().setSelectedIndex(0);
+        getSpinnerNivelMob().setValue(1);
+        getSpinnerAtaFisMob().setValue(0.01);
+        getSpinnerAtaDistMob().setValue(0.01);
+        getSpinnerVelocidadMob().setValue(0.01);
+        getSpinnerVelocidadAtaqueMob().setValue(0.01);
+        getSpinnerRetrocesoMob().setValue(0.01);
+        getSpinnerRangoSeguiMob().setValue(0.01);
+        getSpinnerMaxVidaMob().setValue(0.01);
+        getSpinnerFuerzaDistMob().setValue(0.01);
+        getSpinnerDineroDropMob().setValue(1);
+        getSpinnerExpDropMob().setValue(1);
+        getComboTipoAtaqueMob().setSelectedIndex(0);
+        getComboComportamiento().setSelectedIndex(0);
+        dibujarComponentesMobs();
+        recursivelyEnableDisablePanel(getPanelEditorMobs(), true);
     }//GEN-LAST:event_btnNuevoMobActionPerformed
 
     private void btnEliminarDescArmaduraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarDescArmaduraActionPerformed
-        // TODO add your handling code here:
+        int index = getjListDescArmadura().getSelectedIndex();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(null, "Selecciona una linea de la lista antes de intentar eliminar", "Error en la selección", 2);
+        } else {
+            //ahora a borrar...
+            List<String> desc;
+            desc = new ArrayList<>();
+            for (int i = 0; i < getjListDescArmadura().getModel().getSize(); i++) {
+                if (index != i) {
+                    desc.add(getjListDescArmadura().getModel().getElementAt(i).toString());
+                }
+            }
+            getjListDescArmadura().setListData(desc.toArray());
+            getjListDescArmadura().repaint();
+        }
     }//GEN-LAST:event_btnEliminarDescArmaduraActionPerformed
 
     private void btnEditarDEscArmaduraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarDEscArmaduraActionPerformed
-        // TODO add your handling code here:
+        int index = getjListDescArmadura().getSelectedIndex();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(null, "Selecciona una linea de la lista antes de intentar editar", "Error en la selección", 2);
+        } else {
+            //ahora a borrar...
+            getTxtDescripcionArmadura().setText(getjListDescArmadura().getModel().getElementAt(index).toString());
+        }
     }//GEN-LAST:event_btnEditarDEscArmaduraActionPerformed
 
     private void btnAnadirDescArmaduraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirDescArmaduraActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAnadirDescArmaduraActionPerformed
+        List<String> desc;
+        desc = new ArrayList<>();
+        for (int i = 0; i < getjListDescArmadura().getModel().getSize(); i++) {
+            desc.add(getjListDescArmadura().getModel().getElementAt(i).toString());
+        }
+        desc.add(getTxtDescripcionArmadura().getText());
+        getjListDescArmadura().setListData(desc.toArray());
+     }//GEN-LAST:event_btnAnadirDescArmaduraActionPerformed
 
     private void rdBtnProKillsGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdBtnProKillsGrupoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rdBtnProKillsGrupoActionPerformed
-
-    private void rdBtnFijosGrupoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rdBtnFijosGrupoStateChanged
-        spinnerNumeroFijoJugGrupo.setEnabled(rdBtnFijosGrupo.isSelected());
-    }//GEN-LAST:event_rdBtnFijosGrupoStateChanged
 
     private void btnEliminarNivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarNivelActionPerformed
         // TODO add your handling code here:
@@ -6127,7 +6245,7 @@ public class GUI extends JFrame {
                 Object[] data = new Object[3];
 
                 for (int i = 1; i <= nivel; i++) {
-                    resdinero = (long) (Math.pow(i, 2) * a + b * i);
+                    resdinero = (long) (Math.pow(a, 2) * i + b * i);
                     if (i == 1) {
                         jugadores = jugini;
                     } else {
@@ -6182,15 +6300,41 @@ public class GUI extends JFrame {
     }//GEN-LAST:event_btnEditarSpawnerActionPerformed
 
     private void btnEliminarDescArmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarDescArmaActionPerformed
-        // TODO add your handling code here:
+        int index = getjListDescArma().getSelectedIndex();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(null, "Selecciona una linea de la lista antes de intentar eliminar", "Error en la selección", 2);
+        } else {
+            //ahora a borrar...
+            List<String> desc;
+            desc = new ArrayList<>();
+            for (int i = 0; i < getjListDescArma().getModel().getSize(); i++) {
+                if (index != i) {
+                    desc.add(getjListDescArma().getModel().getElementAt(i).toString());
+                }
+            }
+            getjListDescArma().setListData(desc.toArray());
+            getjListDescArma().repaint();
+        }
     }//GEN-LAST:event_btnEliminarDescArmaActionPerformed
 
     private void btnEditarDEscArmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarDEscArmaActionPerformed
-        // TODO add your handling code here:
+        int index = getjListDescArma().getSelectedIndex();
+        if (index == -1) {
+            JOptionPane.showMessageDialog(null, "Selecciona una linea de la lista antes de intentar eliminar", "Error en la selección", 2);
+        } else {
+            //ahora a borrar...
+            getTxtDescripcionArma().setText(getjListDescArma().getModel().getElementAt(index).toString());
+        }
     }//GEN-LAST:event_btnEditarDEscArmaActionPerformed
 
     private void btnAnadirDescArmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirDescArmaActionPerformed
-        // TODO add your handling code here:
+        List<String> desc;
+        desc = new ArrayList<>();
+        for (int i = 0; i < getjListDescArma().getModel().getSize(); i++) {
+            desc.add(getjListDescArma().getModel().getElementAt(i).toString());
+        }
+        desc.add(getTxtDescripcionArma().getText());
+        getjListDescArma().setListData(desc.toArray());
     }//GEN-LAST:event_btnAnadirDescArmaActionPerformed
 
     private void btnGuardarObjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarObjetoActionPerformed
@@ -6322,7 +6466,7 @@ public class GUI extends JFrame {
     }//GEN-LAST:event_btnValidarFormulaNivelesActionPerformed
 
     private void btnGuardarConfigGlobalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarConfigGlobalActionPerformed
-        this.guiConfigMan.saveConfig();
+        guiConfigMan.saveConfig();
     }//GEN-LAST:event_btnGuardarConfigGlobalActionPerformed
 
     private void checkGruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkGruposActionPerformed
@@ -6340,10 +6484,6 @@ public class GUI extends JFrame {
             panelConfig.setEnabledAt(8, false);
         }
     }//GEN-LAST:event_checkClanesActionPerformed
-
-    private void btnpruebaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnpruebaActionPerformed
-        JOptionPane.showMessageDialog(null, "Tamaño ventana: " + this.getBounds().width + "," + this.getBounds().height, "RPGCraftCosta-Información", 1);
-    }//GEN-LAST:event_btnpruebaActionPerformed
 
     private void checkEnableGlobalChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkEnableGlobalChatActionPerformed
         // TODO add your handling code here:
@@ -6446,7 +6586,9 @@ public class GUI extends JFrame {
             List<String> desc;
             desc = new ArrayList<>();
             for (int i = 0; i < getListDescripcionObjeto().getModel().getSize(); i++) {
-                if(index!=i)desc.add(getListDescripcionObjeto().getModel().getElementAt(i).toString());
+                if (index != i) {
+                    desc.add(getListDescripcionObjeto().getModel().getElementAt(i).toString());
+                }
             }
             getListDescripcionObjeto().setListData(desc.toArray());
             getListDescripcionObjeto().repaint();
@@ -6462,6 +6604,235 @@ public class GUI extends JFrame {
             getTxtDescripObjeto().setText(getListDescripcionObjeto().getModel().getElementAt(index).toString());
         }
     }//GEN-LAST:event_btnEditarDesObjetoActionPerformed
+
+    private void btnGuardarConfigArmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarConfigArmaActionPerformed
+        if (checkConfigArmas()) {
+            guiWeaponMan.saveConfig();
+        } else {
+            JOptionPane.showMessageDialog(null, "Revisa los siguientes campos:\n\t-El nombre del objeto no puede estar vacio\n\t-Las probabilidades deben estar comprendidas entre 0 y 1\n\t-La probabilidad de exito debe ser la mayor de todas\n\t-La probabilidad de rotura debe ser la mas baja de todas\n\t-El orden de menos a mayor de las probabilidades es el siguiente:\n\t\t1º Probabilidad de rotura\n\t\t2º Probabilidad de deterioro\n\t\t3º Probabilidad sin efecto\n\t\t4º Probabilidad de exito", "Error en la validación de la configuración", 2);
+        }
+    }//GEN-LAST:event_btnGuardarConfigArmaActionPerformed
+
+    private void btnCrearNuevaArmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevaArmaActionPerformed
+        getTxtNombreArma().setText("");
+        getComboTipoArma().setSelectedIndex(0);
+        getSpinnerNivelMinArma().setValue(0);
+        getSpinnerNivelIniArma().setValue(0);
+        getSpinnerPrecioVArma().setValue(0);
+        getSpinnerPrecioCArma().setValue(0);
+        getComboCalidadArma().setSelectedIndex(0);
+        getCheckMejorableArma().setSelected(true);
+        getCheckComerciableArma().setSelected(true);
+        getSpinnerAtaFisArma().setValue(0);
+        getSpinnerMejAtaFisArma().setValue(0);
+        getSpinnerHRFisArma().setValue(0);
+        getSpinnerMejHRFisArma().setValue(0);
+        getSpinnerAtaMagArma().setValue(0);
+        getSpinnerMejAtaMagArma().setValue(0);
+        getSpinnerHRMagArma().setValue(0);
+        getSpinnerMejHRMagArma().setValue(0);
+        getSpinnerCritArma().setValue(0);
+        getSpinnerMejCritArma().setValue(0);
+        getSpinnerRoboVArma().setValue(0);
+        getSpinnerMejRoboVArma().setValue(0);
+        getSpinnerRoboMArma().setValue(0);
+        getSpinnerMejRoboMArma().setValue(0);
+        getSpinnerExpExtraArma().setValue(0);
+        getSpinnerDineroExtraArma().setValue(0);
+        recursivelyEnableDisablePanel(getPanelEditorArma(), true);
+    }//GEN-LAST:event_btnCrearNuevaArmaActionPerformed
+
+    private void btnEditarArmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarArmaActionPerformed
+        guiWeaponMan.loadValuesForWeaponSelected();
+    }//GEN-LAST:event_btnEditarArmaActionPerformed
+
+    private void btnEliminarArmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarArmaActionPerformed
+        guiWeaponMan.deleteWeaponSelected();
+    }//GEN-LAST:event_btnEliminarArmaActionPerformed
+
+    private void btnGuardarArmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarArmaActionPerformed
+        guiWeaponMan.saveWeapon();
+    }//GEN-LAST:event_btnGuardarArmaActionPerformed
+
+    private void btnGuardarConfigJoyasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarConfigJoyasActionPerformed
+        if (checkConfigJoyas()) {
+            guiJewelMan.saveConfig();
+        } else {
+            JOptionPane.showMessageDialog(null, "Revisa los siguientes campos:\n\t-Las probabilidades deben estar comprendidas entre 0 y 1\n\t-La probabilidad de exito debe ser la mayor de todas\n\t-La probabilidad de rotura debe ser la mas baja de todas\n\t-El orden de menos a mayor de las probabilidades es el siguiente:\n\t\t1º Probabilidad de rotura\n\t\t2º Probabilidad de deterioro\n\t\t3º Probabilidad sin efecto\n\t\t4º Probabilidad de exito", "Error en la validación de la configuración", 2);
+        }
+    }//GEN-LAST:event_btnGuardarConfigJoyasActionPerformed
+
+    private void btnEliminarJoyaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarJoyaActionPerformed
+        guiJewelMan.deleteJewelSelected();
+    }//GEN-LAST:event_btnEliminarJoyaActionPerformed
+
+    private void btnEditarJoyaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarJoyaActionPerformed
+        guiJewelMan.loadValuesForJewelSelected();
+    }//GEN-LAST:event_btnEditarJoyaActionPerformed
+
+    private void btnGuardarJoyaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarJoyaActionPerformed
+        guiJewelMan.saveJewel();
+    }//GEN-LAST:event_btnGuardarJoyaActionPerformed
+
+    private void btnCrearNuevaJoyaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevaJoyaActionPerformed
+        getTxtNombreJoya().setText("");
+        getComboObjetoJoya().setSelectedIndex(0);
+        getSpinnerPrecioVJoya().setValue(0);
+        getSpinnerPrecioCJoya().setValue(0);
+        getComboCalidadJoya().setSelectedIndex(0);
+        getCheckCombinable().setSelected(true);
+        getCheckComerciable().setSelected(true);
+        getSpinnerAtaFisJoya().setValue(0);
+        getSpinnerDefFisJoya().setValue(0);
+        getSpinnerHRFisJoya().setValue(0);
+        getSpinnerEvaFisJoya().setValue(0);
+        getSpinnerAtaMagJoya().setValue(0);
+        getSpinnerDefMagJoya().setValue(0);
+        getSpinnerHRMagJoya().setValue(0);
+        getSpinnerEvaMagJoya().setValue(0);
+        getSpinnerCritJoya().setValue(0);
+        getSpinnerVidaJoya().setValue(0);
+        getSpinnerRoboVJoya().setValue(0);
+        getSpinnerRoboMJoya().setValue(0);
+        getSpinnerManaJoya().setValue(0);
+        getSpinnerExpExtraJoya().setValue(0);
+        getSpinnerDineroExtraJoya().setValue(0);
+        recursivelyEnableDisablePanel(getPanelEditorJoya(), true);
+    }//GEN-LAST:event_btnCrearNuevaJoyaActionPerformed
+
+    private void checkDanioPvpStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_checkDanioPvpStateChanged
+        recursivelyEnableDisablePanel(panelPvpGrupos, checkDanioPvp.isSelected());
+    }//GEN-LAST:event_checkDanioPvpStateChanged
+
+    private void checkContributionClanStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_checkContributionClanStateChanged
+        spinnerContriPorcentajeMuertes.setEnabled(checkContributionClan.isSelected());
+    }//GEN-LAST:event_checkContributionClanStateChanged
+
+    private void rdBtnOpcDinFormStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rdBtnOpcDinFormStateChanged
+        recursivelyEnableDisablePanel(panelFormulaClan, rdBtnOpcDinForm.isSelected());
+    }//GEN-LAST:event_rdBtnOpcDinFormStateChanged
+
+    private void rdBtnLimitNivClanStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rdBtnLimitNivClanStateChanged
+        recursivelyEnableDisablePanel(panelOpcLimNivelClan, rdBtnLimitNivClan.isSelected());
+        recursivelyEnableDisablePanel(panelSisContNivelClan, rdBtnLimitNivClan.isSelected());
+    }//GEN-LAST:event_rdBtnLimitNivClanStateChanged
+
+    private void rdBtnOpcionProporcionalGrupoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rdBtnOpcionProporcionalGrupoStateChanged
+        recursivelyEnableDisablePanel(panelOpcRepProp, rdBtnOpcionProporcionalGrupo.isSelected());
+    }//GEN-LAST:event_rdBtnOpcionProporcionalGrupoStateChanged
+
+    private void rdBtnFijosGrupoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rdBtnFijosGrupoStateChanged
+        spinnerNumeroFijoJugGrupo.setEnabled(rdBtnFijosGrupo.isSelected());
+    }//GEN-LAST:event_rdBtnFijosGrupoStateChanged
+
+    private void btnGuardarConfigClanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarConfigClanActionPerformed
+        if (checkConfigGuild().isEmpty()) {
+            guiGuildMan.saveConfig();
+        } else {
+            JOptionPane.showMessageDialog(null, "Revisa los siguientes campos:\n" + checkConfigGuild().toString(), "Error en la validación de la configuración de clanes", 2);
+        }
+    }//GEN-LAST:event_btnGuardarConfigClanActionPerformed
+
+    private void rdBtnNumFijosClanStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_rdBtnNumFijosClanStateChanged
+        getSpinnerNumFijosClan().setEnabled(rdBtnNumFijosClan.isSelected());
+    }//GEN-LAST:event_rdBtnNumFijosClanStateChanged
+
+    private void btnGuardarConfigChatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarConfigChatsActionPerformed
+        guiChatMan.saveConfig();
+    }//GEN-LAST:event_btnGuardarConfigChatsActionPerformed
+
+    private void btnGuardarConfigArmaduraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarConfigArmaduraActionPerformed
+        if (checkConfigArmaduras()) {
+            guiArmorMan.saveConfig();
+        } else {
+            JOptionPane.showMessageDialog(null, "Revisa los siguientes campos:\n\t-El nombre del objeto no puede estar vacio\n\t-Las probabilidades deben estar comprendidas entre 0 y 1\n\t-La probabilidad de exito debe ser la mayor de todas\n\t-La probabilidad de rotura debe ser la mas baja de todas\n\t-El orden de menos a mayor de las probabilidades es el siguiente:\n\t\t1º Probabilidad de rotura\n\t\t2º Probabilidad de deterioro\n\t\t3º Probabilidad sin efecto\n\t\t4º Probabilidad de exito", "Error en la validación de la configuración", 2);
+        }
+    }//GEN-LAST:event_btnGuardarConfigArmaduraActionPerformed
+
+    private void btnEditarSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarSetActionPerformed
+        guiArmorMan.loadValuesForSetSelected();
+    }//GEN-LAST:event_btnEditarSetActionPerformed
+
+    private void btnEliminarSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarSetActionPerformed
+        guiArmorMan.deleteSetSelected();
+    }//GEN-LAST:event_btnEliminarSetActionPerformed
+
+    private void btnNuevoSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoSetActionPerformed
+        getTxtNombreSet().setText("");
+        getComboMaterial().setSelectedIndex(0);
+        getSpinnerNivel().setValue(0);
+        getComboCalidad().setSelectedIndex(0);
+        getCheckMejorableArma().setSelected(true);
+        getCheckComerciableArma().setSelected(true);
+
+        getSpinnerDefFisCasco().setValue(0);
+        getSpinnerMejDefFisCasco().setValue(0);
+        getSpinnerEvaFisCasco().setValue(0);
+        getSpinnerMejEvaFisCasco().setValue(0);
+        getSpinnerPrecioVCasco().setValue(0);
+        getSpinnerPrecioCCasco().setValue(0);
+        getSpinnerExpExtraCasco().setValue(0);
+        getSpinnerDineroExtraCasco().setValue(0);
+
+        getSpinnerDefFisPechera().setValue(0);
+        getSpinnerMejDefFisPechera().setValue(0);
+        getSpinnerEvaFisPechera().setValue(0);
+        getSpinnerMejEvaFisPechera().setValue(0);
+        getSpinnerPrecioVPechera().setValue(0);
+        getSpinnerPrecioCPechera().setValue(0);
+        getSpinnerExpExtraPechera().setValue(0);
+        getSpinnerDineroExtraPechera().setValue(0);
+
+        getSpinnerDefFisGrebas().setValue(0);
+        getSpinnerMejDefFisGrebas().setValue(0);
+        getSpinnerEvaFisGrebas().setValue(0);
+        getSpinnerMejEvaFisGrebas().setValue(0);
+        getSpinnerPrecioVGrebas().setValue(0);
+        getSpinnerPrecioCGrebas().setValue(0);
+        getSpinnerExpExtraGrebas().setValue(0);
+        getSpinnerDineroExtraGrebas().setValue(0);
+
+        getSpinnerDefFisBotas().setValue(0);
+        getSpinnerMejDefFisBotas().setValue(0);
+        getSpinnerEvaFisBotas().setValue(0);
+        getSpinnerMejEvaFisBotas().setValue(0);
+        getSpinnerPrecioVBotas().setValue(0);
+        getSpinnerPrecioCBotas().setValue(0);
+        getSpinnerExpExtraBotas().setValue(0);
+        getSpinnerDineroExtraBotas().setValue(0);
+
+        recursivelyEnableDisablePanel(getPanelEditorArma(), true);
+    }//GEN-LAST:event_btnNuevoSetActionPerformed
+
+    private void comboSelectorTipoMobItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboSelectorTipoMobItemStateChanged
+        if (comboSelectorTipoMob.getSelectedItem() != null) {
+            dibujarComponentesMobs();
+        }
+    }//GEN-LAST:event_comboSelectorTipoMobItemStateChanged
+
+    private void comboTipoDropMobItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboTipoDropMobItemStateChanged
+        if (comboTipoDropMob.getSelectedItem() != null) {
+            dibujarComponentesDrops();
+        }
+    }//GEN-LAST:event_comboTipoDropMobItemStateChanged
+
+    private boolean checkConfigArmaduras() {
+        if (!getTxtNombreObjetoMejArmadura().getText().isEmpty()
+                && (float) getSpinnerProbRotArmadura().getValue() >= 0
+                && (float) getSpinnerProbDetArmadura().getValue() >= 0
+                && (float) getSpinnerProbSEArmadura().getValue() >= 0
+                && (float) getSpinnerProbExitoArmadura().getValue() >= 0
+                && (float) getSpinnerProbRotArmadura().getValue() <= 1
+                && (float) getSpinnerProbDetArmadura().getValue() <= 1
+                && (float) getSpinnerProbSEArmadura().getValue() <= 1
+                && (float) getSpinnerProbExitoArmadura().getValue() <= 1
+                && (float) getSpinnerProbExitoArmadura().getValue() > (float) getSpinnerProbSEArmadura().getValue()
+                && (float) getSpinnerProbSEArmadura().getValue() > (float) getSpinnerProbDetArmadura().getValue()
+                && (float) getSpinnerProbDetArmadura().getValue() > (float) getSpinnerProbRotArmadura().getValue()) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @param args the command line arguments
@@ -6509,6 +6880,7 @@ public class GUI extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PanelAtributosMob;
     private javax.swing.JButton btnAnadirDesObjeto;
     private javax.swing.JButton btnAnadirDescArma;
     private javax.swing.JButton btnAnadirDescArmadura;
@@ -6563,8 +6935,6 @@ public class GUI extends JFrame {
     private javax.swing.JButton btnNuevoMob;
     private javax.swing.JButton btnNuevoSet;
     private javax.swing.JButton btnResetClase;
-    private javax.swing.JButton btnResetConfigClan;
-    private javax.swing.JButton btnResetConfigGrupos;
     private javax.swing.JButton btnResetSpawner;
     private javax.swing.JButton btnResetearFormulaClan;
     private javax.swing.JButton btnResetearMob;
@@ -6575,24 +6945,27 @@ public class GUI extends JFrame {
     private javax.swing.ButtonGroup btngroupOpcLimNivelClan;
     private javax.swing.ButtonGroup btngroupOpcionRepartoPropGrupo;
     private javax.swing.ButtonGroup btngroupPvpGrupo;
-    private javax.swing.ButtonGroup btngroupRepartoGrupo;
-    private javax.swing.ButtonGroup btngroupSistContrClan;
-    private javax.swing.JButton btnprueba;
+    private javax.swing.JCheckBox checkAtribMob1;
+    private javax.swing.JCheckBox checkAtribMob2;
     private javax.swing.JCheckBox checkClanes;
     private javax.swing.JCheckBox checkColocarBloques;
     private javax.swing.JCheckBox checkCombinable;
     private javax.swing.JCheckBox checkComerciable;
     private javax.swing.JCheckBox checkComerciableArma;
     private javax.swing.JCheckBox checkComerciableArmadura;
+    private javax.swing.JCheckBox checkContributionClan;
     private javax.swing.JCheckBox checkDanioAhogo;
     private javax.swing.JCheckBox checkDanioCaida;
     private javax.swing.JCheckBox checkDanioPvp;
     private javax.swing.JCheckBox checkDayCycle;
     private javax.swing.JCheckBox checkDestruirBloques;
+    private javax.swing.JCheckBox checkDineroGrupo;
+    private javax.swing.JCheckBox checkDonationClan;
     private javax.swing.JCheckBox checkEnableClase;
     private javax.swing.JCheckBox checkEnableGlobalChat;
     private javax.swing.JCheckBox checkEnableMarketChat;
     private javax.swing.JCheckBox checkEnableSpawner;
+    private javax.swing.JCheckBox checkExpGrupo;
     private javax.swing.JCheckBox checkGrupos;
     private javax.swing.JCheckBox checkGuildChat;
     private javax.swing.JCheckBox checkMejorableArma;
@@ -6600,6 +6973,8 @@ public class GUI extends JFrame {
     private javax.swing.JCheckBox checkPartyChat;
     private javax.swing.JCheckBox checkPrivateChat;
     private javax.swing.JCheckBox checkSistHambre;
+    private javax.swing.JComboBox comboAtribMob1;
+    private javax.swing.JComboBox comboAtribMob2;
     private javax.swing.JComboBox comboCalidad;
     private javax.swing.JComboBox comboCalidadArma;
     private javax.swing.JComboBox comboCalidadJoya;
@@ -6649,7 +7024,13 @@ public class GUI extends JFrame {
     private javax.swing.JComboBox comboTipoObjeto;
     private javax.swing.JList jListDescArma;
     private javax.swing.JList jListDescArmadura;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane13;
+    private javax.swing.JScrollPane jScrollPane14;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -6657,6 +7038,7 @@ public class GUI extends JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JLabel lblAtaDistMob;
     private javax.swing.JLabel lblAtaFisAP;
     private javax.swing.JLabel lblAtaFisArma;
@@ -6669,6 +7051,8 @@ public class GUI extends JFrame {
     private javax.swing.JLabel lblAtaMagBase;
     private javax.swing.JLabel lblAtaMagJoya;
     private javax.swing.JLabel lblAtaMagNivel;
+    private javax.swing.JLabel lblAtribMob1;
+    private javax.swing.JLabel lblAtribMob2;
     private javax.swing.JLabel lblCalidad;
     private javax.swing.JLabel lblCalidadArma;
     private javax.swing.JLabel lblCalidadJoya;
@@ -6806,6 +7190,7 @@ public class GUI extends JFrame {
     private javax.swing.JLabel lblPrecioCCasco;
     private javax.swing.JLabel lblPrecioCGrebas;
     private javax.swing.JLabel lblPrecioCJoya;
+    private javax.swing.JLabel lblPrecioCJoya1;
     private javax.swing.JLabel lblPrecioCPechera;
     private javax.swing.JLabel lblPrecioVArma;
     private javax.swing.JLabel lblPrecioVBotas;
@@ -6823,6 +7208,7 @@ public class GUI extends JFrame {
     private javax.swing.JLabel lblProbExitoArma;
     private javax.swing.JLabel lblProbExitoArmadura;
     private javax.swing.JLabel lblProbExitoJoya;
+    private javax.swing.JLabel lblProbExitoJoya1;
     private javax.swing.JLabel lblProbRotArma;
     private javax.swing.JLabel lblProbRotArmadura;
     private javax.swing.JLabel lblProbRotJoya;
@@ -6931,7 +7317,6 @@ public class GUI extends JFrame {
     private javax.swing.JPanel panelHabDest;
     private javax.swing.JPanel panelHabFuerza;
     private javax.swing.JPanel panelHabInt;
-    private javax.swing.JPanel panelInicio;
     private javax.swing.JPanel panelLocSpawner;
     private javax.swing.JPanel panelMejoraArma;
     private javax.swing.JPanel panelMejoraArmadura;
@@ -6951,16 +7336,11 @@ public class GUI extends JFrame {
     private javax.swing.JPanel panelSisContNivelClan;
     private javax.swing.JPanel panelSistRepGrupos;
     private javax.swing.JPanel panelSubirNivel;
-    private javax.swing.JRadioButton rdBtnAmbosGrupo;
-    private javax.swing.JRadioButton rdBtnContriAmbos;
-    private javax.swing.JRadioButton rdBtnContriSoloContri;
-    private javax.swing.JRadioButton rdBtnContriSoloDon;
     private javax.swing.JRadioButton rdBtnFijosGrupo;
     private javax.swing.JRadioButton rdBtnIlimitadosGrupo;
     private javax.swing.JRadioButton rdBtnLimitNivClan;
     private javax.swing.JRadioButton rdBtnNoPermitidoPvpGrupo;
     private javax.swing.JRadioButton rdBtnNumFijosClan;
-    private javax.swing.JRadioButton rdBtnNumIlimitadosClan;
     private javax.swing.JRadioButton rdBtnOpcDinFijo;
     private javax.swing.JRadioButton rdBtnOpcDinForm;
     private javax.swing.JRadioButton rdBtnOpcionProporcionalGrupo;
@@ -6968,10 +7348,6 @@ public class GUI extends JFrame {
     private javax.swing.JRadioButton rdBtnPermitidoPvpGrupo;
     private javax.swing.JRadioButton rdBtnProKillsGrupo;
     private javax.swing.JRadioButton rdBtnProNivelGrupo;
-    private javax.swing.JRadioButton rdBtnSinRepartoGrupo;
-    private javax.swing.JRadioButton rdBtnSoloDineroGrupo;
-    private javax.swing.JRadioButton rdBtnSoloExpGrupo;
-    private javax.swing.JSpinner spinerProbExitoArma;
     private javax.swing.JSpinner spinnerAtaDistMob;
     private javax.swing.JSpinner spinnerAtaFisAP;
     private javax.swing.JSpinner spinnerAtaFisArma;
@@ -6989,6 +7365,7 @@ public class GUI extends JFrame {
     private javax.swing.JSpinner spinnerCritAP;
     private javax.swing.JSpinner spinnerCritArma;
     private javax.swing.JSpinner spinnerCritBase;
+    private javax.swing.JSpinner spinnerCritJoya;
     private javax.swing.JSpinner spinnerCritNivel;
     private javax.swing.JSpinner spinnerDefFisBase;
     private javax.swing.JSpinner spinnerDefFisBotas;
@@ -7086,18 +7463,20 @@ public class GUI extends JFrame {
     private javax.swing.JSpinner spinnerPrecioVGrebas;
     private javax.swing.JSpinner spinnerPrecioVJoya;
     private javax.swing.JSpinner spinnerPrecioVPechera;
-    private javax.swing.JSpinner spinnerProSEArma;
     private javax.swing.JSpinner spinnerProbDetArma;
     private javax.swing.JSpinner spinnerProbDetArmadura;
     private javax.swing.JSpinner spinnerProbDetJoya;
     private javax.swing.JSpinner spinnerProbDropMob;
+    private javax.swing.JSpinner spinnerProbExitoArma;
     private javax.swing.JSpinner spinnerProbExitoArmadura;
     private javax.swing.JSpinner spinnerProbExitoJoya;
     private javax.swing.JSpinner spinnerProbRotArma;
     private javax.swing.JSpinner spinnerProbRotArmadura;
     private javax.swing.JSpinner spinnerProbRotJoya;
+    private javax.swing.JSpinner spinnerProbSEArma;
     private javax.swing.JSpinner spinnerProbSEArmadura;
     private javax.swing.JSpinner spinnerProbSEJoya;
+    private javax.swing.JSpinner spinnerProblosepperloreJoya;
     private javax.swing.JSpinner spinnerRadioSpawner;
     private javax.swing.JSpinner spinnerRangoSeguiMob;
     private javax.swing.JSpinner spinnerRefrescoSpawner;
@@ -7452,22 +7831,6 @@ public class GUI extends JFrame {
         return jListDescArmadura;
     }
 
-    public JRadioButton getRdBtnAmbosGrupo() {
-        return rdBtnAmbosGrupo;
-    }
-
-    public JRadioButton getRdBtnContriAmbos() {
-        return rdBtnContriAmbos;
-    }
-
-    public JRadioButton getRdBtnContriSoloContri() {
-        return rdBtnContriSoloContri;
-    }
-
-    public JRadioButton getRdBtnContriSoloDon() {
-        return rdBtnContriSoloDon;
-    }
-
     public JRadioButton getRdBtnFijosGrupo() {
         return rdBtnFijosGrupo;
     }
@@ -7486,10 +7849,6 @@ public class GUI extends JFrame {
 
     public JRadioButton getRdBtnNumFijosClan() {
         return rdBtnNumFijosClan;
-    }
-
-    public JRadioButton getRdBtnNumIlimitadosClan() {
-        return rdBtnNumIlimitadosClan;
     }
 
     public JRadioButton getRdBtnOpcDinFijo() {
@@ -7520,20 +7879,8 @@ public class GUI extends JFrame {
         return rdBtnProNivelGrupo;
     }
 
-    public JRadioButton getRdBtnSinRepartoGrupo() {
-        return rdBtnSinRepartoGrupo;
-    }
-
-    public JRadioButton getRdBtnSoloDineroGrupo() {
-        return rdBtnSoloDineroGrupo;
-    }
-
-    public JRadioButton getRdBtnSoloExpGrupo() {
-        return rdBtnSoloExpGrupo;
-    }
-
-    public JSpinner getSpinerProbExitoArma() {
-        return spinerProbExitoArma;
+    public JSpinner getSpinnerProbExitoArma() {
+        return spinnerProbExitoArma;
     }
 
     public JSpinner getSpinnerAtaDistMob() {
@@ -7992,8 +8339,8 @@ public class GUI extends JFrame {
         return spinnerPrecioVPechera;
     }
 
-    public JSpinner getSpinnerProSEArma() {
-        return spinnerProSEArma;
+    public JSpinner getSpinnerProbSEArma() {
+        return spinnerProbSEArma;
     }
 
     public JSpinner getSpinnerProbDetArma() {
@@ -8016,7 +8363,7 @@ public class GUI extends JFrame {
         return spinnerProbExitoArmadura;
     }
 
-    public JSpinner getSpinnerProbExitoJoya() {
+    public JSpinner getSpinnerProbNothingJoya() {
         return spinnerProbExitoJoya;
     }
 
@@ -8464,10 +8811,6 @@ public class GUI extends JFrame {
         return panelHabInt;
     }
 
-    public JPanel getPanelInicio() {
-        return panelInicio;
-    }
-
     public JPanel getPanelLocSpawner() {
         return panelLocSpawner;
     }
@@ -8555,6 +8898,363 @@ public class GUI extends JFrame {
 
     public JList getListDescripcionObjeto() {
         return listDescripcionObjeto;
+    }
+
+    private boolean checkConfigArmas() {
+        if (!getTxtNombreObjetoMejArma().getText().isEmpty()
+                && (float) getSpinnerProbRotArma().getValue() >= 0
+                && (float) getSpinnerProbDetArma().getValue() >= 0
+                && (float) getSpinnerProbSEArma().getValue() >= 0
+                && (float) getSpinnerProbExitoArma().getValue() >= 0
+                && (float) getSpinnerProbRotArma().getValue() <= 1
+                && (float) getSpinnerProbDetArma().getValue() <= 1
+                && (float) getSpinnerProbSEArma().getValue() <= 1
+                && (float) getSpinnerProbExitoArma().getValue() <= 1
+                && (float) getSpinnerProbExitoArma().getValue() > (float) getSpinnerProbSEArma().getValue()
+                && (float) getSpinnerProbSEArma().getValue() > (float) getSpinnerProbDetArma().getValue()
+                && (float) getSpinnerProbDetArma().getValue() > (float) getSpinnerProbRotArma().getValue()) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkConfigJoyas() {
+        if ((float) getSpinnerProbRotJoya().getValue() >= 0
+                && (float) getSpinnerProbDetJoya().getValue() >= 0
+                && (float) getSpinnerProbNothingJoya().getValue() >= 0
+                && (float) getSpinnerProbSEJoya().getValue() >= 0
+                && (float) getSpinnerProbRotJoya().getValue() <= 1
+                && (float) getSpinnerProbDetJoya().getValue() <= 1
+                && (float) getSpinnerProbSEJoya().getValue() <= 1
+                && (float) getSpinnerProbNothingJoya().getValue() <= 1
+                && (float) getSpinnerProbNothingJoya().getValue() > (float) getSpinnerProbSEJoya().getValue()
+                && (float) getSpinnerProbSEJoya().getValue() > (float) getSpinnerProbDetJoya().getValue()
+                && (float) getSpinnerProbDetJoya().getValue() > (float) getSpinnerProbRotJoya().getValue()) {
+            return true;
+        }
+        return false;
+    }
+
+    public JSpinner getSpinnerCritJoya() {
+        return spinnerCritJoya;
+    }
+
+    public JSpinner getSpinnerProbExitoJoya() {
+        return spinnerProbExitoJoya;
+    }
+
+    public JCheckBox getCheckDineroGrupo() {
+        return checkDineroGrupo;
+    }
+
+    public JCheckBox getCheckExpGrupo() {
+        return checkExpGrupo;
+    }
+
+    public JCheckBox getCheckContributionClan() {
+        return checkContributionClan;
+    }
+
+    public JCheckBox getCheckDonationClan() {
+        return checkDonationClan;
+    }
+
+    private List<String> checkConfigGuild() {
+        List<String> mensajes = new ArrayList<>();;
+        boolean errorfijos = false;
+        boolean errordinform = false;
+        boolean errordinefijo = false;
+        boolean errorcontri = false;
+        boolean errorspinnercontri = false;
+        if (rdBtnNumFijosClan.isSelected()) {
+            if ((int) spinnerNumFijosClan.getValue() >= 0) {
+                errorfijos = false;
+            } else {
+                errorfijos = true;
+            }
+        } else {
+            if (checkDonationClan.isSelected() || checkContributionClan.isSelected()) {
+                errorcontri = false;
+            } else {
+                errorcontri = true;
+            }
+            if (checkContributionClan.isSelected() && (float) spinnerContriPorcentajeMuertes.getValue() > 0) {
+                errorspinnercontri = false;
+            } else {
+                errorspinnercontri = true;
+            }
+            if (rdBtnOpcDinForm.isSelected()) {
+                if ((int) spinnerFormJugIniClan.getValue() >= 1
+                        && (int) spinnerFormJugXNivelClan.getValue() >= 1
+                        && (int) spinnerNivelMaxClan.getValue() >= 1
+                        && (double) spinnerformulax2clan.getValue() >= 0.01
+                        && (double) spinnerformulaxclan.getValue() >= 0.01) {
+                    errordinform = false;
+                } else {
+                    errordinform = true;
+                }
+            } else {
+                if (tablaClanes.getModel().getRowCount() >= 1
+                        && (checkDonationClan.isSelected() || checkContributionClan.isSelected())) {
+                    errordinefijo = false;
+                } else {
+                    errordinefijo = true;
+                }
+            }
+        }
+        if (errorfijos
+                || errordinform
+                || errordinefijo
+                || errorcontri
+                || errorspinnercontri) {
+
+            if (errorfijos) {
+                mensajes.add("\t- El numero de jugadores fijos debe ser superior o igual a 0\n");
+            }
+            if (errordinform) {
+                mensajes.add("\t- Los jugadores iniciales no puede ser menor de 1\n"
+                        + "\t- Los jugadores por nivel no pueden ser menor de 1\n"
+                        + "\t- Los campos de la formula deben ser mayor que 0\n"
+                        + "\t- El nivel maximo del clan debe ser mayor que 0\n");
+            }
+            if (errorcontri) {
+                mensajes.add("\t- Al menos uno de los dos sistemas de contribución debe estar activado\n");
+            }
+            if (errorspinnercontri) {
+                mensajes.add("\t- El porcentaje del sistema de contribución debe ser mayor que 0 y igual o menor a 1\n");
+            }
+            if (errordinefijo) {
+                mensajes.add("\t- Al menos debe existir un nivel en el clan, visualizado en la tabla de niveles\n");
+            }
+        }
+        return mensajes;
+    }
+
+    public int indiceCombo(JComboBox j, String s) {
+        for (int i = 0; i < j.getModel().getSize(); i++) {
+            if (j.getModel().getElementAt(i).toString().equals(s)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public JPanel getPanelAtributosMob() {
+        return PanelAtributosMob;
+    }
+
+    private void dibujarComponentesDrops() {
+        comboObjetoDropMob.removeAllItems();
+        switch (EnumTypeDrop.valueOf(EnumTypeDrop.values()[(int) getComboTipoDropMob().getSelectedIndex()].name())) {
+            case ARMOR:
+                for (Map.Entry<String, GUISet> entrySet : guiArmorMan.getListSets().entrySet()) {
+                    Object value = entrySet.getValue();
+                    for (Map.Entry<EnumArmorPart, GUIArmor> a : entrySet.getValue().getSet().entrySet()) {
+                        GUIArmor armor = a.getValue();
+                        comboObjetoDropMob.addItem(armor.getName());
+                    }
+                }
+                break;
+            case ITEM:
+                for (Map.Entry<String, GUIItem> entrySet : guiItemMan.getListItems().entrySet()) {
+                    String key = entrySet.getKey();
+                    comboObjetoDropMob.addItem(key);
+                }
+                break;
+            case WEAPON:
+                for (Map.Entry<String, GUIWeapon> entrySet : guiWeaponMan.getListWeapons().entrySet()) {
+                    Object key = entrySet.getKey();
+                    comboObjetoDropMob.addItem(key);
+                }
+                break;
+            case UPGRADER:
+                if (getGuiItemMan() == null) {
+                    System.out.println("la cagaste");
+                }
+                for (String s : getGuiItemMan().getUpgraders()) {
+                    comboObjetoDropMob.addItem(s);
+                }
+                break;
+        }
+    }
+
+    public void dibujarComponentesMobs() {
+        getCheckAtribMob1().setVisible(true);
+        getCheckAtribMob1().setVisible(true);
+        getCheckAtribMob2().setVisible(true);
+        getComboAtribMob1().setVisible(true);
+        getComboAtribMob2().setVisible(true);
+        getLblAtribMob1().setVisible(true);
+        getLblAtribMob2().setVisible(true);
+        getComboAtribMob1().removeAllItems();
+        getComboAtribMob2().removeAllItems();
+        switch (CustomEntityType.valueOf(CustomEntityType.values()[(int) getComboSelectorTipoMob().getModel().getSelectedItem()].name())) {
+            case BATX:
+                getCheckAtribMob1().setText("Despierto");
+                getCheckAtribMob1().setName("asleep");
+                getCheckAtribMob2().setVisible(false);
+                getComboAtribMob1().setVisible(false);
+                getComboAtribMob2().setVisible(false);
+                getLblAtribMob1().setVisible(false);
+                getLblAtribMob2().setVisible(false);
+                break;
+            case CHICKENX:
+            case COWX:
+            case MUSHROOMCOWX:
+            case PIGX:
+            case PIGZOMBIEX:
+            case WOLFX:
+                getCheckAtribMob1().setText("Bebé");
+                getCheckAtribMob1().setName("baby");
+                getCheckAtribMob2().setVisible(false);
+                getComboAtribMob1().setVisible(false);
+                getComboAtribMob2().setVisible(false);
+                getLblAtribMob1().setVisible(false);
+                getLblAtribMob2().setVisible(false);
+                break;
+            case GUARDIANX:
+                getCheckAtribMob1().setVisible(false);
+                getCheckAtribMob2().setVisible(false);
+                for (GuardianType g : GuardianType.values()) {
+                    getComboAtribMob1().addItem(g.name());
+                }
+                getComboAtribMob1().setName("guardiantype");
+                getComboAtribMob2().setVisible(false);
+                getLblAtribMob1().setText("Tipo de guardian");
+                getLblAtribMob2().setVisible(false);
+                break;
+            case HORSEX:
+                getCheckAtribMob1().setText("Bebé");
+                getCheckAtribMob1().setName("Baby");
+                getCheckAtribMob2().setVisible(false);
+                for (HorseType h : HorseType.values()) {
+                    getComboAtribMob1().addItem(h.name());
+                }
+                getComboAtribMob1().setName("horsetype");
+                for (HorseVariant v : HorseVariant.values()) {
+                    getComboAtribMob2().addItem(v.name());
+                }
+                getComboAtribMob2().setName("horsevariant");
+                getLblAtribMob1().setText("Tipo de caballo");
+                getLblAtribMob2().setText("Variante de caballo");
+                break;
+            case OCELOTX:
+                getCheckAtribMob1().setText("Bebé");
+                getCheckAtribMob1().setName("baby");
+                getCheckAtribMob2().setVisible(false);
+                for (OcelotType o : OcelotType.values()) {
+                    getComboAtribMob1().addItem(o.name());
+                }
+                getComboAtribMob1().setName("otype");
+                getComboAtribMob2().setVisible(false);
+                getLblAtribMob1().setText("Tipo de ocelote");
+                getLblAtribMob2().setVisible(false);
+                break;
+            case RABBITX:
+                getCheckAtribMob1().setText("Bebé");
+                getCheckAtribMob1().setName("baby");
+                getCheckAtribMob2().setVisible(false);
+                for (RabbitType r : RabbitType.values()) {
+                    getComboAtribMob1().addItem(r.name());
+                }
+                getComboAtribMob1().setName("rtype");
+                getComboAtribMob2().setVisible(false);
+                getLblAtribMob1().setText("Tipo de conejo");
+                getLblAtribMob2().setVisible(false);
+                break;
+            case SHEEPX:
+                getCheckAtribMob1().setText("Bebé");
+                getCheckAtribMob1().setName("baby");
+                getCheckAtribMob2().setVisible(false);
+                for (SheepColor s : SheepColor.values()) {
+                    getComboAtribMob1().addItem(s.name());
+                }
+                getComboAtribMob1().setName("scolor");
+                getComboAtribMob2().setVisible(false);
+                getLblAtribMob1().setText("Color de la oveja");
+                getLblAtribMob2().setVisible(false);
+                break;
+            case SKELETONX:
+                getCheckAtribMob1().setVisible(false);
+                getCheckAtribMob2().setVisible(false);
+                for (SkeletonType s : SkeletonType.values()) {
+                    getComboAtribMob1().addItem(s.name());
+                }
+                getComboAtribMob1().setName("stype");
+                getComboAtribMob2().setVisible(false);
+                getLblAtribMob1().setText("Tipo de esqueleto");
+                getLblAtribMob2().setVisible(false);
+                break;
+            case VILLAGERX:
+                getCheckAtribMob1().setText("Bebé");
+                getCheckAtribMob1().setName("baby");
+                getCheckAtribMob2().setVisible(false);
+                for (VillagerType v : VillagerType.values()) {
+                    getComboAtribMob1().addItem(v.name());
+                }
+                getComboAtribMob1().setName("vtype");
+                getComboAtribMob2().setVisible(false);
+                getLblAtribMob1().setText("Tipo de aldeano");
+                getLblAtribMob2().setVisible(false);
+                break;
+            case ZOMBIEX:
+                getCheckAtribMob1().setText("Bebé");
+                getCheckAtribMob1().setName("baby");
+                getCheckAtribMob2().setText("Aldeano");
+                getCheckAtribMob2().setName("villager");
+                getComboAtribMob1().setVisible(false);
+                getComboAtribMob2().setVisible(false);
+                getLblAtribMob1().setVisible(false);
+                getLblAtribMob2().setVisible(false);
+            default:
+                getCheckAtribMob1().setVisible(false);
+                getCheckAtribMob2().setVisible(false);
+                getComboAtribMob1().setVisible(false);
+                getComboAtribMob2().setVisible(false);
+                getLblAtribMob1().setVisible(false);
+                getLblAtribMob2().setVisible(false);
+                break;
+        }
+        for (Component c : getPanelAtributosMob().getComponents()) {
+            if (c instanceof JCheckBox) {
+                ((JCheckBox) c).revalidate();
+            }
+            if (c instanceof JComboBox) {
+                ((JComboBox) c).revalidate();
+            }
+            if (c instanceof JLabel) {
+                ((JLabel) c).revalidate();
+            }
+        }
+
+    }
+
+    public JCheckBox getCheckAtribMob1() {
+        return checkAtribMob1;
+    }
+
+    public JCheckBox getCheckAtribMob2() {
+        return checkAtribMob2;
+    }
+
+    public JComboBox getComboAtribMob1() {
+        return comboAtribMob1;
+    }
+
+    public JComboBox getComboAtribMob2() {
+        return comboAtribMob2;
+    }
+
+    public JLabel getLblAtribMob1() {
+        return lblAtribMob1;
+    }
+
+    public JLabel getLblAtribMob2() {
+        return lblAtribMob2;
+    }
+
+    public static GUIMobManager getGuiMobMan() {
+        return guiMobMan;
     }
 
 }

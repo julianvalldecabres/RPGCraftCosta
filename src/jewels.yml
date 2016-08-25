@@ -19,7 +19,6 @@
     critical: 0
     healthsteal: 0
     manasteal: 0
-    apbonus: 0
     xpbonus: 0
     moneybonus: 0
 2:
@@ -43,6 +42,5 @@
     critical: 0
     healthsteal: 0
     manasteal: 0
-    apbonus: 0
     xpbonus: 0
     moneybonus: 0

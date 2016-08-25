@@ -28,8 +28,9 @@ import javax.swing.ListCellRenderer;
  *
  * @author jail
  */
-public class ComboBoxRendererAttackType extends JLabel implements ListCellRenderer{
- private Font uhOhFont;
+public class ComboBoxRendererAttackType extends JLabel implements ListCellRenderer {
+
+    private Font uhOhFont;
 
     public ComboBoxRendererAttackType() {
         setOpaque(true);
@@ -48,7 +49,7 @@ public class ComboBoxRendererAttackType extends JLabel implements ListCellRender
             int index,
             boolean isSelected,
             boolean cellHasFocus) {
-            //Get the selected index. (The index param isn't
+        //Get the selected index. (The index param isn't
         //always valid, so just use the value.)
         int selectedIndex = ((Integer) value).intValue();
 

@@ -67,7 +67,7 @@ public class CChicken extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-        public Location spawnLoc;
+    public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -84,7 +84,7 @@ public class CChicken extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-        public float bm;
+    public float bm;
 
     /**
      *
@@ -169,8 +169,8 @@ public class CChicken extends EntityMonster implements IRangedEntity {
         this.baby = true;
         //tipos por defecto
         this.attackSpeed = 1.0D;
-        this.rangedStrength=1.0F;
-        this.rangedDamage=1.0D;
+        this.rangedStrength = 1.0F;
+        this.rangedDamage = 1.0D;
         this.aType = AttackType.MELEE;
         this.mType = MobBehaviour.NORMAL;
         this.setBaby(baby);
@@ -257,8 +257,6 @@ public class CChicken extends EntityMonster implements IRangedEntity {
         initPathfinderGoals();
     }
 
-
-
     private void initPathfinderGoals() {
         this.goalSelector.a(0, new PathfinderGoalFloat(this));
         this.goalSelector.a(9, new PathFinderGoalGoHome(1.0D, this, spawnLoc));
@@ -314,13 +312,12 @@ public class CChicken extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-
     /**
      *
      * @param el
      * @param f
      */
-        @Override
+    @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -373,12 +370,11 @@ public class CChicken extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYCHICKEN
-
     /**
      *
      * @return
      */
-        protected String z() {
+    protected String z() {
         return "mob.chicken.say";
     }
 

@@ -22,11 +22,12 @@ package com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources;
  * @author jail
  */
 public enum EnumArmorMaterial {
-    LEATHER("Cuero","Armadura de cuero","logic/resources/items/"+"leather.png"),
-    IRON("Hierro","Armadura de hierro","logic/resources/items/"+"iron_ingot.png"),
-    GOLD("Oro","Armadura de oro","logic/resources/items/"+"gold_ingot.png"),
-    DIAMOND("Diamante","Armadura de diamante","logic/resources/items/"+"diamond.png"),
-    CHAINMAL("Cota de malla","Armadura de cota de malla","logic/resources/items/"+"fire.png");
+
+    LEATHER("LEATHER", "Armadura de cuero", "logic/resources/items/" + "leather.png"),
+    IRON("IRON", "Armadura de hierro", "logic/resources/items/" + "iron_ingot.png"),
+    GOLD("GOLD", "Armadura de oro", "logic/resources/items/" + "gold_ingot.png"),
+    DIAMOND("DIAMOND", "Armadura de diamante", "logic/resources/items/" + "diamond.png"),
+    CHAINMAIL("CHAINMAIL", "Armadura de cota de malla", "logic/resources/items/" + "fire.png");
     String name;
     String tooltip;
     String path;
@@ -60,6 +61,5 @@ public enum EnumArmorMaterial {
     public void setPath(String path) {
         this.path = path;
     }
-    
-    
+
 }

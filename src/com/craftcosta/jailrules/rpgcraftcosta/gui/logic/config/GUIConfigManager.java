@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -55,7 +54,6 @@ public class GUIConfigManager {
             try {
                 file.createNewFile();
             } catch (IOException ex) {
-                Logger.getLogger(GUIConfigManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         loadConfigFromFile();

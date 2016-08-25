@@ -262,32 +262,33 @@ public class GlobalConfigCommands implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender cs, Command cmnd, String label, String[] strings) {
-        List<String> lista= new ArrayList<>();
-        if(label.equalsIgnoreCase("config"))
-        if (strings.length==0 || strings.length==1){
-            String[] list= new String[]{"hambre","dañocaida","ahogamiento","clanes","grupos","ciclodia","blockplace","blockdestroy","pvp","spawnglobal","setspawnglobal"};
-            for(String l:list){
-                lista.add(l);
-            }
-            return lista;
-        }else if(strings.length==2){
-            if(strings[0].equalsIgnoreCase("hambre")
-                    ||strings[0].equalsIgnoreCase("dañocaida")
-                    ||strings[0].equalsIgnoreCase("ahogamiento")
-                    ||strings[0].equalsIgnoreCase("clanes")
-                    ||strings[0].equalsIgnoreCase("grupos")
-                    ||strings[0].equalsIgnoreCase("pvp")
-                    ||strings[0].equalsIgnoreCase("blockplace")
-                    ||strings[0].equalsIgnoreCase("blockdestroy")
-                    ||strings[0].equalsIgnoreCase("ciclodia")){
-                lista.add("on");
-                lista.add("off");
+        List<String> lista = new ArrayList<>();
+        if (label.equalsIgnoreCase("config")) {
+            if (strings.length == 0 || strings.length == 1) {
+                String[] list = new String[]{"hambre", "dañocaida", "ahogamiento", "clanes", "grupos", "ciclodia", "blockplace", "blockdestroy", "pvp", "spawnglobal", "setspawnglobal"};
+                for (String l : list) {
+                    lista.add(l);
+                }
                 return lista;
-            }else{
+            } else if (strings.length == 2) {
+                if (strings[0].equalsIgnoreCase("hambre")
+                        || strings[0].equalsIgnoreCase("dañocaida")
+                        || strings[0].equalsIgnoreCase("ahogamiento")
+                        || strings[0].equalsIgnoreCase("clanes")
+                        || strings[0].equalsIgnoreCase("grupos")
+                        || strings[0].equalsIgnoreCase("pvp")
+                        || strings[0].equalsIgnoreCase("blockplace")
+                        || strings[0].equalsIgnoreCase("blockdestroy")
+                        || strings[0].equalsIgnoreCase("ciclodia")) {
+                    lista.add("on");
+                    lista.add("off");
+                    return lista;
+                } else {
+                    return null;
+                }
+            } else {
                 return null;
             }
-        }else{
-            return null;
         }
         return null;
     }

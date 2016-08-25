@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 jail.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,12 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.craftcosta.jailrules.rpgcraftcosta.gui.logic.weapons;
+package com.craftcosta.jailrules.rpgcraftcosta.gui.logic.entities;
 
 /**
  *
  * @author jail
  */
-public class RPGWeaponL {
-    
+public class MobDrop {
+
+    EnumTypeDrop type;
+    String itemname;
+    int quantity;
+    float probability;
+
 }

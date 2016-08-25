@@ -26,90 +26,76 @@ public enum SheepColor {
     /**
      *
      */
-    BLACK("black",EnumColor.BLACK,EnumColor.BLACK.getColorIndex()),
-
+    BLACK("black", EnumColor.BLACK, EnumColor.BLACK.getColorIndex()),
     /**
      *
      */
-    BLUE("blue",EnumColor.BLUE,EnumColor.BLUE.getColorIndex()),
-
+    BLUE("blue", EnumColor.BLUE, EnumColor.BLUE.getColorIndex()),
     /**
      *
      */
-    BROWN("brown",EnumColor.BROWN,EnumColor.BROWN.getColorIndex()),
-
+    BROWN("brown", EnumColor.BROWN, EnumColor.BROWN.getColorIndex()),
     /**
      *
      */
-    CYAN("cyan",EnumColor.CYAN,EnumColor.CYAN.getColorIndex()),
-
+    CYAN("cyan", EnumColor.CYAN, EnumColor.CYAN.getColorIndex()),
     /**
      *
      */
-    GRAY("gray",EnumColor.GRAY,EnumColor.GRAY.getColorIndex()),
-
+    GRAY("gray", EnumColor.GRAY, EnumColor.GRAY.getColorIndex()),
     /**
      *
      */
-    GREEN("green",EnumColor.GREEN,EnumColor.GREEN.getColorIndex()),
-
+    GREEN("green", EnumColor.GREEN, EnumColor.GREEN.getColorIndex()),
     /**
      *
      */
-    LIGHT_BLUE("light_blue",EnumColor.LIGHT_BLUE,EnumColor.LIGHT_BLUE.getColorIndex()),
-
+    LIGHT_BLUE("light_blue", EnumColor.LIGHT_BLUE, EnumColor.LIGHT_BLUE.getColorIndex()),
     /**
      *
      */
-    LIME("lime",EnumColor.LIME,EnumColor.LIME.getColorIndex()),
-
+    LIME("lime", EnumColor.LIME, EnumColor.LIME.getColorIndex()),
     /**
      *
      */
-    MAGENTA("magenta",EnumColor.MAGENTA,EnumColor.MAGENTA.getColorIndex()),
-
+    MAGENTA("magenta", EnumColor.MAGENTA, EnumColor.MAGENTA.getColorIndex()),
     /**
      *
      */
-    ORANGE("orange",EnumColor.ORANGE,EnumColor.ORANGE.getColorIndex()),
-
+    ORANGE("orange", EnumColor.ORANGE, EnumColor.ORANGE.getColorIndex()),
     /**
      *
      */
-    PINK("pink",EnumColor.PINK,EnumColor.PINK.getColorIndex()),
-
+    PINK("pink", EnumColor.PINK, EnumColor.PINK.getColorIndex()),
     /**
      *
      */
-    PURPLE("purple",EnumColor.PURPLE,EnumColor.PURPLE.getColorIndex()),
-
+    PURPLE("purple", EnumColor.PURPLE, EnumColor.PURPLE.getColorIndex()),
     /**
      *
      */
-    RED("red",EnumColor.RED,EnumColor.RED.getColorIndex()),
-
+    RED("red", EnumColor.RED, EnumColor.RED.getColorIndex()),
     /**
      *
      */
-    SILVER("silver",EnumColor.SILVER,EnumColor.SILVER.getColorIndex()),
-
+    SILVER("silver", EnumColor.SILVER, EnumColor.SILVER.getColorIndex()),
     /**
      *
      */
-    WHITE("white",EnumColor.WHITE,EnumColor.WHITE.getColorIndex()),
-
+    WHITE("white", EnumColor.WHITE, EnumColor.WHITE.getColorIndex()),
     /**
      *
      */
-    YELLOW("yellow",EnumColor.YELLOW,EnumColor.YELLOW.getColorIndex());
-    
+    YELLOW("yellow", EnumColor.YELLOW, EnumColor.YELLOW.getColorIndex());
+
     private String name;
     private EnumColor color;
     private int index;
-    SheepColor(String name,EnumColor color, int index){
-        this.name=name;
-        this.color=color;
-        this.index=index;
+
+    SheepColor(String name, EnumColor color, int index) {
+        this.name = name;
+        this.color = color;
+        this.index = index;
     }
 
     /**
@@ -149,7 +135,7 @@ public enum SheepColor {
      * @param name
      * @return
      */
-    public int getIndexByName(String name){
+    public int getIndexByName(String name) {
         return EnumColor.valueOf(name.toUpperCase()).getColorIndex();
     }
 }

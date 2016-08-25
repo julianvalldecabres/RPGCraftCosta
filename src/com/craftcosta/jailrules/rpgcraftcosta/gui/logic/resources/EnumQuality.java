@@ -17,17 +17,17 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources;
 
-
 /**
  *
  * @author jail
  */
 public enum EnumQuality {
-    TRASH("basura","la mas baja calidad","logic/resources/entities/"+"trash.png"),
-    COMMON("comun","calidad baja","logic/resources/entities/"+"common.png"),
-    UNCOMMON("inusual","calidad normal","logic/resources/entities/"+"uncommon.png"),
-    RARE("rara","calidad alta","logic/resources/entities/"+"rare.png"),
-    EPIC("epica","calidad muy alta","logic/resources/entities/"+"epic.png");
+
+    TRASH("TRASH", "la mas baja calidad", "logic/resources/entities/" + "trash.png"),
+    COMMON("COMMON", "calidad baja", "logic/resources/entities/" + "common.png"),
+    UNCOMMON("UNCOMMON", "calidad normal", "logic/resources/entities/" + "uncommon.png"),
+    RARE("RARE", "calidad alta", "logic/resources/entities/" + "rare.png"),
+    EPIC("EPIC", "calidad muy alta", "logic/resources/entities/" + "epic.png");
     String name;
     String tooltip;
     String path;
@@ -61,5 +61,5 @@ public enum EnumQuality {
     public void setPath(String path) {
         this.path = path;
     }
-    
+
 }

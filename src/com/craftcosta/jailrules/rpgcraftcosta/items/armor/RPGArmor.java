@@ -74,7 +74,7 @@ public class RPGArmor extends RPGItem {
      * @param buyprice
      * @param sellprice
      */
-    public RPGArmor(int level, ItemStack item, Quality quality, boolean upgradable, boolean comerciable, int armorlevel, Material material, String setName, double physicaldefense, double incphysicaldefense, double physicalevasion, double incphysicalevasion, double magicaldefense, double incmagicaldefense, double magicalevasion, double incmagicalevasion, double moneybonus, double apbonus, double xpbonus, int buyprice, int sellprice) {
+    public RPGArmor(int level, ItemStack item, Quality quality, boolean upgradable, boolean comerciable, int armorlevel, Material material, String setName, double physicaldefense, double incphysicaldefense, double physicalevasion, double incphysicalevasion, double magicaldefense, double incmagicaldefense, double magicalevasion, double incmagicalevasion, double moneybonus, double xpbonus, int buyprice, int sellprice) {
         this.setName = setName;
         this.material = material;
         this.quality = quality;
@@ -85,7 +85,7 @@ public class RPGArmor extends RPGItem {
         this.level = level;
         this.upgradable = upgradable;
         this.armorlevel = armorlevel;
-        this.APBonus = apbonus;
+
         this.XPBonus = xpbonus;
         this.moneyBonus = moneybonus;
         this.magicaldefense = magicaldefense;
@@ -126,9 +126,6 @@ public class RPGArmor extends RPGItem {
         }
         if (XPBonus > 0) {
             newLores.add(RPGLores.XPBONUS.getLoreString(RPGLores.XPBONUS, XPBonus));
-        }
-        if (APBonus > 0) {
-            newLores.add(RPGLores.APBONUS.getLoreString(RPGLores.APBONUS, APBonus));
         }
         if (moneyBonus > 0) {
             newLores.add(RPGLores.MONEYBONUS.getLoreString(RPGLores.MONEYBONUS, moneyBonus));
@@ -391,22 +388,6 @@ public class RPGArmor extends RPGItem {
      *
      * @return
      */
-    public double getAPBonus() {
-        return APBonus;
-    }
-
-    /**
-     *
-     * @param APBonus
-     */
-    public void setAPBonus(double APBonus) {
-        this.APBonus = APBonus;
-    }
-
-    /**
-     *
-     * @return
-     */
     public double getMoneyBonus() {
         return moneyBonus;
     }
@@ -444,8 +425,6 @@ public class RPGArmor extends RPGItem {
                 + "\n\tlevel required: " + getLevel()
                 + "\n\tupgradable: " + isUpgradable();
     }
-
-    
 
     /**
      *
@@ -551,6 +530,5 @@ public class RPGArmor extends RPGItem {
     public void setActualmagicalevasion(double actualmagicalevasion) {
         this.actualmagicalevasion = actualmagicalevasion;
     }
-    
-    
+
 }

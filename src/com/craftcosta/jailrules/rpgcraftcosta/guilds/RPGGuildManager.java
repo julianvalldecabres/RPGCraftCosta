@@ -65,8 +65,8 @@ public class RPGGuildManager {
     private float percentagekills;
     private boolean onlyDonation;
     private boolean bothContribution;
-    private TreeMap<Long,Integer> guildLevels;
-    
+    private TreeMap<Long, Integer> guildLevels;
+
     /**
      *
      */
@@ -85,6 +85,7 @@ public class RPGGuildManager {
     private double b;
     private int maxlevel;
     private Map<Long, Integer> levels;
+
     /**
      *
      * @param plugin
@@ -139,7 +140,7 @@ public class RPGGuildManager {
         this.b = gCConfig.getDouble("b");
         this.maxlevel = gCConfig.getInt("maxlevel");
         for (int i = 1; i <= this.maxlevel; i++) {
-            levels.put((long)(Math.pow(a, 2) * i + b * i), i);
+            levels.put((long) (Math.pow(a, 2) * i + b * i), i);
         }
     }
 
@@ -176,9 +177,6 @@ public class RPGGuildManager {
         }
         return this.listGuilds.get(name);
     }
-
-    
-    
 
     /**
      *
@@ -222,7 +220,7 @@ public class RPGGuildManager {
             }
         }
     }
-    
+
     /**
      *
      * @return
@@ -296,7 +294,7 @@ public class RPGGuildManager {
      * @param guild
      */
     public void sendJoinRequestGuild(Player p, RPGGuild guild) {
-        rpgCMan.sendGuildMessageToPlayer(rpgPMan.getRPGPlayerByName(guild.getOwner())," El jugador " + p.getName() + " quiere unirse al clan");
+        rpgCMan.sendGuildMessageToPlayer(rpgPMan.getRPGPlayerByName(guild.getOwner()), " El jugador " + p.getName() + " quiere unirse al clan");
     }
 
     private void sendMessageOwnerChangedToGuild(Player newleaderplayer, RPGGuild guild) {
@@ -305,7 +303,7 @@ public class RPGGuildManager {
     }
 
     private void sendMessagePlayerLeaveGuild(Player p, RPGGuild guild) {
-        sendMessageToGuild(guild.getName(), "El camarada "+ p.getName() + " ha abandonado el clan");
+        sendMessageToGuild(guild.getName(), "El camarada " + p.getName() + " ha abandonado el clan");
     }
 
     private void saveRPGGuild(RPGGuild rpgGuild) {
@@ -348,9 +346,9 @@ public class RPGGuildManager {
     }
 
     public void sendMessageToGuild(String guildname, String message) {
-        for (Player p:getGuildByName(guildname).getOnlineMembers()){
-            RPGPlayer rpgp= rpgPMan.getRPGPlayerByName(p.getName());
-            rpgCMan.sendGuildMessage(rpgp,message);
+        for (Player p : getGuildByName(guildname).getOnlineMembers()) {
+            RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
+            rpgCMan.sendGuildMessage(rpgp, message);
         }
     }
 

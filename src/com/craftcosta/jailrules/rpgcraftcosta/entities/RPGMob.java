@@ -17,13 +17,12 @@ package com.craftcosta.jailrules.rpgcraftcosta.entities;
 
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.AttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
-import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.ProjectileType;
 
 /**
  *
  * @author jail
  */
-public abstract class RPGMob {
+public class RPGMob {
 
     /**
      *
@@ -49,11 +48,6 @@ public abstract class RPGMob {
      *
      */
     public MobBehaviour mType;
-
-    /**
-     *
-     */
-    public ProjectileType pType;
 
     /**
      *
@@ -108,8 +102,6 @@ public abstract class RPGMob {
     /**
      *
      */
-    public double ap;
-
     /**
      *
      * @return
@@ -188,22 +180,6 @@ public abstract class RPGMob {
      */
     public void setmType(MobBehaviour mType) {
         this.mType = mType;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public ProjectileType getpType() {
-        return pType;
-    }
-
-    /**
-     *
-     * @param pType
-     */
-    public void setpType(ProjectileType pType) {
-        this.pType = pType;
     }
 
     /**
@@ -366,21 +342,4 @@ public abstract class RPGMob {
         this.exp = exp;
     }
 
-    /**
-     *
-     * @return
-     */
-    public double getAp() {
-        return ap;
-    }
-
-    /**
-     *
-     * @param ap
-     */
-    public void setAp(double ap) {
-        this.ap = ap;
-    }
-    
-    
 }

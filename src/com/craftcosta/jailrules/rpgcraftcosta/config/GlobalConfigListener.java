@@ -42,7 +42,7 @@ public class GlobalConfigListener implements Listener {
 
     public GlobalConfigListener(RPGCraftCosta plugin) {
         this.plugin = plugin;
-        this.rpgGMan= plugin.getRpgConfig();
+        this.rpgGMan = plugin.getRpgConfig();
     }
 
     @EventHandler
@@ -105,7 +105,7 @@ public class GlobalConfigListener implements Listener {
 
     @EventHandler
     public void onPlayerAttacksPlayer(EntityDamageByEntityEvent e) {
-        if (!rpgGMan.isEnablePvP()){
+        if (!rpgGMan.isEnablePvP()) {
             if (e.getDamager() instanceof Player && e.getEntity() instanceof Player) {
                 e.setCancelled(true);
             }

@@ -19,13 +19,14 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.CustomEntityType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMob;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.AttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
-import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.ProjectileType;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumAttackType;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumBehaviour;
 
 /**
  *
  * @author jail
  */
-public class RPGCreeper extends RPGMob{
+public class RPGCreeper extends RPGMob {
 
     /**
      *
@@ -44,9 +45,8 @@ public class RPGCreeper extends RPGMob{
      * @param rangedstrength
      * @param money
      * @param exp
-     * @param ap
      */
-    public RPGCreeper(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap) {
+    public RPGCreeper(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp) {
         this.level = level;
         this.name = name;
         this.type = type;
@@ -63,6 +63,5 @@ public class RPGCreeper extends RPGMob{
         this.rangedstrength = rangedstrength;
         this.money = money;
         this.exp = exp;
-        this.ap = ap;
     }
 }

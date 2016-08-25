@@ -20,6 +20,7 @@ package com.craftcosta.jailrules.rpgcraftcosta.entities.utils;
  * @author jail
  */
 public enum AttackType {
+
     RANGED,
     MELEE;
 }

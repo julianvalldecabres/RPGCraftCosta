@@ -75,11 +75,10 @@ public final class CBat extends EntityMonster implements IRangedEntity {
     private double maxhealth;
 
     //VARIABLES PROPIAS DEL ENTITYCHICKEN
-
     /**
      *
      */
-        public float bm;
+    public float bm;
 
     /**
      *
@@ -298,13 +297,12 @@ public final class CBat extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-
     /**
      *
      * @param el
      * @param f
      */
-        @Override
+    @Override
     public void a(EntityLiving el, float f) {
         //Para que nuestras entidades puedan realizar ataques a distancia hay que reescribir el metodo avoid a(EntityLiving el, float f)
         //que define que tipo de ataque a distancia realiza
@@ -354,11 +352,10 @@ public final class CBat extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYBAT
-
     /**
      *
      */
-        protected void h() {
+    protected void h() {
         super.h();
         this.datawatcher.a(16, new Byte((byte) 0));
     }

@@ -25,7 +25,8 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
  *
  * @author jail
  */
-public class RPGGuardian extends RPGMob{
+public class RPGGuardian extends RPGMob {
+
     private GuardianType gType;
 
     /**
@@ -45,10 +46,9 @@ public class RPGGuardian extends RPGMob{
      * @param rangedstrength
      * @param money
      * @param exp
-     * @param ap
      * @param gType
      */
-    public RPGGuardian(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap, GuardianType gType) {
+    public RPGGuardian(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, GuardianType gType) {
         this.level = level;
         this.name = name;
         this.type = type;
@@ -65,10 +65,15 @@ public class RPGGuardian extends RPGMob{
         this.rangedstrength = rangedstrength;
         this.money = money;
         this.exp = exp;
-        this.ap = ap;
-        
         this.gType = gType;
     }
-    
-    
+
+    public GuardianType getgType() {
+        return gType;
+    }
+
+    public void setgType(GuardianType gType) {
+        this.gType = gType;
+    }
+
 }

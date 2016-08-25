@@ -57,7 +57,7 @@ public class RPGLevelManager {
     private RPGLevels createDefaultConfig(File levelCfg) {
         return new RPGLevels();
     }
-    
+
     /**
      *
      * @param exp
@@ -74,7 +74,7 @@ public class RPGLevelManager {
         }
         return false;
     }
-    
+
     /**
      *
      * @param exp

@@ -57,11 +57,6 @@ public abstract class RPGItem {
     /**
      *
      */
-    public double APBonus; //multiplicador de puntos de habilidad
-
-    /**
-     *
-     */
     public double moneyBonus; //multiplicador de dinero
 
     /**
@@ -169,22 +164,6 @@ public abstract class RPGItem {
      *
      * @return
      */
-    public double getAPBonus() {
-        return APBonus;
-    }
-
-    /**
-     *
-     * @param APBonus
-     */
-    public void setAPBonus(double APBonus) {
-        this.APBonus = APBonus;
-    }
-
-    /**
-     *
-     * @return
-     */
     public double getMoneyBonus() {
         return moneyBonus;
     }
@@ -213,5 +192,4 @@ public abstract class RPGItem {
         this.comerciable = comerciable;
     }
 
-    
 }

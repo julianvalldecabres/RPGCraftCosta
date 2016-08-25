@@ -46,7 +46,7 @@ public class RPGGuild {
         this.name = name;
         this.owner = owner.getName();
         this.level = 0;
-        this.money=0;
+        this.money = 0;
         this.members = new ArrayList<>();
         this.onlineMembers = new ArrayList<>();
         this.onlineMembers.add(owner);
@@ -173,7 +173,7 @@ public class RPGGuild {
      * @return
      */
     public boolean addMember(Player member) {
-        if (!this.members.contains(member.getName()) ) {
+        if (!this.members.contains(member.getName())) {
             this.members.add(member.getName());
             return true;
         } else {
@@ -219,7 +219,7 @@ public class RPGGuild {
         return namelist;
     }
 
-    public void subOnlinePlayer(Player p){
+    public void subOnlinePlayer(Player p) {
         this.onlineMembers.remove(p);
     }
 

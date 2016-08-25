@@ -22,8 +22,9 @@ package com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources;
  * @author jail
  */
 public enum EnumAttackType {
-    MELEE("Ataque cuerpo a cuerpo","El monstruo golpeará al jugador a corta distancia","logic/resources/entities/"+"melee.png"),
-    RANGED("Ataque a distancia","El monstruo disparará flechas a distancia","logic/resources/entities/"+"ranged.png");
+
+    MELEE("Ataque cuerpo a cuerpo", "El monstruo golpeará al jugador a corta distancia", "logic/resources/entities/" + "melee.png"),
+    RANGED("Ataque a distancia", "El monstruo disparará flechas a distancia", "logic/resources/entities/" + "ranged.png");
     String name;
     String tooltip;
     String path;
@@ -57,5 +58,5 @@ public enum EnumAttackType {
     public void setPath(String path) {
         this.path = path;
     }
-    
+
 }

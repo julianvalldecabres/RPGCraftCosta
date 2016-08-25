@@ -25,11 +25,11 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.OcelotType;
  *
  * @author jail
  */
-public class RPGOcelot extends RPGMob{
+public class RPGOcelot extends RPGMob {
 
     private boolean baby;
     private OcelotType oType;
-    
+
     /**
      *
      * @param level
@@ -47,11 +47,10 @@ public class RPGOcelot extends RPGMob{
      * @param rangedstrength
      * @param money
      * @param exp
-     * @param ap
      * @param baby
      * @param otype
      */
-    public RPGOcelot(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap,boolean baby,OcelotType otype) {
+    public RPGOcelot(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, boolean baby, OcelotType otype) {
         this.level = level;
         this.name = name;
         this.type = type;
@@ -68,10 +67,8 @@ public class RPGOcelot extends RPGMob{
         this.rangedstrength = rangedstrength;
         this.money = money;
         this.exp = exp;
-        this.ap = ap;
-        
-        this.baby=baby;
-        this.oType=otype;
+        this.baby = baby;
+        this.oType = otype;
     }
 
     /**
@@ -105,6 +102,5 @@ public class RPGOcelot extends RPGMob{
     public void setoType(OcelotType oType) {
         this.oType = oType;
     }
-    
-    
+
 }

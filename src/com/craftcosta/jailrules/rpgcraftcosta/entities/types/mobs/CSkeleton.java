@@ -68,7 +68,7 @@ public class CSkeleton extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-        public Location spawnLoc;
+    public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -88,10 +88,10 @@ public class CSkeleton extends EntityMonster implements IRangedEntity {
      */
     public CSkeleton(World world) {
         super(world);
-        sType=SkeletonType.NORMAL;
+        sType = SkeletonType.NORMAL;
         setSkeletonType(sType.getNumber());
         setSize(0.6F, 1.95F);
-        this.spawnLoc = new Location(world.getWorld(), 0,4,0);
+        this.spawnLoc = new Location(world.getWorld(), 0, 4, 0);
         //tipos por defecto
         this.attackSpeed = 1.0D;
         this.rangedDamage = 1.0D;
@@ -121,15 +121,15 @@ public class CSkeleton extends EntityMonster implements IRangedEntity {
         //añadimos los pathfindergoals
         initPathfinderGoals();
     }
-    
+
     /**
      *
      * @param world
      * @param spawnLoc
      */
-    public CSkeleton(World world,Location spawnLoc) {
+    public CSkeleton(World world, Location spawnLoc) {
         super(world);
-        sType=SkeletonType.WITHER;
+        sType = SkeletonType.WITHER;
         setSkeletonType(sType.getNumber());
         setSize(0.6F, 1.95F);
         this.spawnLoc = spawnLoc;
@@ -232,20 +232,19 @@ public class CSkeleton extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-
     /**
      *
      * @param entityliving
      * @param f
      */
-        @Override
+    @Override
     public void a(EntityLiving entityliving, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, entityliving, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
         int j = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_KNOCKBACK.id, bA());
 
         entityarrow.b(this.rangedDamage);
-        
+
         if (j > 0) {
             entityarrow.setKnockbackStrength(j);
         }
@@ -268,12 +267,11 @@ public class CSkeleton extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYSKELETON
-
     /**
      *
      * @return
      */
-        public int getSkeletonType() {
+    public int getSkeletonType() {
         return this.datawatcher.getByte(13);
     }
 
@@ -358,7 +356,11 @@ public class CSkeleton extends EntityMonster implements IRangedEntity {
      */
     public void setSkeletonType(int i) {
         this.datawatcher.watch(13, Byte.valueOf((byte) i));
-        if(i==0){setSize(0.6F, 1.95F);}else{setSize(0.72F, 2.535F);}
+        if (i == 0) {
+            setSize(0.6F, 1.95F);
+        } else {
+            setSize(0.72F, 2.535F);
+        }
     }
 
     /**

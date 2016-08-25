@@ -53,10 +53,11 @@ public class RPGJewelManager {
     private File jewelConfig;
     private FileConfiguration config;
     private FileConfiguration jConfig;
-    private double breakp;
-    private double losep;
-    private double losepperlore;
-    private double nothingp;
+    private float breakp;
+    private float losep;
+    private float losepperlore;
+    private float nothingp;
+    private float success;
 
     /**
      *
@@ -125,7 +126,6 @@ public class RPGJewelManager {
         double critical;
         double healthsteal;
         double manasteal;
-        double apbonus;
         double xpbonus;
         double moneybonus;
 
@@ -152,10 +152,9 @@ public class RPGJewelManager {
             critical = section.getDouble("critical");
             healthsteal = section.getDouble("healthsteal");
             manasteal = section.getDouble("manasteal");
-            apbonus = section.getDouble("apbonus");
             xpbonus = section.getDouble("xpbonus");
             moneybonus = section.getDouble("moneybonus");
-            jewelList.put(name, new RPGJewel(item, name, sellprice, buyprice, quality, combinable, comerciable, physicalattack, physicaldefense, physicalevasion, physicalhitrate, magicalattack, magicaldefense, magicalevasion, magicalhitrate, health, mana, critical, healthsteal, manasteal, apbonus, xpbonus, moneybonus));
+            jewelList.put(name, new RPGJewel(item, name, sellprice, buyprice, quality, combinable, comerciable, physicalattack, physicaldefense, physicalevasion, physicalhitrate, magicalattack, magicaldefense, magicalevasion, magicalhitrate, health, mana, critical, healthsteal, manasteal, xpbonus, moneybonus));
 
             //modificar constructor
         }
@@ -220,11 +219,20 @@ public class RPGJewelManager {
         }
         plugin.getLogger().info("Loading jewels config...");
 
-        this.breakp = jConfig.getDouble("breakp");
-        this.losep = jConfig.getDouble("losep");
-        this.losepperlore = jConfig.getDouble("losepperlore");
-        this.nothingp = jConfig.getDouble("nothingp");
+        this.breakp = (float) jConfig.getDouble("breakp");
+        this.losep = (float) jConfig.getDouble("losep");
+        this.losepperlore = (float) jConfig.getDouble("losepperlore");
+        this.nothingp = (float) jConfig.getDouble("nothingp");
+        this.success = (float) jConfig.getDouble("success");
 
+    }
+
+    public float getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(float success) {
+        this.success = success;
     }
 
     /**
@@ -271,6 +279,8 @@ public class RPGJewelManager {
             return "lose";
         } else if (this.losep < caso && caso <= this.nothingp) {
             return "nothing";
+        } else if (this.nothingp < caso && caso <= this.success) {
+            return "combine";
         } else {
             return "combine";
         }

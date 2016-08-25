@@ -26,12 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -47,25 +42,43 @@ public class GUIItemManager {
     private FileConfiguration fileConfig;
     private GUI gui;
     private Map<String, GUIItem> listItems;
-    private Map<String,Integer> listnum;
+    private Map<String, Integer> listnum;
+    private List<String> upgraders;
 
     public GUIItemManager(GUI gui) {
         this.gui = gui;
         listItems = new HashMap<>();
-        listnum= new HashMap<>();
+        upgraders = new ArrayList<>();
+
+        upgraders.add(gui.getGuiArmorMan().getUpgraderName());
+        upgraders.add(gui.getGuiWeaponMan().getUpgraderName());
+        listnum = new HashMap<>();
         file = new File(RPGFinals.questItemFile);
+
         if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException ex) {
+                JOptionPane.showMessageDialog(gui, "Fichero de items no encontrado se creara uno por defecto", "Error", 2);
             }
         }
         gui.getComboListaObjetos().addItem("<Selecciona un objeto para editar>");
+        System.out.println("NANANANA");
         loadItems();
-        gui.recursivelyEnableDisablePanel(gui.getPanelEditorClase(), false);
+
+        gui.recursivelyEnableDisablePanel(gui.getPanelEditorObjetos(), false);
         for (Map.Entry<String, GUIItem> entrySet : listItems.entrySet()) {
             gui.getComboListaObjetos().addItem(entrySet.getKey());
         }
+
+    }
+
+    public Map<String, GUIItem> getListItems() {
+        return listItems;
+    }
+
+    public List<String> getUpgraders() {
+        return this.upgraders;
     }
 
     private void loadItems() {
@@ -73,17 +86,19 @@ public class GUIItemManager {
         String name;
         EnumQuality quality;
         EnumItems material;
-        List<String> lores=new ArrayList<>();
+        List<String> lores = new ArrayList<>();
         Set<String> items = fileConfig.getKeys(false);
         for (String item : items) {
-            this.lastindex = Integer.parseInt(item);
+            if (this.lastindex <= Integer.parseInt(item)) {
+                this.lastindex = Integer.parseInt(item);
+            }
             ConfigurationSection section = fileConfig.getConfigurationSection(item);
             name = section.getString("name");
             quality = EnumQuality.valueOf(section.getString("quality"));
             material = EnumItems.valueOf(section.getString("material"));
             lores = section.getStringList("lores");
             this.listItems.put(name, new GUIItem(name, material, quality, lores));
-            this.listnum.put(name, lastindex);
+            this.listnum.put(name, Integer.parseInt(item));
         }
     }
 
@@ -101,7 +116,7 @@ public class GUIItemManager {
                     EnumQuality.valueOf(EnumQuality.values()[(int) gui.getComboCalidadObjeto().getSelectedIndex()].name()),
                     desc);
             this.listItems.put(gi.getName(), gi);
-            this.listnum.put( gi.getName(),lastindex+1);
+            this.listnum.put(gi.getName(), lastindex + 1);
             gui.getComboListaObjetos().addItem(gi.getName());
             gui.recursivelyEnableDisablePanel(gui.getPanelEditorObjetos(), false);
             saveItemToFile(gi);
@@ -129,28 +144,28 @@ public class GUIItemManager {
     }
 
     private void saveItemToFile(GUIItem gi) {
-        fileConfig= YamlConfiguration.loadConfiguration(file);
+        fileConfig = YamlConfiguration.loadConfiguration(file);
         int index;
-        GUIItem check=getGUIItemByName(gi.getName());
-        if(gi==null){
+        GUIItem check = getGUIItemByName(gi.getName());
+        if (gi == null) {
             this.lastindex++;
-            index=lastindex;
-        }else{
-            index=this.listnum.get(gi.getName());
+            index = lastindex;
+        } else {
+            index = this.listnum.get(gi.getName());
         }
-        
-        ConfigurationSection section = fileConfig.createSection(""+index);
+
+        ConfigurationSection section = fileConfig.createSection("" + index);
         section.set("name", gi.getName());
-        section.set("material",gi.getMaterial().getMaterial());
-        section.set("quality",gi.getQuality().getName());
-        section.set("lores",gi.getDescription());
+        section.set("material", gi.getMaterial().getMaterial());
+        section.set("quality", gi.getQuality().getName());
+        section.set("lores", gi.getDescription());
         try {
             fileConfig.save(file);
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Ha petao", "Erroraco", 2);
         }
     }
-    
+
     public void deleteItemSelected() {
         GUIItem gi = getGUIItemByName(gui.getComboListaObjetos().getSelectedItem().toString());
         if (gi == null) {
@@ -163,32 +178,34 @@ public class GUIItemManager {
                 gui.getComboListaObjetos().setSelectedIndex(0);
                 //Borrar clase de el fichero y de la memoria
                 listItems.remove(gi.getName());
-                listnum.remove(gi.getName());
+                //listnum.remove(gi.getName());
                 deleteItemFromFile(gi);
             }
         }
     }
-    
+
     private void deleteItemFromFile(GUIItem gi) {
         try {
             fileConfig = YamlConfiguration.loadConfiguration(file);
-            int index=listnum.get(gi.getName());
-            fileConfig.set(""+index, null);
+            int index = listnum.get(gi.getName());
+            listnum.remove(gi.getName());
+            fileConfig.set("" + index, null);
             fileConfig.save(file);
         } catch (IOException ex) {
         }
     }
-    
-    public void loadValuesForItemSelected(){
-    GUIItem gi = getGUIItemByName(gui.getComboListaObjetos().getSelectedItem().toString());
+
+    public void loadValuesForItemSelected() {
+        GUIItem gi = getGUIItemByName(gui.getComboListaObjetos().getSelectedItem().toString());
         if (gi == null) {
             gui.sendMessageWarning("Error", "El objeto seleccionado no existe");
         } else {
             gui.getTxtNombreObjeto().setText(gi.getName());
             gui.getComboTipoObjeto().setSelectedIndex(gi.getMaterial().ordinal());
             gui.getComboCalidadObjeto().setSelectedIndex(gi.getQuality().ordinal());
-            List<String> desc=gi.getDescription();
+            List<String> desc = gi.getDescription();
             gui.getListDescripcionObjeto().setListData(desc.toArray());
+            gui.recursivelyEnableDisablePanel(gui.getPanelEditorObjetos(), true);
         }
     }
 

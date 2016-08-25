@@ -58,7 +58,7 @@ public class RPGTradeListeners implements Listener {
     public RPGTradeListeners(RPGCraftCosta plugin) {
         this.plugin = plugin;
         this.tman = plugin.getTradeManager();
-        this.rpgPMan= plugin.getRPGPlayerManager();
+        this.rpgPMan = plugin.getRPGPlayerManager();
         //this.tcom = this.tman.getTradeCommands();
         this.tinv = this.tman.getTinv();
     }
@@ -707,8 +707,7 @@ public class RPGTradeListeners implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         //Si cualquiera de los players muere en mitad de un intercambio se cancela la transaccion
-        
-        
+
         //Recuperamos el inventario y el player que muere
         Inventory inventario = event.getEntity().getInventory();
         Player p = (Player) event.getEntity().getPlayer();
@@ -866,8 +865,8 @@ public class RPGTradeListeners implements Listener {
     private void aceptarTrato(Player creador, Player participante) throws InsufficientFundsException, NegativeMoneyException {
         //Comprobar dinero
         ItemStack air = new ItemStack(Material.AIR);
-        RPGPlayer rpgpc= rpgPMan.getRPGPlayerByName(creador.getName());
-        RPGPlayer rpgpp= rpgPMan.getRPGPlayerByName(participante.getName());
+        RPGPlayer rpgpc = rpgPMan.getRPGPlayerByName(creador.getName());
+        RPGPlayer rpgpp = rpgPMan.getRPGPlayerByName(participante.getName());
         if (rpgpc.getEcon().getMoney() >= moneyP1(creador) && rpgpp.getEcon().getMoney() >= moneyP2(participante)) {
             //Si ambos tienen el suficiente dinero continuamos con la transaccion
             //pagar a usuarios
@@ -885,7 +884,7 @@ public class RPGTradeListeners implements Listener {
                     Inventory inv = participante.getOpenInventory().getTopInventory();
                     ItemStack item = inv.getItem(x);
                     //Si no es aire
-                    if (item!= null) {
+                    if (item != null) {
                         //Si hay espacio libre
                         participante.getInventory().addItem(item);
                     }
@@ -908,7 +907,7 @@ public class RPGTradeListeners implements Listener {
                         int x = a.intValue();
                         Inventory inv = creador.getOpenInventory().getTopInventory();
                         ItemStack item = inv.getItem(x);
-                        if (item!= null) {
+                        if (item != null) {
                             if (creador.getInventory().firstEmpty() == -1) {
                                 World w = creador.getWorld();
                                 Location loc = creador.getLocation();
@@ -923,7 +922,7 @@ public class RPGTradeListeners implements Listener {
                         int x = a.intValue();
                         Inventory inv = creador.getOpenInventory().getTopInventory();
                         ItemStack item = inv.getItem(x);
-                        if (item!=null) {
+                        if (item != null) {
 
                             creador.getInventory().addItem(item);
                         }
@@ -952,7 +951,7 @@ public class RPGTradeListeners implements Listener {
                         Inventory inv = participante.getOpenInventory().getTopInventory();
                         ItemStack item = inv.getItem(x);
                         //Si no es aire
-                        if (item!= null) {
+                        if (item != null) {
                             //Si hay espacio libre
                             participante.getInventory().addItem(item);
                         }
@@ -974,7 +973,7 @@ public class RPGTradeListeners implements Listener {
             return;
         } else {
             //Comprobar cual de los dos no tiene dinero suficiente
-            if (rpgpc.getEcon().getMoney()< moneyP1(creador)) {
+            if (rpgpc.getEcon().getMoney() < moneyP1(creador)) {
                 //El creador no tiene suficiente dinero para aceptar el trato
                 //Mensaje de error
                 creador.sendMessage(ChatColor.GOLD + "[TRATO]" + ChatColor.RED + " No tienes suficiente dinero para ofrecer en el trato");

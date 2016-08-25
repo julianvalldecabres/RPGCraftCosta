@@ -14,7 +14,6 @@
     rangedstrength: 5.0
     money: 30
     exp: 15
-    ap: 30
     baby: true
     villager: true
 2:
@@ -33,5 +32,4 @@
     rangedstrength: 5.0
     money: 45
     exp: 30
-    ap: 15
     baby: false        

@@ -156,7 +156,7 @@ public class RPGPartyManager {
      * @param rpgParty
      */
     public void sendMessageOwnerChangedToParty(Player p, RPGParty party) {
-        sendMessageToParty(party.getName(), " El compañero "+p.getName()+" es el nuevo lider del grupo");
+        sendMessageToParty(party.getName(), " El compañero " + p.getName() + " es el nuevo lider del grupo");
     }
 
     /**
@@ -164,7 +164,7 @@ public class RPGPartyManager {
      * @param party
      */
     public void disbandParty(String party) {
-        sendMessageToParty(party,"El grupo "+party+" se ha disuelto");
+        sendMessageToParty(party, "El grupo " + party + " se ha disuelto");
         RPGParty rpgParty = getParty(party);
         for (Player p : getParty(party).getPlayers()) {
             RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
@@ -179,7 +179,7 @@ public class RPGPartyManager {
      * @param rpgParty
      */
     public void sendMessagePlayerLeaveParty(Player p, RPGParty rpgParty) {
-        sendMessageToParty(rpgParty.getName()," El compañero "+p.getName() +" ha abandonado el grupo");
+        sendMessageToParty(rpgParty.getName(), " El compañero " + p.getName() + " ha abandonado el grupo");
     }
 
     /**
@@ -190,7 +190,7 @@ public class RPGPartyManager {
     public void sendMessageToParty(String party, String message) {
         for (Player p : getParty(party).getPlayers()) {
             RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
-            rpgCMan.sendPartyMessage(rpgp,message);
+            rpgCMan.sendPartyMessage(rpgp, message);
         }
     }
 

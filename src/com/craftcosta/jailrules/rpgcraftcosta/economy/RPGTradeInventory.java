@@ -42,12 +42,12 @@ public class RPGTradeInventory {
         ItemMeta dineroMeta = totaldinero.getItemMeta();
         dineroMeta.setDisplayName(ChatColor.GOLD + "Dinero");
         List<String> lores = new ArrayList<String>();
-        lores.add(dinero+"$");
+        lores.add(dinero + "$");
         dineroMeta.setLore(lores);
         totaldinero.setItemMeta(dineroMeta);
         return totaldinero;
     }
-    
+
     public ItemStack noaceptado() {
         ItemStack aceptar = new ItemStack(Material.WOOL, 1, (short) 0, (byte) 0);
         ItemMeta aceptarMeta = aceptar.getItemMeta();
@@ -55,7 +55,7 @@ public class RPGTradeInventory {
         aceptar.setItemMeta(aceptarMeta);
         return aceptar;
     }
-    
+
     public ItemStack aceptar() {
         ItemStack aceptar = new ItemStack(Material.WOOL, 1, (short) 0, (byte) 5);
         ItemMeta aceptarMeta = aceptar.getItemMeta();
@@ -180,7 +180,7 @@ public class RPGTradeInventory {
 
     public void rellenarInventarioplayer1(Inventory inv1) {
         ItemStack divisor = divisor();
-        ItemStack noaceptado= noaceptado();
+        ItemStack noaceptado = noaceptado();
         ItemStack aceptar = aceptar();
         ItemStack cancelar = cancelar();
         ItemStack dinero1 = dinero1();
@@ -219,7 +219,7 @@ public class RPGTradeInventory {
     public void rellenarInventarioplayer2(Inventory inv2) {
         ItemStack divisor = divisor();
         ItemStack aceptar = aceptar();
-        ItemStack noaceptado= noaceptado();
+        ItemStack noaceptado = noaceptado();
         ItemStack cancelar = cancelar();
         ItemStack dinero1 = dinero1();
         ItemStack dinero10 = dinero10();

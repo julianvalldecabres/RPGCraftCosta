@@ -225,13 +225,12 @@ public class CGiant extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-
     /**
      *
      * @param entityliving
      * @param f
      */
-        @Override
+    @Override
     public void a(EntityLiving entityliving, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, entityliving, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -263,11 +262,10 @@ public class CGiant extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DE ENTITYGIANT
-
     /**
      *
      */
-        protected void h() {
+    protected void h() {
         super.h();
         getDataWatcher().a(12, Byte.valueOf((byte) 0));
         getDataWatcher().a(13, Byte.valueOf((byte) 0));

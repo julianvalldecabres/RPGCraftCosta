@@ -94,12 +94,12 @@ public class RPGMobListener implements Listener {
                 + "\n reason: " + e.getSpawnReason().name()
                 + "\n loc: " + loc.toString()
                 + "\n id: " + e.getEntity().getEntityId()
-                + "\n UUID: "+e.getEntity().getUniqueId().toString());
+                + "\n UUID: " + e.getEntity().getUniqueId().toString());
         e.getEntity().setCustomName(name);
         e.getEntity().setCustomNameVisible(true);
 
     }
-    
+
     /**
      *
      * @param e
@@ -108,7 +108,7 @@ public class RPGMobListener implements Listener {
     public void onCreatureExplode(EntityExplodeEvent e) {
         e.setCancelled(true);
     }
-    
+
     /**
      *
      * @param e
@@ -116,7 +116,7 @@ public class RPGMobListener implements Listener {
     public void onCreatureChangeBlocks(EntityChangeBlockEvent e) {
         e.setCancelled(true);
     }
-    
+
     /**
      *
      * @param e
@@ -124,7 +124,7 @@ public class RPGMobListener implements Listener {
     public void onCreatureCombustEvent(EntityCombustEvent e) {
         e.setCancelled(true);
     }
-    
+
 //    /**
 //     *
 //     * @param e

@@ -26,23 +26,19 @@ public enum Quality {
     /**
      *
      */
-    TRASH(0, ChatColor.GRAY), 
-
+    TRASH(0, ChatColor.GRAY),
     /**
      *
      */
-    COMMON(1, ChatColor.WHITE), 
-
+    COMMON(1, ChatColor.WHITE),
     /**
      *
      */
-    UNCOMMON(2, ChatColor.GREEN), 
-
+    UNCOMMON(2, ChatColor.GREEN),
     /**
      *
      */
-    RARE(3, ChatColor.LIGHT_PURPLE), 
-
+    RARE(3, ChatColor.LIGHT_PURPLE),
     /**
      *
      */

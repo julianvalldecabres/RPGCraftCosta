@@ -273,8 +273,6 @@ public class RPGPlayer {
         }
     }
 
-    
-
     /**
      *
      * @return
@@ -387,8 +385,6 @@ public class RPGPlayer {
         this.slotSelected = slotSelected;
     }
 
-
-
     /**
      *
      * @return
@@ -419,7 +415,7 @@ public class RPGPlayer {
      */
     public void setPartyChat(boolean partyChat) {
         this.partyChat = partyChat;
-        this.player.sendMessage(ChatColor.RED+"Chat party activado");
+        this.player.sendMessage(ChatColor.RED + "Chat party activado");
     }
 
     /**
@@ -436,7 +432,7 @@ public class RPGPlayer {
      */
     public void setPrivateChat(boolean privateChat) {
         this.privateChat = privateChat;
-        this.player.sendMessage(ChatColor.RED+"Chat private activado");
+        this.player.sendMessage(ChatColor.RED + "Chat private activado");
     }
 
     /**
@@ -453,7 +449,7 @@ public class RPGPlayer {
      */
     public void setGuildChat(boolean guildChat) {
         this.guildChat = guildChat;
-        this.player.sendMessage(ChatColor.RED+"Chat guild activado");
+        this.player.sendMessage(ChatColor.RED + "Chat guild activado");
     }
 
     /**
@@ -470,7 +466,7 @@ public class RPGPlayer {
      */
     public void setMarketChat(boolean marketChat) {
         this.marketChat = marketChat;
-        this.player.sendMessage(ChatColor.RED+"Chat market activado");
+        this.player.sendMessage(ChatColor.RED + "Chat market activado");
     }
 
     /**
@@ -487,7 +483,7 @@ public class RPGPlayer {
      */
     public void setLocalChat(boolean localChat) {
         this.localChat = localChat;
-        this.player.sendMessage(ChatColor.RED+"Chat local activado");
+        this.player.sendMessage(ChatColor.RED + "Chat local activado");
     }
 
     /**
@@ -504,7 +500,7 @@ public class RPGPlayer {
      */
     public void setGlobalChat(boolean globalChat) {
         this.globalChat = globalChat;
-        this.player.sendMessage(ChatColor.RED+"Chat global activado");
+        this.player.sendMessage(ChatColor.RED + "Chat global activado");
     }
 
     /**

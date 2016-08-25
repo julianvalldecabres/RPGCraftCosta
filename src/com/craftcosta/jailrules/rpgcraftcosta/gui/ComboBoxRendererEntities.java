@@ -43,7 +43,6 @@ public class ComboBoxRendererEntities extends JLabel implements ListCellRenderer
         if (isSelected) {
             setBackground(list.getSelectionBackground());
             setForeground(list.getSelectionForeground());
-            
 
         } else {
             setBackground(list.getBackground());
@@ -58,7 +57,7 @@ public class ComboBoxRendererEntities extends JLabel implements ListCellRenderer
             setText(imageName);
             setFont(list.getFont());
         } else {
-            setUhOhText(imageName + " (imagen no disponible)",list.getFont());
+            setUhOhText(imageName + " (imagen no disponible)", list.getFont());
         }
         return this;
     }

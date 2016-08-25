@@ -56,7 +56,8 @@ import org.bukkit.event.entity.EntityShootBowEvent;
  *
  * @author jail
  */
-public class CVillager extends EntityMonster implements IRangedEntity{
+public class CVillager extends EntityMonster implements IRangedEntity {
+
     //VARIABLES AÑADIDAS QUE DEFINEN EL TIPO DE MOB
     private AttackType aType;
     private MobBehaviour mType;
@@ -65,7 +66,7 @@ public class CVillager extends EntityMonster implements IRangedEntity{
     /**
      *
      */
-        public Location spawnLoc;
+    public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -77,21 +78,21 @@ public class CVillager extends EntityMonster implements IRangedEntity{
     private float rangedStrength;
     private double followrange;
     private double maxhealth;
-    
+
     private VillagerType vType;
-    
+
     /**
      *
      * @param world
      */
     public CVillager(World world) {
         super(world);
-        this.vType=VillagerType.BUTCHER;
+        this.vType = VillagerType.BUTCHER;
         this.setProfession(vType.getNumber());
         this.setSize(0.6F, 1.8F);
         ((Navigation) this.getNavigation()).b(true);
         ((Navigation) this.getNavigation()).a(true);
-    this.spawnLoc = new Location(world.getWorld(), 0,4,0);
+        this.spawnLoc = new Location(world.getWorld(), 0, 4, 0);
         this.baby = false;
         //tipos por defecto
         this.attackSpeed = 1.0D;
@@ -128,9 +129,9 @@ public class CVillager extends EntityMonster implements IRangedEntity{
      * @param world
      * @param spawnLoc
      */
-    public CVillager(World world,Location spawnLoc) {
+    public CVillager(World world, Location spawnLoc) {
         super(world);
-        this.vType=VillagerType.CURE;
+        this.vType = VillagerType.CURE;
         this.setProfession(vType.getNumber());
         this.setSize(0.6F, 1.8F);
         ((Navigation) this.getNavigation()).b(true);
@@ -223,13 +224,12 @@ public class CVillager extends EntityMonster implements IRangedEntity{
     }
 
     //Override de IRangedEntity
-
     /**
      *
      * @param el
      * @param f
      */
-        @Override
+    @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -280,13 +280,11 @@ public class CVillager extends EntityMonster implements IRangedEntity{
             this.datawatcher.a(12, new Byte((byte) 1));
         }
     }
-    
+
     //METODOS PROPIOS DEL ENTITYVILLAGER
-    
     /**
      *
      */
-        
     protected void E() {
         super.E();
     }

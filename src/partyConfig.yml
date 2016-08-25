@@ -1,23 +1,10 @@
-enabled: true
-# player (owner) can set player limit to the party
-cansetplayerlimits: false
 # Limit players in a party, 0 = unlimited , xx = fixed slots 
 playerlimit: 0
 # share options: none,money, exp, both
 share: money
-# player (owner) can change share options
-cansetshareoptions: true
 # option pvp enabled/disabled between player
 pvpenabled: true
-# player (owner) can change pvp on/off
-cansetpvp: true
-# player (owner) can change share distribution
-cansetsod: true
 # distribution of the option above (share) : equal, proportion
 shareoption: equal
-# player (owner) can set proportional share based on reason
-cansetsdr: true
 # proportional share based on: player level (level) or kills
 proportionalreason: kills
-# bonus proportion between 1.0 and 1.5
-bonusproportion: 1.2

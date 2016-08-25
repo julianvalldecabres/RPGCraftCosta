@@ -129,7 +129,6 @@ public class RPGWeaponManager {
         double inchealthsteal;
         double manasteal;
         double incmanasteal;
-        double apbonus;
         double xpbonus;
         double moneybonus;
 
@@ -137,7 +136,7 @@ public class RPGWeaponManager {
         for (String armaid : armas) {
             ConfigurationSection section = config.getConfigurationSection(armaid);
             name = section.getString("name");
-            mat= section.getString("item");
+            mat = section.getString("item");
             item = new ItemStack(Material.matchMaterial(section.getString("item")));
             comerciable = section.getBoolean("comerciable");
             sellprice = section.getInt("sellprice");
@@ -160,10 +159,9 @@ public class RPGWeaponManager {
             inchealthsteal = section.getDouble("inchealthsteal");
             manasteal = section.getDouble("manasteal");
             incmanasteal = section.getDouble("incmanasteal");
-            apbonus = section.getDouble("apbonus");
             xpbonus = section.getDouble("xpbonus");
             moneybonus = section.getDouble("moneybonus");
-            weaponList.put(name+" "+mat.toLowerCase(), new RPGWeapon(item, name, comerciable, sellprice, buyprice, quality, level, upgradable, weaponLevel, physicalattack, incphysicalattack, physicalhitrate, incphysicalhitrate, magicalattack, incmagicalattack, magicalhitrate, incmagicalhitrate, healthsteal, inchealthsteal, manasteal, incmanasteal, critical, inccritical, apbonus, xpbonus, moneybonus));
+            weaponList.put(name + " " + mat.toLowerCase(), new RPGWeapon(item, name, comerciable, sellprice, buyprice, quality, level, upgradable, weaponLevel, physicalattack, incphysicalattack, physicalhitrate, incphysicalhitrate, magicalattack, incmagicalattack, magicalhitrate, incmagicalhitrate, healthsteal, inchealthsteal, manasteal, incmanasteal, critical, inccritical, xpbonus, moneybonus));
 
         }
     }
@@ -383,9 +381,6 @@ public class RPGWeaponManager {
                     case XPBONUS:
                         newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * nivelup));
                         break;
-                    case APBONUS:
-                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * nivelup));
-                        break;
                     case MONEYBONUS:
                         newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * nivelup));
 
@@ -451,9 +446,6 @@ public class RPGWeaponManager {
                         newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * niveldown));
                         break;
                     case XPBONUS:
-                        newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * niveldown));
-                        break;
-                    case APBONUS:
                         newLores.add(RPGLores.PHYSICALATTACK.getLoreString(RPGLores.PHYSICALATTACK, rpgWeapon.getPhysicalattack() + rpgWeapon.getIncphysicalattack() * niveldown));
                         break;
                     case MONEYBONUS:

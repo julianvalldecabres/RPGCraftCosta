@@ -25,102 +25,82 @@ public enum RPGLores {
      *
      */
     PHYSICALATTACK("Physical Attack", RPGLoreValueType.VALUEDOUBLE),
-
     /**
      *
      */
     PHYSICALDEFENSE("Physical Defense", RPGLoreValueType.VALUEDOUBLE),
-
     /**
      *
      */
     PHYSICALEVASION("Physical Evasion", RPGLoreValueType.PERCENTAGE),
-
     /**
      *
      */
     PHYSICALHITRATE("Physical HitRate", RPGLoreValueType.PERCENTAGE),
-
     /**
      *
      */
     MAGICALATTACK("Magical Attack", RPGLoreValueType.VALUEDOUBLE),
-
     /**
      *
      */
     MAGICALDEFENSE("Magical Defense", RPGLoreValueType.VALUEDOUBLE),
-
     /**
      *
      */
     MAGICALEVASION("Magical Evasion", RPGLoreValueType.PERCENTAGE),
-
     /**
      *
      */
     MAGICALHITRATE("Magical HitRate", RPGLoreValueType.PERCENTAGE),
-
     /**
      *
      */
     XPBONUS("XP Bonus", RPGLoreValueType.PERCENTAGE),
-
     /**
      *
      */
     APBONUS("AP Bonus", RPGLoreValueType.PERCENTAGE),
-
     /**
      *
      */
     MONEYBONUS("Money Bonus", RPGLoreValueType.PERCENTAGE),
-
     /**
      *
      */
     CRITICAL("Critical", RPGLoreValueType.PERCENTAGE),
-
     /**
      *
      */
     HEALTHSTEAL("Health Steal", RPGLoreValueType.PERCENTAGE),
-
     /**
      *
      */
     MANASTEAL("Mana Steal", RPGLoreValueType.PERCENTAGE),
-
     /**
      *
      */
     HEALTH("Max Health", RPGLoreValueType.PERCENTAGE),
-
     /**
      *
      */
     MANA("Max Mana", RPGLoreValueType.PERCENTAGE),
-
     /**
      *
      */
     SELLPRICE("Sell Price", RPGLoreValueType.VALUEINT),
-
     /**
      *
      */
     BUYPRICE("Buy Price", RPGLoreValueType.VALUEINT),
-
     /**
      *
      */
     NOCOMERCIABLE("No comerciable", RPGLoreValueType.NONE),
-
     /**
      *
      */
     NOCOMBINABLE("No combinable", RPGLoreValueType.NONE),
-
     /**
      *
      */

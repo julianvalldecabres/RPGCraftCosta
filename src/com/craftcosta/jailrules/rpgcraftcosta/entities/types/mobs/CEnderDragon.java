@@ -91,7 +91,7 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
     /**
      *
      */
-        public double a;
+    public double a;
 
     /**
      *
@@ -258,7 +258,7 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
         //añadimos los pathfindergoals
         initPathfinderGoals();
     }
-    
+
     private void initPathfinderGoals() {
         this.goalSelector.a(0, new PathfinderGoalFloat(this));
         this.goalSelector.a(9, new PathFinderGoalGoHome(1.0D, this, spawnLoc));
@@ -314,13 +314,12 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
     }
 
     //Override de IRangedEntity
-
     /**
      *
      * @param el
      * @param f
      */
-        @Override
+    @Override
     public void a(EntityLiving el, float f) {
         //Para que nuestras entidades puedan realizar ataques a distancia hay que reescribir el metodo avoid a(EntityLiving el, float f)
         //que define que tipo de ataque a distancia realiza

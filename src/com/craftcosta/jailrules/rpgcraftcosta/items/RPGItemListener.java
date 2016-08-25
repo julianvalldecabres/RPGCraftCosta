@@ -116,8 +116,11 @@ public class RPGItemListener implements Listener {
             }
         }
     }
+
     /**
-     * onPlayerPickupItem captura el evento cuando el usuario recoje un item del suelo
+     * onPlayerPickupItem captura el evento cuando el usuario recoje un item del
+     * suelo
+     *
      * @param e evento disparado cuando un usuario recoje un item del suelo
      */
     @EventHandler
@@ -125,9 +128,12 @@ public class RPGItemListener implements Listener {
         ItemStack item = e.getItem().getItemStack();
         Set<Integer> freeInventorySlots = RPGPlayerUtils.getFreeInventorySlots(e.getPlayer());
     }
+
     /**
      * onPlayerClickInventory captura el evento InventoryClickEvent
-     * @param event evento que captura cuando un usuario interactua con el inventario
+     *
+     * @param event evento que captura cuando un usuario interactua con el
+     * inventario
      */
     @EventHandler
     public void onPlayerClickInventory(InventoryClickEvent event) {

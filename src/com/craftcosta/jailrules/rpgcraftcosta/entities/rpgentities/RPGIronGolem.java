@@ -24,7 +24,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
  *
  * @author jail
  */
-public class RPGIronGolem extends RPGMob{
+public class RPGIronGolem extends RPGMob {
 
     /**
      *
@@ -43,9 +43,8 @@ public class RPGIronGolem extends RPGMob{
      * @param rangedstrength
      * @param money
      * @param exp
-     * @param ap
      */
-    public RPGIronGolem(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap) {
+    public RPGIronGolem(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp) {
         this.level = level;
         this.name = name;
         this.type = type;
@@ -62,6 +61,6 @@ public class RPGIronGolem extends RPGMob{
         this.rangedstrength = rangedstrength;
         this.money = money;
         this.exp = exp;
-        this.ap = ap;
     }
+
 }

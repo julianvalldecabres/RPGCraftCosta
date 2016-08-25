@@ -24,8 +24,7 @@ public enum SkeletonType {
     /**
      *
      */
-    NORMAL(0), 
-
+    NORMAL(0),
     /**
      *
      */

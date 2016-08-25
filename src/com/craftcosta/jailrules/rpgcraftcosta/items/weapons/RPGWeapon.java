@@ -88,11 +88,10 @@ public class RPGWeapon extends RPGItem {
      * @param incmanasteal
      * @param critical
      * @param inccritical
-     * @param apbonus
      * @param xpbonus
      * @param moneybonus
      */
-    public RPGWeapon(ItemStack item, String name, boolean comerciable, int sellprice, int buyprice, Quality quality, int level, boolean upgradable, int weaponLevel, double physicalattack, double incphysicalattack, double physicalhitrate, double incphysicalhitrate, double magicalattack, double incmagicalattack, double magicalhitrate, double incmagicalhitrate, double healthsteal, double inchealthsteal, double manasteal, double incmanasteal, double critical, double inccritical, double apbonus, double xpbonus, double moneybonus) {
+    public RPGWeapon(ItemStack item, String name, boolean comerciable, int sellprice, int buyprice, Quality quality, int level, boolean upgradable, int weaponLevel, double physicalattack, double incphysicalattack, double physicalhitrate, double incphysicalhitrate, double magicalattack, double incmagicalattack, double magicalhitrate, double incmagicalhitrate, double healthsteal, double inchealthsteal, double manasteal, double incmanasteal, double critical, double inccritical, double xpbonus, double moneybonus) {
         this.item = item;
         this.name = name;
         this.quality = quality;
@@ -103,7 +102,6 @@ public class RPGWeapon extends RPGItem {
         this.level = level;
         this.upgradable = upgradable;
         this.weaponLevel = weaponLevel;
-        this.APBonus = apbonus;
         this.XPBonus = xpbonus;
         this.moneyBonus = moneybonus;
 
@@ -164,9 +162,6 @@ public class RPGWeapon extends RPGItem {
         if (XPBonus > 0) {
             lores.add(RPGLores.XPBONUS.getLoreString(RPGLores.XPBONUS, this.XPBonus));
         }
-        if (APBonus > 0) {
-            lores.add(RPGLores.APBONUS.getLoreString(RPGLores.APBONUS, this.APBonus));
-        }
         if (moneyBonus > 0) {
             lores.add(RPGLores.MONEYBONUS.getLoreString(RPGLores.MONEYBONUS, this.moneyBonus));
         }
@@ -184,12 +179,11 @@ public class RPGWeapon extends RPGItem {
     }
 
     //GETTER AND SETTERS
-
     /**
      *
      * @return
      */
-        public int getLevel() {
+    public int getLevel() {
         return level;
     }
 
@@ -647,22 +641,6 @@ public class RPGWeapon extends RPGItem {
      */
     public void setXPBonus(double XPBonus) {
         this.XPBonus = XPBonus;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public double getAPBonus() {
-        return APBonus;
-    }
-
-    /**
-     *
-     * @param APBonus
-     */
-    public void setAPBonus(double APBonus) {
-        this.APBonus = APBonus;
     }
 
     /**

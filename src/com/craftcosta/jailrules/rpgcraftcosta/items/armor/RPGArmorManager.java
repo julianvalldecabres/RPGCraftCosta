@@ -233,7 +233,6 @@ public class RPGArmorManager {
         double magicalevasion;
         double incmagicalevasion;
         double xpbonus;
-        double apbonus;
         double moneybonus;
 
         //RECORRER YAML
@@ -262,11 +261,10 @@ public class RPGArmorManager {
                 incphysicalevasion = section.getDouble("incphysicalevasion");
                 sellprice = section.getInt("sellprice");
                 buyprice = section.getInt("buyprice");
-                apbonus = section.getDouble("apbonus");
                 xpbonus = section.getDouble("xpbonus");
                 moneybonus = section.getDouble("moneybonus");
                 item = new ItemStack(mat);
-                this.armorList.put(name + " " + materialP.toLowerCase(), new RPGArmor(level, item, quality, upgradable, comerciable, armorLevel, mat, name, physicaldefense, incphysicaldefense, physicalevasion, incphysicalevasion, magicaldefense, incmagicaldefense, magicalevasion, incmagicalevasion, moneybonus, apbonus, xpbonus, buyprice, sellprice));
+                this.armorList.put(name + " " + materialP.toLowerCase(), new RPGArmor(level, item, quality, upgradable, comerciable, armorLevel, mat, name, physicaldefense, incphysicaldefense, physicalevasion, incphysicalevasion, magicaldefense, incmagicaldefense, magicalevasion, incmagicalevasion, moneybonus, xpbonus, buyprice, sellprice));
             }
         }
     }
@@ -349,7 +347,7 @@ public class RPGArmorManager {
         String[] partItem = item.getType().toString().split("_");
         return partItem[1];
     }
-    
+
     /**
      *
      * @param armor
@@ -391,9 +389,6 @@ public class RPGArmorManager {
                         break;
                     case "XP Bonus":
                         newLores.add(RPGLores.XPBONUS.getLoreString(RPGLores.XPBONUS, rpga.getXPBonus()));
-                        break;
-                    case "AP Bonus":
-                        newLores.add(RPGLores.APBONUS.getLoreString(RPGLores.APBONUS, rpga.getAPBonus()));
                         break;
                     case "Money Bonus":
                         newLores.add(RPGLores.MONEYBONUS.getLoreString(RPGLores.MONEYBONUS, rpga.getMoneyBonus()));
@@ -455,9 +450,6 @@ public class RPGArmorManager {
                         break;
                     case "XP Bonus":
                         newLores.add(RPGLores.XPBONUS.getLoreString(RPGLores.XPBONUS, rpga.getXPBonus()));
-                        break;
-                    case "AP Bonus":
-                        newLores.add(RPGLores.APBONUS.getLoreString(RPGLores.APBONUS, rpga.getAPBonus()));
                         break;
                     case "Money Bonus":
                         newLores.add(RPGLores.MONEYBONUS.getLoreString(RPGLores.MONEYBONUS, rpga.getMoneyBonus()));

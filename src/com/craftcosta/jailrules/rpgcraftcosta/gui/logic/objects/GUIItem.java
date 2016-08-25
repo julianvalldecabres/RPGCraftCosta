@@ -23,7 +23,8 @@ import java.util.List;
  *
  * @author jail
  */
-class GUIItem {
+public class GUIItem {
+
     String name;
     EnumItems material;
     EnumQuality quality;
@@ -67,6 +68,5 @@ class GUIItem {
     public void setDescription(List<String> description) {
         this.description = description;
     }
-    
 
 }

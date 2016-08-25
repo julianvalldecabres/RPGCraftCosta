@@ -71,7 +71,7 @@ public class RPGJewel extends RPGItem {
      * @param xpbonus
      * @param moneybonus
      */
-    public RPGJewel(ItemStack item, String name, int sellprice, int buyprice, Quality quality, boolean combinable, boolean comerciable, double physicalattack, double physicaldefense, double physicalevasion, double physicalhitrate, double magicalattack, double magicaldefense, double magicalevasion, double magicalhitrate, double health, double mana, double critical, double healthsteal, double manasteal, double apbonus, double xpbonus, double moneybonus) {
+    public RPGJewel(ItemStack item, String name, int sellprice, int buyprice, Quality quality, boolean combinable, boolean comerciable, double physicalattack, double physicaldefense, double physicalevasion, double physicalhitrate, double magicalattack, double magicaldefense, double magicalevasion, double magicalhitrate, double health, double mana, double critical, double healthsteal, double manasteal, double xpbonus, double moneybonus) {
         this.item = item;
         this.name = name;
         this.quality = quality;
@@ -92,7 +92,6 @@ public class RPGJewel extends RPGItem {
         this.critical = critical;
         this.healthsteal = healthsteal;
         this.manasteal = manasteal;
-        this.APBonus = apbonus;
         this.XPBonus = xpbonus;
         this.moneyBonus = moneybonus;
 
@@ -142,9 +141,6 @@ public class RPGJewel extends RPGItem {
         }
         if (XPBonus > 0) {
             lores.add(RPGLores.XPBONUS.getLoreString(RPGLores.XPBONUS, XPBonus));
-        }
-        if (APBonus > 0) {
-            lores.add(RPGLores.APBONUS.getLoreString(RPGLores.APBONUS, APBonus));
         }
         if (moneyBonus > 0) {
             lores.add(RPGLores.MONEYBONUS.getLoreString(RPGLores.MONEYBONUS, moneyBonus));
@@ -464,22 +460,6 @@ public class RPGJewel extends RPGItem {
      */
     public void setXPBonus(double XPBonus) {
         this.XPBonus = XPBonus;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public double getAPBonus() {
-        return APBonus;
-    }
-
-    /**
-     *
-     * @param APBonus
-     */
-    public void setAPBonus(double APBonus) {
-        this.APBonus = APBonus;
     }
 
     /**

@@ -1,50 +1,49 @@
 WARNING:
     prefix: ATENCION
     shortcut: '|'
-    prefixcolor: red
-    messagecolor: yellow
+    prefixcolor: RED
+    messagecolor: YELLOW
 NEWS:
     prefix: NOTICIA
     shortcut: '^'
-    prefixcolor: yellow
-    messagecolor: green
+    prefixcolor: YELLOW
+    messagecolor: GREEN
 PRIVATE:
     prefix: PRIVADO
     shortcut: '&'
-    prefixcolor: green
-    messagecolor: gray
+    prefixcolor: GREEN
+    messagecolor: GRAY
 GUILD:
     prefix: CLAN
     shortcut: '@'
-    prefixcolor: dark_purple
-    messagecolor: light_purple
+    prefixcolor: DARK_PURPLE
+    messagecolor: LIGHT_PURPLE
 PARTY:
     prefix: GRUPO
     shortcut: '#'
-    prefixcolor: blue
-    messagecolor: aqua
+    prefixcolor: BLUE
+    messagecolor: AQUA
 MARKET:
     prefix: MERCADO
     shortcut: '$'
-    prefixcolor: dark_green
-    messagecolor: green
+    prefixcolor: DARK_GREEN
+    messagecolor: GREEN
 GLOBAL:
     prefix: GLOBAL
     shortcut: '!'
-    prefixcolor: blue
-    messagecolor: yellow
+    prefixcolor: BLUE
+    messagecolor: YELLOW
 LOCAL:
     prefix: 'LOCAL'
     shortcut: nothing
-    prefixcolor: white
-    messagecolor: white
+    prefixcolor: WHITE
+    messagecolor: WHITE
 globalenabled: true
 guildenabled: true
 partyenabled: true
 marketenabled: true
 privateenabled: true
-localchatdistanceenabled: true
 maxdistance: 100.0
-playerclasscolor: aqua
-playernamecolor: yellow
-locationcolor: white
+playerclasscolor: AQUA
+playernamecolor: YELLOW
+locationcolor: WHITE

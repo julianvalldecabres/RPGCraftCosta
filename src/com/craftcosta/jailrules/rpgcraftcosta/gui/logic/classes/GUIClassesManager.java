@@ -34,12 +34,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
  * @author jail
  */
 public class GUIClassesManager {
-    
+
     private GUI gui;
     private Map<String, GUIClass> listClasses;
     File file;
     FileConfiguration fileConfig;
-    
+
     public GUIClassesManager(GUI gui) {
         this.gui = gui;
         file = new File(RPGFinals.classFile);
@@ -56,13 +56,13 @@ public class GUIClassesManager {
         gui.recursivelyEnableDisablePanel(gui.getPanelEditorClase(), false);
         for (Map.Entry<String, GUIClass> entrySet : listClasses.entrySet()) {
             gui.getComboSelectorClases().addItem(entrySet.getKey());
-            
+
         }
-        
+
     }
-    
+
     public void loadValuesForClassSelected() {
-        
+
         GUIClass gc = getGUIClassByName(gui.getComboSelectorClases().getSelectedItem().toString());
         if (gc == null) {
             gui.sendMessageWarning("Error", "La clase seleccionada no existe");
@@ -81,7 +81,7 @@ public class GUIClassesManager {
             gui.getSpinnerEvaMagBase().setValue(gc.getBaseMagicEvasion());
             gui.getSpinnerCritBase().setValue(gc.getBaseCritical());
             gui.getSpinnerMortalBase().setValue(gc.getBaseDeadly());
-            
+
             gui.getSpinnerVidaNivel().setValue(gc.getLvlUpHealth());
             gui.getSpinnerManaNivel().setValue(gc.getLvlUpMana());
             gui.getSpinnerAtaFisNivel().setValue(gc.getLvlUpPhysicalAttack());
@@ -94,22 +94,22 @@ public class GUIClassesManager {
             gui.getSpinnerHRMagNivel().setValue(gc.getLvlUpMagicHitRate());
             gui.getSpinnerCritNivel().setValue(gc.getLvlUpCritical());
             gui.getSpinnerMortalNivel().setValue(gc.getLvlUpDeadly());
-            
+
             gui.getSpinnerAtaFisAP().setValue(gc.getSPUpStrength_PhysicalAttack());
             gui.getSpinnerVidaAP().setValue(gc.getSPUpStrength_Health());
-            
+
             gui.getSpinnerVidaAP2().setValue(gc.getSPUpConstitution_Health());
             gui.getSpinnerManaAP().setValue(gc.getSPUpConstitution_Mana());
-            
+
             gui.getSpinnerAtaMagAP().setValue(gc.getSPUpIntelligence_MagicAttack());
             gui.getSpinnerManaAP2().setValue(gc.getSPUpIntelligence_Mana());
-            
+
             gui.getSpinnerMortalAP().setValue(gc.getSPUpDextery_Deadly());
             gui.getSpinnerCritAP().setValue(gc.getSPUpDextery_Critical());
             gui.recursivelyEnableDisablePanel(gui.getPanelEditorClase(), true);
         }
     }
-    
+
     private void loadClasses() {
         fileConfig = YamlConfiguration.loadConfiguration(file);
         String name;
@@ -146,10 +146,10 @@ public class GUIClassesManager {
         double SPUpConstitution_Mana;
         double SPUpIntelligence_Mana;
         double SPUpIntelligence_MagicAttack;
-        
+
         Set<String> classes = fileConfig.getKeys(false);
         for (String clas : classes) {
-            
+
             ConfigurationSection section = fileConfig.getConfigurationSection(clas);
             enabled = section.getBoolean("enabled");
             name = section.getString("name");
@@ -188,7 +188,7 @@ public class GUIClassesManager {
             this.listClasses.put(name, new GUIClass(name, enabled, baseHealth, baseMana, basePhysicalAttack, basePhysicalDefense, basePhysicalHitRate, basePhysicalEvasion, baseMagicAttack, baseMagicDefense, baseMagicHitRate, baseMagicEvasion, baseCritical, baseDeadly, lvlUpHealth, lvlUpMana, lvlUpPhysicalAttack, lvlUpPhysicalDefense, lvlUpPhysicalHitRate, lvlUpPhysicalEvasion, lvlUpMagicAttack, lvlUpMagicDefense, lvlUpMagicHitRate, lvlUpMagicEvasion, lvlUpCritical, lvlUpDeadly, SPUpStrength_Health, SPUpStrength_PhysicalAttack, SPUpDextery_Critical, SPUpDextery_Deadly, SPUpConstitution_Health, SPUpConstitution_Mana, SPUpIntelligence_Mana, SPUpIntelligence_MagicAttack));
         }
     }
-    
+
     public void saveClass() {
         GUIClass gc = getGUIClassByName(gui.getTxtNombreClase().getText());
         if (gc == null) {
@@ -239,42 +239,42 @@ public class GUIClassesManager {
             int diag = JOptionPane.showConfirmDialog(null, "Ya existe una clase con ese nombre\n¿Quieres sobreescribirla?", "Sobreescribir clase: " + gc.getName(), JOptionPane.YES_NO_OPTION);
             if (diag == JOptionPane.YES_OPTION) {
                 gc.setEnabled(gui.getCheckEnableClase().isEnabled());
-                gc.setBaseHealth((double)gui.getSpinnerMaxVidaBase().getValue());
-                gc.setBaseMana((double)gui.getSpinnerMaxManaBase().getValue());
-                gc.setBasePhysicalAttack((double)gui.getSpinnerAtaFisBase().getValue());
-                gc.setBasePhysicalDefense((double)gui.getSpinnerDefFisBase().getValue());
-                gc.setBasePhysicalEvasion((double)gui.getSpinnerEvaFisBase().getValue());
-                gc.setBasePhysicalHitRate((double)gui.getSpinnerHRFisBase().getValue());
-                gc.setBaseMagicAttack((double)gui.getSpinnerAtaMagBase().getValue());
-                gc.setBaseMagicDefense((double)gui.getSpinnerDefMagBase().getValue());
-                gc.setBaseMagicEvasion((double)gui.getSpinnerEvaMagBase().getValue());
-                gc.setBaseMagicHitRate((double)gui.getSpinnerHRMagBase().getValue());
-                gc.setBaseCritical((double)gui.getSpinnerCritBase().getValue());
-                gc.setBaseDeadly((double)gui.getSpinnerMortalBase().getValue());
-                
-                gc.setLvlUpHealth((double)gui.getSpinnerVidaNivel().getValue());
-                gc.setLvlUpMana((double)gui.getSpinnerManaNivel().getValue());
-                gc.setLvlUpPhysicalAttack((double)gui.getSpinnerAtaFisNivel().getValue());
-                gc.setLvlUpPhysicalDefense((double)gui.getSpinnerDefFisNivel().getValue());
-                gc.setLvlUpPhysicalEvasion((double)gui.getSpinnerEvaFisNivel().getValue());
-                gc.setLvlUpPhysicalHitRate((double)gui.getSpinnerHRFisNivel().getValue());
-                gc.setLvlUpMagicAttack((double)gui.getSpinnerAtaMagNivel().getValue());
-                gc.setLvlUpMagicDefense((double)gui.getSpinnerDefMagNivel().getValue());
-                gc.setLvlUpMagicEvasion((double)gui.getSpinnerEvaMagNivel().getValue());
-                gc.setLvlUpMagicHitRate((double)gui.getSpinnerHRMagNivel().getValue());
-                gc.setLvlUpCritical((double)gui.getSpinnerCritNivel().getValue());
-                gc.setLvlUpDeadly((double)gui.getSpinnerMortalNivel().getValue());
-                
-                gc.setSPUpStrength_Health((double)gui.getSpinnerVidaAP().getValue());
-                gc.setSPUpStrength_PhysicalAttack((double)gui.getSpinnerAtaFisAP().getValue());
-                gc.setSPUpDextery_Critical((double)gui.getSpinnerCritAP().getValue());
-                gc.setSPUpDextery_Deadly((double)gui.getSpinnerMortalAP().getValue());
-                gc.setSPUpConstitution_Health((double)gui.getSpinnerVidaAP2().getValue());
-                gc.setSPUpConstitution_Mana((double)gui.getSpinnerManaAP().getValue());
-                gc.setSPUpIntelligence_MagicAttack((double)gui.getSpinnerAtaMagAP().getValue());
-                gc.setSPUpIntelligence_Mana((double)gui.getSpinnerManaAP2().getValue());
+                gc.setBaseHealth((double) gui.getSpinnerMaxVidaBase().getValue());
+                gc.setBaseMana((double) gui.getSpinnerMaxManaBase().getValue());
+                gc.setBasePhysicalAttack((double) gui.getSpinnerAtaFisBase().getValue());
+                gc.setBasePhysicalDefense((double) gui.getSpinnerDefFisBase().getValue());
+                gc.setBasePhysicalEvasion((double) gui.getSpinnerEvaFisBase().getValue());
+                gc.setBasePhysicalHitRate((double) gui.getSpinnerHRFisBase().getValue());
+                gc.setBaseMagicAttack((double) gui.getSpinnerAtaMagBase().getValue());
+                gc.setBaseMagicDefense((double) gui.getSpinnerDefMagBase().getValue());
+                gc.setBaseMagicEvasion((double) gui.getSpinnerEvaMagBase().getValue());
+                gc.setBaseMagicHitRate((double) gui.getSpinnerHRMagBase().getValue());
+                gc.setBaseCritical((double) gui.getSpinnerCritBase().getValue());
+                gc.setBaseDeadly((double) gui.getSpinnerMortalBase().getValue());
+
+                gc.setLvlUpHealth((double) gui.getSpinnerVidaNivel().getValue());
+                gc.setLvlUpMana((double) gui.getSpinnerManaNivel().getValue());
+                gc.setLvlUpPhysicalAttack((double) gui.getSpinnerAtaFisNivel().getValue());
+                gc.setLvlUpPhysicalDefense((double) gui.getSpinnerDefFisNivel().getValue());
+                gc.setLvlUpPhysicalEvasion((double) gui.getSpinnerEvaFisNivel().getValue());
+                gc.setLvlUpPhysicalHitRate((double) gui.getSpinnerHRFisNivel().getValue());
+                gc.setLvlUpMagicAttack((double) gui.getSpinnerAtaMagNivel().getValue());
+                gc.setLvlUpMagicDefense((double) gui.getSpinnerDefMagNivel().getValue());
+                gc.setLvlUpMagicEvasion((double) gui.getSpinnerEvaMagNivel().getValue());
+                gc.setLvlUpMagicHitRate((double) gui.getSpinnerHRMagNivel().getValue());
+                gc.setLvlUpCritical((double) gui.getSpinnerCritNivel().getValue());
+                gc.setLvlUpDeadly((double) gui.getSpinnerMortalNivel().getValue());
+
+                gc.setSPUpStrength_Health((double) gui.getSpinnerVidaAP().getValue());
+                gc.setSPUpStrength_PhysicalAttack((double) gui.getSpinnerAtaFisAP().getValue());
+                gc.setSPUpDextery_Critical((double) gui.getSpinnerCritAP().getValue());
+                gc.setSPUpDextery_Deadly((double) gui.getSpinnerMortalAP().getValue());
+                gc.setSPUpConstitution_Health((double) gui.getSpinnerVidaAP2().getValue());
+                gc.setSPUpConstitution_Mana((double) gui.getSpinnerManaAP().getValue());
+                gc.setSPUpIntelligence_MagicAttack((double) gui.getSpinnerAtaMagAP().getValue());
+                gc.setSPUpIntelligence_Mana((double) gui.getSpinnerManaAP2().getValue());
                 //modificar listaclasses
-                 this.listClasses.put(gc.getName(), gc);
+                this.listClasses.put(gc.getName(), gc);
                 //bloquear editor
                 gui.recursivelyEnableDisablePanel(gui.getPanelEditorClase(), false);
                 //Guardar clase en el fichero
@@ -282,55 +282,55 @@ public class GUIClassesManager {
             }
         }
     }
-    
+
     public void saveClassToFile(GUIClass gc) {
-            fileConfig = YamlConfiguration.loadConfiguration(file);
-            ConfigurationSection section = fileConfig.createSection(gc.getName());
-            section.set("name", gc.getName());
-            section.set("enabled", gc.isEnabled());
-            section.set("baseHealth", gc.getBaseHealth());
-            section.set("baseMana", gc.getBaseMana());
-            section.set("basePhysicalAttack", gc.getBasePhysicalAttack());
-            section.set("basePhysicalDefense", gc.getBasePhysicalDefense());
-            section.set("basePhysicalHitRate", gc.getBasePhysicalHitRate());
-            section.set("basePhysicalEvasion", gc.getBasePhysicalEvasion());
-            section.set("baseMagicAttack", gc.getBaseMagicAttack());
-            section.set("baseMagicDefense", gc.getBaseMagicDefense());
-            section.set("baseMagicHitRate", gc.getBaseMagicHitRate());
-            section.set("baseMagicEvasion", gc.getBaseMagicEvasion());
-            section.set("baseCritical", gc.getBaseCritical());
-            section.set("baseDeadly", gc.getBaseDeadly());
-            section.set("lvlUpHealth", gc.getLvlUpHealth());
-            section.set("lvlUpMana", gc.getLvlUpMana());
-            section.set("lvlUpPhysicalAttack", gc.getLvlUpPhysicalAttack());
-            section.set("lvlUpPhysicalDefense", gc.getLvlUpPhysicalDefense());
-            section.set("lvlUpPhysicalHitRate", gc.getLvlUpPhysicalHitRate());
-            section.set("lvlUpPhysicalEvasion", gc.getLvlUpPhysicalEvasion());
-            section.set("lvlUpMagicAttack", gc.getLvlUpMagicAttack());
-            section.set("lvlUpMagicDefense", gc.getLvlUpMagicDefense());
-            section.set("lvlUpMagicHitRate", gc.getLvlUpMagicHitRate());
-            section.set("lvlUpMagicEvasion", gc.getLvlUpMagicEvasion());
-            section.set("lvlUpCritical", gc.getLvlUpCritical());
-            section.set("lvlUpDeadly", gc.getLvlUpDeadly());
-            section.set("SPUpStrength_Health", gc.getSPUpStrength_Health());
-            section.set("SPUpStrength_PhysicalAttack", gc.getSPUpStrength_PhysicalAttack());
-            section.set("SPUpDextery_Critical", gc.getSPUpDextery_Critical());
-            section.set("SPUpDextery_Deadly", gc.getSPUpDextery_Deadly());
-            section.set("SPUpConstitution_Health", gc.getSPUpConstitution_Health());
-            section.set("SPUpConstitution_Mana", gc.getSPUpConstitution_Mana());
-            section.set("SPUpIntelligence_Mana", gc.getSPUpIntelligence_Mana());
-            section.set("SPUpIntelligence_MagicAttack", gc.getSPUpIntelligence_MagicAttack());
+        fileConfig = YamlConfiguration.loadConfiguration(file);
+        ConfigurationSection section = fileConfig.createSection(gc.getName());
+        section.set("name", gc.getName());
+        section.set("enabled", gc.isEnabled());
+        section.set("baseHealth", gc.getBaseHealth());
+        section.set("baseMana", gc.getBaseMana());
+        section.set("basePhysicalAttack", gc.getBasePhysicalAttack());
+        section.set("basePhysicalDefense", gc.getBasePhysicalDefense());
+        section.set("basePhysicalHitRate", gc.getBasePhysicalHitRate());
+        section.set("basePhysicalEvasion", gc.getBasePhysicalEvasion());
+        section.set("baseMagicAttack", gc.getBaseMagicAttack());
+        section.set("baseMagicDefense", gc.getBaseMagicDefense());
+        section.set("baseMagicHitRate", gc.getBaseMagicHitRate());
+        section.set("baseMagicEvasion", gc.getBaseMagicEvasion());
+        section.set("baseCritical", gc.getBaseCritical());
+        section.set("baseDeadly", gc.getBaseDeadly());
+        section.set("lvlUpHealth", gc.getLvlUpHealth());
+        section.set("lvlUpMana", gc.getLvlUpMana());
+        section.set("lvlUpPhysicalAttack", gc.getLvlUpPhysicalAttack());
+        section.set("lvlUpPhysicalDefense", gc.getLvlUpPhysicalDefense());
+        section.set("lvlUpPhysicalHitRate", gc.getLvlUpPhysicalHitRate());
+        section.set("lvlUpPhysicalEvasion", gc.getLvlUpPhysicalEvasion());
+        section.set("lvlUpMagicAttack", gc.getLvlUpMagicAttack());
+        section.set("lvlUpMagicDefense", gc.getLvlUpMagicDefense());
+        section.set("lvlUpMagicHitRate", gc.getLvlUpMagicHitRate());
+        section.set("lvlUpMagicEvasion", gc.getLvlUpMagicEvasion());
+        section.set("lvlUpCritical", gc.getLvlUpCritical());
+        section.set("lvlUpDeadly", gc.getLvlUpDeadly());
+        section.set("SPUpStrength_Health", gc.getSPUpStrength_Health());
+        section.set("SPUpStrength_PhysicalAttack", gc.getSPUpStrength_PhysicalAttack());
+        section.set("SPUpDextery_Critical", gc.getSPUpDextery_Critical());
+        section.set("SPUpDextery_Deadly", gc.getSPUpDextery_Deadly());
+        section.set("SPUpConstitution_Health", gc.getSPUpConstitution_Health());
+        section.set("SPUpConstitution_Mana", gc.getSPUpConstitution_Mana());
+        section.set("SPUpIntelligence_Mana", gc.getSPUpIntelligence_Mana());
+        section.set("SPUpIntelligence_MagicAttack", gc.getSPUpIntelligence_MagicAttack());
         try {
             fileConfig.save(file);
         } catch (IOException ex) {
-            
+
         }
     }
-    
+
     public GUIClass getGUIClassByName(String name) {
         return this.listClasses.get(name);
     }
-    
+
     public void deleteClassSelected() {
         GUIClass gc = getGUIClassByName(gui.getComboSelectorClases().getSelectedItem().toString());
         if (gc == null) {
@@ -347,7 +347,7 @@ public class GUIClassesManager {
             }
         }
     }
-    
+
     private void deleteClassFromFile(GUIClass gc) {
         try {
             fileConfig = YamlConfiguration.loadConfiguration(file);

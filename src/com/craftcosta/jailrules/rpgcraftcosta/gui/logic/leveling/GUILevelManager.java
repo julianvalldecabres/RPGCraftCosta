@@ -41,7 +41,6 @@ public class GUILevelManager {
 
     public GUILevelManager(GUI gui) {
         this.gui = gui;
-        System.out.println("prueba rutas a ficheros");
         file = new File(RPGFinals.LevelingConfig);
         if (!file.exists()) {
             try {

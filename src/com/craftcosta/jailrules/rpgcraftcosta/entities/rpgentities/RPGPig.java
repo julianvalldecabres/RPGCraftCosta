@@ -24,7 +24,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
  *
  * @author jail
  */
-public class RPGPig extends RPGMob{
+public class RPGPig extends RPGMob {
 
     private boolean baby;
 
@@ -45,10 +45,9 @@ public class RPGPig extends RPGMob{
      * @param rangedstrength
      * @param money
      * @param exp
-     * @param ap
      * @param baby
      */
-    public RPGPig(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap,boolean baby) {
+    public RPGPig(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, boolean baby) {
         this.level = level;
         this.name = name;
         this.type = type;
@@ -65,8 +64,6 @@ public class RPGPig extends RPGMob{
         this.rangedstrength = rangedstrength;
         this.money = money;
         this.exp = exp;
-        this.ap = ap;
-        
         this.baby = baby;
     }
 
@@ -85,6 +82,5 @@ public class RPGPig extends RPGMob{
     public void setBaby(boolean baby) {
         this.baby = baby;
     }
-    
-    
+
 }

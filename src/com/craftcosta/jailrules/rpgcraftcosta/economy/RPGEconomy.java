@@ -22,7 +22,6 @@ package com.craftcosta.jailrules.rpgcraftcosta.economy;
 public class RPGEconomy {
 
     //Campos de la clase
-
     long money;
 
     /**
@@ -73,7 +72,7 @@ public class RPGEconomy {
      * @param money define el dinero a substraer del objeto RPGEconomy
      */
     public void withdrawMoney(long money) throws InsufficientFundsException, NegativeMoneyException {
-        if (money < 0){
+        if (money < 0) {
             throw new NegativeMoneyException("El dinero no puede ser negativo");
         }
         if (money > this.money) {
@@ -89,7 +88,7 @@ public class RPGEconomy {
      * @param money define el dinero que se añade al objeto RPGEconomy
      */
     public void addMoney(long money) throws NegativeMoneyException {
-        if(money < 0){
+        if (money < 0) {
             throw new NegativeMoneyException("El dinero no puede ser negativo");
         }
         this.money += money;

@@ -60,7 +60,7 @@ public class CWolf extends EntityMonster implements IRangedEntity {
     /**
      *
      */
-        public Location spawnLoc;
+    public Location spawnLoc;
     private boolean baby = false;
     private String name;
     private int level;
@@ -269,13 +269,12 @@ public class CWolf extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-
     /**
      *
      * @param el
      * @param f
      */
-        @Override
+    @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, 1.6F, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
@@ -328,12 +327,11 @@ public class CWolf extends EntityMonster implements IRangedEntity {
     }
 
     //METODOS PROPIOS DEL ENTITYWOLF
-
     /**
      *
      * @return
      */
-        protected String z() {
+    protected String z() {
         return this.random.nextInt(3) == 0 ? "mob.wolf.panting" : (false) && (this.datawatcher.getFloat(18) < getMaxHealth() / 2.0F) ? "mob.wolf.whine" : true ? "mob.wolf.growl" : "mob.wolf.bark";
     }
 
@@ -360,6 +358,5 @@ public class CWolf extends EntityMonster implements IRangedEntity {
     public float getHeadHeight() {
         return this.length * 0.8F;
     }
-    
-    
+
 }

@@ -16,17 +16,17 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources;
 
-
 /**
  *
  * @author jail
  */
 public enum EnumBehaviour {
-    PEACEFUL("peaceful","The mob acts as a peaceful animal, if it is damaged it will try to flee from his attacker","logic/resources/entities/"+"peaceful.png"),
-    NORMAL("normal","The mob would not attack unless attacked,  if attacked will pursue his attacker until it comes out of its range","logic/resources/entities/"+"normal.png"),
-    NORMAAGGRO("normal_w_agro","The mob would not attack unless attacked, if attacked pursue his attacker and call other mobs to his aid","logic/resources/entities/"+"normal_agro.png"),
-    AGGRESSIVE("aggressive","The mob attack anyone that is in its range, only stop if the attacker flees his range","logic/resources/entities/"+"aggressive.png"),
-    AGGREAGGRO("aggressive_w_agro","The mob attack anyone that is in its range and will call other mobs to his aid","logic/resources/entities/"+"aggressive_agro.png");
+
+    PEACEFUL("peaceful", "The mob acts as a peaceful animal, if it is damaged it will try to flee from his attacker", "logic/resources/entities/" + "peaceful.png"),
+    NORMAL("normal", "The mob would not attack unless attacked,  if attacked will pursue his attacker until it comes out of its range", "logic/resources/entities/" + "normal.png"),
+    NORMAAGGRO("normal_w_agro", "The mob would not attack unless attacked, if attacked pursue his attacker and call other mobs to his aid", "logic/resources/entities/" + "normal_agro.png"),
+    AGGRESSIVE("aggressive", "The mob attack anyone that is in its range, only stop if the attacker flees his range", "logic/resources/entities/" + "aggressive.png"),
+    AGGREAGGRO("aggressive_w_agro", "The mob attack anyone that is in its range and will call other mobs to his aid", "logic/resources/entities/" + "aggressive_agro.png");
     String name;
     String tooltip;
     String path;
@@ -60,6 +60,5 @@ public enum EnumBehaviour {
     public void setPath(String path) {
         this.path = path;
     }
-    
-    
+
 }

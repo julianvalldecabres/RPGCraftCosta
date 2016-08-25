@@ -120,7 +120,7 @@ public class CIronGolem extends EntityMonster implements IRangedEntity {
         this.setSize(1.4F, 2.9F);
         ((Navigation) getNavigation()).a(true);
         this.spawnLoc = spawnloc;
-        this.attackSpeed=1.0D;
+        this.attackSpeed = 1.0D;
         this.rangedStrenght = 1.6F;
         this.rangedDamage = 10.0D;
         this.aType = AttackType.MELEE;
@@ -204,13 +204,12 @@ public class CIronGolem extends EntityMonster implements IRangedEntity {
     }
 
     //Override de IRangedEntity
-
     /**
      *
      * @param el
      * @param f
      */
-        @Override
+    @Override
     public void a(EntityLiving el, float f) {
         EntityArrow entityarrow = new EntityArrow(this.world, this, el, this.rangedStrenght, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());

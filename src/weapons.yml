@@ -22,17 +22,16 @@
   inchealthsteal: 0.05
   manasteal: 0
   incmanasteal: 0
-  apbonus: 0
   xpbonus: 0
   moneybonus: 0
 2:
   name: Banhammer
   item: DIAMOND_AXE
+  quality: UNCOMMON
   level: 15
   weaponlevel: 5
   sellprice: 15
   buyprice: 15
-  quality: COMMON
   upgradable: true
   comerciable: true
   physicalattack: 500.0
@@ -49,7 +48,6 @@
   inchealthsteal: 0
   manasteal: 0
   incmanasteal: 0
-  apbonus: 0
   xpbonus: 0
   moneybonus: 0
 3:
@@ -76,6 +74,5 @@
   inchealthsteal: 0.05
   manasteal: 0
   incmanasteal: 0
-  apbonus: 1
   xpbonus: 2
   moneybonus: 3

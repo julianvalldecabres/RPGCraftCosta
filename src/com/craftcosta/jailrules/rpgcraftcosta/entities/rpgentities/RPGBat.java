@@ -45,10 +45,9 @@ public class RPGBat extends RPGMob {
      * @param rangedstrength
      * @param money
      * @param exp
-     * @param ap
      * @param asleep
      */
-    public RPGBat(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, double ap, boolean asleep) {
+    public RPGBat(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, boolean asleep) {
         this.level = level;
         this.name = name;
         this.type = type;
@@ -65,7 +64,6 @@ public class RPGBat extends RPGMob {
         this.rangedstrength = rangedstrength;
         this.money = money;
         this.exp = exp;
-        this.ap = ap;
 
         this.asleep = asleep;
     }

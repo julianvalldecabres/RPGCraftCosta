@@ -86,7 +86,7 @@ public class RPGChatListener implements Listener {
         } else {
             playerClass = "[" + rpgSender.getPlayerClass() + "]";
         }
-        
+
         String[] messageParts = event.getMessage().split(" ");
         String message1 = "";
         for (int i = 1; i < messageParts.length; i++) {
@@ -144,7 +144,7 @@ public class RPGChatListener implements Listener {
                 //ChatPrivado prefijo+ nombre :+mensaje
                 if (rpgCMan.isPrivateChatEnabled()) {
                     Player receiver = Bukkit.getServer().getPlayer(event.getMessage().split(" ")[1]);
-                    
+
                     messagePrefix = type.getPrefixColor() + "[" + type.getPrefix() + "]"
                             + rpgCMan.getPlayerNameColor() + sender.getName() + " :"
                             + type.getMessageColor();
@@ -167,28 +167,28 @@ public class RPGChatListener implements Listener {
                 break;
             case PARTY:
                 //ChatGrupo prefijo+ nombre: +mensaje
-                if(plugin.getRpgConfig().isEnableParties()){
-                if (rpgCMan.isPartyChatEnabled()) {
-                    if (!rpgSender.getParty().isEmpty()) {
-                        messagePrefix = rpgCMan.getLocationColor() + location
-                                + rpgCMan.getPlayerClassColor() + "[" + playerClass + "]"
-                                + rpgCMan.getPlayerNameColor() + sender.getName() + " :";
-                        message = messagePrefix + message1;
-                        rpgCMan.sendPartyMessage(rpgSender, message);
+                if (plugin.getRpgConfig().isEnableParties()) {
+                    if (rpgCMan.isPartyChatEnabled()) {
+                        if (!rpgSender.getParty().isEmpty()) {
+                            messagePrefix = rpgCMan.getLocationColor() + location
+                                    + rpgCMan.getPlayerClassColor() + "[" + playerClass + "]"
+                                    + rpgCMan.getPlayerNameColor() + sender.getName() + " :";
+                            message = messagePrefix + message1;
+                            rpgCMan.sendPartyMessage(rpgSender, message);
+                        } else {
+                            sender.sendMessage(type.getPrefixColor() + "[" + type.getPrefix() + "]" + ChatColor.RED + " No perteneces a ninguna party");
+                        }
                     } else {
-                        sender.sendMessage(type.getPrefixColor() + "[" + type.getPrefix() + "]" + ChatColor.RED + " No perteneces a ninguna party");
+                        sender.sendMessage(type.getPrefixColor() + "[" + type.getPrefix() + "]" + ChatColor.RED + " Chat de grupo deshabilitado");
                     }
                 } else {
-                    sender.sendMessage(type.getPrefixColor() + "[" + type.getPrefix() + "]" + ChatColor.RED + " Chat de grupo deshabilitado");
-                }
-                }else{
-                    sender.sendMessage(ChatColor.RED+" Los grupos estan deshabilitados!");
+                    sender.sendMessage(ChatColor.RED + " Los grupos estan deshabilitados!");
                 }
                 break;
             case NEWS:
                 //ChatNews prefijo + mensaje
                 if (sender.isOp() || sender.hasPermission("Chat.news")) {
-                    
+
                     messagePrefix = type.getPrefixColor() + "[" + type.getPrefix() + "]";
                     message = messagePrefix + message1;
                     plugin.getServer().broadcastMessage(message);
@@ -232,6 +232,6 @@ public class RPGChatListener implements Listener {
                 sender.sendMessage(message);
                 break;
         }
-        
+
     }
 }

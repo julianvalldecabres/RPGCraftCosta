@@ -259,16 +259,17 @@ public class RPGChatManager {
             rpgp.getPlayer().sendMessage(getPrefixForGuild() + ChatColor.RED + message);
         }
     }
+
     public void sendGuildMessageToPlayer(RPGPlayer rpgp, String message) {
         rpgp.getPlayer().sendMessage(getPrefixForGuild() + message);
     }
 
     public void sendPartyMessage(RPGPlayer rpgp, String message) {
         if (rpgp.isPartyChat()) {
-            rpgp.getPlayer().sendMessage(getPrefixForParty()+ ChatColor.RED + message);
+            rpgp.getPlayer().sendMessage(getPrefixForParty() + ChatColor.RED + message);
         }
     }
-    
+
     public void sendPartyMessageToPlayer(RPGPlayer rpgp, String message) {
         rpgp.getPlayer().sendMessage(getPrefixForParty() + message);
     }
