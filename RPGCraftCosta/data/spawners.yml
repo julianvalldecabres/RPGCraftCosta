@@ -1,0 +1,36 @@
+world:
+  '0x0':
+    '2':
+      name: prueba7
+      rpgmob: Vampi
+      enabled: true
+      world: world
+      x: 0
+      y: 64
+      z: 0
+      maxmobs: 1
+      cooldown: 10
+      radius: 5
+  5x5:
+    '2':
+      name: adssda
+      rpgmob: Pollo
+      enabled: true
+      x: 80
+      y: 64
+      z: 80
+      maxmobs: 1
+      cooldown: 10
+      radius: 5
+nether:
+  0x-4:
+    '3':
+      name: aprueb
+      rpgmob: Peque Zombi
+      enabled: true
+      x: 4
+      y: 25
+      z: -55
+      maxmobs: 3
+      cooldown: 3
+      radius: 3

@@ -1302,7 +1302,7 @@ public class GUI extends JFrame {
 
         panelConfig.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         panelConfig.setTabPlacement(javax.swing.JTabbedPane.LEFT);
-        panelConfig.setToolTipText("");
+        panelConfig.setToolTipText(null);
         panelConfig.setAutoscrolls(true);
         panelConfig.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         panelConfig.setMaximumSize(new java.awt.Dimension(1000, 600));
@@ -1310,25 +1310,32 @@ public class GUI extends JFrame {
         panelConfig.setName("panelConfig"); // NOI18N
         panelConfig.setPreferredSize(new java.awt.Dimension(1000, 600));
 
+        panelConfigGeneral.setToolTipText(null);
         panelConfigGeneral.setName("panelConfigGeneral"); // NOI18N
         panelConfigGeneral.setPreferredSize(new java.awt.Dimension(800, 600));
 
         panelConfigGeneralGen.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración general"));
+        panelConfigGeneralGen.setToolTipText(null);
         panelConfigGeneralGen.setName("panelConfigGeneralGen"); // NOI18N
 
         panelConfigDanioGeneral.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuracion de daño"));
+        panelConfigDanioGeneral.setToolTipText(null);
         panelConfigDanioGeneral.setName("panelConfigDanioGeneral"); // NOI18N
 
         checkSistHambre.setText("Sistema original de hambre");
+        checkSistHambre.setToolTipText(null);
         checkSistHambre.setName("checkSistHambre"); // NOI18N
 
         checkDanioCaida.setText("Daño por caida");
+        checkDanioCaida.setToolTipText(null);
         checkDanioCaida.setName("checkDanioCaida"); // NOI18N
 
         checkDanioAhogo.setText("Daño por ahogamiento");
+        checkDanioAhogo.setToolTipText(null);
         checkDanioAhogo.setName("checkDanioAhogo"); // NOI18N
 
         checkDanioPvp.setText("Habilitar/Deshabilitar PvP");
+        checkDanioPvp.setToolTipText(null);
         checkDanioPvp.setName("checkDanioPvp"); // NOI18N
         checkDanioPvp.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -1364,10 +1371,12 @@ public class GUI extends JFrame {
         );
 
         panelEnableModulosGeneral.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de módulos"));
+        panelEnableModulosGeneral.setToolTipText(null);
         panelEnableModulosGeneral.setName("panelEnableModulosGeneral"); // NOI18N
 
         checkClanes.setSelected(true);
         checkClanes.setText("Habilitar/Deshabilitar clanes");
+        checkClanes.setToolTipText(null);
         checkClanes.setName("checkClanes"); // NOI18N
         checkClanes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1377,6 +1386,7 @@ public class GUI extends JFrame {
 
         checkGrupos.setSelected(true);
         checkGrupos.setText("Habilitar/Deshabilitar grupos");
+        checkGrupos.setToolTipText(null);
         checkGrupos.setName("checkGrupos"); // NOI18N
         checkGrupos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1406,29 +1416,38 @@ public class GUI extends JFrame {
         );
 
         panelConfigInicio.setBorder(javax.swing.BorderFactory.createTitledBorder("Localización de inicio"));
+        panelConfigInicio.setToolTipText(null);
         panelConfigInicio.setName("panelConfigInicio"); // NOI18N
 
         lblMundoInicio.setText("Mundo");
+        lblMundoInicio.setToolTipText(null);
         lblMundoInicio.setName("lblMundoInicio"); // NOI18N
 
+        txtMundoInicio.setToolTipText(null);
         txtMundoInicio.setName("txtMundoInicio"); // NOI18N
 
         lblXInicio.setText("X");
+        lblXInicio.setToolTipText(null);
         lblXInicio.setName("lblXInicio"); // NOI18N
 
         lblYInicio.setText("Y");
+        lblYInicio.setToolTipText(null);
         lblYInicio.setName("lblYInicio"); // NOI18N
 
         lblZInicio.setText("Z");
+        lblZInicio.setToolTipText(null);
         lblZInicio.setName("lblZInicio"); // NOI18N
 
         spinnerXInicio.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerXInicio.setToolTipText(null);
         spinnerXInicio.setName("spinnerXInicio"); // NOI18N
 
         spinnerYInicio.setModel(new javax.swing.SpinnerNumberModel(0, 0, 256, 1));
+        spinnerYInicio.setToolTipText(null);
         spinnerYInicio.setName("spinnerYInicio"); // NOI18N
 
         spinnerZInicio.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerZInicio.setToolTipText(null);
         spinnerZInicio.setName("spinnerZInicio"); // NOI18N
 
         javax.swing.GroupLayout panelConfigInicioLayout = new javax.swing.GroupLayout(panelConfigInicio);
@@ -1473,12 +1492,15 @@ public class GUI extends JFrame {
         );
 
         panelConfigPlayers.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración jugadores"));
+        panelConfigPlayers.setToolTipText(null);
         panelConfigPlayers.setName("panelConfigPlayers"); // NOI18N
 
         checkColocarBloques.setText("Permitir colocar bloques");
+        checkColocarBloques.setToolTipText(null);
         checkColocarBloques.setName("checkColocarBloques"); // NOI18N
 
         checkDestruirBloques.setText("Permitir destruir bloques");
+        checkDestruirBloques.setToolTipText(null);
         checkDestruirBloques.setName("checkDestruirBloques"); // NOI18N
 
         javax.swing.GroupLayout panelConfigPlayersLayout = new javax.swing.GroupLayout(panelConfigPlayers);
@@ -1502,6 +1524,7 @@ public class GUI extends JFrame {
         );
 
         btnGuardarConfigGlobal.setText("Guardar");
+        btnGuardarConfigGlobal.setToolTipText(null);
         btnGuardarConfigGlobal.setName("btnGuardarConfigGlobal"); // NOI18N
         btnGuardarConfigGlobal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1510,10 +1533,12 @@ public class GUI extends JFrame {
         });
 
         panelConfigDayCycle.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración global"));
+        panelConfigDayCycle.setToolTipText(null);
         panelConfigDayCycle.setName("panelConfigDayCycle"); // NOI18N
 
         checkDayCycle.setSelected(true);
         checkDayCycle.setText("Ciclo de dia");
+        checkDayCycle.setToolTipText(null);
         checkDayCycle.setName("checkDayCycle"); // NOI18N
 
         javax.swing.GroupLayout panelConfigDayCycleLayout = new javax.swing.GroupLayout(panelConfigDayCycle);
@@ -1589,34 +1614,45 @@ public class GUI extends JFrame {
 
         panelConfig.addTab("General", panelConfigGeneral);
 
+        panelConfChats.setToolTipText(null);
         panelConfChats.setName("panelConfChats"); // NOI18N
 
         jScrollPane4.setName("jScrollPane4"); // NOI18N
 
         panelConfigChats.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de chats"));
+        panelConfigChats.setToolTipText(null);
         panelConfigChats.setName("panelConfigChats"); // NOI18N
 
         panelConfigMarketChat.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat de comercio"));
+        panelConfigMarketChat.setToolTipText(null);
         panelConfigMarketChat.setName("panelConfigMarketChat"); // NOI18N
 
         lblPrefixMarket.setText("Prefijo");
+        lblPrefixMarket.setToolTipText(null);
         lblPrefixMarket.setName("lblPrefixMarket"); // NOI18N
 
         lblPrefixColorMarket.setText("Color del prefijo");
+        lblPrefixColorMarket.setToolTipText(null);
         lblPrefixColorMarket.setName("lblPrefixColorMarket"); // NOI18N
 
         lblShortcutMarket.setText("atajo en el chat");
+        lblShortcutMarket.setToolTipText(null);
         lblShortcutMarket.setName("lblShortcutMarket"); // NOI18N
 
         lblMessageColorMarket.setText("Color del mensaje");
+        lblMessageColorMarket.setToolTipText(null);
         lblMessageColorMarket.setName("lblMessageColorMarket"); // NOI18N
 
+        textPrefixMarketChat.setToolTipText(null);
         textPrefixMarketChat.setName("textPrefixMarketChat"); // NOI18N
 
+        comboPrefixColorMarketChat.setToolTipText(null);
         comboPrefixColorMarketChat.setName("comboPrefixColorMarketChat"); // NOI18N
 
+        comboShortcutMarketChat.setToolTipText(null);
         comboShortcutMarketChat.setName("comboShortcutMarketChat"); // NOI18N
 
+        comboMessageColorMarketChat.setToolTipText(null);
         comboMessageColorMarketChat.setName("comboMessageColorMarketChat"); // NOI18N
 
         javax.swing.GroupLayout panelConfigMarketChatLayout = new javax.swing.GroupLayout(panelConfigMarketChat);
@@ -1660,26 +1696,35 @@ public class GUI extends JFrame {
         );
 
         panelConfigGlobal.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat global"));
+        panelConfigGlobal.setToolTipText(null);
         panelConfigGlobal.setName("panelConfigGlobal"); // NOI18N
 
         lblPrefixGlobal.setText("Prefijo");
+        lblPrefixGlobal.setToolTipText(null);
         lblPrefixGlobal.setName("lblPrefixGlobal"); // NOI18N
 
         lblPCG.setText("Color del prefijo");
+        lblPCG.setToolTipText(null);
         lblPCG.setName("lblPCG"); // NOI18N
 
         lblSG.setText("atajo en el chat");
+        lblSG.setToolTipText(null);
         lblSG.setName("lblSG"); // NOI18N
 
         lblMCG.setText("Color del mensaje");
+        lblMCG.setToolTipText(null);
         lblMCG.setName("lblMCG"); // NOI18N
 
+        textPrefixGlobalChat.setToolTipText(null);
         textPrefixGlobalChat.setName("textPrefixGlobalChat"); // NOI18N
 
+        comboPrefixColorGlobalChat.setToolTipText(null);
         comboPrefixColorGlobalChat.setName("comboPrefixColorGlobalChat"); // NOI18N
 
+        comboShortcutGlobalChat.setToolTipText(null);
         comboShortcutGlobalChat.setName("comboShortcutGlobalChat"); // NOI18N
 
+        comboMessageColorGlobalChat.setToolTipText(null);
         comboMessageColorGlobalChat.setName("comboMessageColorGlobalChat"); // NOI18N
 
         javax.swing.GroupLayout panelConfigGlobalLayout = new javax.swing.GroupLayout(panelConfigGlobal);
@@ -1723,26 +1768,35 @@ public class GUI extends JFrame {
         );
 
         panelConfigParty.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat de grupos"));
+        panelConfigParty.setToolTipText(null);
         panelConfigParty.setName("panelConfigParty"); // NOI18N
 
         lblPP.setText("Prefijo");
+        lblPP.setToolTipText(null);
         lblPP.setName("lblPP"); // NOI18N
 
         lblPCP.setText("Color del prefijo");
+        lblPCP.setToolTipText(null);
         lblPCP.setName("lblPCP"); // NOI18N
 
         lblSP.setText("atajo en el chat");
+        lblSP.setToolTipText(null);
         lblSP.setName("lblSP"); // NOI18N
 
         lblMCP.setText("Color del mensaje");
+        lblMCP.setToolTipText(null);
         lblMCP.setName("lblMCP"); // NOI18N
 
+        textPrefixPartyChat.setToolTipText(null);
         textPrefixPartyChat.setName("textPrefixPartyChat"); // NOI18N
 
+        comboPrefixColorPartyChat.setToolTipText(null);
         comboPrefixColorPartyChat.setName("comboPrefixColorPartyChat"); // NOI18N
 
+        comboShortcutPartyChat.setToolTipText(null);
         comboShortcutPartyChat.setName("comboShortcutPartyChat"); // NOI18N
 
+        comboMessageColorPartyChat.setToolTipText(null);
         comboMessageColorPartyChat.setName("comboMessageColorPartyChat"); // NOI18N
 
         javax.swing.GroupLayout panelConfigPartyLayout = new javax.swing.GroupLayout(panelConfigParty);
@@ -1787,26 +1841,35 @@ public class GUI extends JFrame {
         );
 
         panelConfigGuild.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat de clanes"));
+        panelConfigGuild.setToolTipText(null);
         panelConfigGuild.setName("panelConfigGuild"); // NOI18N
 
         lblPGuild.setText("Prefijo");
+        lblPGuild.setToolTipText(null);
         lblPGuild.setName("lblPGuild"); // NOI18N
 
         lblPCGuild.setText("Color del prefijo");
+        lblPCGuild.setToolTipText(null);
         lblPCGuild.setName("lblPCGuild"); // NOI18N
 
         lblSGuild.setText("atajo en el chat");
+        lblSGuild.setToolTipText(null);
         lblSGuild.setName("lblSGuild"); // NOI18N
 
         lblMCGuild.setText("Color del mensaje");
+        lblMCGuild.setToolTipText(null);
         lblMCGuild.setName("lblMCGuild"); // NOI18N
 
+        textPrefixGuildChat.setToolTipText(null);
         textPrefixGuildChat.setName("textPrefixGuildChat"); // NOI18N
 
+        comboPrefixColorGuildChat.setToolTipText(null);
         comboPrefixColorGuildChat.setName("comboPrefixColorGuildChat"); // NOI18N
 
+        comboShortcutGuildChat.setToolTipText(null);
         comboShortcutGuildChat.setName("comboShortcutGuildChat"); // NOI18N
 
+        comboMessageColorGuildChat.setToolTipText(null);
         comboMessageColorGuildChat.setName("comboMessageColorGuildChat"); // NOI18N
 
         javax.swing.GroupLayout panelConfigGuildLayout = new javax.swing.GroupLayout(panelConfigGuild);
@@ -1851,26 +1914,35 @@ public class GUI extends JFrame {
         );
 
         panelConfiglPrivate.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat privado"));
+        panelConfiglPrivate.setToolTipText(null);
         panelConfiglPrivate.setName("panelConfiglPrivate"); // NOI18N
 
         lblPPriv.setText("Prefijo");
+        lblPPriv.setToolTipText(null);
         lblPPriv.setName("lblPPriv"); // NOI18N
 
         lblPCPriv.setText("Color del prefijo");
+        lblPCPriv.setToolTipText(null);
         lblPCPriv.setName("lblPCPriv"); // NOI18N
 
         lblSPriv.setText("atajo en el chat");
+        lblSPriv.setToolTipText(null);
         lblSPriv.setName("lblSPriv"); // NOI18N
 
         lblMCPriv.setText("Color del mensaje");
+        lblMCPriv.setToolTipText(null);
         lblMCPriv.setName("lblMCPriv"); // NOI18N
 
+        textPrefixPrivateChat.setToolTipText(null);
         textPrefixPrivateChat.setName("textPrefixPrivateChat"); // NOI18N
 
+        comboPrefixColorPrivateChat.setToolTipText(null);
         comboPrefixColorPrivateChat.setName("comboPrefixColorPrivateChat"); // NOI18N
 
+        comboShortcutPrivateChat.setToolTipText(null);
         comboShortcutPrivateChat.setName("comboShortcutPrivateChat"); // NOI18N
 
+        comboMessageColorPrivateChat.setToolTipText(null);
         comboMessageColorPrivateChat.setName("comboMessageColorPrivateChat"); // NOI18N
 
         javax.swing.GroupLayout panelConfiglPrivateLayout = new javax.swing.GroupLayout(panelConfiglPrivate);
@@ -1915,26 +1987,35 @@ public class GUI extends JFrame {
         );
 
         panelConfigNews.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat noticias"));
+        panelConfigNews.setToolTipText(null);
         panelConfigNews.setName("panelConfigNews"); // NOI18N
 
         lblPN.setText("Prefijo");
+        lblPN.setToolTipText(null);
         lblPN.setName("lblPN"); // NOI18N
 
         lblPCN.setText("Color del prefijo");
+        lblPCN.setToolTipText(null);
         lblPCN.setName("lblPCN"); // NOI18N
 
         lblSN.setText("atajo en el chat");
+        lblSN.setToolTipText(null);
         lblSN.setName("lblSN"); // NOI18N
 
         lblMCN.setText("Color del mensaje");
+        lblMCN.setToolTipText(null);
         lblMCN.setName("lblMCN"); // NOI18N
 
+        textPrefixNewsChat.setToolTipText(null);
         textPrefixNewsChat.setName("textPrefixNewsChat"); // NOI18N
 
+        comboPrefixColorNewsChat.setToolTipText(null);
         comboPrefixColorNewsChat.setName("comboPrefixColorNewsChat"); // NOI18N
 
+        comboShortcutNewsChat.setToolTipText(null);
         comboShortcutNewsChat.setName("comboShortcutNewsChat"); // NOI18N
 
+        comboMessageColorNewsChat.setToolTipText(null);
         comboMessageColorNewsChat.setName("comboMessageColorNewsChat"); // NOI18N
 
         javax.swing.GroupLayout panelConfigNewsLayout = new javax.swing.GroupLayout(panelConfigNews);
@@ -1979,26 +2060,35 @@ public class GUI extends JFrame {
         );
 
         panelConfigWarning.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat incidencias"));
+        panelConfigWarning.setToolTipText(null);
         panelConfigWarning.setName("panelConfigWarning"); // NOI18N
 
         lblPW.setText("Prefijo");
+        lblPW.setToolTipText(null);
         lblPW.setName("lblPW"); // NOI18N
 
         lblPCW.setText("Color del prefijo");
+        lblPCW.setToolTipText(null);
         lblPCW.setName("lblPCW"); // NOI18N
 
         lblSW.setText("atajo en el chat");
+        lblSW.setToolTipText(null);
         lblSW.setName("lblSW"); // NOI18N
 
         lblMCW.setText("Color del mensaje");
+        lblMCW.setToolTipText(null);
         lblMCW.setName("lblMCW"); // NOI18N
 
+        textPrefixWarningChat.setToolTipText(null);
         textPrefixWarningChat.setName("textPrefixWarningChat"); // NOI18N
 
+        comboPrefixColorWarningChat.setToolTipText(null);
         comboPrefixColorWarningChat.setName("comboPrefixColorWarningChat"); // NOI18N
 
+        comboShortcutWarningChat.setToolTipText(null);
         comboShortcutWarningChat.setName("comboShortcutWarningChat"); // NOI18N
 
+        comboMessageColorWarningChat.setToolTipText(null);
         comboMessageColorWarningChat.setName("comboMessageColorWarningChat"); // NOI18N
 
         javax.swing.GroupLayout panelConfigWarningLayout = new javax.swing.GroupLayout(panelConfigWarning);
@@ -2043,26 +2133,35 @@ public class GUI extends JFrame {
         );
 
         panelConfigLocal.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat local"));
+        panelConfigLocal.setToolTipText(null);
         panelConfigLocal.setName("panelConfigLocal"); // NOI18N
 
         lblPL.setText("Prefijo");
+        lblPL.setToolTipText(null);
         lblPL.setName("lblPL"); // NOI18N
 
         lblPCL.setText("Color del prefijo");
+        lblPCL.setToolTipText(null);
         lblPCL.setName("lblPCL"); // NOI18N
 
         lblMCL.setText("Color del mensaje");
+        lblMCL.setToolTipText(null);
         lblMCL.setName("lblMCL"); // NOI18N
 
+        textPrefixLocalChat.setToolTipText(null);
         textPrefixLocalChat.setName("textPrefixLocalChat"); // NOI18N
 
         lblDL.setText("Distancia de recepción");
+        lblDL.setToolTipText(null);
         lblDL.setName("lblDL"); // NOI18N
 
+        spinnerDistanceLocalChat.setToolTipText(null);
         spinnerDistanceLocalChat.setName("spinnerDistanceLocalChat"); // NOI18N
 
+        comboPrefixColorLocalChat.setToolTipText(null);
         comboPrefixColorLocalChat.setName("comboPrefixColorLocalChat"); // NOI18N
 
+        comboMessageColorLocalChat.setToolTipText(null);
         comboMessageColorLocalChat.setName("comboMessageColorLocalChat"); // NOI18N
 
         javax.swing.GroupLayout panelConfigLocalLayout = new javax.swing.GroupLayout(panelConfigLocal);
@@ -2116,6 +2215,7 @@ public class GUI extends JFrame {
         );
 
         btnGuardarConfigChats.setText("Guardar configuración");
+        btnGuardarConfigChats.setToolTipText(null);
         btnGuardarConfigChats.setName("btnGuardarConfigChats"); // NOI18N
         btnGuardarConfigChats.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2124,26 +2224,32 @@ public class GUI extends JFrame {
         });
 
         panelConfigEnableChats.setBorder(javax.swing.BorderFactory.createTitledBorder("Habilitar/Deshabilitar chats"));
+        panelConfigEnableChats.setToolTipText(null);
         panelConfigEnableChats.setName("panelConfigEnableChats"); // NOI18N
 
         checkEnableGlobalChat.setSelected(true);
         checkEnableGlobalChat.setText("Habilitar/Deshabilitar chat global");
+        checkEnableGlobalChat.setToolTipText(null);
         checkEnableGlobalChat.setName("checkEnableGlobalChat"); // NOI18N
 
         checkEnableMarketChat.setSelected(true);
         checkEnableMarketChat.setText("Habilitar/Deshabilitar chat comercio");
+        checkEnableMarketChat.setToolTipText(null);
         checkEnableMarketChat.setName("checkEnableMarketChat"); // NOI18N
 
         checkGuildChat.setSelected(true);
         checkGuildChat.setText("Habilitar/Deshabilitar chat clan");
+        checkGuildChat.setToolTipText(null);
         checkGuildChat.setName("checkGuildChat"); // NOI18N
 
         checkPartyChat.setSelected(true);
         checkPartyChat.setText("Habilitar/Deshabilitar chat grupo");
+        checkPartyChat.setToolTipText(null);
         checkPartyChat.setName("checkPartyChat"); // NOI18N
 
         checkPrivateChat.setSelected(true);
         checkPrivateChat.setText("Habilitar/Deshabilitar chat privado");
+        checkPrivateChat.setToolTipText(null);
         checkPrivateChat.setName("checkPrivateChat"); // NOI18N
 
         javax.swing.GroupLayout panelConfigEnableChatsLayout = new javax.swing.GroupLayout(panelConfigEnableChats);
@@ -2255,41 +2361,54 @@ public class GUI extends JFrame {
 
         panelConfig.addTab("Chat", panelConfChats);
 
+        panelConfigLevel.setToolTipText(null);
         panelConfigLevel.setName("panelConfigLevel"); // NOI18N
 
+        jScrollPane13.setToolTipText(null);
         jScrollPane13.setName("jScrollPane13"); // NOI18N
 
+        jPanel1.setToolTipText(null);
         jPanel1.setName("jPanel1"); // NOI18N
 
         lblInfoNivel.setText("Para crear una formula de niveles rellenar los huecos con números, acepta decimales");
+        lblInfoNivel.setToolTipText(null);
         lblInfoNivel.setName("lblInfoNivel"); // NOI18N
 
         lblInfoNivel2.setText("El resultado de la formula representa el total de experiencia que necesita el jugador para alcanzar el nivel X");
+        lblInfoNivel2.setToolTipText(null);
         lblInfoNivel2.setName("lblInfoNivel2"); // NOI18N
 
         lblFdeXNivel.setText("f(x)=");
+        lblFdeXNivel.setToolTipText(null);
         lblFdeXNivel.setName("lblFdeXNivel"); // NOI18N
 
         spinnerX3Nivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerX3Nivel.setToolTipText(null);
         spinnerX3Nivel.setAutoscrolls(true);
         spinnerX3Nivel.setName("spinnerX3Nivel"); // NOI18N
 
         lblx3Nivel.setText("x³+");
+        lblx3Nivel.setToolTipText(null);
         lblx3Nivel.setName("lblx3Nivel"); // NOI18N
 
         spinnerX2Nivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerX2Nivel.setToolTipText(null);
         spinnerX2Nivel.setName("spinnerX2Nivel"); // NOI18N
 
         lblx2Nivel.setText("x²+");
+        lblx2Nivel.setToolTipText(null);
         lblx2Nivel.setName("lblx2Nivel"); // NOI18N
 
         spinnerXNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerXNivel.setToolTipText(null);
         spinnerXNivel.setName("spinnerXNivel"); // NOI18N
 
         lblxNivel.setText("x");
+        lblxNivel.setToolTipText(null);
         lblxNivel.setName("lblxNivel"); // NOI18N
 
         btnValidarFormulaNiveles.setText("Validar");
+        btnValidarFormulaNiveles.setToolTipText(null);
         btnValidarFormulaNiveles.setName("btnValidarFormulaNiveles"); // NOI18N
         btnValidarFormulaNiveles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2298,6 +2417,7 @@ public class GUI extends JFrame {
         });
 
         btnDibujarGraficoNiveles.setText("Dibujar gráfico");
+        btnDibujarGraficoNiveles.setToolTipText(null);
         btnDibujarGraficoNiveles.setName("btnDibujarGraficoNiveles"); // NOI18N
         btnDibujarGraficoNiveles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2306,6 +2426,7 @@ public class GUI extends JFrame {
         });
 
         btnGuardarConfigNiveles.setText("Guardar");
+        btnGuardarConfigNiveles.setToolTipText(null);
         btnGuardarConfigNiveles.setName("btnGuardarConfigNiveles"); // NOI18N
         btnGuardarConfigNiveles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2314,9 +2435,11 @@ public class GUI extends JFrame {
         });
 
         lblInfoNivelMaxNivel.setText("Selecciona el nivel máximo que el jugador alcanzará");
+        lblInfoNivelMaxNivel.setToolTipText(null);
         lblInfoNivelMaxNivel.setName("lblInfoNivelMaxNivel"); // NOI18N
 
         spinnerMaxNivel.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spinnerMaxNivel.setToolTipText(null);
         spinnerMaxNivel.setName("spinnerMaxNivel"); // NOI18N
         spinnerMaxNivel.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -2325,12 +2448,15 @@ public class GUI extends JFrame {
         });
 
         lblPHxNivel.setText("Puntos de habilidad por nivel alcanzado");
+        lblPHxNivel.setToolTipText(null);
         lblPHxNivel.setName("lblPHxNivel"); // NOI18N
 
         spinnerPHxNivel.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spinnerPHxNivel.setToolTipText(null);
         spinnerPHxNivel.setName("spinnerPHxNivel"); // NOI18N
 
         panelGraficosNivel.setBorder(javax.swing.BorderFactory.createTitledBorder("Gráfico"));
+        panelGraficosNivel.setToolTipText(null);
         panelGraficosNivel.setName("panelGraficosNivel"); // NOI18N
 
         javax.swing.GroupLayout panelGraficosNivelLayout = new javax.swing.GroupLayout(panelGraficosNivel);
@@ -2345,8 +2471,10 @@ public class GUI extends JFrame {
         );
 
         panelNivelExpNivel.setBorder(javax.swing.BorderFactory.createTitledBorder("Tabla de experiencia"));
+        panelNivelExpNivel.setToolTipText(null);
         panelNivelExpNivel.setName("panelNivelExpNivel"); // NOI18N
 
+        jScrollPane1.setToolTipText(null);
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
         tablaExpNivel.setModel(new javax.swing.table.DefaultTableModel(
@@ -2357,6 +2485,7 @@ public class GUI extends JFrame {
 
             }
         ));
+        tablaExpNivel.setToolTipText(null);
         tablaExpNivel.setColumnSelectionAllowed(true);
         tablaExpNivel.setName("tablaExpNivel"); // NOI18N
         jScrollPane1.setViewportView(tablaExpNivel);
@@ -2478,13 +2607,16 @@ public class GUI extends JFrame {
 
         panelConfig.addTab("Niveles", panelConfigLevel);
 
+        panelConfigClases.setToolTipText(null);
         panelConfigClases.setAutoscrolls(true);
         panelConfigClases.setName(""); // NOI18N
         panelConfigClases.setPreferredSize(new java.awt.Dimension(800, 600));
 
+        comboSelectorClases.setToolTipText(null);
         comboSelectorClases.setName("comboSelectorClases"); // NOI18N
 
         btnCrearNuevaClase.setText("Nueva clase");
+        btnCrearNuevaClase.setToolTipText(null);
         btnCrearNuevaClase.setName("btnCrearNuevaClase"); // NOI18N
         btnCrearNuevaClase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2493,6 +2625,7 @@ public class GUI extends JFrame {
         });
 
         btnEditarClase.setText("Editar");
+        btnEditarClase.setToolTipText(null);
         btnEditarClase.setName("btnEditarClase"); // NOI18N
         btnEditarClase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2501,6 +2634,7 @@ public class GUI extends JFrame {
         });
 
         btnEliminarClase.setText("Eliminar");
+        btnEliminarClase.setToolTipText(null);
         btnEliminarClase.setName("btnEliminarClase"); // NOI18N
         btnEliminarClase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2508,87 +2642,115 @@ public class GUI extends JFrame {
             }
         });
 
+        jScrollPane11.setToolTipText(null);
         jScrollPane11.setName("jScrollPane11"); // NOI18N
 
         panelEditorClase.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de clases"));
+        panelEditorClase.setToolTipText(null);
         panelEditorClase.setName("Class Editor"); // NOI18N
 
         lblNombreClase.setText("Nombre");
+        lblNombreClase.setToolTipText(null);
         lblNombreClase.setName("lblNombreClase"); // NOI18N
 
         panelAtribBasicoClase.setBorder(javax.swing.BorderFactory.createTitledBorder("Atributos base"));
+        panelAtribBasicoClase.setToolTipText(null);
         panelAtribBasicoClase.setName("panelAtribBasicoClase"); // NOI18N
 
         lblVidaBase.setText("Vida máxima");
+        lblVidaBase.setToolTipText(null);
         lblVidaBase.setName("lblVidaBase"); // NOI18N
 
         lblManaBase.setText("Mana");
+        lblManaBase.setToolTipText(null);
         lblManaBase.setName("lblManaBase"); // NOI18N
 
         lblAtaFisBase.setText("Ataque físico");
+        lblAtaFisBase.setToolTipText(null);
         lblAtaFisBase.setName("lblAtaFisBase"); // NOI18N
 
         lblDefFisBase.setText("Defensa física");
+        lblDefFisBase.setToolTipText(null);
         lblDefFisBase.setName("lblDefFisBase"); // NOI18N
 
         lblHRFisBase.setText("Tasa de acierto físico");
+        lblHRFisBase.setToolTipText(null);
         lblHRFisBase.setName("lblHRFisBase"); // NOI18N
 
         lblEvaFisBase.setText("Evasión física");
+        lblEvaFisBase.setToolTipText(null);
         lblEvaFisBase.setName("lblEvaFisBase"); // NOI18N
 
         lblAtaMagBase.setText("Ataque mágico");
+        lblAtaMagBase.setToolTipText(null);
         lblAtaMagBase.setName("lblAtaMagBase"); // NOI18N
 
         lblDefMagBase.setText("Defensa mágica");
+        lblDefMagBase.setToolTipText(null);
         lblDefMagBase.setName("lblDefMagBase"); // NOI18N
 
         lblHRMagBase.setText("Tasa de acierto mágico");
+        lblHRMagBase.setToolTipText(null);
         lblHRMagBase.setName("lblHRMagBase"); // NOI18N
 
         lblEvaMagBase.setText("Evasión mágica");
+        lblEvaMagBase.setToolTipText(null);
         lblEvaMagBase.setName("lblEvaMagBase"); // NOI18N
 
         lblCritBase.setText("Crítico");
+        lblCritBase.setToolTipText(null);
         lblCritBase.setName("lblCritBase"); // NOI18N
 
         lblMortalBase.setText("Mortal");
+        lblMortalBase.setToolTipText(null);
         lblMortalBase.setName("lblMortalBase"); // NOI18N
 
         spinnerMaxVidaBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerMaxVidaBase.setToolTipText(null);
         spinnerMaxVidaBase.setName("spinnerMaxVidaBase"); // NOI18N
 
         spinnerMaxManaBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerMaxManaBase.setToolTipText(null);
         spinnerMaxManaBase.setName("spinnerMaxManaBase"); // NOI18N
 
         spinnerDefFisBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerDefFisBase.setToolTipText(null);
         spinnerDefFisBase.setName("spinnerDefFisBase"); // NOI18N
 
         spinnerAtaFisBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerAtaFisBase.setToolTipText(null);
         spinnerAtaFisBase.setName("spinnerAtaFisBase"); // NOI18N
 
         spinnerHRFisBase.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerHRFisBase.setToolTipText(null);
         spinnerHRFisBase.setName("spinnerHRFisBase"); // NOI18N
 
         spinnerEvaFisBase.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerEvaFisBase.setToolTipText(null);
         spinnerEvaFisBase.setName("spinnerEvaFisBase"); // NOI18N
 
         spinnerAtaMagBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerAtaMagBase.setToolTipText(null);
         spinnerAtaMagBase.setName("spinnerAtaMagBase"); // NOI18N
 
         spinnerDefMagBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerDefMagBase.setToolTipText(null);
         spinnerDefMagBase.setName("spinnerDefMagBase"); // NOI18N
 
         spinnerHRMagBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerHRMagBase.setToolTipText(null);
         spinnerHRMagBase.setName("spinnerHRMagBase"); // NOI18N
 
         spinnerEvaMagBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerEvaMagBase.setToolTipText(null);
         spinnerEvaMagBase.setName("spinnerEvaMagBase"); // NOI18N
 
         spinnerCritBase.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerCritBase.setToolTipText(null);
         spinnerCritBase.setName("spinnerCritBase"); // NOI18N
 
         spinnerMortalBase.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerMortalBase.setToolTipText(null);
         spinnerMortalBase.setName("spinnerMortalBase"); // NOI18N
 
         javax.swing.GroupLayout panelAtribBasicoClaseLayout = new javax.swing.GroupLayout(panelAtribBasicoClase);
@@ -2688,12 +2850,15 @@ public class GUI extends JFrame {
 
         panelAtribBasicoClaseLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {spinnerAtaFisBase, spinnerAtaMagBase, spinnerCritBase, spinnerDefFisBase, spinnerDefMagBase, spinnerEvaFisBase, spinnerEvaMagBase, spinnerHRFisBase, spinnerHRMagBase, spinnerMaxManaBase, spinnerMaxVidaBase, spinnerMortalBase});
 
+        txtNombreClase.setToolTipText(null);
         txtNombreClase.setName("txtNombreClase"); // NOI18N
 
         checkEnableClase.setText("Habilitado/Deshabilitado");
+        checkEnableClase.setToolTipText(null);
         checkEnableClase.setName("checkEnableClase"); // NOI18N
 
         btnGuardarClase.setText("Guardar");
+        btnGuardarClase.setToolTipText(null);
         btnGuardarClase.setName("btnGuardarClase"); // NOI18N
         btnGuardarClase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -2702,78 +2867,103 @@ public class GUI extends JFrame {
         });
 
         panelSubirNivel.setBorder(javax.swing.BorderFactory.createTitledBorder(" Incremento de atributos por nivel"));
+        panelSubirNivel.setToolTipText(null);
         panelSubirNivel.setName("panelSubirNivel"); // NOI18N
 
         lblVidaNivel.setText("Vida");
+        lblVidaNivel.setToolTipText(null);
         lblVidaNivel.setName("lblVidaNivel"); // NOI18N
 
         lblManaNivel.setText("Mana");
+        lblManaNivel.setToolTipText(null);
         lblManaNivel.setName("lblManaNivel"); // NOI18N
 
         lblAtaFisNivel.setText("Ataque físico");
+        lblAtaFisNivel.setToolTipText(null);
         lblAtaFisNivel.setName("lblAtaFisNivel"); // NOI18N
 
         lblDefFisNivel.setText("defensa física");
+        lblDefFisNivel.setToolTipText(null);
         lblDefFisNivel.setName("lblDefFisNivel"); // NOI18N
 
         lblHRFisNivel.setText("Tasa de acierto físico");
+        lblHRFisNivel.setToolTipText(null);
         lblHRFisNivel.setName("lblHRFisNivel"); // NOI18N
 
         lblEvaFisNivel.setText("Evasión física");
+        lblEvaFisNivel.setToolTipText(null);
         lblEvaFisNivel.setName("lblEvaFisNivel"); // NOI18N
 
         lblAtaMagNivel.setText("Ataque mágico");
+        lblAtaMagNivel.setToolTipText(null);
         lblAtaMagNivel.setName("lblAtaMagNivel"); // NOI18N
 
         lblDefMagNivel.setText("Defensa mágica");
+        lblDefMagNivel.setToolTipText(null);
         lblDefMagNivel.setName("lblDefMagNivel"); // NOI18N
 
         lblHRMagNivel.setText("Tasa de acierto mágico");
+        lblHRMagNivel.setToolTipText(null);
         lblHRMagNivel.setName("lblHRMagNivel"); // NOI18N
 
         lblEvaMagNivel.setText("Evasión mágica");
+        lblEvaMagNivel.setToolTipText(null);
         lblEvaMagNivel.setName("lblEvaMagNivel"); // NOI18N
 
         lblCritNivel.setText("Crítico");
+        lblCritNivel.setToolTipText(null);
         lblCritNivel.setName("lblCritNivel"); // NOI18N
 
         lblMortalNivel.setText("Mortal");
+        lblMortalNivel.setToolTipText(null);
         lblMortalNivel.setName("lblMortalNivel"); // NOI18N
 
         spinnerVidaNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerVidaNivel.setToolTipText(null);
         spinnerVidaNivel.setName("spinnerVidaNivel"); // NOI18N
 
         spinnerManaNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerManaNivel.setToolTipText(null);
         spinnerManaNivel.setName("spinnerManaNivel"); // NOI18N
 
         spinnerAtaFisNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerAtaFisNivel.setToolTipText(null);
         spinnerAtaFisNivel.setName("spinnerAtaFisNivel"); // NOI18N
 
         spinnerDefFisNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerDefFisNivel.setToolTipText(null);
         spinnerDefFisNivel.setName("spinnerDefFisNivel"); // NOI18N
 
         spinnerHRFisNivel.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerHRFisNivel.setToolTipText(null);
         spinnerHRFisNivel.setName("spinnerHRFisNivel"); // NOI18N
 
         spinnerEvaFisNivel.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerEvaFisNivel.setToolTipText(null);
         spinnerEvaFisNivel.setName("spinnerEvaFisNivel"); // NOI18N
 
         spinnerAtaMagNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerAtaMagNivel.setToolTipText(null);
         spinnerAtaMagNivel.setName("spinnerAtaMagNivel"); // NOI18N
 
         spinnerDefMagNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerDefMagNivel.setToolTipText(null);
         spinnerDefMagNivel.setName("spinnerDefMagNivel"); // NOI18N
 
         spinnerHRMagNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerHRMagNivel.setToolTipText(null);
         spinnerHRMagNivel.setName("spinnerHRMagNivel"); // NOI18N
 
         spinnerEvaMagNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerEvaMagNivel.setToolTipText(null);
         spinnerEvaMagNivel.setName("spinnerEvaMagNivel"); // NOI18N
 
         spinnerCritNivel.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerCritNivel.setToolTipText(null);
         spinnerCritNivel.setName("spinnerCritNivel"); // NOI18N
 
         spinnerMortalNivel.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerMortalNivel.setToolTipText(null);
         spinnerMortalNivel.setName("spinnerMortalNivel"); // NOI18N
 
         javax.swing.GroupLayout panelSubirNivelLayout = new javax.swing.GroupLayout(panelSubirNivel);
@@ -2872,21 +3062,27 @@ public class GUI extends JFrame {
         panelSubirNivelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblAtaFisNivel, lblAtaMagNivel, lblCritNivel, lblDefFisNivel, lblDefMagNivel, lblEvaFisNivel, lblEvaMagNivel, lblHRFisNivel, lblHRMagNivel, lblManaNivel, lblMortalNivel, lblVidaNivel});
 
         panelPuntoHabilidad.setBorder(javax.swing.BorderFactory.createTitledBorder("Incremento de atributos por punto de habilidad"));
+        panelPuntoHabilidad.setToolTipText(null);
         panelPuntoHabilidad.setName("panelPuntoHabilidad"); // NOI18N
 
         panelHabFuerza.setBorder(javax.swing.BorderFactory.createTitledBorder("Punto de habilidad de fuerza"));
+        panelHabFuerza.setToolTipText(null);
         panelHabFuerza.setName("panelHabFuerza"); // NOI18N
 
         lblVidaAP.setText("Vida");
+        lblVidaAP.setToolTipText(null);
         lblVidaAP.setName("lblVidaAP"); // NOI18N
 
         lblAtaFisAP.setText("Ataque físico");
+        lblAtaFisAP.setToolTipText(null);
         lblAtaFisAP.setName("lblAtaFisAP"); // NOI18N
 
         spinnerVidaAP.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerVidaAP.setToolTipText(null);
         spinnerVidaAP.setName("spinnerVidaAP"); // NOI18N
 
         spinnerAtaFisAP.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerAtaFisAP.setToolTipText(null);
         spinnerAtaFisAP.setName("spinnerAtaFisAP"); // NOI18N
 
         javax.swing.GroupLayout panelHabFuerzaLayout = new javax.swing.GroupLayout(panelHabFuerza);
@@ -2915,18 +3111,23 @@ public class GUI extends JFrame {
         );
 
         panelHabConst.setBorder(javax.swing.BorderFactory.createTitledBorder("Punto de habilidad de constitución"));
+        panelHabConst.setToolTipText(null);
         panelHabConst.setName("panelHabConst"); // NOI18N
 
         lblVidaAP2.setText("Vida");
+        lblVidaAP2.setToolTipText(null);
         lblVidaAP2.setName("lblVidaAP2"); // NOI18N
 
         lblManaAP.setText("Mana");
+        lblManaAP.setToolTipText(null);
         lblManaAP.setName("lblManaAP"); // NOI18N
 
         spinnerVidaAP2.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerVidaAP2.setToolTipText(null);
         spinnerVidaAP2.setName("spinnerVidaAP2"); // NOI18N
 
         spinnerManaAP.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerManaAP.setToolTipText(null);
         spinnerManaAP.setName("spinnerManaAP"); // NOI18N
 
         javax.swing.GroupLayout panelHabConstLayout = new javax.swing.GroupLayout(panelHabConst);
@@ -2955,18 +3156,23 @@ public class GUI extends JFrame {
         );
 
         panelHabInt.setBorder(javax.swing.BorderFactory.createTitledBorder("Punto de habilidad de inteligencia"));
+        panelHabInt.setToolTipText(null);
         panelHabInt.setName("panelHabInt"); // NOI18N
 
         lblManaAP2.setText("Mana");
+        lblManaAP2.setToolTipText(null);
         lblManaAP2.setName("lblManaAP2"); // NOI18N
 
         lblAtaMagAP.setText("Ataque mágico");
+        lblAtaMagAP.setToolTipText(null);
         lblAtaMagAP.setName("lblAtaMagAP"); // NOI18N
 
         spinnerManaAP2.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerManaAP2.setToolTipText(null);
         spinnerManaAP2.setName("spinnerManaAP2"); // NOI18N
 
         spinnerAtaMagAP.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerAtaMagAP.setToolTipText(null);
         spinnerAtaMagAP.setName("spinnerAtaMagAP"); // NOI18N
 
         javax.swing.GroupLayout panelHabIntLayout = new javax.swing.GroupLayout(panelHabInt);
@@ -2995,18 +3201,23 @@ public class GUI extends JFrame {
         );
 
         panelHabDest.setBorder(javax.swing.BorderFactory.createTitledBorder("Punto de habilidad de destreza"));
+        panelHabDest.setToolTipText(null);
         panelHabDest.setName("panelHabDest"); // NOI18N
 
         lblCritAP.setText("Crítico");
+        lblCritAP.setToolTipText(null);
         lblCritAP.setName("lblCritAP"); // NOI18N
 
         lblMortalAP.setText("Mortal");
+        lblMortalAP.setToolTipText(null);
         lblMortalAP.setName("lblMortalAP"); // NOI18N
 
         spinnerCritAP.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerCritAP.setToolTipText(null);
         spinnerCritAP.setName("spinnerCritAP"); // NOI18N
 
         spinnerMortalAP.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerMortalAP.setToolTipText(null);
         spinnerMortalAP.setName("spinnerMortalAP"); // NOI18N
 
         javax.swing.GroupLayout panelHabDestLayout = new javax.swing.GroupLayout(panelHabDest);
@@ -3135,10 +3346,12 @@ public class GUI extends JFrame {
 
         panelConfig.addTab("Clases", panelConfigClases);
 
+        panelConfigGuilds.setToolTipText(null);
         panelConfigGuilds.setName("panelConfigGuilds"); // NOI18N
         panelConfigGuilds.setPreferredSize(new java.awt.Dimension(800, 600));
 
         btnGuardarConfigClan.setText("Guardar");
+        btnGuardarConfigClan.setToolTipText(null);
         btnGuardarConfigClan.setName("btnGuardarConfigClan"); // NOI18N
         btnGuardarConfigClan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3147,13 +3360,16 @@ public class GUI extends JFrame {
         });
 
         panelConfigClanes.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración clanes"));
+        panelConfigClanes.setToolTipText(null);
         panelConfigClanes.setName("panelConfigClanes"); // NOI18N
 
         panelNumJugClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Número de jugadores"));
+        panelNumJugClan.setToolTipText(null);
         panelNumJugClan.setName("panelNumJugClan"); // NOI18N
 
         rdBtnNumFijosClan.setSelected(true);
         rdBtnNumFijosClan.setText("Fijos");
+        rdBtnNumFijosClan.setToolTipText(null);
         rdBtnNumFijosClan.setName("rdBtnNumFijosClan"); // NOI18N
         rdBtnNumFijosClan.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -3162,6 +3378,7 @@ public class GUI extends JFrame {
         });
 
         rdBtnLimitNivClan.setText("Limitado por nivel del clan");
+        rdBtnLimitNivClan.setToolTipText(null);
         rdBtnLimitNivClan.setName("rdBtnLimitNivClan"); // NOI18N
         rdBtnLimitNivClan.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -3169,9 +3386,11 @@ public class GUI extends JFrame {
             }
         });
 
+        spinnerNumFijosClan.setToolTipText(null);
         spinnerNumFijosClan.setName("spinnerNumFijosClan"); // NOI18N
 
         lblJugadoresClan.setText("jugadores");
+        lblJugadoresClan.setToolTipText(null);
         lblJugadoresClan.setName("lblJugadoresClan"); // NOI18N
 
         javax.swing.GroupLayout panelNumJugClanLayout = new javax.swing.GroupLayout(panelNumJugClan);
@@ -3204,17 +3423,22 @@ public class GUI extends JFrame {
         );
 
         panelSisContNivelClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Sistema de contribución clan limitado por nivel"));
+        panelSisContNivelClan.setToolTipText(null);
         panelSisContNivelClan.setName("panelSisContNivelClan"); // NOI18N
 
+        spinnerContriPorcentajeMuertes.setToolTipText(null);
         spinnerContriPorcentajeMuertes.setName("spinnerContriPorcentajeMuertes"); // NOI18N
 
         lblporcMuertesClan.setText("%muertes");
+        lblporcMuertesClan.setToolTipText(null);
         lblporcMuertesClan.setName("lblporcMuertesClan"); // NOI18N
 
         checkDonationClan.setText("Donacion");
+        checkDonationClan.setToolTipText(null);
         checkDonationClan.setName("checkDonationClan"); // NOI18N
 
         checkContributionClan.setText("Contribucion");
+        checkContributionClan.setToolTipText(null);
         checkContributionClan.setName("checkContributionClan"); // NOI18N
         checkContributionClan.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -3252,18 +3476,23 @@ public class GUI extends JFrame {
         );
 
         lblnivMinJugCrearClan.setText("Nivel minimo del jugador para crear un clan");
+        lblnivMinJugCrearClan.setToolTipText(null);
         lblnivMinJugCrearClan.setName("lblnivMinJugCrearClan"); // NOI18N
 
+        spinnerNivelMinJugClan.setToolTipText(null);
         spinnerNivelMinJugClan.setName("spinnerNivelMinJugClan"); // NOI18N
 
         panelOpcLimNivelClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones de clan limitado por nivel"));
+        panelOpcLimNivelClan.setToolTipText(null);
         panelOpcLimNivelClan.setName("panelOpcLimNivelClan"); // NOI18N
 
         rdBtnOpcDinFijo.setSelected(true);
         rdBtnOpcDinFijo.setText("Dinero Fijo");
+        rdBtnOpcDinFijo.setToolTipText(null);
         rdBtnOpcDinFijo.setName("rdBtnOpcDinFijo"); // NOI18N
 
         rdBtnOpcDinForm.setText("Formula de dinero");
+        rdBtnOpcDinForm.setToolTipText(null);
         rdBtnOpcDinForm.setName("rdBtnOpcDinForm"); // NOI18N
         rdBtnOpcDinForm.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -3272,30 +3501,39 @@ public class GUI extends JFrame {
         });
 
         panelFormulaClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Formula"));
+        panelFormulaClan.setToolTipText(null);
         panelFormulaClan.setName("panelFormulaClan"); // NOI18N
 
         lblfdex.setText("f(x)=");
+        lblfdex.setToolTipText(null);
         lblfdex.setName("lblfdex"); // NOI18N
 
         spinnerformulax2clan.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
+        spinnerformulax2clan.setToolTipText(null);
         spinnerformulax2clan.setName("spinnerformulax2clan"); // NOI18N
 
         lblx2clan.setText("x^2+");
+        lblx2clan.setToolTipText(null);
         lblx2clan.setName("lblx2clan"); // NOI18N
 
         spinnerformulaxclan.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
+        spinnerformulaxclan.setToolTipText(null);
         spinnerformulaxclan.setName("spinnerformulaxclan"); // NOI18N
 
         lblxclan.setText("x");
+        lblxclan.setToolTipText(null);
         lblxclan.setName("lblxclan"); // NOI18N
 
         lblMaxNivelClan.setText("Nivel máximo del clan");
+        lblMaxNivelClan.setToolTipText(null);
         lblMaxNivelClan.setName("lblMaxNivelClan"); // NOI18N
 
         spinnerNivelMaxClan.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerNivelMaxClan.setToolTipText(null);
         spinnerNivelMaxClan.setName("spinnerNivelMaxClan"); // NOI18N
 
         btnValidarFormulaClan.setText("Validar");
+        btnValidarFormulaClan.setToolTipText(null);
         btnValidarFormulaClan.setName("btnValidarFormulaClan"); // NOI18N
         btnValidarFormulaClan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3304,6 +3542,7 @@ public class GUI extends JFrame {
         });
 
         btnResetearFormulaClan.setText("Resetear");
+        btnResetearFormulaClan.setToolTipText(null);
         btnResetearFormulaClan.setName("btnResetearFormulaClan"); // NOI18N
         btnResetearFormulaClan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3312,15 +3551,19 @@ public class GUI extends JFrame {
         });
 
         lblFormJugXNivelClan.setText("Jugadores por nivel");
+        lblFormJugXNivelClan.setToolTipText(null);
         lblFormJugXNivelClan.setName("lblFormJugXNivelClan"); // NOI18N
 
         spinnerFormJugXNivelClan.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spinnerFormJugXNivelClan.setToolTipText(null);
         spinnerFormJugXNivelClan.setName("spinnerFormJugXNivelClan"); // NOI18N
 
         lblFormJugIniClan.setText("Jugadores inicial");
+        lblFormJugIniClan.setToolTipText(null);
         lblFormJugIniClan.setName("lblFormJugIniClan"); // NOI18N
 
         spinnerFormJugIniClan.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spinnerFormJugIniClan.setToolTipText(null);
         spinnerFormJugIniClan.setName("spinnerFormJugIniClan"); // NOI18N
 
         javax.swing.GroupLayout panelFormulaClanLayout = new javax.swing.GroupLayout(panelFormulaClan);
@@ -3390,8 +3633,10 @@ public class GUI extends JFrame {
         );
 
         panelEditNivelesClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor/Visor de niveles"));
+        panelEditNivelesClan.setToolTipText(null);
         panelEditNivelesClan.setName("panelEditNivelesClan"); // NOI18N
 
+        jScrollPane7.setToolTipText(null);
         jScrollPane7.setName("jScrollPane7"); // NOI18N
 
         tablaClanes.setModel(new javax.swing.table.DefaultTableModel(
@@ -3415,6 +3660,7 @@ public class GUI extends JFrame {
         jScrollPane7.setViewportView(tablaClanes);
 
         btnAnadirNivel.setText("Añadir nivel");
+        btnAnadirNivel.setToolTipText(null);
         btnAnadirNivel.setName("btnAnadirNivel"); // NOI18N
         btnAnadirNivel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3423,6 +3669,7 @@ public class GUI extends JFrame {
         });
 
         btnEditarNivel.setText("Editar nivel");
+        btnEditarNivel.setToolTipText(null);
         btnEditarNivel.setName("btnEditarNivel"); // NOI18N
         btnEditarNivel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3431,6 +3678,7 @@ public class GUI extends JFrame {
         });
 
         btnEliminarNivel.setText("Eliminar nivel");
+        btnEliminarNivel.setToolTipText(null);
         btnEliminarNivel.setName("btnEliminarNivel"); // NOI18N
         btnEliminarNivel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3438,14 +3686,18 @@ public class GUI extends JFrame {
             }
         });
 
+        spinnerDineroEditClan.setToolTipText(null);
         spinnerDineroEditClan.setName("spinnerDineroEditClan"); // NOI18N
 
         lblDineroEditNivelClan.setText("Dinero");
+        lblDineroEditNivelClan.setToolTipText(null);
         lblDineroEditNivelClan.setName("lblDineroEditNivelClan"); // NOI18N
 
         lblNumJugEditNivelClan.setText("Número Jugadores");
+        lblNumJugEditNivelClan.setToolTipText(null);
         lblNumJugEditNivelClan.setName("lblNumJugEditNivelClan"); // NOI18N
 
+        spinnerNumJugEditClan.setToolTipText(null);
         spinnerNumJugEditClan.setName("spinnerNumJugEditClan"); // NOI18N
 
         javax.swing.GroupLayout panelEditNivelesClanLayout = new javax.swing.GroupLayout(panelEditNivelesClan);
@@ -3583,27 +3835,35 @@ public class GUI extends JFrame {
 
         panelConfig.addTab("Clanes", panelConfigGuilds);
 
+        panelConfigParties.setToolTipText(null);
         panelConfigParties.setName("panelConfigParties"); // NOI18N
 
         btnGuardarConfigGrupos.setText("Guardar");
+        btnGuardarConfigGrupos.setToolTipText(null);
         btnGuardarConfigGrupos.setName("btnGuardarConfigGrupos"); // NOI18N
 
         panelConfigGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de grupos"));
+        panelConfigGrupos.setToolTipText(null);
         panelConfigGrupos.setName("panelConfigGrupos"); // NOI18N
 
         panelNumJugGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Número de jugadores"));
+        panelNumJugGrupos.setToolTipText(null);
         panelNumJugGrupos.setName("panelNumJugGrupos"); // NOI18N
 
+        spinnerNumeroFijoJugGrupo.setToolTipText(null);
         spinnerNumeroFijoJugGrupo.setName("spinnerNumeroFijoJugGrupo"); // NOI18N
 
         lblJugadoresGrupo.setText("jugadores");
+        lblJugadoresGrupo.setToolTipText(null);
         lblJugadoresGrupo.setName("lblJugadoresGrupo"); // NOI18N
 
         rdBtnIlimitadosGrupo.setSelected(true);
         rdBtnIlimitadosGrupo.setText("Ilimitados");
+        rdBtnIlimitadosGrupo.setToolTipText(null);
         rdBtnIlimitadosGrupo.setName("0"); // NOI18N
 
         rdBtnFijosGrupo.setText("Fijos");
+        rdBtnFijosGrupo.setToolTipText(null);
         rdBtnFijosGrupo.setName(""); // NOI18N
         rdBtnFijosGrupo.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -3638,13 +3898,16 @@ public class GUI extends JFrame {
         );
 
         panelPvpGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("PvP"));
+        panelPvpGrupos.setToolTipText(null);
         panelPvpGrupos.setName("panelPvpGrupos"); // NOI18N
 
         rdBtnPermitidoPvpGrupo.setSelected(true);
         rdBtnPermitidoPvpGrupo.setText("Permitido");
+        rdBtnPermitidoPvpGrupo.setToolTipText(null);
         rdBtnPermitidoPvpGrupo.setName("rdBtnPermitidoPvpGrupo"); // NOI18N
 
         rdBtnNoPermitidoPvpGrupo.setText("No permitido");
+        rdBtnNoPermitidoPvpGrupo.setToolTipText(null);
         rdBtnNoPermitidoPvpGrupo.setName("rdBtnNoPermitidoPvpGrupo"); // NOI18N
 
         javax.swing.GroupLayout panelPvpGruposLayout = new javax.swing.GroupLayout(panelPvpGrupos);
@@ -3667,12 +3930,15 @@ public class GUI extends JFrame {
         );
 
         panelSistRepGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Sistema de reparto"));
+        panelSistRepGrupos.setToolTipText(null);
         panelSistRepGrupos.setName("panelSistRepGrupos"); // NOI18N
 
         checkDineroGrupo.setText("Dinero");
+        checkDineroGrupo.setToolTipText(null);
         checkDineroGrupo.setName("checkDineroGrupo"); // NOI18N
 
         checkExpGrupo.setText("Experiencia");
+        checkExpGrupo.setToolTipText(null);
         checkExpGrupo.setName("checkExpGrupo"); // NOI18N
 
         javax.swing.GroupLayout panelSistRepGruposLayout = new javax.swing.GroupLayout(panelSistRepGrupos);
@@ -3697,13 +3963,16 @@ public class GUI extends JFrame {
         );
 
         panelOpcRepGRupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones de reparto"));
+        panelOpcRepGRupos.setToolTipText(null);
         panelOpcRepGRupos.setName("panelOpcRepGRupos"); // NOI18N
 
         rdBtnOpcionigualitarioGrupo.setSelected(true);
         rdBtnOpcionigualitarioGrupo.setText("Reparto igualitario");
+        rdBtnOpcionigualitarioGrupo.setToolTipText(null);
         rdBtnOpcionigualitarioGrupo.setName("rdBtnOpcionigualitarioGrupo"); // NOI18N
 
         rdBtnOpcionProporcionalGrupo.setText("Reparto proporcional");
+        rdBtnOpcionProporcionalGrupo.setToolTipText(null);
         rdBtnOpcionProporcionalGrupo.setName("rdBtnOpcionProporcionalGrupo"); // NOI18N
         rdBtnOpcionProporcionalGrupo.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -3712,13 +3981,16 @@ public class GUI extends JFrame {
         });
 
         panelOpcRepProp.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones reparto proporcional"));
+        panelOpcRepProp.setToolTipText(null);
         panelOpcRepProp.setName("panelOpcRepProp"); // NOI18N
 
         rdBtnProNivelGrupo.setSelected(true);
         rdBtnProNivelGrupo.setText("Por nivel del jugador");
+        rdBtnProNivelGrupo.setToolTipText(null);
         rdBtnProNivelGrupo.setName("rdBtnProNivelGrupo"); // NOI18N
 
         rdBtnProKillsGrupo.setText("Por muertes del jugador");
+        rdBtnProKillsGrupo.setToolTipText(null);
         rdBtnProKillsGrupo.setName("rdBtnProKillsGrupo"); // NOI18N
 
         javax.swing.GroupLayout panelOpcRepPropLayout = new javax.swing.GroupLayout(panelOpcRepProp);
@@ -3820,10 +4092,12 @@ public class GUI extends JFrame {
 
         panelConfig.addTab("Grupos", panelConfigParties);
 
+        panelConfigObjetos.setToolTipText(null);
         panelConfigObjetos.setName("panelConfigObjetos"); // NOI18N
         panelConfigObjetos.setPreferredSize(new java.awt.Dimension(800, 600));
 
         btnCrearNuevoObjeto.setText("Nuevo");
+        btnCrearNuevoObjeto.setToolTipText(null);
         btnCrearNuevoObjeto.setName("btnCrearNuevoObjeto"); // NOI18N
         btnCrearNuevoObjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3832,31 +4106,41 @@ public class GUI extends JFrame {
         });
 
         panelEditorObjetos.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de objetos"));
+        panelEditorObjetos.setToolTipText(null);
         panelEditorObjetos.setName("panelEditorObjetos"); // NOI18N
 
         lblNombreObjeto.setText("Nombre");
+        lblNombreObjeto.setToolTipText(null);
         lblNombreObjeto.setName("lblNombreObjeto"); // NOI18N
 
+        txtNombreObjeto.setToolTipText(null);
         txtNombreObjeto.setName("txtNombreObjeto"); // NOI18N
 
         lblTipoObjeto.setText("Tipo de objeto");
+        lblTipoObjeto.setToolTipText(null);
         lblTipoObjeto.setName("lblTipoObjeto"); // NOI18N
 
+        comboTipoObjeto.setToolTipText(null);
         comboTipoObjeto.setName("tipoobjeto"); // NOI18N
 
+        jScrollPane2.setToolTipText(null);
         jScrollPane2.setName("jScrollPane2"); // NOI18N
 
         listDescripcionObjeto.setBorder(javax.swing.BorderFactory.createTitledBorder("Descripción objeto"));
         listDescripcionObjeto.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listDescripcionObjeto.setToolTipText(null);
         listDescripcionObjeto.setName("listDescripcionObjeto"); // NOI18N
         jScrollPane2.setViewportView(listDescripcionObjeto);
 
         lblDescripObjeto.setText("Descripción");
+        lblDescripObjeto.setToolTipText(null);
         lblDescripObjeto.setName("lblDescripObjeto"); // NOI18N
 
+        txtDescripObjeto.setToolTipText(null);
         txtDescripObjeto.setName("txtDescripObjeto"); // NOI18N
 
         btnAnadirDesObjeto.setText("Añadir");
+        btnAnadirDesObjeto.setToolTipText(null);
         btnAnadirDesObjeto.setName("btnAnadirDesObjeto"); // NOI18N
         btnAnadirDesObjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3865,6 +4149,7 @@ public class GUI extends JFrame {
         });
 
         btnEditarDesObjeto.setText("Editar");
+        btnEditarDesObjeto.setToolTipText(null);
         btnEditarDesObjeto.setName("btnEditarDesObjeto"); // NOI18N
         btnEditarDesObjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3873,6 +4158,7 @@ public class GUI extends JFrame {
         });
 
         btnEliminarDesObjeto.setText("Eliminar descripción");
+        btnEliminarDesObjeto.setToolTipText(null);
         btnEliminarDesObjeto.setName("btnEliminarDesObjeto"); // NOI18N
         btnEliminarDesObjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3881,6 +4167,7 @@ public class GUI extends JFrame {
         });
 
         btnGuardarObjeto.setText("Guardar");
+        btnGuardarObjeto.setToolTipText(null);
         btnGuardarObjeto.setName("btnGuardarObjeto"); // NOI18N
         btnGuardarObjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3889,9 +4176,11 @@ public class GUI extends JFrame {
         });
 
         lblCalidadObjeto.setText("Calidad objeto");
+        lblCalidadObjeto.setToolTipText(null);
         lblCalidadObjeto.setName("lblCalidadObjeto"); // NOI18N
 
         comboCalidadObjeto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboCalidadObjeto.setToolTipText(null);
         comboCalidadObjeto.setName("calidadobjeto"); // NOI18N
 
         javax.swing.GroupLayout panelEditorObjetosLayout = new javax.swing.GroupLayout(panelEditorObjetos);
@@ -3959,9 +4248,11 @@ public class GUI extends JFrame {
                 .addContainerGap(112, Short.MAX_VALUE))
         );
 
+        comboListaObjetos.setToolTipText(null);
         comboListaObjetos.setName("comboListaObjetos"); // NOI18N
 
         btnEditarObjeto.setText("Editar");
+        btnEditarObjeto.setToolTipText(null);
         btnEditarObjeto.setName("btnEditarObjeto"); // NOI18N
         btnEditarObjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3970,6 +4261,7 @@ public class GUI extends JFrame {
         });
 
         btnEliminarObjeto.setText("Eliminar");
+        btnEliminarObjeto.setToolTipText(null);
         btnEliminarObjeto.setName("btnEliminarObjeto"); // NOI18N
 
         javax.swing.GroupLayout panelConfigObjetosLayout = new javax.swing.GroupLayout(panelConfigObjetos);
@@ -4006,36 +4298,47 @@ public class GUI extends JFrame {
 
         panelConfig.addTab("Objetos", panelConfigObjetos);
 
+        panelConfigJewels.setToolTipText(null);
         panelConfigJewels.setName("panelConfigJewels"); // NOI18N
 
         panelConfigJoyas.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de joyas"));
+        panelConfigJoyas.setToolTipText(null);
         panelConfigJoyas.setName("panelConfigJoyas"); // NOI18N
 
         lblProbRotJoya.setText("Probabilidad de rotura");
+        lblProbRotJoya.setToolTipText(null);
         lblProbRotJoya.setName("lblProbRotJoya"); // NOI18N
 
         spinnerProbRotJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbRotJoya.setToolTipText(null);
         spinnerProbRotJoya.setName("spinnerProbRotJoya"); // NOI18N
 
         spinnerProbDetJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbDetJoya.setToolTipText(null);
         spinnerProbDetJoya.setName("spinnerProbDetJoya"); // NOI18N
 
         lblProbDetJoya.setText("Probabilidad combinacion con perdida atributos");
+        lblProbDetJoya.setToolTipText(null);
         lblProbDetJoya.setName("lblProbDetJoya"); // NOI18N
 
         lblProbSEJoya.setText("Probabilidad combinacion sin sumar atributos");
+        lblProbSEJoya.setToolTipText(null);
         lblProbSEJoya.setName("lblProbSEJoya"); // NOI18N
 
         spinnerProbSEJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbSEJoya.setToolTipText(null);
         spinnerProbSEJoya.setName("spinnerProbSEJoya"); // NOI18N
 
         spinnerProbExitoJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbExitoJoya.setToolTipText(null);
         spinnerProbExitoJoya.setName("spinnerProbExitoJoya"); // NOI18N
 
         lblProbExitoJoya.setText("Probabilidad de exito");
+        lblProbExitoJoya.setToolTipText(null);
         lblProbExitoJoya.setName("lblProbExitoJoya"); // NOI18N
 
         btnGuardarConfigJoyas.setText("Guardar");
+        btnGuardarConfigJoyas.setToolTipText(null);
         btnGuardarConfigJoyas.setName("btnGuardarConfigJoyas"); // NOI18N
         btnGuardarConfigJoyas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4044,9 +4347,11 @@ public class GUI extends JFrame {
         });
 
         lblProbExitoJoya1.setText("Probabilidad de perdida de atributos");
+        lblProbExitoJoya1.setToolTipText(null);
         lblProbExitoJoya1.setName("lblProbExitoJoya1"); // NOI18N
 
         spinnerProblosepperloreJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProblosepperloreJoya.setToolTipText(null);
         spinnerProblosepperloreJoya.setName("spinnerProblosepperloreJoya"); // NOI18N
 
         javax.swing.GroupLayout panelConfigJoyasLayout = new javax.swing.GroupLayout(panelConfigJoyas);
@@ -4110,12 +4415,15 @@ public class GUI extends JFrame {
 
         panelConfigJoyasLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblProbDetJoya, lblProbExitoJoya, lblProbRotJoya, lblProbSEJoya});
 
+        jScrollPane12.setToolTipText(null);
         jScrollPane12.setName("jScrollPane12"); // NOI18N
 
         panelSelectorJoyas.setBorder(javax.swing.BorderFactory.createTitledBorder("Selector de joyas"));
+        panelSelectorJoyas.setToolTipText(null);
         panelSelectorJoyas.setName("panelSelectorJoyas"); // NOI18N
 
         btnCrearNuevaJoya.setText("Nueva");
+        btnCrearNuevaJoya.setToolTipText(null);
         btnCrearNuevaJoya.setName("btnCrearNuevaJoya"); // NOI18N
         btnCrearNuevaJoya.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4124,110 +4432,152 @@ public class GUI extends JFrame {
         });
 
         panelEditorJoya.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de joyas"));
+        panelEditorJoya.setToolTipText(null);
         panelEditorJoya.setName("panelEditorJoya"); // NOI18N
 
         lblNombreJoya.setText("Nombre");
+        lblNombreJoya.setToolTipText(null);
         lblNombreJoya.setName("lblNombreJoya"); // NOI18N
 
+        txtNombreJoya.setToolTipText(null);
         txtNombreJoya.setName("txtNombreJoya"); // NOI18N
 
         lblObjetoJoya.setText("Objeto");
+        lblObjetoJoya.setToolTipText(null);
         lblObjetoJoya.setName("lblObjetoJoya"); // NOI18N
 
+        comboObjetoJoya.setToolTipText(null);
         comboObjetoJoya.setName("tipojoya"); // NOI18N
 
         lblCalidadJoya.setText("Calidad");
+        lblCalidadJoya.setToolTipText(null);
         lblCalidadJoya.setName("lblCalidadJoya"); // NOI18N
 
+        comboCalidadJoya.setToolTipText(null);
         comboCalidadJoya.setName("calidadjoya"); // NOI18N
 
         lblPrecioVJoya.setText("Precio de venta");
+        lblPrecioVJoya.setToolTipText(null);
         lblPrecioVJoya.setName("lblPrecioVJoya"); // NOI18N
 
         lblPrecioCJoya.setText("Precio de compra");
+        lblPrecioCJoya.setToolTipText(null);
         lblPrecioCJoya.setName("lblPrecioCJoya"); // NOI18N
 
         checkComerciable.setText("Comerciable");
+        checkComerciable.setToolTipText(null);
         checkComerciable.setName("checkComerciable"); // NOI18N
 
         checkCombinable.setText("Combinable");
+        checkCombinable.setToolTipText(null);
         checkCombinable.setName("checkCombinable"); // NOI18N
 
+        spinnerPrecioVJoya.setToolTipText(null);
         spinnerPrecioVJoya.setName("spinnerPrecioVJoya"); // NOI18N
 
+        spinnerPrecioCJoya.setToolTipText(null);
         spinnerPrecioCJoya.setName("spinnerPrecioCJoya"); // NOI18N
 
         lblRoboMJoya.setText("Robo de maná");
+        lblRoboMJoya.setToolTipText(null);
         lblRoboMJoya.setName("lblRoboMJoya"); // NOI18N
 
         lblDefFisJoya.setText("Defensa física");
+        lblDefFisJoya.setToolTipText(null);
         lblDefFisJoya.setName("lblDefFisJoya"); // NOI18N
 
         lblDefMagJoya.setText("Defensa mágica");
+        lblDefMagJoya.setToolTipText(null);
         lblDefMagJoya.setName("lblDefMagJoya"); // NOI18N
 
         lblHRFisJoya.setText("Tasa acierto físico");
+        lblHRFisJoya.setToolTipText(null);
         lblHRFisJoya.setName("lblHRFisJoya"); // NOI18N
 
         lblEvaFisJoya.setText("Evasión física");
+        lblEvaFisJoya.setToolTipText(null);
         lblEvaFisJoya.setName("lblEvaFisJoya"); // NOI18N
 
         lblAtaFisJoya.setText("Daño físico");
+        lblAtaFisJoya.setToolTipText(null);
         lblAtaFisJoya.setName("lblAtaFisJoya"); // NOI18N
 
         lblManaJoya.setText("Maná");
+        lblManaJoya.setToolTipText(null);
         lblManaJoya.setName("lblManaJoya"); // NOI18N
 
         lblManaVidaJoya.setText("Vida");
+        lblManaVidaJoya.setToolTipText(null);
         lblManaVidaJoya.setName("lblManaVidaJoya"); // NOI18N
 
         lblAtaMagJoya.setText("Daño mágico");
+        lblAtaMagJoya.setToolTipText(null);
         lblAtaMagJoya.setName("lblAtaMagJoya"); // NOI18N
 
         lvlEvaMagJoya.setText("Evasión mágica");
+        lvlEvaMagJoya.setToolTipText(null);
         lvlEvaMagJoya.setName("lvlEvaMagJoya"); // NOI18N
 
         lblDineroExtraJoya.setText("Dinero extra");
+        lblDineroExtraJoya.setToolTipText(null);
         lblDineroExtraJoya.setName("lblDineroExtraJoya"); // NOI18N
 
         lblExpExtraJoya.setText("Experiencia extra");
+        lblExpExtraJoya.setToolTipText(null);
         lblExpExtraJoya.setName("lblExpExtraJoya"); // NOI18N
 
         lblHRMagJoya.setText("Tasa acierto mágico");
+        lblHRMagJoya.setToolTipText(null);
         lblHRMagJoya.setName("lblHRMagJoya"); // NOI18N
 
         lblRoboVJoya.setText("Robo de vida");
+        lblRoboVJoya.setToolTipText(null);
         lblRoboVJoya.setName("lblRoboVJoya"); // NOI18N
 
+        spinnerDineroExtraJoya.setToolTipText(null);
         spinnerDineroExtraJoya.setName("spinnerDineroExtraJoya"); // NOI18N
 
+        spinnerExpExtraJoya.setToolTipText(null);
         spinnerExpExtraJoya.setName("spinnerExpExtraJoya"); // NOI18N
 
+        spinnerRoboVJoya.setToolTipText(null);
         spinnerRoboVJoya.setName("spinnerRoboVJoya"); // NOI18N
 
+        spinnerRoboMJoya.setToolTipText(null);
         spinnerRoboMJoya.setName("spinnerRoboMJoya"); // NOI18N
 
+        spinnerVidaJoya.setToolTipText(null);
         spinnerVidaJoya.setName("spinnerVidaJoya"); // NOI18N
 
+        spinnerManaJoya.setToolTipText(null);
         spinnerManaJoya.setName("spinnerManaJoya"); // NOI18N
 
+        spinnerAtaFisJoya.setToolTipText(null);
         spinnerAtaFisJoya.setName("spinnerAtaFisJoya"); // NOI18N
 
+        spinnerEvaFisJoya.setToolTipText(null);
         spinnerEvaFisJoya.setName("spinnerEvaFisJoya"); // NOI18N
 
+        spinnerHRFisJoya.setToolTipText(null);
         spinnerHRFisJoya.setName("spinnerHRFisJoya"); // NOI18N
 
+        spinnerDefFisJoya.setToolTipText(null);
         spinnerDefFisJoya.setName("spinnerDefFisJoya"); // NOI18N
 
+        spinnerAtaMagJoya.setToolTipText(null);
         spinnerAtaMagJoya.setName("spinnerAtaMagJoya"); // NOI18N
 
+        spinnerEvaMagJoya.setToolTipText(null);
         spinnerEvaMagJoya.setName("spinnerEvaMagJoya"); // NOI18N
 
+        spinnerHRMagJoya.setToolTipText(null);
         spinnerHRMagJoya.setName("spinnerHRMagJoya"); // NOI18N
 
+        spinnerDefMagJoya.setToolTipText(null);
         spinnerDefMagJoya.setName("spinnerDefMagJoya"); // NOI18N
 
         btnGuardarJoya.setText("Guardar");
+        btnGuardarJoya.setToolTipText(null);
         btnGuardarJoya.setName("btnGuardarJoya"); // NOI18N
         btnGuardarJoya.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4236,8 +4586,10 @@ public class GUI extends JFrame {
         });
 
         lblPrecioCJoya1.setText("Critico");
+        lblPrecioCJoya1.setToolTipText(null);
         lblPrecioCJoya1.setName("lblPrecioCJoya1"); // NOI18N
 
+        spinnerCritJoya.setToolTipText(null);
         spinnerCritJoya.setName("spinnerCritJoya"); // NOI18N
 
         javax.swing.GroupLayout panelEditorJoyaLayout = new javax.swing.GroupLayout(panelEditorJoya);
@@ -4388,9 +4740,11 @@ public class GUI extends JFrame {
                 .addContainerGap(52, Short.MAX_VALUE))
         );
 
+        comboSelectorJoyas.setToolTipText(null);
         comboSelectorJoyas.setName("comboSelectorJoyas"); // NOI18N
 
         btnEditarJoya.setText("Editar");
+        btnEditarJoya.setToolTipText(null);
         btnEditarJoya.setName("btnEditarJoya"); // NOI18N
         btnEditarJoya.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4399,6 +4753,7 @@ public class GUI extends JFrame {
         });
 
         btnEliminarJoya.setText("Eliminar");
+        btnEliminarJoya.setToolTipText(null);
         btnEliminarJoya.setName("btnEliminarJoya"); // NOI18N
         btnEliminarJoya.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4464,15 +4819,19 @@ public class GUI extends JFrame {
 
         panelConfig.addTab("Joyas", panelConfigJewels);
 
+        panelConfigWeapon.setToolTipText(null);
         panelConfigWeapon.setName("panelConfigWeapon"); // NOI18N
         panelConfigWeapon.setPreferredSize(new java.awt.Dimension(800, 600));
 
+        jScrollPane9.setToolTipText(null);
         jScrollPane9.setName("jScrollPane9"); // NOI18N
 
         panelMejoraArma.setBorder(javax.swing.BorderFactory.createTitledBorder("Mejora de armas"));
+        panelMejoraArma.setToolTipText(null);
         panelMejoraArma.setName("panelMejoraArma"); // NOI18N
 
         btnGuardarConfigArma.setText("Guardar");
+        btnGuardarConfigArma.setToolTipText(null);
         btnGuardarConfigArma.setName("btnGuardarConfigArma"); // NOI18N
         btnGuardarConfigArma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4481,21 +4840,28 @@ public class GUI extends JFrame {
         });
 
         lblTipoMejoradorArma.setText("Objeto mejorador");
+        lblTipoMejoradorArma.setToolTipText(null);
         lblTipoMejoradorArma.setName("lblTipoMejoradorArma"); // NOI18N
 
         lblNomMejoraArma.setText("Nombre del objeto");
+        lblNomMejoraArma.setToolTipText(null);
         lblNomMejoraArma.setName("lblNomMejoraArma"); // NOI18N
 
+        txtNombreObjetoMejArma.setToolTipText(null);
         txtNombreObjetoMejArma.setName("txtNombreObjetoMejArma"); // NOI18N
 
+        comboMejoradorArma.setToolTipText(null);
         comboMejoradorArma.setName("comboMejoradorArma"); // NOI18N
 
+        txtDescripcionArma.setToolTipText(null);
         txtDescripcionArma.setName("txtDescripcionArma"); // NOI18N
 
         lblDescripcionArma.setText("Descripción");
+        lblDescripcionArma.setToolTipText(null);
         lblDescripcionArma.setName("lblDescripcionArma"); // NOI18N
 
         btnAnadirDescArma.setText("Añadir");
+        btnAnadirDescArma.setToolTipText(null);
         btnAnadirDescArma.setName("btnAnadirDescArma"); // NOI18N
         btnAnadirDescArma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4504,6 +4870,7 @@ public class GUI extends JFrame {
         });
 
         btnEditarDEscArma.setText("Editar");
+        btnEditarDEscArma.setToolTipText(null);
         btnEditarDEscArma.setName("btnEditarDEscArma"); // NOI18N
         btnEditarDEscArma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4512,6 +4879,7 @@ public class GUI extends JFrame {
         });
 
         btnEliminarDescArma.setText("Eliminar");
+        btnEliminarDescArma.setToolTipText(null);
         btnEliminarDescArma.setName("btnEliminarDescArma"); // NOI18N
         btnEliminarDescArma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4519,35 +4887,45 @@ public class GUI extends JFrame {
             }
         });
 
+        jScrollPane8.setToolTipText(null);
         jScrollPane8.setName("jScrollPane8"); // NOI18N
 
         jListDescArma.setBorder(javax.swing.BorderFactory.createTitledBorder("lista de descripción"));
         jListDescArma.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jListDescArma.setToolTipText(null);
         jListDescArma.setName("jListDescArma"); // NOI18N
         jScrollPane8.setViewportView(jListDescArma);
 
         lblProbRotArma.setText("Probabilidad de rotura");
+        lblProbRotArma.setToolTipText(null);
         lblProbRotArma.setName("lblProbRotArma"); // NOI18N
 
         lblProbDetArma.setText("Probabilidad de deterioro");
+        lblProbDetArma.setToolTipText(null);
         lblProbDetArma.setName("lblProbDetArma"); // NOI18N
 
         lblProbSEArma.setText("Probabilidad sin efecto");
+        lblProbSEArma.setToolTipText(null);
         lblProbSEArma.setName("lblProbSEArma"); // NOI18N
 
         lblProbExitoArma.setText("Probabilidad de exito");
+        lblProbExitoArma.setToolTipText(null);
         lblProbExitoArma.setName("lblProbExitoArma"); // NOI18N
 
         spinnerProbRotArma.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbRotArma.setToolTipText(null);
         spinnerProbRotArma.setName("spinnerProbRotArma"); // NOI18N
 
         spinnerProbDetArma.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbDetArma.setToolTipText(null);
         spinnerProbDetArma.setName("spinnerProbDetArma"); // NOI18N
 
         spinnerProbSEArma.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbSEArma.setToolTipText(null);
         spinnerProbSEArma.setName("spinnerProbSEArma"); // NOI18N
 
         spinnerProbExitoArma.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbExitoArma.setToolTipText(null);
         spinnerProbExitoArma.setName("spinnerProbExitoArma"); // NOI18N
 
         javax.swing.GroupLayout panelMejoraArmaLayout = new javax.swing.GroupLayout(panelMejoraArma);
@@ -4643,12 +5021,15 @@ public class GUI extends JFrame {
 
         jScrollPane9.setViewportView(panelMejoraArma);
 
+        jScrollPane10.setToolTipText(null);
         jScrollPane10.setName("jScrollPane10"); // NOI18N
 
         panelSelectorArma.setBorder(javax.swing.BorderFactory.createTitledBorder("Selector de armas"));
+        panelSelectorArma.setToolTipText(null);
         panelSelectorArma.setName("panelSelectorArma"); // NOI18N
 
         btnCrearNuevaArma.setText("Nueva");
+        btnCrearNuevaArma.setToolTipText(null);
         btnCrearNuevaArma.setName("btnCrearNuevaArma"); // NOI18N
         btnCrearNuevaArma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4657,130 +5038,180 @@ public class GUI extends JFrame {
         });
 
         panelEditorArma.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de armas"));
+        panelEditorArma.setToolTipText(null);
         panelEditorArma.setName("panelEditorArma"); // NOI18N
 
         lblTipoArma.setText("Tipo de arma");
+        lblTipoArma.setToolTipText(null);
         lblTipoArma.setName("lblTipoArma"); // NOI18N
 
+        comboTipoArma.setToolTipText(null);
         comboTipoArma.setName("tipoarma"); // NOI18N
 
         lblNombreArma.setText("Nombre");
+        lblNombreArma.setToolTipText(null);
         lblNombreArma.setName("lblNombreArma"); // NOI18N
 
+        txtNombreArma.setToolTipText(null);
         txtNombreArma.setName("txtNombreArma"); // NOI18N
 
         lblNivelMinArma.setText("Nivel minimo para uso");
+        lblNivelMinArma.setToolTipText(null);
         lblNivelMinArma.setName("lblNivelMinArma"); // NOI18N
 
+        spinnerNivelMinArma.setToolTipText(null);
         spinnerNivelMinArma.setName("spinnerNivelMinArma"); // NOI18N
 
         lblNivelIniArma.setText("Nivel arma");
+        lblNivelIniArma.setToolTipText(null);
         lblNivelIniArma.setName("lblNivelIniArma"); // NOI18N
 
+        spinnerNivelIniArma.setToolTipText(null);
         spinnerNivelIniArma.setName("spinnerNivelIniArma"); // NOI18N
 
         lblCalidadArma.setText("Calidad");
+        lblCalidadArma.setToolTipText(null);
         lblCalidadArma.setName("lblCalidadArma"); // NOI18N
 
+        comboCalidadArma.setToolTipText(null);
         comboCalidadArma.setName("calidadarma"); // NOI18N
 
         checkComerciableArma.setText("Comerciable");
+        checkComerciableArma.setToolTipText(null);
         checkComerciableArma.setName("checkComerciableArma"); // NOI18N
 
         checkMejorableArma.setText("Mejorable");
+        checkMejorableArma.setToolTipText(null);
         checkMejorableArma.setName("checkMejorableArma"); // NOI18N
 
         lblPrecioCArma.setText("Precio compra");
+        lblPrecioCArma.setToolTipText(null);
         lblPrecioCArma.setName("lblPrecioCArma"); // NOI18N
 
+        spinnerPrecioCArma.setToolTipText(null);
         spinnerPrecioCArma.setName("spinnerPrecioCArma"); // NOI18N
 
         lblPrecioVArma.setText("Precio de venta");
+        lblPrecioVArma.setToolTipText(null);
         lblPrecioVArma.setName("lblPrecioVArma"); // NOI18N
 
+        spinnerPrecioVArma.setToolTipText(null);
         spinnerPrecioVArma.setName("spinnerPrecioVArma"); // NOI18N
 
         lblDineroExtraArma.setText("Dinero extra");
+        lblDineroExtraArma.setToolTipText(null);
         lblDineroExtraArma.setName("lblDineroExtraArma"); // NOI18N
 
+        spinnerDineroExtraArma.setToolTipText(null);
         spinnerDineroExtraArma.setName("spinnerDineroExtraArma"); // NOI18N
 
         lblExpExtraArma.setText("Experiencia extra");
+        lblExpExtraArma.setToolTipText(null);
         lblExpExtraArma.setName("lblExpExtraArma"); // NOI18N
 
+        spinnerExpExtraArma.setToolTipText(null);
         spinnerExpExtraArma.setName("spinnerExpExtraArma"); // NOI18N
 
         lblAtaFisArma.setText("Daño físico base");
+        lblAtaFisArma.setToolTipText(null);
         lblAtaFisArma.setName("lblAtaFisArma"); // NOI18N
 
+        spinnerAtaFisArma.setToolTipText(null);
         spinnerAtaFisArma.setName("spinnerAtaFisArma"); // NOI18N
 
         lblMejAtaFisArma.setText("Daño físico mejora");
+        lblMejAtaFisArma.setToolTipText(null);
         lblMejAtaFisArma.setName("lblMejAtaFisArma"); // NOI18N
 
+        spinnerMejAtaFisArma.setToolTipText(null);
         spinnerMejAtaFisArma.setName("spinnerMejAtaFisArma"); // NOI18N
 
         lblAtaMagArma.setText("Daño mágico base");
+        lblAtaMagArma.setToolTipText(null);
         lblAtaMagArma.setName("lblAtaMagArma"); // NOI18N
 
+        spinnerAtaMagArma.setToolTipText(null);
         spinnerAtaMagArma.setName("spinnerAtaMagArma"); // NOI18N
 
         lblMejAtaMagArma.setText("Daño mágico mejora");
+        lblMejAtaMagArma.setToolTipText(null);
         lblMejAtaMagArma.setName("lblMejAtaMagArma"); // NOI18N
 
+        spinnerMejAtaMagArma.setToolTipText(null);
         spinnerMejAtaMagArma.setName("spinnerMejAtaMagArma"); // NOI18N
 
         lblHRFisArma.setText("Tasa acierto físico");
+        lblHRFisArma.setToolTipText(null);
         lblHRFisArma.setName("lblHRFisArma"); // NOI18N
 
         lblHRMagArma.setText("Tasa acierto mágico");
+        lblHRMagArma.setToolTipText(null);
         lblHRMagArma.setName("lblHRMagArma"); // NOI18N
 
         lblMejHRFisArma.setText("Mejora tasa física");
+        lblMejHRFisArma.setToolTipText(null);
         lblMejHRFisArma.setName("lblMejHRFisArma"); // NOI18N
 
         lblMejHRMagArma.setText("Mejora tasa mágica");
+        lblMejHRMagArma.setToolTipText(null);
         lblMejHRMagArma.setName("lblMejHRMagArma"); // NOI18N
 
+        spinnerHRFisArma.setToolTipText(null);
         spinnerHRFisArma.setName("spinnerHRFisArma"); // NOI18N
 
+        spinnerMejHRFisArma.setToolTipText(null);
         spinnerMejHRFisArma.setName("spinnerMejHRFisArma"); // NOI18N
 
+        spinnerHRMagArma.setToolTipText(null);
         spinnerHRMagArma.setName("spinnerHRMagArma"); // NOI18N
 
+        spinnerMejHRMagArma.setToolTipText(null);
         spinnerMejHRMagArma.setName("spinnerMejHRMagArma"); // NOI18N
 
         lblCritArma.setText("Crítico");
+        lblCritArma.setToolTipText(null);
         lblCritArma.setName("lblCritArma"); // NOI18N
 
         lblMejCritArma.setText("Mejora de crítico");
+        lblMejCritArma.setToolTipText(null);
         lblMejCritArma.setName("lblMejCritArma"); // NOI18N
 
+        spinnerCritArma.setToolTipText(null);
         spinnerCritArma.setName("spinnerCritArma"); // NOI18N
 
+        spinnerMejCritArma.setToolTipText(null);
         spinnerMejCritArma.setName("spinnerMejCritArma"); // NOI18N
 
         lvlRoboVArma.setText("Robo de vida");
+        lvlRoboVArma.setToolTipText(null);
         lvlRoboVArma.setName("lvlRoboVArma"); // NOI18N
 
         lvlMejRoboVArma.setText("Mejora robo de vida");
+        lvlMejRoboVArma.setToolTipText(null);
         lvlMejRoboVArma.setName("lvlMejRoboVArma"); // NOI18N
 
+        spinnerRoboVArma.setToolTipText(null);
         spinnerRoboVArma.setName("spinnerRoboVArma"); // NOI18N
 
+        spinnerMejRoboVArma.setToolTipText(null);
         spinnerMejRoboVArma.setName("spinnerMejRoboVArma"); // NOI18N
 
         lblRoboMArma.setText("Robo de maná");
+        lblRoboMArma.setToolTipText(null);
         lblRoboMArma.setName("lblRoboMArma"); // NOI18N
 
         lblMejRoboMArma.setText("Mejora robo de maná");
+        lblMejRoboMArma.setToolTipText(null);
         lblMejRoboMArma.setName("lblMejRoboMArma"); // NOI18N
 
+        spinnerRoboMArma.setToolTipText(null);
         spinnerRoboMArma.setName("spinnerRoboMArma"); // NOI18N
 
+        spinnerMejRoboMArma.setToolTipText(null);
         spinnerMejRoboMArma.setName("spinnerMejRoboMArma"); // NOI18N
 
         btnGuardarArma.setText("Guardar");
+        btnGuardarArma.setToolTipText(null);
         btnGuardarArma.setName("btnGuardarArma"); // NOI18N
         btnGuardarArma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4958,9 +5389,11 @@ public class GUI extends JFrame {
                 .addComponent(btnGuardarArma))
         );
 
+        comboListaArmas.setToolTipText(null);
         comboListaArmas.setName("comboListaArmas"); // NOI18N
 
         btnEditarArma.setText("Editar");
+        btnEditarArma.setToolTipText(null);
         btnEditarArma.setName("btnEditarArma"); // NOI18N
         btnEditarArma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -4969,6 +5402,7 @@ public class GUI extends JFrame {
         });
 
         btnEliminarArma.setText("Eliminar");
+        btnEliminarArma.setToolTipText(null);
         btnEliminarArma.setName("btnEliminarArma"); // NOI18N
         btnEliminarArma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -5035,25 +5469,32 @@ public class GUI extends JFrame {
         panelConfig.addTab("Armas", panelConfigWeapon);
 
         panelConfigArmor.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración armaduras"));
+        panelConfigArmor.setToolTipText(null);
         panelConfigArmor.setName("panelConfigArmor"); // NOI18N
         panelConfigArmor.setPreferredSize(new java.awt.Dimension(800, 600));
 
+        jScrollPane6.setToolTipText(null);
         jScrollPane6.setMaximumSize(new java.awt.Dimension(1000, 600));
         jScrollPane6.setMinimumSize(new java.awt.Dimension(800, 600));
         jScrollPane6.setName("jScrollPane6"); // NOI18N
         jScrollPane6.setPreferredSize(new java.awt.Dimension(1000, 600));
 
+        panelConfigArmaduras.setToolTipText(null);
         panelConfigArmaduras.setName("panelConfigArmaduras"); // NOI18N
 
         panelSelectorArmadura.setBorder(javax.swing.BorderFactory.createTitledBorder("Selector de sets de armadura"));
+        panelSelectorArmadura.setToolTipText(null);
         panelSelectorArmadura.setName("panelSelectorArmadura"); // NOI18N
 
         lblSelectorSet.setText("Seleccion de set");
+        lblSelectorSet.setToolTipText(null);
         lblSelectorSet.setName("lblSelectorSet"); // NOI18N
 
+        comboListSets.setToolTipText(null);
         comboListSets.setName("comboListSets"); // NOI18N
 
         btnNuevoSet.setText("Nuevo set");
+        btnNuevoSet.setToolTipText(null);
         btnNuevoSet.setName("btnNuevoSet"); // NOI18N
         btnNuevoSet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -5062,6 +5503,7 @@ public class GUI extends JFrame {
         });
 
         btnEditarSet.setText("Editar set");
+        btnEditarSet.setToolTipText(null);
         btnEditarSet.setName("btnEditarSet"); // NOI18N
         btnEditarSet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -5070,6 +5512,7 @@ public class GUI extends JFrame {
         });
 
         btnEliminarSet.setText("Eliminar set");
+        btnEliminarSet.setToolTipText(null);
         btnEliminarSet.setName("btnEliminarSet"); // NOI18N
         btnEliminarSet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -5078,75 +5521,103 @@ public class GUI extends JFrame {
         });
 
         panelEditarSet.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de sets de armadura"));
+        panelEditarSet.setToolTipText(null);
         panelEditarSet.setName("panelEditarSet"); // NOI18N
 
         lblNombreSet.setText("Nombre de la armadura");
+        lblNombreSet.setToolTipText(null);
         lblNombreSet.setName("lblNombreSet"); // NOI18N
 
+        txtNombreSet.setToolTipText(null);
         txtNombreSet.setName("txtNombreSet"); // NOI18N
 
+        spinnerNivel.setToolTipText(null);
         spinnerNivel.setName("spinnerNivel"); // NOI18N
 
         lblNivel.setText("Nivel");
+        lblNivel.setToolTipText(null);
         lblNivel.setName("lblNivel"); // NOI18N
 
+        comboMaterial.setToolTipText(null);
         comboMaterial.setName("material"); // NOI18N
 
         lblMaterial.setText("Material base del set");
+        lblMaterial.setToolTipText(null);
         lblMaterial.setName("lblMaterial"); // NOI18N
 
+        comboCalidad.setToolTipText(null);
         comboCalidad.setName("calidadarmor"); // NOI18N
 
         lblCalidad.setText("Calidad del set");
+        lblCalidad.setToolTipText(null);
         lblCalidad.setName("lblCalidad"); // NOI18N
 
         checkComerciableArmadura.setText("Comerciable");
+        checkComerciableArmadura.setToolTipText(null);
         checkComerciableArmadura.setName("checkComerciableArmadura"); // NOI18N
 
         checkMejorableArmadura.setText("Mejorable");
+        checkMejorableArmadura.setToolTipText(null);
         checkMejorableArmadura.setName("checkMejorableArmadura"); // NOI18N
 
         panelPechera.setBorder(javax.swing.BorderFactory.createTitledBorder("Pechera"));
+        panelPechera.setToolTipText(null);
         panelPechera.setName("panelPechera"); // NOI18N
 
         lblDefFisPechera.setText("Defensa física");
+        lblDefFisPechera.setToolTipText(null);
         lblDefFisPechera.setName("lblDefFisPechera"); // NOI18N
 
         lblMejDefFisPechera.setText("Inc. Defensa física");
+        lblMejDefFisPechera.setToolTipText(null);
         lblMejDefFisPechera.setName("lblMejDefFisPechera"); // NOI18N
 
         lblMejEvaFisPechera.setText("Inc. Evasión física");
+        lblMejEvaFisPechera.setToolTipText(null);
         lblMejEvaFisPechera.setName("lblMejEvaFisPechera"); // NOI18N
 
         lblEvaFisPechera.setText("Evasión física");
+        lblEvaFisPechera.setToolTipText(null);
         lblEvaFisPechera.setName("lblEvaFisPechera"); // NOI18N
 
+        spinnerDefFisPechera.setToolTipText(null);
         spinnerDefFisPechera.setName("spinnerDefFisPechera"); // NOI18N
 
+        spinnerMejDefFisPechera.setToolTipText(null);
         spinnerMejDefFisPechera.setName("spinnerMejDefFisPechera"); // NOI18N
 
+        spinnerEvaFisPechera.setToolTipText(null);
         spinnerEvaFisPechera.setName("spinnerEvaFisPechera"); // NOI18N
 
+        spinnerMejEvaFisPechera.setToolTipText(null);
         spinnerMejEvaFisPechera.setName("spinnerMejEvaFisPechera"); // NOI18N
 
         lblPrecioVPechera.setText("Precio venta");
+        lblPrecioVPechera.setToolTipText(null);
         lblPrecioVPechera.setName("lblPrecioVPechera"); // NOI18N
 
+        spinnerPrecioVPechera.setToolTipText(null);
         spinnerPrecioVPechera.setName("spinnerPrecioVPechera"); // NOI18N
 
         lblPrecioCPechera.setText("Precio compra");
+        lblPrecioCPechera.setToolTipText(null);
         lblPrecioCPechera.setName("lblPrecioCPechera"); // NOI18N
 
+        spinnerPrecioCPechera.setToolTipText(null);
         spinnerPrecioCPechera.setName("spinnerPrecioCPechera"); // NOI18N
 
         lblExpExtraPechera.setText("Exp. extra");
+        lblExpExtraPechera.setToolTipText(null);
         lblExpExtraPechera.setName("lblExpExtraPechera"); // NOI18N
 
+        spinnerExpExtraPechera.setToolTipText(null);
         spinnerExpExtraPechera.setName("spinnerExpExtraPechera"); // NOI18N
 
+        spinnerDineroExtraPechera.setToolTipText(null);
         spinnerDineroExtraPechera.setName("spinnerDineroExtraPechera"); // NOI18N
 
         lblDineroExtraPechera.setText("Dinero extra");
+        lblDineroExtraPechera.setToolTipText(null);
         lblDineroExtraPechera.setName("lblDineroExtraPechera"); // NOI18N
 
         javax.swing.GroupLayout panelPecheraLayout = new javax.swing.GroupLayout(panelPechera);
@@ -5225,46 +5696,63 @@ public class GUI extends JFrame {
         );
 
         panelPantalones.setBorder(javax.swing.BorderFactory.createTitledBorder("Grebas"));
+        panelPantalones.setToolTipText(null);
         panelPantalones.setName("panelPantalones"); // NOI18N
 
         lblDefFisGrebas.setText("Defensa física");
+        lblDefFisGrebas.setToolTipText(null);
         lblDefFisGrebas.setName("lblDefFisGrebas"); // NOI18N
 
         lblMejDefFisGrebas.setText("Inc. Defensa física");
+        lblMejDefFisGrebas.setToolTipText(null);
         lblMejDefFisGrebas.setName("lblMejDefFisGrebas"); // NOI18N
 
         lvlMejEvaFisGrebas.setText("Inc. Evasión física");
+        lvlMejEvaFisGrebas.setToolTipText(null);
         lvlMejEvaFisGrebas.setName("lvlMejEvaFisGrebas"); // NOI18N
 
         lblEvaFisGrebas.setText("Evasión física");
+        lblEvaFisGrebas.setToolTipText(null);
         lblEvaFisGrebas.setName("lblEvaFisGrebas"); // NOI18N
 
+        spinnerDefFisGrebas.setToolTipText(null);
         spinnerDefFisGrebas.setName("spinnerDefFisGrebas"); // NOI18N
 
+        spinnerMejDefFisGrebas.setToolTipText(null);
         spinnerMejDefFisGrebas.setName("spinnerMejDefFisGrebas"); // NOI18N
 
+        spinnerEvaFisGrebas.setToolTipText(null);
         spinnerEvaFisGrebas.setName("spinnerEvaFisGrebas"); // NOI18N
 
+        spinnerMejEvaFisGrebas.setToolTipText(null);
         spinnerMejEvaFisGrebas.setName("spinnerMejEvaFisGrebas"); // NOI18N
 
         lblPrecioVGrebas.setText("Precio venta");
+        lblPrecioVGrebas.setToolTipText(null);
         lblPrecioVGrebas.setName("lblPrecioVGrebas"); // NOI18N
 
+        spinnerPrecioVGrebas.setToolTipText(null);
         spinnerPrecioVGrebas.setName("spinnerPrecioVGrebas"); // NOI18N
 
         lblPrecioCGrebas.setText("Precio compra");
+        lblPrecioCGrebas.setToolTipText(null);
         lblPrecioCGrebas.setName("lblPrecioCGrebas"); // NOI18N
 
+        spinnerPrecioCGrebas.setToolTipText(null);
         spinnerPrecioCGrebas.setName("spinnerPrecioCGrebas"); // NOI18N
 
         lblExpExtraGrebas.setText("Exp. extra");
+        lblExpExtraGrebas.setToolTipText(null);
         lblExpExtraGrebas.setName("lblExpExtraGrebas"); // NOI18N
 
+        spinnerExpExtraGrebas.setToolTipText(null);
         spinnerExpExtraGrebas.setName("spinnerExpExtraGrebas"); // NOI18N
 
+        spinnerDineroExtraGrebas.setToolTipText(null);
         spinnerDineroExtraGrebas.setName("spinnerDineroExtraGrebas"); // NOI18N
 
         lblDineroExtraGrebas.setText("Dinero extra");
+        lblDineroExtraGrebas.setToolTipText(null);
         lblDineroExtraGrebas.setName("lblDineroExtraGrebas"); // NOI18N
 
         javax.swing.GroupLayout panelPantalonesLayout = new javax.swing.GroupLayout(panelPantalones);
@@ -5332,46 +5820,63 @@ public class GUI extends JFrame {
         );
 
         panelBotas.setBorder(javax.swing.BorderFactory.createTitledBorder("Botas"));
+        panelBotas.setToolTipText(null);
         panelBotas.setName("panelBotas"); // NOI18N
 
         lblDefFisBotas.setText("Defensa física");
+        lblDefFisBotas.setToolTipText(null);
         lblDefFisBotas.setName("lblDefFisBotas"); // NOI18N
 
         lblMejDefFisBotas.setText("Inc. Defensa física");
+        lblMejDefFisBotas.setToolTipText(null);
         lblMejDefFisBotas.setName("lblMejDefFisBotas"); // NOI18N
 
         lblMejEvaFisBotas.setText("Inc. Evasión física");
+        lblMejEvaFisBotas.setToolTipText(null);
         lblMejEvaFisBotas.setName("lblMejEvaFisBotas"); // NOI18N
 
         lblEvaFisBotas.setText("Evasión física");
+        lblEvaFisBotas.setToolTipText(null);
         lblEvaFisBotas.setName("lblEvaFisBotas"); // NOI18N
 
+        spinnerDefFisBotas.setToolTipText(null);
         spinnerDefFisBotas.setName("spinnerDefFisBotas"); // NOI18N
 
+        spinnerMejDefFisBotas.setToolTipText(null);
         spinnerMejDefFisBotas.setName("spinnerMejDefFisBotas"); // NOI18N
 
+        spinnerEvaFisBotas.setToolTipText(null);
         spinnerEvaFisBotas.setName("spinnerEvaFisBotas"); // NOI18N
 
+        spinnerMejEvaFisBotas.setToolTipText(null);
         spinnerMejEvaFisBotas.setName("spinnerMejEvaFisBotas"); // NOI18N
 
         lblPrecioVBotas.setText("Precio venta");
+        lblPrecioVBotas.setToolTipText(null);
         lblPrecioVBotas.setName("lblPrecioVBotas"); // NOI18N
 
+        spinnerPrecioVBotas.setToolTipText(null);
         spinnerPrecioVBotas.setName("spinnerPrecioVBotas"); // NOI18N
 
         lblPrecioCBotas.setText("Precio compra");
+        lblPrecioCBotas.setToolTipText(null);
         lblPrecioCBotas.setName("lblPrecioCBotas"); // NOI18N
 
+        spinnerPrecioCBotas.setToolTipText(null);
         spinnerPrecioCBotas.setName("spinnerPrecioCBotas"); // NOI18N
 
         lblExpExtraBotas.setText("Exp. extra");
+        lblExpExtraBotas.setToolTipText(null);
         lblExpExtraBotas.setName("lblExpExtraBotas"); // NOI18N
 
+        spinnerExpExtraBotas.setToolTipText(null);
         spinnerExpExtraBotas.setName("spinnerExpExtraBotas"); // NOI18N
 
+        spinnerDineroExtraBotas.setToolTipText(null);
         spinnerDineroExtraBotas.setName("spinnerDineroExtraBotas"); // NOI18N
 
         lblDineroExtraBotas.setText("Dinero extra");
+        lblDineroExtraBotas.setToolTipText(null);
         lblDineroExtraBotas.setName("lblDineroExtraBotas"); // NOI18N
 
         javax.swing.GroupLayout panelBotasLayout = new javax.swing.GroupLayout(panelBotas);
@@ -5450,46 +5955,63 @@ public class GUI extends JFrame {
         );
 
         panelCasco.setBorder(javax.swing.BorderFactory.createTitledBorder("Yelmo"));
+        panelCasco.setToolTipText(null);
         panelCasco.setName("panelCasco"); // NOI18N
 
         lblDefFisCasco.setText("Defensa física");
+        lblDefFisCasco.setToolTipText(null);
         lblDefFisCasco.setName("lblDefFisCasco"); // NOI18N
 
         lblMejDefFisCasco.setText("Inc. Defensa física");
+        lblMejDefFisCasco.setToolTipText(null);
         lblMejDefFisCasco.setName("lblMejDefFisCasco"); // NOI18N
 
         lblMejEvaFisCasco.setText("Inc. Evasión física");
+        lblMejEvaFisCasco.setToolTipText(null);
         lblMejEvaFisCasco.setName("lblMejEvaFisCasco"); // NOI18N
 
         lblEvaFisCasco.setText("Evasión física");
+        lblEvaFisCasco.setToolTipText(null);
         lblEvaFisCasco.setName("lblEvaFisCasco"); // NOI18N
 
+        spinnerDefFisCasco.setToolTipText(null);
         spinnerDefFisCasco.setName("spinnerDefFisCasco"); // NOI18N
 
+        spinnerMejDefFisCasco.setToolTipText(null);
         spinnerMejDefFisCasco.setName("spinnerMejDefFisCasco"); // NOI18N
 
+        spinnerEvaFisCasco.setToolTipText(null);
         spinnerEvaFisCasco.setName("spinnerEvaFisCasco"); // NOI18N
 
+        spinnerMejEvaFisCasco.setToolTipText(null);
         spinnerMejEvaFisCasco.setName("spinnerMejEvaFisCasco"); // NOI18N
 
         lblPrecioVCasco.setText("Precio venta");
+        lblPrecioVCasco.setToolTipText(null);
         lblPrecioVCasco.setName("lblPrecioVCasco"); // NOI18N
 
+        spinnerPrecioVCasco.setToolTipText(null);
         spinnerPrecioVCasco.setName("spinnerPrecioVCasco"); // NOI18N
 
         lblPrecioCCasco.setText("Precio compra");
+        lblPrecioCCasco.setToolTipText(null);
         lblPrecioCCasco.setName("lblPrecioCCasco"); // NOI18N
 
+        spinnerPrecioCCasco.setToolTipText(null);
         spinnerPrecioCCasco.setName("spinnerPrecioCCasco"); // NOI18N
 
         lblExpExtraCasco.setText("Exp. extra");
+        lblExpExtraCasco.setToolTipText(null);
         lblExpExtraCasco.setName("lblExpExtraCasco"); // NOI18N
 
+        spinnerExpExtraCasco.setToolTipText(null);
         spinnerExpExtraCasco.setName("spinnerExpExtraCasco"); // NOI18N
 
+        spinnerDineroExtraCasco.setToolTipText(null);
         spinnerDineroExtraCasco.setName("spinnerDineroExtraCasco"); // NOI18N
 
         lblDineroExtraCasco.setText("Dinero extra");
+        lblDineroExtraCasco.setToolTipText(null);
         lblDineroExtraCasco.setName("lblDineroExtraCasco"); // NOI18N
 
         javax.swing.GroupLayout panelCascoLayout = new javax.swing.GroupLayout(panelCasco);
@@ -5569,6 +6091,7 @@ public class GUI extends JFrame {
         );
 
         btnGuardarSet.setText("Guardar");
+        btnGuardarSet.setToolTipText(null);
         btnGuardarSet.setName("btnGuardarSet"); // NOI18N
 
         javax.swing.GroupLayout panelEditarSetLayout = new javax.swing.GroupLayout(panelEditarSet);
@@ -5675,9 +6198,11 @@ public class GUI extends JFrame {
         );
 
         panelMejoraArmadura.setBorder(javax.swing.BorderFactory.createTitledBorder("Mejora de armaduras"));
+        panelMejoraArmadura.setToolTipText(null);
         panelMejoraArmadura.setName("panelMejoraArmadura"); // NOI18N
 
         btnGuardarConfigArmadura.setText("Guardar");
+        btnGuardarConfigArmadura.setToolTipText(null);
         btnGuardarConfigArmadura.setName("btnGuardarConfigArmadura"); // NOI18N
         btnGuardarConfigArmadura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -5686,21 +6211,28 @@ public class GUI extends JFrame {
         });
 
         lblMejoradorArmadura.setText("objeto mejorador");
+        lblMejoradorArmadura.setToolTipText(null);
         lblMejoradorArmadura.setName("lblMejoradorArmadura"); // NOI18N
 
         lblNombreMejoradorArmadura.setText("Nombre del objeto");
+        lblNombreMejoradorArmadura.setToolTipText(null);
         lblNombreMejoradorArmadura.setName("lblNombreMejoradorArmadura"); // NOI18N
 
+        txtNombreObjetoMejArmadura.setToolTipText(null);
         txtNombreObjetoMejArmadura.setName("txtNombreObjetoMejArmadura"); // NOI18N
 
+        comboMejoradorArmadura.setToolTipText(null);
         comboMejoradorArmadura.setName("comboMejoradorArmadura"); // NOI18N
 
+        txtDescripcionArmadura.setToolTipText(null);
         txtDescripcionArmadura.setName("txtDescripcionArmadura"); // NOI18N
 
         lblDescripcionMejoradorArmadura.setText("descripción");
+        lblDescripcionMejoradorArmadura.setToolTipText(null);
         lblDescripcionMejoradorArmadura.setName("lblDescripcionMejoradorArmadura"); // NOI18N
 
         btnAnadirDescArmadura.setText("Añadir");
+        btnAnadirDescArmadura.setToolTipText(null);
         btnAnadirDescArmadura.setName("btnAnadirDescArmadura"); // NOI18N
         btnAnadirDescArmadura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -5709,6 +6241,7 @@ public class GUI extends JFrame {
         });
 
         btnEditarDEscArmadura.setText("Editar");
+        btnEditarDEscArmadura.setToolTipText(null);
         btnEditarDEscArmadura.setName("btnEditarDEscArmadura"); // NOI18N
         btnEditarDEscArmadura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -5717,6 +6250,7 @@ public class GUI extends JFrame {
         });
 
         btnEliminarDescArmadura.setText("Eliminar");
+        btnEliminarDescArmadura.setToolTipText(null);
         btnEliminarDescArmadura.setName("btnEliminarDescArmadura"); // NOI18N
         btnEliminarDescArmadura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -5724,35 +6258,45 @@ public class GUI extends JFrame {
             }
         });
 
+        jScrollPane3.setToolTipText(null);
         jScrollPane3.setName("jScrollPane3"); // NOI18N
 
         jListDescArmadura.setBorder(javax.swing.BorderFactory.createTitledBorder("lista de descripción"));
         jListDescArmadura.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jListDescArmadura.setToolTipText(null);
         jListDescArmadura.setName("jListDescArmadura"); // NOI18N
         jScrollPane3.setViewportView(jListDescArmadura);
 
         lblProbRotArmadura.setText("Probabilidad de rotura");
+        lblProbRotArmadura.setToolTipText(null);
         lblProbRotArmadura.setName("lblProbRotArmadura"); // NOI18N
 
         lblProbDetArmadura.setText("Probabilidad de deterioro");
+        lblProbDetArmadura.setToolTipText(null);
         lblProbDetArmadura.setName("lblProbDetArmadura"); // NOI18N
 
         lblProbSEArmadura.setText("Probabilidad sin efecto");
+        lblProbSEArmadura.setToolTipText(null);
         lblProbSEArmadura.setName("lblProbSEArmadura"); // NOI18N
 
         lblProbExitoArmadura.setText("Probabilidad de exito");
+        lblProbExitoArmadura.setToolTipText(null);
         lblProbExitoArmadura.setName("lblProbExitoArmadura"); // NOI18N
 
         spinnerProbRotArmadura.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbRotArmadura.setToolTipText(null);
         spinnerProbRotArmadura.setName("spinnerProbRotArmadura"); // NOI18N
 
         spinnerProbDetArmadura.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbDetArmadura.setToolTipText(null);
         spinnerProbDetArmadura.setName("spinnerProbDetArmadura"); // NOI18N
 
         spinnerProbSEArmadura.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbSEArmadura.setToolTipText(null);
         spinnerProbSEArmadura.setName("spinnerProbSEArmadura"); // NOI18N
 
         spinnerProbExitoArmadura.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbExitoArmadura.setToolTipText(null);
         spinnerProbExitoArmadura.setName("spinnerProbExitoArmadura"); // NOI18N
 
         javax.swing.GroupLayout panelMejoraArmaduraLayout = new javax.swing.GroupLayout(panelMejoraArmadura);
@@ -5890,12 +6434,15 @@ public class GUI extends JFrame {
 
         panelConfig.addTab("Armaduras", panelConfigArmor);
 
+        panelConfigMobs.setToolTipText(null);
         panelConfigMobs.setName("panelConfigMobs"); // NOI18N
         panelConfigMobs.setPreferredSize(new java.awt.Dimension(800, 600));
 
+        comboSelectorMobs.setToolTipText(null);
         comboSelectorMobs.setName("comboSelectorMobs"); // NOI18N
 
         btnNuevoMob.setText("Nuevo");
+        btnNuevoMob.setToolTipText(null);
         btnNuevoMob.setName("btnNuevoMob"); // NOI18N
         btnNuevoMob.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -5904,6 +6451,7 @@ public class GUI extends JFrame {
         });
 
         btnEditMob.setText("Editar");
+        btnEditMob.setToolTipText(null);
         btnEditMob.setName("btnEditMob"); // NOI18N
         btnEditMob.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -5912,6 +6460,7 @@ public class GUI extends JFrame {
         });
 
         btnEliminarMob.setText("Eliminar");
+        btnEliminarMob.setToolTipText(null);
         btnEliminarMob.setName("btnEliminarMob"); // NOI18N
         btnEliminarMob.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -5919,17 +6468,22 @@ public class GUI extends JFrame {
             }
         });
 
+        jScrollPane14.setToolTipText(null);
         jScrollPane14.setName("jScrollPane14"); // NOI18N
 
         panelEditorMobs.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de monstruos"));
+        panelEditorMobs.setToolTipText(null);
         panelEditorMobs.setName("Class Editor"); // NOI18N
 
         lblNombreMob.setText("Nombre");
+        lblNombreMob.setToolTipText(null);
         lblNombreMob.setName("lblNombreMob"); // NOI18N
 
+        txtNombreMob.setToolTipText(null);
         txtNombreMob.setName("txtNombreMob"); // NOI18N
 
         btnGuardarMob.setText("Guardar");
+        btnGuardarMob.setToolTipText(null);
         btnGuardarMob.setName("btnGuardarMob"); // NOI18N
         btnGuardarMob.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -5938,14 +6492,18 @@ public class GUI extends JFrame {
         });
 
         lblNivelMob.setText("Nivel");
+        lblNivelMob.setToolTipText(null);
         lblNivelMob.setName("lblNivelMob"); // NOI18N
 
         spinnerNivelMob.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spinnerNivelMob.setToolTipText(null);
         spinnerNivelMob.setName("spinnerNivelMob"); // NOI18N
 
         panelComportamientoMob.setBorder(javax.swing.BorderFactory.createTitledBorder("Comportamiento"));
+        panelComportamientoMob.setToolTipText(null);
         panelComportamientoMob.setName("panelComportamientoMob"); // NOI18N
 
+        comboComportamiento.setToolTipText(null);
         comboComportamiento.setName("comboComportamiento"); // NOI18N
 
         javax.swing.GroupLayout panelComportamientoMobLayout = new javax.swing.GroupLayout(panelComportamientoMob);
@@ -5965,28 +6523,37 @@ public class GUI extends JFrame {
         );
 
         panelDropsMobs.setBorder(javax.swing.BorderFactory.createTitledBorder("Drops del monstruo"));
+        panelDropsMobs.setToolTipText(null);
         panelDropsMobs.setName("panelDropsMobs"); // NOI18N
 
         panelDropsObjetosMobs.setBorder(javax.swing.BorderFactory.createTitledBorder("Drop de objetos"));
+        panelDropsObjetosMobs.setToolTipText(null);
         panelDropsObjetosMobs.setName("panelDropsObjetosMobs"); // NOI18N
 
+        comboObjetoDropMob.setToolTipText(null);
         comboObjetoDropMob.setName("comboObjetoDropMob"); // NOI18N
 
         lblObjetoDropMob.setText("Objeto");
+        lblObjetoDropMob.setToolTipText(null);
         lblObjetoDropMob.setName("lblObjetoDropMob"); // NOI18N
 
         lblCantidadDropMob.setText("Cantidad");
+        lblCantidadDropMob.setToolTipText(null);
         lblCantidadDropMob.setName("lblCantidadDropMob"); // NOI18N
 
         lblProbDropMob.setText("Probabilidad");
+        lblProbDropMob.setToolTipText(null);
         lblProbDropMob.setName("lblProbDropMob"); // NOI18N
 
         spinnerCantidadDropMob.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spinnerCantidadDropMob.setToolTipText(null);
         spinnerCantidadDropMob.setName("spinnerCantidadDropMob"); // NOI18N
 
         spinnerProbDropMob.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.009999999776482582d));
+        spinnerProbDropMob.setToolTipText(null);
         spinnerProbDropMob.setName("spinnerProbDropMob"); // NOI18N
 
+        jScrollPane5.setToolTipText(null);
         jScrollPane5.setName("jScrollPane5"); // NOI18N
 
         tablaDropsMob.setModel(new javax.swing.table.DefaultTableModel(
@@ -6005,12 +6572,15 @@ public class GUI extends JFrame {
                 return types [columnIndex];
             }
         });
+        tablaDropsMob.setToolTipText(null);
         tablaDropsMob.setName("tablaDropsMob"); // NOI18N
         jScrollPane5.setViewportView(tablaDropsMob);
 
         lblTipoDropMob.setText("Tipo de objeto");
+        lblTipoDropMob.setToolTipText(null);
         lblTipoDropMob.setName("lblTipoDropMob"); // NOI18N
 
+        comboTipoDropMob.setToolTipText(null);
         comboTipoDropMob.setName("comboTipoDropMob"); // NOI18N
         comboTipoDropMob.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -6019,6 +6589,7 @@ public class GUI extends JFrame {
         });
 
         btnAnadirDropMob.setText("Añadir");
+        btnAnadirDropMob.setToolTipText(null);
         btnAnadirDropMob.setName("btnAnadirDropMob"); // NOI18N
         btnAnadirDropMob.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -6027,6 +6598,7 @@ public class GUI extends JFrame {
         });
 
         btnEditarDropMob.setText("Editar");
+        btnEditarDropMob.setToolTipText(null);
         btnEditarDropMob.setName("btnEditarDropMob"); // NOI18N
         btnEditarDropMob.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -6035,6 +6607,7 @@ public class GUI extends JFrame {
         });
 
         btnEliminarDropMob.setText("Eliminar");
+        btnEliminarDropMob.setToolTipText(null);
         btnEliminarDropMob.setName("btnEliminarDropMob"); // NOI18N
         btnEliminarDropMob.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -6100,18 +6673,23 @@ public class GUI extends JFrame {
         );
 
         panelDropsDefault.setBorder(javax.swing.BorderFactory.createTitledBorder("Drops básicos"));
+        panelDropsDefault.setToolTipText(null);
         panelDropsDefault.setName("panelDropsDefault"); // NOI18N
 
         spinnerDineroDropMob.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(1L), Long.valueOf(1L), null, Long.valueOf(1L)));
+        spinnerDineroDropMob.setToolTipText(null);
         spinnerDineroDropMob.setName("spinnerDineroDropMob"); // NOI18N
 
         spinnerExpDropMob.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(0L), Long.valueOf(0L), null, Long.valueOf(1L)));
+        spinnerExpDropMob.setToolTipText(null);
         spinnerExpDropMob.setName("spinnerExpDropMob"); // NOI18N
 
         lblDineroDropMob.setText("Dinero");
+        lblDineroDropMob.setToolTipText(null);
         lblDineroDropMob.setName("lblDineroDropMob"); // NOI18N
 
         lblExpDropMob.setText("Experiencia");
+        lblExpDropMob.setToolTipText(null);
         lblExpDropMob.setName("lblExpDropMob"); // NOI18N
 
         javax.swing.GroupLayout panelDropsDefaultLayout = new javax.swing.GroupLayout(panelDropsDefault);
@@ -6163,8 +6741,10 @@ public class GUI extends JFrame {
         );
 
         panelAtaqueMobs.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de ataque"));
+        panelAtaqueMobs.setToolTipText(null);
         panelAtaqueMobs.setName("panelAtaqueMobs"); // NOI18N
 
+        comboTipoAtaqueMob.setToolTipText(null);
         comboTipoAtaqueMob.setName("comboTipoAtaqueMob"); // NOI18N
 
         javax.swing.GroupLayout panelAtaqueMobsLayout = new javax.swing.GroupLayout(panelAtaqueMobs);
@@ -6184,54 +6764,71 @@ public class GUI extends JFrame {
         );
 
         panelAtributosMobs.setBorder(javax.swing.BorderFactory.createTitledBorder("Atributos básicos del monstruo"));
+        panelAtributosMobs.setToolTipText(null);
         panelAtributosMobs.setName("panelAtributosMobs"); // NOI18N
 
         lblAtaFisMob.setText("Daño físico");
+        lblAtaFisMob.setToolTipText(null);
         lblAtaFisMob.setName("lblAtaFisMob"); // NOI18N
 
         lblAtaDistMob.setText("Daño a distancia");
+        lblAtaDistMob.setToolTipText(null);
         lblAtaDistMob.setName("lblAtaDistMob"); // NOI18N
 
         lblVelocidadMob.setText("Velocidad");
+        lblVelocidadMob.setToolTipText(null);
         lblVelocidadMob.setName("lblVelocidadMob"); // NOI18N
 
         lblVelocidadAtaqueMob.setText("Velocidad de ataque");
+        lblVelocidadAtaqueMob.setToolTipText(null);
         lblVelocidadAtaqueMob.setName("lblVelocidadAtaqueMob"); // NOI18N
 
         lblRetrocesoMob.setText("Retroceso");
+        lblRetrocesoMob.setToolTipText(null);
         lblRetrocesoMob.setName("lblRetrocesoMob"); // NOI18N
 
         lblRangoSeguiMob.setText("Rango de persecución");
+        lblRangoSeguiMob.setToolTipText(null);
         lblRangoSeguiMob.setName("lblRangoSeguiMob"); // NOI18N
 
         spinnerAtaDistMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
+        spinnerAtaDistMob.setToolTipText(null);
         spinnerAtaDistMob.setName("spinnerAtaDistMob"); // NOI18N
 
         spinnerVelocidadMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
+        spinnerVelocidadMob.setToolTipText(null);
         spinnerVelocidadMob.setName("spinnerVelocidadMob"); // NOI18N
 
         spinnerVelocidadAtaqueMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
+        spinnerVelocidadAtaqueMob.setToolTipText(null);
         spinnerVelocidadAtaqueMob.setName("spinnerVelocidadAtaqueMob"); // NOI18N
 
         spinnerRetrocesoMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
+        spinnerRetrocesoMob.setToolTipText(null);
         spinnerRetrocesoMob.setName("spinnerRetrocesoMob"); // NOI18N
 
         spinnerRangoSeguiMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
+        spinnerRangoSeguiMob.setToolTipText(null);
         spinnerRangoSeguiMob.setName("spinnerRangoSeguiMob"); // NOI18N
 
         lblMaxVidaMob.setText("Vida máxima");
+        lblMaxVidaMob.setToolTipText(null);
         lblMaxVidaMob.setName("lblMaxVidaMob"); // NOI18N
 
         spinnerMaxVidaMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
+        spinnerMaxVidaMob.setToolTipText(null);
         spinnerMaxVidaMob.setName("spinnerMaxVidaMob"); // NOI18N
 
         lblFuerzaDistMob.setText("Fuerza a distancia");
+        lblFuerzaDistMob.setToolTipText(null);
         lblFuerzaDistMob.setName("lblFuerzaDistMob"); // NOI18N
 
         spinnerFuerzaDistMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(1.0d)));
+        spinnerFuerzaDistMob.setToolTipText(null);
         spinnerFuerzaDistMob.setName("spinnerFuerzaDistMob"); // NOI18N
 
         spinnerAtaFisMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
+        spinnerAtaFisMob.setToolTipText(null);
         spinnerAtaFisMob.setName("spinnerAtaFisMob"); // NOI18N
 
         javax.swing.GroupLayout panelAtributosMobsLayout = new javax.swing.GroupLayout(panelAtributosMobs);
@@ -6299,9 +6896,11 @@ public class GUI extends JFrame {
         );
 
         lblTipoMob.setText("Tipo de monstruo");
+        lblTipoMob.setToolTipText(null);
         lblTipoMob.setName("lblTipoMob"); // NOI18N
 
         comboSelectorTipoMob.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboSelectorTipoMob.setToolTipText(null);
         comboSelectorTipoMob.setName("comboSelectorTipoMob"); // NOI18N
         comboSelectorTipoMob.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -6310,26 +6909,33 @@ public class GUI extends JFrame {
         });
 
         PanelAtributosMob.setBorder(javax.swing.BorderFactory.createTitledBorder("Atributos del monstruo"));
+        PanelAtributosMob.setToolTipText(null);
         PanelAtributosMob.setName("PanelAtributosMob"); // NOI18N
 
         checkAtribMob1.setSelected(true);
         checkAtribMob1.setText("Bebé");
+        checkAtribMob1.setToolTipText(null);
         checkAtribMob1.setName("asleep"); // NOI18N
 
         checkAtribMob2.setSelected(true);
         checkAtribMob2.setText("Despierto");
+        checkAtribMob2.setToolTipText(null);
         checkAtribMob2.setName("asleep"); // NOI18N
 
         comboAtribMob1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboAtribMob1.setToolTipText(null);
         comboAtribMob1.setName("comboAtribMob1"); // NOI18N
 
         lblAtribMob1.setText("jLabel1");
+        lblAtribMob1.setToolTipText(null);
         lblAtribMob1.setName("lblAtribMob1"); // NOI18N
 
         lblAtribMob2.setText("jLabel1");
+        lblAtribMob2.setToolTipText(null);
         lblAtribMob2.setName("lblAtribMob2"); // NOI18N
 
         comboAtribMob2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboAtribMob2.setToolTipText(null);
         comboAtribMob2.setName("comboAtribMob2"); // NOI18N
 
         javax.swing.GroupLayout PanelAtributosMobLayout = new javax.swing.GroupLayout(PanelAtributosMob);
@@ -6467,11 +7073,14 @@ public class GUI extends JFrame {
 
         panelConfig.addTab("Monstruos", panelConfigMobs);
 
+        panelConfigSpawners.setToolTipText(null);
         panelConfigSpawners.setName("panelConfigSpawners"); // NOI18N
 
+        comboSelectorGenerador.setToolTipText(null);
         comboSelectorGenerador.setName("comboSelectorGenerador"); // NOI18N
 
         btnEditarSpawner.setText("Editar");
+        btnEditarSpawner.setToolTipText(null);
         btnEditarSpawner.setName("btnEditarSpawner"); // NOI18N
         btnEditarSpawner.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -6480,6 +7089,7 @@ public class GUI extends JFrame {
         });
 
         btnEliminarSpawner.setText("Eliminar");
+        btnEliminarSpawner.setToolTipText(null);
         btnEliminarSpawner.setName("btnEliminarSpawner"); // NOI18N
         btnEliminarSpawner.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -6488,34 +7098,44 @@ public class GUI extends JFrame {
         });
 
         panelEditorSpawner.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de Spawner"));
+        panelEditorSpawner.setToolTipText(null);
         panelEditorSpawner.setName("panelEditorSpawner"); // NOI18N
 
         panelLocSpawner.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Localización"), "Localización"));
+        panelLocSpawner.setToolTipText(null);
         panelLocSpawner.setName("panelLocSpawner"); // NOI18N
 
         lblMundoSpawnLoc.setText("Mundo");
+        lblMundoSpawnLoc.setToolTipText(null);
         lblMundoSpawnLoc.setName("lblMundoSpawnLoc"); // NOI18N
 
         lblXSpawnLoc.setText("X");
+        lblXSpawnLoc.setToolTipText(null);
         lblXSpawnLoc.setName("lblXSpawnLoc"); // NOI18N
 
         lblYSpawnLoc.setText("Y");
+        lblYSpawnLoc.setToolTipText(null);
         lblYSpawnLoc.setName("lblYSpawnLoc"); // NOI18N
 
         lblZSpawnLoc.setText("Z");
+        lblZSpawnLoc.setToolTipText(null);
         lblZSpawnLoc.setName("lblZSpawnLoc"); // NOI18N
 
         txtMundoSpawnLoc.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txtMundoSpawnLoc.setText("world");
+        txtMundoSpawnLoc.setToolTipText(null);
         txtMundoSpawnLoc.setName("txtMundoSpawnLoc"); // NOI18N
 
         spinnerXSpawnLoc.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerXSpawnLoc.setToolTipText(null);
         spinnerXSpawnLoc.setName("spinnerXSpawnLoc"); // NOI18N
 
         spinnerYSpawnLoc.setModel(new javax.swing.SpinnerNumberModel(0, 0, 255, 1));
+        spinnerYSpawnLoc.setToolTipText(null);
         spinnerYSpawnLoc.setName("spinnerYSpawnLoc"); // NOI18N
 
         spinnerZSpawnLoc.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerZSpawnLoc.setToolTipText(null);
         spinnerZSpawnLoc.setName("spinnerZSpawnLoc"); // NOI18N
 
         javax.swing.GroupLayout panelLocSpawnerLayout = new javax.swing.GroupLayout(panelLocSpawner);
@@ -6560,38 +7180,50 @@ public class GUI extends JFrame {
         );
 
         panelAtribSpawner.setBorder(javax.swing.BorderFactory.createTitledBorder("Propiedades del generador"));
+        panelAtribSpawner.setToolTipText(null);
         panelAtribSpawner.setName("panelAtribSpawner"); // NOI18N
 
         lblMobSpawner.setText("Monstruo");
+        lblMobSpawner.setToolTipText(null);
         lblMobSpawner.setName("lblMobSpawner"); // NOI18N
 
+        comboMobSpawner.setToolTipText(null);
         comboMobSpawner.setName("comboMobSpawner"); // NOI18N
 
         lblRefrescoSpawner.setText("Cooldown");
+        lblRefrescoSpawner.setToolTipText(null);
         lblRefrescoSpawner.setName("lblRefrescoSpawner"); // NOI18N
 
         lblIdSpawner.setText("Identificador");
+        lblIdSpawner.setToolTipText(null);
         lblIdSpawner.setName("lblIdSpawner"); // NOI18N
 
         spinnerRefrescoSpawner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spinnerRefrescoSpawner.setToolTipText(null);
         spinnerRefrescoSpawner.setName("spinnerRefrescoSpawner"); // NOI18N
 
         lblRadioSpawner.setText("Radio de generación");
+        lblRadioSpawner.setToolTipText(null);
         lblRadioSpawner.setName("lblRadioSpawner"); // NOI18N
 
         spinnerRadioSpawner.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerRadioSpawner.setToolTipText(null);
         spinnerRadioSpawner.setName("spinnerRadioSpawner"); // NOI18N
 
         lblNumMaxMobSpawner.setText("Núm maximo de monstruos");
+        lblNumMaxMobSpawner.setToolTipText(null);
         lblNumMaxMobSpawner.setName("lblNumMaxMobSpawner"); // NOI18N
 
         spinnerNumMaxMobSpawner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spinnerNumMaxMobSpawner.setToolTipText(null);
         spinnerNumMaxMobSpawner.setName("spinnerNumMaxMobSpawner"); // NOI18N
 
         checkEnableSpawner.setText("Habilitado/Deshabilitado");
+        checkEnableSpawner.setToolTipText(null);
         checkEnableSpawner.setName("checkEnableSpawner"); // NOI18N
 
         txtNombreSpawner.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtNombreSpawner.setToolTipText(null);
         txtNombreSpawner.setName("txtNombreSpawner"); // NOI18N
 
         javax.swing.GroupLayout panelAtribSpawnerLayout = new javax.swing.GroupLayout(panelAtribSpawner);
@@ -6649,6 +7281,7 @@ public class GUI extends JFrame {
         );
 
         btnGuardarSpawner.setText("Guardar");
+        btnGuardarSpawner.setToolTipText(null);
         btnGuardarSpawner.setName("btnGuardarSpawner"); // NOI18N
         btnGuardarSpawner.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -6684,6 +7317,7 @@ public class GUI extends JFrame {
         );
 
         btnCrearSpawner.setText("Nuevo");
+        btnCrearSpawner.setToolTipText(null);
         btnCrearSpawner.setName("btnCrearSpawner"); // NOI18N
         btnCrearSpawner.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

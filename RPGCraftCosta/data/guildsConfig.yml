@@ -1,0 +1,25 @@
+# set minimum level for player guild creation 0 no limit
+minlevelcreate: 0
+# guild slots limiter -1 unlimited
+numplayers: -1
+fixedplayers: true
+formulabased: false
+a: 100.0
+b: 50.0
+maxlevel: 2
+playersxlevel: 5
+initialplayers: 5
+donation: true
+contribution: true
+contributionkills: 0.02
+
+levels:
+    0:
+        dinero: 0
+        numplayers: 5
+    1:
+        dinero: 50000
+        numplayers: 10
+    2:
+        dinero: 100000
+        numplayers: 15

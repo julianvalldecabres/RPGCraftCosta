@@ -1,0 +1,57 @@
+1:
+    entitytype: ZOMBIEX
+    name: Peque Zombi
+    level: 15
+    attacktype: RANGED
+    behaviour: PEACEFUL
+    damageattack: 2.0
+    movementspeed: 0.3
+    knockback: 1.0
+    followrange: 13.0
+    maxhealth: 50.0
+    attackspeed: 1.0
+    rangeddamage: 2.0
+    rangedstrength: 5.0
+    money: 30
+    exp: 15
+    baby: true
+    villager: true
+    drops:
+        1:
+            type: ARMA
+            name: Rebana cuellos
+            quantity: 1
+            probability: 0.5
+        2:
+            type: JOYA
+            name: Estrella del norte
+            quantity: 1
+            probability: 0.5
+2:
+    entitytype: CHICKENX
+    name: Pollo
+    level: 15
+    attacktype: MELEE
+    behaviour: AGGRESSIVE
+    damageattack: 4.0
+    movementspeed: 0.1
+    knockback: 1.0
+    followrange: 13.0
+    maxhealth: 10.0
+    attackspeed: 1.0
+    rangeddamage: 2.0
+    rangedstrength: 5.0
+    money: 45
+    exp: 30
+    baby: false
+    drops:
+        1:
+            type: MEJORADOR
+            name: Weapon Upgrader
+            quantity: 5
+            probability: 0.5
+        2:
+            type: JOYA
+            name: Estrella del norte
+            quantity: 5
+            probability: 0.5

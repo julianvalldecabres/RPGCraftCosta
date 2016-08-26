@@ -1,0 +1,10 @@
+# Limit players in a party, 0 = unlimited , xx = fixed slots 
+playerlimit: 0
+# share options: none,money, exp, both
+share: money
+# option pvp enabled/disabled between player
+pvpenabled: true
+# distribution of the option above (share) : equal, proportion
+shareoption: equal
+# proportional share based on: player level (level) or kills
+proportionalreason: kills
