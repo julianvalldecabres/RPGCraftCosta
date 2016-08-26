@@ -21,6 +21,8 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.AttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.HorseType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.HorseVariant;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.entities.MobDrop;
+import java.util.List;
 
 /**
  *
@@ -53,7 +55,7 @@ public class RPGHorse extends RPGMob {
      * @param htype
      * @param hVariant
      */
-    public RPGHorse(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, boolean baby, HorseType htype, HorseVariant hVariant) {
+    public RPGHorse(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, boolean baby, HorseType htype, HorseVariant hVariant,List<MobDrop> drops) {
         this.level = level;
         this.name = name;
         this.type = type;
@@ -73,6 +75,7 @@ public class RPGHorse extends RPGMob {
         this.baby = baby;
         this.htype = htype;
         this.hVariant = hVariant;
+        this.drops=drops;
     }
 
     /**

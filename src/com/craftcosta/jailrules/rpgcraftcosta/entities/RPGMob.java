@@ -17,6 +17,8 @@ package com.craftcosta.jailrules.rpgcraftcosta.entities;
 
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.AttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.entities.MobDrop;
+import java.util.List;
 
 /**
  *
@@ -102,6 +104,7 @@ public class RPGMob {
     /**
      *
      */
+    public List<MobDrop> drops;
     /**
      *
      * @return
@@ -340,6 +343,14 @@ public class RPGMob {
      */
     public void setExp(long exp) {
         this.exp = exp;
+    }
+
+    public List<MobDrop> getDrops() {
+        return drops;
+    }
+
+    public void setDrops(List<MobDrop> drops) {
+        this.drops = drops;
     }
 
 }

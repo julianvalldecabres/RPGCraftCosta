@@ -90,7 +90,7 @@ public class GUIArmorManager {
         for (Map.Entry<String, GUISet> entrySet : listSets.entrySet()) {
             gui.getComboListSets().addItem(entrySet.getKey());
         }
-
+        System.out.println("Cargado config armaduras");
     }
 
     private void loadConfig() {

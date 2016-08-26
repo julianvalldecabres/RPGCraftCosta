@@ -67,6 +67,7 @@ public class GUIGuildManager {
             }
         }
         loadGuildConfig();
+        System.out.println("Cargado config de clanes");
     }
 
     private void loadGuildConfig() {

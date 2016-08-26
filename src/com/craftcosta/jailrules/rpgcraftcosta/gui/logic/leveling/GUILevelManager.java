@@ -50,6 +50,7 @@ public class GUILevelManager {
             }
         }
         loadConfig();
+        System.out.println("Cargado config niveles");
     }
 
     private void loadConfig() {

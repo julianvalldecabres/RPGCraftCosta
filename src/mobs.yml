@@ -16,6 +16,17 @@
     exp: 15
     baby: true
     villager: true
+    drops:
+        1:
+            type: ARMA
+            name: Rebana cuellos
+            quantity: 1
+            probability: 0.5
+        2:
+            type: JOYA
+            name: Estrella del norte
+            quantity: 1
+            probability: 0.5
 2:
     entitytype: CHICKENX
     name: Pollo
@@ -32,4 +43,15 @@
     rangedstrength: 5.0
     money: 45
     exp: 30
-    baby: false        
+    baby: false
+    drops:
+        1:
+            type: MEJORADOR
+            name: Weapon Upgrader
+            quantity: 5
+            probability: 0.5
+        2:
+            type: JOYA
+            name: Estrella del norte
+            quantity: 5
+            probability: 0.5

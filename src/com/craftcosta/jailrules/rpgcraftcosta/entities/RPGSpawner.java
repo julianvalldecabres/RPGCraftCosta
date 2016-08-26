@@ -30,28 +30,12 @@ public class RPGSpawner {
     private Location loc;
     private RPGMob rpgmob;
     private List<UUID> entitiesIds;
-
-    /**
-     *
-     */
     public double cooldown;
-
-    /**
-     *
-     */
     public Integer radius = 8;
-
-    /**
-     *
-     */
     public Integer maxMobs;
-
-    /**
-     *
-     */
     public boolean enabled;
 
-    RPGSpawner(int id, Location loc, RPGMob mob, int maxmobs, int radius, int cooldown) {
+    public RPGSpawner(int id, Location loc, RPGMob mob, int maxmobs, int radius, int cooldown) {
         this.id = id;
         this.loc = loc;
         this.rpgmob = mob;
@@ -62,7 +46,7 @@ public class RPGSpawner {
         this.entitiesIds = new ArrayList<>();
     }
 
-    RPGSpawner(Location loc, RPGMob mob, int maxmobs, int radius, int cooldown, boolean enabled) {
+    public RPGSpawner(int id,Location loc, RPGMob mob, int maxmobs, int radius, int cooldown, boolean enabled) {
         this.id = id;
         this.loc = loc;
         this.rpgmob = mob;

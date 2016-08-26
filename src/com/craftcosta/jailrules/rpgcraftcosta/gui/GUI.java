@@ -16,6 +16,7 @@
 package com.craftcosta.jailrules.rpgcraftcosta.gui;
 
 import com.craftcosta.jailrules.rpgcraftcosta.entities.CustomEntityType;
+import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMob;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.GuardianType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.HorseType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.HorseVariant;
@@ -27,13 +28,13 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.VillagerType;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.armor.GUIArmorManager;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.armor.GUISet;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.armor.GUIArmor;
-
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.chat.GUIChatManager;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.classes.GUIClassesManager;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.config.GUIConfigManager;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.entities.EnumTypeDrop;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.entities.GUIMobManager;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.guilds.GUIGuildManager;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.jewels.GUIJewel;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.jewels.GUIJewelManager;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.leveling.GUILevelManager;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.objects.GUIItemManager;
@@ -48,6 +49,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumQuality;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumArmorMaterial;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumAttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumBehaviour;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.spawners.GUISPawnerManager;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.weapons.GUIWeaponManager;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.weapons.GUIWeapon;
 import com.craftcosta.jailrules.rpgcraftcosta.leveling.RPGLevels;
@@ -148,6 +150,7 @@ public class GUI extends JFrame {
     private static GUIArmorManager guiArmorMan;
     private static GUIItemManager guiItemMan;
     private static GUIMobManager guiMobMan;
+    private static GUISPawnerManager guiSpawnMan;
 
     private static void copy(FileInputStream in, File file) {
         try {
@@ -316,6 +319,7 @@ public class GUI extends JFrame {
      */
     public GUI() {
         initComponents();
+
         for (ChatColor color : ChatColor.values()) {
             comboPrefixColorMarketChat.addItem(color.name());
             comboPrefixColorGlobalChat.addItem(color.name());
@@ -588,9 +592,6 @@ public class GUI extends JFrame {
             calidadjoy.addItem(i);
         }
 
-        for (EnumTypeDrop e : EnumTypeDrop.values()) {
-            comboTipoDropMob.addItem(e.name());
-        }
         //Managers
         this.guiConfigMan = new GUIConfigManager(this);
         this.guiWeaponMan = new GUIWeaponManager(this);
@@ -603,6 +604,10 @@ public class GUI extends JFrame {
         this.guiChatMan = new GUIChatManager(this);
         this.guiItemMan = new GUIItemManager(this);
         this.guiMobMan = new GUIMobManager(this);
+        this.guiSpawnMan= new GUISPawnerManager(this);
+        for (EnumTypeDrop e : EnumTypeDrop.values()) {
+            comboTipoDropMob.addItem(e.name());
+        }
         dibujarComponentesMobs();
     }
 
@@ -659,6 +664,88 @@ public class GUI extends JFrame {
         btnGuardarConfigGlobal = new javax.swing.JButton();
         panelConfigDayCycle = new javax.swing.JPanel();
         checkDayCycle = new javax.swing.JCheckBox();
+        panelConfChats = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        panelConfigChats = new javax.swing.JPanel();
+        panelConfigMarketChat = new javax.swing.JPanel();
+        lblPrefixMarket = new javax.swing.JLabel();
+        lblPrefixColorMarket = new javax.swing.JLabel();
+        lblShortcutMarket = new javax.swing.JLabel();
+        lblMessageColorMarket = new javax.swing.JLabel();
+        textPrefixMarketChat = new javax.swing.JTextField();
+        comboPrefixColorMarketChat = new javax.swing.JComboBox();
+        comboShortcutMarketChat = new javax.swing.JComboBox();
+        comboMessageColorMarketChat = new javax.swing.JComboBox();
+        panelConfigGlobal = new javax.swing.JPanel();
+        lblPrefixGlobal = new javax.swing.JLabel();
+        lblPCG = new javax.swing.JLabel();
+        lblSG = new javax.swing.JLabel();
+        lblMCG = new javax.swing.JLabel();
+        textPrefixGlobalChat = new javax.swing.JTextField();
+        comboPrefixColorGlobalChat = new javax.swing.JComboBox();
+        comboShortcutGlobalChat = new javax.swing.JComboBox();
+        comboMessageColorGlobalChat = new javax.swing.JComboBox();
+        panelConfigParty = new javax.swing.JPanel();
+        lblPP = new javax.swing.JLabel();
+        lblPCP = new javax.swing.JLabel();
+        lblSP = new javax.swing.JLabel();
+        lblMCP = new javax.swing.JLabel();
+        textPrefixPartyChat = new javax.swing.JTextField();
+        comboPrefixColorPartyChat = new javax.swing.JComboBox();
+        comboShortcutPartyChat = new javax.swing.JComboBox();
+        comboMessageColorPartyChat = new javax.swing.JComboBox();
+        panelConfigGuild = new javax.swing.JPanel();
+        lblPGuild = new javax.swing.JLabel();
+        lblPCGuild = new javax.swing.JLabel();
+        lblSGuild = new javax.swing.JLabel();
+        lblMCGuild = new javax.swing.JLabel();
+        textPrefixGuildChat = new javax.swing.JTextField();
+        comboPrefixColorGuildChat = new javax.swing.JComboBox();
+        comboShortcutGuildChat = new javax.swing.JComboBox();
+        comboMessageColorGuildChat = new javax.swing.JComboBox();
+        panelConfiglPrivate = new javax.swing.JPanel();
+        lblPPriv = new javax.swing.JLabel();
+        lblPCPriv = new javax.swing.JLabel();
+        lblSPriv = new javax.swing.JLabel();
+        lblMCPriv = new javax.swing.JLabel();
+        textPrefixPrivateChat = new javax.swing.JTextField();
+        comboPrefixColorPrivateChat = new javax.swing.JComboBox();
+        comboShortcutPrivateChat = new javax.swing.JComboBox();
+        comboMessageColorPrivateChat = new javax.swing.JComboBox();
+        panelConfigNews = new javax.swing.JPanel();
+        lblPN = new javax.swing.JLabel();
+        lblPCN = new javax.swing.JLabel();
+        lblSN = new javax.swing.JLabel();
+        lblMCN = new javax.swing.JLabel();
+        textPrefixNewsChat = new javax.swing.JTextField();
+        comboPrefixColorNewsChat = new javax.swing.JComboBox();
+        comboShortcutNewsChat = new javax.swing.JComboBox();
+        comboMessageColorNewsChat = new javax.swing.JComboBox();
+        panelConfigWarning = new javax.swing.JPanel();
+        lblPW = new javax.swing.JLabel();
+        lblPCW = new javax.swing.JLabel();
+        lblSW = new javax.swing.JLabel();
+        lblMCW = new javax.swing.JLabel();
+        textPrefixWarningChat = new javax.swing.JTextField();
+        comboPrefixColorWarningChat = new javax.swing.JComboBox();
+        comboShortcutWarningChat = new javax.swing.JComboBox();
+        comboMessageColorWarningChat = new javax.swing.JComboBox();
+        panelConfigLocal = new javax.swing.JPanel();
+        lblPL = new javax.swing.JLabel();
+        lblPCL = new javax.swing.JLabel();
+        lblMCL = new javax.swing.JLabel();
+        textPrefixLocalChat = new javax.swing.JTextField();
+        lblDL = new javax.swing.JLabel();
+        spinnerDistanceLocalChat = new javax.swing.JSpinner();
+        comboPrefixColorLocalChat = new javax.swing.JComboBox();
+        comboMessageColorLocalChat = new javax.swing.JComboBox();
+        btnGuardarConfigChats = new javax.swing.JButton();
+        panelConfigEnableChats = new javax.swing.JPanel();
+        checkEnableGlobalChat = new javax.swing.JCheckBox();
+        checkEnableMarketChat = new javax.swing.JCheckBox();
+        checkGuildChat = new javax.swing.JCheckBox();
+        checkPartyChat = new javax.swing.JCheckBox();
+        checkPrivateChat = new javax.swing.JCheckBox();
         panelConfigLevel = new javax.swing.JPanel();
         jScrollPane13 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
@@ -718,7 +805,6 @@ public class GUI extends JFrame {
         txtNombreClase = new javax.swing.JTextField();
         checkEnableClase = new javax.swing.JCheckBox();
         btnGuardarClase = new javax.swing.JButton();
-        btnResetClase = new javax.swing.JButton();
         panelSubirNivel = new javax.swing.JPanel();
         lblVidaNivel = new javax.swing.JLabel();
         lblManaNivel = new javax.swing.JLabel();
@@ -765,6 +851,68 @@ public class GUI extends JFrame {
         lblMortalAP = new javax.swing.JLabel();
         spinnerCritAP = new javax.swing.JSpinner();
         spinnerMortalAP = new javax.swing.JSpinner();
+        panelConfigGuilds = new javax.swing.JPanel();
+        btnGuardarConfigClan = new javax.swing.JButton();
+        panelConfigClanes = new javax.swing.JPanel();
+        panelNumJugClan = new javax.swing.JPanel();
+        rdBtnNumFijosClan = new javax.swing.JRadioButton();
+        rdBtnLimitNivClan = new javax.swing.JRadioButton();
+        spinnerNumFijosClan = new javax.swing.JSpinner();
+        lblJugadoresClan = new javax.swing.JLabel();
+        panelSisContNivelClan = new javax.swing.JPanel();
+        spinnerContriPorcentajeMuertes = new javax.swing.JSpinner();
+        lblporcMuertesClan = new javax.swing.JLabel();
+        checkDonationClan = new javax.swing.JCheckBox();
+        checkContributionClan = new javax.swing.JCheckBox();
+        lblnivMinJugCrearClan = new javax.swing.JLabel();
+        spinnerNivelMinJugClan = new javax.swing.JSpinner();
+        panelOpcLimNivelClan = new javax.swing.JPanel();
+        rdBtnOpcDinFijo = new javax.swing.JRadioButton();
+        rdBtnOpcDinForm = new javax.swing.JRadioButton();
+        panelFormulaClan = new javax.swing.JPanel();
+        lblfdex = new javax.swing.JLabel();
+        spinnerformulax2clan = new javax.swing.JSpinner();
+        lblx2clan = new javax.swing.JLabel();
+        spinnerformulaxclan = new javax.swing.JSpinner();
+        lblxclan = new javax.swing.JLabel();
+        lblMaxNivelClan = new javax.swing.JLabel();
+        spinnerNivelMaxClan = new javax.swing.JSpinner();
+        btnValidarFormulaClan = new javax.swing.JButton();
+        btnResetearFormulaClan = new javax.swing.JButton();
+        lblFormJugXNivelClan = new javax.swing.JLabel();
+        spinnerFormJugXNivelClan = new javax.swing.JSpinner();
+        lblFormJugIniClan = new javax.swing.JLabel();
+        spinnerFormJugIniClan = new javax.swing.JSpinner();
+        panelEditNivelesClan = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        tablaClanes = new javax.swing.JTable();
+        btnAnadirNivel = new javax.swing.JButton();
+        btnEditarNivel = new javax.swing.JButton();
+        btnEliminarNivel = new javax.swing.JButton();
+        spinnerDineroEditClan = new javax.swing.JSpinner();
+        lblDineroEditNivelClan = new javax.swing.JLabel();
+        lblNumJugEditNivelClan = new javax.swing.JLabel();
+        spinnerNumJugEditClan = new javax.swing.JSpinner();
+        panelConfigParties = new javax.swing.JPanel();
+        btnGuardarConfigGrupos = new javax.swing.JButton();
+        panelConfigGrupos = new javax.swing.JPanel();
+        panelNumJugGrupos = new javax.swing.JPanel();
+        spinnerNumeroFijoJugGrupo = new javax.swing.JSpinner();
+        lblJugadoresGrupo = new javax.swing.JLabel();
+        rdBtnIlimitadosGrupo = new javax.swing.JRadioButton();
+        rdBtnFijosGrupo = new javax.swing.JRadioButton();
+        panelPvpGrupos = new javax.swing.JPanel();
+        rdBtnPermitidoPvpGrupo = new javax.swing.JRadioButton();
+        rdBtnNoPermitidoPvpGrupo = new javax.swing.JRadioButton();
+        panelSistRepGrupos = new javax.swing.JPanel();
+        checkDineroGrupo = new javax.swing.JCheckBox();
+        checkExpGrupo = new javax.swing.JCheckBox();
+        panelOpcRepGRupos = new javax.swing.JPanel();
+        rdBtnOpcionigualitarioGrupo = new javax.swing.JRadioButton();
+        rdBtnOpcionProporcionalGrupo = new javax.swing.JRadioButton();
+        panelOpcRepProp = new javax.swing.JPanel();
+        rdBtnProNivelGrupo = new javax.swing.JRadioButton();
+        rdBtnProKillsGrupo = new javax.swing.JRadioButton();
         panelConfigObjetos = new javax.swing.JPanel();
         btnCrearNuevoObjeto = new javax.swing.JButton();
         panelEditorObjetos = new javax.swing.JPanel();
@@ -785,6 +933,69 @@ public class GUI extends JFrame {
         comboListaObjetos = new javax.swing.JComboBox();
         btnEditarObjeto = new javax.swing.JButton();
         btnEliminarObjeto = new javax.swing.JButton();
+        panelConfigJewels = new javax.swing.JPanel();
+        panelConfigJoyas = new javax.swing.JPanel();
+        lblProbRotJoya = new javax.swing.JLabel();
+        spinnerProbRotJoya = new javax.swing.JSpinner();
+        spinnerProbDetJoya = new javax.swing.JSpinner();
+        lblProbDetJoya = new javax.swing.JLabel();
+        lblProbSEJoya = new javax.swing.JLabel();
+        spinnerProbSEJoya = new javax.swing.JSpinner();
+        spinnerProbExitoJoya = new javax.swing.JSpinner();
+        lblProbExitoJoya = new javax.swing.JLabel();
+        btnGuardarConfigJoyas = new javax.swing.JButton();
+        lblProbExitoJoya1 = new javax.swing.JLabel();
+        spinnerProblosepperloreJoya = new javax.swing.JSpinner();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        panelSelectorJoyas = new javax.swing.JPanel();
+        btnCrearNuevaJoya = new javax.swing.JButton();
+        panelEditorJoya = new javax.swing.JPanel();
+        lblNombreJoya = new javax.swing.JLabel();
+        txtNombreJoya = new javax.swing.JTextField();
+        lblObjetoJoya = new javax.swing.JLabel();
+        comboObjetoJoya = new javax.swing.JComboBox();
+        lblCalidadJoya = new javax.swing.JLabel();
+        comboCalidadJoya = new javax.swing.JComboBox();
+        lblPrecioVJoya = new javax.swing.JLabel();
+        lblPrecioCJoya = new javax.swing.JLabel();
+        checkComerciable = new javax.swing.JCheckBox();
+        checkCombinable = new javax.swing.JCheckBox();
+        spinnerPrecioVJoya = new javax.swing.JSpinner();
+        spinnerPrecioCJoya = new javax.swing.JSpinner();
+        lblRoboMJoya = new javax.swing.JLabel();
+        lblDefFisJoya = new javax.swing.JLabel();
+        lblDefMagJoya = new javax.swing.JLabel();
+        lblHRFisJoya = new javax.swing.JLabel();
+        lblEvaFisJoya = new javax.swing.JLabel();
+        lblAtaFisJoya = new javax.swing.JLabel();
+        lblManaJoya = new javax.swing.JLabel();
+        lblManaVidaJoya = new javax.swing.JLabel();
+        lblAtaMagJoya = new javax.swing.JLabel();
+        lvlEvaMagJoya = new javax.swing.JLabel();
+        lblDineroExtraJoya = new javax.swing.JLabel();
+        lblExpExtraJoya = new javax.swing.JLabel();
+        lblHRMagJoya = new javax.swing.JLabel();
+        lblRoboVJoya = new javax.swing.JLabel();
+        spinnerDineroExtraJoya = new javax.swing.JSpinner();
+        spinnerExpExtraJoya = new javax.swing.JSpinner();
+        spinnerRoboVJoya = new javax.swing.JSpinner();
+        spinnerRoboMJoya = new javax.swing.JSpinner();
+        spinnerVidaJoya = new javax.swing.JSpinner();
+        spinnerManaJoya = new javax.swing.JSpinner();
+        spinnerAtaFisJoya = new javax.swing.JSpinner();
+        spinnerEvaFisJoya = new javax.swing.JSpinner();
+        spinnerHRFisJoya = new javax.swing.JSpinner();
+        spinnerDefFisJoya = new javax.swing.JSpinner();
+        spinnerAtaMagJoya = new javax.swing.JSpinner();
+        spinnerEvaMagJoya = new javax.swing.JSpinner();
+        spinnerHRMagJoya = new javax.swing.JSpinner();
+        spinnerDefMagJoya = new javax.swing.JSpinner();
+        btnGuardarJoya = new javax.swing.JButton();
+        lblPrecioCJoya1 = new javax.swing.JLabel();
+        spinnerCritJoya = new javax.swing.JSpinner();
+        comboSelectorJoyas = new javax.swing.JComboBox();
+        btnEditarJoya = new javax.swing.JButton();
+        btnEliminarJoya = new javax.swing.JButton();
         panelConfigWeapon = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
         panelMejoraArma = new javax.swing.JPanel();
@@ -864,160 +1075,6 @@ public class GUI extends JFrame {
         comboListaArmas = new javax.swing.JComboBox();
         btnEditarArma = new javax.swing.JButton();
         btnEliminarArma = new javax.swing.JButton();
-        panelConfigJewels = new javax.swing.JPanel();
-        panelConfigJoyas = new javax.swing.JPanel();
-        lblProbRotJoya = new javax.swing.JLabel();
-        spinnerProbRotJoya = new javax.swing.JSpinner();
-        spinnerProbDetJoya = new javax.swing.JSpinner();
-        lblProbDetJoya = new javax.swing.JLabel();
-        lblProbSEJoya = new javax.swing.JLabel();
-        spinnerProbSEJoya = new javax.swing.JSpinner();
-        spinnerProbExitoJoya = new javax.swing.JSpinner();
-        lblProbExitoJoya = new javax.swing.JLabel();
-        btnGuardarConfigJoyas = new javax.swing.JButton();
-        lblProbExitoJoya1 = new javax.swing.JLabel();
-        spinnerProblosepperloreJoya = new javax.swing.JSpinner();
-        jScrollPane12 = new javax.swing.JScrollPane();
-        panelSelectorJoyas = new javax.swing.JPanel();
-        btnCrearNuevaJoya = new javax.swing.JButton();
-        panelEditorJoya = new javax.swing.JPanel();
-        lblNombreJoya = new javax.swing.JLabel();
-        txtNombreJoya = new javax.swing.JTextField();
-        lblObjetoJoya = new javax.swing.JLabel();
-        comboObjetoJoya = new javax.swing.JComboBox();
-        lblCalidadJoya = new javax.swing.JLabel();
-        comboCalidadJoya = new javax.swing.JComboBox();
-        lblPrecioVJoya = new javax.swing.JLabel();
-        lblPrecioCJoya = new javax.swing.JLabel();
-        checkComerciable = new javax.swing.JCheckBox();
-        checkCombinable = new javax.swing.JCheckBox();
-        spinnerPrecioVJoya = new javax.swing.JSpinner();
-        spinnerPrecioCJoya = new javax.swing.JSpinner();
-        lblRoboMJoya = new javax.swing.JLabel();
-        lblDefFisJoya = new javax.swing.JLabel();
-        lblDefMagJoya = new javax.swing.JLabel();
-        lblHRFisJoya = new javax.swing.JLabel();
-        lblEvaFisJoya = new javax.swing.JLabel();
-        lblAtaFisJoya = new javax.swing.JLabel();
-        lblManaJoya = new javax.swing.JLabel();
-        lblManaVidaJoya = new javax.swing.JLabel();
-        lblAtaMagJoya = new javax.swing.JLabel();
-        lvlEvaMagJoya = new javax.swing.JLabel();
-        lblDineroExtraJoya = new javax.swing.JLabel();
-        lblExpExtraJoya = new javax.swing.JLabel();
-        lblHRMagJoya = new javax.swing.JLabel();
-        lblRoboVJoya = new javax.swing.JLabel();
-        spinnerDineroExtraJoya = new javax.swing.JSpinner();
-        spinnerExpExtraJoya = new javax.swing.JSpinner();
-        spinnerRoboVJoya = new javax.swing.JSpinner();
-        spinnerRoboMJoya = new javax.swing.JSpinner();
-        spinnerVidaJoya = new javax.swing.JSpinner();
-        spinnerManaJoya = new javax.swing.JSpinner();
-        spinnerAtaFisJoya = new javax.swing.JSpinner();
-        spinnerEvaFisJoya = new javax.swing.JSpinner();
-        spinnerHRFisJoya = new javax.swing.JSpinner();
-        spinnerDefFisJoya = new javax.swing.JSpinner();
-        spinnerAtaMagJoya = new javax.swing.JSpinner();
-        spinnerEvaMagJoya = new javax.swing.JSpinner();
-        spinnerHRMagJoya = new javax.swing.JSpinner();
-        spinnerDefMagJoya = new javax.swing.JSpinner();
-        btnGuardarJoya = new javax.swing.JButton();
-        lblPrecioCJoya1 = new javax.swing.JLabel();
-        spinnerCritJoya = new javax.swing.JSpinner();
-        comboSelectorJoyas = new javax.swing.JComboBox();
-        btnEditarJoya = new javax.swing.JButton();
-        btnEliminarJoya = new javax.swing.JButton();
-        panelConfigSpawners = new javax.swing.JPanel();
-        comboSelectorGenerador = new javax.swing.JComboBox();
-        btnEditarSpawner = new javax.swing.JButton();
-        btnEliminarSpawner = new javax.swing.JButton();
-        panelEditorSpawner = new javax.swing.JPanel();
-        panelLocSpawner = new javax.swing.JPanel();
-        lblMundoSpawnLoc = new javax.swing.JLabel();
-        lblXSpawnLoc = new javax.swing.JLabel();
-        lblYSpawnLoc = new javax.swing.JLabel();
-        lblZSpawnLoc = new javax.swing.JLabel();
-        txtMundoSpawnLoc = new javax.swing.JTextField();
-        spinnerXSpawnLoc = new javax.swing.JSpinner();
-        spinnerYSpawnLoc = new javax.swing.JSpinner();
-        spinnerZSpawnLoc = new javax.swing.JSpinner();
-        panelAtribSpawner = new javax.swing.JPanel();
-        lblMobSpawner = new javax.swing.JLabel();
-        comboMobSpawner = new javax.swing.JComboBox();
-        lblRefrescoSpawner = new javax.swing.JLabel();
-        lblIdSpawner = new javax.swing.JLabel();
-        spinnerRefrescoSpawner = new javax.swing.JSpinner();
-        lblRadioSpawner = new javax.swing.JLabel();
-        spinnerRadioSpawner = new javax.swing.JSpinner();
-        lblNumMaxMobSpawner = new javax.swing.JLabel();
-        spinnerNumMaxMobSpawner = new javax.swing.JSpinner();
-        checkEnableSpawner = new javax.swing.JCheckBox();
-        comboSelectorSpawner = new javax.swing.JTextField();
-        btnGuardarSpawner = new javax.swing.JButton();
-        btnResetSpawner = new javax.swing.JButton();
-        btnCrearSpawner = new javax.swing.JButton();
-        panelConfigGuilds = new javax.swing.JPanel();
-        btnGuardarConfigClan = new javax.swing.JButton();
-        panelConfigClanes = new javax.swing.JPanel();
-        panelNumJugClan = new javax.swing.JPanel();
-        rdBtnNumFijosClan = new javax.swing.JRadioButton();
-        rdBtnLimitNivClan = new javax.swing.JRadioButton();
-        spinnerNumFijosClan = new javax.swing.JSpinner();
-        lblJugadoresClan = new javax.swing.JLabel();
-        panelSisContNivelClan = new javax.swing.JPanel();
-        spinnerContriPorcentajeMuertes = new javax.swing.JSpinner();
-        lblporcMuertesClan = new javax.swing.JLabel();
-        checkDonationClan = new javax.swing.JCheckBox();
-        checkContributionClan = new javax.swing.JCheckBox();
-        lblnivMinJugCrearClan = new javax.swing.JLabel();
-        spinnerNivelMinJugClan = new javax.swing.JSpinner();
-        panelOpcLimNivelClan = new javax.swing.JPanel();
-        rdBtnOpcDinFijo = new javax.swing.JRadioButton();
-        rdBtnOpcDinForm = new javax.swing.JRadioButton();
-        panelFormulaClan = new javax.swing.JPanel();
-        lblfdex = new javax.swing.JLabel();
-        spinnerformulax2clan = new javax.swing.JSpinner();
-        lblx2clan = new javax.swing.JLabel();
-        spinnerformulaxclan = new javax.swing.JSpinner();
-        lblxclan = new javax.swing.JLabel();
-        lblMaxNivelClan = new javax.swing.JLabel();
-        spinnerNivelMaxClan = new javax.swing.JSpinner();
-        btnValidarFormulaClan = new javax.swing.JButton();
-        btnResetearFormulaClan = new javax.swing.JButton();
-        lblFormJugXNivelClan = new javax.swing.JLabel();
-        spinnerFormJugXNivelClan = new javax.swing.JSpinner();
-        lblFormJugIniClan = new javax.swing.JLabel();
-        spinnerFormJugIniClan = new javax.swing.JSpinner();
-        panelEditNivelesClan = new javax.swing.JPanel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        tablaClanes = new javax.swing.JTable();
-        btnAnadirNivel = new javax.swing.JButton();
-        btnEditarNivel = new javax.swing.JButton();
-        btnEliminarNivel = new javax.swing.JButton();
-        spinnerDineroEditClan = new javax.swing.JSpinner();
-        lblDineroEditNivelClan = new javax.swing.JLabel();
-        lblNumJugEditNivelClan = new javax.swing.JLabel();
-        spinnerNumJugEditClan = new javax.swing.JSpinner();
-        panelConfigParties = new javax.swing.JPanel();
-        btnGuardarConfigGrupos = new javax.swing.JButton();
-        panelConfigGrupos = new javax.swing.JPanel();
-        panelNumJugGrupos = new javax.swing.JPanel();
-        spinnerNumeroFijoJugGrupo = new javax.swing.JSpinner();
-        lblJugadoresGrupo = new javax.swing.JLabel();
-        rdBtnIlimitadosGrupo = new javax.swing.JRadioButton();
-        rdBtnFijosGrupo = new javax.swing.JRadioButton();
-        panelPvpGrupos = new javax.swing.JPanel();
-        rdBtnPermitidoPvpGrupo = new javax.swing.JRadioButton();
-        rdBtnNoPermitidoPvpGrupo = new javax.swing.JRadioButton();
-        panelSistRepGrupos = new javax.swing.JPanel();
-        checkDineroGrupo = new javax.swing.JCheckBox();
-        checkExpGrupo = new javax.swing.JCheckBox();
-        panelOpcRepGRupos = new javax.swing.JPanel();
-        rdBtnOpcionigualitarioGrupo = new javax.swing.JRadioButton();
-        rdBtnOpcionProporcionalGrupo = new javax.swing.JRadioButton();
-        panelOpcRepProp = new javax.swing.JPanel();
-        rdBtnProNivelGrupo = new javax.swing.JRadioButton();
-        rdBtnProKillsGrupo = new javax.swing.JRadioButton();
         panelConfigArmor = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         panelConfigArmaduras = new javax.swing.JPanel();
@@ -1138,7 +1195,6 @@ public class GUI extends JFrame {
         lblNombreMob = new javax.swing.JLabel();
         txtNombreMob = new javax.swing.JTextField();
         btnGuardarMob = new javax.swing.JButton();
-        btnResetearMob = new javax.swing.JButton();
         lblNivelMob = new javax.swing.JLabel();
         spinnerNivelMob = new javax.swing.JSpinner();
         panelComportamientoMob = new javax.swing.JPanel();
@@ -1191,88 +1247,34 @@ public class GUI extends JFrame {
         lblAtribMob1 = new javax.swing.JLabel();
         lblAtribMob2 = new javax.swing.JLabel();
         comboAtribMob2 = new javax.swing.JComboBox();
-        panelConfChats = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        panelConfigChats = new javax.swing.JPanel();
-        panelConfigMarketChat = new javax.swing.JPanel();
-        lblPrefixMarket = new javax.swing.JLabel();
-        lblPrefixColorMarket = new javax.swing.JLabel();
-        lblShortcutMarket = new javax.swing.JLabel();
-        lblMessageColorMarket = new javax.swing.JLabel();
-        textPrefixMarketChat = new javax.swing.JTextField();
-        comboPrefixColorMarketChat = new javax.swing.JComboBox();
-        comboShortcutMarketChat = new javax.swing.JComboBox();
-        comboMessageColorMarketChat = new javax.swing.JComboBox();
-        panelConfigGlobal = new javax.swing.JPanel();
-        lblPrefixGlobal = new javax.swing.JLabel();
-        lblPCG = new javax.swing.JLabel();
-        lblSG = new javax.swing.JLabel();
-        lblMCG = new javax.swing.JLabel();
-        textPrefixGlobalChat = new javax.swing.JTextField();
-        comboPrefixColorGlobalChat = new javax.swing.JComboBox();
-        comboShortcutGlobalChat = new javax.swing.JComboBox();
-        comboMessageColorGlobalChat = new javax.swing.JComboBox();
-        panelConfigParty = new javax.swing.JPanel();
-        lblPP = new javax.swing.JLabel();
-        lblPCP = new javax.swing.JLabel();
-        lblSP = new javax.swing.JLabel();
-        lblMCP = new javax.swing.JLabel();
-        textPrefixPartyChat = new javax.swing.JTextField();
-        comboPrefixColorPartyChat = new javax.swing.JComboBox();
-        comboShortcutPartyChat = new javax.swing.JComboBox();
-        comboMessageColorPartyChat = new javax.swing.JComboBox();
-        panelConfigGuild = new javax.swing.JPanel();
-        lblPGuild = new javax.swing.JLabel();
-        lblPCGuild = new javax.swing.JLabel();
-        lblSGuild = new javax.swing.JLabel();
-        lblMCGuild = new javax.swing.JLabel();
-        textPrefixGuildChat = new javax.swing.JTextField();
-        comboPrefixColorGuildChat = new javax.swing.JComboBox();
-        comboShortcutGuildChat = new javax.swing.JComboBox();
-        comboMessageColorGuildChat = new javax.swing.JComboBox();
-        panelConfiglPrivate = new javax.swing.JPanel();
-        lblPPriv = new javax.swing.JLabel();
-        lblPCPriv = new javax.swing.JLabel();
-        lblSPriv = new javax.swing.JLabel();
-        lblMCPriv = new javax.swing.JLabel();
-        textPrefixPrivateChat = new javax.swing.JTextField();
-        comboPrefixColorPrivateChat = new javax.swing.JComboBox();
-        comboShortcutPrivateChat = new javax.swing.JComboBox();
-        comboMessageColorPrivateChat = new javax.swing.JComboBox();
-        panelConfigNews = new javax.swing.JPanel();
-        lblPN = new javax.swing.JLabel();
-        lblPCN = new javax.swing.JLabel();
-        lblSN = new javax.swing.JLabel();
-        lblMCN = new javax.swing.JLabel();
-        textPrefixNewsChat = new javax.swing.JTextField();
-        comboPrefixColorNewsChat = new javax.swing.JComboBox();
-        comboShortcutNewsChat = new javax.swing.JComboBox();
-        comboMessageColorNewsChat = new javax.swing.JComboBox();
-        panelConfigWarning = new javax.swing.JPanel();
-        lblPW = new javax.swing.JLabel();
-        lblPCW = new javax.swing.JLabel();
-        lblSW = new javax.swing.JLabel();
-        lblMCW = new javax.swing.JLabel();
-        textPrefixWarningChat = new javax.swing.JTextField();
-        comboPrefixColorWarningChat = new javax.swing.JComboBox();
-        comboShortcutWarningChat = new javax.swing.JComboBox();
-        comboMessageColorWarningChat = new javax.swing.JComboBox();
-        panelConfigLocal = new javax.swing.JPanel();
-        lblPL = new javax.swing.JLabel();
-        lblPCL = new javax.swing.JLabel();
-        lblMCL = new javax.swing.JLabel();
-        textPrefixLocalChat = new javax.swing.JTextField();
-        lblDL = new javax.swing.JLabel();
-        spinnerDistanceLocalChat = new javax.swing.JSpinner();
-        comboPrefixColorLocalChat = new javax.swing.JComboBox();
-        comboMessageColorLocalChat = new javax.swing.JComboBox();
-        btnGuardarConfigChats = new javax.swing.JButton();
-        panelConfigEnableChats = new javax.swing.JPanel();
-        checkEnableGlobalChat = new javax.swing.JCheckBox();
-        checkEnableMarketChat = new javax.swing.JCheckBox();
-        checkGuildChat = new javax.swing.JCheckBox();
-        checkPartyChat = new javax.swing.JCheckBox();
-        checkPrivateChat = new javax.swing.JCheckBox();
+        panelConfigSpawners = new javax.swing.JPanel();
+        comboSelectorGenerador = new javax.swing.JComboBox();
+        btnEditarSpawner = new javax.swing.JButton();
+        btnEliminarSpawner = new javax.swing.JButton();
+        panelEditorSpawner = new javax.swing.JPanel();
+        panelLocSpawner = new javax.swing.JPanel();
+        lblMundoSpawnLoc = new javax.swing.JLabel();
+        lblXSpawnLoc = new javax.swing.JLabel();
+        lblYSpawnLoc = new javax.swing.JLabel();
+        lblZSpawnLoc = new javax.swing.JLabel();
+        txtMundoSpawnLoc = new javax.swing.JTextField();
+        spinnerXSpawnLoc = new javax.swing.JSpinner();
+        spinnerYSpawnLoc = new javax.swing.JSpinner();
+        spinnerZSpawnLoc = new javax.swing.JSpinner();
+        panelAtribSpawner = new javax.swing.JPanel();
+        lblMobSpawner = new javax.swing.JLabel();
+        comboMobSpawner = new javax.swing.JComboBox();
+        lblRefrescoSpawner = new javax.swing.JLabel();
+        lblIdSpawner = new javax.swing.JLabel();
+        spinnerRefrescoSpawner = new javax.swing.JSpinner();
+        lblRadioSpawner = new javax.swing.JLabel();
+        spinnerRadioSpawner = new javax.swing.JSpinner();
+        lblNumMaxMobSpawner = new javax.swing.JLabel();
+        spinnerNumMaxMobSpawner = new javax.swing.JSpinner();
+        checkEnableSpawner = new javax.swing.JCheckBox();
+        txtNombreSpawner = new javax.swing.JTextField();
+        btnGuardarSpawner = new javax.swing.JButton();
+        btnCrearSpawner = new javax.swing.JButton();
 
         btngroupNumJugGrupo.add(rdBtnIlimitadosGrupo);
         btngroupNumJugGrupo.add(rdBtnFijosGrupo);
@@ -1293,8 +1295,10 @@ public class GUI extends JFrame {
         btngroupOpcLimNivelClan.add(rdBtnOpcDinForm);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("RPGCraftCosta plugin: Gestor de configuración");
         setMaximumSize(new java.awt.Dimension(1000, 800));
         setMinimumSize(new java.awt.Dimension(600, 400));
+        setName("Form"); // NOI18N
 
         panelConfig.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         panelConfig.setTabPlacement(javax.swing.JTabbedPane.LEFT);
@@ -1303,21 +1307,29 @@ public class GUI extends JFrame {
         panelConfig.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         panelConfig.setMaximumSize(new java.awt.Dimension(1000, 600));
         panelConfig.setMinimumSize(new java.awt.Dimension(800, 500));
+        panelConfig.setName("panelConfig"); // NOI18N
         panelConfig.setPreferredSize(new java.awt.Dimension(1000, 600));
 
+        panelConfigGeneral.setName("panelConfigGeneral"); // NOI18N
         panelConfigGeneral.setPreferredSize(new java.awt.Dimension(800, 600));
 
         panelConfigGeneralGen.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración general"));
+        panelConfigGeneralGen.setName("panelConfigGeneralGen"); // NOI18N
 
         panelConfigDanioGeneral.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuracion de daño"));
+        panelConfigDanioGeneral.setName("panelConfigDanioGeneral"); // NOI18N
 
         checkSistHambre.setText("Sistema original de hambre");
+        checkSistHambre.setName("checkSistHambre"); // NOI18N
 
         checkDanioCaida.setText("Daño por caida");
+        checkDanioCaida.setName("checkDanioCaida"); // NOI18N
 
         checkDanioAhogo.setText("Daño por ahogamiento");
+        checkDanioAhogo.setName("checkDanioAhogo"); // NOI18N
 
         checkDanioPvp.setText("Habilitar/Deshabilitar PvP");
+        checkDanioPvp.setName("checkDanioPvp"); // NOI18N
         checkDanioPvp.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 checkDanioPvpStateChanged(evt);
@@ -1352,9 +1364,11 @@ public class GUI extends JFrame {
         );
 
         panelEnableModulosGeneral.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de módulos"));
+        panelEnableModulosGeneral.setName("panelEnableModulosGeneral"); // NOI18N
 
         checkClanes.setSelected(true);
         checkClanes.setText("Habilitar/Deshabilitar clanes");
+        checkClanes.setName("checkClanes"); // NOI18N
         checkClanes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkClanesActionPerformed(evt);
@@ -1363,6 +1377,7 @@ public class GUI extends JFrame {
 
         checkGrupos.setSelected(true);
         checkGrupos.setText("Habilitar/Deshabilitar grupos");
+        checkGrupos.setName("checkGrupos"); // NOI18N
         checkGrupos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkGruposActionPerformed(evt);
@@ -1391,20 +1406,30 @@ public class GUI extends JFrame {
         );
 
         panelConfigInicio.setBorder(javax.swing.BorderFactory.createTitledBorder("Localización de inicio"));
+        panelConfigInicio.setName("panelConfigInicio"); // NOI18N
 
         lblMundoInicio.setText("Mundo");
+        lblMundoInicio.setName("lblMundoInicio"); // NOI18N
+
+        txtMundoInicio.setName("txtMundoInicio"); // NOI18N
 
         lblXInicio.setText("X");
+        lblXInicio.setName("lblXInicio"); // NOI18N
 
         lblYInicio.setText("Y");
+        lblYInicio.setName("lblYInicio"); // NOI18N
 
         lblZInicio.setText("Z");
+        lblZInicio.setName("lblZInicio"); // NOI18N
 
         spinnerXInicio.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerXInicio.setName("spinnerXInicio"); // NOI18N
 
         spinnerYInicio.setModel(new javax.swing.SpinnerNumberModel(0, 0, 256, 1));
+        spinnerYInicio.setName("spinnerYInicio"); // NOI18N
 
         spinnerZInicio.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerZInicio.setName("spinnerZInicio"); // NOI18N
 
         javax.swing.GroupLayout panelConfigInicioLayout = new javax.swing.GroupLayout(panelConfigInicio);
         panelConfigInicio.setLayout(panelConfigInicioLayout);
@@ -1448,10 +1473,13 @@ public class GUI extends JFrame {
         );
 
         panelConfigPlayers.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración jugadores"));
+        panelConfigPlayers.setName("panelConfigPlayers"); // NOI18N
 
         checkColocarBloques.setText("Permitir colocar bloques");
+        checkColocarBloques.setName("checkColocarBloques"); // NOI18N
 
         checkDestruirBloques.setText("Permitir destruir bloques");
+        checkDestruirBloques.setName("checkDestruirBloques"); // NOI18N
 
         javax.swing.GroupLayout panelConfigPlayersLayout = new javax.swing.GroupLayout(panelConfigPlayers);
         panelConfigPlayers.setLayout(panelConfigPlayersLayout);
@@ -1474,6 +1502,7 @@ public class GUI extends JFrame {
         );
 
         btnGuardarConfigGlobal.setText("Guardar");
+        btnGuardarConfigGlobal.setName("btnGuardarConfigGlobal"); // NOI18N
         btnGuardarConfigGlobal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarConfigGlobalActionPerformed(evt);
@@ -1481,9 +1510,11 @@ public class GUI extends JFrame {
         });
 
         panelConfigDayCycle.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración global"));
+        panelConfigDayCycle.setName("panelConfigDayCycle"); // NOI18N
 
         checkDayCycle.setSelected(true);
         checkDayCycle.setText("Ciclo de dia");
+        checkDayCycle.setName("checkDayCycle"); // NOI18N
 
         javax.swing.GroupLayout panelConfigDayCycleLayout = new javax.swing.GroupLayout(panelConfigDayCycle);
         panelConfigDayCycle.setLayout(panelConfigDayCycleLayout);
@@ -1553,31 +1584,713 @@ public class GUI extends JFrame {
             .addGroup(panelConfigGeneralLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panelConfigGeneralGen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(291, Short.MAX_VALUE))
+                .addContainerGap(243, Short.MAX_VALUE))
         );
 
         panelConfig.addTab("General", panelConfigGeneral);
 
+        panelConfChats.setName("panelConfChats"); // NOI18N
+
+        jScrollPane4.setName("jScrollPane4"); // NOI18N
+
+        panelConfigChats.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de chats"));
+        panelConfigChats.setName("panelConfigChats"); // NOI18N
+
+        panelConfigMarketChat.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat de comercio"));
+        panelConfigMarketChat.setName("panelConfigMarketChat"); // NOI18N
+
+        lblPrefixMarket.setText("Prefijo");
+        lblPrefixMarket.setName("lblPrefixMarket"); // NOI18N
+
+        lblPrefixColorMarket.setText("Color del prefijo");
+        lblPrefixColorMarket.setName("lblPrefixColorMarket"); // NOI18N
+
+        lblShortcutMarket.setText("atajo en el chat");
+        lblShortcutMarket.setName("lblShortcutMarket"); // NOI18N
+
+        lblMessageColorMarket.setText("Color del mensaje");
+        lblMessageColorMarket.setName("lblMessageColorMarket"); // NOI18N
+
+        textPrefixMarketChat.setName("textPrefixMarketChat"); // NOI18N
+
+        comboPrefixColorMarketChat.setName("comboPrefixColorMarketChat"); // NOI18N
+
+        comboShortcutMarketChat.setName("comboShortcutMarketChat"); // NOI18N
+
+        comboMessageColorMarketChat.setName("comboMessageColorMarketChat"); // NOI18N
+
+        javax.swing.GroupLayout panelConfigMarketChatLayout = new javax.swing.GroupLayout(panelConfigMarketChat);
+        panelConfigMarketChat.setLayout(panelConfigMarketChatLayout);
+        panelConfigMarketChatLayout.setHorizontalGroup(
+            panelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigMarketChatLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMessageColorMarket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPrefixMarket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPrefixColorMarket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblShortcutMarket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(comboPrefixColorMarketChat, 0, 154, Short.MAX_VALUE)
+                    .addComponent(textPrefixMarketChat)
+                    .addComponent(comboShortcutMarketChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboMessageColorMarketChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelConfigMarketChatLayout.setVerticalGroup(
+            panelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigMarketChatLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrefixMarket)
+                    .addComponent(textPrefixMarketChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrefixColorMarket)
+                    .addComponent(comboPrefixColorMarketChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblShortcutMarket)
+                    .addComponent(comboShortcutMarketChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMessageColorMarket)
+                    .addComponent(comboMessageColorMarketChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        panelConfigGlobal.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat global"));
+        panelConfigGlobal.setName("panelConfigGlobal"); // NOI18N
+
+        lblPrefixGlobal.setText("Prefijo");
+        lblPrefixGlobal.setName("lblPrefixGlobal"); // NOI18N
+
+        lblPCG.setText("Color del prefijo");
+        lblPCG.setName("lblPCG"); // NOI18N
+
+        lblSG.setText("atajo en el chat");
+        lblSG.setName("lblSG"); // NOI18N
+
+        lblMCG.setText("Color del mensaje");
+        lblMCG.setName("lblMCG"); // NOI18N
+
+        textPrefixGlobalChat.setName("textPrefixGlobalChat"); // NOI18N
+
+        comboPrefixColorGlobalChat.setName("comboPrefixColorGlobalChat"); // NOI18N
+
+        comboShortcutGlobalChat.setName("comboShortcutGlobalChat"); // NOI18N
+
+        comboMessageColorGlobalChat.setName("comboMessageColorGlobalChat"); // NOI18N
+
+        javax.swing.GroupLayout panelConfigGlobalLayout = new javax.swing.GroupLayout(panelConfigGlobal);
+        panelConfigGlobal.setLayout(panelConfigGlobalLayout);
+        panelConfigGlobalLayout.setHorizontalGroup(
+            panelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigGlobalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMCG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPrefixGlobal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPCG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textPrefixGlobalChat)
+                    .addComponent(comboPrefixColorGlobalChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboShortcutGlobalChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboMessageColorGlobalChat, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelConfigGlobalLayout.setVerticalGroup(
+            panelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigGlobalLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrefixGlobal)
+                    .addComponent(textPrefixGlobalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPCG)
+                    .addComponent(comboPrefixColorGlobalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSG)
+                    .addComponent(comboShortcutGlobalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMCG)
+                    .addComponent(comboMessageColorGlobalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        panelConfigParty.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat de grupos"));
+        panelConfigParty.setName("panelConfigParty"); // NOI18N
+
+        lblPP.setText("Prefijo");
+        lblPP.setName("lblPP"); // NOI18N
+
+        lblPCP.setText("Color del prefijo");
+        lblPCP.setName("lblPCP"); // NOI18N
+
+        lblSP.setText("atajo en el chat");
+        lblSP.setName("lblSP"); // NOI18N
+
+        lblMCP.setText("Color del mensaje");
+        lblMCP.setName("lblMCP"); // NOI18N
+
+        textPrefixPartyChat.setName("textPrefixPartyChat"); // NOI18N
+
+        comboPrefixColorPartyChat.setName("comboPrefixColorPartyChat"); // NOI18N
+
+        comboShortcutPartyChat.setName("comboShortcutPartyChat"); // NOI18N
+
+        comboMessageColorPartyChat.setName("comboMessageColorPartyChat"); // NOI18N
+
+        javax.swing.GroupLayout panelConfigPartyLayout = new javax.swing.GroupLayout(panelConfigParty);
+        panelConfigParty.setLayout(panelConfigPartyLayout);
+        panelConfigPartyLayout.setHorizontalGroup(
+            panelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigPartyLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textPrefixPartyChat, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                    .addComponent(comboPrefixColorPartyChat, 0, 154, Short.MAX_VALUE)
+                    .addComponent(comboShortcutPartyChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboMessageColorPartyChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelConfigPartyLayout.setVerticalGroup(
+            panelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigPartyLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPP)
+                    .addComponent(textPrefixPartyChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPCP)
+                    .addComponent(comboPrefixColorPartyChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSP)
+                    .addComponent(comboShortcutPartyChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMCP)
+                    .addComponent(comboMessageColorPartyChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3))
+        );
+
+        panelConfigGuild.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat de clanes"));
+        panelConfigGuild.setName("panelConfigGuild"); // NOI18N
+
+        lblPGuild.setText("Prefijo");
+        lblPGuild.setName("lblPGuild"); // NOI18N
+
+        lblPCGuild.setText("Color del prefijo");
+        lblPCGuild.setName("lblPCGuild"); // NOI18N
+
+        lblSGuild.setText("atajo en el chat");
+        lblSGuild.setName("lblSGuild"); // NOI18N
+
+        lblMCGuild.setText("Color del mensaje");
+        lblMCGuild.setName("lblMCGuild"); // NOI18N
+
+        textPrefixGuildChat.setName("textPrefixGuildChat"); // NOI18N
+
+        comboPrefixColorGuildChat.setName("comboPrefixColorGuildChat"); // NOI18N
+
+        comboShortcutGuildChat.setName("comboShortcutGuildChat"); // NOI18N
+
+        comboMessageColorGuildChat.setName("comboMessageColorGuildChat"); // NOI18N
+
+        javax.swing.GroupLayout panelConfigGuildLayout = new javax.swing.GroupLayout(panelConfigGuild);
+        panelConfigGuild.setLayout(panelConfigGuildLayout);
+        panelConfigGuildLayout.setHorizontalGroup(
+            panelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigGuildLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMCGuild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPGuild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPCGuild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSGuild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textPrefixGuildChat, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                    .addComponent(comboPrefixColorGuildChat, 0, 154, Short.MAX_VALUE)
+                    .addComponent(comboShortcutGuildChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboMessageColorGuildChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelConfigGuildLayout.setVerticalGroup(
+            panelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigGuildLayout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addGroup(panelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPGuild)
+                    .addComponent(textPrefixGuildChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPCGuild)
+                    .addComponent(comboPrefixColorGuildChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSGuild)
+                    .addComponent(comboShortcutGuildChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMCGuild)
+                    .addComponent(comboMessageColorGuildChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3))
+        );
+
+        panelConfiglPrivate.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat privado"));
+        panelConfiglPrivate.setName("panelConfiglPrivate"); // NOI18N
+
+        lblPPriv.setText("Prefijo");
+        lblPPriv.setName("lblPPriv"); // NOI18N
+
+        lblPCPriv.setText("Color del prefijo");
+        lblPCPriv.setName("lblPCPriv"); // NOI18N
+
+        lblSPriv.setText("atajo en el chat");
+        lblSPriv.setName("lblSPriv"); // NOI18N
+
+        lblMCPriv.setText("Color del mensaje");
+        lblMCPriv.setName("lblMCPriv"); // NOI18N
+
+        textPrefixPrivateChat.setName("textPrefixPrivateChat"); // NOI18N
+
+        comboPrefixColorPrivateChat.setName("comboPrefixColorPrivateChat"); // NOI18N
+
+        comboShortcutPrivateChat.setName("comboShortcutPrivateChat"); // NOI18N
+
+        comboMessageColorPrivateChat.setName("comboMessageColorPrivateChat"); // NOI18N
+
+        javax.swing.GroupLayout panelConfiglPrivateLayout = new javax.swing.GroupLayout(panelConfiglPrivate);
+        panelConfiglPrivate.setLayout(panelConfiglPrivateLayout);
+        panelConfiglPrivateLayout.setHorizontalGroup(
+            panelConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfiglPrivateLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMCPriv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPPriv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPCPriv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSPriv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textPrefixPrivateChat, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                    .addComponent(comboPrefixColorPrivateChat, 0, 154, Short.MAX_VALUE)
+                    .addComponent(comboShortcutPrivateChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboMessageColorPrivateChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelConfiglPrivateLayout.setVerticalGroup(
+            panelConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfiglPrivateLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPPriv)
+                    .addComponent(textPrefixPrivateChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPCPriv)
+                    .addComponent(comboPrefixColorPrivateChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSPriv)
+                    .addComponent(comboShortcutPrivateChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMCPriv)
+                    .addComponent(comboMessageColorPrivateChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3))
+        );
+
+        panelConfigNews.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat noticias"));
+        panelConfigNews.setName("panelConfigNews"); // NOI18N
+
+        lblPN.setText("Prefijo");
+        lblPN.setName("lblPN"); // NOI18N
+
+        lblPCN.setText("Color del prefijo");
+        lblPCN.setName("lblPCN"); // NOI18N
+
+        lblSN.setText("atajo en el chat");
+        lblSN.setName("lblSN"); // NOI18N
+
+        lblMCN.setText("Color del mensaje");
+        lblMCN.setName("lblMCN"); // NOI18N
+
+        textPrefixNewsChat.setName("textPrefixNewsChat"); // NOI18N
+
+        comboPrefixColorNewsChat.setName("comboPrefixColorNewsChat"); // NOI18N
+
+        comboShortcutNewsChat.setName("comboShortcutNewsChat"); // NOI18N
+
+        comboMessageColorNewsChat.setName("comboMessageColorNewsChat"); // NOI18N
+
+        javax.swing.GroupLayout panelConfigNewsLayout = new javax.swing.GroupLayout(panelConfigNews);
+        panelConfigNews.setLayout(panelConfigNewsLayout);
+        panelConfigNewsLayout.setHorizontalGroup(
+            panelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigNewsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMCN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPCN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textPrefixNewsChat, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                    .addComponent(comboPrefixColorNewsChat, 0, 154, Short.MAX_VALUE)
+                    .addComponent(comboShortcutNewsChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboMessageColorNewsChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelConfigNewsLayout.setVerticalGroup(
+            panelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigNewsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPN)
+                    .addComponent(textPrefixNewsChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPCN)
+                    .addComponent(comboPrefixColorNewsChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSN)
+                    .addComponent(comboShortcutNewsChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblMCN)
+                    .addComponent(comboMessageColorNewsChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        panelConfigWarning.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat incidencias"));
+        panelConfigWarning.setName("panelConfigWarning"); // NOI18N
+
+        lblPW.setText("Prefijo");
+        lblPW.setName("lblPW"); // NOI18N
+
+        lblPCW.setText("Color del prefijo");
+        lblPCW.setName("lblPCW"); // NOI18N
+
+        lblSW.setText("atajo en el chat");
+        lblSW.setName("lblSW"); // NOI18N
+
+        lblMCW.setText("Color del mensaje");
+        lblMCW.setName("lblMCW"); // NOI18N
+
+        textPrefixWarningChat.setName("textPrefixWarningChat"); // NOI18N
+
+        comboPrefixColorWarningChat.setName("comboPrefixColorWarningChat"); // NOI18N
+
+        comboShortcutWarningChat.setName("comboShortcutWarningChat"); // NOI18N
+
+        comboMessageColorWarningChat.setName("comboMessageColorWarningChat"); // NOI18N
+
+        javax.swing.GroupLayout panelConfigWarningLayout = new javax.swing.GroupLayout(panelConfigWarning);
+        panelConfigWarning.setLayout(panelConfigWarningLayout);
+        panelConfigWarningLayout.setHorizontalGroup(
+            panelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigWarningLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblMCW, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPW, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblPCW, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblSW, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textPrefixWarningChat, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                    .addComponent(comboPrefixColorWarningChat, 0, 154, Short.MAX_VALUE)
+                    .addComponent(comboShortcutWarningChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboMessageColorWarningChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelConfigWarningLayout.setVerticalGroup(
+            panelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigWarningLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPW)
+                    .addComponent(textPrefixWarningChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPCW)
+                    .addComponent(comboPrefixColorWarningChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblSW)
+                    .addComponent(comboShortcutWarningChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMCW)
+                    .addComponent(comboMessageColorWarningChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(3, 3, 3))
+        );
+
+        panelConfigLocal.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat local"));
+        panelConfigLocal.setName("panelConfigLocal"); // NOI18N
+
+        lblPL.setText("Prefijo");
+        lblPL.setName("lblPL"); // NOI18N
+
+        lblPCL.setText("Color del prefijo");
+        lblPCL.setName("lblPCL"); // NOI18N
+
+        lblMCL.setText("Color del mensaje");
+        lblMCL.setName("lblMCL"); // NOI18N
+
+        textPrefixLocalChat.setName("textPrefixLocalChat"); // NOI18N
+
+        lblDL.setText("Distancia de recepción");
+        lblDL.setName("lblDL"); // NOI18N
+
+        spinnerDistanceLocalChat.setName("spinnerDistanceLocalChat"); // NOI18N
+
+        comboPrefixColorLocalChat.setName("comboPrefixColorLocalChat"); // NOI18N
+
+        comboMessageColorLocalChat.setName("comboMessageColorLocalChat"); // NOI18N
+
+        javax.swing.GroupLayout panelConfigLocalLayout = new javax.swing.GroupLayout(panelConfigLocal);
+        panelConfigLocal.setLayout(panelConfigLocalLayout);
+        panelConfigLocalLayout.setHorizontalGroup(
+            panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigLocalLayout.createSequentialGroup()
+                .addContainerGap(38, Short.MAX_VALUE)
+                .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelConfigLocalLayout.createSequentialGroup()
+                        .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(panelConfigLocalLayout.createSequentialGroup()
+                                .addComponent(lblPL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(panelConfigLocalLayout.createSequentialGroup()
+                                .addComponent(lblPCL, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+                                .addGap(4, 4, 4)))
+                        .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(textPrefixLocalChat)
+                            .addComponent(comboPrefixColorLocalChat, 0, 120, Short.MAX_VALUE)))
+                    .addGroup(panelConfigLocalLayout.createSequentialGroup()
+                        .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblMCL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblDL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(spinnerDistanceLocalChat, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                            .addComponent(comboMessageColorLocalChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        panelConfigLocalLayout.setVerticalGroup(
+            panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigLocalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPL)
+                    .addComponent(textPrefixLocalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPCL)
+                    .addComponent(comboPrefixColorLocalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDL)
+                    .addComponent(spinnerDistanceLocalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMCL)
+                    .addComponent(comboMessageColorLocalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        btnGuardarConfigChats.setText("Guardar configuración");
+        btnGuardarConfigChats.setName("btnGuardarConfigChats"); // NOI18N
+        btnGuardarConfigChats.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarConfigChatsActionPerformed(evt);
+            }
+        });
+
+        panelConfigEnableChats.setBorder(javax.swing.BorderFactory.createTitledBorder("Habilitar/Deshabilitar chats"));
+        panelConfigEnableChats.setName("panelConfigEnableChats"); // NOI18N
+
+        checkEnableGlobalChat.setSelected(true);
+        checkEnableGlobalChat.setText("Habilitar/Deshabilitar chat global");
+        checkEnableGlobalChat.setName("checkEnableGlobalChat"); // NOI18N
+
+        checkEnableMarketChat.setSelected(true);
+        checkEnableMarketChat.setText("Habilitar/Deshabilitar chat comercio");
+        checkEnableMarketChat.setName("checkEnableMarketChat"); // NOI18N
+
+        checkGuildChat.setSelected(true);
+        checkGuildChat.setText("Habilitar/Deshabilitar chat clan");
+        checkGuildChat.setName("checkGuildChat"); // NOI18N
+
+        checkPartyChat.setSelected(true);
+        checkPartyChat.setText("Habilitar/Deshabilitar chat grupo");
+        checkPartyChat.setName("checkPartyChat"); // NOI18N
+
+        checkPrivateChat.setSelected(true);
+        checkPrivateChat.setText("Habilitar/Deshabilitar chat privado");
+        checkPrivateChat.setName("checkPrivateChat"); // NOI18N
+
+        javax.swing.GroupLayout panelConfigEnableChatsLayout = new javax.swing.GroupLayout(panelConfigEnableChats);
+        panelConfigEnableChats.setLayout(panelConfigEnableChatsLayout);
+        panelConfigEnableChatsLayout.setHorizontalGroup(
+            panelConfigEnableChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigEnableChatsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigEnableChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(checkPrivateChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(checkPartyChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(checkGuildChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(checkEnableMarketChat, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+                    .addComponent(checkEnableGlobalChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelConfigEnableChatsLayout.setVerticalGroup(
+            panelConfigEnableChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigEnableChatsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(checkEnableGlobalChat)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkEnableMarketChat, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkGuildChat)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkPartyChat)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkPrivateChat))
+        );
+
+        javax.swing.GroupLayout panelConfigChatsLayout = new javax.swing.GroupLayout(panelConfigChats);
+        panelConfigChats.setLayout(panelConfigChatsLayout);
+        panelConfigChatsLayout.setHorizontalGroup(
+            panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigChatsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGuardarConfigChats, javax.swing.GroupLayout.PREFERRED_SIZE, 855, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelConfigChatsLayout.createSequentialGroup()
+                        .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(panelConfigChatsLayout.createSequentialGroup()
+                                .addComponent(panelConfigEnableChats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE))
+                            .addGroup(panelConfigChatsLayout.createSequentialGroup()
+                                .addComponent(panelConfigGlobal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(4, 4, 4))
+                            .addGroup(panelConfigChatsLayout.createSequentialGroup()
+                                .addComponent(panelConfigLocal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(panelConfigNews, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelConfigMarketChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelConfigGuild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(panelConfigChatsLayout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelConfigChatsLayout.createSequentialGroup()
+                                        .addComponent(panelConfigParty, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addContainerGap(357, Short.MAX_VALUE))
+                                    .addComponent(panelConfiglPrivate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelConfigChatsLayout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(panelConfigWarning, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())))))
+        );
+        panelConfigChatsLayout.setVerticalGroup(
+            panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigChatsLayout.createSequentialGroup()
+                .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelConfigMarketChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelConfigParty, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelConfigEnableChats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(panelConfigGuild, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(panelConfiglPrivate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelConfigGlobal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelConfigLocal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelConfigNews, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panelConfigWarning, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGuardarConfigChats)
+                .addGap(504, 504, 504))
+        );
+
+        jScrollPane4.setViewportView(panelConfigChats);
+
+        javax.swing.GroupLayout panelConfChatsLayout = new javax.swing.GroupLayout(panelConfChats);
+        panelConfChats.setLayout(panelConfChatsLayout);
+        panelConfChatsLayout.setHorizontalGroup(
+            panelConfChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfChatsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelConfChatsLayout.setVerticalGroup(
+            panelConfChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfChatsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(71, Short.MAX_VALUE))
+        );
+
+        panelConfig.addTab("Chat", panelConfChats);
+
+        panelConfigLevel.setName("panelConfigLevel"); // NOI18N
+
+        jScrollPane13.setName("jScrollPane13"); // NOI18N
+
+        jPanel1.setName("jPanel1"); // NOI18N
+
         lblInfoNivel.setText("Para crear una formula de niveles rellenar los huecos con números, acepta decimales");
+        lblInfoNivel.setName("lblInfoNivel"); // NOI18N
 
         lblInfoNivel2.setText("El resultado de la formula representa el total de experiencia que necesita el jugador para alcanzar el nivel X");
+        lblInfoNivel2.setName("lblInfoNivel2"); // NOI18N
 
         lblFdeXNivel.setText("f(x)=");
+        lblFdeXNivel.setName("lblFdeXNivel"); // NOI18N
 
         spinnerX3Nivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerX3Nivel.setAutoscrolls(true);
+        spinnerX3Nivel.setName("spinnerX3Nivel"); // NOI18N
 
         lblx3Nivel.setText("x³+");
+        lblx3Nivel.setName("lblx3Nivel"); // NOI18N
 
         spinnerX2Nivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerX2Nivel.setName("spinnerX2Nivel"); // NOI18N
 
         lblx2Nivel.setText("x²+");
+        lblx2Nivel.setName("lblx2Nivel"); // NOI18N
 
         spinnerXNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerXNivel.setName("spinnerXNivel"); // NOI18N
 
         lblxNivel.setText("x");
+        lblxNivel.setName("lblxNivel"); // NOI18N
 
         btnValidarFormulaNiveles.setText("Validar");
+        btnValidarFormulaNiveles.setName("btnValidarFormulaNiveles"); // NOI18N
         btnValidarFormulaNiveles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnValidarFormulaNivelesActionPerformed(evt);
@@ -1585,6 +2298,7 @@ public class GUI extends JFrame {
         });
 
         btnDibujarGraficoNiveles.setText("Dibujar gráfico");
+        btnDibujarGraficoNiveles.setName("btnDibujarGraficoNiveles"); // NOI18N
         btnDibujarGraficoNiveles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDibujarGraficoNivelesActionPerformed(evt);
@@ -1592,6 +2306,7 @@ public class GUI extends JFrame {
         });
 
         btnGuardarConfigNiveles.setText("Guardar");
+        btnGuardarConfigNiveles.setName("btnGuardarConfigNiveles"); // NOI18N
         btnGuardarConfigNiveles.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarConfigNivelesActionPerformed(evt);
@@ -1599,8 +2314,10 @@ public class GUI extends JFrame {
         });
 
         lblInfoNivelMaxNivel.setText("Selecciona el nivel máximo que el jugador alcanzará");
+        lblInfoNivelMaxNivel.setName("lblInfoNivelMaxNivel"); // NOI18N
 
         spinnerMaxNivel.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spinnerMaxNivel.setName("spinnerMaxNivel"); // NOI18N
         spinnerMaxNivel.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 spinnerMaxNivelPropertyChange(evt);
@@ -1608,10 +2325,13 @@ public class GUI extends JFrame {
         });
 
         lblPHxNivel.setText("Puntos de habilidad por nivel alcanzado");
+        lblPHxNivel.setName("lblPHxNivel"); // NOI18N
 
         spinnerPHxNivel.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spinnerPHxNivel.setName("spinnerPHxNivel"); // NOI18N
 
         panelGraficosNivel.setBorder(javax.swing.BorderFactory.createTitledBorder("Gráfico"));
+        panelGraficosNivel.setName("panelGraficosNivel"); // NOI18N
 
         javax.swing.GroupLayout panelGraficosNivelLayout = new javax.swing.GroupLayout(panelGraficosNivel);
         panelGraficosNivel.setLayout(panelGraficosNivelLayout);
@@ -1625,6 +2345,9 @@ public class GUI extends JFrame {
         );
 
         panelNivelExpNivel.setBorder(javax.swing.BorderFactory.createTitledBorder("Tabla de experiencia"));
+        panelNivelExpNivel.setName("panelNivelExpNivel"); // NOI18N
+
+        jScrollPane1.setName("jScrollPane1"); // NOI18N
 
         tablaExpNivel.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1635,6 +2358,7 @@ public class GUI extends JFrame {
             }
         ));
         tablaExpNivel.setColumnSelectionAllowed(true);
+        tablaExpNivel.setName("tablaExpNivel"); // NOI18N
         jScrollPane1.setViewportView(tablaExpNivel);
 
         javax.swing.GroupLayout panelNivelExpNivelLayout = new javax.swing.GroupLayout(panelNivelExpNivel);
@@ -1748,7 +2472,7 @@ public class GUI extends JFrame {
             panelConfigLevelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConfigLevelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
+                .addComponent(jScrollPane13, javax.swing.GroupLayout.DEFAULT_SIZE, 573, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1758,7 +2482,10 @@ public class GUI extends JFrame {
         panelConfigClases.setName(""); // NOI18N
         panelConfigClases.setPreferredSize(new java.awt.Dimension(800, 600));
 
+        comboSelectorClases.setName("comboSelectorClases"); // NOI18N
+
         btnCrearNuevaClase.setText("Nueva clase");
+        btnCrearNuevaClase.setName("btnCrearNuevaClase"); // NOI18N
         btnCrearNuevaClase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearNuevaClaseActionPerformed(evt);
@@ -1766,6 +2493,7 @@ public class GUI extends JFrame {
         });
 
         btnEditarClase.setText("Editar");
+        btnEditarClase.setName("btnEditarClase"); // NOI18N
         btnEditarClase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarClaseActionPerformed(evt);
@@ -1773,66 +2501,95 @@ public class GUI extends JFrame {
         });
 
         btnEliminarClase.setText("Eliminar");
+        btnEliminarClase.setName("btnEliminarClase"); // NOI18N
         btnEliminarClase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarClaseActionPerformed(evt);
             }
         });
 
+        jScrollPane11.setName("jScrollPane11"); // NOI18N
+
         panelEditorClase.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de clases"));
         panelEditorClase.setName("Class Editor"); // NOI18N
 
         lblNombreClase.setText("Nombre");
+        lblNombreClase.setName("lblNombreClase"); // NOI18N
 
         panelAtribBasicoClase.setBorder(javax.swing.BorderFactory.createTitledBorder("Atributos base"));
+        panelAtribBasicoClase.setName("panelAtribBasicoClase"); // NOI18N
 
         lblVidaBase.setText("Vida máxima");
+        lblVidaBase.setName("lblVidaBase"); // NOI18N
 
         lblManaBase.setText("Mana");
+        lblManaBase.setName("lblManaBase"); // NOI18N
 
         lblAtaFisBase.setText("Ataque físico");
+        lblAtaFisBase.setName("lblAtaFisBase"); // NOI18N
 
         lblDefFisBase.setText("Defensa física");
+        lblDefFisBase.setName("lblDefFisBase"); // NOI18N
 
         lblHRFisBase.setText("Tasa de acierto físico");
+        lblHRFisBase.setName("lblHRFisBase"); // NOI18N
 
         lblEvaFisBase.setText("Evasión física");
+        lblEvaFisBase.setName("lblEvaFisBase"); // NOI18N
 
         lblAtaMagBase.setText("Ataque mágico");
+        lblAtaMagBase.setName("lblAtaMagBase"); // NOI18N
 
         lblDefMagBase.setText("Defensa mágica");
+        lblDefMagBase.setName("lblDefMagBase"); // NOI18N
 
         lblHRMagBase.setText("Tasa de acierto mágico");
+        lblHRMagBase.setName("lblHRMagBase"); // NOI18N
 
         lblEvaMagBase.setText("Evasión mágica");
+        lblEvaMagBase.setName("lblEvaMagBase"); // NOI18N
 
         lblCritBase.setText("Crítico");
+        lblCritBase.setName("lblCritBase"); // NOI18N
 
         lblMortalBase.setText("Mortal");
+        lblMortalBase.setName("lblMortalBase"); // NOI18N
 
         spinnerMaxVidaBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerMaxVidaBase.setName("spinnerMaxVidaBase"); // NOI18N
 
         spinnerMaxManaBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerMaxManaBase.setName("spinnerMaxManaBase"); // NOI18N
 
         spinnerDefFisBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerDefFisBase.setName("spinnerDefFisBase"); // NOI18N
 
         spinnerAtaFisBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerAtaFisBase.setName("spinnerAtaFisBase"); // NOI18N
 
         spinnerHRFisBase.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerHRFisBase.setName("spinnerHRFisBase"); // NOI18N
 
         spinnerEvaFisBase.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerEvaFisBase.setName("spinnerEvaFisBase"); // NOI18N
 
         spinnerAtaMagBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerAtaMagBase.setName("spinnerAtaMagBase"); // NOI18N
 
         spinnerDefMagBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerDefMagBase.setName("spinnerDefMagBase"); // NOI18N
 
         spinnerHRMagBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerHRMagBase.setName("spinnerHRMagBase"); // NOI18N
 
         spinnerEvaMagBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerEvaMagBase.setName("spinnerEvaMagBase"); // NOI18N
 
         spinnerCritBase.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerCritBase.setName("spinnerCritBase"); // NOI18N
 
         spinnerMortalBase.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerMortalBase.setName("spinnerMortalBase"); // NOI18N
 
         javax.swing.GroupLayout panelAtribBasicoClaseLayout = new javax.swing.GroupLayout(panelAtribBasicoClase);
         panelAtribBasicoClase.setLayout(panelAtribBasicoClaseLayout);
@@ -1931,66 +2688,93 @@ public class GUI extends JFrame {
 
         panelAtribBasicoClaseLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {spinnerAtaFisBase, spinnerAtaMagBase, spinnerCritBase, spinnerDefFisBase, spinnerDefMagBase, spinnerEvaFisBase, spinnerEvaMagBase, spinnerHRFisBase, spinnerHRMagBase, spinnerMaxManaBase, spinnerMaxVidaBase, spinnerMortalBase});
 
+        txtNombreClase.setName("txtNombreClase"); // NOI18N
+
         checkEnableClase.setText("Habilitado/Deshabilitado");
+        checkEnableClase.setName("checkEnableClase"); // NOI18N
 
         btnGuardarClase.setText("Guardar");
+        btnGuardarClase.setName("btnGuardarClase"); // NOI18N
         btnGuardarClase.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarClaseActionPerformed(evt);
             }
         });
 
-        btnResetClase.setText("Resetear");
-
         panelSubirNivel.setBorder(javax.swing.BorderFactory.createTitledBorder(" Incremento de atributos por nivel"));
+        panelSubirNivel.setName("panelSubirNivel"); // NOI18N
 
         lblVidaNivel.setText("Vida");
+        lblVidaNivel.setName("lblVidaNivel"); // NOI18N
 
         lblManaNivel.setText("Mana");
+        lblManaNivel.setName("lblManaNivel"); // NOI18N
 
         lblAtaFisNivel.setText("Ataque físico");
+        lblAtaFisNivel.setName("lblAtaFisNivel"); // NOI18N
 
         lblDefFisNivel.setText("defensa física");
+        lblDefFisNivel.setName("lblDefFisNivel"); // NOI18N
 
         lblHRFisNivel.setText("Tasa de acierto físico");
+        lblHRFisNivel.setName("lblHRFisNivel"); // NOI18N
 
         lblEvaFisNivel.setText("Evasión física");
+        lblEvaFisNivel.setName("lblEvaFisNivel"); // NOI18N
 
         lblAtaMagNivel.setText("Ataque mágico");
+        lblAtaMagNivel.setName("lblAtaMagNivel"); // NOI18N
 
         lblDefMagNivel.setText("Defensa mágica");
+        lblDefMagNivel.setName("lblDefMagNivel"); // NOI18N
 
         lblHRMagNivel.setText("Tasa de acierto mágico");
+        lblHRMagNivel.setName("lblHRMagNivel"); // NOI18N
 
         lblEvaMagNivel.setText("Evasión mágica");
+        lblEvaMagNivel.setName("lblEvaMagNivel"); // NOI18N
 
         lblCritNivel.setText("Crítico");
+        lblCritNivel.setName("lblCritNivel"); // NOI18N
 
         lblMortalNivel.setText("Mortal");
+        lblMortalNivel.setName("lblMortalNivel"); // NOI18N
 
         spinnerVidaNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerVidaNivel.setName("spinnerVidaNivel"); // NOI18N
 
         spinnerManaNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerManaNivel.setName("spinnerManaNivel"); // NOI18N
 
         spinnerAtaFisNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerAtaFisNivel.setName("spinnerAtaFisNivel"); // NOI18N
 
         spinnerDefFisNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerDefFisNivel.setName("spinnerDefFisNivel"); // NOI18N
 
         spinnerHRFisNivel.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerHRFisNivel.setName("spinnerHRFisNivel"); // NOI18N
 
         spinnerEvaFisNivel.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerEvaFisNivel.setName("spinnerEvaFisNivel"); // NOI18N
 
         spinnerAtaMagNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerAtaMagNivel.setName("spinnerAtaMagNivel"); // NOI18N
 
         spinnerDefMagNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerDefMagNivel.setName("spinnerDefMagNivel"); // NOI18N
 
         spinnerHRMagNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerHRMagNivel.setName("spinnerHRMagNivel"); // NOI18N
 
         spinnerEvaMagNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerEvaMagNivel.setName("spinnerEvaMagNivel"); // NOI18N
 
         spinnerCritNivel.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerCritNivel.setName("spinnerCritNivel"); // NOI18N
 
         spinnerMortalNivel.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerMortalNivel.setName("spinnerMortalNivel"); // NOI18N
 
         javax.swing.GroupLayout panelSubirNivelLayout = new javax.swing.GroupLayout(panelSubirNivel);
         panelSubirNivel.setLayout(panelSubirNivelLayout);
@@ -2088,16 +2872,22 @@ public class GUI extends JFrame {
         panelSubirNivelLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblAtaFisNivel, lblAtaMagNivel, lblCritNivel, lblDefFisNivel, lblDefMagNivel, lblEvaFisNivel, lblEvaMagNivel, lblHRFisNivel, lblHRMagNivel, lblManaNivel, lblMortalNivel, lblVidaNivel});
 
         panelPuntoHabilidad.setBorder(javax.swing.BorderFactory.createTitledBorder("Incremento de atributos por punto de habilidad"));
+        panelPuntoHabilidad.setName("panelPuntoHabilidad"); // NOI18N
 
         panelHabFuerza.setBorder(javax.swing.BorderFactory.createTitledBorder("Punto de habilidad de fuerza"));
+        panelHabFuerza.setName("panelHabFuerza"); // NOI18N
 
         lblVidaAP.setText("Vida");
+        lblVidaAP.setName("lblVidaAP"); // NOI18N
 
         lblAtaFisAP.setText("Ataque físico");
+        lblAtaFisAP.setName("lblAtaFisAP"); // NOI18N
 
         spinnerVidaAP.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerVidaAP.setName("spinnerVidaAP"); // NOI18N
 
         spinnerAtaFisAP.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerAtaFisAP.setName("spinnerAtaFisAP"); // NOI18N
 
         javax.swing.GroupLayout panelHabFuerzaLayout = new javax.swing.GroupLayout(panelHabFuerza);
         panelHabFuerza.setLayout(panelHabFuerzaLayout);
@@ -2125,14 +2915,19 @@ public class GUI extends JFrame {
         );
 
         panelHabConst.setBorder(javax.swing.BorderFactory.createTitledBorder("Punto de habilidad de constitución"));
+        panelHabConst.setName("panelHabConst"); // NOI18N
 
         lblVidaAP2.setText("Vida");
+        lblVidaAP2.setName("lblVidaAP2"); // NOI18N
 
         lblManaAP.setText("Mana");
+        lblManaAP.setName("lblManaAP"); // NOI18N
 
         spinnerVidaAP2.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerVidaAP2.setName("spinnerVidaAP2"); // NOI18N
 
         spinnerManaAP.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerManaAP.setName("spinnerManaAP"); // NOI18N
 
         javax.swing.GroupLayout panelHabConstLayout = new javax.swing.GroupLayout(panelHabConst);
         panelHabConst.setLayout(panelHabConstLayout);
@@ -2160,14 +2955,19 @@ public class GUI extends JFrame {
         );
 
         panelHabInt.setBorder(javax.swing.BorderFactory.createTitledBorder("Punto de habilidad de inteligencia"));
+        panelHabInt.setName("panelHabInt"); // NOI18N
 
         lblManaAP2.setText("Mana");
+        lblManaAP2.setName("lblManaAP2"); // NOI18N
 
         lblAtaMagAP.setText("Ataque mágico");
+        lblAtaMagAP.setName("lblAtaMagAP"); // NOI18N
 
         spinnerManaAP2.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerManaAP2.setName("spinnerManaAP2"); // NOI18N
 
         spinnerAtaMagAP.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerAtaMagAP.setName("spinnerAtaMagAP"); // NOI18N
 
         javax.swing.GroupLayout panelHabIntLayout = new javax.swing.GroupLayout(panelHabInt);
         panelHabInt.setLayout(panelHabIntLayout);
@@ -2195,14 +2995,19 @@ public class GUI extends JFrame {
         );
 
         panelHabDest.setBorder(javax.swing.BorderFactory.createTitledBorder("Punto de habilidad de destreza"));
+        panelHabDest.setName("panelHabDest"); // NOI18N
 
         lblCritAP.setText("Crítico");
+        lblCritAP.setName("lblCritAP"); // NOI18N
 
         lblMortalAP.setText("Mortal");
+        lblMortalAP.setName("lblMortalAP"); // NOI18N
 
         spinnerCritAP.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerCritAP.setName("spinnerCritAP"); // NOI18N
 
         spinnerMortalAP.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerMortalAP.setName("spinnerMortalAP"); // NOI18N
 
         javax.swing.GroupLayout panelHabDestLayout = new javax.swing.GroupLayout(panelHabDest);
         panelHabDest.setLayout(panelHabDestLayout);
@@ -2274,13 +3079,9 @@ public class GUI extends JFrame {
                     .addGroup(panelEditorClaseLayout.createSequentialGroup()
                         .addComponent(checkEnableClase)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnGuardarClase, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnResetClase, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE))
-                    .addGroup(panelEditorClaseLayout.createSequentialGroup()
-                        .addComponent(panelPuntoHabilidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(btnGuardarClase, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelPuntoHabilidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
         panelEditorClaseLayout.setVerticalGroup(
             panelEditorClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2289,8 +3090,7 @@ public class GUI extends JFrame {
                     .addComponent(lblNombreClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtNombreClase)
                     .addComponent(checkEnableClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnGuardarClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnResetClase))
+                    .addComponent(btnGuardarClase, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelEditorClaseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(panelAtribBasicoClase, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2329,15 +3129,702 @@ public class GUI extends JFrame {
                     .addComponent(btnEliminarClase)
                     .addComponent(btnCrearNuevaClase))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
+                .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         panelConfig.addTab("Clases", panelConfigClases);
 
+        panelConfigGuilds.setName("panelConfigGuilds"); // NOI18N
+        panelConfigGuilds.setPreferredSize(new java.awt.Dimension(800, 600));
+
+        btnGuardarConfigClan.setText("Guardar");
+        btnGuardarConfigClan.setName("btnGuardarConfigClan"); // NOI18N
+        btnGuardarConfigClan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarConfigClanActionPerformed(evt);
+            }
+        });
+
+        panelConfigClanes.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración clanes"));
+        panelConfigClanes.setName("panelConfigClanes"); // NOI18N
+
+        panelNumJugClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Número de jugadores"));
+        panelNumJugClan.setName("panelNumJugClan"); // NOI18N
+
+        rdBtnNumFijosClan.setSelected(true);
+        rdBtnNumFijosClan.setText("Fijos");
+        rdBtnNumFijosClan.setName("rdBtnNumFijosClan"); // NOI18N
+        rdBtnNumFijosClan.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                rdBtnNumFijosClanStateChanged(evt);
+            }
+        });
+
+        rdBtnLimitNivClan.setText("Limitado por nivel del clan");
+        rdBtnLimitNivClan.setName("rdBtnLimitNivClan"); // NOI18N
+        rdBtnLimitNivClan.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                rdBtnLimitNivClanStateChanged(evt);
+            }
+        });
+
+        spinnerNumFijosClan.setName("spinnerNumFijosClan"); // NOI18N
+
+        lblJugadoresClan.setText("jugadores");
+        lblJugadoresClan.setName("lblJugadoresClan"); // NOI18N
+
+        javax.swing.GroupLayout panelNumJugClanLayout = new javax.swing.GroupLayout(panelNumJugClan);
+        panelNumJugClan.setLayout(panelNumJugClanLayout);
+        panelNumJugClanLayout.setHorizontalGroup(
+            panelNumJugClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNumJugClanLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelNumJugClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelNumJugClanLayout.createSequentialGroup()
+                        .addComponent(rdBtnNumFijosClan)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spinnerNumFijosClan, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblJugadoresClan))
+                    .addComponent(rdBtnLimitNivClan))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelNumJugClanLayout.setVerticalGroup(
+            panelNumJugClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNumJugClanLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelNumJugClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rdBtnNumFijosClan)
+                    .addComponent(spinnerNumFijosClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblJugadoresClan))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdBtnLimitNivClan)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        panelSisContNivelClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Sistema de contribución clan limitado por nivel"));
+        panelSisContNivelClan.setName("panelSisContNivelClan"); // NOI18N
+
+        spinnerContriPorcentajeMuertes.setName("spinnerContriPorcentajeMuertes"); // NOI18N
+
+        lblporcMuertesClan.setText("%muertes");
+        lblporcMuertesClan.setName("lblporcMuertesClan"); // NOI18N
+
+        checkDonationClan.setText("Donacion");
+        checkDonationClan.setName("checkDonationClan"); // NOI18N
+
+        checkContributionClan.setText("Contribucion");
+        checkContributionClan.setName("checkContributionClan"); // NOI18N
+        checkContributionClan.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                checkContributionClanStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelSisContNivelClanLayout = new javax.swing.GroupLayout(panelSisContNivelClan);
+        panelSisContNivelClan.setLayout(panelSisContNivelClanLayout);
+        panelSisContNivelClanLayout.setHorizontalGroup(
+            panelSisContNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSisContNivelClanLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelSisContNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelSisContNivelClanLayout.createSequentialGroup()
+                        .addComponent(checkContributionClan)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spinnerContriPorcentajeMuertes, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblporcMuertesClan))
+                    .addComponent(checkDonationClan))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelSisContNivelClanLayout.setVerticalGroup(
+            panelSisContNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSisContNivelClanLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(checkDonationClan)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 2, Short.MAX_VALUE)
+                .addGroup(panelSisContNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spinnerContriPorcentajeMuertes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblporcMuertesClan)
+                    .addComponent(checkContributionClan))
+                .addContainerGap())
+        );
+
+        lblnivMinJugCrearClan.setText("Nivel minimo del jugador para crear un clan");
+        lblnivMinJugCrearClan.setName("lblnivMinJugCrearClan"); // NOI18N
+
+        spinnerNivelMinJugClan.setName("spinnerNivelMinJugClan"); // NOI18N
+
+        panelOpcLimNivelClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones de clan limitado por nivel"));
+        panelOpcLimNivelClan.setName("panelOpcLimNivelClan"); // NOI18N
+
+        rdBtnOpcDinFijo.setSelected(true);
+        rdBtnOpcDinFijo.setText("Dinero Fijo");
+        rdBtnOpcDinFijo.setName("rdBtnOpcDinFijo"); // NOI18N
+
+        rdBtnOpcDinForm.setText("Formula de dinero");
+        rdBtnOpcDinForm.setName("rdBtnOpcDinForm"); // NOI18N
+        rdBtnOpcDinForm.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                rdBtnOpcDinFormStateChanged(evt);
+            }
+        });
+
+        panelFormulaClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Formula"));
+        panelFormulaClan.setName("panelFormulaClan"); // NOI18N
+
+        lblfdex.setText("f(x)=");
+        lblfdex.setName("lblfdex"); // NOI18N
+
+        spinnerformulax2clan.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
+        spinnerformulax2clan.setName("spinnerformulax2clan"); // NOI18N
+
+        lblx2clan.setText("x^2+");
+        lblx2clan.setName("lblx2clan"); // NOI18N
+
+        spinnerformulaxclan.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
+        spinnerformulaxclan.setName("spinnerformulaxclan"); // NOI18N
+
+        lblxclan.setText("x");
+        lblxclan.setName("lblxclan"); // NOI18N
+
+        lblMaxNivelClan.setText("Nivel máximo del clan");
+        lblMaxNivelClan.setName("lblMaxNivelClan"); // NOI18N
+
+        spinnerNivelMaxClan.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerNivelMaxClan.setName("spinnerNivelMaxClan"); // NOI18N
+
+        btnValidarFormulaClan.setText("Validar");
+        btnValidarFormulaClan.setName("btnValidarFormulaClan"); // NOI18N
+        btnValidarFormulaClan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnValidarFormulaClanActionPerformed(evt);
+            }
+        });
+
+        btnResetearFormulaClan.setText("Resetear");
+        btnResetearFormulaClan.setName("btnResetearFormulaClan"); // NOI18N
+        btnResetearFormulaClan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetearFormulaClanActionPerformed(evt);
+            }
+        });
+
+        lblFormJugXNivelClan.setText("Jugadores por nivel");
+        lblFormJugXNivelClan.setName("lblFormJugXNivelClan"); // NOI18N
+
+        spinnerFormJugXNivelClan.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spinnerFormJugXNivelClan.setName("spinnerFormJugXNivelClan"); // NOI18N
+
+        lblFormJugIniClan.setText("Jugadores inicial");
+        lblFormJugIniClan.setName("lblFormJugIniClan"); // NOI18N
+
+        spinnerFormJugIniClan.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spinnerFormJugIniClan.setName("spinnerFormJugIniClan"); // NOI18N
+
+        javax.swing.GroupLayout panelFormulaClanLayout = new javax.swing.GroupLayout(panelFormulaClan);
+        panelFormulaClan.setLayout(panelFormulaClanLayout);
+        panelFormulaClanLayout.setHorizontalGroup(
+            panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelFormulaClanLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnValidarFormulaClan)
+                .addGap(26, 26, 26)
+                .addComponent(btnResetearFormulaClan)
+                .addGap(10, 10, 10))
+            .addGroup(panelFormulaClanLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelFormulaClanLayout.createSequentialGroup()
+                        .addGroup(panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(panelFormulaClanLayout.createSequentialGroup()
+                                .addComponent(lblfdex)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinnerformulax2clan, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblx2clan)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinnerformulaxclan, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelFormulaClanLayout.createSequentialGroup()
+                                .addComponent(lblMaxNivelClan)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(spinnerNivelMaxClan))
+                            .addGroup(panelFormulaClanLayout.createSequentialGroup()
+                                .addComponent(lblFormJugXNivelClan, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
+                                .addComponent(spinnerFormJugXNivelClan, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblxclan))
+                    .addGroup(panelFormulaClanLayout.createSequentialGroup()
+                        .addComponent(lblFormJugIniClan, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spinnerFormJugIniClan, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelFormulaClanLayout.setVerticalGroup(
+            panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelFormulaClanLayout.createSequentialGroup()
+                .addGroup(panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblfdex)
+                    .addComponent(spinnerformulax2clan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblx2clan)
+                    .addComponent(spinnerformulaxclan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblxclan))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMaxNivelClan)
+                    .addComponent(spinnerNivelMaxClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFormJugXNivelClan)
+                    .addComponent(spinnerFormJugXNivelClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFormJugIniClan)
+                    .addComponent(spinnerFormJugIniClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnValidarFormulaClan)
+                    .addComponent(btnResetearFormulaClan)))
+        );
+
+        panelEditNivelesClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor/Visor de niveles"));
+        panelEditNivelesClan.setName("panelEditNivelesClan"); // NOI18N
+
+        jScrollPane7.setName("jScrollPane7"); // NOI18N
+
+        tablaClanes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nivel", "Dinero", "Núm. Jug."
+            }
+        ));
+        tablaClanes.setName("tablaClanes"); // NOI18N
+        tablaClanes.getTableHeader().setReorderingAllowed(false);
+        tablaClanes.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaClanesMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tablaClanesMouseReleased(evt);
+            }
+        });
+        jScrollPane7.setViewportView(tablaClanes);
+
+        btnAnadirNivel.setText("Añadir nivel");
+        btnAnadirNivel.setName("btnAnadirNivel"); // NOI18N
+        btnAnadirNivel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnadirNivelActionPerformed(evt);
+            }
+        });
+
+        btnEditarNivel.setText("Editar nivel");
+        btnEditarNivel.setName("btnEditarNivel"); // NOI18N
+        btnEditarNivel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarNivelActionPerformed(evt);
+            }
+        });
+
+        btnEliminarNivel.setText("Eliminar nivel");
+        btnEliminarNivel.setName("btnEliminarNivel"); // NOI18N
+        btnEliminarNivel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarNivelActionPerformed(evt);
+            }
+        });
+
+        spinnerDineroEditClan.setName("spinnerDineroEditClan"); // NOI18N
+
+        lblDineroEditNivelClan.setText("Dinero");
+        lblDineroEditNivelClan.setName("lblDineroEditNivelClan"); // NOI18N
+
+        lblNumJugEditNivelClan.setText("Número Jugadores");
+        lblNumJugEditNivelClan.setName("lblNumJugEditNivelClan"); // NOI18N
+
+        spinnerNumJugEditClan.setName("spinnerNumJugEditClan"); // NOI18N
+
+        javax.swing.GroupLayout panelEditNivelesClanLayout = new javax.swing.GroupLayout(panelEditNivelesClan);
+        panelEditNivelesClan.setLayout(panelEditNivelesClanLayout);
+        panelEditNivelesClanLayout.setHorizontalGroup(
+            panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEditNivelesClanLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(panelEditNivelesClanLayout.createSequentialGroup()
+                        .addGroup(panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelEditNivelesClanLayout.createSequentialGroup()
+                                .addGap(49, 49, 49)
+                                .addComponent(btnAnadirNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelEditNivelesClanLayout.createSequentialGroup()
+                                .addGroup(panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnEditarNivel, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                                    .addComponent(lblDineroEditNivelClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnEliminarNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(spinnerDineroEditClan, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelEditNivelesClanLayout.createSequentialGroup()
+                                .addComponent(lblNumJugEditNivelClan, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(spinnerNumJugEditClan, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        panelEditNivelesClanLayout.setVerticalGroup(
+            panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEditNivelesClanLayout.createSequentialGroup()
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnEditarNivel)
+                    .addComponent(btnEliminarNivel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(spinnerDineroEditClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDineroEditNivelClan))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNumJugEditNivelClan)
+                    .addComponent(spinnerNumJugEditClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAnadirNivel)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout panelOpcLimNivelClanLayout = new javax.swing.GroupLayout(panelOpcLimNivelClan);
+        panelOpcLimNivelClan.setLayout(panelOpcLimNivelClanLayout);
+        panelOpcLimNivelClanLayout.setHorizontalGroup(
+            panelOpcLimNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelOpcLimNivelClanLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelOpcLimNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rdBtnOpcDinFijo)
+                    .addComponent(rdBtnOpcDinForm)
+                    .addComponent(panelFormulaClan, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelEditNivelesClan, javax.swing.GroupLayout.PREFERRED_SIZE, 225, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelOpcLimNivelClanLayout.setVerticalGroup(
+            panelOpcLimNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelOpcLimNivelClanLayout.createSequentialGroup()
+                .addGroup(panelOpcLimNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelOpcLimNivelClanLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(rdBtnOpcDinFijo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rdBtnOpcDinForm)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelFormulaClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelEditNivelesClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout panelConfigClanesLayout = new javax.swing.GroupLayout(panelConfigClanes);
+        panelConfigClanes.setLayout(panelConfigClanesLayout);
+        panelConfigClanesLayout.setHorizontalGroup(
+            panelConfigClanesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigClanesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigClanesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelOpcLimNivelClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelConfigClanesLayout.createSequentialGroup()
+                        .addComponent(panelNumJugClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelSisContNivelClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panelConfigClanesLayout.createSequentialGroup()
+                        .addComponent(lblnivMinJugCrearClan)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spinnerNivelMinJugClan, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        panelConfigClanesLayout.setVerticalGroup(
+            panelConfigClanesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigClanesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigClanesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblnivMinJugCrearClan)
+                    .addComponent(spinnerNivelMinJugClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14)
+                .addGroup(panelConfigClanesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelSisContNivelClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelNumJugClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelOpcLimNivelClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout panelConfigGuildsLayout = new javax.swing.GroupLayout(panelConfigGuilds);
+        panelConfigGuilds.setLayout(panelConfigGuildsLayout);
+        panelConfigGuildsLayout.setHorizontalGroup(
+            panelConfigGuildsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigGuildsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigGuildsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGuardarConfigClan)
+                    .addComponent(panelConfigClanes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(534, 534, 534))
+        );
+        panelConfigGuildsLayout.setVerticalGroup(
+            panelConfigGuildsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigGuildsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnGuardarConfigClan)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelConfigClanes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(126, Short.MAX_VALUE))
+        );
+
+        panelConfig.addTab("Clanes", panelConfigGuilds);
+
+        panelConfigParties.setName("panelConfigParties"); // NOI18N
+
+        btnGuardarConfigGrupos.setText("Guardar");
+        btnGuardarConfigGrupos.setName("btnGuardarConfigGrupos"); // NOI18N
+
+        panelConfigGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de grupos"));
+        panelConfigGrupos.setName("panelConfigGrupos"); // NOI18N
+
+        panelNumJugGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Número de jugadores"));
+        panelNumJugGrupos.setName("panelNumJugGrupos"); // NOI18N
+
+        spinnerNumeroFijoJugGrupo.setName("spinnerNumeroFijoJugGrupo"); // NOI18N
+
+        lblJugadoresGrupo.setText("jugadores");
+        lblJugadoresGrupo.setName("lblJugadoresGrupo"); // NOI18N
+
+        rdBtnIlimitadosGrupo.setSelected(true);
+        rdBtnIlimitadosGrupo.setText("Ilimitados");
+        rdBtnIlimitadosGrupo.setName("0"); // NOI18N
+
+        rdBtnFijosGrupo.setText("Fijos");
+        rdBtnFijosGrupo.setName(""); // NOI18N
+        rdBtnFijosGrupo.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                rdBtnFijosGrupoStateChanged(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelNumJugGruposLayout = new javax.swing.GroupLayout(panelNumJugGrupos);
+        panelNumJugGrupos.setLayout(panelNumJugGruposLayout);
+        panelNumJugGruposLayout.setHorizontalGroup(
+            panelNumJugGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNumJugGruposLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelNumJugGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelNumJugGruposLayout.createSequentialGroup()
+                        .addComponent(rdBtnFijosGrupo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(spinnerNumeroFijoJugGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblJugadoresGrupo))
+                    .addComponent(rdBtnIlimitadosGrupo)))
+        );
+        panelNumJugGruposLayout.setVerticalGroup(
+            panelNumJugGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelNumJugGruposLayout.createSequentialGroup()
+                .addComponent(rdBtnIlimitadosGrupo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelNumJugGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rdBtnFijosGrupo)
+                    .addComponent(spinnerNumeroFijoJugGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblJugadoresGrupo)))
+        );
+
+        panelPvpGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("PvP"));
+        panelPvpGrupos.setName("panelPvpGrupos"); // NOI18N
+
+        rdBtnPermitidoPvpGrupo.setSelected(true);
+        rdBtnPermitidoPvpGrupo.setText("Permitido");
+        rdBtnPermitidoPvpGrupo.setName("rdBtnPermitidoPvpGrupo"); // NOI18N
+
+        rdBtnNoPermitidoPvpGrupo.setText("No permitido");
+        rdBtnNoPermitidoPvpGrupo.setName("rdBtnNoPermitidoPvpGrupo"); // NOI18N
+
+        javax.swing.GroupLayout panelPvpGruposLayout = new javax.swing.GroupLayout(panelPvpGrupos);
+        panelPvpGrupos.setLayout(panelPvpGruposLayout);
+        panelPvpGruposLayout.setHorizontalGroup(
+            panelPvpGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPvpGruposLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelPvpGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rdBtnPermitidoPvpGrupo)
+                    .addComponent(rdBtnNoPermitidoPvpGrupo))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelPvpGruposLayout.setVerticalGroup(
+            panelPvpGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPvpGruposLayout.createSequentialGroup()
+                .addComponent(rdBtnPermitidoPvpGrupo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(rdBtnNoPermitidoPvpGrupo))
+        );
+
+        panelSistRepGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Sistema de reparto"));
+        panelSistRepGrupos.setName("panelSistRepGrupos"); // NOI18N
+
+        checkDineroGrupo.setText("Dinero");
+        checkDineroGrupo.setName("checkDineroGrupo"); // NOI18N
+
+        checkExpGrupo.setText("Experiencia");
+        checkExpGrupo.setName("checkExpGrupo"); // NOI18N
+
+        javax.swing.GroupLayout panelSistRepGruposLayout = new javax.swing.GroupLayout(panelSistRepGrupos);
+        panelSistRepGrupos.setLayout(panelSistRepGruposLayout);
+        panelSistRepGruposLayout.setHorizontalGroup(
+            panelSistRepGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSistRepGruposLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(panelSistRepGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(checkExpGrupo)
+                    .addComponent(checkDineroGrupo))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelSistRepGruposLayout.setVerticalGroup(
+            panelSistRepGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSistRepGruposLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(checkDineroGrupo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(checkExpGrupo)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        panelOpcRepGRupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones de reparto"));
+        panelOpcRepGRupos.setName("panelOpcRepGRupos"); // NOI18N
+
+        rdBtnOpcionigualitarioGrupo.setSelected(true);
+        rdBtnOpcionigualitarioGrupo.setText("Reparto igualitario");
+        rdBtnOpcionigualitarioGrupo.setName("rdBtnOpcionigualitarioGrupo"); // NOI18N
+
+        rdBtnOpcionProporcionalGrupo.setText("Reparto proporcional");
+        rdBtnOpcionProporcionalGrupo.setName("rdBtnOpcionProporcionalGrupo"); // NOI18N
+        rdBtnOpcionProporcionalGrupo.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                rdBtnOpcionProporcionalGrupoStateChanged(evt);
+            }
+        });
+
+        panelOpcRepProp.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones reparto proporcional"));
+        panelOpcRepProp.setName("panelOpcRepProp"); // NOI18N
+
+        rdBtnProNivelGrupo.setSelected(true);
+        rdBtnProNivelGrupo.setText("Por nivel del jugador");
+        rdBtnProNivelGrupo.setName("rdBtnProNivelGrupo"); // NOI18N
+
+        rdBtnProKillsGrupo.setText("Por muertes del jugador");
+        rdBtnProKillsGrupo.setName("rdBtnProKillsGrupo"); // NOI18N
+
+        javax.swing.GroupLayout panelOpcRepPropLayout = new javax.swing.GroupLayout(panelOpcRepProp);
+        panelOpcRepProp.setLayout(panelOpcRepPropLayout);
+        panelOpcRepPropLayout.setHorizontalGroup(
+            panelOpcRepPropLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelOpcRepPropLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelOpcRepPropLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rdBtnProNivelGrupo)
+                    .addComponent(rdBtnProKillsGrupo))
+                .addContainerGap(39, Short.MAX_VALUE))
+        );
+        panelOpcRepPropLayout.setVerticalGroup(
+            panelOpcRepPropLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelOpcRepPropLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(rdBtnProNivelGrupo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdBtnProKillsGrupo))
+        );
+
+        javax.swing.GroupLayout panelOpcRepGRuposLayout = new javax.swing.GroupLayout(panelOpcRepGRupos);
+        panelOpcRepGRupos.setLayout(panelOpcRepGRuposLayout);
+        panelOpcRepGRuposLayout.setHorizontalGroup(
+            panelOpcRepGRuposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelOpcRepGRuposLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelOpcRepGRuposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelOpcRepProp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelOpcRepGRuposLayout.createSequentialGroup()
+                        .addGroup(panelOpcRepGRuposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rdBtnOpcionigualitarioGrupo)
+                            .addComponent(rdBtnOpcionProporcionalGrupo))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        panelOpcRepGRuposLayout.setVerticalGroup(
+            panelOpcRepGRuposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelOpcRepGRuposLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(rdBtnOpcionigualitarioGrupo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(rdBtnOpcionProporcionalGrupo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelOpcRepProp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout panelConfigGruposLayout = new javax.swing.GroupLayout(panelConfigGrupos);
+        panelConfigGrupos.setLayout(panelConfigGruposLayout);
+        panelConfigGruposLayout.setHorizontalGroup(
+            panelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigGruposLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(panelSistRepGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelNumJugGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelPvpGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelOpcRepGRupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelConfigGruposLayout.setVerticalGroup(
+            panelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigGruposLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelNumJugGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelPvpGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelOpcRepGRupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelSistRepGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        javax.swing.GroupLayout panelConfigPartiesLayout = new javax.swing.GroupLayout(panelConfigParties);
+        panelConfigParties.setLayout(panelConfigPartiesLayout);
+        panelConfigPartiesLayout.setHorizontalGroup(
+            panelConfigPartiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigPartiesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigPartiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelConfigGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelConfigPartiesLayout.createSequentialGroup()
+                        .addGap(357, 357, 357)
+                        .addComponent(btnGuardarConfigGrupos)))
+                .addContainerGap(467, Short.MAX_VALUE))
+        );
+        panelConfigPartiesLayout.setVerticalGroup(
+            panelConfigPartiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigPartiesLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(btnGuardarConfigGrupos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelConfigGrupos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(280, Short.MAX_VALUE))
+        );
+
+        panelConfig.addTab("Grupos", panelConfigParties);
+
+        panelConfigObjetos.setName("panelConfigObjetos"); // NOI18N
         panelConfigObjetos.setPreferredSize(new java.awt.Dimension(800, 600));
 
         btnCrearNuevoObjeto.setText("Nuevo");
+        btnCrearNuevoObjeto.setName("btnCrearNuevoObjeto"); // NOI18N
         btnCrearNuevoObjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearNuevoObjetoActionPerformed(evt);
@@ -2345,20 +3832,32 @@ public class GUI extends JFrame {
         });
 
         panelEditorObjetos.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de objetos"));
+        panelEditorObjetos.setName("panelEditorObjetos"); // NOI18N
 
         lblNombreObjeto.setText("Nombre");
+        lblNombreObjeto.setName("lblNombreObjeto"); // NOI18N
+
+        txtNombreObjeto.setName("txtNombreObjeto"); // NOI18N
 
         lblTipoObjeto.setText("Tipo de objeto");
+        lblTipoObjeto.setName("lblTipoObjeto"); // NOI18N
 
         comboTipoObjeto.setName("tipoobjeto"); // NOI18N
 
+        jScrollPane2.setName("jScrollPane2"); // NOI18N
+
         listDescripcionObjeto.setBorder(javax.swing.BorderFactory.createTitledBorder("Descripción objeto"));
         listDescripcionObjeto.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listDescripcionObjeto.setName("listDescripcionObjeto"); // NOI18N
         jScrollPane2.setViewportView(listDescripcionObjeto);
 
         lblDescripObjeto.setText("Descripción");
+        lblDescripObjeto.setName("lblDescripObjeto"); // NOI18N
+
+        txtDescripObjeto.setName("txtDescripObjeto"); // NOI18N
 
         btnAnadirDesObjeto.setText("Añadir");
+        btnAnadirDesObjeto.setName("btnAnadirDesObjeto"); // NOI18N
         btnAnadirDesObjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAnadirDesObjetoActionPerformed(evt);
@@ -2366,6 +3865,7 @@ public class GUI extends JFrame {
         });
 
         btnEditarDesObjeto.setText("Editar");
+        btnEditarDesObjeto.setName("btnEditarDesObjeto"); // NOI18N
         btnEditarDesObjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarDesObjetoActionPerformed(evt);
@@ -2373,6 +3873,7 @@ public class GUI extends JFrame {
         });
 
         btnEliminarDesObjeto.setText("Eliminar descripción");
+        btnEliminarDesObjeto.setName("btnEliminarDesObjeto"); // NOI18N
         btnEliminarDesObjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarDesObjetoActionPerformed(evt);
@@ -2380,6 +3881,7 @@ public class GUI extends JFrame {
         });
 
         btnGuardarObjeto.setText("Guardar");
+        btnGuardarObjeto.setName("btnGuardarObjeto"); // NOI18N
         btnGuardarObjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarObjetoActionPerformed(evt);
@@ -2387,6 +3889,7 @@ public class GUI extends JFrame {
         });
 
         lblCalidadObjeto.setText("Calidad objeto");
+        lblCalidadObjeto.setName("lblCalidadObjeto"); // NOI18N
 
         comboCalidadObjeto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         comboCalidadObjeto.setName("calidadobjeto"); // NOI18N
@@ -2456,7 +3959,10 @@ public class GUI extends JFrame {
                 .addContainerGap(112, Short.MAX_VALUE))
         );
 
+        comboListaObjetos.setName("comboListaObjetos"); // NOI18N
+
         btnEditarObjeto.setText("Editar");
+        btnEditarObjeto.setName("btnEditarObjeto"); // NOI18N
         btnEditarObjeto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarObjetoActionPerformed(evt);
@@ -2464,6 +3970,7 @@ public class GUI extends JFrame {
         });
 
         btnEliminarObjeto.setText("Eliminar");
+        btnEliminarObjeto.setName("btnEliminarObjeto"); // NOI18N
 
         javax.swing.GroupLayout panelConfigObjetosLayout = new javax.swing.GroupLayout(panelConfigObjetos);
         panelConfigObjetos.setLayout(panelConfigObjetosLayout);
@@ -2494,16 +4001,479 @@ public class GUI extends JFrame {
                     .addComponent(btnEliminarObjeto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelEditorObjetos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(279, Short.MAX_VALUE))
+                .addContainerGap(231, Short.MAX_VALUE))
         );
 
         panelConfig.addTab("Objetos", panelConfigObjetos);
 
+        panelConfigJewels.setName("panelConfigJewels"); // NOI18N
+
+        panelConfigJoyas.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de joyas"));
+        panelConfigJoyas.setName("panelConfigJoyas"); // NOI18N
+
+        lblProbRotJoya.setText("Probabilidad de rotura");
+        lblProbRotJoya.setName("lblProbRotJoya"); // NOI18N
+
+        spinnerProbRotJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbRotJoya.setName("spinnerProbRotJoya"); // NOI18N
+
+        spinnerProbDetJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbDetJoya.setName("spinnerProbDetJoya"); // NOI18N
+
+        lblProbDetJoya.setText("Probabilidad combinacion con perdida atributos");
+        lblProbDetJoya.setName("lblProbDetJoya"); // NOI18N
+
+        lblProbSEJoya.setText("Probabilidad combinacion sin sumar atributos");
+        lblProbSEJoya.setName("lblProbSEJoya"); // NOI18N
+
+        spinnerProbSEJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbSEJoya.setName("spinnerProbSEJoya"); // NOI18N
+
+        spinnerProbExitoJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbExitoJoya.setName("spinnerProbExitoJoya"); // NOI18N
+
+        lblProbExitoJoya.setText("Probabilidad de exito");
+        lblProbExitoJoya.setName("lblProbExitoJoya"); // NOI18N
+
+        btnGuardarConfigJoyas.setText("Guardar");
+        btnGuardarConfigJoyas.setName("btnGuardarConfigJoyas"); // NOI18N
+        btnGuardarConfigJoyas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarConfigJoyasActionPerformed(evt);
+            }
+        });
+
+        lblProbExitoJoya1.setText("Probabilidad de perdida de atributos");
+        lblProbExitoJoya1.setName("lblProbExitoJoya1"); // NOI18N
+
+        spinnerProblosepperloreJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProblosepperloreJoya.setName("spinnerProblosepperloreJoya"); // NOI18N
+
+        javax.swing.GroupLayout panelConfigJoyasLayout = new javax.swing.GroupLayout(panelConfigJoyas);
+        panelConfigJoyas.setLayout(panelConfigJoyasLayout);
+        panelConfigJoyasLayout.setHorizontalGroup(
+            panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigJoyasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigJoyasLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lblProbSEJoya))
+                    .addGroup(panelConfigJoyasLayout.createSequentialGroup()
+                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblProbRotJoya)
+                            .addComponent(lblProbDetJoya)
+                            .addComponent(lblProbExitoJoya)
+                            .addComponent(lblProbExitoJoya1))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spinnerProbDetJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerProbRotJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerProbSEJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerProbExitoJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerProblosepperloreJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addComponent(btnGuardarConfigJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(87, 87, 87))
+        );
+
+        panelConfigJoyasLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblProbDetJoya, lblProbExitoJoya, lblProbRotJoya, lblProbSEJoya});
+
+        panelConfigJoyasLayout.setVerticalGroup(
+            panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigJoyasLayout.createSequentialGroup()
+                .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnGuardarConfigJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelConfigJoyasLayout.createSequentialGroup()
+                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(spinnerProbRotJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblProbRotJoya))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(spinnerProbDetJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblProbDetJoya))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(spinnerProbSEJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblProbSEJoya))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(spinnerProbExitoJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblProbExitoJoya))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(spinnerProblosepperloreJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblProbExitoJoya1))))
+                .addGap(0, 4, Short.MAX_VALUE))
+        );
+
+        panelConfigJoyasLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblProbDetJoya, lblProbExitoJoya, lblProbRotJoya, lblProbSEJoya});
+
+        jScrollPane12.setName("jScrollPane12"); // NOI18N
+
+        panelSelectorJoyas.setBorder(javax.swing.BorderFactory.createTitledBorder("Selector de joyas"));
+        panelSelectorJoyas.setName("panelSelectorJoyas"); // NOI18N
+
+        btnCrearNuevaJoya.setText("Nueva");
+        btnCrearNuevaJoya.setName("btnCrearNuevaJoya"); // NOI18N
+        btnCrearNuevaJoya.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearNuevaJoyaActionPerformed(evt);
+            }
+        });
+
+        panelEditorJoya.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de joyas"));
+        panelEditorJoya.setName("panelEditorJoya"); // NOI18N
+
+        lblNombreJoya.setText("Nombre");
+        lblNombreJoya.setName("lblNombreJoya"); // NOI18N
+
+        txtNombreJoya.setName("txtNombreJoya"); // NOI18N
+
+        lblObjetoJoya.setText("Objeto");
+        lblObjetoJoya.setName("lblObjetoJoya"); // NOI18N
+
+        comboObjetoJoya.setName("tipojoya"); // NOI18N
+
+        lblCalidadJoya.setText("Calidad");
+        lblCalidadJoya.setName("lblCalidadJoya"); // NOI18N
+
+        comboCalidadJoya.setName("calidadjoya"); // NOI18N
+
+        lblPrecioVJoya.setText("Precio de venta");
+        lblPrecioVJoya.setName("lblPrecioVJoya"); // NOI18N
+
+        lblPrecioCJoya.setText("Precio de compra");
+        lblPrecioCJoya.setName("lblPrecioCJoya"); // NOI18N
+
+        checkComerciable.setText("Comerciable");
+        checkComerciable.setName("checkComerciable"); // NOI18N
+
+        checkCombinable.setText("Combinable");
+        checkCombinable.setName("checkCombinable"); // NOI18N
+
+        spinnerPrecioVJoya.setName("spinnerPrecioVJoya"); // NOI18N
+
+        spinnerPrecioCJoya.setName("spinnerPrecioCJoya"); // NOI18N
+
+        lblRoboMJoya.setText("Robo de maná");
+        lblRoboMJoya.setName("lblRoboMJoya"); // NOI18N
+
+        lblDefFisJoya.setText("Defensa física");
+        lblDefFisJoya.setName("lblDefFisJoya"); // NOI18N
+
+        lblDefMagJoya.setText("Defensa mágica");
+        lblDefMagJoya.setName("lblDefMagJoya"); // NOI18N
+
+        lblHRFisJoya.setText("Tasa acierto físico");
+        lblHRFisJoya.setName("lblHRFisJoya"); // NOI18N
+
+        lblEvaFisJoya.setText("Evasión física");
+        lblEvaFisJoya.setName("lblEvaFisJoya"); // NOI18N
+
+        lblAtaFisJoya.setText("Daño físico");
+        lblAtaFisJoya.setName("lblAtaFisJoya"); // NOI18N
+
+        lblManaJoya.setText("Maná");
+        lblManaJoya.setName("lblManaJoya"); // NOI18N
+
+        lblManaVidaJoya.setText("Vida");
+        lblManaVidaJoya.setName("lblManaVidaJoya"); // NOI18N
+
+        lblAtaMagJoya.setText("Daño mágico");
+        lblAtaMagJoya.setName("lblAtaMagJoya"); // NOI18N
+
+        lvlEvaMagJoya.setText("Evasión mágica");
+        lvlEvaMagJoya.setName("lvlEvaMagJoya"); // NOI18N
+
+        lblDineroExtraJoya.setText("Dinero extra");
+        lblDineroExtraJoya.setName("lblDineroExtraJoya"); // NOI18N
+
+        lblExpExtraJoya.setText("Experiencia extra");
+        lblExpExtraJoya.setName("lblExpExtraJoya"); // NOI18N
+
+        lblHRMagJoya.setText("Tasa acierto mágico");
+        lblHRMagJoya.setName("lblHRMagJoya"); // NOI18N
+
+        lblRoboVJoya.setText("Robo de vida");
+        lblRoboVJoya.setName("lblRoboVJoya"); // NOI18N
+
+        spinnerDineroExtraJoya.setName("spinnerDineroExtraJoya"); // NOI18N
+
+        spinnerExpExtraJoya.setName("spinnerExpExtraJoya"); // NOI18N
+
+        spinnerRoboVJoya.setName("spinnerRoboVJoya"); // NOI18N
+
+        spinnerRoboMJoya.setName("spinnerRoboMJoya"); // NOI18N
+
+        spinnerVidaJoya.setName("spinnerVidaJoya"); // NOI18N
+
+        spinnerManaJoya.setName("spinnerManaJoya"); // NOI18N
+
+        spinnerAtaFisJoya.setName("spinnerAtaFisJoya"); // NOI18N
+
+        spinnerEvaFisJoya.setName("spinnerEvaFisJoya"); // NOI18N
+
+        spinnerHRFisJoya.setName("spinnerHRFisJoya"); // NOI18N
+
+        spinnerDefFisJoya.setName("spinnerDefFisJoya"); // NOI18N
+
+        spinnerAtaMagJoya.setName("spinnerAtaMagJoya"); // NOI18N
+
+        spinnerEvaMagJoya.setName("spinnerEvaMagJoya"); // NOI18N
+
+        spinnerHRMagJoya.setName("spinnerHRMagJoya"); // NOI18N
+
+        spinnerDefMagJoya.setName("spinnerDefMagJoya"); // NOI18N
+
+        btnGuardarJoya.setText("Guardar");
+        btnGuardarJoya.setName("btnGuardarJoya"); // NOI18N
+        btnGuardarJoya.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarJoyaActionPerformed(evt);
+            }
+        });
+
+        lblPrecioCJoya1.setText("Critico");
+        lblPrecioCJoya1.setName("lblPrecioCJoya1"); // NOI18N
+
+        spinnerCritJoya.setName("spinnerCritJoya"); // NOI18N
+
+        javax.swing.GroupLayout panelEditorJoyaLayout = new javax.swing.GroupLayout(panelEditorJoya);
+        panelEditorJoya.setLayout(panelEditorJoyaLayout);
+        panelEditorJoyaLayout.setHorizontalGroup(
+            panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEditorJoyaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnGuardarJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelEditorJoyaLayout.createSequentialGroup()
+                        .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(checkCombinable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(panelEditorJoyaLayout.createSequentialGroup()
+                                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblPrecioCJoya1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelEditorJoyaLayout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(lblPrecioCJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                                            .addComponent(lblNombreJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblObjetoJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblCalidadJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblPrecioVJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelEditorJoyaLayout.createSequentialGroup()
+                                        .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(lblRoboVJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblDineroExtraJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(lblExpExtraJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                                            .addComponent(lblRoboMJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGap(0, 0, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(spinnerDineroExtraJoya, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(spinnerCritJoya)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditorJoyaLayout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(comboObjetoJoya, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(comboCalidadJoya, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(spinnerPrecioVJoya, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                                                .addComponent(spinnerPrecioCJoya)
+                                                .addComponent(txtNombreJoya))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                .addComponent(spinnerRoboMJoya, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(spinnerExpExtraJoya, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(spinnerRoboVJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)))))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelEditorJoyaLayout.createSequentialGroup()
+                                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(lblAtaFisJoya, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(lblEvaFisJoya)
+                                        .addComponent(lblManaJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblHRFisJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblDefFisJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblHRMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lvlEvaMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblAtaMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblDefMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblManaVidaJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(spinnerVidaJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                                    .addComponent(spinnerManaJoya)
+                                    .addComponent(spinnerAtaFisJoya)
+                                    .addComponent(spinnerEvaFisJoya)
+                                    .addComponent(spinnerHRFisJoya)
+                                    .addComponent(spinnerDefFisJoya)
+                                    .addComponent(spinnerAtaMagJoya)
+                                    .addComponent(spinnerEvaMagJoya)
+                                    .addComponent(spinnerHRMagJoya)
+                                    .addComponent(spinnerDefMagJoya)))
+                            .addComponent(checkComerciable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        panelEditorJoyaLayout.setVerticalGroup(
+            panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEditorJoyaLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNombreJoya)
+                    .addComponent(txtNombreJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblManaVidaJoya)
+                    .addComponent(spinnerVidaJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblObjetoJoya)
+                    .addComponent(comboObjetoJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblManaJoya)
+                    .addComponent(spinnerManaJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCalidadJoya)
+                    .addComponent(comboCalidadJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAtaFisJoya)
+                    .addComponent(spinnerAtaFisJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrecioVJoya)
+                    .addComponent(spinnerPrecioVJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblEvaFisJoya)
+                    .addComponent(spinnerEvaFisJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPrecioCJoya)
+                    .addComponent(spinnerPrecioCJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblHRFisJoya)
+                    .addComponent(spinnerHRFisJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDefFisJoya)
+                    .addComponent(spinnerDefFisJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblPrecioCJoya1)
+                    .addComponent(spinnerCritJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblDineroExtraJoya)
+                    .addComponent(lblAtaMagJoya)
+                    .addComponent(spinnerDineroExtraJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerAtaMagJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblExpExtraJoya)
+                    .addComponent(lvlEvaMagJoya)
+                    .addComponent(spinnerExpExtraJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerEvaMagJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRoboVJoya)
+                    .addComponent(lblHRMagJoya)
+                    .addComponent(spinnerRoboVJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spinnerHRMagJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRoboMJoya)
+                    .addComponent(spinnerRoboMJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDefMagJoya)
+                    .addComponent(spinnerDefMagJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(checkComerciable)
+                    .addComponent(checkCombinable))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGuardarJoya)
+                .addContainerGap(52, Short.MAX_VALUE))
+        );
+
+        comboSelectorJoyas.setName("comboSelectorJoyas"); // NOI18N
+
+        btnEditarJoya.setText("Editar");
+        btnEditarJoya.setName("btnEditarJoya"); // NOI18N
+        btnEditarJoya.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarJoyaActionPerformed(evt);
+            }
+        });
+
+        btnEliminarJoya.setText("Eliminar");
+        btnEliminarJoya.setName("btnEliminarJoya"); // NOI18N
+        btnEliminarJoya.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarJoyaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelSelectorJoyasLayout = new javax.swing.GroupLayout(panelSelectorJoyas);
+        panelSelectorJoyas.setLayout(panelSelectorJoyasLayout);
+        panelSelectorJoyasLayout.setHorizontalGroup(
+            panelSelectorJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSelectorJoyasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelSelectorJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelEditorJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelSelectorJoyasLayout.createSequentialGroup()
+                        .addComponent(btnCrearNuevaJoya)
+                        .addGap(44, 44, 44)
+                        .addComponent(comboSelectorJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEditarJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminarJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 48, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        panelSelectorJoyasLayout.setVerticalGroup(
+            panelSelectorJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelSelectorJoyasLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelSelectorJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCrearNuevaJoya)
+                    .addComponent(comboSelectorJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditarJoya)
+                    .addComponent(btnEliminarJoya))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelEditorJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jScrollPane12.setViewportView(panelSelectorJoyas);
+
+        javax.swing.GroupLayout panelConfigJewelsLayout = new javax.swing.GroupLayout(panelConfigJewels);
+        panelConfigJewels.setLayout(panelConfigJewelsLayout);
+        panelConfigJewelsLayout.setHorizontalGroup(
+            panelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigJewelsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane12)
+                    .addComponent(panelConfigJoyas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(331, Short.MAX_VALUE))
+        );
+        panelConfigJewelsLayout.setVerticalGroup(
+            panelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigJewelsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelConfigJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        panelConfig.addTab("Joyas", panelConfigJewels);
+
+        panelConfigWeapon.setName("panelConfigWeapon"); // NOI18N
         panelConfigWeapon.setPreferredSize(new java.awt.Dimension(800, 600));
 
+        jScrollPane9.setName("jScrollPane9"); // NOI18N
+
         panelMejoraArma.setBorder(javax.swing.BorderFactory.createTitledBorder("Mejora de armas"));
+        panelMejoraArma.setName("panelMejoraArma"); // NOI18N
 
         btnGuardarConfigArma.setText("Guardar");
+        btnGuardarConfigArma.setName("btnGuardarConfigArma"); // NOI18N
         btnGuardarConfigArma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarConfigArmaActionPerformed(evt);
@@ -2511,12 +4481,22 @@ public class GUI extends JFrame {
         });
 
         lblTipoMejoradorArma.setText("Objeto mejorador");
+        lblTipoMejoradorArma.setName("lblTipoMejoradorArma"); // NOI18N
 
         lblNomMejoraArma.setText("Nombre del objeto");
+        lblNomMejoraArma.setName("lblNomMejoraArma"); // NOI18N
+
+        txtNombreObjetoMejArma.setName("txtNombreObjetoMejArma"); // NOI18N
+
+        comboMejoradorArma.setName("comboMejoradorArma"); // NOI18N
+
+        txtDescripcionArma.setName("txtDescripcionArma"); // NOI18N
 
         lblDescripcionArma.setText("Descripción");
+        lblDescripcionArma.setName("lblDescripcionArma"); // NOI18N
 
         btnAnadirDescArma.setText("Añadir");
+        btnAnadirDescArma.setName("btnAnadirDescArma"); // NOI18N
         btnAnadirDescArma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAnadirDescArmaActionPerformed(evt);
@@ -2524,6 +4504,7 @@ public class GUI extends JFrame {
         });
 
         btnEditarDEscArma.setText("Editar");
+        btnEditarDEscArma.setName("btnEditarDEscArma"); // NOI18N
         btnEditarDEscArma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarDEscArmaActionPerformed(evt);
@@ -2531,31 +4512,43 @@ public class GUI extends JFrame {
         });
 
         btnEliminarDescArma.setText("Eliminar");
+        btnEliminarDescArma.setName("btnEliminarDescArma"); // NOI18N
         btnEliminarDescArma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarDescArmaActionPerformed(evt);
             }
         });
 
+        jScrollPane8.setName("jScrollPane8"); // NOI18N
+
         jListDescArma.setBorder(javax.swing.BorderFactory.createTitledBorder("lista de descripción"));
         jListDescArma.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jListDescArma.setName("jListDescArma"); // NOI18N
         jScrollPane8.setViewportView(jListDescArma);
 
         lblProbRotArma.setText("Probabilidad de rotura");
+        lblProbRotArma.setName("lblProbRotArma"); // NOI18N
 
         lblProbDetArma.setText("Probabilidad de deterioro");
+        lblProbDetArma.setName("lblProbDetArma"); // NOI18N
 
         lblProbSEArma.setText("Probabilidad sin efecto");
+        lblProbSEArma.setName("lblProbSEArma"); // NOI18N
 
         lblProbExitoArma.setText("Probabilidad de exito");
+        lblProbExitoArma.setName("lblProbExitoArma"); // NOI18N
 
         spinnerProbRotArma.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbRotArma.setName("spinnerProbRotArma"); // NOI18N
 
         spinnerProbDetArma.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbDetArma.setName("spinnerProbDetArma"); // NOI18N
 
         spinnerProbSEArma.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbSEArma.setName("spinnerProbSEArma"); // NOI18N
 
         spinnerProbExitoArma.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbExitoArma.setName("spinnerProbExitoArma"); // NOI18N
 
         javax.swing.GroupLayout panelMejoraArmaLayout = new javax.swing.GroupLayout(panelMejoraArma);
         panelMejoraArma.setLayout(panelMejoraArmaLayout);
@@ -2650,9 +4643,13 @@ public class GUI extends JFrame {
 
         jScrollPane9.setViewportView(panelMejoraArma);
 
+        jScrollPane10.setName("jScrollPane10"); // NOI18N
+
         panelSelectorArma.setBorder(javax.swing.BorderFactory.createTitledBorder("Selector de armas"));
+        panelSelectorArma.setName("panelSelectorArma"); // NOI18N
 
         btnCrearNuevaArma.setText("Nueva");
+        btnCrearNuevaArma.setName("btnCrearNuevaArma"); // NOI18N
         btnCrearNuevaArma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCrearNuevaArmaActionPerformed(evt);
@@ -2660,62 +4657,131 @@ public class GUI extends JFrame {
         });
 
         panelEditorArma.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de armas"));
+        panelEditorArma.setName("panelEditorArma"); // NOI18N
 
         lblTipoArma.setText("Tipo de arma");
+        lblTipoArma.setName("lblTipoArma"); // NOI18N
 
         comboTipoArma.setName("tipoarma"); // NOI18N
 
         lblNombreArma.setText("Nombre");
+        lblNombreArma.setName("lblNombreArma"); // NOI18N
+
+        txtNombreArma.setName("txtNombreArma"); // NOI18N
 
         lblNivelMinArma.setText("Nivel minimo para uso");
+        lblNivelMinArma.setName("lblNivelMinArma"); // NOI18N
+
+        spinnerNivelMinArma.setName("spinnerNivelMinArma"); // NOI18N
 
         lblNivelIniArma.setText("Nivel arma");
+        lblNivelIniArma.setName("lblNivelIniArma"); // NOI18N
+
+        spinnerNivelIniArma.setName("spinnerNivelIniArma"); // NOI18N
 
         lblCalidadArma.setText("Calidad");
+        lblCalidadArma.setName("lblCalidadArma"); // NOI18N
 
         comboCalidadArma.setName("calidadarma"); // NOI18N
 
         checkComerciableArma.setText("Comerciable");
+        checkComerciableArma.setName("checkComerciableArma"); // NOI18N
 
         checkMejorableArma.setText("Mejorable");
+        checkMejorableArma.setName("checkMejorableArma"); // NOI18N
 
         lblPrecioCArma.setText("Precio compra");
+        lblPrecioCArma.setName("lblPrecioCArma"); // NOI18N
+
+        spinnerPrecioCArma.setName("spinnerPrecioCArma"); // NOI18N
 
         lblPrecioVArma.setText("Precio de venta");
+        lblPrecioVArma.setName("lblPrecioVArma"); // NOI18N
+
+        spinnerPrecioVArma.setName("spinnerPrecioVArma"); // NOI18N
 
         lblDineroExtraArma.setText("Dinero extra");
+        lblDineroExtraArma.setName("lblDineroExtraArma"); // NOI18N
+
+        spinnerDineroExtraArma.setName("spinnerDineroExtraArma"); // NOI18N
 
         lblExpExtraArma.setText("Experiencia extra");
+        lblExpExtraArma.setName("lblExpExtraArma"); // NOI18N
+
+        spinnerExpExtraArma.setName("spinnerExpExtraArma"); // NOI18N
 
         lblAtaFisArma.setText("Daño físico base");
+        lblAtaFisArma.setName("lblAtaFisArma"); // NOI18N
+
+        spinnerAtaFisArma.setName("spinnerAtaFisArma"); // NOI18N
 
         lblMejAtaFisArma.setText("Daño físico mejora");
+        lblMejAtaFisArma.setName("lblMejAtaFisArma"); // NOI18N
+
+        spinnerMejAtaFisArma.setName("spinnerMejAtaFisArma"); // NOI18N
 
         lblAtaMagArma.setText("Daño mágico base");
+        lblAtaMagArma.setName("lblAtaMagArma"); // NOI18N
+
+        spinnerAtaMagArma.setName("spinnerAtaMagArma"); // NOI18N
 
         lblMejAtaMagArma.setText("Daño mágico mejora");
+        lblMejAtaMagArma.setName("lblMejAtaMagArma"); // NOI18N
+
+        spinnerMejAtaMagArma.setName("spinnerMejAtaMagArma"); // NOI18N
 
         lblHRFisArma.setText("Tasa acierto físico");
+        lblHRFisArma.setName("lblHRFisArma"); // NOI18N
 
         lblHRMagArma.setText("Tasa acierto mágico");
+        lblHRMagArma.setName("lblHRMagArma"); // NOI18N
 
         lblMejHRFisArma.setText("Mejora tasa física");
+        lblMejHRFisArma.setName("lblMejHRFisArma"); // NOI18N
 
         lblMejHRMagArma.setText("Mejora tasa mágica");
+        lblMejHRMagArma.setName("lblMejHRMagArma"); // NOI18N
+
+        spinnerHRFisArma.setName("spinnerHRFisArma"); // NOI18N
+
+        spinnerMejHRFisArma.setName("spinnerMejHRFisArma"); // NOI18N
+
+        spinnerHRMagArma.setName("spinnerHRMagArma"); // NOI18N
+
+        spinnerMejHRMagArma.setName("spinnerMejHRMagArma"); // NOI18N
 
         lblCritArma.setText("Crítico");
+        lblCritArma.setName("lblCritArma"); // NOI18N
 
         lblMejCritArma.setText("Mejora de crítico");
+        lblMejCritArma.setName("lblMejCritArma"); // NOI18N
+
+        spinnerCritArma.setName("spinnerCritArma"); // NOI18N
+
+        spinnerMejCritArma.setName("spinnerMejCritArma"); // NOI18N
 
         lvlRoboVArma.setText("Robo de vida");
+        lvlRoboVArma.setName("lvlRoboVArma"); // NOI18N
 
         lvlMejRoboVArma.setText("Mejora robo de vida");
+        lvlMejRoboVArma.setName("lvlMejRoboVArma"); // NOI18N
+
+        spinnerRoboVArma.setName("spinnerRoboVArma"); // NOI18N
+
+        spinnerMejRoboVArma.setName("spinnerMejRoboVArma"); // NOI18N
 
         lblRoboMArma.setText("Robo de maná");
+        lblRoboMArma.setName("lblRoboMArma"); // NOI18N
 
         lblMejRoboMArma.setText("Mejora robo de maná");
+        lblMejRoboMArma.setName("lblMejRoboMArma"); // NOI18N
+
+        spinnerRoboMArma.setName("spinnerRoboMArma"); // NOI18N
+
+        spinnerMejRoboMArma.setName("spinnerMejRoboMArma"); // NOI18N
 
         btnGuardarArma.setText("Guardar");
+        btnGuardarArma.setName("btnGuardarArma"); // NOI18N
         btnGuardarArma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarArmaActionPerformed(evt);
@@ -2892,7 +4958,10 @@ public class GUI extends JFrame {
                 .addComponent(btnGuardarArma))
         );
 
+        comboListaArmas.setName("comboListaArmas"); // NOI18N
+
         btnEditarArma.setText("Editar");
+        btnEditarArma.setName("btnEditarArma"); // NOI18N
         btnEditarArma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarArmaActionPerformed(evt);
@@ -2900,6 +4969,7 @@ public class GUI extends JFrame {
         });
 
         btnEliminarArma.setText("Eliminar");
+        btnEliminarArma.setName("btnEliminarArma"); // NOI18N
         btnEliminarArma.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarArmaActionPerformed(evt);
@@ -2958,1266 +5028,33 @@ public class GUI extends JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         panelConfig.addTab("Armas", panelConfigWeapon);
 
-        panelConfigJoyas.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de joyas"));
-
-        lblProbRotJoya.setText("Probabilidad de rotura");
-
-        spinnerProbRotJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
-
-        spinnerProbDetJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
-
-        lblProbDetJoya.setText("Probabilidad combinacion con perdida atributos");
-
-        lblProbSEJoya.setText("Probabilidad combinacion sin sumar atributos");
-
-        spinnerProbSEJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
-
-        spinnerProbExitoJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
-
-        lblProbExitoJoya.setText("Probabilidad de exito");
-
-        btnGuardarConfigJoyas.setText("Guardar");
-        btnGuardarConfigJoyas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarConfigJoyasActionPerformed(evt);
-            }
-        });
-
-        lblProbExitoJoya1.setText("Probabilidad de perdida de atributos");
-
-        spinnerProblosepperloreJoya.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
-
-        javax.swing.GroupLayout panelConfigJoyasLayout = new javax.swing.GroupLayout(panelConfigJoyas);
-        panelConfigJoyas.setLayout(panelConfigJoyasLayout);
-        panelConfigJoyasLayout.setHorizontalGroup(
-            panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigJoyasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigJoyasLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblProbSEJoya))
-                    .addGroup(panelConfigJoyasLayout.createSequentialGroup()
-                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblProbRotJoya)
-                            .addComponent(lblProbDetJoya)
-                            .addComponent(lblProbExitoJoya)
-                            .addComponent(lblProbExitoJoya1))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(spinnerProbDetJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spinnerProbRotJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spinnerProbSEJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spinnerProbExitoJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spinnerProblosepperloreJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
-                .addComponent(btnGuardarConfigJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(87, 87, 87))
-        );
-
-        panelConfigJoyasLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {lblProbDetJoya, lblProbExitoJoya, lblProbRotJoya, lblProbSEJoya});
-
-        panelConfigJoyasLayout.setVerticalGroup(
-            panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigJoyasLayout.createSequentialGroup()
-                .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnGuardarConfigJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelConfigJoyasLayout.createSequentialGroup()
-                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(spinnerProbRotJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblProbRotJoya))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(spinnerProbDetJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblProbDetJoya))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(spinnerProbSEJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblProbSEJoya))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(spinnerProbExitoJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblProbExitoJoya))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelConfigJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(spinnerProblosepperloreJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblProbExitoJoya1))))
-                .addGap(0, 4, Short.MAX_VALUE))
-        );
-
-        panelConfigJoyasLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblProbDetJoya, lblProbExitoJoya, lblProbRotJoya, lblProbSEJoya});
-
-        panelSelectorJoyas.setBorder(javax.swing.BorderFactory.createTitledBorder("Selector de joyas"));
-
-        btnCrearNuevaJoya.setText("Nueva");
-        btnCrearNuevaJoya.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCrearNuevaJoyaActionPerformed(evt);
-            }
-        });
-
-        panelEditorJoya.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de joyas"));
-
-        lblNombreJoya.setText("Nombre");
-
-        lblObjetoJoya.setText("Objeto");
-
-        comboObjetoJoya.setName("tipojoya"); // NOI18N
-
-        lblCalidadJoya.setText("Calidad");
-
-        comboCalidadJoya.setName("calidadjoya"); // NOI18N
-
-        lblPrecioVJoya.setText("Precio de venta");
-
-        lblPrecioCJoya.setText("Precio de compra");
-
-        checkComerciable.setText("Comerciable");
-
-        checkCombinable.setText("Combinable");
-
-        lblRoboMJoya.setText("Robo de maná");
-
-        lblDefFisJoya.setText("Defensa física");
-
-        lblDefMagJoya.setText("Defensa mágica");
-
-        lblHRFisJoya.setText("Tasa acierto físico");
-
-        lblEvaFisJoya.setText("Evasión física");
-
-        lblAtaFisJoya.setText("Daño físico");
-
-        lblManaJoya.setText("Maná");
-
-        lblManaVidaJoya.setText("Vida");
-
-        lblAtaMagJoya.setText("Daño mágico");
-
-        lvlEvaMagJoya.setText("Evasión mágica");
-
-        lblDineroExtraJoya.setText("Dinero extra");
-
-        lblExpExtraJoya.setText("Experiencia extra");
-
-        lblHRMagJoya.setText("Tasa acierto mágico");
-
-        lblRoboVJoya.setText("Robo de vida");
-
-        btnGuardarJoya.setText("Guardar");
-        btnGuardarJoya.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarJoyaActionPerformed(evt);
-            }
-        });
-
-        lblPrecioCJoya1.setText("Critico");
-
-        javax.swing.GroupLayout panelEditorJoyaLayout = new javax.swing.GroupLayout(panelEditorJoya);
-        panelEditorJoya.setLayout(panelEditorJoyaLayout);
-        panelEditorJoyaLayout.setHorizontalGroup(
-            panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelEditorJoyaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnGuardarJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelEditorJoyaLayout.createSequentialGroup()
-                        .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(checkCombinable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(panelEditorJoyaLayout.createSequentialGroup()
-                                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblPrecioCJoya1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelEditorJoyaLayout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(lblPrecioCJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-                                            .addComponent(lblNombreJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(lblObjetoJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(lblCalidadJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(lblPrecioVJoya, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelEditorJoyaLayout.createSequentialGroup()
-                                        .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(lblRoboVJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(lblDineroExtraJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(lblExpExtraJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
-                                            .addComponent(lblRoboMJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGap(0, 0, Short.MAX_VALUE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(spinnerDineroExtraJoya, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(spinnerCritJoya)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditorJoyaLayout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(comboObjetoJoya, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(comboCalidadJoya, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(spinnerPrecioVJoya, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-                                                .addComponent(spinnerPrecioCJoya)
-                                                .addComponent(txtNombreJoya))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                .addComponent(spinnerRoboMJoya, javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(spinnerExpExtraJoya, javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(spinnerRoboVJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)))))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelEditorJoyaLayout.createSequentialGroup()
-                                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(lblAtaFisJoya, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(lblEvaFisJoya)
-                                        .addComponent(lblManaJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(lblHRFisJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblDefFisJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblHRMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lvlEvaMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblAtaMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblDefMagJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblManaVidaJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(spinnerVidaJoya, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                                    .addComponent(spinnerManaJoya)
-                                    .addComponent(spinnerAtaFisJoya)
-                                    .addComponent(spinnerEvaFisJoya)
-                                    .addComponent(spinnerHRFisJoya)
-                                    .addComponent(spinnerDefFisJoya)
-                                    .addComponent(spinnerAtaMagJoya)
-                                    .addComponent(spinnerEvaMagJoya)
-                                    .addComponent(spinnerHRMagJoya)
-                                    .addComponent(spinnerDefMagJoya)))
-                            .addComponent(checkComerciable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
-        );
-        panelEditorJoyaLayout.setVerticalGroup(
-            panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelEditorJoyaLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNombreJoya)
-                    .addComponent(txtNombreJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblManaVidaJoya)
-                    .addComponent(spinnerVidaJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblObjetoJoya)
-                    .addComponent(comboObjetoJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblManaJoya)
-                    .addComponent(spinnerManaJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCalidadJoya)
-                    .addComponent(comboCalidadJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblAtaFisJoya)
-                    .addComponent(spinnerAtaFisJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPrecioVJoya)
-                    .addComponent(spinnerPrecioVJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblEvaFisJoya)
-                    .addComponent(spinnerEvaFisJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPrecioCJoya)
-                    .addComponent(spinnerPrecioCJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblHRFisJoya)
-                    .addComponent(spinnerHRFisJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDefFisJoya)
-                    .addComponent(spinnerDefFisJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblPrecioCJoya1)
-                    .addComponent(spinnerCritJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDineroExtraJoya)
-                    .addComponent(lblAtaMagJoya)
-                    .addComponent(spinnerDineroExtraJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spinnerAtaMagJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblExpExtraJoya)
-                    .addComponent(lvlEvaMagJoya)
-                    .addComponent(spinnerExpExtraJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spinnerEvaMagJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblRoboVJoya)
-                    .addComponent(lblHRMagJoya)
-                    .addComponent(spinnerRoboVJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spinnerHRMagJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblRoboMJoya)
-                    .addComponent(spinnerRoboMJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDefMagJoya)
-                    .addComponent(spinnerDefMagJoya, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelEditorJoyaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(checkComerciable)
-                    .addComponent(checkCombinable))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnGuardarJoya)
-                .addContainerGap(52, Short.MAX_VALUE))
-        );
-
-        btnEditarJoya.setText("Editar");
-        btnEditarJoya.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarJoyaActionPerformed(evt);
-            }
-        });
-
-        btnEliminarJoya.setText("Eliminar");
-        btnEliminarJoya.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarJoyaActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panelSelectorJoyasLayout = new javax.swing.GroupLayout(panelSelectorJoyas);
-        panelSelectorJoyas.setLayout(panelSelectorJoyasLayout);
-        panelSelectorJoyasLayout.setHorizontalGroup(
-            panelSelectorJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSelectorJoyasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelSelectorJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelEditorJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelSelectorJoyasLayout.createSequentialGroup()
-                        .addComponent(btnCrearNuevaJoya)
-                        .addGap(44, 44, 44)
-                        .addComponent(comboSelectorJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEditarJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEliminarJoya, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 48, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        panelSelectorJoyasLayout.setVerticalGroup(
-            panelSelectorJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSelectorJoyasLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelSelectorJoyasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCrearNuevaJoya)
-                    .addComponent(comboSelectorJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditarJoya)
-                    .addComponent(btnEliminarJoya))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelEditorJoya, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jScrollPane12.setViewportView(panelSelectorJoyas);
-
-        javax.swing.GroupLayout panelConfigJewelsLayout = new javax.swing.GroupLayout(panelConfigJewels);
-        panelConfigJewels.setLayout(panelConfigJewelsLayout);
-        panelConfigJewelsLayout.setHorizontalGroup(
-            panelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigJewelsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane12)
-                    .addComponent(panelConfigJoyas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(331, Short.MAX_VALUE))
-        );
-        panelConfigJewelsLayout.setVerticalGroup(
-            panelConfigJewelsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigJewelsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelConfigJoyas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane12, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        panelConfig.addTab("Joyas", panelConfigJewels);
-
-        btnEditarSpawner.setText("Editar");
-        btnEditarSpawner.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarSpawnerActionPerformed(evt);
-            }
-        });
-
-        btnEliminarSpawner.setText("Eliminar");
-        btnEliminarSpawner.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarSpawnerActionPerformed(evt);
-            }
-        });
-
-        panelEditorSpawner.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de Spawner"));
-
-        panelLocSpawner.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Localización"), "Localización"));
-
-        lblMundoSpawnLoc.setText("Mundo");
-
-        lblXSpawnLoc.setText("X");
-
-        lblYSpawnLoc.setText("Y");
-
-        lblZSpawnLoc.setText("Z");
-
-        txtMundoSpawnLoc.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtMundoSpawnLoc.setText("world");
-        txtMundoSpawnLoc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMundoSpawnLocActionPerformed(evt);
-            }
-        });
-
-        spinnerXSpawnLoc.setModel(new javax.swing.SpinnerNumberModel());
-
-        spinnerYSpawnLoc.setModel(new javax.swing.SpinnerNumberModel());
-
-        spinnerZSpawnLoc.setModel(new javax.swing.SpinnerNumberModel());
-
-        javax.swing.GroupLayout panelLocSpawnerLayout = new javax.swing.GroupLayout(panelLocSpawner);
-        panelLocSpawner.setLayout(panelLocSpawnerLayout);
-        panelLocSpawnerLayout.setHorizontalGroup(
-            panelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelLocSpawnerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblMundoSpawnLoc)
-                    .addComponent(lblXSpawnLoc)
-                    .addComponent(lblYSpawnLoc)
-                    .addComponent(lblZSpawnLoc))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(spinnerXSpawnLoc)
-                    .addComponent(txtMundoSpawnLoc, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                    .addComponent(spinnerYSpawnLoc, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(spinnerZSpawnLoc, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
-        );
-        panelLocSpawnerLayout.setVerticalGroup(
-            panelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelLocSpawnerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMundoSpawnLoc)
-                    .addComponent(txtMundoSpawnLoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblXSpawnLoc)
-                    .addComponent(spinnerXSpawnLoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblYSpawnLoc)
-                    .addComponent(spinnerYSpawnLoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblZSpawnLoc)
-                    .addComponent(spinnerZSpawnLoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        panelAtribSpawner.setBorder(javax.swing.BorderFactory.createTitledBorder("Propiedades del generador"));
-
-        lblMobSpawner.setText("Monstruo");
-
-        comboMobSpawner.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboMobSpawnerActionPerformed(evt);
-            }
-        });
-
-        lblRefrescoSpawner.setText("Cooldown");
-
-        lblIdSpawner.setText("Identificador");
-
-        spinnerRefrescoSpawner.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(0L), null, null, Long.valueOf(1L)));
-
-        lblRadioSpawner.setText("Radio de generación");
-
-        spinnerRadioSpawner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
-
-        lblNumMaxMobSpawner.setText("Núm maximo de monstruos");
-
-        spinnerNumMaxMobSpawner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
-
-        checkEnableSpawner.setText("Habilitado/Deshabilitado");
-        checkEnableSpawner.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkEnableSpawnerActionPerformed(evt);
-            }
-        });
-
-        comboSelectorSpawner.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-
-        javax.swing.GroupLayout panelAtribSpawnerLayout = new javax.swing.GroupLayout(panelAtribSpawner);
-        panelAtribSpawner.setLayout(panelAtribSpawnerLayout);
-        panelAtribSpawnerLayout.setHorizontalGroup(
-            panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAtribSpawnerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelAtribSpawnerLayout.createSequentialGroup()
-                        .addComponent(checkEnableSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(164, 164, 164))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAtribSpawnerLayout.createSequentialGroup()
-                        .addGroup(panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblIdSpawner, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblMobSpawner, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblRefrescoSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblRadioSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblNumMaxMobSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(spinnerNumMaxMobSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
-                            .addComponent(spinnerRadioSpawner)
-                            .addComponent(spinnerRefrescoSpawner)
-                            .addComponent(comboMobSpawner, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(comboSelectorSpawner))))
-                .addContainerGap())
-        );
-        panelAtribSpawnerLayout.setVerticalGroup(
-            panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAtribSpawnerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblIdSpawner)
-                    .addComponent(comboSelectorSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(2, 2, 2)
-                .addGroup(panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMobSpawner)
-                    .addComponent(comboMobSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(6, 6, 6)
-                .addGroup(panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblRefrescoSpawner)
-                    .addComponent(spinnerRefrescoSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblRadioSpawner)
-                    .addComponent(spinnerRadioSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNumMaxMobSpawner)
-                    .addComponent(spinnerNumMaxMobSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(checkEnableSpawner)
-                .addContainerGap())
-        );
-
-        btnGuardarSpawner.setText("Guardar");
-
-        btnResetSpawner.setText("Resetear");
-        btnResetSpawner.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResetSpawnerActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panelEditorSpawnerLayout = new javax.swing.GroupLayout(panelEditorSpawner);
-        panelEditorSpawner.setLayout(panelEditorSpawnerLayout);
-        panelEditorSpawnerLayout.setHorizontalGroup(
-            panelEditorSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelEditorSpawnerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelAtribSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelLocSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelEditorSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnGuardarSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnResetSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        panelEditorSpawnerLayout.setVerticalGroup(
-            panelEditorSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelEditorSpawnerLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelEditorSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelEditorSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(panelLocSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(panelAtribSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(panelEditorSpawnerLayout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(btnGuardarSpawner)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnResetSpawner)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        btnCrearSpawner.setText("Nuevo");
-
-        javax.swing.GroupLayout panelConfigSpawnersLayout = new javax.swing.GroupLayout(panelConfigSpawners);
-        panelConfigSpawners.setLayout(panelConfigSpawnersLayout);
-        panelConfigSpawnersLayout.setHorizontalGroup(
-            panelConfigSpawnersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigSpawnersLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelConfigSpawnersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(panelEditorSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelConfigSpawnersLayout.createSequentialGroup()
-                        .addComponent(btnCrearSpawner)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(comboSelectorGenerador, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditarSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEliminarSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(245, 245, 245))
-        );
-        panelConfigSpawnersLayout.setVerticalGroup(
-            panelConfigSpawnersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigSpawnersLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelConfigSpawnersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCrearSpawner)
-                    .addComponent(comboSelectorGenerador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEditarSpawner)
-                    .addComponent(btnEliminarSpawner))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelEditorSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(362, Short.MAX_VALUE))
-        );
-
-        panelConfig.addTab("Spawners", panelConfigSpawners);
-
-        panelConfigGuilds.setPreferredSize(new java.awt.Dimension(800, 600));
-
-        btnGuardarConfigClan.setText("Guardar");
-        btnGuardarConfigClan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarConfigClanActionPerformed(evt);
-            }
-        });
-
-        panelConfigClanes.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración clanes"));
-
-        panelNumJugClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Número de jugadores"));
-
-        rdBtnNumFijosClan.setSelected(true);
-        rdBtnNumFijosClan.setText("Fijos");
-        rdBtnNumFijosClan.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                rdBtnNumFijosClanStateChanged(evt);
-            }
-        });
-
-        rdBtnLimitNivClan.setText("Limitado por nivel del clan");
-        rdBtnLimitNivClan.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                rdBtnLimitNivClanStateChanged(evt);
-            }
-        });
-
-        lblJugadoresClan.setText("jugadores");
-
-        javax.swing.GroupLayout panelNumJugClanLayout = new javax.swing.GroupLayout(panelNumJugClan);
-        panelNumJugClan.setLayout(panelNumJugClanLayout);
-        panelNumJugClanLayout.setHorizontalGroup(
-            panelNumJugClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelNumJugClanLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelNumJugClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelNumJugClanLayout.createSequentialGroup()
-                        .addComponent(rdBtnNumFijosClan)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spinnerNumFijosClan, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblJugadoresClan))
-                    .addComponent(rdBtnLimitNivClan))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelNumJugClanLayout.setVerticalGroup(
-            panelNumJugClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelNumJugClanLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelNumJugClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdBtnNumFijosClan)
-                    .addComponent(spinnerNumFijosClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblJugadoresClan))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rdBtnLimitNivClan)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        panelSisContNivelClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Sistema de contribución clan limitado por nivel"));
-
-        lblporcMuertesClan.setText("%muertes");
-
-        checkDonationClan.setText("Donacion");
-
-        checkContributionClan.setText("Contribucion");
-        checkContributionClan.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                checkContributionClanStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panelSisContNivelClanLayout = new javax.swing.GroupLayout(panelSisContNivelClan);
-        panelSisContNivelClan.setLayout(panelSisContNivelClanLayout);
-        panelSisContNivelClanLayout.setHorizontalGroup(
-            panelSisContNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSisContNivelClanLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelSisContNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelSisContNivelClanLayout.createSequentialGroup()
-                        .addComponent(checkContributionClan)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spinnerContriPorcentajeMuertes, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblporcMuertesClan))
-                    .addComponent(checkDonationClan))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelSisContNivelClanLayout.setVerticalGroup(
-            panelSisContNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSisContNivelClanLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(checkDonationClan)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 2, Short.MAX_VALUE)
-                .addGroup(panelSisContNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(spinnerContriPorcentajeMuertes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblporcMuertesClan)
-                    .addComponent(checkContributionClan))
-                .addContainerGap())
-        );
-
-        lblnivMinJugCrearClan.setText("Nivel minimo del jugador para crear un clan");
-
-        panelOpcLimNivelClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones de clan limitado por nivel"));
-
-        rdBtnOpcDinFijo.setSelected(true);
-        rdBtnOpcDinFijo.setText("Dinero Fijo");
-
-        rdBtnOpcDinForm.setText("Formula de dinero");
-        rdBtnOpcDinForm.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                rdBtnOpcDinFormStateChanged(evt);
-            }
-        });
-
-        panelFormulaClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Formula"));
-
-        lblfdex.setText("f(x)=");
-
-        spinnerformulax2clan.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
-
-        lblx2clan.setText("x^2+");
-
-        spinnerformulaxclan.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), null, null, Double.valueOf(1.0d)));
-
-        lblxclan.setText("x");
-
-        lblMaxNivelClan.setText("Nivel máximo del clan");
-
-        spinnerNivelMaxClan.setModel(new javax.swing.SpinnerNumberModel());
-
-        btnValidarFormulaClan.setText("Validar");
-        btnValidarFormulaClan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnValidarFormulaClanActionPerformed(evt);
-            }
-        });
-
-        btnResetearFormulaClan.setText("Resetear");
-        btnResetearFormulaClan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResetearFormulaClanActionPerformed(evt);
-            }
-        });
-
-        lblFormJugXNivelClan.setText("Jugadores por nivel");
-
-        spinnerFormJugXNivelClan.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
-
-        lblFormJugIniClan.setText("Jugadores inicial");
-
-        spinnerFormJugIniClan.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
-
-        javax.swing.GroupLayout panelFormulaClanLayout = new javax.swing.GroupLayout(panelFormulaClan);
-        panelFormulaClan.setLayout(panelFormulaClanLayout);
-        panelFormulaClanLayout.setHorizontalGroup(
-            panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelFormulaClanLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnValidarFormulaClan)
-                .addGap(26, 26, 26)
-                .addComponent(btnResetearFormulaClan)
-                .addGap(10, 10, 10))
-            .addGroup(panelFormulaClanLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelFormulaClanLayout.createSequentialGroup()
-                        .addGroup(panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panelFormulaClanLayout.createSequentialGroup()
-                                .addComponent(lblfdex)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(spinnerformulax2clan, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblx2clan)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(spinnerformulaxclan, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelFormulaClanLayout.createSequentialGroup()
-                                .addComponent(lblMaxNivelClan)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(spinnerNivelMaxClan))
-                            .addGroup(panelFormulaClanLayout.createSequentialGroup()
-                                .addComponent(lblFormJugXNivelClan, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6)
-                                .addComponent(spinnerFormJugXNivelClan, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblxclan))
-                    .addGroup(panelFormulaClanLayout.createSequentialGroup()
-                        .addComponent(lblFormJugIniClan, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spinnerFormJugIniClan, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelFormulaClanLayout.setVerticalGroup(
-            panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelFormulaClanLayout.createSequentialGroup()
-                .addGroup(panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblfdex)
-                    .addComponent(spinnerformulax2clan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblx2clan)
-                    .addComponent(spinnerformulaxclan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblxclan))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMaxNivelClan)
-                    .addComponent(spinnerNivelMaxClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblFormJugXNivelClan)
-                    .addComponent(spinnerFormJugXNivelClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblFormJugIniClan)
-                    .addComponent(spinnerFormJugIniClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelFormulaClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnValidarFormulaClan)
-                    .addComponent(btnResetearFormulaClan)))
-        );
-
-        panelEditNivelesClan.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor/Visor de niveles"));
-
-        tablaClanes.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Nivel", "Dinero", "Núm. Jug."
-            }
-        ));
-        tablaClanes.getTableHeader().setReorderingAllowed(false);
-        tablaClanes.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablaClanesMouseClicked(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tablaClanesMouseReleased(evt);
-            }
-        });
-        jScrollPane7.setViewportView(tablaClanes);
-
-        btnAnadirNivel.setText("Añadir nivel");
-        btnAnadirNivel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnadirNivelActionPerformed(evt);
-            }
-        });
-
-        btnEditarNivel.setText("Editar nivel");
-        btnEditarNivel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarNivelActionPerformed(evt);
-            }
-        });
-
-        btnEliminarNivel.setText("Eliminar nivel");
-        btnEliminarNivel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarNivelActionPerformed(evt);
-            }
-        });
-
-        lblDineroEditNivelClan.setText("Dinero");
-
-        lblNumJugEditNivelClan.setText("Número Jugadores");
-
-        javax.swing.GroupLayout panelEditNivelesClanLayout = new javax.swing.GroupLayout(panelEditNivelesClan);
-        panelEditNivelesClan.setLayout(panelEditNivelesClanLayout);
-        panelEditNivelesClanLayout.setHorizontalGroup(
-            panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelEditNivelesClanLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(panelEditNivelesClanLayout.createSequentialGroup()
-                        .addGroup(panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelEditNivelesClanLayout.createSequentialGroup()
-                                .addGap(49, 49, 49)
-                                .addComponent(btnAnadirNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelEditNivelesClanLayout.createSequentialGroup()
-                                .addGroup(panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(btnEditarNivel, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
-                                    .addComponent(lblDineroEditNivelClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnEliminarNivel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(spinnerDineroEditClan, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(panelEditNivelesClanLayout.createSequentialGroup()
-                                .addComponent(lblNumJugEditNivelClan, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(spinnerNumJugEditClan, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        );
-        panelEditNivelesClanLayout.setVerticalGroup(
-            panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelEditNivelesClanLayout.createSequentialGroup()
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnEditarNivel)
-                    .addComponent(btnEliminarNivel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(spinnerDineroEditClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblDineroEditNivelClan))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelEditNivelesClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNumJugEditNivelClan)
-                    .addComponent(spinnerNumJugEditClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnAnadirNivel)
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout panelOpcLimNivelClanLayout = new javax.swing.GroupLayout(panelOpcLimNivelClan);
-        panelOpcLimNivelClan.setLayout(panelOpcLimNivelClanLayout);
-        panelOpcLimNivelClanLayout.setHorizontalGroup(
-            panelOpcLimNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelOpcLimNivelClanLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelOpcLimNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rdBtnOpcDinFijo)
-                    .addComponent(rdBtnOpcDinForm)
-                    .addComponent(panelFormulaClan, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelEditNivelesClan, javax.swing.GroupLayout.PREFERRED_SIZE, 225, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        panelOpcLimNivelClanLayout.setVerticalGroup(
-            panelOpcLimNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelOpcLimNivelClanLayout.createSequentialGroup()
-                .addGroup(panelOpcLimNivelClanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelOpcLimNivelClanLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(rdBtnOpcDinFijo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rdBtnOpcDinForm)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelFormulaClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(panelEditNivelesClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout panelConfigClanesLayout = new javax.swing.GroupLayout(panelConfigClanes);
-        panelConfigClanes.setLayout(panelConfigClanesLayout);
-        panelConfigClanesLayout.setHorizontalGroup(
-            panelConfigClanesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigClanesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelConfigClanesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelOpcLimNivelClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelConfigClanesLayout.createSequentialGroup()
-                        .addComponent(panelNumJugClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelSisContNivelClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(panelConfigClanesLayout.createSequentialGroup()
-                        .addComponent(lblnivMinJugCrearClan)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spinnerNivelMinJugClan, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        panelConfigClanesLayout.setVerticalGroup(
-            panelConfigClanesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigClanesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelConfigClanesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblnivMinJugCrearClan)
-                    .addComponent(spinnerNivelMinJugClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(14, 14, 14)
-                .addGroup(panelConfigClanesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelSisContNivelClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelNumJugClan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelOpcLimNivelClan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout panelConfigGuildsLayout = new javax.swing.GroupLayout(panelConfigGuilds);
-        panelConfigGuilds.setLayout(panelConfigGuildsLayout);
-        panelConfigGuildsLayout.setHorizontalGroup(
-            panelConfigGuildsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigGuildsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelConfigGuildsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnGuardarConfigClan)
-                    .addComponent(panelConfigClanes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(681, 681, 681))
-        );
-        panelConfigGuildsLayout.setVerticalGroup(
-            panelConfigGuildsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigGuildsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnGuardarConfigClan)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelConfigClanes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(174, Short.MAX_VALUE))
-        );
-
-        panelConfig.addTab("Clanes", panelConfigGuilds);
-
-        btnGuardarConfigGrupos.setText("Guardar");
-
-        panelConfigGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de grupos"));
-
-        panelNumJugGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Número de jugadores"));
-
-        lblJugadoresGrupo.setText("jugadores");
-
-        rdBtnIlimitadosGrupo.setSelected(true);
-        rdBtnIlimitadosGrupo.setText("Ilimitados");
-        rdBtnIlimitadosGrupo.setName("0"); // NOI18N
-
-        rdBtnFijosGrupo.setText("Fijos");
-        rdBtnFijosGrupo.setName(""); // NOI18N
-        rdBtnFijosGrupo.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                rdBtnFijosGrupoStateChanged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panelNumJugGruposLayout = new javax.swing.GroupLayout(panelNumJugGrupos);
-        panelNumJugGrupos.setLayout(panelNumJugGruposLayout);
-        panelNumJugGruposLayout.setHorizontalGroup(
-            panelNumJugGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelNumJugGruposLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelNumJugGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelNumJugGruposLayout.createSequentialGroup()
-                        .addComponent(rdBtnFijosGrupo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(spinnerNumeroFijoJugGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblJugadoresGrupo))
-                    .addComponent(rdBtnIlimitadosGrupo)))
-        );
-        panelNumJugGruposLayout.setVerticalGroup(
-            panelNumJugGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelNumJugGruposLayout.createSequentialGroup()
-                .addComponent(rdBtnIlimitadosGrupo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelNumJugGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdBtnFijosGrupo)
-                    .addComponent(spinnerNumeroFijoJugGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblJugadoresGrupo)))
-        );
-
-        panelPvpGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("PvP"));
-
-        rdBtnPermitidoPvpGrupo.setSelected(true);
-        rdBtnPermitidoPvpGrupo.setText("Permitido");
-
-        rdBtnNoPermitidoPvpGrupo.setText("No permitido");
-
-        javax.swing.GroupLayout panelPvpGruposLayout = new javax.swing.GroupLayout(panelPvpGrupos);
-        panelPvpGrupos.setLayout(panelPvpGruposLayout);
-        panelPvpGruposLayout.setHorizontalGroup(
-            panelPvpGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPvpGruposLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelPvpGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rdBtnPermitidoPvpGrupo)
-                    .addComponent(rdBtnNoPermitidoPvpGrupo))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelPvpGruposLayout.setVerticalGroup(
-            panelPvpGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPvpGruposLayout.createSequentialGroup()
-                .addComponent(rdBtnPermitidoPvpGrupo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(rdBtnNoPermitidoPvpGrupo))
-        );
-
-        panelSistRepGrupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Sistema de reparto"));
-
-        checkDineroGrupo.setText("Dinero");
-
-        checkExpGrupo.setText("Experiencia");
-
-        javax.swing.GroupLayout panelSistRepGruposLayout = new javax.swing.GroupLayout(panelSistRepGrupos);
-        panelSistRepGrupos.setLayout(panelSistRepGruposLayout);
-        panelSistRepGruposLayout.setHorizontalGroup(
-            panelSistRepGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSistRepGruposLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(panelSistRepGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(checkExpGrupo)
-                    .addComponent(checkDineroGrupo))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelSistRepGruposLayout.setVerticalGroup(
-            panelSistRepGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelSistRepGruposLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(checkDineroGrupo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(checkExpGrupo)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        panelOpcRepGRupos.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones de reparto"));
-
-        rdBtnOpcionigualitarioGrupo.setSelected(true);
-        rdBtnOpcionigualitarioGrupo.setText("Reparto igualitario");
-
-        rdBtnOpcionProporcionalGrupo.setText("Reparto proporcional");
-        rdBtnOpcionProporcionalGrupo.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                rdBtnOpcionProporcionalGrupoStateChanged(evt);
-            }
-        });
-
-        panelOpcRepProp.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones reparto proporcional"));
-
-        rdBtnProNivelGrupo.setSelected(true);
-        rdBtnProNivelGrupo.setText("Por nivel del jugador");
-
-        rdBtnProKillsGrupo.setText("Por muertes del jugador");
-        rdBtnProKillsGrupo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdBtnProKillsGrupoActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panelOpcRepPropLayout = new javax.swing.GroupLayout(panelOpcRepProp);
-        panelOpcRepProp.setLayout(panelOpcRepPropLayout);
-        panelOpcRepPropLayout.setHorizontalGroup(
-            panelOpcRepPropLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelOpcRepPropLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelOpcRepPropLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rdBtnProNivelGrupo)
-                    .addComponent(rdBtnProKillsGrupo))
-                .addContainerGap(39, Short.MAX_VALUE))
-        );
-        panelOpcRepPropLayout.setVerticalGroup(
-            panelOpcRepPropLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelOpcRepPropLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(rdBtnProNivelGrupo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rdBtnProKillsGrupo))
-        );
-
-        javax.swing.GroupLayout panelOpcRepGRuposLayout = new javax.swing.GroupLayout(panelOpcRepGRupos);
-        panelOpcRepGRupos.setLayout(panelOpcRepGRuposLayout);
-        panelOpcRepGRuposLayout.setHorizontalGroup(
-            panelOpcRepGRuposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelOpcRepGRuposLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelOpcRepGRuposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelOpcRepProp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelOpcRepGRuposLayout.createSequentialGroup()
-                        .addGroup(panelOpcRepGRuposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rdBtnOpcionigualitarioGrupo)
-                            .addComponent(rdBtnOpcionProporcionalGrupo))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        panelOpcRepGRuposLayout.setVerticalGroup(
-            panelOpcRepGRuposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelOpcRepGRuposLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(rdBtnOpcionigualitarioGrupo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rdBtnOpcionProporcionalGrupo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelOpcRepProp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        javax.swing.GroupLayout panelConfigGruposLayout = new javax.swing.GroupLayout(panelConfigGrupos);
-        panelConfigGrupos.setLayout(panelConfigGruposLayout);
-        panelConfigGruposLayout.setHorizontalGroup(
-            panelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigGruposLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(panelSistRepGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelNumJugGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelPvpGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelOpcRepGRupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        panelConfigGruposLayout.setVerticalGroup(
-            panelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigGruposLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelNumJugGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelPvpGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigGruposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelOpcRepGRupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelSistRepGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-
-        javax.swing.GroupLayout panelConfigPartiesLayout = new javax.swing.GroupLayout(panelConfigParties);
-        panelConfigParties.setLayout(panelConfigPartiesLayout);
-        panelConfigPartiesLayout.setHorizontalGroup(
-            panelConfigPartiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigPartiesLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelConfigPartiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelConfigGrupos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panelConfigPartiesLayout.createSequentialGroup()
-                        .addGap(357, 357, 357)
-                        .addComponent(btnGuardarConfigGrupos)))
-                .addContainerGap(467, Short.MAX_VALUE))
-        );
-        panelConfigPartiesLayout.setVerticalGroup(
-            panelConfigPartiesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigPartiesLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(btnGuardarConfigGrupos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelConfigGrupos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(328, Short.MAX_VALUE))
-        );
-
-        panelConfig.addTab("Grupos", panelConfigParties);
-
         panelConfigArmor.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración armaduras"));
+        panelConfigArmor.setName("panelConfigArmor"); // NOI18N
         panelConfigArmor.setPreferredSize(new java.awt.Dimension(800, 600));
 
         jScrollPane6.setMaximumSize(new java.awt.Dimension(1000, 600));
         jScrollPane6.setMinimumSize(new java.awt.Dimension(800, 600));
+        jScrollPane6.setName("jScrollPane6"); // NOI18N
         jScrollPane6.setPreferredSize(new java.awt.Dimension(1000, 600));
 
+        panelConfigArmaduras.setName("panelConfigArmaduras"); // NOI18N
+
         panelSelectorArmadura.setBorder(javax.swing.BorderFactory.createTitledBorder("Selector de sets de armadura"));
+        panelSelectorArmadura.setName("panelSelectorArmadura"); // NOI18N
 
         lblSelectorSet.setText("Seleccion de set");
+        lblSelectorSet.setName("lblSelectorSet"); // NOI18N
+
+        comboListSets.setName("comboListSets"); // NOI18N
 
         btnNuevoSet.setText("Nuevo set");
+        btnNuevoSet.setName("btnNuevoSet"); // NOI18N
         btnNuevoSet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoSetActionPerformed(evt);
@@ -4225,6 +5062,7 @@ public class GUI extends JFrame {
         });
 
         btnEditarSet.setText("Editar set");
+        btnEditarSet.setName("btnEditarSet"); // NOI18N
         btnEditarSet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarSetActionPerformed(evt);
@@ -4232,6 +5070,7 @@ public class GUI extends JFrame {
         });
 
         btnEliminarSet.setText("Eliminar set");
+        btnEliminarSet.setName("btnEliminarSet"); // NOI18N
         btnEliminarSet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarSetActionPerformed(evt);
@@ -4239,40 +5078,76 @@ public class GUI extends JFrame {
         });
 
         panelEditarSet.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de sets de armadura"));
+        panelEditarSet.setName("panelEditarSet"); // NOI18N
 
         lblNombreSet.setText("Nombre de la armadura");
+        lblNombreSet.setName("lblNombreSet"); // NOI18N
+
+        txtNombreSet.setName("txtNombreSet"); // NOI18N
+
+        spinnerNivel.setName("spinnerNivel"); // NOI18N
 
         lblNivel.setText("Nivel");
+        lblNivel.setName("lblNivel"); // NOI18N
 
         comboMaterial.setName("material"); // NOI18N
 
         lblMaterial.setText("Material base del set");
+        lblMaterial.setName("lblMaterial"); // NOI18N
 
         comboCalidad.setName("calidadarmor"); // NOI18N
 
         lblCalidad.setText("Calidad del set");
+        lblCalidad.setName("lblCalidad"); // NOI18N
 
         checkComerciableArmadura.setText("Comerciable");
+        checkComerciableArmadura.setName("checkComerciableArmadura"); // NOI18N
 
         checkMejorableArmadura.setText("Mejorable");
+        checkMejorableArmadura.setName("checkMejorableArmadura"); // NOI18N
 
         panelPechera.setBorder(javax.swing.BorderFactory.createTitledBorder("Pechera"));
+        panelPechera.setName("panelPechera"); // NOI18N
 
         lblDefFisPechera.setText("Defensa física");
+        lblDefFisPechera.setName("lblDefFisPechera"); // NOI18N
 
         lblMejDefFisPechera.setText("Inc. Defensa física");
+        lblMejDefFisPechera.setName("lblMejDefFisPechera"); // NOI18N
 
         lblMejEvaFisPechera.setText("Inc. Evasión física");
+        lblMejEvaFisPechera.setName("lblMejEvaFisPechera"); // NOI18N
 
         lblEvaFisPechera.setText("Evasión física");
+        lblEvaFisPechera.setName("lblEvaFisPechera"); // NOI18N
+
+        spinnerDefFisPechera.setName("spinnerDefFisPechera"); // NOI18N
+
+        spinnerMejDefFisPechera.setName("spinnerMejDefFisPechera"); // NOI18N
+
+        spinnerEvaFisPechera.setName("spinnerEvaFisPechera"); // NOI18N
+
+        spinnerMejEvaFisPechera.setName("spinnerMejEvaFisPechera"); // NOI18N
 
         lblPrecioVPechera.setText("Precio venta");
+        lblPrecioVPechera.setName("lblPrecioVPechera"); // NOI18N
+
+        spinnerPrecioVPechera.setName("spinnerPrecioVPechera"); // NOI18N
 
         lblPrecioCPechera.setText("Precio compra");
+        lblPrecioCPechera.setName("lblPrecioCPechera"); // NOI18N
+
+        spinnerPrecioCPechera.setName("spinnerPrecioCPechera"); // NOI18N
 
         lblExpExtraPechera.setText("Exp. extra");
+        lblExpExtraPechera.setName("lblExpExtraPechera"); // NOI18N
+
+        spinnerExpExtraPechera.setName("spinnerExpExtraPechera"); // NOI18N
+
+        spinnerDineroExtraPechera.setName("spinnerDineroExtraPechera"); // NOI18N
 
         lblDineroExtraPechera.setText("Dinero extra");
+        lblDineroExtraPechera.setName("lblDineroExtraPechera"); // NOI18N
 
         javax.swing.GroupLayout panelPecheraLayout = new javax.swing.GroupLayout(panelPechera);
         panelPechera.setLayout(panelPecheraLayout);
@@ -4350,22 +5225,47 @@ public class GUI extends JFrame {
         );
 
         panelPantalones.setBorder(javax.swing.BorderFactory.createTitledBorder("Grebas"));
+        panelPantalones.setName("panelPantalones"); // NOI18N
 
         lblDefFisGrebas.setText("Defensa física");
+        lblDefFisGrebas.setName("lblDefFisGrebas"); // NOI18N
 
         lblMejDefFisGrebas.setText("Inc. Defensa física");
+        lblMejDefFisGrebas.setName("lblMejDefFisGrebas"); // NOI18N
 
         lvlMejEvaFisGrebas.setText("Inc. Evasión física");
+        lvlMejEvaFisGrebas.setName("lvlMejEvaFisGrebas"); // NOI18N
 
         lblEvaFisGrebas.setText("Evasión física");
+        lblEvaFisGrebas.setName("lblEvaFisGrebas"); // NOI18N
+
+        spinnerDefFisGrebas.setName("spinnerDefFisGrebas"); // NOI18N
+
+        spinnerMejDefFisGrebas.setName("spinnerMejDefFisGrebas"); // NOI18N
+
+        spinnerEvaFisGrebas.setName("spinnerEvaFisGrebas"); // NOI18N
+
+        spinnerMejEvaFisGrebas.setName("spinnerMejEvaFisGrebas"); // NOI18N
 
         lblPrecioVGrebas.setText("Precio venta");
+        lblPrecioVGrebas.setName("lblPrecioVGrebas"); // NOI18N
+
+        spinnerPrecioVGrebas.setName("spinnerPrecioVGrebas"); // NOI18N
 
         lblPrecioCGrebas.setText("Precio compra");
+        lblPrecioCGrebas.setName("lblPrecioCGrebas"); // NOI18N
+
+        spinnerPrecioCGrebas.setName("spinnerPrecioCGrebas"); // NOI18N
 
         lblExpExtraGrebas.setText("Exp. extra");
+        lblExpExtraGrebas.setName("lblExpExtraGrebas"); // NOI18N
+
+        spinnerExpExtraGrebas.setName("spinnerExpExtraGrebas"); // NOI18N
+
+        spinnerDineroExtraGrebas.setName("spinnerDineroExtraGrebas"); // NOI18N
 
         lblDineroExtraGrebas.setText("Dinero extra");
+        lblDineroExtraGrebas.setName("lblDineroExtraGrebas"); // NOI18N
 
         javax.swing.GroupLayout panelPantalonesLayout = new javax.swing.GroupLayout(panelPantalones);
         panelPantalones.setLayout(panelPantalonesLayout);
@@ -4432,22 +5332,47 @@ public class GUI extends JFrame {
         );
 
         panelBotas.setBorder(javax.swing.BorderFactory.createTitledBorder("Botas"));
+        panelBotas.setName("panelBotas"); // NOI18N
 
         lblDefFisBotas.setText("Defensa física");
+        lblDefFisBotas.setName("lblDefFisBotas"); // NOI18N
 
         lblMejDefFisBotas.setText("Inc. Defensa física");
+        lblMejDefFisBotas.setName("lblMejDefFisBotas"); // NOI18N
 
         lblMejEvaFisBotas.setText("Inc. Evasión física");
+        lblMejEvaFisBotas.setName("lblMejEvaFisBotas"); // NOI18N
 
         lblEvaFisBotas.setText("Evasión física");
+        lblEvaFisBotas.setName("lblEvaFisBotas"); // NOI18N
+
+        spinnerDefFisBotas.setName("spinnerDefFisBotas"); // NOI18N
+
+        spinnerMejDefFisBotas.setName("spinnerMejDefFisBotas"); // NOI18N
+
+        spinnerEvaFisBotas.setName("spinnerEvaFisBotas"); // NOI18N
+
+        spinnerMejEvaFisBotas.setName("spinnerMejEvaFisBotas"); // NOI18N
 
         lblPrecioVBotas.setText("Precio venta");
+        lblPrecioVBotas.setName("lblPrecioVBotas"); // NOI18N
+
+        spinnerPrecioVBotas.setName("spinnerPrecioVBotas"); // NOI18N
 
         lblPrecioCBotas.setText("Precio compra");
+        lblPrecioCBotas.setName("lblPrecioCBotas"); // NOI18N
+
+        spinnerPrecioCBotas.setName("spinnerPrecioCBotas"); // NOI18N
 
         lblExpExtraBotas.setText("Exp. extra");
+        lblExpExtraBotas.setName("lblExpExtraBotas"); // NOI18N
+
+        spinnerExpExtraBotas.setName("spinnerExpExtraBotas"); // NOI18N
+
+        spinnerDineroExtraBotas.setName("spinnerDineroExtraBotas"); // NOI18N
 
         lblDineroExtraBotas.setText("Dinero extra");
+        lblDineroExtraBotas.setName("lblDineroExtraBotas"); // NOI18N
 
         javax.swing.GroupLayout panelBotasLayout = new javax.swing.GroupLayout(panelBotas);
         panelBotas.setLayout(panelBotasLayout);
@@ -4525,22 +5450,47 @@ public class GUI extends JFrame {
         );
 
         panelCasco.setBorder(javax.swing.BorderFactory.createTitledBorder("Yelmo"));
+        panelCasco.setName("panelCasco"); // NOI18N
 
         lblDefFisCasco.setText("Defensa física");
+        lblDefFisCasco.setName("lblDefFisCasco"); // NOI18N
 
         lblMejDefFisCasco.setText("Inc. Defensa física");
+        lblMejDefFisCasco.setName("lblMejDefFisCasco"); // NOI18N
 
         lblMejEvaFisCasco.setText("Inc. Evasión física");
+        lblMejEvaFisCasco.setName("lblMejEvaFisCasco"); // NOI18N
 
         lblEvaFisCasco.setText("Evasión física");
+        lblEvaFisCasco.setName("lblEvaFisCasco"); // NOI18N
+
+        spinnerDefFisCasco.setName("spinnerDefFisCasco"); // NOI18N
+
+        spinnerMejDefFisCasco.setName("spinnerMejDefFisCasco"); // NOI18N
+
+        spinnerEvaFisCasco.setName("spinnerEvaFisCasco"); // NOI18N
+
+        spinnerMejEvaFisCasco.setName("spinnerMejEvaFisCasco"); // NOI18N
 
         lblPrecioVCasco.setText("Precio venta");
+        lblPrecioVCasco.setName("lblPrecioVCasco"); // NOI18N
+
+        spinnerPrecioVCasco.setName("spinnerPrecioVCasco"); // NOI18N
 
         lblPrecioCCasco.setText("Precio compra");
+        lblPrecioCCasco.setName("lblPrecioCCasco"); // NOI18N
+
+        spinnerPrecioCCasco.setName("spinnerPrecioCCasco"); // NOI18N
 
         lblExpExtraCasco.setText("Exp. extra");
+        lblExpExtraCasco.setName("lblExpExtraCasco"); // NOI18N
+
+        spinnerExpExtraCasco.setName("spinnerExpExtraCasco"); // NOI18N
+
+        spinnerDineroExtraCasco.setName("spinnerDineroExtraCasco"); // NOI18N
 
         lblDineroExtraCasco.setText("Dinero extra");
+        lblDineroExtraCasco.setName("lblDineroExtraCasco"); // NOI18N
 
         javax.swing.GroupLayout panelCascoLayout = new javax.swing.GroupLayout(panelCasco);
         panelCasco.setLayout(panelCascoLayout);
@@ -4619,6 +5569,7 @@ public class GUI extends JFrame {
         );
 
         btnGuardarSet.setText("Guardar");
+        btnGuardarSet.setName("btnGuardarSet"); // NOI18N
 
         javax.swing.GroupLayout panelEditarSetLayout = new javax.swing.GroupLayout(panelEditarSet);
         panelEditarSet.setLayout(panelEditarSetLayout);
@@ -4724,8 +5675,10 @@ public class GUI extends JFrame {
         );
 
         panelMejoraArmadura.setBorder(javax.swing.BorderFactory.createTitledBorder("Mejora de armaduras"));
+        panelMejoraArmadura.setName("panelMejoraArmadura"); // NOI18N
 
         btnGuardarConfigArmadura.setText("Guardar");
+        btnGuardarConfigArmadura.setName("btnGuardarConfigArmadura"); // NOI18N
         btnGuardarConfigArmadura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarConfigArmaduraActionPerformed(evt);
@@ -4733,12 +5686,22 @@ public class GUI extends JFrame {
         });
 
         lblMejoradorArmadura.setText("objeto mejorador");
+        lblMejoradorArmadura.setName("lblMejoradorArmadura"); // NOI18N
 
         lblNombreMejoradorArmadura.setText("Nombre del objeto");
+        lblNombreMejoradorArmadura.setName("lblNombreMejoradorArmadura"); // NOI18N
+
+        txtNombreObjetoMejArmadura.setName("txtNombreObjetoMejArmadura"); // NOI18N
+
+        comboMejoradorArmadura.setName("comboMejoradorArmadura"); // NOI18N
+
+        txtDescripcionArmadura.setName("txtDescripcionArmadura"); // NOI18N
 
         lblDescripcionMejoradorArmadura.setText("descripción");
+        lblDescripcionMejoradorArmadura.setName("lblDescripcionMejoradorArmadura"); // NOI18N
 
         btnAnadirDescArmadura.setText("Añadir");
+        btnAnadirDescArmadura.setName("btnAnadirDescArmadura"); // NOI18N
         btnAnadirDescArmadura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAnadirDescArmaduraActionPerformed(evt);
@@ -4746,6 +5709,7 @@ public class GUI extends JFrame {
         });
 
         btnEditarDEscArmadura.setText("Editar");
+        btnEditarDEscArmadura.setName("btnEditarDEscArmadura"); // NOI18N
         btnEditarDEscArmadura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarDEscArmaduraActionPerformed(evt);
@@ -4753,31 +5717,43 @@ public class GUI extends JFrame {
         });
 
         btnEliminarDescArmadura.setText("Eliminar");
+        btnEliminarDescArmadura.setName("btnEliminarDescArmadura"); // NOI18N
         btnEliminarDescArmadura.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarDescArmaduraActionPerformed(evt);
             }
         });
 
+        jScrollPane3.setName("jScrollPane3"); // NOI18N
+
         jListDescArmadura.setBorder(javax.swing.BorderFactory.createTitledBorder("lista de descripción"));
         jListDescArmadura.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jListDescArmadura.setName("jListDescArmadura"); // NOI18N
         jScrollPane3.setViewportView(jListDescArmadura);
 
         lblProbRotArmadura.setText("Probabilidad de rotura");
+        lblProbRotArmadura.setName("lblProbRotArmadura"); // NOI18N
 
         lblProbDetArmadura.setText("Probabilidad de deterioro");
+        lblProbDetArmadura.setName("lblProbDetArmadura"); // NOI18N
 
         lblProbSEArmadura.setText("Probabilidad sin efecto");
+        lblProbSEArmadura.setName("lblProbSEArmadura"); // NOI18N
 
         lblProbExitoArmadura.setText("Probabilidad de exito");
+        lblProbExitoArmadura.setName("lblProbExitoArmadura"); // NOI18N
 
         spinnerProbRotArmadura.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbRotArmadura.setName("spinnerProbRotArmadura"); // NOI18N
 
         spinnerProbDetArmadura.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbDetArmadura.setName("spinnerProbDetArmadura"); // NOI18N
 
         spinnerProbSEArmadura.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbSEArmadura.setName("spinnerProbSEArmadura"); // NOI18N
 
         spinnerProbExitoArmadura.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbExitoArmadura.setName("spinnerProbExitoArmadura"); // NOI18N
 
         javax.swing.GroupLayout panelMejoraArmaduraLayout = new javax.swing.GroupLayout(panelMejoraArmadura);
         panelMejoraArmadura.setLayout(panelMejoraArmaduraLayout);
@@ -4909,14 +5885,18 @@ public class GUI extends JFrame {
             panelConfigArmorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelConfigArmorLayout.createSequentialGroup()
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 49, Short.MAX_VALUE))
+                .addGap(0, 1, Short.MAX_VALUE))
         );
 
         panelConfig.addTab("Armaduras", panelConfigArmor);
 
+        panelConfigMobs.setName("panelConfigMobs"); // NOI18N
         panelConfigMobs.setPreferredSize(new java.awt.Dimension(800, 600));
 
+        comboSelectorMobs.setName("comboSelectorMobs"); // NOI18N
+
         btnNuevoMob.setText("Nuevo");
+        btnNuevoMob.setName("btnNuevoMob"); // NOI18N
         btnNuevoMob.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoMobActionPerformed(evt);
@@ -4924,6 +5904,7 @@ public class GUI extends JFrame {
         });
 
         btnEditMob.setText("Editar");
+        btnEditMob.setName("btnEditMob"); // NOI18N
         btnEditMob.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditMobActionPerformed(evt);
@@ -4931,31 +5912,41 @@ public class GUI extends JFrame {
         });
 
         btnEliminarMob.setText("Eliminar");
+        btnEliminarMob.setName("btnEliminarMob"); // NOI18N
         btnEliminarMob.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarMobActionPerformed(evt);
             }
         });
 
+        jScrollPane14.setName("jScrollPane14"); // NOI18N
+
         panelEditorMobs.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de monstruos"));
         panelEditorMobs.setName("Class Editor"); // NOI18N
 
         lblNombreMob.setText("Nombre");
+        lblNombreMob.setName("lblNombreMob"); // NOI18N
+
+        txtNombreMob.setName("txtNombreMob"); // NOI18N
 
         btnGuardarMob.setText("Guardar");
+        btnGuardarMob.setName("btnGuardarMob"); // NOI18N
         btnGuardarMob.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarMobActionPerformed(evt);
             }
         });
 
-        btnResetearMob.setText("Resetear");
-
         lblNivelMob.setText("Nivel");
+        lblNivelMob.setName("lblNivelMob"); // NOI18N
 
         spinnerNivelMob.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spinnerNivelMob.setName("spinnerNivelMob"); // NOI18N
 
         panelComportamientoMob.setBorder(javax.swing.BorderFactory.createTitledBorder("Comportamiento"));
+        panelComportamientoMob.setName("panelComportamientoMob"); // NOI18N
+
+        comboComportamiento.setName("comboComportamiento"); // NOI18N
 
         javax.swing.GroupLayout panelComportamientoMobLayout = new javax.swing.GroupLayout(panelComportamientoMob);
         panelComportamientoMob.setLayout(panelComportamientoMobLayout);
@@ -4974,18 +5965,29 @@ public class GUI extends JFrame {
         );
 
         panelDropsMobs.setBorder(javax.swing.BorderFactory.createTitledBorder("Drops del monstruo"));
+        panelDropsMobs.setName("panelDropsMobs"); // NOI18N
 
         panelDropsObjetosMobs.setBorder(javax.swing.BorderFactory.createTitledBorder("Drop de objetos"));
+        panelDropsObjetosMobs.setName("panelDropsObjetosMobs"); // NOI18N
+
+        comboObjetoDropMob.setName("comboObjetoDropMob"); // NOI18N
 
         lblObjetoDropMob.setText("Objeto");
+        lblObjetoDropMob.setName("lblObjetoDropMob"); // NOI18N
 
         lblCantidadDropMob.setText("Cantidad");
+        lblCantidadDropMob.setName("lblCantidadDropMob"); // NOI18N
 
         lblProbDropMob.setText("Probabilidad");
+        lblProbDropMob.setName("lblProbDropMob"); // NOI18N
 
         spinnerCantidadDropMob.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spinnerCantidadDropMob.setName("spinnerCantidadDropMob"); // NOI18N
 
-        spinnerProbDropMob.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerProbDropMob.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.009999999776482582d));
+        spinnerProbDropMob.setName("spinnerProbDropMob"); // NOI18N
+
+        jScrollPane5.setName("jScrollPane5"); // NOI18N
 
         tablaDropsMob.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -5003,10 +6005,13 @@ public class GUI extends JFrame {
                 return types [columnIndex];
             }
         });
+        tablaDropsMob.setName("tablaDropsMob"); // NOI18N
         jScrollPane5.setViewportView(tablaDropsMob);
 
         lblTipoDropMob.setText("Tipo de objeto");
+        lblTipoDropMob.setName("lblTipoDropMob"); // NOI18N
 
+        comboTipoDropMob.setName("comboTipoDropMob"); // NOI18N
         comboTipoDropMob.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 comboTipoDropMobItemStateChanged(evt);
@@ -5014,10 +6019,28 @@ public class GUI extends JFrame {
         });
 
         btnAnadirDropMob.setText("Añadir");
+        btnAnadirDropMob.setName("btnAnadirDropMob"); // NOI18N
+        btnAnadirDropMob.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAnadirDropMobActionPerformed(evt);
+            }
+        });
 
         btnEditarDropMob.setText("Editar");
+        btnEditarDropMob.setName("btnEditarDropMob"); // NOI18N
+        btnEditarDropMob.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarDropMobActionPerformed(evt);
+            }
+        });
 
         btnEliminarDropMob.setText("Eliminar");
+        btnEliminarDropMob.setName("btnEliminarDropMob"); // NOI18N
+        btnEliminarDropMob.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarDropMobActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelDropsObjetosMobsLayout = new javax.swing.GroupLayout(panelDropsObjetosMobs);
         panelDropsObjetosMobs.setLayout(panelDropsObjetosMobsLayout);
@@ -5077,14 +6100,19 @@ public class GUI extends JFrame {
         );
 
         panelDropsDefault.setBorder(javax.swing.BorderFactory.createTitledBorder("Drops básicos"));
+        panelDropsDefault.setName("panelDropsDefault"); // NOI18N
 
         spinnerDineroDropMob.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(1L), Long.valueOf(1L), null, Long.valueOf(1L)));
+        spinnerDineroDropMob.setName("spinnerDineroDropMob"); // NOI18N
 
         spinnerExpDropMob.setModel(new javax.swing.SpinnerNumberModel(Long.valueOf(0L), Long.valueOf(0L), null, Long.valueOf(1L)));
+        spinnerExpDropMob.setName("spinnerExpDropMob"); // NOI18N
 
         lblDineroDropMob.setText("Dinero");
+        lblDineroDropMob.setName("lblDineroDropMob"); // NOI18N
 
         lblExpDropMob.setText("Experiencia");
+        lblExpDropMob.setName("lblExpDropMob"); // NOI18N
 
         javax.swing.GroupLayout panelDropsDefaultLayout = new javax.swing.GroupLayout(panelDropsDefault);
         panelDropsDefault.setLayout(panelDropsDefaultLayout);
@@ -5135,6 +6163,9 @@ public class GUI extends JFrame {
         );
 
         panelAtaqueMobs.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo de ataque"));
+        panelAtaqueMobs.setName("panelAtaqueMobs"); // NOI18N
+
+        comboTipoAtaqueMob.setName("comboTipoAtaqueMob"); // NOI18N
 
         javax.swing.GroupLayout panelAtaqueMobsLayout = new javax.swing.GroupLayout(panelAtaqueMobs);
         panelAtaqueMobs.setLayout(panelAtaqueMobsLayout);
@@ -5153,38 +6184,55 @@ public class GUI extends JFrame {
         );
 
         panelAtributosMobs.setBorder(javax.swing.BorderFactory.createTitledBorder("Atributos básicos del monstruo"));
+        panelAtributosMobs.setName("panelAtributosMobs"); // NOI18N
 
         lblAtaFisMob.setText("Daño físico");
+        lblAtaFisMob.setName("lblAtaFisMob"); // NOI18N
 
         lblAtaDistMob.setText("Daño a distancia");
+        lblAtaDistMob.setName("lblAtaDistMob"); // NOI18N
 
         lblVelocidadMob.setText("Velocidad");
+        lblVelocidadMob.setName("lblVelocidadMob"); // NOI18N
 
         lblVelocidadAtaqueMob.setText("Velocidad de ataque");
+        lblVelocidadAtaqueMob.setName("lblVelocidadAtaqueMob"); // NOI18N
 
         lblRetrocesoMob.setText("Retroceso");
+        lblRetrocesoMob.setName("lblRetrocesoMob"); // NOI18N
 
         lblRangoSeguiMob.setText("Rango de persecución");
+        lblRangoSeguiMob.setName("lblRangoSeguiMob"); // NOI18N
 
         spinnerAtaDistMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
+        spinnerAtaDistMob.setName("spinnerAtaDistMob"); // NOI18N
 
         spinnerVelocidadMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
+        spinnerVelocidadMob.setName("spinnerVelocidadMob"); // NOI18N
 
         spinnerVelocidadAtaqueMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
+        spinnerVelocidadAtaqueMob.setName("spinnerVelocidadAtaqueMob"); // NOI18N
 
         spinnerRetrocesoMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
+        spinnerRetrocesoMob.setName("spinnerRetrocesoMob"); // NOI18N
 
         spinnerRangoSeguiMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
+        spinnerRangoSeguiMob.setName("spinnerRangoSeguiMob"); // NOI18N
 
         lblMaxVidaMob.setText("Vida máxima");
+        lblMaxVidaMob.setName("lblMaxVidaMob"); // NOI18N
 
         spinnerMaxVidaMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
+        spinnerMaxVidaMob.setName("spinnerMaxVidaMob"); // NOI18N
 
         lblFuerzaDistMob.setText("Fuerza a distancia");
+        lblFuerzaDistMob.setName("lblFuerzaDistMob"); // NOI18N
 
         spinnerFuerzaDistMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(1.0d)));
+        spinnerFuerzaDistMob.setName("spinnerFuerzaDistMob"); // NOI18N
 
         spinnerAtaFisMob.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.01d), Double.valueOf(0.01d), null, Double.valueOf(0.01d)));
+        spinnerAtaFisMob.setName("spinnerAtaFisMob"); // NOI18N
 
         javax.swing.GroupLayout panelAtributosMobsLayout = new javax.swing.GroupLayout(panelAtributosMobs);
         panelAtributosMobs.setLayout(panelAtributosMobsLayout);
@@ -5251,8 +6299,10 @@ public class GUI extends JFrame {
         );
 
         lblTipoMob.setText("Tipo de monstruo");
+        lblTipoMob.setName("lblTipoMob"); // NOI18N
 
         comboSelectorTipoMob.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboSelectorTipoMob.setName("comboSelectorTipoMob"); // NOI18N
         comboSelectorTipoMob.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 comboSelectorTipoMobItemStateChanged(evt);
@@ -5260,6 +6310,7 @@ public class GUI extends JFrame {
         });
 
         PanelAtributosMob.setBorder(javax.swing.BorderFactory.createTitledBorder("Atributos del monstruo"));
+        PanelAtributosMob.setName("PanelAtributosMob"); // NOI18N
 
         checkAtribMob1.setSelected(true);
         checkAtribMob1.setText("Bebé");
@@ -5270,12 +6321,16 @@ public class GUI extends JFrame {
         checkAtribMob2.setName("asleep"); // NOI18N
 
         comboAtribMob1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboAtribMob1.setName("comboAtribMob1"); // NOI18N
 
         lblAtribMob1.setText("jLabel1");
+        lblAtribMob1.setName("lblAtribMob1"); // NOI18N
 
         lblAtribMob2.setText("jLabel1");
+        lblAtribMob2.setName("lblAtribMob2"); // NOI18N
 
         comboAtribMob2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboAtribMob2.setName("comboAtribMob2"); // NOI18N
 
         javax.swing.GroupLayout PanelAtributosMobLayout = new javax.swing.GroupLayout(PanelAtributosMob);
         PanelAtributosMob.setLayout(PanelAtributosMobLayout);
@@ -5332,9 +6387,7 @@ public class GUI extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(spinnerNivelMob, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnGuardarMob, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnResetearMob, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnGuardarMob, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addGroup(panelEditorMobsLayout.createSequentialGroup()
                             .addGroup(panelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -5360,7 +6413,6 @@ public class GUI extends JFrame {
                     .addComponent(lblNivelMob)
                     .addComponent(spinnerNivelMob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGuardarMob)
-                    .addComponent(btnResetearMob)
                     .addComponent(lblNombreMob))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelEditorMobsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -5415,580 +6467,263 @@ public class GUI extends JFrame {
 
         panelConfig.addTab("Monstruos", panelConfigMobs);
 
-        panelConfigChats.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración de chats"));
+        panelConfigSpawners.setName("panelConfigSpawners"); // NOI18N
 
-        panelConfigMarketChat.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat de comercio"));
+        comboSelectorGenerador.setName("comboSelectorGenerador"); // NOI18N
 
-        lblPrefixMarket.setText("Prefijo");
+        btnEditarSpawner.setText("Editar");
+        btnEditarSpawner.setName("btnEditarSpawner"); // NOI18N
+        btnEditarSpawner.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarSpawnerActionPerformed(evt);
+            }
+        });
 
-        lblPrefixColorMarket.setText("Color del prefijo");
+        btnEliminarSpawner.setText("Eliminar");
+        btnEliminarSpawner.setName("btnEliminarSpawner"); // NOI18N
+        btnEliminarSpawner.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarSpawnerActionPerformed(evt);
+            }
+        });
 
-        lblShortcutMarket.setText("atajo en el chat");
+        panelEditorSpawner.setBorder(javax.swing.BorderFactory.createTitledBorder("Editor de Spawner"));
+        panelEditorSpawner.setName("panelEditorSpawner"); // NOI18N
 
-        lblMessageColorMarket.setText("Color del mensaje");
+        panelLocSpawner.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder("Localización"), "Localización"));
+        panelLocSpawner.setName("panelLocSpawner"); // NOI18N
 
-        javax.swing.GroupLayout panelConfigMarketChatLayout = new javax.swing.GroupLayout(panelConfigMarketChat);
-        panelConfigMarketChat.setLayout(panelConfigMarketChatLayout);
-        panelConfigMarketChatLayout.setHorizontalGroup(
-            panelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigMarketChatLayout.createSequentialGroup()
+        lblMundoSpawnLoc.setText("Mundo");
+        lblMundoSpawnLoc.setName("lblMundoSpawnLoc"); // NOI18N
+
+        lblXSpawnLoc.setText("X");
+        lblXSpawnLoc.setName("lblXSpawnLoc"); // NOI18N
+
+        lblYSpawnLoc.setText("Y");
+        lblYSpawnLoc.setName("lblYSpawnLoc"); // NOI18N
+
+        lblZSpawnLoc.setText("Z");
+        lblZSpawnLoc.setName("lblZSpawnLoc"); // NOI18N
+
+        txtMundoSpawnLoc.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtMundoSpawnLoc.setText("world");
+        txtMundoSpawnLoc.setName("txtMundoSpawnLoc"); // NOI18N
+
+        spinnerXSpawnLoc.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerXSpawnLoc.setName("spinnerXSpawnLoc"); // NOI18N
+
+        spinnerYSpawnLoc.setModel(new javax.swing.SpinnerNumberModel(0, 0, 255, 1));
+        spinnerYSpawnLoc.setName("spinnerYSpawnLoc"); // NOI18N
+
+        spinnerZSpawnLoc.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerZSpawnLoc.setName("spinnerZSpawnLoc"); // NOI18N
+
+        javax.swing.GroupLayout panelLocSpawnerLayout = new javax.swing.GroupLayout(panelLocSpawner);
+        panelLocSpawner.setLayout(panelLocSpawnerLayout);
+        panelLocSpawnerLayout.setHorizontalGroup(
+            panelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLocSpawnerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblMessageColorMarket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPrefixMarket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPrefixColorMarket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblShortcutMarket, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblMundoSpawnLoc)
+                    .addComponent(lblXSpawnLoc)
+                    .addComponent(lblYSpawnLoc)
+                    .addComponent(lblZSpawnLoc))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(comboPrefixColorMarketChat, 0, 154, Short.MAX_VALUE)
-                    .addComponent(textPrefixMarketChat)
-                    .addComponent(comboShortcutMarketChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboMessageColorMarketChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(spinnerXSpawnLoc)
+                    .addComponent(txtMundoSpawnLoc, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                    .addComponent(spinnerYSpawnLoc, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(spinnerZSpawnLoc, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
-        panelConfigMarketChatLayout.setVerticalGroup(
-            panelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigMarketChatLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPrefixMarket)
-                    .addComponent(textPrefixMarketChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPrefixColorMarket)
-                    .addComponent(comboPrefixColorMarketChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblShortcutMarket)
-                    .addComponent(comboShortcutMarketChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigMarketChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMessageColorMarket)
-                    .addComponent(comboMessageColorMarketChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-
-        panelConfigGlobal.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat global"));
-
-        lblPrefixGlobal.setText("Prefijo");
-
-        lblPCG.setText("Color del prefijo");
-
-        lblSG.setText("atajo en el chat");
-
-        lblMCG.setText("Color del mensaje");
-
-        javax.swing.GroupLayout panelConfigGlobalLayout = new javax.swing.GroupLayout(panelConfigGlobal);
-        panelConfigGlobal.setLayout(panelConfigGlobalLayout);
-        panelConfigGlobalLayout.setHorizontalGroup(
-            panelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigGlobalLayout.createSequentialGroup()
+        panelLocSpawnerLayout.setVerticalGroup(
+            panelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLocSpawnerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblMCG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPrefixGlobal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPCG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblSG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMundoSpawnLoc)
+                    .addComponent(txtMundoSpawnLoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textPrefixGlobalChat)
-                    .addComponent(comboPrefixColorGlobalChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboShortcutGlobalChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboMessageColorGlobalChat, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        panelConfigGlobalLayout.setVerticalGroup(
-            panelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigGlobalLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPrefixGlobal)
-                    .addComponent(textPrefixGlobalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblXSpawnLoc)
+                    .addComponent(spinnerXSpawnLoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPCG)
-                    .addComponent(comboPrefixColorGlobalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblYSpawnLoc)
+                    .addComponent(spinnerYSpawnLoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSG)
-                    .addComponent(comboShortcutGlobalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigGlobalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMCG)
-                    .addComponent(comboMessageColorGlobalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-
-        panelConfigParty.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat de grupos"));
-
-        lblPP.setText("Prefijo");
-
-        lblPCP.setText("Color del prefijo");
-
-        lblSP.setText("atajo en el chat");
-
-        lblMCP.setText("Color del mensaje");
-
-        javax.swing.GroupLayout panelConfigPartyLayout = new javax.swing.GroupLayout(panelConfigParty);
-        panelConfigParty.setLayout(panelConfigPartyLayout);
-        panelConfigPartyLayout.setHorizontalGroup(
-            panelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigPartyLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblMCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPCP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblSP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textPrefixPartyChat, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                    .addComponent(comboPrefixColorPartyChat, 0, 154, Short.MAX_VALUE)
-                    .addComponent(comboShortcutPartyChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboMessageColorPartyChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        panelConfigPartyLayout.setVerticalGroup(
-            panelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigPartyLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPP)
-                    .addComponent(textPrefixPartyChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPCP)
-                    .addComponent(comboPrefixColorPartyChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSP)
-                    .addComponent(comboShortcutPartyChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigPartyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMCP)
-                    .addComponent(comboMessageColorPartyChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(3, 3, 3))
-        );
-
-        panelConfigGuild.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat de clanes"));
-
-        lblPGuild.setText("Prefijo");
-
-        lblPCGuild.setText("Color del prefijo");
-
-        lblSGuild.setText("atajo en el chat");
-
-        lblMCGuild.setText("Color del mensaje");
-
-        javax.swing.GroupLayout panelConfigGuildLayout = new javax.swing.GroupLayout(panelConfigGuild);
-        panelConfigGuild.setLayout(panelConfigGuildLayout);
-        panelConfigGuildLayout.setHorizontalGroup(
-            panelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigGuildLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblMCGuild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPGuild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPCGuild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblSGuild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textPrefixGuildChat, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                    .addComponent(comboPrefixColorGuildChat, 0, 154, Short.MAX_VALUE)
-                    .addComponent(comboShortcutGuildChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboMessageColorGuildChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        panelConfigGuildLayout.setVerticalGroup(
-            panelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigGuildLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
-                .addGroup(panelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPGuild)
-                    .addComponent(textPrefixGuildChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPCGuild)
-                    .addComponent(comboPrefixColorGuildChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSGuild)
-                    .addComponent(comboShortcutGuildChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigGuildLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMCGuild)
-                    .addComponent(comboMessageColorGuildChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(3, 3, 3))
-        );
-
-        panelConfiglPrivate.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat privado"));
-
-        lblPPriv.setText("Prefijo");
-
-        lblPCPriv.setText("Color del prefijo");
-
-        lblSPriv.setText("atajo en el chat");
-
-        lblMCPriv.setText("Color del mensaje");
-
-        javax.swing.GroupLayout panelConfiglPrivateLayout = new javax.swing.GroupLayout(panelConfiglPrivate);
-        panelConfiglPrivate.setLayout(panelConfiglPrivateLayout);
-        panelConfiglPrivateLayout.setHorizontalGroup(
-            panelConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfiglPrivateLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblMCPriv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPPriv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPCPriv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblSPriv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textPrefixPrivateChat, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                    .addComponent(comboPrefixColorPrivateChat, 0, 154, Short.MAX_VALUE)
-                    .addComponent(comboShortcutPrivateChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboMessageColorPrivateChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        panelConfiglPrivateLayout.setVerticalGroup(
-            panelConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfiglPrivateLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPPriv)
-                    .addComponent(textPrefixPrivateChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPCPriv)
-                    .addComponent(comboPrefixColorPrivateChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSPriv)
-                    .addComponent(comboShortcutPrivateChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfiglPrivateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMCPriv)
-                    .addComponent(comboMessageColorPrivateChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(3, 3, 3))
-        );
-
-        panelConfigNews.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat noticias"));
-
-        lblPN.setText("Prefijo");
-
-        lblPCN.setText("Color del prefijo");
-
-        lblSN.setText("atajo en el chat");
-
-        lblMCN.setText("Color del mensaje");
-
-        javax.swing.GroupLayout panelConfigNewsLayout = new javax.swing.GroupLayout(panelConfigNews);
-        panelConfigNews.setLayout(panelConfigNewsLayout);
-        panelConfigNewsLayout.setHorizontalGroup(
-            panelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigNewsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblMCN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPCN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblSN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textPrefixNewsChat, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                    .addComponent(comboPrefixColorNewsChat, 0, 154, Short.MAX_VALUE)
-                    .addComponent(comboShortcutNewsChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboMessageColorNewsChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        panelConfigNewsLayout.setVerticalGroup(
-            panelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigNewsLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPN)
-                    .addComponent(textPrefixNewsChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPCN)
-                    .addComponent(comboPrefixColorNewsChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSN)
-                    .addComponent(comboShortcutNewsChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigNewsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblMCN)
-                    .addComponent(comboMessageColorNewsChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
-        panelConfigWarning.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat incidencias"));
-
-        lblPW.setText("Prefijo");
-
-        lblPCW.setText("Color del prefijo");
-
-        lblSW.setText("atajo en el chat");
-
-        lblMCW.setText("Color del mensaje");
-
-        javax.swing.GroupLayout panelConfigWarningLayout = new javax.swing.GroupLayout(panelConfigWarning);
-        panelConfigWarning.setLayout(panelConfigWarningLayout);
-        panelConfigWarningLayout.setHorizontalGroup(
-            panelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigWarningLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblMCW, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPW, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblPCW, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lblSW, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textPrefixWarningChat, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
-                    .addComponent(comboPrefixColorWarningChat, 0, 154, Short.MAX_VALUE)
-                    .addComponent(comboShortcutWarningChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboMessageColorWarningChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        panelConfigWarningLayout.setVerticalGroup(
-            panelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigWarningLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(panelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPW)
-                    .addComponent(textPrefixWarningChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPCW)
-                    .addComponent(comboPrefixColorWarningChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSW)
-                    .addComponent(comboShortcutWarningChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigWarningLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMCW)
-                    .addComponent(comboMessageColorWarningChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(3, 3, 3))
-        );
-
-        panelConfigLocal.setBorder(javax.swing.BorderFactory.createTitledBorder("Configuración chat local"));
-
-        lblPL.setText("Prefijo");
-
-        lblPCL.setText("Color del prefijo");
-
-        lblMCL.setText("Color del mensaje");
-
-        lblDL.setText("Distancia de recepción");
-
-        javax.swing.GroupLayout panelConfigLocalLayout = new javax.swing.GroupLayout(panelConfigLocal);
-        panelConfigLocal.setLayout(panelConfigLocalLayout);
-        panelConfigLocalLayout.setHorizontalGroup(
-            panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigLocalLayout.createSequentialGroup()
-                .addContainerGap(38, Short.MAX_VALUE)
-                .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelConfigLocalLayout.createSequentialGroup()
-                        .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panelConfigLocalLayout.createSequentialGroup()
-                                .addComponent(lblPL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(panelConfigLocalLayout.createSequentialGroup()
-                                .addComponent(lblPCL, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-                                .addGap(4, 4, 4)))
-                        .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(textPrefixLocalChat)
-                            .addComponent(comboPrefixColorLocalChat, 0, 120, Short.MAX_VALUE)))
-                    .addGroup(panelConfigLocalLayout.createSequentialGroup()
-                        .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lblMCL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblDL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(spinnerDistanceLocalChat, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-                            .addComponent(comboMessageColorLocalChat, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
-        );
-        panelConfigLocalLayout.setVerticalGroup(
-            panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigLocalLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPL)
-                    .addComponent(textPrefixLocalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblPCL)
-                    .addComponent(comboPrefixColorLocalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDL)
-                    .addComponent(spinnerDistanceLocalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigLocalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMCL)
-                    .addComponent(comboMessageColorLocalChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelLocSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblZSpawnLoc)
+                    .addComponent(spinnerZSpawnLoc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnGuardarConfigChats.setText("Guardar configuración");
-        btnGuardarConfigChats.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarConfigChatsActionPerformed(evt);
-            }
-        });
+        panelAtribSpawner.setBorder(javax.swing.BorderFactory.createTitledBorder("Propiedades del generador"));
+        panelAtribSpawner.setName("panelAtribSpawner"); // NOI18N
 
-        panelConfigEnableChats.setBorder(javax.swing.BorderFactory.createTitledBorder("Habilitar/Deshabilitar chats"));
+        lblMobSpawner.setText("Monstruo");
+        lblMobSpawner.setName("lblMobSpawner"); // NOI18N
 
-        checkEnableGlobalChat.setSelected(true);
-        checkEnableGlobalChat.setText("Habilitar/Deshabilitar chat global");
-        checkEnableGlobalChat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkEnableGlobalChatActionPerformed(evt);
-            }
-        });
+        comboMobSpawner.setName("comboMobSpawner"); // NOI18N
 
-        checkEnableMarketChat.setSelected(true);
-        checkEnableMarketChat.setText("Habilitar/Deshabilitar chat comercio");
-        checkEnableMarketChat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkEnableMarketChatActionPerformed(evt);
-            }
-        });
+        lblRefrescoSpawner.setText("Cooldown");
+        lblRefrescoSpawner.setName("lblRefrescoSpawner"); // NOI18N
 
-        checkGuildChat.setSelected(true);
-        checkGuildChat.setText("Habilitar/Deshabilitar chat clan");
-        checkGuildChat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkGuildChatActionPerformed(evt);
-            }
-        });
+        lblIdSpawner.setText("Identificador");
+        lblIdSpawner.setName("lblIdSpawner"); // NOI18N
 
-        checkPartyChat.setSelected(true);
-        checkPartyChat.setText("Habilitar/Deshabilitar chat grupo");
-        checkPartyChat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkPartyChatActionPerformed(evt);
-            }
-        });
+        spinnerRefrescoSpawner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        spinnerRefrescoSpawner.setName("spinnerRefrescoSpawner"); // NOI18N
 
-        checkPrivateChat.setSelected(true);
-        checkPrivateChat.setText("Habilitar/Deshabilitar chat privado");
-        checkPrivateChat.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                checkPrivateChatActionPerformed(evt);
-            }
-        });
+        lblRadioSpawner.setText("Radio de generación");
+        lblRadioSpawner.setName("lblRadioSpawner"); // NOI18N
 
-        javax.swing.GroupLayout panelConfigEnableChatsLayout = new javax.swing.GroupLayout(panelConfigEnableChats);
-        panelConfigEnableChats.setLayout(panelConfigEnableChatsLayout);
-        panelConfigEnableChatsLayout.setHorizontalGroup(
-            panelConfigEnableChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigEnableChatsLayout.createSequentialGroup()
+        spinnerRadioSpawner.setModel(new javax.swing.SpinnerNumberModel());
+        spinnerRadioSpawner.setName("spinnerRadioSpawner"); // NOI18N
+
+        lblNumMaxMobSpawner.setText("Núm maximo de monstruos");
+        lblNumMaxMobSpawner.setName("lblNumMaxMobSpawner"); // NOI18N
+
+        spinnerNumMaxMobSpawner.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(1), Integer.valueOf(1), null, Integer.valueOf(1)));
+        spinnerNumMaxMobSpawner.setName("spinnerNumMaxMobSpawner"); // NOI18N
+
+        checkEnableSpawner.setText("Habilitado/Deshabilitado");
+        checkEnableSpawner.setName("checkEnableSpawner"); // NOI18N
+
+        txtNombreSpawner.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txtNombreSpawner.setName("txtNombreSpawner"); // NOI18N
+
+        javax.swing.GroupLayout panelAtribSpawnerLayout = new javax.swing.GroupLayout(panelAtribSpawner);
+        panelAtribSpawner.setLayout(panelAtribSpawnerLayout);
+        panelAtribSpawnerLayout.setHorizontalGroup(
+            panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAtribSpawnerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelConfigEnableChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(checkPrivateChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(checkPartyChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(checkGuildChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(checkEnableMarketChat, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
-                    .addComponent(checkEnableGlobalChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelAtribSpawnerLayout.createSequentialGroup()
+                        .addComponent(checkEnableSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(164, 164, 164))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelAtribSpawnerLayout.createSequentialGroup()
+                        .addGroup(panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblIdSpawner, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblMobSpawner, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblRefrescoSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblRadioSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblNumMaxMobSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(spinnerNumMaxMobSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                            .addComponent(spinnerRadioSpawner)
+                            .addComponent(spinnerRefrescoSpawner)
+                            .addComponent(comboMobSpawner, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtNombreSpawner))))
                 .addContainerGap())
         );
-        panelConfigEnableChatsLayout.setVerticalGroup(
-            panelConfigEnableChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigEnableChatsLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(checkEnableGlobalChat)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(checkEnableMarketChat, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(checkGuildChat)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(checkPartyChat)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(checkPrivateChat))
-        );
-
-        javax.swing.GroupLayout panelConfigChatsLayout = new javax.swing.GroupLayout(panelConfigChats);
-        panelConfigChats.setLayout(panelConfigChatsLayout);
-        panelConfigChatsLayout.setHorizontalGroup(
-            panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigChatsLayout.createSequentialGroup()
+        panelAtribSpawnerLayout.setVerticalGroup(
+            panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelAtribSpawnerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnGuardarConfigChats, javax.swing.GroupLayout.PREFERRED_SIZE, 855, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelConfigChatsLayout.createSequentialGroup()
-                        .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panelConfigChatsLayout.createSequentialGroup()
-                                .addComponent(panelConfigEnableChats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE))
-                            .addGroup(panelConfigChatsLayout.createSequentialGroup()
-                                .addComponent(panelConfigGlobal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(4, 4, 4))
-                            .addGroup(panelConfigChatsLayout.createSequentialGroup()
-                                .addComponent(panelConfigLocal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(panelConfigNews, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelConfigMarketChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelConfigGuild, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(panelConfigChatsLayout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panelConfigChatsLayout.createSequentialGroup()
-                                        .addComponent(panelConfigParty, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addContainerGap(357, Short.MAX_VALUE))
-                                    .addComponent(panelConfiglPrivate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(panelConfigChatsLayout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(panelConfigWarning, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())))))
-        );
-        panelConfigChatsLayout.setVerticalGroup(
-            panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfigChatsLayout.createSequentialGroup()
-                .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelConfigMarketChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelConfigParty, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelConfigEnableChats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblIdSpawner)
+                    .addComponent(txtNombreSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
+                .addGroup(panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblMobSpawner)
+                    .addComponent(comboMobSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(6, 6, 6)
+                .addGroup(panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRefrescoSpawner)
+                    .addComponent(spinnerRefrescoSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(panelConfigGuild, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(panelConfiglPrivate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(panelConfigGlobal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblRadioSpawner)
+                    .addComponent(spinnerRadioSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelConfigChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelConfigLocal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelConfigNews, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelConfigWarning, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnGuardarConfigChats)
-                .addGap(504, 504, 504))
-        );
-
-        jScrollPane4.setViewportView(panelConfigChats);
-
-        javax.swing.GroupLayout panelConfChatsLayout = new javax.swing.GroupLayout(panelConfChats);
-        panelConfChats.setLayout(panelConfChatsLayout);
-        panelConfChatsLayout.setHorizontalGroup(
-            panelConfChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfChatsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 907, Short.MAX_VALUE)
+                .addGroup(panelAtribSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNumMaxMobSpawner)
+                    .addComponent(spinnerNumMaxMobSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(checkEnableSpawner)
                 .addContainerGap())
         );
-        panelConfChatsLayout.setVerticalGroup(
-            panelConfChatsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelConfChatsLayout.createSequentialGroup()
+
+        btnGuardarSpawner.setText("Guardar");
+        btnGuardarSpawner.setName("btnGuardarSpawner"); // NOI18N
+        btnGuardarSpawner.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarSpawnerActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelEditorSpawnerLayout = new javax.swing.GroupLayout(panelEditorSpawner);
+        panelEditorSpawner.setLayout(panelEditorSpawnerLayout);
+        panelEditorSpawnerLayout.setHorizontalGroup(
+            panelEditorSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEditorSpawnerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(119, Short.MAX_VALUE))
+                .addComponent(panelAtribSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelLocSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGuardarSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelEditorSpawnerLayout.setVerticalGroup(
+            panelEditorSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelEditorSpawnerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelEditorSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelEditorSpawnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(panelLocSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(panelAtribSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panelEditorSpawnerLayout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(btnGuardarSpawner)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panelConfig.addTab("Chat", panelConfChats);
+        btnCrearSpawner.setText("Nuevo");
+        btnCrearSpawner.setName("btnCrearSpawner"); // NOI18N
+        btnCrearSpawner.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearSpawnerActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelConfigSpawnersLayout = new javax.swing.GroupLayout(panelConfigSpawners);
+        panelConfigSpawners.setLayout(panelConfigSpawnersLayout);
+        panelConfigSpawnersLayout.setHorizontalGroup(
+            panelConfigSpawnersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelConfigSpawnersLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigSpawnersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(panelEditorSpawner, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panelConfigSpawnersLayout.createSequentialGroup()
+                        .addComponent(btnCrearSpawner)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(comboSelectorGenerador, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEditarSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminarSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(245, 245, 245))
+        );
+        panelConfigSpawnersLayout.setVerticalGroup(
+            panelConfigSpawnersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelConfigSpawnersLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelConfigSpawnersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCrearSpawner)
+                    .addComponent(comboSelectorGenerador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEditarSpawner)
+                    .addComponent(btnEliminarSpawner))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelEditorSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(362, Short.MAX_VALUE))
+        );
+
+        panelConfig.addTab("Spawners", panelConfigSpawners);
 
         getContentPane().add(panelConfig, java.awt.BorderLayout.CENTER);
 
@@ -6019,8 +6754,8 @@ public class GUI extends JFrame {
         getSpinnerRangoSeguiMob().setValue(0.01);
         getSpinnerMaxVidaMob().setValue(0.01);
         getSpinnerFuerzaDistMob().setValue(0.01);
-        getSpinnerDineroDropMob().setValue(1);
-        getSpinnerExpDropMob().setValue(1);
+        getSpinnerDineroDropMob().setValue(1l);
+        getSpinnerExpDropMob().setValue(1l);
         getComboTipoAtaqueMob().setSelectedIndex(0);
         getComboComportamiento().setSelectedIndex(0);
         dibujarComponentesMobs();
@@ -6065,10 +6800,6 @@ public class GUI extends JFrame {
         getjListDescArmadura().setListData(desc.toArray());
      }//GEN-LAST:event_btnAnadirDescArmaduraActionPerformed
 
-    private void rdBtnProKillsGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdBtnProKillsGrupoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdBtnProKillsGrupoActionPerformed
-
     private void btnEliminarNivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarNivelActionPerformed
         // TODO add your handling code here:
         int row = tablaClanes.getRowCount();
@@ -6085,7 +6816,6 @@ public class GUI extends JFrame {
     }//GEN-LAST:event_btnEliminarNivelActionPerformed
 
     private void btnEditarNivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarNivelActionPerformed
-        // TODO add your handling code here:
         int row = tablaClanes.getSelectedRow();
         int dinero = (Integer) spinnerDineroEditClan.getValue();
         int jugadores = (Integer) spinnerNumJugEditClan.getValue();
@@ -6114,8 +6844,6 @@ public class GUI extends JFrame {
     }//GEN-LAST:event_btnEditarNivelActionPerformed
 
     private void btnAnadirNivelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirNivelActionPerformed
-        // TODO add your handling code here:
-        // TODO add your handling code here:
         int row = tablaClanes.getRowCount();
         int dinero = (Integer) spinnerDineroEditClan.getValue();
         int jugadores = (Integer) spinnerNumJugEditClan.getValue();
@@ -6275,28 +7003,12 @@ public class GUI extends JFrame {
         }
     }//GEN-LAST:event_btnValidarFormulaClanActionPerformed
 
-    private void btnResetSpawnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetSpawnerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnResetSpawnerActionPerformed
-
-    private void checkEnableSpawnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkEnableSpawnerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkEnableSpawnerActionPerformed
-
-    private void comboMobSpawnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMobSpawnerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboMobSpawnerActionPerformed
-
-    private void txtMundoSpawnLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMundoSpawnLocActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMundoSpawnLocActionPerformed
-
     private void btnEliminarSpawnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarSpawnerActionPerformed
-        // TODO add your handling code here:
+        guiSpawnMan.deleteSpawnSelected();
     }//GEN-LAST:event_btnEliminarSpawnerActionPerformed
 
     private void btnEditarSpawnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarSpawnerActionPerformed
-        // TODO add your handling code here:
+        guiSpawnMan.loadValuesForSpawnSelected();
     }//GEN-LAST:event_btnEditarSpawnerActionPerformed
 
     private void btnEliminarDescArmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarDescArmaActionPerformed
@@ -6485,26 +7197,6 @@ public class GUI extends JFrame {
         }
     }//GEN-LAST:event_checkClanesActionPerformed
 
-    private void checkEnableGlobalChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkEnableGlobalChatActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkEnableGlobalChatActionPerformed
-
-    private void checkEnableMarketChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkEnableMarketChatActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkEnableMarketChatActionPerformed
-
-    private void checkGuildChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkGuildChatActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkGuildChatActionPerformed
-
-    private void checkPartyChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPartyChatActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkPartyChatActionPerformed
-
-    private void checkPrivateChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkPrivateChatActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_checkPrivateChatActionPerformed
-
     private void btnCrearNuevaClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevaClaseActionPerformed
         getTxtNombreClase().setText("");
         getCheckEnableClase().setSelected(true);
@@ -6550,7 +7242,6 @@ public class GUI extends JFrame {
 
     private void btnEliminarClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarClaseActionPerformed
         guiClassMan.deleteClassSelected();
-
     }//GEN-LAST:event_btnEliminarClaseActionPerformed
 
     private void btnCrearNuevoObjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevoObjetoActionPerformed
@@ -6812,9 +7503,105 @@ public class GUI extends JFrame {
 
     private void comboTipoDropMobItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboTipoDropMobItemStateChanged
         if (comboTipoDropMob.getSelectedItem() != null) {
-            dibujarComponentesDrops();
+            rellenarComboDrops();
         }
     }//GEN-LAST:event_comboTipoDropMobItemStateChanged
+
+    private void btnAnadirDropMobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnadirDropMobActionPerformed
+        String dropname = getComboObjetoDropMob().getSelectedItem().toString();
+        String droptype = getComboTipoDropMob().getSelectedItem().toString();
+        int dropquantity = (int) getSpinnerCantidadDropMob().getValue();
+        double probabilidad = (double) getSpinnerProbDropMob().getValue();
+        try {
+            if (dropquantity <= 0) {
+                spinnerCantidadDropMob.setBackground(Color.red);
+                throw new Exception("La cantidad de drops debe ser superior a 0");
+            }
+            if (probabilidad <= 0) {
+                spinnerProbDropMob.setBackground(Color.red);
+                throw new Exception("La probabilidad debe estar comprendida entre 1 y 0, 0 no incluido");
+            }
+            spinnerCantidadDropMob.setBackground(Color.white);
+            spinnerProbDropMob.setBackground(Color.white);
+            tablaDropsMob.setBackground(Color.white);
+            Object[] data = new Object[4];
+            data[0] = droptype;
+            data[1] = dropname;
+            data[2] = dropquantity;
+            data[3] = probabilidad;
+            DefaultTableModel tdm = (DefaultTableModel) tablaDropsMob.getModel();
+            tdm.addRow(data);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Error en la validación", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAnadirDropMobActionPerformed
+
+    private void btnEditarDropMobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarDropMobActionPerformed
+        int row = tablaDropsMob.getSelectedRow();
+        String dropname = getComboObjetoDropMob().getSelectedItem().toString();
+        String droptype = getComboTipoDropMob().getSelectedItem().toString();
+        int dropquantity = (int) getSpinnerCantidadDropMob().getValue();
+        double probabilidad = (double) getSpinnerProbDropMob().getValue();
+        try {
+            if (dropquantity <= 0) {
+                spinnerCantidadDropMob.setBackground(Color.red);
+                throw new Exception("La cantidad debe ser superior a 0");
+            }
+            if (probabilidad <= 0) {
+                spinnerProbDropMob.setBackground(Color.red);
+                throw new Exception("La probabilidad debe estar comprendida entre 0 y 1, 0 no incluido");
+            }
+            if (row == -1) {
+                tablaDropsMob.setBackground(Color.red);
+                throw new Exception("Debes seleccionar primero una celda o fila de la tabla para editar.");
+            } else {
+                spinnerCantidadDropMob.setBackground(Color.white);
+                spinnerProbDropMob.setBackground(Color.white);
+                tablaDropsMob.setBackground(Color.white);
+                tablaDropsMob.setValueAt(droptype, row, 0);
+                tablaDropsMob.setValueAt(dropname, row, 1);
+                tablaDropsMob.setValueAt(dropquantity, row, 2);
+                tablaDropsMob.setValueAt(probabilidad, row, 3);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Error en la validación", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditarDropMobActionPerformed
+
+    private void btnEliminarDropMobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarDropMobActionPerformed
+        int row = tablaDropsMob.getSelectedRow();
+        int rows = tablaDropsMob.getRowCount();
+        try {
+            if (rows == 0) {
+                throw new Exception("No existen objetos para eliminar");
+            }
+            if (row == -1) {
+                throw new Exception("No existen niveles para eliminar");
+            }
+            DefaultTableModel tdm = (DefaultTableModel) tablaDropsMob.getModel();
+            tdm.removeRow(row);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage(), "Error al eliminar", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarDropMobActionPerformed
+
+    private void btnCrearSpawnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearSpawnerActionPerformed
+        getTxtNombreSpawner().setText("");
+        getComboMobSpawner().setSelectedIndex(0);
+        getSpinnerRadioSpawner().setValue(1);
+        getSpinnerRefrescoSpawner().setValue(1);
+        getSpinnerNumMaxMobSpawner().setValue(1);
+        getCheckEnableSpawner().setSelected(true);
+        getTxtMundoSpawnLoc().setText("");
+        getSpinnerXSpawnLoc().setValue(0);
+        getSpinnerYSpawnLoc().setValue(0);
+        getSpinnerZSpawnLoc().setValue(0);
+        recursivelyEnableDisablePanel(getPanelEditorSpawner(), true);
+    }//GEN-LAST:event_btnCrearSpawnerActionPerformed
+
+    private void btnGuardarSpawnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarSpawnerActionPerformed
+        guiSpawnMan.saveSpawner();
+    }//GEN-LAST:event_btnGuardarSpawnerActionPerformed
 
     private boolean checkConfigArmaduras() {
         if (!getTxtNombreObjetoMejArmadura().getText().isEmpty()
@@ -6853,16 +7640,21 @@ public class GUI extends JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUI.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
             //</editor-fold>
 
@@ -6934,10 +7726,7 @@ public class GUI extends JFrame {
     private javax.swing.JButton btnGuardarSpawner;
     private javax.swing.JButton btnNuevoMob;
     private javax.swing.JButton btnNuevoSet;
-    private javax.swing.JButton btnResetClase;
-    private javax.swing.JButton btnResetSpawner;
     private javax.swing.JButton btnResetearFormulaClan;
-    private javax.swing.JButton btnResetearMob;
     private javax.swing.JButton btnValidarFormulaClan;
     private javax.swing.JButton btnValidarFormulaNiveles;
     private javax.swing.ButtonGroup btngroupNumJugClan;
@@ -7009,7 +7798,6 @@ public class GUI extends JFrame {
     private javax.swing.JComboBox comboSelectorGenerador;
     private javax.swing.JComboBox comboSelectorJoyas;
     private javax.swing.JComboBox comboSelectorMobs;
-    private javax.swing.JTextField comboSelectorSpawner;
     private javax.swing.JComboBox comboSelectorTipoMob;
     private javax.swing.JComboBox comboShortcutGlobalChat;
     private javax.swing.JComboBox comboShortcutGuildChat;
@@ -7526,10 +8314,10 @@ public class GUI extends JFrame {
     private javax.swing.JTextField txtNombreObjetoMejArma;
     private javax.swing.JTextField txtNombreObjetoMejArmadura;
     private javax.swing.JTextField txtNombreSet;
+    private javax.swing.JTextField txtNombreSpawner;
     // End of variables declaration//GEN-END:variables
 
     private XYDataset createDataset(int max_lvl) {
-        // create the dataset...
         XYSeries series = new XYSeries("nivel");
         double res = 0.0;
         for (int i = 0; i <= max_lvl; i++) {
@@ -7771,8 +8559,8 @@ public class GUI extends JFrame {
         return comboSelectorMobs;
     }
 
-    public JTextField getComboSelectorSpawner() {
-        return comboSelectorSpawner;
+    public JTextField getTxtNombreSpawner() {
+        return txtNombreSpawner;
     }
 
     public JComboBox getComboSelectorTipoMob() {
@@ -9043,10 +9831,10 @@ public class GUI extends JFrame {
         return PanelAtributosMob;
     }
 
-    private void dibujarComponentesDrops() {
-        comboObjetoDropMob.removeAllItems();
+    private void rellenarComboDrops() {
+        //comboObjetoDropMob.removeAllItems();
         switch (EnumTypeDrop.valueOf(EnumTypeDrop.values()[(int) getComboTipoDropMob().getSelectedIndex()].name())) {
-            case ARMOR:
+            case ARMADURA:
                 for (Map.Entry<String, GUISet> entrySet : guiArmorMan.getListSets().entrySet()) {
                     Object value = entrySet.getValue();
                     for (Map.Entry<EnumArmorPart, GUIArmor> a : entrySet.getValue().getSet().entrySet()) {
@@ -9055,22 +9843,25 @@ public class GUI extends JFrame {
                     }
                 }
                 break;
-            case ITEM:
+            case OBJETO:
                 for (Map.Entry<String, GUIItem> entrySet : guiItemMan.getListItems().entrySet()) {
                     String key = entrySet.getKey();
                     comboObjetoDropMob.addItem(key);
                 }
                 break;
-            case WEAPON:
+            case ARMA:
                 for (Map.Entry<String, GUIWeapon> entrySet : guiWeaponMan.getListWeapons().entrySet()) {
                     Object key = entrySet.getKey();
                     comboObjetoDropMob.addItem(key);
                 }
                 break;
-            case UPGRADER:
-                if (getGuiItemMan() == null) {
-                    System.out.println("la cagaste");
+            case JOYA:
+                for (Map.Entry<String, GUIJewel> entrySet : guiJewelMan.getListjewels().entrySet()) {
+                    comboObjetoDropMob.addItem(entrySet.getKey());
+
                 }
+                break;
+            case MEJORADOR:
                 for (String s : getGuiItemMan().getUpgraders()) {
                     comboObjetoDropMob.addItem(s);
                 }
@@ -9256,5 +10047,4 @@ public class GUI extends JFrame {
     public static GUIMobManager getGuiMobMan() {
         return guiMobMan;
     }
-
 }

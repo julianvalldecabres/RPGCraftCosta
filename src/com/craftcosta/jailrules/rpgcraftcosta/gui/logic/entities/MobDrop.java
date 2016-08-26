@@ -21,9 +21,48 @@ package com.craftcosta.jailrules.rpgcraftcosta.gui.logic.entities;
  */
 public class MobDrop {
 
-    EnumTypeDrop type;
-    String itemname;
-    int quantity;
-    float probability;
+    private EnumTypeDrop type;
+    private String itemname;
+    private int quantity;
+    private double probability;
+
+    public MobDrop(String dropname, EnumTypeDrop droptype, int dropquantity, double dropprob) {
+        this.itemname=dropname;
+        this.type=droptype;
+        this.quantity=dropquantity;
+        this.probability=dropprob;
+    }
+
+    public EnumTypeDrop getType() {
+        return type;
+    }
+
+    public void setType(EnumTypeDrop type) {
+        this.type = type;
+    }
+
+    public String getItemname() {
+        return itemname;
+    }
+
+    public void setItemname(String itemname) {
+        this.itemname = itemname;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public double getProbability() {
+        return probability;
+    }
+
+    public void setProbability(float probability) {
+        this.probability = probability;
+    }
 
 }

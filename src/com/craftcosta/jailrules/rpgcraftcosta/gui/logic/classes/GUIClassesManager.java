@@ -58,7 +58,7 @@ public class GUIClassesManager {
             gui.getComboSelectorClases().addItem(entrySet.getKey());
 
         }
-
+        System.out.println("Cargado config clases");
     }
 
     public void loadValuesForClassSelected() {

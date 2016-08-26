@@ -20,6 +20,8 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMob;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.AttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.OcelotType;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.entities.MobDrop;
+import java.util.List;
 
 /**
  *
@@ -50,7 +52,7 @@ public class RPGOcelot extends RPGMob {
      * @param baby
      * @param otype
      */
-    public RPGOcelot(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, boolean baby, OcelotType otype) {
+    public RPGOcelot(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, boolean baby, OcelotType otype,List<MobDrop> drops) {
         this.level = level;
         this.name = name;
         this.type = type;
@@ -69,6 +71,7 @@ public class RPGOcelot extends RPGMob {
         this.exp = exp;
         this.baby = baby;
         this.oType = otype;
+        this.drops=drops;
     }
 
     /**

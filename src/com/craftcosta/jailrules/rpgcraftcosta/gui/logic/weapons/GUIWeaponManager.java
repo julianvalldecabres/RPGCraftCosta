@@ -80,6 +80,7 @@ public class GUIWeaponManager {
         for (Map.Entry<String, GUIWeapon> entrySet : listWeapons.entrySet()) {
             gui.getComboListaArmas().addItem(entrySet.getKey());
         }
+        System.out.println("Cargado config armas");
     }
 
     private void loadWeaponsConfig() {
@@ -325,7 +326,7 @@ public class GUIWeaponManager {
         filewConfig = YamlConfiguration.loadConfiguration(filew);
         int index;
         GUIWeapon check = getGUIWeaponByName(gw.getName());
-        if (gw == null) {
+        if (check == null) {
             this.lastindex++;
             index = lastindex;
         } else {

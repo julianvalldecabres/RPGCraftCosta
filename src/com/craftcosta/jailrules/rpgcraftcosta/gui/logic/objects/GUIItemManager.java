@@ -49,12 +49,12 @@ public class GUIItemManager {
         this.gui = gui;
         listItems = new HashMap<>();
         upgraders = new ArrayList<>();
-
+        System.out.println("-anana");
         upgraders.add(gui.getGuiArmorMan().getUpgraderName());
         upgraders.add(gui.getGuiWeaponMan().getUpgraderName());
         listnum = new HashMap<>();
         file = new File(RPGFinals.questItemFile);
-
+        
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -70,7 +70,7 @@ public class GUIItemManager {
         for (Map.Entry<String, GUIItem> entrySet : listItems.entrySet()) {
             gui.getComboListaObjetos().addItem(entrySet.getKey());
         }
-
+        System.out.println("Cargado config de objetos");
     }
 
     public Map<String, GUIItem> getListItems() {

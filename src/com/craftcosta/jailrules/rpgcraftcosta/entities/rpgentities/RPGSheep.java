@@ -20,6 +20,8 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMob;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.AttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.SheepColor;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.entities.MobDrop;
+import java.util.List;
 
 /**
  *
@@ -50,7 +52,7 @@ public class RPGSheep extends RPGMob {
      * @param scolor
      * @param baby
      */
-    public RPGSheep(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, SheepColor scolor, boolean baby) {
+    public RPGSheep(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, SheepColor scolor, boolean baby,List<MobDrop> drops) {
         this.level = level;
         this.name = name;
         this.type = type;
@@ -69,6 +71,7 @@ public class RPGSheep extends RPGMob {
         this.exp = exp;
         this.baby = baby;
         this.sColor = scolor;
+        this.drops=drops;
     }
 
     /**

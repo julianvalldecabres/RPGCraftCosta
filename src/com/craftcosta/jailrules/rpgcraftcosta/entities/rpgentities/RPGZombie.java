@@ -19,6 +19,8 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.CustomEntityType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMob;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.AttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.entities.MobDrop;
+import java.util.List;
 
 /**
  *
@@ -49,7 +51,7 @@ public class RPGZombie extends RPGMob {
      * @param baby
      * @param villager
      */
-    public RPGZombie(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, boolean baby, boolean villager) {
+    public RPGZombie(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, boolean baby, boolean villager,List<MobDrop> drops) {
         this.level = level;
         this.name = name;
         this.type = CustomEntityType.ZOMBIEX;
@@ -68,6 +70,7 @@ public class RPGZombie extends RPGMob {
         this.exp = exp;
         this.villager = villager;
         this.baby = baby;
+        this.drops=drops;
     }
 
     /**

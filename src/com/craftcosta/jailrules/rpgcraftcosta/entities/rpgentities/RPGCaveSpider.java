@@ -19,8 +19,8 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.CustomEntityType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMob;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.AttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
-import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumAttackType;
-import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumBehaviour;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.entities.MobDrop;
+import java.util.List;
 
 /**
  *
@@ -45,8 +45,9 @@ public class RPGCaveSpider extends RPGMob {
      * @param rangedstrength
      * @param money
      * @param exp
+     * @param drops
      */
-    public RPGCaveSpider(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp) {
+    public RPGCaveSpider(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp,List<MobDrop> drops) {
         this.level = level;
         this.name = name;
         this.type = type;
@@ -63,6 +64,7 @@ public class RPGCaveSpider extends RPGMob {
         this.rangedstrength = rangedstrength;
         this.money = money;
         this.exp = exp;
+        this.drops=drops;
     }
 
 }

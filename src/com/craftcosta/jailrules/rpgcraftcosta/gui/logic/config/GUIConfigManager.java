@@ -57,7 +57,7 @@ public class GUIConfigManager {
             }
         }
         loadConfigFromFile();
-
+        System.out.println("Cargado config global");
     }
 
     public boolean isDaycycle() {

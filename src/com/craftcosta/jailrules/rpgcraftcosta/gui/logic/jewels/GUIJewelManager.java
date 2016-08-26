@@ -74,6 +74,7 @@ public class GUIJewelManager {
         for (Map.Entry<String, GUIJewel> entrySet : listjewels.entrySet()) {
             gui.getComboSelectorJoyas().addItem(entrySet.getKey());
         }
+        System.out.println("Cargado config joyas");
     }
 
     private void loadJewelsConfig() {
@@ -147,6 +148,10 @@ public class GUIJewelManager {
             this.listnum.put(name, Integer.parseInt(joyaid));
         }
 
+    }
+
+    public Map<String, GUIJewel> getListjewels() {
+        return listjewels;
     }
 
     public void saveJewel() {

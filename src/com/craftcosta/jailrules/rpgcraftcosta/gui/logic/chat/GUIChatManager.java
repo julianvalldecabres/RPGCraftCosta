@@ -59,6 +59,7 @@ public class GUIChatManager {
             }
         }
         loadChatConfig();
+        System.out.println("Cargado config de chats");
     }
 
     private void loadChatConfig() {

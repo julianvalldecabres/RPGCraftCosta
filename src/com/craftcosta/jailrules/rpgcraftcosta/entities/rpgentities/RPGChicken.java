@@ -19,6 +19,8 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.CustomEntityType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMob;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.AttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.entities.MobDrop;
+import java.util.List;
 
 /**
  *
@@ -46,8 +48,9 @@ public class RPGChicken extends RPGMob {
      * @param money
      * @param exp
      * @param baby
+     * @param drops
      */
-    public RPGChicken(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, boolean baby) {
+    public RPGChicken(int level, String name, CustomEntityType type, AttackType aType, MobBehaviour mType, double damageattack, double movementspeed, double knockback, double followrange, double maxhealth, double attackspeed, double rangeddamage, float rangedstrength, long money, long exp, boolean baby,List<MobDrop> drops) {
         this.level = level;
         this.name = name;
         this.type = type;
@@ -65,6 +68,7 @@ public class RPGChicken extends RPGMob {
         this.money = money;
         this.exp = exp;
         this.baby = baby;
+        this.drops=drops;
     }
 
     /**

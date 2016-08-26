@@ -51,6 +51,7 @@ public class GUIPartyManager {
             }
         }
         loadConfig();
+        System.out.println("Cargado config de grupos");
     }
 
     private void loadConfig() {

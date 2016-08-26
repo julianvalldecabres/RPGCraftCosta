@@ -20,9 +20,9 @@ package com.craftcosta.jailrules.rpgcraftcosta.gui.logic.entities;
  * @author jail
  */
 public enum EnumTypeDrop {
-
-    UPGRADER,
-    ITEM,
-    ARMOR,
-    WEAPON;
+    JOYA,
+    MEJORADOR,
+    OBJETO,
+    ARMADURA,
+    ARMA;
 }
