@@ -295,8 +295,8 @@ public class GUIMobManager {
                     rpgmob = new RPGZombie(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float) rangedstrength, money, exp, baby, villager, drops);
                     break;
             }
-            listmobs.put(name, rpgmob);
-            listnum.put(name, Integer.parseInt(id));
+            listmobs.put("[LVL" + level + "] " + name, rpgmob);
+            listnum.put("[LVL" + level + "] " + name, Integer.parseInt(id));
         }
     }
 
@@ -477,16 +477,16 @@ public class GUIMobManager {
                 break;
         }
         if (check == null) {
-            this.listmobs.put(mob.getName(), mob);
-            this.listnum.put(mob.getName(), lastindex + 1);
-            gui.getComboSelectorMobs().addItem(mob.getName());
-            gui.getComboMobSpawner().addItem(mob.getName());
+            this.listmobs.put("[LVL" + mob.getLevel() + "] " + mob.getName(), mob);
+            this.listnum.put("[LVL" + mob.getLevel() + "] " + mob.getName(), lastindex + 1);
+            gui.getComboSelectorMobs().addItem("[LVL" + mob.getLevel() + "] " + mob.getName());
+            gui.getComboMobSpawner().addItem("[LVL" + mob.getLevel() + "] " + mob.getName());
             gui.recursivelyEnableDisablePanel(gui.getPanelEditorMobs(), false);
             saveMobToFile(mob);
         } else {
             int diag = JOptionPane.showConfirmDialog(null, "Ya existe un monstruo con ese nombre\n¿Quieres sobreescribirlo?", "Sobreescribir monstruo: " + mob.getName(), JOptionPane.YES_NO_OPTION);
             if (diag == JOptionPane.YES_OPTION) {
-                this.listmobs.put(mob.getName(), mob);
+                this.listmobs.put("[LVL" + mob.getLevel() + "] " + mob.getName(), mob);
                 gui.recursivelyEnableDisablePanel(gui.getPanelEditorMobs(), false);
                 saveMobToFile(mob);
             }
@@ -592,12 +592,12 @@ public class GUIMobManager {
             int diag = JOptionPane.showConfirmDialog(null, "¿Estas seguro de querer eliminar el monstruo?", "Borrar monstruo: " + mob.getName(), JOptionPane.YES_NO_OPTION);
             if (diag == JOptionPane.YES_OPTION) {
                 //borrar clase de el combo
-                gui.getComboSelectorMobs().removeItem(mob.getName());
-                gui.getComboMobSpawner().removeItem(mob.getName());
+                gui.getComboSelectorMobs().removeItem("[LVL" + mob.getLevel() + "] " + mob.getName());
+                gui.getComboMobSpawner().removeItem("[LVL" + mob.getLevel() + "] " + mob.getName());
                 gui.getComboSelectorMobs().setSelectedIndex(0);
                 gui.getComboMobSpawner().setSelectedIndex(0);
                 //Borrar clase de el fichero y de la memoria
-                listmobs.remove(mob.getName());
+                listmobs.remove("[LVL" + mob.getLevel() + "] " + mob.getName());
                 //listnum.remove(gw.getName());
                 deleteMobFromFile(mob);
             }
@@ -607,8 +607,8 @@ public class GUIMobManager {
     private void deleteMobFromFile(RPGMob mob) {
         try {
             filemConfig = YamlConfiguration.loadConfiguration(filem);
-            int index = listnum.get(mob.getName());
-            listnum.remove(mob.getName());
+            int index = listnum.get("[LVL" + mob.getLevel() + "] " + mob.getName());
+            listnum.remove("[LVL" + mob.getLevel() + "] " + mob.getName());
             filemConfig.set("" + index, null);
             filemConfig.save(filem);
         } catch (IOException ex) {

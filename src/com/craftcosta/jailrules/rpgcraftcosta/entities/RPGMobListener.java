@@ -17,13 +17,16 @@ package com.craftcosta.jailrules.rpgcraftcosta.entities;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import net.minecraft.server.v1_8_R3.EntityChicken;
 import net.minecraft.server.v1_8_R3.EntityLiving;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.Packet;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.Location;
@@ -68,11 +71,10 @@ public class RPGMobListener implements Listener {
         for (World world : this.plugin.getServer().getWorlds()) {
             for (Chunk chunk : world.getLoadedChunks()) {
                 loadedchunks.add(this.RPGMMan.getRPGChunkfromChunk(chunk));
-                //plugin.getLogger().info(this.RPGMMan.getRPGChunkfromChunk(chunk).toString());
             }
         }
-        
         startSpawners();
+        plugin.getLogger().info("Cargado Listener de Mobs");
     }
 
     /**
@@ -298,9 +300,13 @@ public class RPGMobListener implements Listener {
     @EventHandler
     public void onChunkUnload(ChunkUnloadEvent e) {
         //quitar las entidades de los spawnere del chunk descargado
-        if (RPGMMan.chunkHasSpawners(e.getChunk())) {
-            for (Entity ent : plugin.getServer().getWorld("").getEntities()) {
-                ent.getUniqueId();
+        RPGChunk rpgc = RPGMMan.getRPGChunkfromChunk(e.getChunk());
+        loadedchunks.remove(rpgc);
+        if (RPGMMan.chunkHasSpawners(rpgc)) {
+            Map<String, RPGSpawner> spawners = RPGMMan.getSpawnerList().get(rpgc);
+            for (Map.Entry<String, RPGSpawner> entrySet : spawners.entrySet()) {
+                RPGSpawner value = entrySet.getValue();
+
             }
         }
 
@@ -314,20 +320,27 @@ public class RPGMobListener implements Listener {
     public void onChunkLoad(ChunkLoadEvent e) {
         //activar spawners del chunk que se ha cargado
         RPGChunk chunk = RPGMMan.getRPGChunkfromChunk(e.getChunk());
-        if (RPGMMan.chunkHasSpawners(e.getChunk())) {
+        loadedchunks.add(chunk);
+        if (RPGMMan.chunkHasSpawners(chunk)) {
 
         }
     }
 
     private void startSpawners() {
+        plugin.getLogger().info("hay "+this.RPGMMan.getSpawnerList().size()+" ezpauners" );
+        for (Map.Entry<String, RPGSpawner> entrySet : this.RPGMMan.getSpawnerList()) {
         for (RPGChunk chunk : loadedchunks) {
-            Map<String, RPGSpawner> spawnerslist = this.RPGMMan.spawnerList.get(chunk);
-            if (spawnerslist != null) {
-                for (Map.Entry<String, RPGSpawner> entrySet : spawnerslist.entrySet()) {
-                    RPGSpawner value = entrySet.getValue();
-                    RPGMMan.start(value);
-                }
+
+            Map<String, RPGSpawner> spawnerslist = this.RPGMMan.getSpawnerList().get(chunk);
+            if(spawnerslist!=null){
+                plugin.getLogger().info("alguno hay");
+            for (Map.Entry<String, RPGSpawner> entrySet : spawnerslist.entrySet()) {
+                RPGSpawner value = entrySet.getValue();
+                plugin.getLogger().info("pruebaaaa");
+                value.run();
             }
+            }
+
         }
     }
 

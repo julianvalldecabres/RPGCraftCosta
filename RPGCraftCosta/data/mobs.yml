@@ -55,9 +55,9 @@
       name: Estrella del norte
       quantity: 5
       probability: 0.5
-'3':
+'4':
   entitytype: BATX
-  name: Vampi2
+  name: Vampi
   level: 5
   attacktype: RANGED
   behaviour: AGGREAGGRO
@@ -68,7 +68,7 @@
   maxhealth: 20.0
   attackspeed: 1.0
   rangeddamage: 30.0
-  rangedstregth: 1.0
+  rangedstregth: 0.0
   money: 1
   exp: 1
   asleep: true

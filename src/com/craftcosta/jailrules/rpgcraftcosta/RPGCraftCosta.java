@@ -137,7 +137,7 @@ public class RPGCraftCosta extends JavaPlugin {
         this.rpgChatManager = new RPGChatManager(this);
         this.rpgItemManager = new RPGItemManager(this);
         this.rpgClassManager = new RPGClassManager(this);
-        
+
         this.rpgPlayerManager = new RPGPlayerManager(this);
         if (getRpgConfig().isEnableParties()) {
             this.rpgPartyManager = new RPGPartyManager(this);
@@ -147,7 +147,7 @@ public class RPGCraftCosta extends JavaPlugin {
         }
         this.rpgMobManager = new RPGMobManager(this);
         this.rpgTradeManager = new RPGTradeManager(this);
-        
+
         //Commands
         myChatCommands = new RPGChatCommands(this);
         myClassCommands = new RPGClassCommands(this);
@@ -159,7 +159,7 @@ public class RPGCraftCosta extends JavaPlugin {
         }
         myPlayerCommands = new RPGPlayerCommands(this);
         myTradeCommands = new RPGTradeCommands(this);
-        myMobCommands= new RPGMobCommands(this);
+        myMobCommands = new RPGMobCommands(this);
         getCommand("task").setExecutor(myChatCommands);
         getCommand("class").setExecutor(myClassCommands);
         getCommand("class").setTabCompleter(myClassCommands);
@@ -190,7 +190,8 @@ public class RPGCraftCosta extends JavaPlugin {
         }
         getServer().getPluginManager().registerEvents(new RPGMobListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGTradeListeners(this), this);
-                getServer().getPluginManager().registerEvents(new RPGLevelListener(this),this);
+        getServer().getPluginManager().registerEvents(new RPGLevelListener(this), this);
+        getLogger().info("Listeners cargados!");
 
     }//Cierre del metodo
 

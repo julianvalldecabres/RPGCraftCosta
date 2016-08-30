@@ -22,7 +22,7 @@ import org.bukkit.World;
  *
  * @author jail
  */
-public class RPGChunk {
+public class RPGChunk implements Comparable<RPGChunk>{
 
     private int x;
     private int z;
@@ -101,6 +101,12 @@ public class RPGChunk {
     @Override
     public String toString(){
         return this.world.getName()+" "+this.x+" "+this.z;
+    }
+
+    @Override
+    public int compareTo(RPGChunk o) {        
+        if(this.x==o.x && this.z==z && this.world.equals(o.world)){return 0;}
+        return -1;
     }
 
 }

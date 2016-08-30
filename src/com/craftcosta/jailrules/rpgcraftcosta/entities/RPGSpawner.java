@@ -15,10 +15,14 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities;
 
+import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import net.minecraft.server.v1_8_R3.Entity;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 
 /**
@@ -26,17 +30,19 @@ import org.bukkit.plugin.Plugin;
  * @author jail
  */
 public class RPGSpawner implements Runnable{
-
+    private RPGCraftCosta plugin;
     private String id;
     private Location loc;
     private String rpgmob;
     private List<Integer> entitiesIds;
+    private List<UUID> entitiesUUIDS;
     public double cooldown;
     public Integer radius = 8;
     public Integer maxMobs;
     public boolean enabled;
 
-    public RPGSpawner(String id, Location loc, String mob, int maxmobs, int radius, int cooldown) {
+    public RPGSpawner(RPGCraftCosta plugin,String id, Location loc, String mob, int maxmobs, int radius, int cooldown) {
+        this.plugin=plugin;
         this.id = id;
         this.loc = loc;
         this.rpgmob = mob;
@@ -47,7 +53,8 @@ public class RPGSpawner implements Runnable{
         this.entitiesIds = new ArrayList<>();
     }
 
-    public RPGSpawner(String id,Location loc, String mob, int maxmobs, int radius, int cooldown, boolean enabled) {
+    public RPGSpawner(RPGCraftCosta plugin,String id,Location loc, String mob, int maxmobs, int radius, int cooldown, boolean enabled) {
+        this.plugin=plugin;
         this.id = id;
         this.loc = loc;
         this.rpgmob = mob;
@@ -195,12 +202,25 @@ public class RPGSpawner implements Runnable{
         return this.entitiesIds.contains(uuid);
     }
 
-    void start() {
-        
-    }
 
     @Override
     public void run() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(enabled){
+            for(int i=0;i<maxMobs;i++){
+                Entity nmsent=plugin.getRPGMobManager().spawnRPGMobAtLocation(plugin.getRPGMobManager().getRPGMobByName(rpgmob), loc);
+                this.entitiesUUIDS.add(nmsent.getUniqueID());
+            }
+        }
     }
+
+    public List<UUID> getEntitiesUUIDS() {
+        return entitiesUUIDS;
+    }
+
+    public void setEntitiesUUIDS(List<UUID> entitiesUUIDS) {
+        this.entitiesUUIDS = entitiesUUIDS;
+    }
+    
+    
+
 }

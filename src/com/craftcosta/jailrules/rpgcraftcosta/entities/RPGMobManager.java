@@ -110,6 +110,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 
+import net.minecraft.server.v1_8_R3.Entity;
+
 /**
  *
  * @author jail
@@ -122,19 +124,9 @@ public class RPGMobManager {
     private FileConfiguration mobFileConfig;
     private FileConfiguration spawnerFileConfig;
 
-    /**
-     *
-     */
+
     public HashMap<String, RPGMob> mobList;
-
-    /**
-     *
-     */
     public HashMap<Integer, String> mobIdList;
-
-    /**
-     *
-     */
     public Map<RPGChunk, Map<String, RPGSpawner>> spawnerList;
 
     /**
@@ -418,10 +410,9 @@ public class RPGMobManager {
                     cooldown = ssection.getInt("cooldown");
                     mobid = ssection.getString("rpgmob");
                     loc = new Location(world, posX, posY, posZ);
-                    //
                     String mobname = mobIdList.get("" + mobid);
                     RPGMob mob = mobList.get(mobname);
-                    spawners.put(name, new RPGSpawner(name, loc, mobid, maxmobs, radius, cooldown));
+                    spawners.put(name, new RPGSpawner(plugin,name, loc, mobid, maxmobs, radius, cooldown));
                 }
                 spawnerList.put(rpgchunk, spawners);
             }
@@ -433,8 +424,8 @@ public class RPGMobManager {
      * @param chunk
      * @return
      */
-    public boolean chunkHasSpawners(Chunk chunk) {
-        return spawnerList.containsKey(new RPGChunk(chunk.getX(), chunk.getZ(), chunk.getWorld()));
+    public boolean chunkHasSpawners(RPGChunk chunk) {
+        return spawnerList.containsKey(chunk);
     }
 
     public RPGMob getRPGMobByName(String mobName) {
@@ -450,111 +441,122 @@ public class RPGMobManager {
         return new RPGChunk(chunk.getX(), chunk.getZ(), chunk.getWorld());
     }
 
-    void start(RPGSpawner value) {
-        plugin.getLogger().info("arrancar y asociar al spawner "+value.getId());
-        value.start();
-    }
+//    void start(RPGSpawner value) {
+//        plugin.getLogger().info("arrancar y asociar al spawner "+value.getId());
+//        value.start();
+//    }
 
-    void spawnRPGMobAtLocation(RPGMob rpgm, Location loc) {
+    public Entity spawnRPGMobAtLocation(RPGMob rpgm, Location loc) {
         net.minecraft.server.v1_8_R3.World world = ((CraftWorld) loc.getWorld()).getHandle();
+        Entity nmsent=null;
         switch(rpgm.getType()){
         case BATX:
-            CustomEntityType.spawnEntity(new CBat(rpgm, world, loc), loc);
+            nmsent= CustomEntityType.spawnEntity(new CBat(rpgm, world, loc), loc);
             break;
         case BLAZEX:
-            CustomEntityType.spawnEntity(new CBlaze(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CBlaze(rpgm, world, loc), loc);
             break;
         case CAVESPIDERX:
-            CustomEntityType.spawnEntity(new CCaveSpider(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CCaveSpider(rpgm, world, loc), loc);
             break;
         case CHICKENX:
-            CustomEntityType.spawnEntity(new CChicken(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CChicken(rpgm, world, loc), loc);
             break;
         case COWX:
-            CustomEntityType.spawnEntity(new CCow(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CCow(rpgm, world, loc), loc);
             break;
         case CREEPERX:
-            CustomEntityType.spawnEntity(new CCreeper(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CCreeper(rpgm, world, loc), loc);
             break;
         case ENDERDRAGONX:
-            CustomEntityType.spawnEntity(new CEnderDragon(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CEnderDragon(rpgm, world, loc), loc);
             break;
         case ENDERMANX:
-            CustomEntityType.spawnEntity(new CEnderman(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CEnderman(rpgm, world, loc), loc);
             break;
         case ENDERMITEX:
-            CustomEntityType.spawnEntity(new CEndermite(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CEndermite(rpgm, world, loc), loc);
             break;
         case GHASTX:
-            CustomEntityType.spawnEntity(new CGhast(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CGhast(rpgm, world, loc), loc);
             break;
         case GIANTX:
-            CustomEntityType.spawnEntity(new CGiant(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CGiant(rpgm, world, loc), loc);
             break;
         case GUARDIANX:
-            CustomEntityType.spawnEntity(new CGuardian(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CGuardian(rpgm, world, loc), loc);
             break;
         case HORSEX:
-            CustomEntityType.spawnEntity(new CHorse(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CHorse(rpgm, world, loc), loc);
             break;
         case IRONGOLEMX:
-            CustomEntityType.spawnEntity(new CIronGolem(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CIronGolem(rpgm, world, loc), loc);
             break;
         case MAGMACUBEX:
-            CustomEntityType.spawnEntity(new CMagmaCube(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CMagmaCube(rpgm, world, loc), loc);
             break;
         case MUSHROOMCOWX:
-            CustomEntityType.spawnEntity(new CMushroomCow(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CMushroomCow(rpgm, world, loc), loc);
             break;
         case OCELOTX:
-            CustomEntityType.spawnEntity(new COcelot(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new COcelot(rpgm, world, loc), loc);
             break;
         case PIGX:
-            CustomEntityType.spawnEntity(new CPig(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CPig(rpgm, world, loc), loc);
             break;
         case PIGZOMBIEX:
-            CustomEntityType.spawnEntity(new CPigZombie(rpgm, world, loc), loc);
+            nmsent=CustomEntityType.spawnEntity(new CPigZombie(rpgm, world, loc), loc);
             break;
         case RABBITX:
-            CustomEntityType.spawnEntity(new CRabbit(rpgm, world, loc),loc);
+            nmsent=CustomEntityType.spawnEntity(new CRabbit(rpgm, world, loc),loc);
             break;
         case SHEEPX:
-            CustomEntityType.spawnEntity(new CSheep(rpgm, world, loc),loc);
+            nmsent=CustomEntityType.spawnEntity(new CSheep(rpgm, world, loc),loc);
             break;
         case SILVERFISHX:
-            CustomEntityType.spawnEntity(new CSilverfish(rpgm, world, loc),loc);
+            nmsent=CustomEntityType.spawnEntity(new CSilverfish(rpgm, world, loc),loc);
             break;
         case SKELETONX:
-            CustomEntityType.spawnEntity(new CSkeleton(rpgm, world, loc),loc);
+            nmsent=CustomEntityType.spawnEntity(new CSkeleton(rpgm, world, loc),loc);
             break;
         case SLIMEX:
-            CustomEntityType.spawnEntity(new CSlime(rpgm, world, loc),loc);
+            nmsent=CustomEntityType.spawnEntity(new CSlime(rpgm, world, loc),loc);
             break;
         case SNOWGOLEMX:
-            CustomEntityType.spawnEntity(new CSnowGolem(rpgm, world, loc),loc);
+            nmsent=CustomEntityType.spawnEntity(new CSnowGolem(rpgm, world, loc),loc);
             break;
         case SPIDERX:
-            CustomEntityType.spawnEntity(new CSpider(rpgm, world, loc),loc);
+            nmsent=CustomEntityType.spawnEntity(new CSpider(rpgm, world, loc),loc);
             break;
         case SQUIDX:
-            CustomEntityType.spawnEntity(new CSquid(rpgm, world, loc),loc);
+            nmsent=CustomEntityType.spawnEntity(new CSquid(rpgm, world, loc),loc);
             break;
         case VILLAGERX:
-            CustomEntityType.spawnEntity(new CVillager(rpgm,world,loc), new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()));
+            nmsent=CustomEntityType.spawnEntity(new CVillager(rpgm,world,loc), new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()));
             break;
         case WITCHX:
-            CustomEntityType.spawnEntity(new CWitch(rpgm, world, loc), new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()));
+            nmsent=CustomEntityType.spawnEntity(new CWitch(rpgm, world, loc), new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()));
             break;
         case WITHERX:
-            CustomEntityType.spawnEntity(new CWither(rpgm, world, loc), new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()));
+            nmsent=CustomEntityType.spawnEntity(new CWither(rpgm, world, loc), new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()));
             break;
         case WOLFX:
-            CustomEntityType.spawnEntity(new CWolf(rpgm, world, loc), new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()));
+            nmsent=CustomEntityType.spawnEntity(new CWolf(rpgm, world, loc), new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()));
             break;
         case ZOMBIEX:
-            CustomEntityType.spawnEntity(new CZombie(rpgm, world,loc), new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()));
+            nmsent=CustomEntityType.spawnEntity(new CZombie(rpgm, world,loc), new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()));
             break;
             
         }
+        return nmsent;
     }
+
+    public Map<RPGChunk, Map<String, RPGSpawner>> getSpawnerList() {
+        return spawnerList;
+    }
+
+    public void setSpawnerList(Map<RPGChunk, Map<String, RPGSpawner>> spawnerList) {
+        this.spawnerList = spawnerList;
+    }
+    
 }

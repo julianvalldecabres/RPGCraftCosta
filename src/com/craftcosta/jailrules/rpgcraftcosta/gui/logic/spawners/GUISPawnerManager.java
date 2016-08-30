@@ -15,7 +15,6 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.gui.logic.spawners;
 
-import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGSpawner;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.GUI;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;

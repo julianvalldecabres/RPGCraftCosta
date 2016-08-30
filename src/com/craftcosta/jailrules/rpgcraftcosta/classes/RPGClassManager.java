@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Set;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -218,6 +219,8 @@ public class RPGClassManager {
     public void levelUP(RPGPlayer rpgp) {
         //aumentar stats
         RPGClass rpgclass = RPGClassManager.getRPGClass(rpgp.getPlayerClass());
+        rpgp.setActualLevel(rpgp.getActualLevel()+1);
+        rpgp.getPlayer().sendMessage(ChatColor.GREEN+"Enhorabuena has alcanzado el nivel "+rpgp.getActualLevel());
         rpgp.setActualHealth(rpgclass.getLvlUpHealth() + rpgp.getMaxHealth());
         rpgp.setMaxHealth(rpgclass.getLvlUpHealth() + rpgp.getMaxHealth());
         rpgp.setPhysicalAttack(rpgclass.getLvlUpPhysicalAttack() + rpgp.getPhysicalAttack());

@@ -1,6 +1,6 @@
 1:
     entitytype: ZOMBIEX
-    name: Peque Zombi
+    name: Peque Zombie
     level: 15
     attacktype: RANGED
     behaviour: PEACEFUL

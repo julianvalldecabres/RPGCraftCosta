@@ -110,7 +110,9 @@ public class RPGLevelManager {
             newexp = exp + inc;
             plugin.getLogger().info(""+exp);
             plugin.getLogger().info(""+newexp);
-            return ((int)levels.lowerEntry(exp).getValue())!=((int) levels.lowerEntry(newexp).getValue());
+            if(levels.lowerEntry(exp)!=null){
+                return ((int)levels.lowerEntry(exp).getValue())!=((int) levels.lowerEntry(newexp).getValue());
+            }
         }
         return false;
     }
