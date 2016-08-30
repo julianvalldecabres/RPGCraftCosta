@@ -36,12 +36,6 @@ public class RPGLevels {
     private int max_level;
     private TreeMap<Long, Integer> levels;
 
-    /**
-     *
-     */
-    public RPGLevels() {
-        createDefaults();
-    }
 
     /**
      *
@@ -55,40 +49,6 @@ public class RPGLevels {
         this.b = b;
         this.c = c;
         this.max_level = max_level;
-        createTreeLevels();
-    }
-
-    /**
-     *
-     * @param levelCfg
-     */
-    public RPGLevels(File levelCfg) {
-        loadConfig(levelCfg);
-    }
-
-    void createDefaults() {
-        File levelConfig = new File(RPGFinals.LevelingConfigFile);
-        if (!levelConfig.exists()) {
-            try {
-                levelConfig.createNewFile();
-            } catch (IOException ex) {
-                Logger.getLogger(RPGLevels.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        FileConfiguration section = YamlConfiguration.loadConfiguration(levelConfig);
-        this.a = 0;
-        section.addDefault("a", 0);
-        this.b = 20;
-        section.addDefault("b", 20);
-        this.c = 30;
-        section.addDefault("c", 30);
-        this.max_level = 50;
-        section.addDefault("max_level", 50);
-        try {
-            section.save(levelConfig);
-        } catch (IOException ex) {
-            Logger.getLogger(RPGLevels.class.getName()).log(Level.SEVERE, null, ex);
-        }
         createTreeLevels();
     }
 
@@ -117,5 +77,46 @@ public class RPGLevels {
     public TreeMap<Long, Integer> getTree() {
         return levels;
     }
+
+    public double getA() {
+        return a;
+    }
+
+    public void setA(double a) {
+        this.a = a;
+    }
+
+    public double getB() {
+        return b;
+    }
+
+    public void setB(double b) {
+        this.b = b;
+    }
+
+    public double getC() {
+        return c;
+    }
+
+    public void setC(double c) {
+        this.c = c;
+    }
+
+    public int getMax_level() {
+        return max_level;
+    }
+
+    public void setMax_level(int max_level) {
+        this.max_level = max_level;
+    }
+
+    public TreeMap<Long, Integer> getLevels() {
+        return levels;
+    }
+
+    public void setLevels(TreeMap<Long, Integer> levels) {
+        this.levels = levels;
+    }
+    
 
 }

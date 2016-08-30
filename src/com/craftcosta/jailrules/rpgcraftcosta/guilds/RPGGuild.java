@@ -25,15 +25,11 @@ import org.bukkit.entity.Player;
  */
 public class RPGGuild {
 
-    /**
-     *
-     * @param string
-     * @return
-     */
+    private int maxplayers;
     private String name;                    //Name of the guild
     private String owner;                   //Owner of the Guild
     private int level;                      //Level of the guild    
-    private double money;                      //Guild money
+    private long money;                      //Guild money
     private List<String> members;           //List of members
     private List<Player> onlineMembers;     //List of players online
 
@@ -41,10 +37,12 @@ public class RPGGuild {
      *
      * @param name
      * @param owner
+     * @param maxplayers
      */
-    public RPGGuild(String name, Player owner) {
+    public RPGGuild(String name, Player owner,int maxplayers) {
         this.name = name;
         this.owner = owner.getName();
+        this.maxplayers=maxplayers;
         this.level = 0;
         this.money = 0;
         this.members = new ArrayList<>();
@@ -59,11 +57,12 @@ public class RPGGuild {
      * @param owner
      * @param level
      * @param money
-     * @param mods
+     * @param maxplayers
      * @param members
      */
-    public RPGGuild(String name, String owner, int level, double money, List<String> members) {
+    public RPGGuild(String name, String owner, int level, long money,int maxplayers ,List<String> members) {
         this.name = name;
+        this.maxplayers=maxplayers;
         this.owner = owner;
         this.level = level;
         this.money = money;
@@ -119,19 +118,19 @@ public class RPGGuild {
         this.level = level;
     }
 
-    /**
-     *
-     * @return
-     */
-    public double getMoney() {
+    public long getMoney() {
         return money;
     }
 
+    
+    
+    
+    
     /**
      *
      * @param money
      */
-    public void setMoney(double money) {
+    public void setMoney(long money) {
         this.money = money;
     }
 
@@ -165,6 +164,14 @@ public class RPGGuild {
      */
     public void setOnlineMembers(List<Player> onlineMembers) {
         this.onlineMembers = onlineMembers;
+    }
+
+    public int getMaxplayers() {
+        return maxplayers;
+    }
+
+    public void setMaxplayers(int maxplayers) {
+        this.maxplayers = maxplayers;
     }
 
     /**
@@ -244,4 +251,7 @@ public class RPGGuild {
     public void sendMessageToGuildPlayer(Player p, String message) {
         p.sendMessage(message);
     }
+
+    
+    
 }

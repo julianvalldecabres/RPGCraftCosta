@@ -57,27 +57,9 @@ public class RPGGuildListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerKicked(PlayerKickEvent e) {
-        RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(e.getPlayer().getName());
-        rpgGMan.getGuildByName(rpgp.getGuild()).subOnlinePlayer(e.getPlayer());
-        if (!rpgp.getGuild().isEmpty()) {
-            rpgGMan.sendMessageToGuild(rpgp.getGuild(), " El camarada " + rpgp.getName() + " se ha desconectado del servidor");
-        }
-    }
-
-    @EventHandler
-    public void onPlayerDisconnect(PlayerQuitEvent e) {
-        RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(e.getPlayer().getName());
-        rpgGMan.getGuildByName(rpgp.getGuild()).subOnlinePlayer(e.getPlayer());
-        if (!rpgp.getGuild().isEmpty()) {
-            rpgGMan.sendMessageToGuild(rpgp.getGuild(), " El camarada " + rpgp.getName() + " se ha desconectado del servidor");
-        }
-    }
-
-    @EventHandler
     public void onPlayerJoin(OnRPGPlayerJoinEvent e) {
         RPGPlayer rpgp = e.getRPGPlayer();
-        if (!e.getRPGPlayer().getGuild().isEmpty()) {
+        if (e.getRPGPlayer().getGuild()!=null) {
             if (!rpgGMan.getAllAvailableGuilds().contains(rpgp.getGuild())) {
                 rpgp.getPlayer().sendMessage(rpgCMan.getPrefixForGuild() + ChatColor.RED + " El clan " + rpgp.getGuild() + " ha sido disuelto");
                 rpgp.setGuild("");

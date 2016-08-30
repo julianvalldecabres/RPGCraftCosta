@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 jail.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,16 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.craftcosta.jailrules.rpgcraftcosta.economy;
+package com.craftcosta.jailrules.rpgcraftcosta.guilds;
 
 /**
  *
  * @author jail
  */
-public class NegativeMoneyException extends Exception {
+public class RPGGuildLevel {
+    private int level;
+    private int numplayers;
 
-    public NegativeMoneyException(String msg) {
-        super(msg);
+    public RPGGuildLevel(int level, int numplayers) {
+        this.level = level;
+        this.numplayers = numplayers;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getNumplayers() {
+        return numplayers;
+    }
+
+    public void setNumplayers(int numplayers) {
+        this.numplayers = numplayers;
+    }
+    
+    
 }

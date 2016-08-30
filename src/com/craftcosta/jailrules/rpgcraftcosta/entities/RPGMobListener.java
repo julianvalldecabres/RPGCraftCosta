@@ -16,20 +16,23 @@
 package com.craftcosta.jailrules.rpgcraftcosta.entities;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import net.minecraft.server.v1_8_R3.EntityChicken;
 import net.minecraft.server.v1_8_R3.EntityLiving;
 import net.minecraft.server.v1_8_R3.EnumParticle;
 import net.minecraft.server.v1_8_R3.Packet;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
+import org.bukkit.Chunk;
+import org.bukkit.World;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftEntity;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -42,7 +45,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
-import org.bukkit.util.Vector;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  *
@@ -52,6 +55,7 @@ public class RPGMobListener implements Listener {
 
     private RPGCraftCosta plugin;
     private RPGMobManager RPGMMan;
+    private List<RPGChunk> loadedchunks;
 
     /**
      *
@@ -60,6 +64,15 @@ public class RPGMobListener implements Listener {
     public RPGMobListener(RPGCraftCosta plugin) {
         this.plugin = plugin;
         this.RPGMMan = plugin.getRPGMobManager();
+        loadedchunks = new ArrayList<>();
+        for (World world : this.plugin.getServer().getWorlds()) {
+            for (Chunk chunk : world.getLoadedChunks()) {
+                loadedchunks.add(this.RPGMMan.getRPGChunkfromChunk(chunk));
+                //plugin.getLogger().info(this.RPGMMan.getRPGChunkfromChunk(chunk).toString());
+            }
+        }
+        
+        startSpawners();
     }
 
     /**
@@ -300,7 +313,22 @@ public class RPGMobListener implements Listener {
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent e) {
         //activar spawners del chunk que se ha cargado
+        RPGChunk chunk = RPGMMan.getRPGChunkfromChunk(e.getChunk());
+        if (RPGMMan.chunkHasSpawners(e.getChunk())) {
 
+        }
+    }
+
+    private void startSpawners() {
+        for (RPGChunk chunk : loadedchunks) {
+            Map<String, RPGSpawner> spawnerslist = this.RPGMMan.spawnerList.get(chunk);
+            if (spawnerslist != null) {
+                for (Map.Entry<String, RPGSpawner> entrySet : spawnerslist.entrySet()) {
+                    RPGSpawner value = entrySet.getValue();
+                    RPGMMan.start(value);
+                }
+            }
+        }
     }
 
     /**

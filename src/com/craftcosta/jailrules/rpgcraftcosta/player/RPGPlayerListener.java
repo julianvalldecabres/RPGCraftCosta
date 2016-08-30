@@ -22,7 +22,6 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs.CZombie;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.OnRPGPlayerJoinEvent;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
-import com.craftcosta.jailrules.rpgcraftcosta.party.RPGParty;
 import com.craftcosta.jailrules.rpgcraftcosta.party.RPGPartyManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -119,13 +118,14 @@ public class RPGPlayerListener implements Listener {
         RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
         if (plugin.getRpgConfig().isEnableParties()) {
             if (!rpgP.getParty().isEmpty()) {
-                RPGParty rpgParty = rpgPaMan.getParty(rpgP.getParty());
-                rpgPaMan.leavePlayerFromParty(p, rpgP.getParty());
+                rpgPaMan.sendMessageToParty(rpgP.getParty(), " El compañero " + rpgP.getName() + " se ha desconectado del servidor");
+                rpgP.setParty("");
             }
         }
         if (plugin.getRpgConfig().isEnableGuilds()) {
             if (!rpgP.getGuild().isEmpty()) {
-                rpgGMan.sendMessageToGuild(rpgP.getGuild(), ChatColor.LIGHT_PURPLE + "El camarada " + p.getName() + " ha abandonado la partida");
+                rpgGMan.getGuildByName(rpgP.getGuild()).subOnlinePlayer(e.getPlayer());
+            rpgGMan.sendMessageToGuild(rpgP.getGuild(), " El camarada " + rpgP.getName() + " se ha desconectado del servidor");
             }
         }
         rpgPMan.saveRPGPlayer(rpgPMan.getRPGPlayerByName(e.getPlayer().getName()));
@@ -143,13 +143,14 @@ public class RPGPlayerListener implements Listener {
         RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
         if (plugin.getRpgConfig().isEnableParties()) {
             if (!rpgP.getParty().isEmpty()) {
-                RPGParty rpgParty = rpgPaMan.getParty(rpgP.getParty());
-                rpgPaMan.leavePlayerFromParty(p, rpgP.getParty());
+                rpgPaMan.sendMessageToParty(rpgP.getParty(), " El compañero " + rpgP.getName() + " se ha desconectado del servidor");
+                rpgP.setParty("");
             }
         }
         if (plugin.getRpgConfig().isEnableGuilds()) {
             if (!rpgP.getGuild().isEmpty()) {
-                rpgGMan.sendMessageToGuild(rpgP.getGuild(), ChatColor.LIGHT_PURPLE + "El camarada " + p.getName() + " ha abandonado la partida");
+                rpgGMan.getGuildByName(rpgP.getGuild()).subOnlinePlayer(rpgP.getPlayer());
+            rpgGMan.sendMessageToGuild(rpgP.getGuild(), " El camarada " + rpgP.getName() + " se ha desconectado del servidor");
             }
         }
         rpgPMan.saveRPGPlayer(rpgPMan.getRPGPlayerByName(p.getName()));

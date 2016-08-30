@@ -1,7 +1,8 @@
 retraguild:
     acronym: RG
     level: 0
-    money: 0.0
+    money: 0
+    maxplayers: 5
     owner: rocketbunger
     moderators: []
     members: []

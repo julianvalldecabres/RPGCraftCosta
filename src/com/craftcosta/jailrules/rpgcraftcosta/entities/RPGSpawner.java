@@ -17,25 +17,26 @@ package com.craftcosta.jailrules.rpgcraftcosta.entities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import org.bukkit.Location;
+import org.bukkit.plugin.Plugin;
+
 
 /**
  *
  * @author jail
  */
-public class RPGSpawner {
+public class RPGSpawner implements Runnable{
 
-    private Integer id;
+    private String id;
     private Location loc;
-    private RPGMob rpgmob;
-    private List<UUID> entitiesIds;
+    private String rpgmob;
+    private List<Integer> entitiesIds;
     public double cooldown;
     public Integer radius = 8;
     public Integer maxMobs;
     public boolean enabled;
 
-    public RPGSpawner(int id, Location loc, RPGMob mob, int maxmobs, int radius, int cooldown) {
+    public RPGSpawner(String id, Location loc, String mob, int maxmobs, int radius, int cooldown) {
         this.id = id;
         this.loc = loc;
         this.rpgmob = mob;
@@ -46,7 +47,7 @@ public class RPGSpawner {
         this.entitiesIds = new ArrayList<>();
     }
 
-    public RPGSpawner(int id,Location loc, RPGMob mob, int maxmobs, int radius, int cooldown, boolean enabled) {
+    public RPGSpawner(String id,Location loc, String mob, int maxmobs, int radius, int cooldown, boolean enabled) {
         this.id = id;
         this.loc = loc;
         this.rpgmob = mob;
@@ -61,7 +62,7 @@ public class RPGSpawner {
      *
      * @return
      */
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
@@ -69,7 +70,7 @@ public class RPGSpawner {
      *
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -93,7 +94,7 @@ public class RPGSpawner {
      *
      * @return
      */
-    public RPGMob getRpgmob() {
+    public String getRpgmob() {
         return rpgmob;
     }
 
@@ -101,7 +102,7 @@ public class RPGSpawner {
      *
      * @param rpgmob
      */
-    public void setRpgmob(RPGMob rpgmob) {
+    public void setRpgmob(String rpgmob) {
         this.rpgmob = rpgmob;
     }
 
@@ -109,7 +110,7 @@ public class RPGSpawner {
      *
      * @return
      */
-    public List<UUID> getEntitiesIds() {
+    public List<Integer> getEntitiesIds() {
         return entitiesIds;
     }
 
@@ -117,7 +118,7 @@ public class RPGSpawner {
      *
      * @param entitiesIds
      */
-    public void setEntitiesIds(List<UUID> entitiesIds) {
+    public void setEntitiesIds(List<Integer> entitiesIds) {
         this.entitiesIds = entitiesIds;
     }
 
@@ -190,7 +191,16 @@ public class RPGSpawner {
      * @param uuid
      * @return
      */
-    public boolean hasMobWithUUID(UUID uuid) {
+    public boolean hasMobWithUUID(Integer uuid) {
         return this.entitiesIds.contains(uuid);
+    }
+
+    void start() {
+        
+    }
+
+    @Override
+    public void run() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

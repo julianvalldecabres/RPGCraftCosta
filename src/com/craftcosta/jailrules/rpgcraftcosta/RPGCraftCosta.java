@@ -20,11 +20,13 @@ import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatListener;
 import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassCommands;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
+import com.craftcosta.jailrules.rpgcraftcosta.config.GlobalConfigListener;
 import com.craftcosta.jailrules.rpgcraftcosta.config.GlobalConfigManager;
 import com.craftcosta.jailrules.rpgcraftcosta.economy.RPGTradeCommands;
 import com.craftcosta.jailrules.rpgcraftcosta.economy.RPGTradeListeners;
 import com.craftcosta.jailrules.rpgcraftcosta.economy.RPGTradeManager;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.CustomEntityType;
+import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMobCommands;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMobManager;
 
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildCommands;
@@ -35,6 +37,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.items.jewels.RPGJewelListener;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponListener;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMobListener;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildListener;
+import com.craftcosta.jailrules.rpgcraftcosta.leveling.RPGLevelListener;
 import com.craftcosta.jailrules.rpgcraftcosta.leveling.RPGLevelManager;
 import com.craftcosta.jailrules.rpgcraftcosta.party.RPGPartyCommands;
 import com.craftcosta.jailrules.rpgcraftcosta.party.RPGPartyListener;
@@ -71,6 +74,7 @@ public class RPGCraftCosta extends JavaPlugin {
     private RPGGuildCommands myGuildCommands;
     private RPGPlayerCommands myPlayerCommands;
     private RPGTradeCommands myTradeCommands;
+    private RPGMobCommands myMobCommands;
 
     /**
      * Constructor de la clase RPGCraftCosta Se hace uso del patron singleton
@@ -128,11 +132,12 @@ public class RPGCraftCosta extends JavaPlugin {
 
         CustomEntityType.registerEntities();
         //Managers
+        this.rpgLevelManager = new RPGLevelManager(this);
         this.rpgConfig = new GlobalConfigManager(this);
         this.rpgChatManager = new RPGChatManager(this);
         this.rpgItemManager = new RPGItemManager(this);
         this.rpgClassManager = new RPGClassManager(this);
-        this.rpgLevelManager = new RPGLevelManager(this);
+        
         this.rpgPlayerManager = new RPGPlayerManager(this);
         if (getRpgConfig().isEnableParties()) {
             this.rpgPartyManager = new RPGPartyManager(this);
@@ -142,6 +147,7 @@ public class RPGCraftCosta extends JavaPlugin {
         }
         this.rpgMobManager = new RPGMobManager(this);
         this.rpgTradeManager = new RPGTradeManager(this);
+        
         //Commands
         myChatCommands = new RPGChatCommands(this);
         myClassCommands = new RPGClassCommands(this);
@@ -153,6 +159,7 @@ public class RPGCraftCosta extends JavaPlugin {
         }
         myPlayerCommands = new RPGPlayerCommands(this);
         myTradeCommands = new RPGTradeCommands(this);
+        myMobCommands= new RPGMobCommands(this);
         getCommand("task").setExecutor(myChatCommands);
         getCommand("class").setExecutor(myClassCommands);
         getCommand("class").setTabCompleter(myClassCommands);
@@ -166,8 +173,10 @@ public class RPGCraftCosta extends JavaPlugin {
         }
         getCommand("player").setExecutor(myPlayerCommands);
         getCommand("trato").setExecutor(myTradeCommands);
+        getCommand("sumc").setExecutor(myMobCommands);
         //Listeners
         getLogger().info("Registering listeners...");
+        getServer().getPluginManager().registerEvents(new GlobalConfigListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGJewelListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGWeaponListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGArmorListener(this), this);
@@ -181,6 +190,8 @@ public class RPGCraftCosta extends JavaPlugin {
         }
         getServer().getPluginManager().registerEvents(new RPGMobListener(this), this);
         getServer().getPluginManager().registerEvents(new RPGTradeListeners(this), this);
+                getServer().getPluginManager().registerEvents(new RPGLevelListener(this),this);
+
     }//Cierre del metodo
 
     /**

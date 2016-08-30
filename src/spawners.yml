@@ -11,7 +11,7 @@ world:
       maxmobs: 1
       cooldown: 10
       radius: 5
-  5x5:
+  '5x5':
     '2':
       name: adssda
       rpgmob: Pollo
@@ -22,8 +22,8 @@ world:
       maxmobs: 1
       cooldown: 10
       radius: 5
-nether:
-  0x-4:
+world_nether:
+  '0x-4':
     '3':
       name: aprueb
       rpgmob: Peque Zombi

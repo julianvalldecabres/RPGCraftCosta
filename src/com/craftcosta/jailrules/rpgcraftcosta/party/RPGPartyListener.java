@@ -50,30 +50,6 @@ public class RPGPartyListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDisconnect(PlayerQuitEvent e) {
-        RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(e.getPlayer().getName());
-        if (!rpgp.getParty().isEmpty()) {
-            if (rpgPaMan.getAllAvailableParties().contains(rpgp.getParty())) {
-                rpgPaMan.sendMessageToParty(rpgp.getParty(), " El compañero " + rpgp.getName() + " se ha desconectado del servidor");
-            } else {
-                rpgp.setParty("");
-            }
-        }
-    }
-
-    @EventHandler
-    public void onPlayerKicked(PlayerKickEvent e) {
-        RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(e.getPlayer().getName());
-        if (!rpgp.getParty().isEmpty()) {
-            if (rpgPaMan.getAllAvailableParties().contains(rpgp.getParty())) {
-                rpgPaMan.sendMessageToParty(rpgp.getParty(), " El compañero " + rpgp.getName() + " se ha desconectado del servidor");
-            } else {
-                rpgp.setParty("");
-            }
-        }
-    }
-
-    @EventHandler
     public void onPlayerKillsMob(EntityDeathEvent e) {
         Entity ent = e.getEntity();
         if (ent.getLastDamageCause() instanceof EntityDamageByEntityEvent) {

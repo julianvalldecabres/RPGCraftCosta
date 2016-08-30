@@ -17,6 +17,7 @@ package com.craftcosta.jailrules.rpgcraftcosta.party;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
+import com.craftcosta.jailrules.rpgcraftcosta.economy.NegativeMoneyException;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
@@ -27,6 +28,8 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -45,15 +48,10 @@ public class RPGPartyManager {
     private FileConfiguration pConfig;
     private Map<String, RPGParty> partylist;
     private boolean enabled;
-    private boolean canSetPlayerLimits;
     private int playerLimit;
-    private boolean canSetShareOptions;
     private String shareOptions;// none,money,experience,both
-    private boolean canSetPvPEnabled;
     private boolean pvpEnabled;
-    private boolean canSetSOD;
     private String ShareOptionsDistribution;
-    private boolean canSetSDR;
     private String shareDistributionReason;
     private double bonusProportion;
 
@@ -111,17 +109,11 @@ public class RPGPartyManager {
         pConfig = YamlConfiguration.loadConfiguration(partyFileConfig);
 
         plugin.getLogger().info("Loading party config...");
-
         this.enabled = pConfig.getBoolean("enabled");
-        this.canSetPlayerLimits = pConfig.getBoolean("cansetplayerlimits");
         this.playerLimit = pConfig.getInt("playerlimit");
         this.shareOptions = pConfig.getString("share");
-        this.canSetShareOptions = pConfig.getBoolean("cansetshareoptions");
         this.pvpEnabled = pConfig.getBoolean("pvpenabled");
-        this.canSetPvPEnabled = pConfig.getBoolean("cansetpvp");
-        this.canSetSOD = pConfig.getBoolean("cansetsod");
         this.ShareOptionsDistribution = pConfig.getString("shareoption");
-        this.canSetSDR = pConfig.getBoolean("cansetsdr");
         this.shareDistributionReason = pConfig.getString("proportionalreason");
         this.bonusProportion = pConfig.getDouble("bonusproportion");
     }
@@ -246,5 +238,313 @@ public class RPGPartyManager {
      */
     public void addPlayerToParty(Player p, RPGParty party) {
         party.addPlayerToParty(p);
+    }
+
+    public RPGCraftCosta getPlugin() {
+        return plugin;
+    }
+
+    public void setPlugin(RPGCraftCosta plugin) {
+        this.plugin = plugin;
+    }
+
+    public RPGPlayerManager getRpgPMan() {
+        return rpgPMan;
+    }
+
+    public void setRpgPMan(RPGPlayerManager rpgPMan) {
+        this.rpgPMan = rpgPMan;
+    }
+
+    public RPGChatManager getRpgCMan() {
+        return rpgCMan;
+    }
+
+    public void setRpgCMan(RPGChatManager rpgCMan) {
+        this.rpgCMan = rpgCMan;
+    }
+
+    public File getPartyFileConfig() {
+        return partyFileConfig;
+    }
+
+    public void setPartyFileConfig(File partyFileConfig) {
+        this.partyFileConfig = partyFileConfig;
+    }
+
+    public FileConfiguration getpConfig() {
+        return pConfig;
+    }
+
+    public void setpConfig(FileConfiguration pConfig) {
+        this.pConfig = pConfig;
+    }
+
+    public Map<String, RPGParty> getPartylist() {
+        return partylist;
+    }
+
+    public void setPartylist(Map<String, RPGParty> partylist) {
+        this.partylist = partylist;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public int getPlayerLimit() {
+        return playerLimit;
+    }
+
+    public void setPlayerLimit(int playerLimit) {
+        this.playerLimit = playerLimit;
+    }
+
+    public String getShareOptions() {
+        return shareOptions;
+    }
+
+    public void setShareOptions(String shareOptions) {
+        this.shareOptions = shareOptions;
+    }
+
+    public boolean isPvpEnabled() {
+        return pvpEnabled;
+    }
+
+    public void setPvpEnabled(boolean pvpEnabled) {
+        this.pvpEnabled = pvpEnabled;
+    }
+
+    public String getShareOptionsDistribution() {
+        return ShareOptionsDistribution;
+    }
+
+    public void setShareOptionsDistribution(String ShareOptionsDistribution) {
+        this.ShareOptionsDistribution = ShareOptionsDistribution;
+    }
+
+    public String getShareDistributionReason() {
+        return shareDistributionReason;
+    }
+
+    public void setShareDistributionReason(String shareDistributionReason) {
+        this.shareDistributionReason = shareDistributionReason;
+    }
+
+    public double getBonusProportion() {
+        return bonusProportion;
+    }
+
+    public void setBonusProportion(double bonusProportion) {
+        this.bonusProportion = bonusProportion;
+    }
+
+    public static Map<String, String> getPeticiones() {
+        return peticiones;
+    }
+
+    public static void setPeticiones(Map<String, String> peticiones) {
+        RPGPartyManager.peticiones = peticiones;
+    }
+
+    public void shareWithParty(RPGParty rpgparty, long exp, long money) {
+        if (exp != 0) {
+            if (money != 0) {
+                shareBothWithParty(rpgparty, exp, money);
+            } else {
+                shareExpWithParty(rpgparty, exp);
+            }
+        } else {
+            if (money != 0) {
+                shareMoneyWithParty(rpgparty, money);
+            }
+        }
+    }
+
+    public void shareBothWithParty(RPGParty rpgparty, long exp, long money) {
+        switch (ShareOptionsDistribution) {
+            case "equal":
+                int numtotal = rpgparty.getPlayers().size();
+                long moneytoshare = money / numtotal;
+                long exptoshare = exp / numtotal;
+                for (Player p : rpgparty.getPlayers()) {
+                    try {
+                        RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
+                        if (plugin.getRPGLevelManager().checkLevelUp(rpgp.getActualExp(), exptoshare)) {
+                            rpgp.setActualExp(rpgp.getActualExp() + exptoshare);
+                            plugin.getRPGClassManager().levelUP(rpgp);
+                        } else {
+                            rpgp.setActualExp(rpgp.getActualExp() + exptoshare);
+                        }
+                        rpgp.getEcon().addMoney(moneytoshare);
+                    } catch (NegativeMoneyException ex) {
+                        Logger.getLogger(RPGPartyManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+                break;
+            case "proportional":
+                switch (shareDistributionReason) {
+                    case "kills":
+                        int totalkills = rpgparty.getTotalKills();
+                        int count = 0;
+                        for (Player p : rpgparty.getPlayers()) {
+                            try {
+                                RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
+                                long moneytogive = rpgparty.getKills().get(count) / totalkills * money;
+                                long exptogive = rpgparty.getKills().get(count) / totalkills * exp;
+                                if (plugin.getRPGLevelManager().checkLevelUp(rpgp.getActualExp(), exptogive)) {
+                                    rpgp.setActualExp(rpgp.getActualExp() + exptogive);
+                                    plugin.getRPGClassManager().levelUP(rpgp);
+                                } else {
+                                    rpgp.setActualExp(rpgp.getActualExp() + exptogive);
+                                }
+                                rpgp.getEcon().addMoney(moneytogive);
+                                count++;
+                            } catch (NegativeMoneyException ex) {
+                                Logger.getLogger(RPGPartyManager.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
+                    case "level":
+                        int totallevel = getTotalLevel(rpgparty);
+                        int count1 = 0;
+                        for (Player p : rpgparty.getPlayers()) {
+                            try {
+                                RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
+                                long moneytogive = rpgp.getActualLevel() / totallevel * money;
+                                long exptogive = rpgp.getActualLevel() / totallevel * exp;
+                                if (plugin.getRPGLevelManager().checkLevelUp(rpgp.getActualExp(), exptogive)) {
+                                    rpgp.setActualExp(rpgp.getActualExp() + exptogive);
+                                    plugin.getRPGClassManager().levelUP(rpgp);
+                                } else {
+                                    rpgp.setActualExp(rpgp.getActualExp() + exptogive);
+                                }
+                                rpgp.getEcon().addMoney(moneytogive);
+                                count1++;
+                            } catch (NegativeMoneyException ex) {
+                                Logger.getLogger(RPGPartyManager.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
+                }
+                break;
+        }
+    }
+
+    public void shareExpWithParty(RPGParty rpgparty, long exp) {
+        switch (ShareOptionsDistribution) {
+            case "equal":
+                int numtotal = rpgparty.getPlayers().size();
+                long exptoshare = exp / numtotal;
+                for (Player p : rpgparty.getPlayers()) {
+                    RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
+                    if (plugin.getRPGLevelManager().checkLevelUp(rpgp.getActualExp(), exptoshare)) {
+                        rpgp.setActualExp(rpgp.getActualExp() + exptoshare);
+                        plugin.getRPGClassManager().levelUP(rpgp);
+                    } else {
+                        rpgp.setActualExp(rpgp.getActualExp() + exptoshare);
+                    }
+                }
+                break;
+            case "proportional":
+                switch (shareDistributionReason) {
+                    case "kills":
+                        int totalkills = rpgparty.getTotalKills();
+                        int count = 0;
+                        for (Player p : rpgparty.getPlayers()) {
+                                RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
+                                long exptogive = rpgparty.getKills().get(count) / totalkills * exp;
+                                if (plugin.getRPGLevelManager().checkLevelUp(rpgp.getActualExp(), exptogive)) {
+                                    rpgp.setActualExp(rpgp.getActualExp() + exptogive);
+                                    plugin.getRPGClassManager().levelUP(rpgp);
+                                } else {
+                                    rpgp.setActualExp(rpgp.getActualExp() + exptogive);
+                                }
+                                count++;
+                        }
+                        break;
+                    case "level":
+                        int totallevel = getTotalLevel(rpgparty);
+                        int count1 = 0;
+                        for (Player p : rpgparty.getPlayers()) {
+                                RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
+                                long exptogive = rpgp.getActualLevel() / totallevel * exp;
+                                if (plugin.getRPGLevelManager().checkLevelUp(rpgp.getActualExp(), exptogive)) {
+                                    rpgp.setActualExp(rpgp.getActualExp() + exptogive);
+                                    plugin.getRPGClassManager().levelUP(rpgp);
+                                } else {
+                                    rpgp.setActualExp(rpgp.getActualExp() + exptogive);
+                                }
+                                count1++;
+                        }
+                        break;
+                }
+                break;
+        }
+    }
+
+    public void shareMoneyWithParty(RPGParty rpgparty, long money) {
+        switch (ShareOptionsDistribution) {
+            case "equal":
+                int numtotal = rpgparty.getPlayers().size();
+                long moneytoshare = money / numtotal;
+                for (Player p : rpgparty.getPlayers()) {
+                    try {
+                        RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
+                        rpgp.getEcon().addMoney(moneytoshare);
+                    } catch (NegativeMoneyException ex) {
+                        Logger.getLogger(RPGPartyManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+                break;
+            case "proportional":
+                switch (shareDistributionReason) {
+                    case "kills":
+                        int totalkills = rpgparty.getTotalKills();
+                        int count = 0;
+                        for (Player p : rpgparty.getPlayers()) {
+                            try {
+                                RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
+                                long moneytogive = rpgparty.getKills().get(count) / totalkills * money;
+                                rpgp.getEcon().addMoney(moneytogive);
+                                count++;
+                            } catch (NegativeMoneyException ex) {
+                                Logger.getLogger(RPGPartyManager.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
+                    case "level":
+                        int totallevel = getTotalLevel(rpgparty);
+                        int count1 = 0;
+                        for (Player p : rpgparty.getPlayers()) {
+                            try {
+                                RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
+                                long moneytogive = rpgp.getActualLevel() / totallevel * money;
+                                rpgp.getEcon().addMoney(moneytogive);
+                                count1++;
+                            } catch (NegativeMoneyException ex) {
+                                Logger.getLogger(RPGPartyManager.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                        break;
+                }
+                break;
+        }
+    }
+
+    public Integer getTotalLevel(RPGParty rpgparty) {
+        int res = 0;
+        for (Player p : rpgparty.getPlayers()) {
+            RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
+            res += rpgp.getActualLevel();
+        }
+        return res;
     }
 }

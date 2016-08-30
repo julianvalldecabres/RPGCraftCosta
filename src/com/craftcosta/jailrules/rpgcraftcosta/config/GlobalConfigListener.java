@@ -24,6 +24,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
@@ -63,7 +64,9 @@ public class GlobalConfigListener implements Listener {
 
     @EventHandler
     public void onPlayerPlaceBlock(BlockPlaceEvent e) {
+        plugin.getLogger().info("poner bloques habilitado?"+rpgGMan.isAllowBlockPlace());
         if (!rpgGMan.isAllowBlockPlace()) {
+            
             if (!e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
                 e.setCancelled(true);
             }
@@ -72,6 +75,8 @@ public class GlobalConfigListener implements Listener {
 
     @EventHandler
     public void onPlayerDestroyBlock(BlockBreakEvent e) {
+                    plugin.getLogger().info("poner bloques habilitado?"+rpgGMan.isAllowBlockDestroy());
+
         if (!rpgGMan.isAllowBlockDestroy()) {
             if (!e.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
                 e.setCancelled(true);
@@ -110,5 +115,10 @@ public class GlobalConfigListener implements Listener {
                 e.setCancelled(true);
             }
         }
+    }
+    
+    @EventHandler
+    public void onBlockBurnEvent(BlockBurnEvent e){
+        e.setCancelled(true);    
     }
 }

@@ -15,6 +15,7 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
+import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMob;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.AttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.PathFinderGoalGoHome;
@@ -76,15 +77,15 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
     private Location spawnLoc;
     private AttackType aType;
     private MobBehaviour mType;
-    private boolean baby;
     private String name;
     private int level;
+    private double maxHealth;
     private double movementspeed;
     private double knockback;
     private double attackdamage;
     private double attackSpeed;
     private double rangedDamage;
-    private float rangedStrenght;
+    private float rangedStrength;
     private double followrange;
     //VARIABLES PROPIAS DE ENTITYENDERDRAGON
 
@@ -196,7 +197,7 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
         this.aType = AttackType.RANGED;
         this.mType = MobBehaviour.AGGRESSIVE;
         this.attackSpeed = 1.0D;
-        this.rangedStrenght = 1.0F;
+        this.rangedStrength = 1.0F;
 //reseteamos los pathfinders
         getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(6.0D);
         getAttributeInstance(GenericAttributes.maxHealth).setValue(16.0D);
@@ -235,7 +236,7 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
         this.aType = AttackType.RANGED;
         this.mType = MobBehaviour.NORMAL;
         this.attackSpeed = 1.0D;
-        this.rangedStrenght = 1.0F;
+        this.rangedStrength = 1.0F;
 //reseteamos los pathfinders
         getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(6.0D);
         getAttributeInstance(GenericAttributes.maxHealth).setValue(16.0D);
@@ -254,6 +255,47 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
         } catch (Exception exc) {
             System.out.println("Ojo alguna variable ha cambiado y hay que revisarlas");
             exc.printStackTrace();
+        }
+        //añadimos los pathfindergoals
+        initPathfinderGoals();
+    }
+
+    public CEnderDragon(RPGMob rpgm, World world, Location loc) {
+        super(world);
+        this.a(16.0F, 8.0F);
+        this.children = new EntityComplexPart[]{this.bn = new EntityComplexPart(this, "head", 6.0F, 6.0F), this.bo = new EntityComplexPart(this, "body", 8.0F, 8.0F), this.bp = new EntityComplexPart(this, "tail", 4.0F, 4.0F), this.bq = new EntityComplexPart(this, "tail", 4.0F, 4.0F), this.br = new EntityComplexPart(this, "tail", 4.0F, 4.0F), this.bs = new EntityComplexPart(this, "wing", 4.0F, 4.0F), this.bt = new EntityComplexPart(this, "wing", 4.0F, 4.0F)};
+        this.aType = rpgm.getaType();
+        this.mType = rpgm.getmType();
+        this.name = rpgm.getName();
+        this.level = rpgm.getLevel();
+        this.spawnLoc = loc;
+        setCustomName("[LVL" + level + "] " + name);
+        this.movementspeed = rpgm.getMovementspeed();
+        this.knockback = rpgm.getKnockback();
+        this.attackdamage = rpgm.getDamageattack();
+        this.attackSpeed = rpgm.getAttackspeed();
+        this.rangedDamage = rpgm.getRangeddamage();
+        this.rangedStrength = rpgm.getRangedstrength();
+        this.followrange = rpgm.getFollowrange();
+        this.maxHealth = rpgm.getMaxhealth();
+
+        getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(followrange);
+        getAttributeInstance(GenericAttributes.maxHealth).setValue(maxHealth);
+        getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(movementspeed);
+        getAttributeInstance(GenericAttributes.c).setValue(knockback);
+        getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(attackdamage);
+
+        try {
+            Field bField = PathfinderGoalSelector.class.getDeclaredField("b");
+            bField.setAccessible(true);
+            Field cField = PathfinderGoalSelector.class.getDeclaredField("c");
+            cField.setAccessible(true);
+            bField.set(goalSelector, new UnsafeList<PathfinderGoalSelector>());
+            bField.set(targetSelector, new UnsafeList<PathfinderGoalSelector>());
+            cField.set(goalSelector, new UnsafeList<PathfinderGoalSelector>());
+            cField.set(targetSelector, new UnsafeList<PathfinderGoalSelector>());
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException exc) {
+            System.out.println("Ojo alguna variable ha cambiado y hay que revisarlas");
         }
         //añadimos los pathfindergoals
         initPathfinderGoals();
@@ -326,7 +368,7 @@ public class CEnderDragon extends EntityMonster implements IComplex, IRangedEnti
         //Por simplicidad lo hemos dejado tal cual esta definido en el mob skeleton
         //Solo se modificará el daño realizado por la entidad arrow
         //Se puede modificar la fuerza con la que es disparada
-        EntityArrow entityarrow = new EntityArrow(this.world, this, el, rangedStrenght, 14 - this.world.getDifficulty().a() * 4);
+        EntityArrow entityarrow = new EntityArrow(this.world, this, el, rangedStrength, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
         int j = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_KNOCKBACK.id, bA());
 

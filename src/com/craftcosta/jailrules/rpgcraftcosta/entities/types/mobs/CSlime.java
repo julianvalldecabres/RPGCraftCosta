@@ -15,6 +15,7 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
+import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMob;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.AttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.PathFinderGoalGoHome;
@@ -76,7 +77,7 @@ public class CSlime extends EntityMonster implements IRangedEntity {
     private double attackdamage;
     private double attackSpeed;
     private double rangedDamage;
-    private float rangedStrenght;
+    private float rangedStrength;
     private double followrange;
     private double maxhealth;
 
@@ -107,7 +108,7 @@ public class CSlime extends EntityMonster implements IRangedEntity {
         ((Navigation) getNavigation()).a(true);
         this.spawnLoc = new Location(world.getWorld(), 0, 0, 0);
         this.attackSpeed = 1.0D;
-        this.rangedStrenght = 1.6F;
+        this.rangedStrength = 1.6F;
         this.rangedDamage = 10.0D;
         this.aType = AttackType.MELEE;
         this.mType = MobBehaviour.AGGRESSIVE;
@@ -146,7 +147,7 @@ public class CSlime extends EntityMonster implements IRangedEntity {
 
         this.spawnLoc = spawnloc;
         this.attackSpeed = 1.0D;
-        this.rangedStrenght = 1.6F;
+        this.rangedStrength = 1.6F;
         this.rangedDamage = 1.0D;
         this.aType = AttackType.MELEE;
         this.mType = MobBehaviour.AGGRESSIVE;
@@ -169,6 +170,46 @@ public class CSlime extends EntityMonster implements IRangedEntity {
         } catch (Exception exc) {
             System.out.println("Ojo alguna variable ha cambiado y hay que revisarlas");
             exc.printStackTrace();
+        }
+        //añadimos los pathfindergoals
+        initPathfinderGoals();
+    }
+
+    public CSlime(RPGMob rpgm, World world, Location loc) {
+        super(world);
+        ((Navigation) getNavigation()).a(true);
+        this.aType = rpgm.getaType();
+        this.mType = rpgm.getmType();
+        this.name = rpgm.getName();
+        this.level = rpgm.getLevel();
+        this.spawnLoc = loc;
+        setCustomName("[LVL" + level + "] " + name);
+        this.movementspeed = rpgm.getMovementspeed();
+        this.knockback = rpgm.getKnockback();
+        this.attackdamage = rpgm.getDamageattack();
+        this.attackSpeed = rpgm.getAttackspeed();
+        this.rangedDamage = rpgm.getRangeddamage();
+        this.rangedStrength = rpgm.getRangedstrength();
+        this.followrange = rpgm.getFollowrange();
+        this.maxhealth = rpgm.getMaxhealth();
+
+        getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(followrange);
+        getAttributeInstance(GenericAttributes.maxHealth).setValue(maxhealth);
+        getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(movementspeed);
+        getAttributeInstance(GenericAttributes.c).setValue(knockback);
+        getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(attackdamage);
+
+        try {
+            Field bField = PathfinderGoalSelector.class.getDeclaredField("b");
+            bField.setAccessible(true);
+            Field cField = PathfinderGoalSelector.class.getDeclaredField("c");
+            cField.setAccessible(true);
+            bField.set(goalSelector, new UnsafeList<PathfinderGoalSelector>());
+            bField.set(targetSelector, new UnsafeList<PathfinderGoalSelector>());
+            cField.set(goalSelector, new UnsafeList<PathfinderGoalSelector>());
+            cField.set(targetSelector, new UnsafeList<PathfinderGoalSelector>());
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException exc) {
+            System.out.println("Ojo alguna variable ha cambiado y hay que revisarlas");
         }
         //añadimos los pathfindergoals
         initPathfinderGoals();
@@ -237,7 +278,7 @@ public class CSlime extends EntityMonster implements IRangedEntity {
      */
     @Override
     public void a(EntityLiving el, float f) {
-        EntityArrow entityarrow = new EntityArrow(this.world, this, el, this.rangedStrenght, 14 - this.world.getDifficulty().a() * 4);
+        EntityArrow entityarrow = new EntityArrow(this.world, this, el, this.rangedStrength, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
         int j = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_KNOCKBACK.id, bA());
 

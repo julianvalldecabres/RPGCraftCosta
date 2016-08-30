@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 jail.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +15,8 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
+import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMob;
+import com.craftcosta.jailrules.rpgcraftcosta.entities.rpgentities.RPGHorse;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.AttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.HorseType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.HorseVariant;
@@ -79,7 +81,7 @@ public class CHorse extends EntityMonster implements IRangedEntity {
     private double attackdamage;
     private double attackSpeed;
     private double rangedDamage;
-    private float rangedStrenght;
+    private float rangedStrength;
     private double followrange;
     private double maxhealth;
     private HorseVariant hVariant;
@@ -102,7 +104,7 @@ public class CHorse extends EntityMonster implements IRangedEntity {
 
         this.setVariant(0);
         this.setType(3);
-        this.rangedStrenght = 1.6F;
+        this.rangedStrength = 1.6F;
         this.rangedDamage = 20.0D;
         this.aType = AttackType.RANGED;
         this.mType = MobBehaviour.NORMAL;
@@ -148,7 +150,7 @@ public class CHorse extends EntityMonster implements IRangedEntity {
         this.setVariant(0);
         this.setType(3);
         this.attackSpeed = 1.0D;
-        this.rangedStrenght = 1.6F;
+        this.rangedStrength = 1.6F;
         this.rangedDamage = 20.0D;
         this.aType = AttackType.MELEE;
         this.mType = MobBehaviour.NORMAL;
@@ -188,13 +190,15 @@ public class CHorse extends EntityMonster implements IRangedEntity {
      * @param attackdamage
      * @param attackSpeed
      * @param rangedDamage
-     * @param rangedStrenght
+     * @param rangedStrength
      * @param followrange
      * @param maxhealth
      * @param world
      */
-    public CHorse(AttackType aType, MobBehaviour mType, boolean baby, String name, int level, double movementspeed, double knockback, double attackdamage, double attackSpeed, double rangedDamage, float rangedStrenght, double followrange, double maxhealth, World world) {
+    public CHorse(AttackType aType, MobBehaviour mType, boolean baby, String name, int level, double movementspeed, double knockback, double attackdamage, double attackSpeed, double rangedDamage, float rangedStrength, double followrange, double maxhealth, World world) {
         super(world);
+        setSize(1.4F, 1.6F);
+        ((Navigation) getNavigation()).a(true);
         this.aType = aType;
         this.mType = mType;
         this.baby = baby;
@@ -205,7 +209,7 @@ public class CHorse extends EntityMonster implements IRangedEntity {
         this.attackdamage = attackdamage;
         this.attackSpeed = attackSpeed;
         this.rangedDamage = rangedDamage;
-        this.rangedStrenght = rangedStrenght;
+        this.rangedStrength = rangedStrength;
         this.followrange = followrange;
         this.maxhealth = maxhealth;
 
@@ -226,6 +230,53 @@ public class CHorse extends EntityMonster implements IRangedEntity {
         } catch (Exception exc) {
             System.out.println("Ojo alguna variable ha cambiado y hay que revisarlas");
             exc.printStackTrace();
+        }
+        //añadimos los pathfindergoals
+        initPathfinderGoals();
+    }
+
+    public CHorse(RPGMob rpgm, World world, Location loc) {
+        super(world);
+        setSize(1.4F, 1.6F);
+        ((Navigation) getNavigation()).a(true);
+        this.baby = ((RPGHorse) rpgm).isBaby();
+        this.aType = rpgm.getaType();
+        this.mType = rpgm.getmType();
+        this.hVariant = ((RPGHorse) rpgm).gethVariant();
+        this.hType = ((RPGHorse) rpgm).getHtype();
+        this.name = rpgm.getName();
+        this.level = rpgm.getLevel();
+        this.spawnLoc = loc;
+        setCustomName("[LVL" + level + "] " + name);
+        this.movementspeed = rpgm.getMovementspeed();
+        this.knockback = rpgm.getKnockback();
+        this.attackdamage = rpgm.getDamageattack();
+        this.attackSpeed = rpgm.getAttackspeed();
+        this.rangedDamage = rpgm.getRangeddamage();
+        this.rangedStrength = rpgm.getRangedstrength();
+        this.followrange = rpgm.getFollowrange();
+        this.maxhealth = rpgm.getMaxhealth();
+        this.setBaby(baby);
+        this.setVariant(this.hVariant.getNumber());
+        this.setType(this.hType.getNumber());
+
+        getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(followrange);
+        getAttributeInstance(GenericAttributes.maxHealth).setValue(maxhealth);
+        getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(movementspeed);
+        getAttributeInstance(GenericAttributes.c).setValue(knockback);
+        getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(attackdamage);
+
+        try {
+            Field bField = PathfinderGoalSelector.class.getDeclaredField("b");
+            bField.setAccessible(true);
+            Field cField = PathfinderGoalSelector.class.getDeclaredField("c");
+            cField.setAccessible(true);
+            bField.set(goalSelector, new UnsafeList<PathfinderGoalSelector>());
+            bField.set(targetSelector, new UnsafeList<PathfinderGoalSelector>());
+            cField.set(goalSelector, new UnsafeList<PathfinderGoalSelector>());
+            cField.set(targetSelector, new UnsafeList<PathfinderGoalSelector>());
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException exc) {
+            System.out.println("Ojo alguna variable ha cambiado y hay que revisarlas");
         }
         //añadimos los pathfindergoals
         initPathfinderGoals();
@@ -294,7 +345,7 @@ public class CHorse extends EntityMonster implements IRangedEntity {
      */
     @Override
     public void a(EntityLiving el, float f) {
-        EntityArrow entityarrow = new EntityArrow(this.world, this, el, this.rangedStrenght, 14 - this.world.getDifficulty().a() * 4);
+        EntityArrow entityarrow = new EntityArrow(this.world, this, el, this.rangedStrength, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
         int j = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_KNOCKBACK.id, bA());
 
@@ -662,7 +713,7 @@ public class CHorse extends EntityMonster implements IRangedEntity {
         return (this.datawatcher.getInt(16) & i) != 0;
     }
 
-    //establece la edad del caballo 
+    //establece la edad del caballo
     private void c(int i, boolean flag) {
         int j = this.datawatcher.getInt(16);
         if (flag) {

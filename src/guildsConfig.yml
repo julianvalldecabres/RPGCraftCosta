@@ -4,15 +4,14 @@ minlevelcreate: 0
 numplayers: -1
 fixedplayers: true
 formulabased: false
-a: 100.0
-b: 50.0
+a: 100
+b: 50
 maxlevel: 2
 playersxlevel: 5
 initialplayers: 5
 donation: true
 contribution: true
 contributionkills: 0.02
-
 levels:
     0:
         dinero: 0

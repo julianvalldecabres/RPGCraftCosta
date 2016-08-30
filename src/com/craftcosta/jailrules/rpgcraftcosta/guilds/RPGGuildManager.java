@@ -17,6 +17,7 @@ package com.craftcosta.jailrules.rpgcraftcosta.guilds;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
+import com.craftcosta.jailrules.rpgcraftcosta.config.GlobalConfigManager;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
@@ -46,45 +47,29 @@ public class RPGGuildManager {
     private RPGCraftCosta plugin;
     private RPGChatManager rpgCMan;
     private RPGPlayerManager rpgPMan;
+    private GlobalConfigManager rpgGCMan;
     private File guildsFile;
     private File guildsFileConfig;
     private FileConfiguration gConfig;
     private FileConfiguration gCConfig;
     private Map<String, RPGGuild> listGuilds;
-    private boolean ilimitedPlayers;
-    private boolean fixedPlayers;
-    private boolean limitedByGuildLevel;
-    private boolean FixedMoney;
-    private boolean MoneyFormule;
-    private double x2;
-    private double x;
-    private double maxGuildLevel;
-    private double addXPlayersXLevel;
-    private double initialPlayers;
-    private boolean onlyContriSystem;
-    private float percentagekills;
-    private boolean onlyDonation;
-    private boolean bothContribution;
-    private TreeMap<Long, Integer> guildLevels;
-
-    /**
-     *
-     */
-    public static Map<String, String> peticiones;
-
-    /**
-     *
-     */
-    public static Map<String, String> invitaciones;
-
-    private boolean enabled;
-    private int maxslots;
     private int minlevelcreate;
-    private int minleveljoin;
+    private boolean ilimitedPlayers;
+    private boolean fixedPlayers;//true-numero false-niveles
+    private int numplayers;
+    private boolean formulabased;//true-con formula crear niveles false-leer del fichero lso niveles
     private double a;
     private double b;
     private int maxlevel;
-    private Map<Long, Integer> levels;
+    private int playersxlevel;
+    private int initialplayers;
+    private boolean donation;
+    private boolean contribution;
+    private double contributionkills;
+
+    private TreeMap<Long, RPGGuildLevel> guildLevels;
+    public static Map<String, String> peticiones;
+    public static Map<String, String> invitaciones;
 
     /**
      *
@@ -95,7 +80,7 @@ public class RPGGuildManager {
         plugin.getLogger().info("Loading guilds config...");
         this.rpgCMan = plugin.getRPGChatManager();
         this.rpgPMan = plugin.getRPGPlayerManager();
-        this.levels = new TreeMap<>();
+        this.guildLevels = new TreeMap<>();
         this.listGuilds = new HashMap<>();
         this.peticiones = new HashMap<>();
         this.invitaciones = new HashMap<>();
@@ -132,16 +117,39 @@ public class RPGGuildManager {
 
     private void loadGuildsConfig() {
         gCConfig = YamlConfiguration.loadConfiguration(guildsFileConfig);
-        this.enabled = gCConfig.getBoolean("enabled");
-        this.maxslots = gCConfig.getInt("maxslots");
+        
         this.minlevelcreate = gCConfig.getInt("minlevelcreate");
-        this.minleveljoin = gCConfig.getInt("minleveljoin");
-        this.a = gCConfig.getDouble("a");
-        this.b = gCConfig.getDouble("b");
+        this.numplayers = gCConfig.getInt("numplayers");
+        this.fixedPlayers = gCConfig.getBoolean("fixedplayers");
+        this.formulabased = gCConfig.getBoolean("formulabased");
+        this.a = gCConfig.getInt("a");
+        this.b = gCConfig.getInt("b");
         this.maxlevel = gCConfig.getInt("maxlevel");
-        for (int i = 1; i <= this.maxlevel; i++) {
-            levels.put((long) (Math.pow(a, 2) * i + b * i), i);
+        this.playersxlevel = gCConfig.getInt("playersxlevel");
+        this.initialplayers = gCConfig.getInt("initialplayers");
+        this.donation = gCConfig.getBoolean("donation");
+        this.contribution = gCConfig.getBoolean("contribution");
+        this.contributionkills = gCConfig.getDouble("contributionkills");
+        if (this.formulabased) {
+            for (int i = 1; i <= this.maxlevel; i++) {
+                long money=(long) (Math.pow(a, 2) * i + b * i);
+                int nplayers= (int) (initialplayers+i*playersxlevel);
+                int nivel= i;
+                guildLevels.put(money, new RPGGuildLevel(nivel, numplayers));
+                
+            }
+        }else{
+            ConfigurationSection s=gCConfig.getConfigurationSection("levels");
+            Set<String> levels=s.getKeys(false);
+            for(String level:levels){
+                ConfigurationSection s2=s.getConfigurationSection(level);
+                int nivel=Integer.parseInt(level);
+                long money=s2.getLong("dinero");
+                int nplayers= s2.getInt("numplayers");
+                guildLevels.put(money, new RPGGuildLevel(nivel, nplayers));
+            }
         }
+
     }
 
     private void loadGuilds() {
@@ -150,7 +158,8 @@ public class RPGGuildManager {
         String name;
         String acronym;
         int level;
-        double money;
+        int maxplayers;
+        long money;
         String owner;
         List<String> members;
 
@@ -159,10 +168,11 @@ public class RPGGuildManager {
             ConfigurationSection section = gConfig.getConfigurationSection(guildname);
             name = guildname;
             level = section.getInt("level");
-            money = section.getDouble("money");
+            maxplayers = section.getInt("maxplayers");
+            money = section.getLong("money");
             owner = section.getString("owner");
             members = section.getStringList("members");
-            this.listGuilds.put(guildname, new RPGGuild(name, owner, level, money, members));
+            this.listGuilds.put(guildname, new RPGGuild(name, owner, level, money, maxplayers, members));
         }
     }
 
@@ -221,13 +231,6 @@ public class RPGGuildManager {
         }
     }
 
-    /**
-     *
-     * @return
-     */
-    public int getMaxslots() {
-        return maxslots;
-    }
 
     /**
      *
@@ -237,21 +240,6 @@ public class RPGGuildManager {
         return minlevelcreate;
     }
 
-    /**
-     *
-     * @return
-     */
-    public int getMinleveljoin() {
-        return minleveljoin;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public int getMaxlevel() {
-        return maxlevel;
-    }
 
     /**
      *
@@ -375,109 +363,199 @@ public class RPGGuildManager {
     public void setFixedPlayers(boolean fixedPlayers) {
         this.fixedPlayers = fixedPlayers;
     }
-
-    public boolean isLimitedByGuildLevel() {
-        return limitedByGuildLevel;
+    
+    public RPGCraftCosta getPlugin() {
+        return plugin;
     }
 
-    public void setLimitedByGuildLevel(boolean limitedByGuildLevel) {
-        this.limitedByGuildLevel = limitedByGuildLevel;
+    public void setPlugin(RPGCraftCosta plugin) {
+        this.plugin = plugin;
     }
 
-    public boolean isFixedMoney() {
-        return FixedMoney;
+    public RPGChatManager getRpgCMan() {
+        return rpgCMan;
     }
 
-    public void setFixedMoney(boolean FixedMoney) {
-        this.FixedMoney = FixedMoney;
+    public void setRpgCMan(RPGChatManager rpgCMan) {
+        this.rpgCMan = rpgCMan;
     }
 
-    public boolean isMoneyFormule() {
-        return MoneyFormule;
+    public RPGPlayerManager getRpgPMan() {
+        return rpgPMan;
     }
 
-    public void setMoneyFormule(boolean MoneyFormule) {
-        this.MoneyFormule = MoneyFormule;
+    public void setRpgPMan(RPGPlayerManager rpgPMan) {
+        this.rpgPMan = rpgPMan;
     }
 
-    public double getMaxGuildLevel() {
-        return maxGuildLevel;
+    public GlobalConfigManager getRpgGCMan() {
+        return rpgGCMan;
     }
 
-    public void setMaxGuildLevel(double maxGuildLevel) {
-        this.maxGuildLevel = maxGuildLevel;
+    public void setRpgGCMan(GlobalConfigManager rpgGCMan) {
+        this.rpgGCMan = rpgGCMan;
     }
 
-    public double getAddXPlayersXLevel() {
-        return addXPlayersXLevel;
+    public File getGuildsFile() {
+        return guildsFile;
     }
 
-    public void setAddXPlayersXLevel(double addXPlayersXLevel) {
-        this.addXPlayersXLevel = addXPlayersXLevel;
+    public void setGuildsFile(File guildsFile) {
+        this.guildsFile = guildsFile;
     }
 
-    public double getInitialPlayers() {
-        return initialPlayers;
+    public File getGuildsFileConfig() {
+        return guildsFileConfig;
     }
 
-    public void setInitialPlayers(double initialPlayers) {
-        this.initialPlayers = initialPlayers;
+    public void setGuildsFileConfig(File guildsFileConfig) {
+        this.guildsFileConfig = guildsFileConfig;
     }
 
-    public boolean isOnlyContriSystem() {
-        return onlyContriSystem;
+    public FileConfiguration getgConfig() {
+        return gConfig;
     }
 
-    public void setOnlyContriSystem(boolean onlyContriSystem) {
-        this.onlyContriSystem = onlyContriSystem;
+    public void setgConfig(FileConfiguration gConfig) {
+        this.gConfig = gConfig;
     }
 
-    public float getPercentagekills() {
-        return percentagekills;
+    public FileConfiguration getgCConfig() {
+        return gCConfig;
     }
 
-    public void setPercentagekills(float percentagekills) {
-        this.percentagekills = percentagekills;
+    public void setgCConfig(FileConfiguration gCConfig) {
+        this.gCConfig = gCConfig;
     }
 
-    public boolean isOnlyDonation() {
-        return onlyDonation;
+    public int getNumplayers() {
+        return numplayers;
     }
 
-    public void setOnlyDonation(boolean onlyDonation) {
-        this.onlyDonation = onlyDonation;
+    public void setNumplayers(int numplayers) {
+        this.numplayers = numplayers;
     }
 
-    public boolean isBothContribution() {
-        return bothContribution;
+    public boolean isFormulabased() {
+        return formulabased;
     }
 
-    public void setBothContribution(boolean bothContribution) {
-        this.bothContribution = bothContribution;
+    public void setFormulabased(boolean formulabased) {
+        this.formulabased = formulabased;
     }
 
-    public TreeMap<Long, Integer> getGuildLevels() {
+    public double getA() {
+        return a;
+    }
+
+    public void setA(double a) {
+        this.a = a;
+    }
+
+    public double getB() {
+        return b;
+    }
+
+    public void setB(double b) {
+        this.b = b;
+    }
+
+    public int getMaxlevel() {
+        return maxlevel;
+    }
+
+    public void setMaxlevel(int maxlevel) {
+        this.maxlevel = maxlevel;
+    }
+
+    public double getPlayersxlevel() {
+        return playersxlevel;
+    }
+
+    public void setPlayersxlevel(int playersxlevel) {
+        this.playersxlevel = playersxlevel;
+    }
+
+    public int getInitialplayers() {
+        return initialplayers;
+    }
+
+    public void setInitialplayers(int initialplayers) {
+        this.initialplayers = initialplayers;
+    }
+
+    public boolean isDonation() {
+        return donation;
+    }
+
+    public void setDonation(boolean donation) {
+        this.donation = donation;
+    }
+
+    public boolean isContribution() {
+        return contribution;
+    }
+
+    public void setContribution(boolean contribution) {
+        this.contribution = contribution;
+    }
+
+    public double getContributionkills() {
+        return contributionkills;
+    }
+
+    public void setContributionkills(double contributionkills) {
+        this.contributionkills = contributionkills;
+    }
+
+    public TreeMap<Long, RPGGuildLevel> getGuildLevels() {
         return guildLevels;
     }
 
-    public void setGuildLevels(TreeMap<Long, Integer> guildLevels) {
+    public void setGuildLevels(TreeMap<Long, RPGGuildLevel> guildLevels) {
         this.guildLevels = guildLevels;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public static Map<String, String> getPeticiones() {
+        return peticiones;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public static void setPeticiones(Map<String, String> peticiones) {
+        RPGGuildManager.peticiones = peticiones;
     }
 
-    public Map<Long, Integer> getLevels() {
-        return levels;
+    public static Map<String, String> getInvitaciones() {
+        return invitaciones;
     }
 
-    public void setLevels(Map<Long, Integer> levels) {
-        this.levels = levels;
+    public static void setInvitaciones(Map<String, String> invitaciones) {
+        RPGGuildManager.invitaciones = invitaciones;
+    }
+    
+    
+
+    public void addMoneyToGuild(RPGGuild rpgg, long money) {
+        if (checkLevelUp((long) rpgg.getMoney(), money)) {
+            rpgg.setMoney((long) (rpgg.getMoney() + money));
+            lvlUp(rpgg);
+        } else {
+            rpgg.setMoney((long) (rpgg.getMoney() + money));
+        }
     }
 
+    public boolean checkLevelUp(long money, long inc) {
+        double actualmoney = money;
+        long newmoney = 0;
+        if (inc > 0) {
+            newmoney = money + inc;
+            return guildLevels.lowerEntry(money).getValue() != guildLevels.lowerEntry(newmoney).getValue();
+        }
+        return false;
+    }
+
+    private void lvlUp(RPGGuild rpgg) {
+        rpgg.setLevel(rpgg.getLevel() + 1);
+        rpgg.setMaxplayers(getGuildLevels().lowerEntry(rpgg.getMoney()).getValue().getNumplayers());
+        sendMessageToGuild(rpgg.getName(), " El clan ha alcanzado el nivel "+rpgg.getLevel());
+    }
 }

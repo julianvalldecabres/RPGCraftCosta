@@ -15,6 +15,7 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
+import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMob;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.AttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.PathFinderGoalGoHome;
@@ -64,7 +65,7 @@ public class CGhast extends EntityMonster implements IRangedEntity {
     private double attackdamage;
     private double attackSpeed;
     private double rangedDamage;
-    private float rangedStrenght;
+    private float rangedStrength;
     private double followrange;
     private double maxhealth;
 
@@ -80,7 +81,7 @@ public class CGhast extends EntityMonster implements IRangedEntity {
         this.aType = AttackType.RANGED;
         this.mType = MobBehaviour.AGGRESSIVE;
         this.attackSpeed = 1.0D;
-        this.rangedStrenght = 1.0F;
+        this.rangedStrength = 1.0F;
         this.rangedDamage = 5.0D;
         //reseteamos los pathfinders
         getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(6.0D);
@@ -118,7 +119,7 @@ public class CGhast extends EntityMonster implements IRangedEntity {
         this.aType = AttackType.RANGED;
         this.mType = MobBehaviour.AGGRESSIVE;
         this.attackSpeed = 1.0D;
-        this.rangedStrenght = 1.0F;
+        this.rangedStrength = 1.0F;
         this.rangedDamage = 5.0D;
         //reseteamos los pathfinders
         getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(6.0D);
@@ -138,6 +139,46 @@ public class CGhast extends EntityMonster implements IRangedEntity {
         } catch (Exception exc) {
             System.out.println("Ojo alguna variable ha cambiado y hay que revisarlas");
             exc.printStackTrace();
+        }
+        //añadimos los pathfindergoals
+        initPathfinderGoals();
+    }
+
+    public CGhast(RPGMob rpgm, World world, Location loc) {
+        super(world);
+        this.setSize(4.0F, 4.0F);
+        this.aType = rpgm.getaType();
+        this.mType = rpgm.getmType();
+        this.name = rpgm.getName();
+        this.level = rpgm.getLevel();
+        this.spawnLoc = loc;
+        setCustomName("[LVL" + level + "] " + name);
+        this.movementspeed = rpgm.getMovementspeed();
+        this.knockback = rpgm.getKnockback();
+        this.attackdamage = rpgm.getDamageattack();
+        this.attackSpeed = rpgm.getAttackspeed();
+        this.rangedDamage = rpgm.getRangeddamage();
+        this.rangedStrength = rpgm.getRangedstrength();
+        this.followrange = rpgm.getFollowrange();
+        this.maxhealth = rpgm.getMaxhealth();
+
+        getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(followrange);
+        getAttributeInstance(GenericAttributes.maxHealth).setValue(maxhealth);
+        getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(movementspeed);
+        getAttributeInstance(GenericAttributes.c).setValue(knockback);
+        getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(attackdamage);
+
+        try {
+            Field bField = PathfinderGoalSelector.class.getDeclaredField("b");
+            bField.setAccessible(true);
+            Field cField = PathfinderGoalSelector.class.getDeclaredField("c");
+            cField.setAccessible(true);
+            bField.set(goalSelector, new UnsafeList<PathfinderGoalSelector>());
+            bField.set(targetSelector, new UnsafeList<PathfinderGoalSelector>());
+            cField.set(goalSelector, new UnsafeList<PathfinderGoalSelector>());
+            cField.set(targetSelector, new UnsafeList<PathfinderGoalSelector>());
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException exc) {
+            System.out.println("Ojo alguna variable ha cambiado y hay que revisarlas");
         }
         //añadimos los pathfindergoals
         initPathfinderGoals();
@@ -210,7 +251,7 @@ public class CGhast extends EntityMonster implements IRangedEntity {
         //Por simplicidad lo hemos dejado tal cual esta definido en el mob skeleton
         //Solo se modificará el daño realizado por la entidad arrow
         //Se puede modificar la fuerza con la que es disparada
-        EntityArrow entityarrow = new EntityArrow(this.world, this, el, rangedStrenght, 14 - this.world.getDifficulty().a() * 4);
+        EntityArrow entityarrow = new EntityArrow(this.world, this, el, rangedStrength, 14 - this.world.getDifficulty().a() * 4);
         int i = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_DAMAGE.id, bA());
         int j = EnchantmentManager.getEnchantmentLevel(Enchantment.ARROW_KNOCKBACK.id, bA());
 

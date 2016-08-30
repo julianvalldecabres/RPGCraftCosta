@@ -183,11 +183,11 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                     if (rpgP.getGuild().isEmpty()) {
                         p.sendMessage(prefix + ChatColor.RED + " Para poder realizar una donacion debes pertenecer a un clan");
                         return true;
-                    } else if (rpgGMan.isBothContribution() || rpgGMan.isOnlyDonation()) {
+                    } else if (rpgGMan.isDonation()) {
                         RPGGuild guild = rpgGMan.getGuildByName(rpgP.getGuild());
-                        double amount = 0;
+                        long amount = 0;
                         try {
-                            amount = Double.parseDouble(args[1]);
+                            amount = Long.parseLong(args[1]);
                         } catch (NumberFormatException e) {
                             p.sendMessage(prefix + ChatColor.RED + " " + args[1] + " No es una cantidad");
                             return true;
@@ -209,7 +209,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                         } else {
                             final Player invited = plugin.getServer().getPlayerExact(args[1]);
                             RPGPlayer rpgPI = rpgPMan.getRPGPlayerByName(invited.getName());
-                            if (rpgPI.getActualLevel() < rpgGMan.getMinleveljoin()) {
+                            if (rpgPI.getActualLevel() < rpgGMan.getMinlevelcreate()) {
                                 p.sendMessage(prefix + ChatColor.RED + " El jugador " + args[1] + " No cumple los requisitos para unirse al clan");
                                 return true;
                             }
@@ -303,7 +303,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                             p.sendMessage(prefix + ChatColor.RED + " El clan " + args[1] + "no ha sido encontrado");
                             return true;
                         } else {
-                            if (rpgP.getActualLevel() < rpgGMan.getMinleveljoin()) {
+                            if (rpgP.getActualLevel() < rpgGMan.getMinlevelcreate()) {
                                 p.sendMessage(prefix + ChatColor.RED + " No cumples los requisitos para unirte al clan");
                                 return true;
                             }
@@ -417,7 +417,14 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                             }
 
                             //el jugador crea un clan del cual es propietario
-                            RPGGuild guild = new RPGGuild(args[1], p);
+                            int numplayers=0;
+                            if(rpgGMan.isFixedPlayers()){
+                                numplayers= rpgGMan.getNumplayers();
+                            }else{
+                                numplayers= rpgGMan.getInitialplayers();
+                            }
+                            
+                            RPGGuild guild = new RPGGuild(args[1], p,numplayers);
                             rpgGMan.addNewGuild(guild);
 
                             p.sendMessage(prefix + " El clan se ha creado correctamente");

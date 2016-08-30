@@ -49,7 +49,6 @@ public class GUIItemManager {
         this.gui = gui;
         listItems = new HashMap<>();
         upgraders = new ArrayList<>();
-        System.out.println("-anana");
         upgraders.add(gui.getGuiArmorMan().getUpgraderName());
         upgraders.add(gui.getGuiWeaponMan().getUpgraderName());
         listnum = new HashMap<>();
@@ -63,7 +62,6 @@ public class GUIItemManager {
             }
         }
         gui.getComboListaObjetos().addItem("<Selecciona un objeto para editar>");
-        System.out.println("NANANANA");
         loadItems();
 
         gui.recursivelyEnableDisablePanel(gui.getPanelEditorObjetos(), false);

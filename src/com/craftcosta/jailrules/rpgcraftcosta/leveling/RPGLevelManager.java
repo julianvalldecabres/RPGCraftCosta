@@ -19,8 +19,13 @@ import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
+import java.util.Objects;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
 /**
  *
@@ -28,34 +33,67 @@ import java.util.logging.Logger;
  */
 public class RPGLevelManager {
 
-    RPGCraftCosta plugin;
-    RPGLevels levels;
+    private RPGCraftCosta plugin;
+    private File levelf;
+    private FileConfiguration levelfc;
+    private double a;
+    private double b;
+    private double c;
+    private int max_level;
+    private int ph;
+    private TreeMap<Long, Integer> levels;
 
     /**
      *
-     * @param p
+     * @param plugin
      */
-    public RPGLevelManager(RPGCraftCosta p) {
-        plugin = p;
-        levels = loadLevels();
-    }
-
-    private RPGLevels loadLevels() {
-        File levelCfg = new File(RPGFinals.LevelingConfigFile);
-        if (!levelCfg.exists()) {
+    public RPGLevelManager(RPGCraftCosta plugin) {
+        this.plugin = plugin;
+        this.levels = new TreeMap<>();
+        this.levelf = new File(RPGFinals.LevelingConfigFile);
+        if (!levelf.exists()) {
             try {
-                levelCfg.createNewFile();
+                levelf.createNewFile();
+                createDefaultConfig();
             } catch (IOException ex) {
                 Logger.getLogger(RPGLevelManager.class.getName()).log(Level.SEVERE, null, ex);
             }
-            return createDefaultConfig(levelCfg);
-        } else {
-            return loadConfig(levelCfg);
         }
+        loadLevels();
+        for (Map.Entry<Long, Integer> entrySet : levels.entrySet()) {
+            plugin.getLogger().info(entrySet.getKey()+" nivel "+entrySet.getValue());
+            
+        }
+        
     }
 
-    private RPGLevels createDefaultConfig(File levelCfg) {
-        return new RPGLevels();
+    private void loadLevels() {
+        levelfc = YamlConfiguration.loadConfiguration(levelf);
+        this.a = levelfc.getDouble("a");
+        this.b = levelfc.getDouble("b");
+        this.c = levelfc.getDouble("c");
+        this.max_level = levelfc.getInt("max");
+        this.ph=levelfc.getInt("ph");
+        createTreeLevels();
+    }
+
+    private void createDefaultConfig() {
+        levelfc = YamlConfiguration.loadConfiguration(levelf);
+        levelfc.set("a", 0.0);
+        this.a=0;
+        levelfc.set("b", 50.0);
+        this.b=50;
+        levelfc.set("c", 30.0);
+        this.c=30;
+        levelfc.set("max", 50);
+        this.max_level=50;
+        levelfc.set("ph", 4);
+        this.ph=4;
+        try {
+            levelfc.save(levelf);
+        } catch (IOException ex) {
+            Logger.getLogger(RPGLevelManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -70,7 +108,9 @@ public class RPGLevelManager {
         long newexp = 0;
         if (inc > 0) {
             newexp = exp + inc;
-            return levels.getTree().lowerEntry(exp).getValue() != levels.getTree().lowerEntry(newexp).getValue();
+            plugin.getLogger().info(""+exp);
+            plugin.getLogger().info(""+newexp);
+            return ((int)levels.lowerEntry(exp).getValue())!=((int) levels.lowerEntry(newexp).getValue());
         }
         return false;
     }
@@ -88,8 +128,8 @@ public class RPGLevelManager {
         long startLvlExp;
         double expOfLvl;
         actualExp = exp;
-        nextLvlExp = levels.getTree().higherKey(exp);
-        startLvlExp = levels.getTree().lowerKey(exp);
+        nextLvlExp = levels.higherKey(exp);
+        startLvlExp = levels.lowerKey(exp);
         expOfLvl = nextLvlExp - startLvlExp;
         actualLvlExp = actualExp - startLvlExp;
         result = (float) Math.abs((actualLvlExp / expOfLvl) - 1);
@@ -101,8 +141,8 @@ public class RPGLevelManager {
      * @param exp
      * @return
      */
-    public double getExperienceForNectLevel(long exp) {
-        long nextLvlExp = levels.getTree().higherKey(exp);
+    public double getExperienceForNextLevel(long exp) {
+        long nextLvlExp = levels.higherKey(exp);
         long actualExp = exp;
         return nextLvlExp - actualExp;
     }
@@ -113,7 +153,7 @@ public class RPGLevelManager {
      * @return
      */
     public int getNextLevel(long exp) {
-        return levels.getTree().higherEntry(exp).getValue();
+        return levels.higherEntry(exp).getValue();
     }
 
     /**
@@ -122,10 +162,18 @@ public class RPGLevelManager {
      * @return
      */
     public int getLevelBasedOnExp(long exp) {
-        return levels.getTree().floorEntry(exp).getValue();
+        return levels.floorEntry(exp).getValue();
     }
 
-    private RPGLevels loadConfig(File levelCfg) {
-        return new RPGLevels(levelCfg);
+    private void createTreeLevels() {
+        plugin.getLogger().info("creando niveles");
+        this.levels = new TreeMap<>();
+        long exp;
+        this.levels.put((long)0, 0);
+        for (int i = 1; i <= this.max_level; i++) {
+            exp = (long) (this.a * Math.pow(i, 3) + this.b * Math.pow(i, 2) + this.c * i);
+            this.levels.put(exp, i);
+        }
+        
     }
 }

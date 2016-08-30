@@ -16,7 +16,6 @@
 package com.craftcosta.jailrules.rpgcraftcosta.gui;
 
 import com.craftcosta.jailrules.rpgcraftcosta.entities.CustomEntityType;
-import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMob;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.GuardianType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.HorseType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.HorseVariant;
@@ -154,31 +153,31 @@ public class GUI extends JFrame {
 
     private static void copy(FileInputStream in, File file) {
         try {
-            OutputStream out = new FileOutputStream(file);
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
+            try (OutputStream out = new FileOutputStream(file)) {
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
             }
-            out.close();
             in.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", 2);
         }
     }
 
     private static void copy(InputStream in, File file) {
         try {
-            OutputStream out = new FileOutputStream(file);
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
+            try (OutputStream out = new FileOutputStream(file)) {
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
             }
-            out.close();
             in.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error", 2);
         }
     }
 
@@ -191,7 +190,7 @@ public class GUI extends JFrame {
                 dest.createNewFile();
             }
 
-            in = GUI.class.getClassLoader().getResourceAsStream(source); //Important step, it returns InputStream which can be manipulated as per need.
+            in = GUI.class.getClassLoader().getResourceAsStream(source); 
             if (in == null) {
                 JOptionPane.showMessageDialog(null, "No se puede tener acceso al recurso \"" + dest + "\" del archivo Jar");
             }
@@ -202,15 +201,15 @@ public class GUI extends JFrame {
                 out.write(buf, 0, len);
             }
         } catch (FileNotFoundException ex) {
-            //JOptionPane.showMessageDialog(null, ex.printStackTrace());
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         } catch (IOException ex) {
-            //JOptionPane.showMessageDialog(null, ex.printStackTrace());
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         } finally {
             try {
                 in.close();
                 out.close();
             } catch (IOException ex) {
-                Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(null, ex.getMessage());
             }
         }
     }
@@ -224,13 +223,17 @@ public class GUI extends JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Cargando configuracion desde los ficheros\nSi los ficheros no son encontrados seran creados por defecto", "RPGCraftCosta-Informacion", 1);
         }
-
         //LISTADO DE FICHEROS YAMLS PARA COPIAR POR DEFECTO
-        final String path = "";
-        final File jarFile = new File(GUI.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+        String path="";
+        try {
+            path = (GUI.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        final File jarFile = new File(path);
         if (jarFile.isFile()) {
             try {
-                // Run with JAR file
                 List<String> inexistentfiles = new ArrayList<>();
                 final JarFile jar = new JarFile(jarFile);
                 final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
@@ -255,6 +258,7 @@ public class GUI extends JFrame {
         } else { // Run with IDE
             final URL url = Launcher.class.getResource("/" + path);
             if (url != null) {
+                JOptionPane.showMessageDialog(null, "Launcher");
                 //Funciona en el IDE
                 try {
                     List<String> inexistentfiles = new ArrayList<>();

@@ -16,7 +16,6 @@
 package com.craftcosta.jailrules.rpgcraftcosta.entities;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Chunk;
 import org.bukkit.World;
 
 /**
@@ -98,13 +97,10 @@ public class RPGChunk {
         this.world = world;
 
     }
-
-    /**
-     *
-     * @param chunk
-     * @return
-     */
-    public RPGChunk getRPGChunkfromChunk(Chunk chunk) {
-        return new RPGChunk(chunk.getX(), chunk.getZ(), chunk.getWorld());
+    
+    @Override
+    public String toString(){
+        return this.world.getName()+" "+this.x+" "+this.z;
     }
+
 }

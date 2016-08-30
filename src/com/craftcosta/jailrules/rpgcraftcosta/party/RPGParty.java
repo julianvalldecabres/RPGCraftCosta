@@ -53,6 +53,7 @@ public class RPGParty {
      */
     public RPGParty(String name, Player creator, boolean shareExp, boolean shareMoney) {
         this.players = new ArrayList<>();
+        this.kills= new ArrayList<>();
         this.name = name;
         this.leader = creator.getName();
         this.players.add(creator);
@@ -137,4 +138,22 @@ public class RPGParty {
     public void addPlayerToParty(Player p) {
         this.players.add(p);
     }
+
+    public List<Integer> getKills() {
+        return kills;
+    }
+
+    public void setKills(List<Integer> kills) {
+        this.kills = kills;
+    }
+    
+    public Integer getTotalKills(){
+        int res=0;
+        for(Integer i: kills){
+            res+=i;
+        }
+        return res;
+    }
+
+    
 }

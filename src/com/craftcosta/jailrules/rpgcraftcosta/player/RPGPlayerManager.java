@@ -229,7 +229,8 @@ public class RPGPlayerManager {
         ConfigurationSection section = pFConfig;
         playerClass = section.getString("class");
         guild = section.getString("guild");
-
+        party= section.getString("party");
+        plugin.getLogger().info("party devuelve: "+section.getString("party"));
         econ = new RPGEconomy(section.getLong("money"));
 
         experience = section.getLong("experience");
@@ -320,6 +321,7 @@ public class RPGPlayerManager {
         section.set("experience", rpgP.getActualExp());
         section.set("level", rpgP.getActualLevel());
         section.set("guild", rpgP.getGuild());
+        section.set("party", rpgP.getGuild());
         section.set("class", rpgP.getPlayerClass());
         section.set("actualHealth", rpgP.getActualHealth());
         section.set("actualMana", rpgP.getActualMana());

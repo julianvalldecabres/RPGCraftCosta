@@ -15,6 +15,8 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs;
 
+import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMob;
+import com.craftcosta.jailrules.rpgcraftcosta.entities.rpgentities.RPGMushroomCow;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.AttackType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.MobBehaviour;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.PathFinderGoalGoHome;
@@ -181,7 +183,7 @@ public class CMushroomCow extends EntityMonster implements IRangedEntity {
         this.name = name;
         this.level = level;
         this.baby = baby;
-        setCustomName("[LVL" + level + "]" + name);
+        setCustomName("[LVL" + level + "] " + name);
         this.movementspeed = movSpeed;
         this.knockback = knockback;
         this.attackdamage = attack_damage;
@@ -213,6 +215,49 @@ public class CMushroomCow extends EntityMonster implements IRangedEntity {
         //añadimos los pathfindergoals
         initPathfinderGoals();
     }
+    
+    public CMushroomCow(RPGMob rpgm, World world, Location loc) {
+        super(world);
+        setSize(0.4F, 0.7F);
+        this.baby=((RPGMushroomCow)rpgm).isBaby();
+        this.aType = rpgm.getaType();
+        this.mType = rpgm.getmType();
+        this.name = rpgm.getName();
+        this.level = rpgm.getLevel();
+        this.spawnLoc = loc;
+        setCustomName("[LVL" + level + "] " + name);
+        this.movementspeed = rpgm.getMovementspeed();
+        this.knockback = rpgm.getKnockback();
+        this.attackdamage = rpgm.getDamageattack();
+        this.attackSpeed = rpgm.getAttackspeed();
+        this.rangedDamage = rpgm.getRangeddamage();
+        this.rangedStrength = rpgm.getRangedstrength();
+        this.followrange = rpgm.getFollowrange();
+        this.maxhealth = rpgm.getMaxhealth();
+        this.setBaby(baby);
+
+        getAttributeInstance(GenericAttributes.FOLLOW_RANGE).setValue(followrange);
+        getAttributeInstance(GenericAttributes.maxHealth).setValue(maxhealth);
+        getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(movementspeed);
+        getAttributeInstance(GenericAttributes.c).setValue(knockback);
+        getAttributeInstance(GenericAttributes.ATTACK_DAMAGE).setValue(attackdamage);
+
+        try {
+            Field bField = PathfinderGoalSelector.class.getDeclaredField("b");
+            bField.setAccessible(true);
+            Field cField = PathfinderGoalSelector.class.getDeclaredField("c");
+            cField.setAccessible(true);
+            bField.set(goalSelector, new UnsafeList<PathfinderGoalSelector>());
+            bField.set(targetSelector, new UnsafeList<PathfinderGoalSelector>());
+            cField.set(goalSelector, new UnsafeList<PathfinderGoalSelector>());
+            cField.set(targetSelector, new UnsafeList<PathfinderGoalSelector>());
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException exc) {
+            System.out.println("Ojo alguna variable ha cambiado y hay que revisarlas");
+        }
+        //añadimos los pathfindergoals
+        initPathfinderGoals();
+    }
+    
 
     private void initPathfinderGoals() {
         this.goalSelector.a(0, new PathfinderGoalFloat(this));
