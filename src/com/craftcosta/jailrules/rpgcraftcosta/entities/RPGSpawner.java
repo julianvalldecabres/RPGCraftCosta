@@ -19,24 +19,20 @@ import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import net.minecraft.server.v1_8_R3.Entity;
 import org.bukkit.Location;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 
 /**
  *
  * @author jail
  */
-public class RPGSpawner implements Runnable{
-    private RPGCraftCosta plugin;
+public class RPGSpawner {
+  private RPGCraftCosta plugin;
     private String id;
     private Location loc;
     private String rpgmob;
-    private List<Integer> entitiesIds;
     private List<UUID> entitiesUUIDS;
-    public double cooldown;
+    public Integer cooldown;
     public Integer radius = 8;
     public Integer maxMobs;
     public boolean enabled;
@@ -50,11 +46,12 @@ public class RPGSpawner implements Runnable{
         this.radius = radius;
         this.cooldown = cooldown;
         this.enabled = true;
-        this.entitiesIds = new ArrayList<>();
+        this.entitiesUUIDS= new ArrayList<>();
     }
 
     public RPGSpawner(RPGCraftCosta plugin,String id,Location loc, String mob, int maxmobs, int radius, int cooldown, boolean enabled) {
         this.plugin=plugin;
+        
         this.id = id;
         this.loc = loc;
         this.rpgmob = mob;
@@ -62,7 +59,7 @@ public class RPGSpawner implements Runnable{
         this.radius = radius;
         this.cooldown = cooldown;
         this.enabled = enabled;
-        this.entitiesIds = new ArrayList<>();
+        this.entitiesUUIDS= new ArrayList<>();
     }
 
     /**
@@ -113,27 +110,13 @@ public class RPGSpawner implements Runnable{
         this.rpgmob = rpgmob;
     }
 
-    /**
-     *
-     * @return
-     */
-    public List<Integer> getEntitiesIds() {
-        return entitiesIds;
-    }
 
-    /**
-     *
-     * @param entitiesIds
-     */
-    public void setEntitiesIds(List<Integer> entitiesIds) {
-        this.entitiesIds = entitiesIds;
-    }
 
     /**
      *
      * @return
      */
-    public double getCooldown() {
+    public int getCooldown() {
         return cooldown;
     }
 
@@ -141,7 +124,7 @@ public class RPGSpawner implements Runnable{
      *
      * @param cooldown
      */
-    public void setCooldown(double cooldown) {
+    public void setCooldown(int cooldown) {
         this.cooldown = cooldown;
     }
 
@@ -198,20 +181,13 @@ public class RPGSpawner implements Runnable{
      * @param uuid
      * @return
      */
-    public boolean hasMobWithUUID(Integer uuid) {
-        return this.entitiesIds.contains(uuid);
+    public boolean hasMobWithUUID(UUID uuid) {
+        return this.entitiesUUIDS.contains(uuid);
     }
 
 
-    @Override
-    public void run() {
-        if(enabled){
-            for(int i=0;i<maxMobs;i++){
-                Entity nmsent=plugin.getRPGMobManager().spawnRPGMobAtLocation(plugin.getRPGMobManager().getRPGMobByName(rpgmob), loc);
-                this.entitiesUUIDS.add(nmsent.getUniqueID());
-            }
-        }
-    }
+
+    
 
     public List<UUID> getEntitiesUUIDS() {
         return entitiesUUIDS;

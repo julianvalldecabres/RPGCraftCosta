@@ -59,7 +59,7 @@ public class RPGGuildListener implements Listener {
     @EventHandler
     public void onPlayerJoin(OnRPGPlayerJoinEvent e) {
         RPGPlayer rpgp = e.getRPGPlayer();
-        if (e.getRPGPlayer().getGuild()!=null) {
+        if (!e.getRPGPlayer().getGuild().isEmpty()) {
             if (!rpgGMan.getAllAvailableGuilds().contains(rpgp.getGuild())) {
                 rpgp.getPlayer().sendMessage(rpgCMan.getPrefixForGuild() + ChatColor.RED + " El clan " + rpgp.getGuild() + " ha sido disuelto");
                 rpgp.setGuild("");

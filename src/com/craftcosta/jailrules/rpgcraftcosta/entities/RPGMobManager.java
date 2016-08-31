@@ -99,9 +99,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -120,9 +122,13 @@ public class RPGMobManager {
 
     private RPGCraftCosta plugin;
     private File mobsFile;
+    private HashMap<UUID,String> entitiesInSpawner;
     private File spawnersFile;
     private FileConfiguration mobFileConfig;
     private FileConfiguration spawnerFileConfig;
+    public HashMap<String, RPGSpawnerBukkitRunnable> taskId;
+
+
 
 
     public HashMap<String, RPGMob> mobList;
@@ -139,8 +145,10 @@ public class RPGMobManager {
         this.mobList = new HashMap<>();
         this.mobIdList = new HashMap<>();
         this.spawnerList= new HashMap<>();
+        this.entitiesInSpawner= new HashMap<>();
         this.mobsFile = new File(RPGFinals.mobsFilePath);
         this.spawnersFile = new File(RPGFinals.spawnersFilePath);
+        taskId = new HashMap<>();
         if (!mobsFile.exists()) {
             plugin.getLogger().info("Loading default mobs...");
             mobsFile.getParentFile().mkdirs();
@@ -153,6 +161,10 @@ public class RPGMobManager {
         }
         loadMobs();
         loadMS();
+    }
+
+    public Map<UUID,String> getEntities() {
+        return entitiesInSpawner;
     }
 
     private void copy(InputStream in, File file) {
@@ -383,13 +395,10 @@ public class RPGMobManager {
         boolean enabled;
         Set<String> worlds = spawnerFileConfig.getKeys(false);
         for (String stringworld : worlds) {
-            plugin.getLogger().info(stringworld);
             world = plugin.getServer().getWorld(stringworld);
             ConfigurationSection wsection = spawnerFileConfig.getConfigurationSection(stringworld);
             Set<String> chunks = wsection.getKeys(false);
             for (String chunk : chunks) {
-                plugin.getLogger().info(chunk);
-
                 chunkX = Integer.parseInt(chunk.split("x")[0]);
                 chunkZ = Integer.parseInt(chunk.split("x")[1]);
                 rpgchunk = new RPGChunk(chunkX, chunkZ, world);
@@ -397,8 +406,6 @@ public class RPGMobManager {
                 Set<String> ids = csection.getKeys(false);
                 Map<String, RPGSpawner> spawners = new HashMap<>();
                 for (String id : ids) {
-                    plugin.getLogger().info(id);
-                    plugin.getLogger().info(world.getName() + "." + chunk + "." + id);
                     ConfigurationSection ssection = csection.getConfigurationSection(id);
                     name = ssection.getString("name");
                     posX = ssection.getDouble("x");
@@ -419,17 +426,33 @@ public class RPGMobManager {
         }
     }
 
-    /**
-     *
-     * @param chunk
-     * @return
-     */
-    public boolean chunkHasSpawners(RPGChunk chunk) {
-        return spawnerList.containsKey(chunk);
-    }
 
     public RPGMob getRPGMobByName(String mobName) {
         return mobList.get(mobName);
+    }
+
+    public HashMap<String, RPGSpawnerBukkitRunnable> getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(HashMap<String, RPGSpawnerBukkitRunnable> taskId) {
+        this.taskId = taskId;
+    }
+
+    public HashMap<String, RPGMob> getMobList() {
+        return mobList;
+    }
+
+    public void setMobList(HashMap<String, RPGMob> mobList) {
+        this.mobList = mobList;
+    }
+
+    public HashMap<Integer, String> getMobIdList() {
+        return mobIdList;
+    }
+
+    public void setMobIdList(HashMap<Integer, String> mobIdList) {
+        this.mobIdList = mobIdList;
     }
 
     /**
@@ -441,10 +464,18 @@ public class RPGMobManager {
         return new RPGChunk(chunk.getX(), chunk.getZ(), chunk.getWorld());
     }
 
-//    void start(RPGSpawner value) {
-//        plugin.getLogger().info("arrancar y asociar al spawner "+value.getId());
-//        value.start();
-//    }
+
+    public boolean chunkHasSpawners(RPGChunk chunk){
+        for (Map.Entry<RPGChunk, Map<String,RPGSpawner>> entrySet : spawnerList.entrySet()) {
+            RPGChunk chunkcheck=entrySet.getKey();
+            if(chunk.equals(chunkcheck)){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
 
     public Entity spawnRPGMobAtLocation(RPGMob rpgm, Location loc) {
         net.minecraft.server.v1_8_R3.World world = ((CraftWorld) loc.getWorld()).getHandle();
@@ -558,5 +589,37 @@ public class RPGMobManager {
     public void setSpawnerList(Map<RPGChunk, Map<String, RPGSpawner>> spawnerList) {
         this.spawnerList = spawnerList;
     }
+
+    public void removeUUIDfromSpawner(org.bukkit.entity.Entity ent) {
+        for (Map.Entry<RPGChunk, Map<String,RPGSpawner>> entrySet : spawnerList.entrySet()) {
+            Map<String,RPGSpawner> spawners= entrySet.getValue();
+            for (Map.Entry<String, RPGSpawner> entrySet1 : spawners.entrySet()) {
+                RPGSpawner value= entrySet1.getValue();
+                if(value.hasMobWithUUID(ent.getUniqueId())){
+                    plugin.getLogger().info("Quitando de "+value.getId()+" la entidad "+ent.getUniqueId().toString());
+                    value.getEntitiesUUIDS().remove(ent.getUniqueId());
+                }
+                
+            }
+            
+        }
+    }
     
+    public void removeUUIDfromSpawner(UUID uuid,String spawner) {
+        for (Map.Entry<RPGChunk, Map<String,RPGSpawner>> entrySet : spawnerList.entrySet()) {
+            Map<String,RPGSpawner> spawners= entrySet.getValue();
+            for (Map.Entry<String, RPGSpawner> entrySet1 : spawners.entrySet()) {
+                
+                if(spawner.equals(entrySet1.getKey())){
+                    RPGSpawner value=entrySet1.getValue();
+                    if(value.hasMobWithUUID(uuid)){
+                    plugin.getLogger().info("Quitando de "+value.getId()+" la entidad "+uuid.toString());
+                    value.getEntitiesUUIDS().remove(uuid);
+                    }
+                }
+                
+            }
+            
+        }
+    }
 }

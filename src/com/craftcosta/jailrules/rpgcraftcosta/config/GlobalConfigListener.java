@@ -26,6 +26,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.BlockSpreadEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
@@ -120,5 +121,9 @@ public class GlobalConfigListener implements Listener {
     @EventHandler
     public void onBlockBurnEvent(BlockBurnEvent e){
         e.setCancelled(true);    
+    }
+    @EventHandler
+    public void onBlockSpreadFire(BlockSpreadEvent e){
+        e.setCancelled(true);
     }
 }

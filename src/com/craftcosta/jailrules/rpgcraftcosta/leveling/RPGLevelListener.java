@@ -61,6 +61,7 @@ public class RPGLevelListener implements Listener {
     @EventHandler
     public void onPlayerKillsMonster(EntityDeathEvent e) {
         Entity ent = e.getEntity();
+        rpgMMan.removeUUIDfromSpawner(ent);
         if (ent.getLastDamageCause() instanceof EntityDamageByEntityEvent) {
             EntityDamageByEntityEvent nEvent = (EntityDamageByEntityEvent) ent.getLastDamageCause();
             if (nEvent.getDamager() instanceof Player) {

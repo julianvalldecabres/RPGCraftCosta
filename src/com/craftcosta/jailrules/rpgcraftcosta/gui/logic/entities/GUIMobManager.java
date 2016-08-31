@@ -301,7 +301,7 @@ public class GUIMobManager {
     }
 
     public void saveMob() {
-        RPGMob check = getGUIMobByName(gui.getTxtNombreMob().getText());
+        RPGMob check = getGUIMobByName("[LVL"+(int)gui.getSpinnerNivelMob().getValue()+"] "+gui.getTxtNombreMob().getText());
         CustomEntityType type;
         String name;
         int level;
@@ -500,12 +500,12 @@ public class GUIMobManager {
     private void saveMobToFile(RPGMob mob) {
         filemConfig = YamlConfiguration.loadConfiguration(filem);
         int index;
-        RPGMob check = getGUIMobByName(mob.getName());
+        RPGMob check = getGUIMobByName("[LVL" + mob.getLevel() + "] " + mob.getName());
         if (check == null) {
             this.lastindex++;
             index = lastindex;
         } else {
-            index = this.listnum.get(mob.getName());
+            index = this.listnum.get("[LVL" + mob.getLevel() + "] " + mob.getName());
         }
         ConfigurationSection section = filemConfig.createSection("" + index);
         section.set("entitytype", mob.getType().name());
@@ -619,7 +619,7 @@ public class GUIMobManager {
     public void loadValuesForMobSelected() {
         RPGMob mob = getGUIMobByName(gui.getComboSelectorMobs().getSelectedItem().toString());
         if (mob == null) {
-            gui.sendMessageWarning("Error", "El arma seleccionada no existe");
+            gui.sendMessageWarning("Error", "El monstruo seleccionado no existe");
         } else {
             gui.getTxtNombreMob().setText(mob.getName());
             gui.getComboSelectorTipoMob().setSelectedIndex(mob.getType().ordinal());

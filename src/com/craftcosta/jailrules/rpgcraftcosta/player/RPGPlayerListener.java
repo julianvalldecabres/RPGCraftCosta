@@ -26,6 +26,8 @@ import com.craftcosta.jailrules.rpgcraftcosta.party.RPGPartyManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -35,6 +37,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -180,29 +183,40 @@ public class RPGPlayerListener implements Listener {
         }
     }
 
-    /**
-     * onInteract captura el evento PlayerInteractEntityEvent
-     *
-     * @param event evento que captura cuando un usuario interactura con una
-     * entidad
-     */
+//    /**
+//     * onInteract captura el evento PlayerInteractEntityEvent
+//     *
+//     * @param event evento que captura cuando un usuario interactura con una
+//     * entidad
+//     */
+//    @EventHandler
+//    public void onInteract(PlayerInteractEntityEvent event) {
+//        Player p = event.getPlayer();
+//        //Block b=event.getRightClicked();
+//        Entity rightClicked = event.getRightClicked();
+//        Location loc = rightClicked.getLocation();
+//        net.minecraft.server.v1_8_R3.World world = ((CraftWorld) loc.getWorld()).getHandle();
+//        CustomEntityType.spawnEntity(new CZombie(world, loc), new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()));
+//
+//        if (p.hasLineOfSight(rightClicked)) {
+//
+//            if (rightClicked instanceof Player) {
+//                //p.trade(rightClicked);
+//            }
+//            if (rightClicked instanceof Entity) {
+//                event.getRightClicked();
+//                //rightClicked.remove();
+//            }
+//        }
+//    }
+    
     @EventHandler
-    public void onInteract(PlayerInteractEntityEvent event) {
-        Player p = event.getPlayer();
-        Entity rightClicked = event.getRightClicked();
-        Location loc = rightClicked.getLocation();
-        net.minecraft.server.v1_8_R3.World world = ((CraftWorld) loc.getWorld()).getHandle();
-        CustomEntityType.spawnEntity(new CZombie(world, loc), new Location(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()));
-
-        if (p.hasLineOfSight(rightClicked)) {
-
-            if (rightClicked instanceof Player) {
-                //p.trade(rightClicked);
-            }
-            if (rightClicked instanceof Entity) {
-                event.getRightClicked();
-                //rightClicked.remove();
-            }
+    public void onPlayerInteract(PlayerInteractEvent e){
+        int sum=0;
+        for(World w:Bukkit.getServer().getWorlds()){
+            sum+=w.getEntities().size();
         }
+        
+        plugin.getLogger().info("ENTIDADES TOTALES: "+sum);
     }
 }

@@ -108,5 +108,12 @@ public class RPGChunk implements Comparable<RPGChunk>{
         if(this.x==o.x && this.z==z && this.world.equals(o.world)){return 0;}
         return -1;
     }
+    
+    @Override
+    public boolean equals(Object o){
+        if(o==null)return false;
+        final RPGChunk chunk=(RPGChunk)o;
+        return (this.x==chunk.x && this.z==chunk.z && this.world.equals(chunk.world));
+    }
 
 }
