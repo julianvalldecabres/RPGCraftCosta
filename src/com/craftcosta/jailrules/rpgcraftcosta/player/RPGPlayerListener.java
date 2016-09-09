@@ -17,31 +17,25 @@ package com.craftcosta.jailrules.rpgcraftcosta.player;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
-import com.craftcosta.jailrules.rpgcraftcosta.entities.CustomEntityType;
-import com.craftcosta.jailrules.rpgcraftcosta.entities.types.mobs.CZombie;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.OnRPGPlayerJoinEvent;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
-import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
 import com.craftcosta.jailrules.rpgcraftcosta.party.RPGPartyManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
-import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 /**
  * La clase RPGPlayerListener es la encargada de manejar todas las acciones que
@@ -91,9 +85,9 @@ public class RPGPlayerListener implements Listener {
             p.sendMessage(ChatColor.YELLOW + "Selecciona una clase antes de continuar...");
             p.sendMessage(plugin.getRPGClassManager().getListAvailableClasses());
         }
-        rpgPMan.saveRPGPlayer(rpgP);
+        //rpgPMan.saveRPGPlayer(rpgP);
         rpgPMan.addRPGPlayerToList(rpgP);
-        RPGWeaponManager rpgWMan = plugin.getRPGItemManager().getRPGWeaponManager();
+        rpgPMan.checkAllEquipment(rpgP);
     }
 
     /**
@@ -110,6 +104,12 @@ public class RPGPlayerListener implements Listener {
         }
     }
 
+     @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent e) {
+        Player p=e.getPlayer();
+        RPGPlayer rpgp= rpgPMan.getRPGPlayerByName(p.getName());
+        rpgp.setActualHealth(rpgp.getFinalMaxHealth());
+    }
     /**
      * onPlayerKicked captura el evento PlayerKickEvent
      *
@@ -121,7 +121,7 @@ public class RPGPlayerListener implements Listener {
         RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
         if (plugin.getRpgConfig().isEnableParties()) {
             if (!rpgP.getParty().isEmpty()) {
-                rpgPaMan.sendMessageToParty(rpgP.getParty(), " El compañero " + rpgP.getName() + " se ha desconectado del servidor");
+                rpgPaMan.sendPartyMessage(rpgP.getParty(), " El compañero " + rpgP.getName() + " se ha desconectado del servidor");
                 rpgP.setParty("");
             }
         }
@@ -146,7 +146,7 @@ public class RPGPlayerListener implements Listener {
         RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
         if (plugin.getRpgConfig().isEnableParties()) {
             if (!rpgP.getParty().isEmpty()) {
-                rpgPaMan.sendMessageToParty(rpgP.getParty(), " El compañero " + rpgP.getName() + " se ha desconectado del servidor");
+                rpgPaMan.sendPartyMessage(rpgP.getParty(), " El compañero " + rpgP.getName() + " se ha desconectado del servidor");
                 rpgP.setParty("");
             }
         }
@@ -167,20 +167,26 @@ public class RPGPlayerListener implements Listener {
      */
     @EventHandler
     public void onPlayerRegainHealth(EntityRegainHealthEvent e) {
-
-        if (e.getRegainReason().equals(RegainReason.SATIATED)) {
-            plugin.getLogger().info("Player recupera vida por estar saciado");
-            plugin.getLogger().info(e.getAmount() + " de vida");
-        } else if (e.getRegainReason().equals(RegainReason.MAGIC_REGEN)) {
-            plugin.getLogger().info("Player recupera vida por regeneracion magica");
-            plugin.getLogger().info(e.getAmount() + " de vida");
-        } else if (e.getRegainReason().equals(RegainReason.MAGIC)) {
-            plugin.getLogger().info("Player recupera vida por magia");
-            plugin.getLogger().info(e.getAmount() + " de vida");
-        } else if (e.getRegainReason().equals(RegainReason.CUSTOM)) {
-            plugin.getLogger().info("Player recupera vida personalizado");
-            plugin.getLogger().info(e.getAmount() + " de vida");
+        if(e.getEntity() instanceof Player){
+            Player p=(Player) e.getEntity();
+            RPGPlayer rpgp= rpgPMan.getRPGPlayerByName(p.getName());
+            double res= rpgp.getFinalMaxHealth()*e.getAmount()/20;
+            res=res+rpgp.getActualHealth();
+            if(res+rpgp.getActualHealth()>rpgp.getFinalMaxHealth()){
+                res= rpgp.getFinalMaxHealth();
+            }
+            rpgp.setActualHealth(res);
         }
+        
+    }
+    
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent e){
+        e.setKeepInventory(true);
+        e.setDeathMessage("");
+        e.setDroppedExp(0);
+        e.setNewTotalExp(0);
+        e.setNewLevel(0);
     }
 
 //    /**
@@ -216,7 +222,5 @@ public class RPGPlayerListener implements Listener {
         for(World w:Bukkit.getServer().getWorlds()){
             sum+=w.getEntities().size();
         }
-        
-        plugin.getLogger().info("ENTIDADES TOTALES: "+sum);
     }
 }

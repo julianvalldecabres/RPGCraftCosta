@@ -77,7 +77,6 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
         final Player p = (Player) sender;
         RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
         if (rpgP == null) {
-            plugin.getLogger().info("EL RPGPLAYER NO EXISTE");
         }
         if (label.equalsIgnoreCase("guild")) {
             if (args.length == 1) {
@@ -175,7 +174,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                     }
                     return true;
                 } else {
-                    p.sendMessage(ChatColor.RED + "Usa /clan help para mostrar la ayuda");
+                    p.sendMessage(ChatColor.RED + "Usa /guild help para mostrar la ayuda");
                     return true;
                 }
             } else if (args.length == 2) {
@@ -215,7 +214,7 @@ public class RPGGuildCommands implements CommandExecutor, TabCompleter {
                             }
                             if (rpgPI.getGuild().isEmpty()) {
                                 invited.sendMessage(prefix + " Has sido invitado a unirte al clan " + guildName);
-                                invited.sendMessage(prefix + " Usa /clan accept/decline para unirte o declinar la oferta");
+                                invited.sendMessage(prefix + " Usa /guild accept/decline para unirte o declinar la oferta");
                                 if (peticiones.containsKey(invited.getName())) {
                                     peticiones.remove(invited.getName());
                                 }

@@ -124,7 +124,7 @@ public class RPGLoreManager {
                 return rpglores;
             }
         }
-        return RPGLores.APBONUS;
+        return null;
     }
 
     /**
@@ -140,7 +140,7 @@ public class RPGLoreManager {
             case MAGICALDEFENSE:
             case PHYSICALATTACK:
             case PHYSICALDEFENSE:
-                return Integer.parseInt(loreparts[loreparts.length - 1].substring(1));
+                return Double.parseDouble(loreparts[loreparts.length - 1].substring(1));
             case MAGICALEVASION:
             case MAGICALHITRATE:
             case PHYSICALEVASION:
@@ -149,7 +149,6 @@ public class RPGLoreManager {
             case MANA:
             case HEALTHSTEAL:
             case MANASTEAL:
-            case APBONUS:
             case XPBONUS:
             case MONEYBONUS:
             case CRITICAL:

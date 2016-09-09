@@ -115,20 +115,20 @@ public class GUIWeaponManager {
         boolean comerciable;
         double physicalattack;
         double incphysicalattack;
-        float physicalhitrate;
-        float incphysicalhitrate;
+        double physicalhitrate;
+        double incphysicalhitrate;
         double magicalattack;
         double incmagicalattack;
-        float magicalhitrate;
-        float incmagicalhitrate;
-        float critical;
-        float inccritical;
-        float healthsteal;
-        float inchealthsteal;
-        float manasteal;
-        float incmanasteal;
-        long xpbonus;
-        long moneybonus;
+        double magicalhitrate;
+        double incmagicalhitrate;
+        double critical;
+        double inccritical;
+        double healthsteal;
+        double inchealthsteal;
+        double manasteal;
+        double incmanasteal;
+        double xpbonus;
+        double moneybonus;
         Set<String> armas = filewConfig.getKeys(false);
         for (String armaid : armas) {
             if (this.lastindex <= Integer.parseInt(armaid)) {
@@ -146,18 +146,18 @@ public class GUIWeaponManager {
             weaponlevel = section.getInt("weaponlevel");
             physicalattack = section.getDouble("physicalattack");
             incphysicalattack = section.getDouble("incphysicalattack");
-            physicalhitrate = (float) section.getDouble("physicalhitrate");
-            incphysicalhitrate = (float) section.getDouble("incphysicalhitrate");
+            physicalhitrate = (double) section.getDouble("physicalhitrate");
+            incphysicalhitrate = (double) section.getDouble("incphysicalhitrate");
             magicalattack = section.getDouble("magicalattack");
             incmagicalattack = section.getDouble("incmagicalattack");
-            magicalhitrate = (float) section.getDouble("magicalhitrate");
-            incmagicalhitrate = (float) section.getDouble("incmagicalhitrate");
-            critical = (float) section.getDouble("critical");
-            inccritical = (float) section.getDouble("inccritical");
-            healthsteal = (float) section.getDouble("healthsteal");
-            inchealthsteal = (float) section.getDouble("inchealthsteal");
-            manasteal = (float) section.getDouble("manasteal");
-            incmanasteal = (float) section.getDouble("incmanasteal");
+            magicalhitrate = (double) section.getDouble("magicalhitrate");
+            incmagicalhitrate = (double) section.getDouble("incmagicalhitrate");
+            critical = (double) section.getDouble("critical");
+            inccritical = (double) section.getDouble("inccritical");
+            healthsteal = (double) section.getDouble("healthsteal");
+            inchealthsteal = (double) section.getDouble("inchealthsteal");
+            manasteal = (double) section.getDouble("manasteal");
+            incmanasteal = (double) section.getDouble("incmanasteal");
             xpbonus = section.getLong("xpbonus");
             moneybonus = section.getLong("moneybonus");
             this.listWeapons.put(name, new GUIWeapon(name, item, level, weaponlevel, sellprice, buyprice, quality, upgradable, comerciable, physicalattack, incphysicalattack, physicalhitrate, incphysicalhitrate, magicalattack, incmagicalattack, magicalhitrate, incmagicalhitrate, critical, inccritical, healthsteal, inchealthsteal, manasteal, incmanasteal, xpbonus, moneybonus));
@@ -165,10 +165,12 @@ public class GUIWeaponManager {
         }
     }
 
+    public GUIWeapon getWeaponByName(String name){
+        return listWeapons.get(name);        
+    }
     public void saveWeapon() {
         GUIWeapon gw = getGUIWeaponByName(gui.getTxtNombreArma().getText());
         if (gw == null) {
-
             gw = new GUIWeapon(gui.getTxtNombreArma().getText(),
                     EnumWeapon.valueOf(EnumWeapon.values()[(int) gui.getComboTipoArma().getSelectedItem()].name()),
                     (int) gui.getSpinnerNivelMinArma().getValue(),
@@ -180,24 +182,24 @@ public class GUIWeaponManager {
                     gui.getCheckComerciableArma().isSelected(),
                     (double) gui.getSpinnerAtaFisArma().getValue(),
                     (double) gui.getSpinnerMejAtaFisArma().getValue(),
-                    (float) gui.getSpinnerHRFisArma().getValue(),
-                    (float) gui.getSpinnerMejHRFisArma().getValue(),
+                    (double) gui.getSpinnerHRFisArma().getValue(),
+                    (double) gui.getSpinnerMejHRFisArma().getValue(),
                     (double) gui.getSpinnerAtaMagArma().getValue(),
                     (double) gui.getSpinnerMejAtaMagArma().getValue(),
-                    (float) gui.getSpinnerHRMagArma().getValue(),
-                    (float) gui.getSpinnerMejHRMagArma().getValue(),
-                    (float) gui.getSpinnerCritArma().getValue(),
-                    (float) gui.getSpinnerMejCritArma().getValue(),
-                    (float) gui.getSpinnerRoboVArma().getValue(),
-                    (float) gui.getSpinnerMejRoboVArma().getValue(),
-                    (float) gui.getSpinnerRoboMArma().getValue(),
-                    (float) gui.getSpinnerMejRoboMArma().getValue(),
-                    (float) gui.getSpinnerExpExtraArma().getValue(),
-                    (float) gui.getSpinnerDineroExtraArma().getValue());
+                    (double) gui.getSpinnerHRMagArma().getValue(),
+                    (double) gui.getSpinnerMejHRMagArma().getValue(),
+                    (double) gui.getSpinnerCritArma().getValue(),
+                    (double) gui.getSpinnerMejCritArma().getValue(),
+                    (double) gui.getSpinnerRoboVArma().getValue(),
+                    (double) gui.getSpinnerMejRoboVArma().getValue(),
+                    (double) gui.getSpinnerRoboMArma().getValue(),
+                    (double) gui.getSpinnerMejRoboMArma().getValue(),
+                    (double) gui.getSpinnerExpExtraArma().getValue(),
+                    (double) gui.getSpinnerDineroExtraArma().getValue());
             this.listWeapons.put(gw.getName(), gw);
             this.listnum.put(gw.getName(), lastindex + 1);
+            lastindex++;
             gui.getComboListaArmas().addItem(gw.getName());
-
             gui.recursivelyEnableDisablePanel(gui.getPanelEditorArma(), false);
             saveWeaponToFile(gw);
         } else {
@@ -213,20 +215,20 @@ public class GUIWeaponManager {
                 gw.setComerciable(gui.getCheckComerciableArma().isSelected());
                 gw.setPhysicalattack((double) gui.getSpinnerAtaFisArma().getValue());
                 gw.setIncphysicalattack((double) gui.getSpinnerMejAtaFisArma().getValue());
-                gw.setPhysicalhitrate((float) gui.getSpinnerHRFisArma().getValue());
-                gw.setIncphysicalhitrate((float) gui.getSpinnerMejHRFisArma().getValue());
+                gw.setPhysicalhitrate((double) gui.getSpinnerHRFisArma().getValue());
+                gw.setIncphysicalhitrate((double) gui.getSpinnerMejHRFisArma().getValue());
                 gw.setMagicalattack((double) gui.getSpinnerAtaMagArma().getValue());
                 gw.setIncmagicalattack((double) gui.getSpinnerMejAtaMagArma().getValue());
-                gw.setMagicalhitrate((float) gui.getSpinnerHRMagArma().getValue());
-                gw.setIncmagicalhitrate((float) gui.getSpinnerMejHRMagArma().getValue());
-                gw.setCritical((float) gui.getSpinnerCritArma().getValue());
-                gw.setInccritical((float) gui.getSpinnerMejCritArma().getValue());
-                gw.setHealthsteal((float) gui.getSpinnerRoboVArma().getValue());
-                gw.setInchealthsteal((float) gui.getSpinnerMejRoboVArma().getValue());
-                gw.setManasteal((float) gui.getSpinnerRoboMArma().getValue());
-                gw.setIncmanasteal((float) gui.getSpinnerMejRoboMArma().getValue());
-                gw.setXpbonus((float) gui.getSpinnerExpExtraArma().getValue());
-                gw.setMoneybonus((float) gui.getSpinnerDineroExtraArma().getValue());
+                gw.setMagicalhitrate((double) gui.getSpinnerHRMagArma().getValue());
+                gw.setIncmagicalhitrate((double) gui.getSpinnerMejHRMagArma().getValue());
+                gw.setCritical((double) gui.getSpinnerCritArma().getValue());
+                gw.setInccritical((double) gui.getSpinnerMejCritArma().getValue());
+                gw.setHealthsteal((double) gui.getSpinnerRoboVArma().getValue());
+                gw.setInchealthsteal((double) gui.getSpinnerMejRoboVArma().getValue());
+                gw.setManasteal((double) gui.getSpinnerRoboMArma().getValue());
+                gw.setIncmanasteal((double) gui.getSpinnerMejRoboMArma().getValue());
+                gw.setXpbonus((double) gui.getSpinnerExpExtraArma().getValue());
+                gw.setMoneybonus((double) gui.getSpinnerDineroExtraArma().getValue());
 
                 this.listWeapons.put(gw.getName(), gw);
                 gui.recursivelyEnableDisablePanel(gui.getPanelEditorObjetos(), false);
@@ -370,15 +372,19 @@ public class GUIWeaponManager {
         if (gw == null) {
             gui.sendMessageWarning("Error", "El arma seleccionada no existe");
         } else {
-            int diag = JOptionPane.showConfirmDialog(null, "¿Estas seguro de querer eliminar el arma?", "Borrar arma: " + gw.getName(), JOptionPane.YES_NO_OPTION);
-            if (diag == JOptionPane.YES_OPTION) {
-                //borrar clase de el combo
-                gui.getComboListaArmas().removeItem(gw.getName());
-                gui.getComboListaArmas().setSelectedIndex(0);
-                //Borrar clase de el fichero y de la memoria
-                listWeapons.remove(gw.getName());
-                //listnum.remove(gw.getName());
-                deleteWeaponFromFile(gw);
+            if (monsterHasThisWeapon(gw)) {
+                gui.sendMessageWarning("Error", "El arma seleccionada es un drop de un monstruo, reemplazalo para eliminarlo");
+            } else {
+                int diag = JOptionPane.showConfirmDialog(null, "¿Estas seguro de querer eliminar el arma?", "Borrar arma: " + gw.getName(), JOptionPane.YES_NO_OPTION);
+                if (diag == JOptionPane.YES_OPTION) {
+                    //borrar clase de el combo
+                    gui.getComboListaArmas().removeItem(gw.getName());
+                    gui.getComboListaArmas().setSelectedIndex(0);
+                    //Borrar clase de el fichero y de la memoria
+                    listWeapons.remove(gw.getName());
+                    //listnum.remove(gw.getName());
+                    deleteWeaponFromFile(gw);
+                }
             }
         }
     }
@@ -435,6 +441,10 @@ public class GUIWeaponManager {
 
     public Map<String, GUIWeapon> getListWeapons() {
         return listWeapons;
+    }
+
+    private boolean monsterHasThisWeapon(GUIWeapon gw) {
+        return gui.getGuiMobMan().monsterHasThisDrop(gw.getName());
     }
 
 }

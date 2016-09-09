@@ -15,7 +15,6 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.items;
 
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 /**

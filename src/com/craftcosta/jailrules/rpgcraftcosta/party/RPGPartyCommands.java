@@ -135,7 +135,7 @@ public class RPGPartyCommands implements CommandExecutor, TabCompleter {
                         if (playerEnPeticion(p.getName())) {
                             RPGParty party = rpgPaMan.getParty(peticiones.get(p.getName()));
                             p.sendMessage(prefix + " Te has unido al grupo " + party.getName());
-                            rpgPaMan.sendMessageToParty(party.getName(), "El jugador " + p.getName() + " se ha unido al grupo");
+                            rpgPaMan.sendPartyMessage(party.getName(), "El jugador " + p.getName() + " se ha unido al grupo");
                             rpgPaMan.addPlayerToParty(p, party);
                             rpgP.setParty(party.getName());
                         } else {

@@ -20,10 +20,13 @@ import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
 import com.craftcosta.jailrules.rpgcraftcosta.economy.NegativeMoneyException;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMob;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.RPGMobManager;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.entities.MobDrop;
 import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
+import com.craftcosta.jailrules.rpgcraftcosta.items.ItemType;
 import com.craftcosta.jailrules.rpgcraftcosta.party.RPGPartyManager;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
+import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.entity.Entity;
@@ -32,6 +35,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  *
@@ -69,7 +73,33 @@ public class RPGLevelListener implements Listener {
                 if (!(nEvent.getEntity() instanceof Player)) {
                     String mobName = nEvent.getEntity().getCustomName();
                     RPGMob mob = rpgMMan.getRPGMobByName(mobName);
-                    plugin.getLogger().info(mobName);
+                    for (MobDrop drop : mob.getDrops()) {
+                        for (int i = 0; i < drop.getQuantity(); i++) {
+                            if (RPGPlayerUtils.checkProbability(drop.getProbability())) {
+                                ItemStack item=null;
+                                plugin.getLogger().info(drop.getType().name());
+                                plugin.getLogger().info(drop.getItemname());
+                                switch (drop.getType()) {
+                                    case ARMA:
+                                        item=plugin.getRPGItemManager().getRPGItem(drop.getItemname(),ItemType.WEAPON);
+                                        break;
+                                    case ARMADURA:
+                                        item=plugin.getRPGItemManager().getRPGItem(drop.getItemname(),ItemType.ARMOR);
+                                        break;
+                                    case JOYA:
+                                        item=plugin.getRPGItemManager().getRPGItem(drop.getItemname(),ItemType.JEWEL);
+                                        break;
+                                    case MEJORADOR:
+                                        item=plugin.getRPGItemManager().getRPGItem(drop.getItemname(), ItemType.UPGRADER);
+                                        break;
+                                    case OBJETO:
+                                        item=plugin.getRPGItemManager().getRPGItem(drop.getItemname(),ItemType.QUESTITEM);
+                                        break;
+                                }
+                                nEvent.getEntity().getWorld().dropItemNaturally(nEvent.getEntity().getLocation(), item);
+                            }
+                        }
+                    }
                     long mobexp = mob.getExp();
                     long mobmoney = mob.getMoney();
                     if (!rpgp.getGuild().isEmpty()) {

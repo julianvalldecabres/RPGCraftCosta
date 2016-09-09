@@ -20,13 +20,8 @@ import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.player.PlayerKickEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
  *
@@ -44,16 +39,6 @@ public class RPGGuildListener implements Listener {
         this.rpgGMan = plugin.getRPGGuildManager();
         this.rpgPMan = plugin.getRPGPlayerManager();
         this.rpgCMan = plugin.getRPGChatManager();
-    }
-
-    @EventHandler
-    public void onPlayerKillsMob(EntityDeathEvent e) {
-        Entity ent = e.getEntity();
-        if (ent.getLastDamageCause() instanceof EntityDamageByEntityEvent) {
-            //Mirar config si toca robar money del mob xD
-
-        }
-
     }
 
     @EventHandler

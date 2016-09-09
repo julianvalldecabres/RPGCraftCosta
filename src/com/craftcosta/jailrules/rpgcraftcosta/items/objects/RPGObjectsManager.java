@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -40,6 +41,7 @@ public class RPGObjectsManager {
 
     private RPGCraftCosta plugin;
     private HashMap<String, RPGObjects> rpgObjectsList;
+    private List<String> objectListNames;
     private File questItemFile;
     private FileConfiguration config;
 
@@ -51,6 +53,7 @@ public class RPGObjectsManager {
         this.plugin = plugin;
         this.plugin.getLogger().info("Loading questitems module....");
         this.rpgObjectsList = new HashMap<>();
+        this.objectListNames= new ArrayList<>();
         this.questItemFile = new File(RPGFinals.questItemFilePath);
         if (!questItemFile.exists()) {
             plugin.getLogger().info("Loading default quest items...");
@@ -77,7 +80,7 @@ public class RPGObjectsManager {
 
     private void loadQuestItems() {
         if (!questItemFile.exists()) {
-            config = YamlConfiguration.loadConfiguration(new File(RPGFinals.jewelFilePath));
+            config = YamlConfiguration.loadConfiguration(new File(RPGFinals.questItemFilePath));
         } else {
             config = YamlConfiguration.loadConfiguration(questItemFile);
         }
@@ -93,8 +96,11 @@ public class RPGObjectsManager {
             name = section.getString("name");
             quality = Enum.valueOf(Quality.class, section.getString("quality"));
             item = new ItemStack(Material.matchMaterial(section.getString("material")));
+            if(section.isSet("lores")){
             lores = section.getStringList("lores");
+            }
             rpgObjectsList.put(name, new RPGObjects(item, name, quality, lores));
+            objectListNames.add(name);
         }
 
     }
@@ -105,6 +111,35 @@ public class RPGObjectsManager {
      * @return
      */
     public ItemStack getRPGQuestItemByName(String name) {
-        return this.rpgObjectsList.get(name).getItem();
+        return this.rpgObjectsList.get(ChatColor.stripColor(name)).getItem();
     }
+
+    public RPGObjects getRPGQuestItemByItem(ItemStack item) {
+        if(item.hasItemMeta()){
+            return this.rpgObjectsList.get(getRPGQuestItemNameByItem(item));
+        }
+        return null;
+    }
+    
+    public String getRPGQuestItemNameByItem(ItemStack item) {
+        String name=ChatColor.stripColor(item.getItemMeta().getDisplayName());
+        String[] displayname = name.split(" ");
+        int size = displayname.length;
+        String qName = "";
+        if (size > 3) {
+            for (int i = 0; i <= size - 3; i++) {
+                qName += displayname[i] + " ";
+            }
+            qName += displayname[size - 1];
+        } else {
+            qName = displayname[1];
+        }
+        return qName;
+    }
+
+    public List<String> getAllObjectNames() {
+        return objectListNames;
+    }
+    
+    
 }

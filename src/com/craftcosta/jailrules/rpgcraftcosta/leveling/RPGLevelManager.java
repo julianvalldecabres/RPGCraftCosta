@@ -20,7 +20,6 @@ import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Objects;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -60,11 +59,10 @@ public class RPGLevelManager {
             }
         }
         loadLevels();
-        for (Map.Entry<Long, Integer> entrySet : levels.entrySet()) {
-            plugin.getLogger().info(entrySet.getKey()+" nivel "+entrySet.getValue());
-            
-        }
-        
+    }
+
+    public int getPh() {
+        return ph;
     }
 
     private void loadLevels() {
@@ -108,8 +106,6 @@ public class RPGLevelManager {
         long newexp = 0;
         if (inc > 0) {
             newexp = exp + inc;
-            plugin.getLogger().info(""+exp);
-            plugin.getLogger().info(""+newexp);
             if(levels.lowerEntry(exp)!=null){
                 return ((int)levels.lowerEntry(exp).getValue())!=((int) levels.lowerEntry(newexp).getValue());
             }
@@ -131,7 +127,11 @@ public class RPGLevelManager {
         double expOfLvl;
         actualExp = exp;
         nextLvlExp = levels.higherKey(exp);
-        startLvlExp = levels.lowerKey(exp);
+        if(exp==0){
+            startLvlExp=0;
+        }else{
+            startLvlExp = levels.lowerKey(exp);
+        }
         expOfLvl = nextLvlExp - startLvlExp;
         actualLvlExp = actualExp - startLvlExp;
         result = (float) Math.abs((actualLvlExp / expOfLvl) - 1);

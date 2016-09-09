@@ -16,6 +16,8 @@
 package com.craftcosta.jailrules.rpgcraftcosta.chat;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.guilds.RPGGuildManager;
+import com.craftcosta.jailrules.rpgcraftcosta.party.RPGPartyManager;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
@@ -50,6 +52,8 @@ public class RPGChatManager {
     private ChatColor locationColor;
     private File chatTasksFile;
     private FileConfiguration ctConfig;
+    private RPGGuildManager rpgGMan;
+    private RPGPartyManager rpgPMan;
 
     /**
      *
@@ -82,6 +86,14 @@ public class RPGChatManager {
         }
     }
 
+    public void setRpgGMan(RPGGuildManager rpgGMan) {
+        this.rpgGMan = rpgGMan;
+    }
+
+    public void setRpgPMan(RPGPartyManager rpgPMan) {
+        this.rpgPMan = rpgPMan;
+    }
+
     private void loadChatConfig() {
         if (!chatFileConfig.exists()) {
             cfcConfig = YamlConfiguration.loadConfiguration(new File(RPGFinals.chatFileConfig));
@@ -111,6 +123,7 @@ public class RPGChatManager {
                     || type.equals("GUILD")) {
                 ConfigurationSection section = cfcConfig.getConfigurationSection(type);
                 MessageType.valueOf(type).setMessageColorByName(section.getString("messagecolor"));
+                
                 MessageType.valueOf(type).setPrefixColorByName(section.getString("prefixcolor"));
                 MessageType.valueOf(type).setPrefix(section.getString("prefix"));
                 MessageType.valueOf(type).setShortcut(section.getString("shortcut"));
@@ -230,7 +243,7 @@ public class RPGChatManager {
     public String getPrefixForGuild() {
         return MessageType.GUILD.getPrefixColor()
                 + "[" + MessageType.GUILD.getPrefix()
-                + "]" + MessageType.GUILD.getMessageColor();
+                + "]";
     }
 
     /**
@@ -254,23 +267,7 @@ public class RPGChatManager {
         return sender.getLocation().getWorld().equals(receiver.getLocation().getWorld());
     }
 
-    public void sendGuildMessage(RPGPlayer rpgp, String message) {
-        if (rpgp.isGuildChat()) {
-            rpgp.getPlayer().sendMessage(getPrefixForGuild() + ChatColor.RED + message);
-        }
-    }
-
     public void sendGuildMessageToPlayer(RPGPlayer rpgp, String message) {
         rpgp.getPlayer().sendMessage(getPrefixForGuild() + message);
-    }
-
-    public void sendPartyMessage(RPGPlayer rpgp, String message) {
-        if (rpgp.isPartyChat()) {
-            rpgp.getPlayer().sendMessage(getPrefixForParty() + ChatColor.RED + message);
-        }
-    }
-
-    public void sendPartyMessageToPlayer(RPGPlayer rpgp, String message) {
-        rpgp.getPlayer().sendMessage(getPrefixForParty() + message);
     }
 }

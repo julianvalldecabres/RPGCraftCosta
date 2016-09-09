@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 jail.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,11 +24,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -61,6 +57,7 @@ public class RPGArmorListener implements Listener {
     public void onPlayerUpgradeArmor(InventoryClickEvent e) {
         ItemStack armorUpgrader = rpgAMan.getArmorUpgrader();
         Player p = (Player) e.getWhoClicked();
+        RPGPlayer rpgp=rpgPMan.getRPGPlayerByName(p.getName());
         ItemStack cursor = e.getCursor();
         int slot = e.getRawSlot();
         ItemStack armorClicked = e.getCurrentItem();
@@ -111,269 +108,14 @@ public class RPGArmorListener implements Listener {
                     break;
             }
             p.updateInventory();
-        }
-    }
-
-    /**
-     *
-     * @param e
-     */
-    @EventHandler
-    public void onPlayerEquipArmorFromHotBar(PlayerInteractEvent e) {
-        Player p = e.getPlayer();
-        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
-        Material mat = p.getItemInHand().getType();
-        if (mat.equals(Material.AIR) || mat == null) {
-            return;
-        }
-        if ((e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_AIR) && rpgAMan.isRPGArmor(p.getItemInHand()))) {
-            switch (mat) {
-                case DIAMOND_HELMET:
-                case IRON_HELMET:
-                case GOLD_HELMET:
-                case CHAINMAIL_HELMET:
-                case LEATHER_HELMET:
-                    if (p.getInventory().getHelmet() == null) {
-                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(p.getItemInHand()));
-                    }
-                    break;
-                case DIAMOND_CHESTPLATE:
-                case IRON_CHESTPLATE:
-                case GOLD_CHESTPLATE:
-                case CHAINMAIL_CHESTPLATE:
-                case LEATHER_CHESTPLATE:
-                    if (p.getInventory().getChestplate() == null) {
-                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(p.getItemInHand()));
-                    }
-                    break;
-                case DIAMOND_LEGGINGS:
-                case IRON_LEGGINGS:
-                case GOLD_LEGGINGS:
-                case CHAINMAIL_LEGGINGS:
-                case LEATHER_LEGGINGS:
-                    if (p.getInventory().getLeggings() == null) {
-                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(p.getItemInHand()));
-                    }
-                    break;
-                case DIAMOND_BOOTS:
-                case IRON_BOOTS:
-                case GOLD_BOOTS:
-                case CHAINMAIL_BOOTS:
-                case LEATHER_BOOTS:
-                    if (p.getInventory().getBoots() == null) {
-                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(p.getItemInHand()));
-                    }
-                    break;
-                default:
-                    return;
-            }
-        }
-    }
-
-    /**
-     *
-     * @param event
-     */
-    @EventHandler
-    public void onPlayerEquipArmorFromInventory(InventoryClickEvent event) {
-        Player p = (Player) event.getWhoClicked();
-        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
-        //Slot
-        int rawSlot = event.getRawSlot();
-        //Items
-        ItemStack cursorItem = event.getCursor();
-        ItemStack currentItem = event.getCurrentItem();
-        if (rawSlot > 8) {
-            if (event.isShiftClick() && rpgAMan.isRPGArmor(currentItem)) {
-                switch (currentItem.getType()) {
-                    case DIAMOND_HELMET:
-                    case IRON_HELMET:
-                    case GOLD_HELMET:
-                    case CHAINMAIL_HELMET:
-                    case LEATHER_HELMET:
-                        if (p.getInventory().getHelmet() == null) {
-                            rpgP.addStats(rpgLMan.getListOfLoresFromItem(currentItem));
-                            plugin.getLogger().info("adding stats of: " + currentItem.getItemMeta().getDisplayName());
-                        }
-                        break;
-                    case DIAMOND_CHESTPLATE:
-                    case IRON_CHESTPLATE:
-                    case GOLD_CHESTPLATE:
-                    case CHAINMAIL_CHESTPLATE:
-                    case LEATHER_CHESTPLATE:
-                        if (p.getInventory().getChestplate() == null) {
-                            rpgP.addStats(rpgLMan.getListOfLoresFromItem(currentItem));
-                            plugin.getLogger().info("adding stats of: " + currentItem.getItemMeta().getDisplayName());
-                        }
-                        break;
-                    case DIAMOND_LEGGINGS:
-                    case IRON_LEGGINGS:
-                    case GOLD_LEGGINGS:
-                    case CHAINMAIL_LEGGINGS:
-                    case LEATHER_LEGGINGS:
-                        if (p.getInventory().getLeggings() == null) {
-                            rpgP.addStats(rpgLMan.getListOfLoresFromItem(currentItem));
-                            plugin.getLogger().info("adding stats of: " + currentItem.getItemMeta().getDisplayName());
-                        }
-                        break;
-                    case DIAMOND_BOOTS:
-                    case IRON_BOOTS:
-                    case GOLD_BOOTS:
-                    case CHAINMAIL_BOOTS:
-                    case LEATHER_BOOTS:
-                        if (p.getInventory().getBoots() == null) {
-                            rpgP.addStats(rpgLMan.getListOfLoresFromItem(currentItem));
-                            plugin.getLogger().info("adding stats of: " + currentItem.getItemMeta().getDisplayName());
-                        }
-                        break;
-                    default:
-                        return;
-                }
-
-            }
-        } else {
-            if (rawSlot < 9 && rawSlot > 4) {
-                //si es un slot de armadura
-                switch (rawSlot) {
-                    case 5:
-                        if (cursorItem.getType().equals(Material.AIR)) {
-                            if (!currentItem.getType().equals(Material.AIR)) {
-                                rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
-                                plugin.getLogger().info("substract stats of: " + currentItem.getItemMeta().getDisplayName());
-                            }
-                        } else {
-                            if (currentItem.getType().equals(Material.AIR)) {
-                                if (rpgAMan.isRPGArmor(cursorItem) && rpgAMan.getPart(cursorItem).equals("HELMET")) {
-                                    rpgP.addStats(rpgLMan.getListOfLoresFromItem(cursorItem));
-                                    plugin.getLogger().info("adding stats of: " + cursorItem.getItemMeta().getDisplayName());
-                                } else {
-                                    event.setCancelled(true);
-                                }
-                            } else {
-                                if (rpgAMan.isRPGArmor(cursorItem) && rpgAMan.isRPGArmor(currentItem)) {
-                                    if (rpgAMan.isSamePart(cursorItem, currentItem)) {
-                                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(cursorItem));
-                                        plugin.getLogger().info("adding stats of: " + cursorItem.getItemMeta().getDisplayName()
-                                                + " and substract stats of: " + currentItem.getItemMeta().getDisplayName());
-                                        rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    case 6:
-                        if (cursorItem.getType().equals(Material.AIR)) {
-                            if (!currentItem.getType().equals(Material.AIR)) {
-                                rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
-                                plugin.getLogger().info("substract stats of: " + currentItem.getItemMeta().getDisplayName());
-                            }
-                        } else {
-                            if (currentItem.getType().equals(Material.AIR)) {
-                                if (rpgAMan.isRPGArmor(cursorItem) && rpgAMan.getPart(cursorItem).equals("CHESTPLATE")) {
-                                    rpgP.addStats(rpgLMan.getListOfLoresFromItem(cursorItem));
-                                    plugin.getLogger().info("adding stats of: " + cursorItem.getItemMeta().getDisplayName());
-                                } else {
-                                    event.setCancelled(true);
-                                }
-                            } else {
-                                if (rpgAMan.isRPGArmor(cursorItem) && rpgAMan.isRPGArmor(currentItem)) {
-                                    if (rpgAMan.isSamePart(cursorItem, currentItem)) {
-                                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(cursorItem));
-                                        plugin.getLogger().info("adding stats of: " + cursorItem.getItemMeta().getDisplayName()
-                                                + " and substract stats of: " + currentItem.getItemMeta().getDisplayName());
-                                        rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    case 7:
-                        if (cursorItem.getType().equals(Material.AIR)) {
-                            if (!currentItem.getType().equals(Material.AIR)) {
-                                rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
-                                plugin.getLogger().info("substract stats of: " + currentItem.getItemMeta().getDisplayName());
-                            }
-                        } else {
-                            if (currentItem.getType().equals(Material.AIR)) {
-                                if (rpgAMan.isRPGArmor(cursorItem) && rpgAMan.getPart(cursorItem).equals("LEGGINGS")) {
-                                    rpgP.addStats(rpgLMan.getListOfLoresFromItem(cursorItem));
-                                    plugin.getLogger().info("adding stats of: " + cursorItem.getItemMeta().getDisplayName());
-                                } else {
-                                    event.setCancelled(true);
-                                }
-                            } else {
-                                if (rpgAMan.isRPGArmor(cursorItem) && rpgAMan.isRPGArmor(currentItem)) {
-                                    if (rpgAMan.isSamePart(cursorItem, currentItem)) {
-                                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(cursorItem));
-                                        plugin.getLogger().info("adding stats of: " + cursorItem.getItemMeta().getDisplayName()
-                                                + " and substract stats of: " + currentItem.getItemMeta().getDisplayName());
-                                        rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                    case 8:
-                        if (cursorItem.getType().equals(Material.AIR)) {
-                            if (!currentItem.getType().equals(Material.AIR)) {
-                                rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
-                                plugin.getLogger().info("substract stats of: " + currentItem.getItemMeta().getDisplayName());
-                            }
-                        } else {
-                            if (currentItem.getType().equals(Material.AIR)) {
-                                if (rpgAMan.isRPGArmor(cursorItem) && rpgAMan.getPart(cursorItem).equals("BOOTS")) {
-                                    rpgP.addStats(rpgLMan.getListOfLoresFromItem(cursorItem));
-                                    plugin.getLogger().info("adding stats of: " + cursorItem.getItemMeta().getDisplayName());
-                                } else {
-                                    event.setCancelled(true);
-                                }
-                            } else {
-                                if (rpgAMan.isRPGArmor(cursorItem) && rpgAMan.isRPGArmor(currentItem)) {
-                                    if (rpgAMan.isSamePart(cursorItem, currentItem)) {
-                                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(cursorItem));
-                                        plugin.getLogger().info("adding stats of: " + cursorItem.getItemMeta().getDisplayName()
-                                                + " and substract stats of: " + currentItem.getItemMeta().getDisplayName());
-                                        rpgP.subStats(rpgLMan.getListOfLoresFromItem(currentItem));
-                                    }
-                                }
-                            }
-                        }
-                        break;
-                }
-            }
-        }
-    }
-
-    /**
-     *
-     * @param e
-     */
-    @EventHandler
-    public void onPlayerDropArmor(PlayerDropItemEvent e) {
-        Player p = e.getPlayer();
-        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
-        if (rpgAMan.isRPGArmor(e.getItemDrop().getItemStack())) {
-            rpgPMan.checkAllEquipment(rpgP);
-        }
-    }
-
-    /**
-     *
-     * @param e
-     */
-    @EventHandler
-    public void onPlayerPickupArmor(PlayerPickupItemEvent e) {
-        Player p = e.getPlayer();
-        plugin.getLogger().info("item: " + e.getItem().toString());
-        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
-        if (rpgAMan.isRPGArmor(e.getItem().getItemStack())) {
-            rpgPMan.checkAllEquipment(rpgP);
+            rpgPMan.checkAllEquipment(rpgp);
         }
     }
 
     private ItemStack downgradeRPGArmor(ItemStack currentItem) {
         RPGArmor rpga = rpgAMan.getRPGArmorByItem(currentItem);
         return rpgAMan.downgradeArmor(currentItem);
+        
     }
 
     private ItemStack improveRPGArmor(ItemStack currentItem) {

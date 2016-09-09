@@ -190,7 +190,7 @@ public class GUI extends JFrame {
                 dest.createNewFile();
             }
 
-            in = GUI.class.getClassLoader().getResourceAsStream(source); 
+            in = GUI.class.getClassLoader().getResourceAsStream(source);
             if (in == null) {
                 JOptionPane.showMessageDialog(null, "No se puede tener acceso al recurso \"" + dest + "\" del archivo Jar");
             }
@@ -214,6 +214,10 @@ public class GUI extends JFrame {
         }
     }
 
+    public static GUISPawnerManager getGuiSpawnMan() {
+        return guiSpawnMan;
+    }
+
     private static void createDefaultDirectories() {
         //TODO AUTOMATIZAR EL PROCESO DE GENERACION DE LOS FICHEROS DE CONFIGURACION
         File file = new File(RPGFinals.pluginDataFolder);
@@ -224,13 +228,13 @@ public class GUI extends JFrame {
             JOptionPane.showMessageDialog(null, "Cargando configuracion desde los ficheros\nSi los ficheros no son encontrados seran creados por defecto", "RPGCraftCosta-Informacion", 1);
         }
         //LISTADO DE FICHEROS YAMLS PARA COPIAR POR DEFECTO
-        String path="";
+        String path = "";
         try {
             path = (GUI.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath();
         } catch (URISyntaxException ex) {
             Logger.getLogger(GUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         final File jarFile = new File(path);
         if (jarFile.isFile()) {
             try {
@@ -608,7 +612,7 @@ public class GUI extends JFrame {
         this.guiChatMan = new GUIChatManager(this);
         this.guiItemMan = new GUIItemManager(this);
         this.guiMobMan = new GUIMobManager(this);
-        this.guiSpawnMan= new GUISPawnerManager(this);
+        this.guiSpawnMan = new GUISPawnerManager(this);
         for (EnumTypeDrop e : EnumTypeDrop.values()) {
             comboTipoDropMob.addItem(e.name());
         }
@@ -1300,7 +1304,6 @@ public class GUI extends JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("RPGCraftCosta plugin: Gestor de configuración");
-        setMaximumSize(new java.awt.Dimension(1000, 800));
         setMinimumSize(new java.awt.Dimension(600, 400));
         setName("Form"); // NOI18N
 
@@ -2725,11 +2728,11 @@ public class GUI extends JFrame {
         spinnerAtaFisBase.setToolTipText(null);
         spinnerAtaFisBase.setName("spinnerAtaFisBase"); // NOI18N
 
-        spinnerHRFisBase.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerHRFisBase.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.009999999776482582d));
         spinnerHRFisBase.setToolTipText(null);
         spinnerHRFisBase.setName("spinnerHRFisBase"); // NOI18N
 
-        spinnerEvaFisBase.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerEvaFisBase.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.009999999776482582d));
         spinnerEvaFisBase.setToolTipText(null);
         spinnerEvaFisBase.setName("spinnerEvaFisBase"); // NOI18N
 
@@ -2741,19 +2744,19 @@ public class GUI extends JFrame {
         spinnerDefMagBase.setToolTipText(null);
         spinnerDefMagBase.setName("spinnerDefMagBase"); // NOI18N
 
-        spinnerHRMagBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerHRMagBase.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.009999999776482582d));
         spinnerHRMagBase.setToolTipText(null);
         spinnerHRMagBase.setName("spinnerHRMagBase"); // NOI18N
 
-        spinnerEvaMagBase.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerEvaMagBase.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.009999999776482582d));
         spinnerEvaMagBase.setToolTipText(null);
         spinnerEvaMagBase.setName("spinnerEvaMagBase"); // NOI18N
 
-        spinnerCritBase.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerCritBase.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.009999999776482582d));
         spinnerCritBase.setToolTipText(null);
         spinnerCritBase.setName("spinnerCritBase"); // NOI18N
 
-        spinnerMortalBase.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerMortalBase.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.009999999776482582d));
         spinnerMortalBase.setToolTipText(null);
         spinnerMortalBase.setName("spinnerMortalBase"); // NOI18N
 
@@ -2938,11 +2941,11 @@ public class GUI extends JFrame {
         spinnerDefFisNivel.setToolTipText(null);
         spinnerDefFisNivel.setName("spinnerDefFisNivel"); // NOI18N
 
-        spinnerHRFisNivel.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerHRFisNivel.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.009999999776482582d));
         spinnerHRFisNivel.setToolTipText(null);
         spinnerHRFisNivel.setName("spinnerHRFisNivel"); // NOI18N
 
-        spinnerEvaFisNivel.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerEvaFisNivel.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.009999999776482582d));
         spinnerEvaFisNivel.setToolTipText(null);
         spinnerEvaFisNivel.setName("spinnerEvaFisNivel"); // NOI18N
 
@@ -2954,19 +2957,19 @@ public class GUI extends JFrame {
         spinnerDefMagNivel.setToolTipText(null);
         spinnerDefMagNivel.setName("spinnerDefMagNivel"); // NOI18N
 
-        spinnerHRMagNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerHRMagNivel.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.009999999776482582d));
         spinnerHRMagNivel.setToolTipText(null);
         spinnerHRMagNivel.setName("spinnerHRMagNivel"); // NOI18N
 
-        spinnerEvaMagNivel.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
+        spinnerEvaMagNivel.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.009999999776482582d));
         spinnerEvaMagNivel.setToolTipText(null);
         spinnerEvaMagNivel.setName("spinnerEvaMagNivel"); // NOI18N
 
-        spinnerCritNivel.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerCritNivel.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.009999999776482582d));
         spinnerCritNivel.setToolTipText(null);
         spinnerCritNivel.setName("spinnerCritNivel"); // NOI18N
 
-        spinnerMortalNivel.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerMortalNivel.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.009999999776482582d));
         spinnerMortalNivel.setToolTipText(null);
         spinnerMortalNivel.setName("spinnerMortalNivel"); // NOI18N
 
@@ -3216,11 +3219,11 @@ public class GUI extends JFrame {
         lblMortalAP.setToolTipText(null);
         lblMortalAP.setName("lblMortalAP"); // NOI18N
 
-        spinnerCritAP.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerCritAP.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.009999999776482582d));
         spinnerCritAP.setToolTipText(null);
         spinnerCritAP.setName("spinnerCritAP"); // NOI18N
 
-        spinnerMortalAP.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.0f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.01f)));
+        spinnerMortalAP.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.009999999776482582d));
         spinnerMortalAP.setToolTipText(null);
         spinnerMortalAP.setName("spinnerMortalAP"); // NOI18N
 
@@ -4267,6 +4270,11 @@ public class GUI extends JFrame {
         btnEliminarObjeto.setText("Eliminar");
         btnEliminarObjeto.setToolTipText(null);
         btnEliminarObjeto.setName("btnEliminarObjeto"); // NOI18N
+        btnEliminarObjeto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarObjetoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelConfigObjetosLayout = new javax.swing.GroupLayout(panelConfigObjetos);
         panelConfigObjetos.setLayout(panelConfigObjetosLayout);
@@ -5106,6 +5114,7 @@ public class GUI extends JFrame {
         lblDineroExtraArma.setToolTipText(null);
         lblDineroExtraArma.setName("lblDineroExtraArma"); // NOI18N
 
+        spinnerDineroExtraArma.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerDineroExtraArma.setToolTipText(null);
         spinnerDineroExtraArma.setName("spinnerDineroExtraArma"); // NOI18N
 
@@ -5113,6 +5122,7 @@ public class GUI extends JFrame {
         lblExpExtraArma.setToolTipText(null);
         lblExpExtraArma.setName("lblExpExtraArma"); // NOI18N
 
+        spinnerExpExtraArma.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerExpExtraArma.setToolTipText(null);
         spinnerExpExtraArma.setName("spinnerExpExtraArma"); // NOI18N
 
@@ -5120,6 +5130,7 @@ public class GUI extends JFrame {
         lblAtaFisArma.setToolTipText(null);
         lblAtaFisArma.setName("lblAtaFisArma"); // NOI18N
 
+        spinnerAtaFisArma.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerAtaFisArma.setToolTipText(null);
         spinnerAtaFisArma.setName("spinnerAtaFisArma"); // NOI18N
 
@@ -5127,6 +5138,7 @@ public class GUI extends JFrame {
         lblMejAtaFisArma.setToolTipText(null);
         lblMejAtaFisArma.setName("lblMejAtaFisArma"); // NOI18N
 
+        spinnerMejAtaFisArma.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerMejAtaFisArma.setToolTipText(null);
         spinnerMejAtaFisArma.setName("spinnerMejAtaFisArma"); // NOI18N
 
@@ -5134,6 +5146,7 @@ public class GUI extends JFrame {
         lblAtaMagArma.setToolTipText(null);
         lblAtaMagArma.setName("lblAtaMagArma"); // NOI18N
 
+        spinnerAtaMagArma.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerAtaMagArma.setToolTipText(null);
         spinnerAtaMagArma.setName("spinnerAtaMagArma"); // NOI18N
 
@@ -5141,6 +5154,7 @@ public class GUI extends JFrame {
         lblMejAtaMagArma.setToolTipText(null);
         lblMejAtaMagArma.setName("lblMejAtaMagArma"); // NOI18N
 
+        spinnerMejAtaMagArma.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerMejAtaMagArma.setToolTipText(null);
         spinnerMejAtaMagArma.setName("spinnerMejAtaMagArma"); // NOI18N
 
@@ -5160,15 +5174,19 @@ public class GUI extends JFrame {
         lblMejHRMagArma.setToolTipText(null);
         lblMejHRMagArma.setName("lblMejHRMagArma"); // NOI18N
 
+        spinnerHRFisArma.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerHRFisArma.setToolTipText(null);
         spinnerHRFisArma.setName("spinnerHRFisArma"); // NOI18N
 
+        spinnerMejHRFisArma.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerMejHRFisArma.setToolTipText(null);
         spinnerMejHRFisArma.setName("spinnerMejHRFisArma"); // NOI18N
 
+        spinnerHRMagArma.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerHRMagArma.setToolTipText(null);
         spinnerHRMagArma.setName("spinnerHRMagArma"); // NOI18N
 
+        spinnerMejHRMagArma.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerMejHRMagArma.setToolTipText(null);
         spinnerMejHRMagArma.setName("spinnerMejHRMagArma"); // NOI18N
 
@@ -5180,9 +5198,11 @@ public class GUI extends JFrame {
         lblMejCritArma.setToolTipText(null);
         lblMejCritArma.setName("lblMejCritArma"); // NOI18N
 
+        spinnerCritArma.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerCritArma.setToolTipText(null);
         spinnerCritArma.setName("spinnerCritArma"); // NOI18N
 
+        spinnerMejCritArma.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerMejCritArma.setToolTipText(null);
         spinnerMejCritArma.setName("spinnerMejCritArma"); // NOI18N
 
@@ -5194,9 +5214,11 @@ public class GUI extends JFrame {
         lvlMejRoboVArma.setToolTipText(null);
         lvlMejRoboVArma.setName("lvlMejRoboVArma"); // NOI18N
 
+        spinnerRoboVArma.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerRoboVArma.setToolTipText(null);
         spinnerRoboVArma.setName("spinnerRoboVArma"); // NOI18N
 
+        spinnerMejRoboVArma.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerMejRoboVArma.setToolTipText(null);
         spinnerMejRoboVArma.setName("spinnerMejRoboVArma"); // NOI18N
 
@@ -5208,9 +5230,11 @@ public class GUI extends JFrame {
         lblMejRoboMArma.setToolTipText(null);
         lblMejRoboMArma.setName("lblMejRoboMArma"); // NOI18N
 
+        spinnerRoboMArma.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerRoboMArma.setToolTipText(null);
         spinnerRoboMArma.setName("spinnerRoboMArma"); // NOI18N
 
+        spinnerMejRoboMArma.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(0.01d)));
         spinnerMejRoboMArma.setToolTipText(null);
         spinnerMejRoboMArma.setName("spinnerMejRoboMArma"); // NOI18N
 
@@ -5430,7 +5454,7 @@ public class GUI extends JFrame {
                         .addComponent(btnEditarArma)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnEliminarArma)))
-                .addContainerGap(358, Short.MAX_VALUE))
+                .addContainerGap(283, Short.MAX_VALUE))
         );
         panelSelectorArmaLayout.setVerticalGroup(
             panelSelectorArmaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -5584,15 +5608,19 @@ public class GUI extends JFrame {
         lblEvaFisPechera.setToolTipText(null);
         lblEvaFisPechera.setName("lblEvaFisPechera"); // NOI18N
 
+        spinnerDefFisPechera.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
         spinnerDefFisPechera.setToolTipText(null);
         spinnerDefFisPechera.setName("spinnerDefFisPechera"); // NOI18N
 
+        spinnerMejDefFisPechera.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
         spinnerMejDefFisPechera.setToolTipText(null);
         spinnerMejDefFisPechera.setName("spinnerMejDefFisPechera"); // NOI18N
 
+        spinnerEvaFisPechera.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.01d));
         spinnerEvaFisPechera.setToolTipText(null);
         spinnerEvaFisPechera.setName("spinnerEvaFisPechera"); // NOI18N
 
+        spinnerMejEvaFisPechera.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.01d));
         spinnerMejEvaFisPechera.setToolTipText(null);
         spinnerMejEvaFisPechera.setName("spinnerMejEvaFisPechera"); // NOI18N
 
@@ -5600,6 +5628,7 @@ public class GUI extends JFrame {
         lblPrecioVPechera.setToolTipText(null);
         lblPrecioVPechera.setName("lblPrecioVPechera"); // NOI18N
 
+        spinnerPrecioVPechera.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         spinnerPrecioVPechera.setToolTipText(null);
         spinnerPrecioVPechera.setName("spinnerPrecioVPechera"); // NOI18N
 
@@ -5607,6 +5636,7 @@ public class GUI extends JFrame {
         lblPrecioCPechera.setToolTipText(null);
         lblPrecioCPechera.setName("lblPrecioCPechera"); // NOI18N
 
+        spinnerPrecioCPechera.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         spinnerPrecioCPechera.setToolTipText(null);
         spinnerPrecioCPechera.setName("spinnerPrecioCPechera"); // NOI18N
 
@@ -5614,9 +5644,11 @@ public class GUI extends JFrame {
         lblExpExtraPechera.setToolTipText(null);
         lblExpExtraPechera.setName("lblExpExtraPechera"); // NOI18N
 
+        spinnerExpExtraPechera.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.01d));
         spinnerExpExtraPechera.setToolTipText(null);
         spinnerExpExtraPechera.setName("spinnerExpExtraPechera"); // NOI18N
 
+        spinnerDineroExtraPechera.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.01d));
         spinnerDineroExtraPechera.setToolTipText(null);
         spinnerDineroExtraPechera.setName("spinnerDineroExtraPechera"); // NOI18N
 
@@ -5719,15 +5751,19 @@ public class GUI extends JFrame {
         lblEvaFisGrebas.setToolTipText(null);
         lblEvaFisGrebas.setName("lblEvaFisGrebas"); // NOI18N
 
+        spinnerDefFisGrebas.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
         spinnerDefFisGrebas.setToolTipText(null);
         spinnerDefFisGrebas.setName("spinnerDefFisGrebas"); // NOI18N
 
+        spinnerMejDefFisGrebas.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
         spinnerMejDefFisGrebas.setToolTipText(null);
         spinnerMejDefFisGrebas.setName("spinnerMejDefFisGrebas"); // NOI18N
 
+        spinnerEvaFisGrebas.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.01d));
         spinnerEvaFisGrebas.setToolTipText(null);
         spinnerEvaFisGrebas.setName("spinnerEvaFisGrebas"); // NOI18N
 
+        spinnerMejEvaFisGrebas.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.01d));
         spinnerMejEvaFisGrebas.setToolTipText(null);
         spinnerMejEvaFisGrebas.setName("spinnerMejEvaFisGrebas"); // NOI18N
 
@@ -5735,6 +5771,7 @@ public class GUI extends JFrame {
         lblPrecioVGrebas.setToolTipText(null);
         lblPrecioVGrebas.setName("lblPrecioVGrebas"); // NOI18N
 
+        spinnerPrecioVGrebas.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         spinnerPrecioVGrebas.setToolTipText(null);
         spinnerPrecioVGrebas.setName("spinnerPrecioVGrebas"); // NOI18N
 
@@ -5742,6 +5779,7 @@ public class GUI extends JFrame {
         lblPrecioCGrebas.setToolTipText(null);
         lblPrecioCGrebas.setName("lblPrecioCGrebas"); // NOI18N
 
+        spinnerPrecioCGrebas.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         spinnerPrecioCGrebas.setToolTipText(null);
         spinnerPrecioCGrebas.setName("spinnerPrecioCGrebas"); // NOI18N
 
@@ -5749,9 +5787,11 @@ public class GUI extends JFrame {
         lblExpExtraGrebas.setToolTipText(null);
         lblExpExtraGrebas.setName("lblExpExtraGrebas"); // NOI18N
 
+        spinnerExpExtraGrebas.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.01d));
         spinnerExpExtraGrebas.setToolTipText(null);
         spinnerExpExtraGrebas.setName("spinnerExpExtraGrebas"); // NOI18N
 
+        spinnerDineroExtraGrebas.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.01d));
         spinnerDineroExtraGrebas.setToolTipText(null);
         spinnerDineroExtraGrebas.setName("spinnerDineroExtraGrebas"); // NOI18N
 
@@ -5843,15 +5883,19 @@ public class GUI extends JFrame {
         lblEvaFisBotas.setToolTipText(null);
         lblEvaFisBotas.setName("lblEvaFisBotas"); // NOI18N
 
+        spinnerDefFisBotas.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
         spinnerDefFisBotas.setToolTipText(null);
         spinnerDefFisBotas.setName("spinnerDefFisBotas"); // NOI18N
 
+        spinnerMejDefFisBotas.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
         spinnerMejDefFisBotas.setToolTipText(null);
         spinnerMejDefFisBotas.setName("spinnerMejDefFisBotas"); // NOI18N
 
+        spinnerEvaFisBotas.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.01d));
         spinnerEvaFisBotas.setToolTipText(null);
         spinnerEvaFisBotas.setName("spinnerEvaFisBotas"); // NOI18N
 
+        spinnerMejEvaFisBotas.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.01d));
         spinnerMejEvaFisBotas.setToolTipText(null);
         spinnerMejEvaFisBotas.setName("spinnerMejEvaFisBotas"); // NOI18N
 
@@ -5859,6 +5903,7 @@ public class GUI extends JFrame {
         lblPrecioVBotas.setToolTipText(null);
         lblPrecioVBotas.setName("lblPrecioVBotas"); // NOI18N
 
+        spinnerPrecioVBotas.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         spinnerPrecioVBotas.setToolTipText(null);
         spinnerPrecioVBotas.setName("spinnerPrecioVBotas"); // NOI18N
 
@@ -5866,6 +5911,7 @@ public class GUI extends JFrame {
         lblPrecioCBotas.setToolTipText(null);
         lblPrecioCBotas.setName("lblPrecioCBotas"); // NOI18N
 
+        spinnerPrecioCBotas.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         spinnerPrecioCBotas.setToolTipText(null);
         spinnerPrecioCBotas.setName("spinnerPrecioCBotas"); // NOI18N
 
@@ -5873,9 +5919,11 @@ public class GUI extends JFrame {
         lblExpExtraBotas.setToolTipText(null);
         lblExpExtraBotas.setName("lblExpExtraBotas"); // NOI18N
 
+        spinnerExpExtraBotas.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.01d));
         spinnerExpExtraBotas.setToolTipText(null);
         spinnerExpExtraBotas.setName("spinnerExpExtraBotas"); // NOI18N
 
+        spinnerDineroExtraBotas.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.01d));
         spinnerDineroExtraBotas.setToolTipText(null);
         spinnerDineroExtraBotas.setName("spinnerDineroExtraBotas"); // NOI18N
 
@@ -5978,15 +6026,19 @@ public class GUI extends JFrame {
         lblEvaFisCasco.setToolTipText(null);
         lblEvaFisCasco.setName("lblEvaFisCasco"); // NOI18N
 
+        spinnerDefFisCasco.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
         spinnerDefFisCasco.setToolTipText(null);
         spinnerDefFisCasco.setName("spinnerDefFisCasco"); // NOI18N
 
+        spinnerMejDefFisCasco.setModel(new javax.swing.SpinnerNumberModel(Double.valueOf(0.0d), Double.valueOf(0.0d), null, Double.valueOf(1.0d)));
         spinnerMejDefFisCasco.setToolTipText(null);
         spinnerMejDefFisCasco.setName("spinnerMejDefFisCasco"); // NOI18N
 
+        spinnerEvaFisCasco.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.01d));
         spinnerEvaFisCasco.setToolTipText(null);
         spinnerEvaFisCasco.setName("spinnerEvaFisCasco"); // NOI18N
 
+        spinnerMejEvaFisCasco.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.01d));
         spinnerMejEvaFisCasco.setToolTipText(null);
         spinnerMejEvaFisCasco.setName("spinnerMejEvaFisCasco"); // NOI18N
 
@@ -5994,6 +6046,7 @@ public class GUI extends JFrame {
         lblPrecioVCasco.setToolTipText(null);
         lblPrecioVCasco.setName("lblPrecioVCasco"); // NOI18N
 
+        spinnerPrecioVCasco.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         spinnerPrecioVCasco.setToolTipText(null);
         spinnerPrecioVCasco.setName("spinnerPrecioVCasco"); // NOI18N
 
@@ -6001,6 +6054,7 @@ public class GUI extends JFrame {
         lblPrecioCCasco.setToolTipText(null);
         lblPrecioCCasco.setName("lblPrecioCCasco"); // NOI18N
 
+        spinnerPrecioCCasco.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
         spinnerPrecioCCasco.setToolTipText(null);
         spinnerPrecioCCasco.setName("spinnerPrecioCCasco"); // NOI18N
 
@@ -6008,9 +6062,11 @@ public class GUI extends JFrame {
         lblExpExtraCasco.setToolTipText(null);
         lblExpExtraCasco.setName("lblExpExtraCasco"); // NOI18N
 
+        spinnerExpExtraCasco.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.01d));
         spinnerExpExtraCasco.setToolTipText(null);
         spinnerExpExtraCasco.setName("spinnerExpExtraCasco"); // NOI18N
 
+        spinnerDineroExtraCasco.setModel(new javax.swing.SpinnerNumberModel(0.0d, 0.0d, 1.0d, 0.01d));
         spinnerDineroExtraCasco.setToolTipText(null);
         spinnerDineroExtraCasco.setName("spinnerDineroExtraCasco"); // NOI18N
 
@@ -6097,6 +6153,11 @@ public class GUI extends JFrame {
         btnGuardarSet.setText("Guardar");
         btnGuardarSet.setToolTipText(null);
         btnGuardarSet.setName("btnGuardarSet"); // NOI18N
+        btnGuardarSet.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarSetActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelEditarSetLayout = new javax.swing.GroupLayout(panelEditarSet);
         panelEditarSet.setLayout(panelEditarSetLayout);
@@ -7071,7 +7132,7 @@ public class GUI extends JFrame {
                     .addComponent(btnEditMob)
                     .addComponent(btnEliminarMob))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane14)
+                .addComponent(jScrollPane14, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -7358,12 +7419,12 @@ public class GUI extends JFrame {
                     .addComponent(btnEliminarSpawner))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelEditorSpawner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(362, Short.MAX_VALUE))
+                .addContainerGap(314, Short.MAX_VALUE))
         );
 
         panelConfig.addTab("Spawners", panelConfigSpawners);
 
-        getContentPane().add(panelConfig, java.awt.BorderLayout.CENTER);
+        getContentPane().add(panelConfig, java.awt.BorderLayout.LINE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -7379,6 +7440,10 @@ public class GUI extends JFrame {
     private void btnEditMobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditMobActionPerformed
         guiMobMan.loadValuesForMobSelected();
     }//GEN-LAST:event_btnEditMobActionPerformed
+
+    public static GUIJewelManager getGuiJewelMan() {
+        return guiJewelMan;
+    }
 
     private void btnNuevoMobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoMobActionPerformed
         getTxtNombreMob().setText("");
@@ -7397,6 +7462,10 @@ public class GUI extends JFrame {
         getComboTipoAtaqueMob().setSelectedIndex(0);
         getComboComportamiento().setSelectedIndex(0);
         dibujarComponentesMobs();
+        DefaultTableModel dm=(DefaultTableModel) getTablaDropsMob().getModel();
+        while(dm.getRowCount()>0){
+            dm.removeRow(0);
+        }
         recursivelyEnableDisablePanel(getPanelEditorMobs(), true);
     }//GEN-LAST:event_btnNuevoMobActionPerformed
 
@@ -7838,43 +7907,43 @@ public class GUI extends JFrame {
     private void btnCrearNuevaClaseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearNuevaClaseActionPerformed
         getTxtNombreClase().setText("");
         getCheckEnableClase().setSelected(true);
-        getSpinnerMaxVidaBase().setValue(0);
-        getSpinnerMaxManaBase().setValue(0);
-        getSpinnerAtaFisBase().setValue(0);
-        getSpinnerDefFisBase().setValue(0);
-        getSpinnerEvaFisBase().setValue(0);
-        getSpinnerHRFisBase().setValue(0);
-        getSpinnerAtaMagBase().setValue(0);
-        getSpinnerDefMagBase().setValue(0);
-        getSpinnerHRMagBase().setValue(0);
-        getSpinnerEvaMagBase().setValue(0);
-        getSpinnerCritBase().setValue(0);
-        getSpinnerMortalBase().setValue(0);
+        getSpinnerMaxVidaBase().setValue((double) 0);
+        getSpinnerMaxManaBase().setValue((double) 0);
+        getSpinnerAtaFisBase().setValue((double) 0);
+        getSpinnerDefFisBase().setValue((double) 0);
+        getSpinnerEvaFisBase().setValue((double) 0);
+        getSpinnerHRFisBase().setValue((double) 0);
+        getSpinnerAtaMagBase().setValue((double) 0);
+        getSpinnerDefMagBase().setValue((double) 0);
+        getSpinnerHRMagBase().setValue((double) 0);
+        getSpinnerEvaMagBase().setValue((double) 0);
+        getSpinnerCritBase().setValue((double) 0);
+        getSpinnerMortalBase().setValue((double) 0);
 
-        getSpinnerVidaNivel().setValue(0);
-        getSpinnerManaNivel().setValue(0);
-        getSpinnerAtaFisNivel().setValue(0);
-        getSpinnerDefFisNivel().setValue(0);
-        getSpinnerEvaFisNivel().setValue(0);
-        getSpinnerHRFisNivel().setValue(0);
-        getSpinnerAtaMagNivel().setValue(0);
-        getSpinnerDefMagNivel().setValue(0);
-        getSpinnerEvaMagNivel().setValue(0);
-        getSpinnerHRMagNivel().setValue(0);
-        getSpinnerCritNivel().setValue(0);
-        getSpinnerMortalNivel().setValue(0);
+        getSpinnerVidaNivel().setValue((double) 0);
+        getSpinnerManaNivel().setValue((double) 0);
+        getSpinnerAtaFisNivel().setValue((double) 0);
+        getSpinnerDefFisNivel().setValue((double) 0);
+        getSpinnerEvaFisNivel().setValue((double) 0);
+        getSpinnerHRFisNivel().setValue((double) 0);
+        getSpinnerAtaMagNivel().setValue((double) 0);
+        getSpinnerDefMagNivel().setValue((double) 0);
+        getSpinnerEvaMagNivel().setValue((double) 0);
+        getSpinnerHRMagNivel().setValue((double) 0);
+        getSpinnerCritNivel().setValue((double) 0);
+        getSpinnerMortalNivel().setValue((double) 0);
 
-        getSpinnerAtaFisAP().setValue(0);
-        getSpinnerVidaAP().setValue(0);
+        getSpinnerAtaFisAP().setValue((double) 0);
+        getSpinnerVidaAP().setValue((double) 0);
 
-        getSpinnerVidaAP2().setValue(0);
-        getSpinnerManaAP().setValue(0);
+        getSpinnerVidaAP2().setValue((double) 0);
+        getSpinnerManaAP().setValue((double) 0);
 
-        getSpinnerAtaMagAP().setValue(0);
-        getSpinnerManaAP2().setValue(0);
+        getSpinnerAtaMagAP().setValue((double) 0);
+        getSpinnerManaAP2().setValue((double) 0);
 
-        getSpinnerMortalAP().setValue(0);
-        getSpinnerCritAP().setValue(0);
+        getSpinnerMortalAP().setValue((double) 0);
+        getSpinnerCritAP().setValue((double) 0);
         recursivelyEnableDisablePanel(getPanelEditorClase(), true);
     }//GEN-LAST:event_btnCrearNuevaClaseActionPerformed
 
@@ -7947,27 +8016,27 @@ public class GUI extends JFrame {
         getComboTipoArma().setSelectedIndex(0);
         getSpinnerNivelMinArma().setValue(0);
         getSpinnerNivelIniArma().setValue(0);
-        getSpinnerPrecioVArma().setValue(0);
-        getSpinnerPrecioCArma().setValue(0);
+        getSpinnerPrecioVArma().setValue((long)0);
+        getSpinnerPrecioCArma().setValue((long)0);
         getComboCalidadArma().setSelectedIndex(0);
         getCheckMejorableArma().setSelected(true);
         getCheckComerciableArma().setSelected(true);
-        getSpinnerAtaFisArma().setValue(0);
-        getSpinnerMejAtaFisArma().setValue(0);
-        getSpinnerHRFisArma().setValue(0);
-        getSpinnerMejHRFisArma().setValue(0);
-        getSpinnerAtaMagArma().setValue(0);
-        getSpinnerMejAtaMagArma().setValue(0);
-        getSpinnerHRMagArma().setValue(0);
-        getSpinnerMejHRMagArma().setValue(0);
-        getSpinnerCritArma().setValue(0);
-        getSpinnerMejCritArma().setValue(0);
-        getSpinnerRoboVArma().setValue(0);
-        getSpinnerMejRoboVArma().setValue(0);
-        getSpinnerRoboMArma().setValue(0);
-        getSpinnerMejRoboMArma().setValue(0);
-        getSpinnerExpExtraArma().setValue(0);
-        getSpinnerDineroExtraArma().setValue(0);
+        getSpinnerAtaFisArma().setValue((double)0);
+        getSpinnerMejAtaFisArma().setValue((double)0);
+        getSpinnerHRFisArma().setValue((double)0);
+        getSpinnerMejHRFisArma().setValue((double)0);
+        getSpinnerAtaMagArma().setValue((double)0);
+        getSpinnerMejAtaMagArma().setValue((double)0);
+        getSpinnerHRMagArma().setValue((double)0);
+        getSpinnerMejHRMagArma().setValue((double)0);
+        getSpinnerCritArma().setValue((double)0);
+        getSpinnerMejCritArma().setValue((double)0);
+        getSpinnerRoboVArma().setValue((double)0);
+        getSpinnerMejRoboVArma().setValue((double)0);
+        getSpinnerRoboMArma().setValue((double)0);
+        getSpinnerMejRoboMArma().setValue((double)0);
+        getSpinnerExpExtraArma().setValue((double)0);
+        getSpinnerDineroExtraArma().setValue((double)0);
         recursivelyEnableDisablePanel(getPanelEditorArma(), true);
     }//GEN-LAST:event_btnCrearNuevaArmaActionPerformed
 
@@ -8094,43 +8163,43 @@ public class GUI extends JFrame {
         getCheckMejorableArma().setSelected(true);
         getCheckComerciableArma().setSelected(true);
 
-        getSpinnerDefFisCasco().setValue(0);
-        getSpinnerMejDefFisCasco().setValue(0);
-        getSpinnerEvaFisCasco().setValue(0);
-        getSpinnerMejEvaFisCasco().setValue(0);
-        getSpinnerPrecioVCasco().setValue(0);
-        getSpinnerPrecioCCasco().setValue(0);
-        getSpinnerExpExtraCasco().setValue(0);
-        getSpinnerDineroExtraCasco().setValue(0);
+        getSpinnerDefFisCasco().setValue((double) 0);
+        getSpinnerMejDefFisCasco().setValue((double) 0);
+        getSpinnerEvaFisCasco().setValue((double) 0);
+        getSpinnerMejEvaFisCasco().setValue((double) 0);
+        getSpinnerPrecioVCasco().setValue((long)0);
+        getSpinnerPrecioCCasco().setValue((long)0);
+        getSpinnerExpExtraCasco().setValue((double) 0);
+        getSpinnerDineroExtraCasco().setValue((double) 0);
 
-        getSpinnerDefFisPechera().setValue(0);
-        getSpinnerMejDefFisPechera().setValue(0);
-        getSpinnerEvaFisPechera().setValue(0);
-        getSpinnerMejEvaFisPechera().setValue(0);
-        getSpinnerPrecioVPechera().setValue(0);
-        getSpinnerPrecioCPechera().setValue(0);
-        getSpinnerExpExtraPechera().setValue(0);
-        getSpinnerDineroExtraPechera().setValue(0);
+        getSpinnerDefFisPechera().setValue((double) 0);
+        getSpinnerMejDefFisPechera().setValue((double) 0);
+        getSpinnerEvaFisPechera().setValue((double) 0);
+        getSpinnerMejEvaFisPechera().setValue((double) 0);
+        getSpinnerPrecioVPechera().setValue((long)0);
+        getSpinnerPrecioCPechera().setValue((long)0);
+        getSpinnerExpExtraPechera().setValue((double) 0);
+        getSpinnerDineroExtraPechera().setValue((double) 0);
 
-        getSpinnerDefFisGrebas().setValue(0);
-        getSpinnerMejDefFisGrebas().setValue(0);
-        getSpinnerEvaFisGrebas().setValue(0);
-        getSpinnerMejEvaFisGrebas().setValue(0);
-        getSpinnerPrecioVGrebas().setValue(0);
-        getSpinnerPrecioCGrebas().setValue(0);
-        getSpinnerExpExtraGrebas().setValue(0);
-        getSpinnerDineroExtraGrebas().setValue(0);
+        getSpinnerDefFisGrebas().setValue((double) 0);
+        getSpinnerMejDefFisGrebas().setValue((double) 0);
+        getSpinnerEvaFisGrebas().setValue((double) 0);
+        getSpinnerMejEvaFisGrebas().setValue((double) 0);
+        getSpinnerPrecioVGrebas().setValue((long)0);
+        getSpinnerPrecioCGrebas().setValue((long)0);
+        getSpinnerExpExtraGrebas().setValue((double) 0);
+        getSpinnerDineroExtraGrebas().setValue((double) 0);
 
-        getSpinnerDefFisBotas().setValue(0);
-        getSpinnerMejDefFisBotas().setValue(0);
-        getSpinnerEvaFisBotas().setValue(0);
-        getSpinnerMejEvaFisBotas().setValue(0);
-        getSpinnerPrecioVBotas().setValue(0);
-        getSpinnerPrecioCBotas().setValue(0);
-        getSpinnerExpExtraBotas().setValue(0);
-        getSpinnerDineroExtraBotas().setValue(0);
+        getSpinnerDefFisBotas().setValue((double) 0);
+        getSpinnerMejDefFisBotas().setValue((double) 0);
+        getSpinnerEvaFisBotas().setValue((double) 0);
+        getSpinnerMejEvaFisBotas().setValue((double) 0);
+        getSpinnerPrecioVBotas().setValue((long)0);
+        getSpinnerPrecioCBotas().setValue((long)0);
+        getSpinnerExpExtraBotas().setValue((double) 0);
+        getSpinnerDineroExtraBotas().setValue((double) 0);
 
-        recursivelyEnableDisablePanel(getPanelEditorArma(), true);
+        recursivelyEnableDisablePanel(getPanelEditarSet(), true);
     }//GEN-LAST:event_btnNuevoSetActionPerformed
 
     private void comboSelectorTipoMobItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboSelectorTipoMobItemStateChanged
@@ -8240,6 +8309,14 @@ public class GUI extends JFrame {
     private void btnGuardarSpawnerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarSpawnerActionPerformed
         guiSpawnMan.saveSpawner();
     }//GEN-LAST:event_btnGuardarSpawnerActionPerformed
+
+    private void btnGuardarSetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarSetActionPerformed
+        guiArmorMan.saveSet();
+    }//GEN-LAST:event_btnGuardarSetActionPerformed
+
+    private void btnEliminarObjetoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarObjetoActionPerformed
+        guiItemMan.deleteItemSelected();
+    }//GEN-LAST:event_btnEliminarObjetoActionPerformed
 
     private boolean checkConfigArmaduras() {
         if (!getTxtNombreObjetoMejArmadura().getText().isEmpty()
@@ -10470,7 +10547,7 @@ public class GUI extends JFrame {
     }
 
     private void rellenarComboDrops() {
-        //comboObjetoDropMob.removeAllItems();
+        comboObjetoDropMob.removeAllItems();
         switch (EnumTypeDrop.valueOf(EnumTypeDrop.values()[(int) getComboTipoDropMob().getSelectedIndex()].name())) {
             case ARMADURA:
                 for (Map.Entry<String, GUISet> entrySet : guiArmorMan.getListSets().entrySet()) {

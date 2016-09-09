@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 jail.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,6 @@
 package com.craftcosta.jailrules.rpgcraftcosta.items.jewels;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
-import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLoreManager;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
 import org.bukkit.ChatColor;
@@ -25,8 +24,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -56,6 +53,7 @@ public class RPGJewelListener implements Listener {
     @EventHandler
     public void onPlayerCombineJewels(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
+        RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
         ItemStack cursor = e.getCursor();
         int slot = e.getRawSlot();
         ItemStack currentItem = e.getCurrentItem();
@@ -113,65 +111,6 @@ public class RPGJewelListener implements Listener {
                 return;
             }
         }
-        return;
-    }
-
-    /**
-     *
-     * @param event
-     */
-    @EventHandler
-    public void onPlayerEquipJewels(InventoryClickEvent event) {
-        RPGLoreManager rpgLMan = plugin.getRPGItemManager().getRPGLoreManager();
-        Player p = (Player) event.getWhoClicked();
-        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
-        if (event.getRawSlot() > 35 && event.getRawSlot() < 45) {
-            if (event.getCursor().getType().equals(Material.AIR)) {
-                if (!event.getCurrentItem().getType().equals(Material.AIR)) {
-                    if (rpgJMan.isRPGJewel(event.getCurrentItem())) {
-                        rpgP.subStats(rpgLMan.getListOfLoresFromItem(event.getCurrentItem()));
-                    }
-                }
-            } else {
-                if (event.getCurrentItem().getType().equals(Material.AIR)) {
-                    if (rpgJMan.isRPGJewel(event.getCursor())) {
-                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(event.getCursor()));
-                    }
-                } else {
-                    if (rpgJMan.isRPGJewel(event.getCurrentItem())) {
-                        rpgP.subStats(rpgLMan.getListOfLoresFromItem(event.getCurrentItem()));
-                    }
-                    if (rpgJMan.isRPGJewel(event.getCursor())) {
-                        rpgP.addStats(rpgLMan.getListOfLoresFromItem(event.getCursor()));
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     *
-     * @param event
-     */
-    @EventHandler
-    public void onPlayerPickupJewel(PlayerPickupItemEvent event) {
-        Player p = event.getPlayer();
-        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
-        if (rpgJMan.isRPGJewel(event.getItem().getItemStack())) {
-            rpgPMan.checkAllEquipment(rpgP);
-        }
-    }
-
-    /**
-     *
-     * @param event
-     */
-    @EventHandler
-    public void onPlayerDropItem(PlayerDropItemEvent event) {
-        Player p = event.getPlayer();
-        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
-        if (rpgJMan.isRPGJewel(event.getItemDrop().getItemStack())) {
-            rpgPMan.checkAllEquipment(rpgP);
-        }
+        rpgPMan.checkAllEquipment(rpgp);
     }
 }

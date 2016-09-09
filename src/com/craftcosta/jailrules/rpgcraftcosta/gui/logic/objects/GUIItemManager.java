@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 jail.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -53,7 +53,7 @@ public class GUIItemManager {
         upgraders.add(gui.getGuiWeaponMan().getUpgraderName());
         listnum = new HashMap<>();
         file = new File(RPGFinals.questItemFile);
-        
+
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -111,10 +111,11 @@ public class GUIItemManager {
 
             gi = new GUIItem(gui.getTxtNombreObjeto().getText(),
                     EnumItems.valueOf(EnumItems.values()[(int) gui.getComboTipoObjeto().getSelectedItem()].name()),
-                    EnumQuality.valueOf(EnumQuality.values()[(int) gui.getComboCalidadObjeto().getSelectedIndex()].name()),
+                    EnumQuality.valueOf(EnumQuality.values()[(int) gui.getComboCalidadObjeto().getSelectedItem()].name()),
                     desc);
             this.listItems.put(gi.getName(), gi);
             this.listnum.put(gi.getName(), lastindex + 1);
+            lastindex++;
             gui.getComboListaObjetos().addItem(gi.getName());
             gui.recursivelyEnableDisablePanel(gui.getPanelEditorObjetos(), false);
             saveItemToFile(gi);
@@ -126,7 +127,7 @@ public class GUIItemManager {
                     desc.add(gui.getListDescripcionObjeto().getModel().getElementAt(i).toString());
                 }
                 gi.setMaterial(EnumItems.valueOf(EnumItems.values()[(int) gui.getComboTipoObjeto().getSelectedItem()].name()));
-                gi.setQuality(EnumQuality.valueOf(EnumQuality.values()[(int) gui.getComboCalidadObjeto().getSelectedIndex()].name()));
+                gi.setQuality(EnumQuality.valueOf(EnumQuality.values()[(int) gui.getComboCalidadObjeto().getSelectedItem()].name()));
                 gi.description.clear();
                 gi.description.addAll(desc);
 
@@ -169,15 +170,19 @@ public class GUIItemManager {
         if (gi == null) {
             gui.sendMessageWarning("Error", "El objeto seleccionado no existe");
         } else {
-            int diag = JOptionPane.showConfirmDialog(null, "¿Estas seguro de querer eliminar el objeto?", "Borrar objeto: " + gi.getName(), JOptionPane.YES_NO_OPTION);
-            if (diag == JOptionPane.YES_OPTION) {
-                //borrar clase de el combo
-                gui.getComboListaObjetos().removeItem(gi.getName());
-                gui.getComboListaObjetos().setSelectedIndex(0);
-                //Borrar clase de el fichero y de la memoria
-                listItems.remove(gi.getName());
-                //listnum.remove(gi.getName());
-                deleteItemFromFile(gi);
+            if (monsterHasThisObject(gi)) {
+                gui.sendMessageWarning("Error", "El objeto seleccionado esta asociado a un monstruo, reemplazalo antes de eliminarlo");
+            } else {
+                int diag = JOptionPane.showConfirmDialog(null, "¿Estas seguro de querer eliminar el objeto?", "Borrar objeto: " + gi.getName(), JOptionPane.YES_NO_OPTION);
+                if (diag == JOptionPane.YES_OPTION) {
+                    //borrar clase de el combo
+                    gui.getComboListaObjetos().removeItem(gi.getName());
+                    gui.getComboListaObjetos().setSelectedIndex(0);
+                    //Borrar clase de el fichero y de la memoria
+                    listItems.remove(gi.getName());
+                    //listnum.remove(gi.getName());
+                    deleteItemFromFile(gi);
+                }
             }
         }
     }
@@ -205,6 +210,10 @@ public class GUIItemManager {
             gui.getListDescripcionObjeto().setListData(desc.toArray());
             gui.recursivelyEnableDisablePanel(gui.getPanelEditorObjetos(), true);
         }
+    }
+
+    private boolean monsterHasThisObject(GUIItem gi) {
+        return gui.getGuiMobMan().monsterHasThisDrop(gi.getName());
     }
 
 }

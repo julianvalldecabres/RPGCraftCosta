@@ -60,6 +60,9 @@ import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.SheepColor;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.SkeletonType;
 import com.craftcosta.jailrules.rpgcraftcosta.entities.utils.VillagerType;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.GUI;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.armor.GUIArmor;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.jewels.GUIJewel;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.weapons.GUIWeapon;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
 import java.io.IOException;
@@ -289,6 +292,10 @@ public class GUIMobManager {
                 case WITHERX:
                     rpgmob = new RPGWither(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float) rangedstrength, money, exp, drops);
                     break;
+                case WOLFX:
+                    baby= section.getBoolean("baby");
+                    rpgmob= new RPGWolf(level, name, type, aType, bType, dammageattack, movementspeed, knockback, followrange, maxhealth, attackspeed, rangeddamage, (float) rangedstrength, money, exp, baby, drops);
+                    break;
                 case ZOMBIEX:
                     baby = section.getBoolean("baby");
                     villager = section.getBoolean("villager");
@@ -301,7 +308,7 @@ public class GUIMobManager {
     }
 
     public void saveMob() {
-        RPGMob check = getGUIMobByName("[LVL"+(int)gui.getSpinnerNivelMob().getValue()+"] "+gui.getTxtNombreMob().getText());
+        RPGMob check = getGUIMobByName("[LVL" + (int) gui.getSpinnerNivelMob().getValue() + "] " + gui.getTxtNombreMob().getText());
         CustomEntityType type;
         String name;
         int level;
@@ -329,7 +336,7 @@ public class GUIMobManager {
         SkeletonType stype = null;
         VillagerType vType = null;
         name = gui.getTxtNombreMob().getText();
-        type = CustomEntityType.valueOf(CustomEntityType.values()[(int) gui.getComboSelectorTipoMob().getSelectedIndex()].name());
+        type = CustomEntityType.valueOf(CustomEntityType.values()[(int) gui.getComboSelectorTipoMob().getSelectedItem()].name());
         atype = AttackType.valueOf(AttackType.values()[(int) gui.getComboTipoAtaqueMob().getSelectedItem()].name());
         btype = MobBehaviour.valueOf(MobBehaviour.values()[(int) gui.getComboComportamiento().getSelectedItem()].name());
         level = (int) gui.getSpinnerNivelMob().getValue();
@@ -340,17 +347,38 @@ public class GUIMobManager {
         maxhealth = (double) gui.getSpinnerMaxVidaMob().getValue();
         attackspeed = (double) gui.getSpinnerVelocidadAtaqueMob().getValue();
         rangeddamage = (double) gui.getSpinnerAtaDistMob().getValue();
-        rangedstrength =  (double) gui.getSpinnerFuerzaDistMob().getValue();
+        rangedstrength = (double) gui.getSpinnerFuerzaDistMob().getValue();
         money = (long) gui.getSpinnerDineroDropMob().getValue();
         exp = (long) gui.getSpinnerExpDropMob().getValue();
-        String dropname;
+        String dropname="";
         int dropquantity;
         EnumTypeDrop droptype;
         double dropprob;
         List<MobDrop> drops = new ArrayList<>();
         for (int i = 0; i < gui.getTablaDropsMob().getModel().getRowCount(); i++) {
             droptype = EnumTypeDrop.valueOf(gui.getTablaDropsMob().getModel().getValueAt(i, 0).toString());
-            dropname = gui.getTablaDropsMob().getModel().getValueAt(i, 1).toString();
+            switch(droptype){
+                case ARMA:
+                    dropname = gui.getTablaDropsMob().getModel().getValueAt(i, 1).toString();
+                    GUIWeapon gw= gui.getGuiWeaponMan().getWeaponByName(dropname);
+                    dropname = "[LVL"+gw.getLevel()+"] "+gw.getName();
+                    break;
+                case ARMADURA:
+                    dropname = gui.getTablaDropsMob().getModel().getValueAt(i, 1).toString();
+                    GUIArmor ga= gui.getGuiArmorMan().getArmorByName(dropname);
+                    dropname = "[LVL"+ga.getLevel()+"] "+ga.getName()+" "+ga.getPart().name().toLowerCase();
+                    break;
+                case JOYA:
+                    dropname= gui.getTablaDropsMob().getModel().getValueAt(i, 1).toString();
+                    GUIJewel gj= gui.getGuiJewelMan().getListjewels().get(dropname);
+                    dropname = ""+gj.getQuality().getColor()+gj.getName();
+                    break;
+                case MEJORADOR:
+                case OBJETO:
+                    dropname= gui.getTablaDropsMob().getModel().getValueAt(i, 1).toString();
+                    break;
+            }
+            //dropname = gui.getTablaDropsMob().getModel().getValueAt(i, 1).toString();
             dropquantity = (int) gui.getTablaDropsMob().getModel().getValueAt(i, 2);
             dropprob = (double) gui.getTablaDropsMob().getModel().getValueAt(i, 3);
             drops.add(new MobDrop(dropname, droptype, dropquantity, dropprob));
@@ -479,6 +507,7 @@ public class GUIMobManager {
         if (check == null) {
             this.listmobs.put("[LVL" + mob.getLevel() + "] " + mob.getName(), mob);
             this.listnum.put("[LVL" + mob.getLevel() + "] " + mob.getName(), lastindex + 1);
+            lastindex++;
             gui.getComboSelectorMobs().addItem("[LVL" + mob.getLevel() + "] " + mob.getName());
             gui.getComboMobSpawner().addItem("[LVL" + mob.getLevel() + "] " + mob.getName());
             gui.recursivelyEnableDisablePanel(gui.getPanelEditorMobs(), false);
@@ -532,7 +561,7 @@ public class GUIMobManager {
             case PIGX:
             case PIGZOMBIEX:
             case WOLFX:
-                section.set("baby", ((RPGChicken) mob).isBaby());
+                section.set("baby", ((RPGWolf) mob).isBaby());
                 break;
             case GUARDIANX:
                 section.set("guardiantype", ((RPGGuardian) mob).getgType().name());
@@ -589,17 +618,21 @@ public class GUIMobManager {
         if (mob == null) {
             gui.sendMessageWarning("Error", "El monstruo seleccionado no existe");
         } else {
-            int diag = JOptionPane.showConfirmDialog(null, "¿Estas seguro de querer eliminar el monstruo?", "Borrar monstruo: " + mob.getName(), JOptionPane.YES_NO_OPTION);
-            if (diag == JOptionPane.YES_OPTION) {
-                //borrar clase de el combo
-                gui.getComboSelectorMobs().removeItem("[LVL" + mob.getLevel() + "] " + mob.getName());
-                gui.getComboMobSpawner().removeItem("[LVL" + mob.getLevel() + "] " + mob.getName());
-                gui.getComboSelectorMobs().setSelectedIndex(0);
-                gui.getComboMobSpawner().setSelectedIndex(0);
-                //Borrar clase de el fichero y de la memoria
-                listmobs.remove("[LVL" + mob.getLevel() + "] " + mob.getName());
-                //listnum.remove(gw.getName());
-                deleteMobFromFile(mob);
+            if (spawnerhasmob(mob)) {
+                gui.sendMessageWarning("Error", "El monstruo está asociado a algun spawner\n Borralo antes de intentar eliminar");
+            } else {
+                int diag = JOptionPane.showConfirmDialog(null, "¿Estas seguro de querer eliminar el monstruo?", "Borrar monstruo: " + mob.getName(), JOptionPane.YES_NO_OPTION);
+                if (diag == JOptionPane.YES_OPTION) {
+                    //borrar clase de el combo
+                    gui.getComboSelectorMobs().removeItem("[LVL" + mob.getLevel() + "] " + mob.getName());
+                    gui.getComboMobSpawner().removeItem("[LVL" + mob.getLevel() + "] " + mob.getName());
+                    gui.getComboSelectorMobs().setSelectedIndex(0);
+                    gui.getComboMobSpawner().setSelectedIndex(0);
+                    //Borrar clase de el fichero y de la memoria
+                    listmobs.remove("[LVL" + mob.getLevel() + "] " + mob.getName());
+                    //listnum.remove(gw.getName());
+                    deleteMobFromFile(mob);
+                }
             }
         }
     }
@@ -674,6 +707,20 @@ public class GUIMobManager {
     public Map<String, Integer> getListnum() {
         return listnum;
     }
-    
-    
+
+    private boolean spawnerhasmob(RPGMob mob) {
+        return GUI.getGuiSpawnMan().spawnerhasmob("[LVL+" + mob.getLevel() + "] " + mob.getName());
+    }
+
+    public boolean monsterHasThisDrop(String name) {
+        for (Map.Entry<String, RPGMob> entrySet : listmobs.entrySet()) {
+            for (MobDrop drop : entrySet.getValue().getDrops()) {
+                if (drop.getItemname().equals(name)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

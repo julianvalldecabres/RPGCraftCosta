@@ -1,4 +1,4 @@
-1:
+'1':
   name: Rebana cuellos
   item: DIAMOND_SWORD
   level: 0
@@ -24,7 +24,7 @@
   incmanasteal: 0
   xpbonus: 0
   moneybonus: 0
-2:
+'2':
   name: Banhammer
   item: DIAMOND_AXE
   quality: UNCOMMON
@@ -50,7 +50,7 @@
   incmanasteal: 0
   xpbonus: 0
   moneybonus: 0
-3:
+'3':
   name: Arma de los dioses
   item: DIAMOND_SWORD
   level: 0
@@ -76,3 +76,29 @@
   incmanasteal: 0
   xpbonus: 2
   moneybonus: 3
+'4':
+  name: Pene de goma
+  item: WOOD_SWORD
+  quality: TRASH
+  level: 0
+  weaponlevel: 0
+  upgradable: true
+  comerciable: true
+  buyprice: 0
+  sellprice: 0
+  physicalattack: 20.0
+  incphysicalattack: 4.0
+  physicalhitrate: 0.0
+  incphysicalhitrate: 0.0
+  magicalattack: 0.0
+  incmagicalattack: 0.0
+  magicalhitrate: 0.0
+  incmagicalhitrate: 0.0
+  critical: 0.0
+  inccritical: 0.0
+  healthsteal: 0.0
+  inchealthsteal: 0.0
+  manasteal: 0.0
+  incmanasteal: 0.0
+  xpbonus: 0.0
+  moneybonus: 0.0

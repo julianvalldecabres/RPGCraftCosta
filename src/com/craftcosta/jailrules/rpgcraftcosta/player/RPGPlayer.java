@@ -15,8 +15,6 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.player;
 
-import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClass;
-import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
 import com.craftcosta.jailrules.rpgcraftcosta.economy.RPGEconomy;
 import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
@@ -97,6 +95,12 @@ public class RPGPlayer {
 
     private double critical;
     private double finalcritical;
+    
+    private double xpbonus;
+    private double finalxpbonus;
+    
+    private double moneybonus;
+    private double finalmoneybonus;
 
     /**
      *
@@ -136,8 +140,10 @@ public class RPGPlayer {
      * @param magicalHitRate
      * @param magicalEvasion
      * @param critical
+     * @param xpbonus
+     * @param moneybonus
      */
-    public RPGPlayer(String name, UUID uuid, Player player, String guild, String playerClass, String party, RPGEconomy econ, int actualLevel, long actualExp, long ap, int constitutionP, int dexteryP, int intelligenceP, int strengthP, double actualMana, double maxMana, double actualHealth, double maxHealth, double physicalAttack, double physicalDefense, double physicalHitRate, double physicalEvasion, double magicalAttack, double magicalDefense, double magicalHitRate, double magicalEvasion, double critical) {
+    public RPGPlayer(String name, UUID uuid, Player player, String guild, String playerClass, String party, RPGEconomy econ, int actualLevel, long actualExp, long ap, int constitutionP, int dexteryP, int intelligenceP, int strengthP, double actualMana, double maxMana, double actualHealth, double maxHealth, double physicalAttack, double physicalDefense, double physicalHitRate, double physicalEvasion, double magicalAttack, double magicalDefense, double magicalHitRate, double magicalEvasion, double critical,double xpbonus, double moneybonus) {
         this.name = name;
         this.uuid = uuid;
         this.player = player;
@@ -156,15 +162,25 @@ public class RPGPlayer {
         this.maxMana = maxMana;
         this.actualHealth = actualHealth;
         this.maxHealth = maxHealth;
+        this.finalMaxHealth=maxHealth;
         this.physicalAttack = physicalAttack;
+        this.finalphysicalAttack=physicalAttack;
         this.physicalDefense = physicalDefense;
+        this.finalphysicalDefense = physicalDefense; 
         this.physicalHitRate = physicalHitRate;
+        this.finalphysicalHitRate = physicalHitRate;
         this.physicalEvasion = physicalEvasion;
+        this.finalphysicalEvasion = physicalEvasion;
         this.magicalAttack = magicalAttack;
+        this.finalmagicalAttack = magicalAttack;
         this.magicalDefense = magicalDefense;
+        this.finalmagicalDefense = magicalDefense;
         this.magicalHitRate = magicalHitRate;
+        this.finalmagicalHitRate = magicalHitRate;
         this.magicalEvasion = magicalEvasion;
+        this.finalmagicalEvasion = magicalEvasion;
         this.critical = critical;
+        this.finalcritical = critical;
         this.privateChat = true;
         this.globalChat = true;
         this.localChat = true;
@@ -173,6 +189,10 @@ public class RPGPlayer {
         this.marketChat = true;
         this.setResetRequest = false;
         this.slotSelected = 0;
+        this.moneybonus=moneybonus;
+        this.finalmoneybonus=moneybonus;
+        this.xpbonus=xpbonus;
+        this.finalxpbonus=xpbonus;
         this.move = !this.playerClass.isEmpty();
     }
 
@@ -184,6 +204,13 @@ public class RPGPlayer {
         this.guild = "";
         this.playerClass = "";
         this.party = "";
+        this.privateChat = true;
+        this.globalChat = true;
+        this.localChat = true;
+        this.partyChat = true;
+        this.guildChat = true;
+        this.marketChat = true;
+        this.setResetRequest = false;
         setRpgPlayerStatistics();
     }
 
@@ -192,6 +219,7 @@ public class RPGPlayer {
         this.actualLevel = 0;
         this.actualExp = 0;
         this.actualHealth = 20;
+        this.finalMaxHealth=20;
         this.actualMana = 20;
         this.maxMana = 20;
         this.maxHealth = 20;
@@ -211,6 +239,7 @@ public class RPGPlayer {
         this.physicalEvasion = 0;
         this.finalphysicalEvasion = physicalEvasion;
         this.critical = 0;
+        this.finalcritical=critical;
     }
 
     private void loadPlayerData() {
@@ -241,13 +270,14 @@ public class RPGPlayer {
             this.guild = section.getString("guild");
             this.party = section.getString("party");
             this.playerClass = section.getString("class");
+            
             this.actualHealth = section.getDouble("actualHealth");
-            this.player.setHealth(actualHealth);
-            this.actualMana = section.getDouble("actualMana");
             this.maxHealth = section.getDouble("maxHealth");
-            //Calcular proporcion de vida max correspondiente a la actual
-
-            //this.player.setMaxHealth(maxHealth);
+            this.finalMaxHealth=section.getDouble("maxHealth");
+            this.player.setHealth(getNormalizedHealToPlayer(actualHealth));
+            
+            this.actualMana = section.getDouble("actualMana");
+            
             this.maxMana = section.getDouble("maxMana");
             this.ap = section.getLong("ap");
             //Cargar atributos de player
@@ -268,8 +298,8 @@ public class RPGPlayer {
             this.magicalHitRate = section.getDouble("magicalhitrate");
             //Especial
             this.critical = section.getDouble("critical");
-        } else {
-
+            this.moneybonus= section.getDouble("moneybonus");
+            this.xpbonus= section.getDouble("xpbonus");
         }
     }
 
@@ -1024,10 +1054,10 @@ public class RPGPlayer {
         double maxhealth = 20;
         double res;
         double resthealth = actualHealth - damagetaken;
-        if (resthealth <= 0) {
-            return 20.0;
+        if(resthealth<=0){
+            return damagetaken;
         }
-        return resthealth * 20 / maxHealth;
+        return damagetaken * 20 / finalMaxHealth;
     }
 
     /**
@@ -1037,11 +1067,10 @@ public class RPGPlayer {
      */
     public double getNormalizedHealToPlayer(double instanthealing) {
         double predhealth = actualHealth + instanthealing;
-        if (maxHealth < predhealth) {
-            return maxHealth;
+        if (finalMaxHealth <= predhealth) {
+            return finalMaxHealth;
         }
         return predhealth;
-        //revisar
     }
 
     /**
@@ -1060,23 +1089,153 @@ public class RPGPlayer {
         this.setResetRequest = b;
     }
 
-    void createNewPlayer(Player player) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean isSetResetRequest() {
+        return setResetRequest;
+    }
+
+    public void setSetResetRequest(boolean setResetRequest) {
+        this.setResetRequest = setResetRequest;
+    }
+
+    public double getXpbonus() {
+        return xpbonus;
+    }
+
+    public void setXpbonus(double xpbonus) {
+        this.xpbonus = xpbonus;
+    }
+
+    public double getFinalxpbonus() {
+        return finalxpbonus;
+    }
+
+    public void setFinalxpbonus(double finalxpbonus) {
+        this.finalxpbonus = finalxpbonus;
+    }
+
+    public double getMoneybonus() {
+        return moneybonus;
+    }
+
+    public void setMoneybonus(double moneybonus) {
+        this.moneybonus = moneybonus;
+    }
+
+    public double getFinalmoneybonus() {
+        return finalmoneybonus;
+    }
+
+    public void setFinalmoneybonus(double finalmoneybonus) {
+        this.finalmoneybonus = finalmoneybonus;
+    }
+    
+    /**
+     *
+     * @param listOfLoresFromItem
+     */
+    public void addStats(List<RPGLore> lores) {
+        for (RPGLore lore : lores) {
+            switch (lore.getLoretype()) {
+                case CRITICAL:
+                    this.setFinalcritical(this.getFinalcritical()*(1+(double)lore.getValue()));
+                    break;
+                case HEALTH:
+                    this.setFinalMaxHealth(this.getFinalMaxHealth()*(1+(double)lore.getValue()));
+                    break;
+//                case HEALTHSTEAL:
+//                    rpgp.setFinalHealthSteal(rpgp.getFinalHealthSteal()*(1+(double)lore.getValue()));
+//                    break;
+                case MAGICALATTACK:
+                    this.setFinalmagicalAttack(this.getFinalmagicalAttack()+(double)lore.getValue());
+                    break;
+                case MAGICALDEFENSE:
+                    this.setFinalmagicalDefense(this.getFinalmagicalDefense()+(double)lore.getValue());
+                    break;
+                case MAGICALEVASION:
+                    this.setFinalmagicalEvasion(this.getFinalmagicalEvasion()*(1+(double)lore.getValue()));
+                    break;
+                case MAGICALHITRATE:
+                    this.setFinalmagicalHitRate(this.getFinalmagicalHitRate()*(1+(double)lore.getValue()));
+                    break;
+                case MANA:
+                    this.setFinalMaxMana(this.getFinalMaxMana()*(1+(double)lore.getValue()));
+                    break;
+//                case MANASTEAL:
+//                    break;
+                case MONEYBONUS:
+                    this.setFinalmoneybonus(this.getFinalmoneybonus()*(1+(double)lore.getValue()));
+                    break;
+                case PHYSICALATTACK:
+                    this.setFinalphysicalAttack(this.getFinalphysicalAttack()+(double)lore.getValue());
+                    break;
+                case PHYSICALDEFENSE:
+                    this.setFinalphysicalDefense(this.getFinalphysicalDefense()+(double)lore.getValue());
+                    break;
+                case PHYSICALEVASION:
+                    this.setFinalphysicalEvasion(this.getFinalphysicalEvasion()*(1+(double)lore.getValue()));
+                    break;
+                case PHYSICALHITRATE:
+                    this.setFinalphysicalHitRate(this.getFinalphysicalHitRate()*(1+(double)lore.getValue()));
+                    break;
+                case XPBONUS:
+                    this.setFinalxpbonus(this.getFinalxpbonus()*(1+(double)lore.getValue()));
+                    break;
+            }
+        }
     }
 
     /**
      *
      * @param listOfLoresFromItem
      */
-    public void addStats(List<RPGLore> listOfLoresFromItem) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    /**
-     *
-     * @param listOfLoresFromItem
-     */
-    public void subStats(List<RPGLore> listOfLoresFromItem) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void subStats(List<RPGLore> lores) {
+        for (RPGLore lore : lores) {
+            switch (lore.getLoretype()) {
+                case CRITICAL:
+                    this.setFinalcritical(this.getFinalcritical()/(1+(double)lore.getValue()));
+                    break;
+                case HEALTH:
+                    this.setFinalMaxHealth(this.getFinalMaxHealth()/(1+(double)lore.getValue()));
+                    break;
+//                case HEALTHSTEAL:
+//                    rpgp.setFinalHealthSteal(rpgp.getFinalHealthSteal()*(1+(double)lore.getValue()));
+//                    break;
+                case MAGICALATTACK:
+                    this.setFinalmagicalAttack(this.getFinalmagicalAttack()-(double)lore.getValue());
+                    break;
+                case MAGICALDEFENSE:
+                    this.setFinalmagicalDefense(this.getFinalmagicalDefense()-(double)lore.getValue());
+                    break;
+                case MAGICALEVASION:
+                    this.setFinalmagicalEvasion(this.getFinalmagicalEvasion()/(1+(double)lore.getValue()));
+                    break;
+                case MAGICALHITRATE:
+                    this.setFinalmagicalHitRate(this.getFinalmagicalHitRate()/(1+(double)lore.getValue()));
+                    break;
+                case MANA:
+                    this.setFinalMaxMana(this.getFinalMaxMana()/(1+(double)lore.getValue()));
+                    break;
+//                case MANASTEAL:
+//                    break;
+                case MONEYBONUS:
+                    this.setFinalmoneybonus(this.getFinalmoneybonus()/(1+(double)lore.getValue()));
+                    break;
+                case PHYSICALATTACK:
+                    this.setFinalphysicalAttack(this.getFinalphysicalAttack()-(double)lore.getValue());
+                    break;
+                case PHYSICALDEFENSE:
+                    this.setFinalphysicalDefense(this.getFinalphysicalDefense()-(double)lore.getValue());
+                    break;
+                case PHYSICALEVASION:
+                    this.setFinalphysicalEvasion(this.getFinalphysicalEvasion()/(1+(double)lore.getValue()));
+                    break;
+                case PHYSICALHITRATE:
+                    this.setFinalphysicalHitRate(this.getFinalphysicalHitRate()/(1+(double)lore.getValue()));
+                    break;
+                case XPBONUS:
+                    this.setFinalxpbonus(this.getFinalxpbonus()/(1+(double)lore.getValue()));
+                    break;
+            }
+        }
     }
 }

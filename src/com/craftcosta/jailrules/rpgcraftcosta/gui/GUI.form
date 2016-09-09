@@ -36,9 +36,6 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="RPGCraftCosta plugin: Gestor de configuraci&#xf3;n"/>
-    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[1000, 800]"/>
-    </Property>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[600, 400]"/>
     </Property>
@@ -58,7 +55,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,-120,0,0,3,-24"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,88,0,0,3,-24"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
@@ -87,7 +84,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
-          <BorderConstraints direction="Center"/>
+          <BorderConstraints direction="Before"/>
         </Constraint>
       </Constraints>
 
@@ -2894,7 +2891,7 @@
                         <Component class="javax.swing.JSpinner" name="spinnerHRFisBase">
                           <Properties>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
+                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.009999999776482582" type="number"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
@@ -2905,7 +2902,7 @@
                         <Component class="javax.swing.JSpinner" name="spinnerEvaFisBase">
                           <Properties>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
+                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.009999999776482582" type="number"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
@@ -2938,7 +2935,7 @@
                         <Component class="javax.swing.JSpinner" name="spinnerHRMagBase">
                           <Properties>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.009999999776482582" type="number"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
@@ -2949,7 +2946,7 @@
                         <Component class="javax.swing.JSpinner" name="spinnerEvaMagBase">
                           <Properties>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.009999999776482582" type="number"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
@@ -2960,7 +2957,7 @@
                         <Component class="javax.swing.JSpinner" name="spinnerCritBase">
                           <Properties>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
+                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.009999999776482582" type="number"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
@@ -2971,7 +2968,7 @@
                         <Component class="javax.swing.JSpinner" name="spinnerMortalBase">
                           <Properties>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
+                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.009999999776482582" type="number"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
@@ -3284,7 +3281,7 @@
                         <Component class="javax.swing.JSpinner" name="spinnerHRFisNivel">
                           <Properties>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
+                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.009999999776482582" type="number"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
@@ -3295,7 +3292,7 @@
                         <Component class="javax.swing.JSpinner" name="spinnerEvaFisNivel">
                           <Properties>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
+                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.009999999776482582" type="number"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
@@ -3328,7 +3325,7 @@
                         <Component class="javax.swing.JSpinner" name="spinnerHRMagNivel">
                           <Properties>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.009999999776482582" type="number"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
@@ -3339,7 +3336,7 @@
                         <Component class="javax.swing.JSpinner" name="spinnerEvaMagNivel">
                           <Properties>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.009999999776482582" type="number"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
@@ -3350,7 +3347,7 @@
                         <Component class="javax.swing.JSpinner" name="spinnerCritNivel">
                           <Properties>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
+                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.009999999776482582" type="number"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
@@ -3361,7 +3358,7 @@
                         <Component class="javax.swing.JSpinner" name="spinnerMortalNivel">
                           <Properties>
                             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
+                              <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.009999999776482582" type="number"/>
                             </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
@@ -3743,7 +3740,7 @@
                             <Component class="javax.swing.JSpinner" name="spinnerCritAP">
                               <Properties>
                                 <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                                  <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
+                                  <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.009999999776482582" type="number"/>
                                 </Property>
                                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                   <Connection code="null" type="code"/>
@@ -3754,7 +3751,7 @@
                             <Component class="javax.swing.JSpinner" name="spinnerMortalAP">
                               <Properties>
                                 <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-                                  <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.01" type="number"/>
+                                  <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.009999999776482582" type="number"/>
                                 </Property>
                                 <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                   <Connection code="null" type="code"/>
@@ -5370,6 +5367,9 @@
                 </Property>
                 <Property name="name" type="java.lang.String" value="btnEliminarObjeto" noResource="true"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarObjetoActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -6744,7 +6744,7 @@
                                       <Component id="btnEliminarArma" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace pref="358" max="32767" attributes="0"/>
+                              <EmptySpace pref="283" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -7144,6 +7144,9 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerDineroExtraArma">
                           <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                            </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
                             </Property>
@@ -7161,6 +7164,9 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerExpExtraArma">
                           <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                            </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
                             </Property>
@@ -7178,6 +7184,9 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerAtaFisArma">
                           <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                            </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
                             </Property>
@@ -7195,6 +7204,9 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerMejAtaFisArma">
                           <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                            </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
                             </Property>
@@ -7212,6 +7224,9 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerAtaMagArma">
                           <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                            </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
                             </Property>
@@ -7229,6 +7244,9 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerMejAtaMagArma">
                           <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                            </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
                             </Property>
@@ -7273,6 +7291,9 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerHRFisArma">
                           <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                            </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
                             </Property>
@@ -7281,6 +7302,9 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerMejHRFisArma">
                           <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                            </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
                             </Property>
@@ -7289,6 +7313,9 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerHRMagArma">
                           <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                            </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
                             </Property>
@@ -7297,6 +7324,9 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerMejHRMagArma">
                           <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                            </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
                             </Property>
@@ -7323,6 +7353,9 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerCritArma">
                           <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                            </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
                             </Property>
@@ -7331,6 +7364,9 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerMejCritArma">
                           <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                            </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
                             </Property>
@@ -7357,6 +7393,9 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerRoboVArma">
                           <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                            </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
                             </Property>
@@ -7365,6 +7404,9 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerMejRoboVArma">
                           <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                            </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
                             </Property>
@@ -7391,6 +7433,9 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerRoboMArma">
                           <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                            </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
                             </Property>
@@ -7399,6 +7444,9 @@
                         </Component>
                         <Component class="javax.swing.JSpinner" name="spinnerMejRoboMArma">
                           <Properties>
+                            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                              <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                            </Property>
                             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                               <Connection code="null" type="code"/>
                             </Property>
@@ -8005,6 +8053,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerDefFisPechera">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8013,6 +8064,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerMejDefFisPechera">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8021,6 +8075,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerEvaFisPechera">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8029,6 +8086,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerMejEvaFisPechera">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8046,6 +8106,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerPrecioVPechera">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8063,6 +8126,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerPrecioCPechera">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8080,6 +8146,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerExpExtraPechera">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8088,6 +8157,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerDineroExtraPechera">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8234,6 +8306,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerDefFisGrebas">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8242,6 +8317,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerMejDefFisGrebas">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8250,6 +8328,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerEvaFisGrebas">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8258,6 +8339,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerMejEvaFisGrebas">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8275,6 +8359,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerPrecioVGrebas">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8292,6 +8379,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerPrecioCGrebas">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8309,6 +8399,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerExpExtraGrebas">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8317,6 +8410,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerDineroExtraGrebas">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8481,6 +8577,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerDefFisBotas">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8489,6 +8588,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerMejDefFisBotas">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8497,6 +8599,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerEvaFisBotas">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8505,6 +8610,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerMejEvaFisBotas">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8522,6 +8630,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerPrecioVBotas">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8539,6 +8650,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerPrecioCBotas">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8556,6 +8670,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerExpExtraBotas">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8564,6 +8681,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerDineroExtraBotas">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8730,6 +8850,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerDefFisCasco">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8738,6 +8861,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerMejDefFisCasco">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" minimum="0.0" numberType="java.lang.Double" stepSize="1.0" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8746,6 +8872,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerEvaFisCasco">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8754,6 +8883,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerMejEvaFisCasco">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8771,6 +8903,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerPrecioVCasco">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8788,6 +8923,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerPrecioCCasco">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8805,6 +8943,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerExpExtraCasco">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8813,6 +8954,9 @@
                                 </Component>
                                 <Component class="javax.swing.JSpinner" name="spinnerDineroExtraCasco">
                                   <Properties>
+                                    <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+                                      <SpinnerModel initial="0.0" maximum="1.0" minimum="0.0" numberType="java.lang.Double" stepSize="0.01" type="number"/>
+                                    </Property>
                                     <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                                       <Connection code="null" type="code"/>
                                     </Property>
@@ -8838,6 +8982,9 @@
                                 </Property>
                                 <Property name="name" type="java.lang.String" value="btnGuardarSet" noResource="true"/>
                               </Properties>
+                              <Events>
+                                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarSetActionPerformed"/>
+                              </Events>
                             </Component>
                           </SubComponents>
                         </Container>
@@ -9253,7 +9400,7 @@
                           <Component id="btnEliminarMob" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane14" max="32767" attributes="0"/>
+                      <Component id="jScrollPane14" pref="544" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -10378,7 +10525,7 @@
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="panelEditorSpawner" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="362" max="32767" attributes="0"/>
+                      <EmptySpace pref="314" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

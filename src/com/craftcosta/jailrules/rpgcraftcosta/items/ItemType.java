@@ -40,7 +40,7 @@ public enum ItemType {
     /**
      *
      */
-    FOOD(4),
+    UPGRADER(4),
     /**
      *
      */

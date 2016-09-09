@@ -16,16 +16,14 @@
 package com.craftcosta.jailrules.rpgcraftcosta.items;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
-import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
-import java.util.Set;
-import org.bukkit.Material;
+import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
+import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryType.SlotType;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
-import org.bukkit.inventory.ItemStack;
 
 /**
  *
@@ -33,7 +31,8 @@ import org.bukkit.inventory.ItemStack;
  */
 public class RPGItemListener implements Listener {
 
-    RPGCraftCosta plugin;
+    private RPGCraftCosta plugin;
+    private RPGPlayerManager rpgPMan;
 
     /**
      *
@@ -41,106 +40,40 @@ public class RPGItemListener implements Listener {
      */
     public RPGItemListener(RPGCraftCosta plugin) {
         this.plugin = plugin;
+        this.rpgPMan = plugin.getRPGPlayerManager();
     }
 
     /**
-     * todo intercambio de items en la hotbar o los slots del armor del jugador
-     * suponen un cambio de sus caracteristicas por ejemplo un cambio de
-     * armadura puede mejorar o restar armadura al player un cambio en el hotbar
-     * puede modificar otros atributos del jugador... ejemplo joyas objetos
-     * especiales que atribuyen al player aumento de propiedades
      *
      * @param event
      */
-    public RPGItemListener(InventoryClickEvent event) {
-        //ATENCION SOLO FUNCIONA EN EL INVENTARIO SURVIVAL
+    @EventHandler
+    public void onPlayerEquip(InventoryClickEvent event) {
         Player p = (Player) event.getWhoClicked();
-        //SI se realizan cambios del armor desde los items del armor directamente
-        if (event.getSlotType().equals(SlotType.ARMOR)) {
-            //
-            //Comprobar si se quita, se pone o se intercambia un item de estos slots
-            if (event.getCursor().getType().equals(Material.AIR) || event.getCursor() == null) {
-                //Si no hay item en el cursor
-                if (event.getCurrentItem().getType().equals(Material.AIR) || event.getCurrentItem() == null) {
-                    //Si no hay item en el slot
-                    //No hacer nada
-                    return;
-                } else {
-                //Si hay item en el slot
-                    //Pasar objeto al cursor (OJO! RightCLick ShiftClick LeftClick)
-                    //RightClick y LeftClick realizan la misma accion retirar el objeto y dejarlo en el cursor del player
-                    //Shiftclick deja el objeto en el inventario
-
-                    //Restar atributos al jugador
-                }
-            } else {
-                //Si hay item en el cursor
-                if (event.getCurrentItem().getType().equals(Material.AIR) || event.getCurrentItem() == null) {
-                //Si no hay item en el slot
-
-                    //Se pondra el item del cursor en el slot clicado siempre que sea compatible....
-                    //LeftClick y RightClick realizan la misma accion ponen el objeto en el slot
-                    //Añadir atributos al player
-                } else {
-                    //Si hay item en el slot
-                    //Pasar objeto del slot al cursor (OJO! RightCLick ShiftClick LeftClick)
-                    //Y pasar item del cursor al slot
-                    //Restar atributos del item quitado y añadir atributos del item colocado al jugador
-                }
-            }
-        } else if (event.getSlotType().equals(SlotType.QUICKBAR)) {
-            //Comprobar si el item colocado
-            if (event.getCursor().getType().equals(Material.AIR) || event.getCursor() == null) {
-                //Si no hay item en el cursor
-                if (event.getCurrentItem().getType().equals(Material.AIR) || event.getCurrentItem() == null) {
-                    //Si no hay item en el slot
-                    //No hacer nada
-                    return;
-                } else {
-                    //Si hay item en el slot
-                    //Pasar objeto al cursor (OJO! RightCLick ShiftClick LeftClick)
-                    //Restar atributos al jugador
-                }
-            } else {
-                //Si hay item en el cursor
-                if (event.getCurrentItem().getType().equals(Material.AIR) || event.getCurrentItem() == null) {
-                    //Si no hay item en el slot
-                    //Se pondra el item del cursor en el slot clicado siempre que sea compatible....
-                    //Añadir atributos al player
-                } else {
-                    //Si hay item en el slot
-                    //Pasar objeto del slot al cursor (OJO! RightCLick ShiftClick LeftClick)
-                    //Y pasar item del cursor al slot
-                    //Restar atributos del item quitado y añadir atributos del item colocado al jugador
-                }
-            }
-        }
+        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
+        rpgPMan.checkAllEquipment(rpgP);
     }
 
     /**
-     * onPlayerPickupItem captura el evento cuando el usuario recoje un item del
-     * suelo
      *
-     * @param e evento disparado cuando un usuario recoje un item del suelo
+     * @param event
      */
     @EventHandler
-    public void onPlayerPickupItem(PlayerPickupItemEvent e) {
-        ItemStack item = e.getItem().getItemStack();
-        Set<Integer> freeInventorySlots = RPGPlayerUtils.getFreeInventorySlots(e.getPlayer());
+    public void onPlayerPickup(PlayerPickupItemEvent event) {
+        Player p = event.getPlayer();
+        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
+        rpgPMan.checkAllEquipment(rpgP);
     }
 
     /**
-     * onPlayerClickInventory captura el evento InventoryClickEvent
      *
-     * @param event evento que captura cuando un usuario interactua con el
-     * inventario
+     * @param event
      */
     @EventHandler
-    public void onPlayerClickInventory(InventoryClickEvent event) {
-//        plugin.getLogger().info("//////////////");
-//        plugin.getLogger().info("Slot: " + event.getSlot());
-//        plugin.getLogger().info("RawSlot: " + event.getRawSlot());
-//        plugin.getLogger().info("SlotType: " + event.getSlotType().name());
-//        plugin.getLogger().info("//////////////");
+    public void onPlayerDrop(PlayerDropItemEvent event) {
+        Player p = event.getPlayer();
+        RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
+        rpgPMan.checkAllEquipment(rpgP);
+
     }
 }

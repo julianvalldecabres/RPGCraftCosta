@@ -67,7 +67,6 @@ public class RPGChatListener implements Listener {
         Player sender = event.getPlayer();
         RPGPlayer rpgSender = rpgPMan.getRPGPlayerByName(sender.getName());
         String shortcut = event.getMessage().split(" ")[0];
-        sender.sendMessage(shortcut);
         String playerClass = "";
         String guild = "";
         String message = "";
@@ -81,7 +80,7 @@ public class RPGChatListener implements Listener {
             guild = rpgSender.getGuild();
         }
         String messagePrefix = "";
-        if (playerClass.isEmpty()) {
+        if (rpgSender.getPlayerClass().isEmpty()) {
             playerClass = "[Newbie]";
         } else {
             playerClass = "[" + rpgSender.getPlayerClass() + "]";
@@ -113,10 +112,10 @@ public class RPGChatListener implements Listener {
                 if (plugin.getRpgConfig().isEnableGuilds()) {
                     if (!rpgSender.getGuild().isEmpty()) {
                         if (rpgCMan.isGuildChatEnabled()) {
-                            messagePrefix = "[" + guild + "]" + rpgCMan.getPlayerNameColor() + sender.getName() + " :";
+                            messagePrefix = "[" + guild + "] " + rpgCMan.getPlayerNameColor() + sender.getName() + " :";
                             message = messagePrefix + message1;
                             //Mirar si salen dobles prefijos
-                            rpgCMan.sendGuildMessage(rpgSender, message);
+                            rpgGMan.sendGuildMessage(rpgSender.getGuild(), rpgCMan.getPrefixForGuild() + message);
                         } else {
                             sender.sendMessage(type.getPrefixColor() + "[" + type.getPrefix() + "]" + ChatColor.RED + " Chat de clan deshabilitado");
                         }
@@ -146,18 +145,20 @@ public class RPGChatListener implements Listener {
                     Player receiver = Bukkit.getServer().getPlayer(event.getMessage().split(" ")[1]);
 
                     messagePrefix = type.getPrefixColor() + "[" + type.getPrefix() + "]"
-                            + rpgCMan.getPlayerNameColor() + sender.getName() + " :"
-                            + type.getMessageColor();
+                            + rpgCMan.getPlayerNameColor() + sender.getName() + " > ";
                     message1 = "";
                     for (int i = 2; i < messageParts.length; i++) {
                         message1 += " " + messageParts[i];
                     }
-                    message = messagePrefix + message1;
+
                     if (receiver == null) {
                         sender.sendMessage(type.getPrefixColor() + "[" + type.getPrefix() + "] " + ChatColor.RED + event.getMessage().split(" ")[1] + " no encontrado");
                     } else {
+                        messagePrefix += receiver.getName() + " :";
+                        message = messagePrefix + message1;
                         RPGPlayer rpgreceiver = rpgPMan.getRPGPlayerByName(receiver.getName());
                         if (rpgreceiver.isPrivateChat()) {
+                            sender.sendMessage(message);
                             receiver.sendMessage(message);
                         }
                     }
@@ -170,11 +171,9 @@ public class RPGChatListener implements Listener {
                 if (plugin.getRpgConfig().isEnableParties()) {
                     if (rpgCMan.isPartyChatEnabled()) {
                         if (!rpgSender.getParty().isEmpty()) {
-                            messagePrefix = rpgCMan.getLocationColor() + location
-                                    + rpgCMan.getPlayerClassColor() + "[" + playerClass + "]"
-                                    + rpgCMan.getPlayerNameColor() + sender.getName() + " :";
+                            messagePrefix = "[" + rpgSender.getParty() + "] " + rpgCMan.getPlayerNameColor() + sender.getName() + " :";
                             message = messagePrefix + message1;
-                            rpgCMan.sendPartyMessage(rpgSender, message);
+                            rpgTMan.sendPartyMessage(rpgSender.getParty(), rpgCMan.getPrefixForParty() + message);
                         } else {
                             sender.sendMessage(type.getPrefixColor() + "[" + type.getPrefix() + "]" + ChatColor.RED + " No perteneces a ninguna party");
                         }
@@ -216,6 +215,7 @@ public class RPGChatListener implements Listener {
                 for (Player receiver : plugin.getServer().getOnlinePlayers()) {
                     RPGPlayer rpgreceiver = rpgPMan.getRPGPlayerByName(receiver.getName());
                     if (rpgCMan.isLocalChatDistanceEnabled()) {
+
                         if (rpgCMan.canDistance(sender, receiver)) {
                             if (rpgreceiver.isLocalChat()) {
                                 receiver.sendMessage(message);
@@ -229,7 +229,6 @@ public class RPGChatListener implements Listener {
                         }
                     }
                 }
-                sender.sendMessage(message);
                 break;
         }
 

@@ -35,16 +35,16 @@ public class GUIArmor {
     private boolean comerciable;
     private double physicaldefense;
     private double incphysicaldefense;
-    private float physicalevasion;
-    private float incphysicalevasion;
+    private double physicalevasion;
+    private double incphysicalevasion;
     private double magicaldefense;
     private double incmagicaldefense;
-    private float magicalevasion;
-    private float incmagicalevasion;
+    private double magicalevasion;
+    private double incmagicalevasion;
     private long buyprice;
     private long sellprice;
-    private float xpbonus;
-    private float moneybonus;
+    private double xpbonus;
+    private double moneybonus;
     /*
      physicaldefense
      incphysicaldefense
@@ -60,7 +60,7 @@ public class GUIArmor {
      moneybonus
      */
 
-    public GUIArmor(String name, int level, int armorlevel, EnumArmorMaterial material, EnumQuality quality, EnumArmorPart part, boolean upgradable, boolean comerciable, double physicaldefense, double incphysicaldefense, float physicalevasion, float incphysicalevasion, double magicaldefense, double incmagicaldefense, float magicalevasion, float incmagicalevasion, long buyprice, long sellprice, float xpbonus, float moneybonus) {
+    public GUIArmor(String name, int level, int armorlevel, EnumArmorMaterial material, EnumQuality quality, EnumArmorPart part, boolean upgradable, boolean comerciable, double physicaldefense, double incphysicaldefense, double physicalevasion, double incphysicalevasion, double magicaldefense, double incmagicaldefense, double magicalevasion, double incmagicalevasion, long buyprice, long sellprice, double xpbonus, double moneybonus) {
         this.name = name;
         this.level = level;
         this.armorlevel = armorlevel;
@@ -163,19 +163,19 @@ public class GUIArmor {
         this.incphysicaldefense = incphysicaldefense;
     }
 
-    public float getPhysicalevasion() {
+    public double getPhysicalevasion() {
         return physicalevasion;
     }
 
-    public void setPhysicalevasion(float physicalevasion) {
+    public void setPhysicalevasion(double physicalevasion) {
         this.physicalevasion = physicalevasion;
     }
 
-    public float getIncphysicalevasion() {
+    public double getIncphysicalevasion() {
         return incphysicalevasion;
     }
 
-    public void setIncphysicalevasion(float incphysicalevasion) {
+    public void setIncphysicalevasion(double incphysicalevasion) {
         this.incphysicalevasion = incphysicalevasion;
     }
 
@@ -195,19 +195,19 @@ public class GUIArmor {
         this.incmagicaldefense = incmagicaldefense;
     }
 
-    public float getMagicalevasion() {
+    public double getMagicalevasion() {
         return magicalevasion;
     }
 
-    public void setMagicalevasion(float magicalevasion) {
+    public void setMagicalevasion(double magicalevasion) {
         this.magicalevasion = magicalevasion;
     }
 
-    public float getIncmagicalevasion() {
+    public double getIncmagicalevasion() {
         return incmagicalevasion;
     }
 
-    public void setIncmagicalevasion(float incmagicalevasion) {
+    public void setIncmagicalevasion(double incmagicalevasion) {
         this.incmagicalevasion = incmagicalevasion;
     }
 
@@ -227,19 +227,19 @@ public class GUIArmor {
         this.sellprice = sellprice;
     }
 
-    public float getXpbonus() {
+    public double getXpbonus() {
         return xpbonus;
     }
 
-    public void setXpbonus(float xpbonus) {
+    public void setXpbonus(double xpbonus) {
         this.xpbonus = xpbonus;
     }
 
-    public float getMoneybonus() {
+    public double getMoneybonus() {
         return moneybonus;
     }
 
-    public void setMoneybonus(float moneybonus) {
+    public void setMoneybonus(double moneybonus) {
         this.moneybonus = moneybonus;
     }
 

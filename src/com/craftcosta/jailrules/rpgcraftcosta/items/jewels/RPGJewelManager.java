@@ -166,7 +166,6 @@ public class RPGJewelManager {
      * @return
      */
     public ItemStack getRPGJewelByName(String name) {
-        plugin.getLogger().info(name);
         RPGJewel jewel = jewelList.get(ChatColor.stripColor(name));
         return jewel.getItem();
     }

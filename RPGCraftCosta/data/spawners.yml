@@ -1,19 +1,20 @@
 world:
   '0x0':
-    '3':
+    '2':
       name: prueba7
-      rpgmob: '[LVL5] Vampi'
+      rpgmob: "[LVL5] Vampi"
       enabled: true
+      world: world
       x: 0
       y: 64
       z: 0
       maxmobs: 1
       cooldown: 10
       radius: 5
-  5x5:
+  '5x5':
     '2':
       name: adssda
-      rpgmob: '[LVL15] Pollo'
+      rpgmob: "[LVL15] Pollo"
       enabled: true
       x: 80
       y: 64
@@ -22,10 +23,10 @@ world:
       cooldown: 10
       radius: 5
 world_nether:
-  0x-4:
+  '0x-4':
     '3':
       name: aprueb
-      rpgmob: '[LVL15] Peque Zombi'
+      rpgmob: "[LVL15] Peque Zombi"
       enabled: true
       x: 4
       y: 25

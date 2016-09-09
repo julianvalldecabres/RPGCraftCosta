@@ -73,7 +73,7 @@ public class RPGLore {
             case MAGICALDEFENSE:
             case PHYSICALATTACK:
             case PHYSICALDEFENSE:
-                return this.loretype.getLoreName() + " +" + String.format("%d", this.value);
+                return this.loretype.getLoreName() + " +" + String.format("%.2f", this.value);
             case MAGICALEVASION:
             case MAGICALHITRATE:
             case PHYSICALEVASION:
@@ -82,7 +82,6 @@ public class RPGLore {
             case MANA:
             case HEALTHSTEAL:
             case MANASTEAL:
-            case APBONUS:
             case XPBONUS:
             case MONEYBONUS:
             case CRITICAL:

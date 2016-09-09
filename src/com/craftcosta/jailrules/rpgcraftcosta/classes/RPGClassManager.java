@@ -16,7 +16,9 @@
 package com.craftcosta.jailrules.rpgcraftcosta.classes;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.leveling.RPGLevelManager;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
+import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,6 +38,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 public class RPGClassManager {
 
     private final RPGCraftCosta plugin;
+    private RPGPlayerManager rpgPMan;
+    private RPGLevelManager rpgLMan;
     private static HashMap<String, RPGClass> listClasses;
     private File classesFile;
     private FileConfiguration cFConfig;
@@ -47,6 +51,7 @@ public class RPGClassManager {
     public RPGClassManager(RPGCraftCosta plugin) {
         this.plugin = plugin;
         this.listClasses = new HashMap<>();
+        this.rpgLMan=plugin.getRPGLevelManager();
         this.classesFile = new File(RPGFinals.classFilePath);
         plugin.getLogger().info("Loading classes module....");
 
@@ -198,19 +203,42 @@ public class RPGClassManager {
 
     public void setRPGPlayerRPGClass(RPGPlayer rpgp, RPGClass rpgclass) {
         rpgp.setPlayerClass(rpgclass.getNameClass());
+
         rpgp.setActualHealth(rpgclass.getBaseHealth());
         rpgp.setMaxHealth(rpgclass.getBaseHealth());
+        rpgp.setFinalMaxHealth(rpgclass.getBaseHealth());
+
         rpgp.setActualMana(rpgclass.getBaseMana());
         rpgp.setMaxMana(rpgclass.getBaseMana());
+
         rpgp.setPhysicalAttack(rpgclass.getBasePhysicalAttack());
+        rpgp.setFinalphysicalAttack(rpgclass.getBasePhysicalAttack());
+
         rpgp.setPhysicalDefense(rpgclass.getBasePhysicalDefense());
+        rpgp.setFinalphysicalDefense(rpgclass.getBasePhysicalDefense());
+
         rpgp.setPhysicalHitRate(rpgclass.getBasePhysicalHitRate());
+        rpgp.setFinalphysicalHitRate(rpgclass.getBasePhysicalHitRate());
+
         rpgp.setPhysicalEvasion(rpgclass.getBasePhysicalEvasion());
+        rpgp.setFinalphysicalEvasion(rpgclass.getBasePhysicalEvasion());
+
         rpgp.setMagicalAttack(rpgclass.getBaseMagicalAttack());
+        rpgp.setFinalmagicalAttack(rpgclass.getBaseMagicalAttack());
+
         rpgp.setMagicalDefense(rpgclass.getBaseMagicalDefense());
+        rpgp.setFinalmagicalDefense(rpgclass.getBaseMagicalDefense());
+
         rpgp.setMagicalHitRate(rpgclass.getBaseMagicalHitRate());
+        rpgp.setFinalmagicalHitRate(rpgclass.getBaseMagicalHitRate());
+
         rpgp.setMagicalEvasion(rpgclass.getBaseMagicalEvasion());
+        rpgp.setFinalmagicalEvasion(rpgclass.getBaseMagicalEvasion());
+
         rpgp.setCritical(rpgclass.getBaseCritical());
+        rpgp.setFinalcritical(rpgclass.getBaseCritical());
+
+        rpgPMan.checkAllEquipment(rpgp);
     }
 
     /**
@@ -219,14 +247,49 @@ public class RPGClassManager {
     public void levelUP(RPGPlayer rpgp) {
         //aumentar stats
         RPGClass rpgclass = RPGClassManager.getRPGClass(rpgp.getPlayerClass());
-        rpgp.setActualLevel(rpgp.getActualLevel()+1);
-        rpgp.getPlayer().sendMessage(ChatColor.GREEN+"Enhorabuena has alcanzado el nivel "+rpgp.getActualLevel());
-        rpgp.setActualHealth(rpgclass.getLvlUpHealth() + rpgp.getMaxHealth());
-        rpgp.setMaxHealth(rpgclass.getLvlUpHealth() + rpgp.getMaxHealth());
-        rpgp.setPhysicalAttack(rpgclass.getLvlUpPhysicalAttack() + rpgp.getPhysicalAttack());
-        rpgp.setPhysicalDefense(rpgclass.getLvlUpPhysicalAttack() + rpgp.getPhysicalDefense());
-        rpgp.setPhysicalHitRate(rpgclass.getLvlUpPhysicalHitRate() + rpgp.getPhysicalHitRate());
-        rpgp.setPhysicalEvasion(rpgclass.getLvlUpPhysicalEvasion() + rpgp.getPhysicalEvasion());
-        rpgp.setCritical(rpgclass.getLvlUpCritical() + rpgp.getCritical());
+        rpgp.setActualLevel(rpgp.getActualLevel() + 1);
+        recalculatePlayerStats(rpgclass, rpgp, rpgp.getActualLevel() + 1);
+        rpgp.getPlayer().sendMessage(ChatColor.GREEN + "Enhorabuena has alcanzado el nivel " + rpgp.getActualLevel());
+        rpgp.setAp(rpgp.getAp()+rpgLMan.getPh());
+        rpgPMan.checkAllEquipment(rpgp);
+    }
+
+    public void setRPGPlayerManager(RPGPlayerManager rpgPlayerManager) {
+        this.rpgPMan = rpgPlayerManager;
+    }
+
+    private void recalculatePlayerStats(RPGClass rpgclass, RPGPlayer rpgp, int i) {
+        rpgp.setActualHealth(rpgclass.getLvlUpHealth()*i + rpgclass.getBaseHealth());
+        rpgp.setFinalMaxHealth(rpgclass.getLvlUpHealth()*i + rpgclass.getBaseHealth());
+        rpgp.setMaxHealth(rpgclass.getLvlUpHealth()*i + rpgclass.getBaseHealth());
+        rpgp.getPlayer().setHealth(20);
+        
+        
+        rpgp.setPhysicalAttack(rpgclass.getLvlUpPhysicalAttack()*i + rpgclass.getBasePhysicalAttack());
+        rpgp.setFinalphysicalAttack(rpgclass.getLvlUpPhysicalAttack()*i + rpgclass.getBasePhysicalAttack());
+        
+        rpgp.setPhysicalDefense(rpgclass.getLvlUpPhysicalAttack()*i + rpgclass.getBasePhysicalDefense());
+        rpgp.setFinalphysicalDefense(rpgclass.getLvlUpPhysicalAttack()*i + rpgclass.getBasePhysicalDefense());
+        
+        rpgp.setPhysicalHitRate(rpgclass.getLvlUpPhysicalHitRate()*i + rpgclass.getBasePhysicalHitRate());
+        rpgp.setFinalphysicalHitRate(rpgclass.getLvlUpPhysicalHitRate()*i + rpgclass.getBasePhysicalHitRate());
+        
+        rpgp.setPhysicalEvasion(rpgclass.getLvlUpPhysicalEvasion()*i + rpgclass.getBasePhysicalEvasion());
+        rpgp.setFinalphysicalEvasion(rpgclass.getLvlUpPhysicalEvasion()*i + rpgclass.getBasePhysicalEvasion());
+        
+        rpgp.setMagicalAttack(rpgclass.getLvlUpMagicalAttack()*i + rpgclass.getBaseMagicalAttack());
+        rpgp.setFinalmagicalAttack(rpgclass.getLvlUpMagicalAttack()*i + rpgclass.getBaseMagicalAttack());
+        
+        rpgp.setMagicalDefense(rpgclass.getLvlUpMagicalAttack()*i + rpgclass.getBaseMagicalDefense());
+        rpgp.setFinalmagicalDefense(rpgclass.getLvlUpMagicalAttack()*i + rpgclass.getBaseMagicalDefense());
+        
+        rpgp.setMagicalHitRate(rpgclass.getLvlUpMagicalHitRate()*i + rpgclass.getBaseMagicalHitRate());
+        rpgp.setFinalmagicalHitRate(rpgclass.getLvlUpMagicalHitRate()*i + rpgclass.getBaseMagicalHitRate());
+        
+        rpgp.setMagicalEvasion(rpgclass.getLvlUpMagicalEvasion()*i + rpgclass.getBaseMagicalEvasion());
+        rpgp.setFinalmagicalEvasion(rpgclass.getLvlUpMagicalEvasion()*i + rpgclass.getBaseMagicalEvasion());
+        
+        rpgp.setCritical(rpgclass.getLvlUpCritical()*i + rpgclass.getBaseCritical());
+        rpgp.setFinalcritical(rpgclass.getLvlUpCritical()*i + rpgclass.getBaseCritical());
     }
 }

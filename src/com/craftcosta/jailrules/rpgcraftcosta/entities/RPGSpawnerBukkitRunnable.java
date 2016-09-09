@@ -37,11 +37,9 @@ public class RPGSpawnerBukkitRunnable extends BukkitRunnable{
     public void run() {
         if(rpgs.enabled){
             while(rpgs.getEntitiesUUIDS().size()<rpgs.getMaxMobs()){
-                plugin.getLogger().info(rpgs.getRpgmob());
                 RPGMob rpgm=plugin.getRPGMobManager().getRPGMobByName(rpgs.getRpgmob());
                 Entity ent=plugin.getRPGMobManager().spawnRPGMobAtLocation(rpgm, rpgs.getLoc());
                 plugin.getRPGMobManager().getEntities().put(ent.getUniqueID(),rpgs.getId());
-                plugin.getLogger().info("Creado "+ent.getUniqueID().toString());
                 rpgs.getEntitiesUUIDS().add(ent.getUniqueID());
             }
         }

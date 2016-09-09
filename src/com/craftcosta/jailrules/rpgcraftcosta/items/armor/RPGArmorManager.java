@@ -153,7 +153,7 @@ public class RPGArmorManager {
         List<String> armorlores = section.getStringList("lores");
         this.armorUpgrader = new ItemStack(armorMat);
         ItemMeta armorMeta = armorUpgrader.getItemMeta();
-        armorMeta.setDisplayName(ChatColor.DARK_PURPLE + armordisplayname);
+        armorMeta.setDisplayName(armordisplayname);
         armorMeta.setLore(armorlores);
         this.armorUpgrader.setItemMeta(armorMeta);
 
@@ -264,7 +264,7 @@ public class RPGArmorManager {
                 xpbonus = section.getDouble("xpbonus");
                 moneybonus = section.getDouble("moneybonus");
                 item = new ItemStack(mat);
-                this.armorList.put(name + " " + materialP.toLowerCase(), new RPGArmor(level, item, quality, upgradable, comerciable, armorLevel, mat, name, physicaldefense, incphysicaldefense, physicalevasion, incphysicalevasion, magicaldefense, incmagicaldefense, magicalevasion, incmagicalevasion, moneybonus, xpbonus, buyprice, sellprice));
+                this.armorList.put("[LVL"+level+"] "+name + " " + materialP.toLowerCase(), new RPGArmor(level, item, quality, upgradable, comerciable, armorLevel, mat, name, physicaldefense, incphysicaldefense, physicalevasion, incphysicalevasion, magicaldefense, incmagicaldefense, magicalevasion, incmagicalevasion, moneybonus, xpbonus, buyprice, sellprice));
             }
         }
     }
@@ -275,7 +275,7 @@ public class RPGArmorManager {
      * @return
      */
     public ItemStack getRPGArmorByName(String name) {
-        return armorList.get(name).getItem();
+        return armorList.get(ChatColor.stripColor(name)).getItem();
     }
 
     /**
@@ -284,15 +284,20 @@ public class RPGArmorManager {
      * @return
      */
     public RPGArmor getRPGArmorByItem(ItemStack item) {
-        return this.armorList.get(getRPGArmorNameByItem(item));
+        if(item.getItemMeta().hasLore()){
+            return this.armorList.get(getRPGArmorNameByItem(item));
+        }
+        return null;
     }
 
     private String getRPGArmorNameByItem(ItemStack item) {
-        String[] displayname = item.getItemMeta().getDisplayName().split(" ");
+        
+        String name=ChatColor.stripColor(item.getItemMeta().getDisplayName());
+        String[] displayname = name.split(" ");
         int size = displayname.length;
         String aName = "";
         if (size > 3) {
-            for (int i = 1; i <= size - 3; i++) {
+            for (int i = 0; i <= size - 3; i++) {
                 aName += displayname[i] + " ";
             }
             aName += displayname[size - 2];
@@ -320,6 +325,10 @@ public class RPGArmorManager {
      * @return
      */
     public boolean isRPGArmor(ItemStack item) {
+        if(item==null){
+            return false;
+            
+        }
         if (!item.hasItemMeta()) {
             return false;
         }

@@ -203,11 +203,9 @@ public class RPGMobManager {
         int ap;
         Set<String> mobs = mobFileConfig.getKeys(false);
         for (String id : mobs) {
-            plugin.getLogger().info(id);
             ConfigurationSection section = mobFileConfig.getConfigurationSection(id);
             name = section.getString("name");
             level = section.getInt("level");
-            plugin.getLogger().info(section.getString("entitytype"));
             type = CustomEntityType.valueOf(section.getString("entitytype"));
             aType = AttackType.valueOf(section.getString("attacktype"));
             bType = MobBehaviour.valueOf(section.getString("behaviour"));
@@ -596,7 +594,6 @@ public class RPGMobManager {
             for (Map.Entry<String, RPGSpawner> entrySet1 : spawners.entrySet()) {
                 RPGSpawner value= entrySet1.getValue();
                 if(value.hasMobWithUUID(ent.getUniqueId())){
-                    plugin.getLogger().info("Quitando de "+value.getId()+" la entidad "+ent.getUniqueId().toString());
                     value.getEntitiesUUIDS().remove(ent.getUniqueId());
                 }
                 
@@ -613,7 +610,6 @@ public class RPGMobManager {
                 if(spawner.equals(entrySet1.getKey())){
                     RPGSpawner value=entrySet1.getValue();
                     if(value.hasMobWithUUID(uuid)){
-                    plugin.getLogger().info("Quitando de "+value.getId()+" la entidad "+uuid.toString());
                     value.getEntitiesUUIDS().remove(uuid);
                     }
                 }

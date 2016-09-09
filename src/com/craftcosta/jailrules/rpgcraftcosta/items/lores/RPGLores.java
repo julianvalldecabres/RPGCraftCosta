@@ -60,10 +60,6 @@ public enum RPGLores {
     /**
      *
      */
-    APBONUS("AP Bonus", RPGLoreValueType.PERCENTAGE),
-    /**
-     *
-     */
     MONEYBONUS("Money Bonus", RPGLoreValueType.PERCENTAGE),
     /**
      *
@@ -158,12 +154,11 @@ public enum RPGLores {
             case PHYSICALDEFENSE:
             case MAGICALATTACK:
             case MAGICALDEFENSE:
-                return rpglore.getLoreName() + " +" + (int) value;
+                return rpglore.getLoreName() + " +" + (double) value;
             case PHYSICALEVASION:
             case PHYSICALHITRATE:
             case MAGICALEVASION:
             case MAGICALHITRATE:
-            case APBONUS:
             case XPBONUS:
             case MONEYBONUS:
             case MANASTEAL:

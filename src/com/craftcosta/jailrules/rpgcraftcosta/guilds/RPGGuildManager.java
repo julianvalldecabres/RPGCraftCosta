@@ -335,8 +335,7 @@ public class RPGGuildManager {
 
     public void sendMessageToGuild(String guildname, String message) {
         for (Player p : getGuildByName(guildname).getOnlineMembers()) {
-            RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
-            rpgCMan.sendGuildMessage(rpgp, message);
+            p.sendMessage(message);
         }
     }
 
@@ -557,5 +556,11 @@ public class RPGGuildManager {
         rpgg.setLevel(rpgg.getLevel() + 1);
         rpgg.setMaxplayers(getGuildLevels().lowerEntry(rpgg.getMoney()).getValue().getNumplayers());
         sendMessageToGuild(rpgg.getName(), " El clan ha alcanzado el nivel "+rpgg.getLevel());
+    }
+
+    public void sendGuildMessage(String guild, String message) {
+        for (Player p : getGuildByName(guild).getOnlineMembers()) {
+            p.sendMessage(message);            
+        }
     }
 }

@@ -18,10 +18,13 @@ package com.craftcosta.jailrules.rpgcraftcosta.chat;
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
 import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
+import java.util.ArrayList;
+import java.util.List;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 /**
@@ -29,7 +32,7 @@ import org.bukkit.entity.Player;
  *
  * @author jail
  */
-public class RPGChatCommands implements CommandExecutor {
+public class RPGChatCommands implements CommandExecutor, TabCompleter {
 
     //Campos de la clase
     RPGCraftCosta plugin;
@@ -262,5 +265,37 @@ public class RPGChatCommands implements CommandExecutor {
             }
         }
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender cs, Command cmnd, String label, String[] args) {
+        List<String> lista = new ArrayList<>();
+        Player p = (Player) cs;
+        RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
+        if (label.equalsIgnoreCase("chat")) {
+            if (args.length == 0 || args.length == 1) {
+                String[] list1 = new String[]{"party", "global", "private", "guild", "market", "local", "none", "all"};
+                for (String elem : list1) {
+                    lista.add(elem);
+                }
+                return lista;
+            } else if (args.length == 2) {
+                String tipo = args[0].toLowerCase();
+                switch (tipo) {
+                    case "local":
+                    case "global":
+                    case "market":
+                    case "private":
+                    case "guild":
+                    case "party":
+                        lista.add("on");
+                        lista.add("off");
+                        return lista;
+                }
+            } else {
+                return null;
+            }
+        }
+        return null;
     }
 }

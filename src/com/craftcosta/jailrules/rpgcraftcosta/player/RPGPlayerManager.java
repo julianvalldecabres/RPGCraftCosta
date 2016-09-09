@@ -20,13 +20,19 @@ import com.craftcosta.jailrules.rpgcraftcosta.chat.RPGChatManager;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClass;
 import com.craftcosta.jailrules.rpgcraftcosta.classes.RPGClassManager;
 import com.craftcosta.jailrules.rpgcraftcosta.economy.RPGEconomy;
+import com.craftcosta.jailrules.rpgcraftcosta.items.ItemType;
+import com.craftcosta.jailrules.rpgcraftcosta.items.armor.RPGArmor;
 import com.craftcosta.jailrules.rpgcraftcosta.items.armor.RPGArmorManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.jewels.RPGJewelManager;
+import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLore;
+import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLoreManager;
+import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeapon;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -140,7 +146,7 @@ public class RPGPlayerManager {
      *
      */
     public void saveRpgPlayers() {
-        plugin.getLogger().info("Salvando todos los players!");
+        plugin.getLogger().info("Guardando todos los players!");
         RPGPlayer rpgP = null;
         for (Player p : Bukkit.getOnlinePlayers()) {
             rpgP = getRPGPlayerByName(p.getName());
@@ -215,10 +221,10 @@ public class RPGPlayerManager {
         double magicalHitRate = 0;
 
         double critical = 0;
-
+        double xpbonus = 0;
+        double moneybonus = 0;
         double expModifiers = 0;
         double moneyModifiers = 0;
-        double apModifiers = 0;
 
         int level;
         int constitutionP;
@@ -227,19 +233,22 @@ public class RPGPlayerManager {
         int strengthP;
         //leer del fichero
         ConfigurationSection section = pFConfig;
+        level = section.getInt("level");
         playerClass = section.getString("class");
         guild = section.getString("guild");
-        party= section.getString("party");
-        plugin.getLogger().info("party devuelve: "+section.getString("party"));
+        party = "";
+
         econ = new RPGEconomy(section.getLong("money"));
-
         experience = section.getLong("experience");
-        ap = section.getLong("ap");
 
-        actualHealth = section.getDouble("actualhealth");
-        maxHealth = section.getDouble("maxhealth");
-        actualMana = section.getDouble("actualmana");
-        maxMana = section.getDouble("maxmana");
+        critical = section.getDouble("critical");
+        moneybonus = section.getDouble("moneybonus");
+        xpbonus = section.getDouble("xpbonus");
+
+        actualHealth = section.getDouble("actualHealth");
+        maxHealth = section.getDouble("maxHealth");
+        actualMana = section.getDouble("actualMana");
+        maxMana = section.getDouble("maxMana");
 
         physicalAttack = section.getDouble("physicalattack");
         physicalDefense = section.getDouble("physicaldefense");
@@ -251,20 +260,68 @@ public class RPGPlayerManager {
         magicalEvasion = section.getDouble("magicalevasion");
         magicalHitRate = section.getDouble("magicalhitrate");
 
-        critical = section.getDouble("critical");
-
-        level = section.getInt("level");
-        constitutionP = section.getInt("constitutiop");
-        dexteryP = section.getInt("dexteryp");
-        intelligenceP = section.getInt("intelligencep");
-        strengthP = section.getInt("strengthp");
+        ap = section.getLong("ap");
+        constitutionP = section.getInt("constitutionP");
+        dexteryP = section.getInt("dexteryP");
+        intelligenceP = section.getInt("intelligenceP");
+        strengthP = section.getInt("strengthP");
 
         //Crear RPGPlayer
-        RPGPlayer rpgp = new RPGPlayer(name, uuid, player, guild, playerClass, party, econ, level, experience, ap, constitutionP, dexteryP, intelligenceP, strengthP, actualMana, maxMana, actualHealth, maxHealth, physicalAttack, physicalDefense, PhysicalHitRate, physicalEvasion, magicalAttack, magicalDefense, magicalHitRate, magicalEvasion, critical);
+        RPGPlayer rpgp = new RPGPlayer(name, uuid, player, guild, playerClass, party, econ, level, experience, ap, constitutionP, dexteryP, intelligenceP, strengthP, actualMana, maxMana, actualHealth, maxHealth, physicalAttack, physicalDefense, PhysicalHitRate, physicalEvasion, magicalAttack, magicalDefense, magicalHitRate, magicalEvasion, critical, xpbonus, moneybonus);
         //añadir a lista
-        checkAllEquipment(rpgp);
         this.listRPGPlayers.put(name, rpgp);
         return rpgp;
+    }
+
+    public void applyRPGLoresToPlayer(List<RPGLore> lores, RPGPlayer rpgp) {
+        for (RPGLore lore : lores) {
+            switch (lore.getLoretype()) {
+                case CRITICAL:
+                    rpgp.setFinalcritical(rpgp.getFinalcritical() * (1 + (double) lore.getValue()));
+                    break;
+                case HEALTH:
+                    rpgp.setFinalMaxHealth(rpgp.getFinalMaxHealth() * (1 + (double) lore.getValue()));
+                    break;
+//                case HEALTHSTEAL:
+//                    rpgp.setFinalHealthSteal(rpgp.getFinalHealthSteal()*(1+(double)lore.getValue()));
+//                    break;
+                case MAGICALATTACK:
+                    rpgp.setFinalmagicalAttack(rpgp.getFinalmagicalAttack() + (double) lore.getValue());
+                    break;
+                case MAGICALDEFENSE:
+                    rpgp.setFinalmagicalDefense(rpgp.getFinalmagicalDefense() + (double) lore.getValue());
+                    break;
+                case MAGICALEVASION:
+                    rpgp.setFinalmagicalEvasion(rpgp.getFinalmagicalEvasion() * (1 + (double) lore.getValue()));
+                    break;
+                case MAGICALHITRATE:
+                    rpgp.setFinalmagicalHitRate(rpgp.getFinalmagicalHitRate() * (1 + (double) lore.getValue()));
+                    break;
+                case MANA:
+                    rpgp.setFinalMaxMana(rpgp.getFinalMaxMana() * (1 + (double) lore.getValue()));
+                    break;
+//                case MANASTEAL:
+//                    break;
+                case MONEYBONUS:
+                    rpgp.setFinalmoneybonus(rpgp.getFinalmoneybonus() * (1 + (double) lore.getValue()));
+                    break;
+                case PHYSICALATTACK:
+                    rpgp.setFinalphysicalAttack(rpgp.getFinalphysicalAttack() + (double) lore.getValue());
+                    break;
+                case PHYSICALDEFENSE:
+                    rpgp.setFinalphysicalDefense(rpgp.getFinalphysicalDefense() + (double) lore.getValue());
+                    break;
+                case PHYSICALEVASION:
+                    rpgp.setFinalphysicalEvasion(rpgp.getFinalphysicalEvasion() * (1 + (double) lore.getValue()));
+                    break;
+                case PHYSICALHITRATE:
+                    rpgp.setFinalphysicalHitRate(rpgp.getFinalphysicalHitRate() * (1 + (double) lore.getValue()));
+                    break;
+                case XPBONUS:
+                    rpgp.setFinalxpbonus(rpgp.getFinalxpbonus() * (1 + (double) lore.getValue()));
+                    break;
+            }
+        }
     }
 
     /**
@@ -272,30 +329,62 @@ public class RPGPlayerManager {
      * @param p
      */
     public void checkAllEquipment(RPGPlayer p) {
+        p.setFinalMaxHealth(p.getMaxHealth());
+        p.setFinalMaxMana(p.getMaxMana());
+        p.setFinalcritical(p.getCritical());
+        p.setFinalmagicalAttack(p.getMagicalAttack());
+        p.setFinalmagicalDefense(p.getMagicalDefense());
+        p.setFinalmagicalEvasion(p.getMagicalEvasion());
+        p.setFinalmagicalHitRate(p.getMagicalHitRate());
+        p.setFinalphysicalAttack(p.getPhysicalAttack());
+        p.setFinalphysicalDefense(p.getPhysicalDefense());
+        p.setFinalphysicalEvasion(p.getPhysicalEvasion());
+        p.setFinalphysicalHitRate(p.getPhysicalHitRate());
+        p.setFinalmoneybonus(p.getMoneybonus());
+        p.setFinalxpbonus(p.getXpbonus());
         ItemStack[] equipedArmor = p.getPlayer().getInventory().getArmorContents();
-        ItemStack equipedWeapon = p.getPlayer().getItemInHand();
+        ItemStack equipedWeapon = p.getPlayer().getInventory().getItem(0);
         int weaponSlot = p.getPlayer().getInventory().getHeldItemSlot();
-        //System.out.println("Item en mano en slot: " + weaponSlot);
         ItemStack[] quickbarItems = new ItemStack[9];
-
+        RPGLoreManager rpgLMan = plugin.getRpgLoreManager();
         System.out.println("Contenido de armadura");
         for (int i = 0; i <= 3; i++) {
-            if (!equipedArmor[i].getType().equals(Material.AIR)) {
-                if (rpgAMan.isRPGArmor(equipedArmor[i])) {
-                    //Metodo para obtener los lores del objeto y poder separar y añadir a las estadisticas del player
+            if (equipedArmor != null) {
+                if (!equipedArmor[i].getType().equals(Material.AIR)) {
+                    if (rpgAMan.isRPGArmor(equipedArmor[i])) {
+                        RPGArmor armor = rpgAMan.getRPGArmorByItem(equipedArmor[i]);
+                        if (p.getActualLevel() >= armor.getLevel()) {
+                            applyRPGLoresToPlayer(rpgLMan.getListOfLoresFromItem(equipedArmor[i]), p);
+                        }
+                    }
                 }
             }
         }
-        System.out.println("Contenido de la hotbar");
-        for (int i = 0; i <= 8; i++) {
-            System.out.println("slot: " + i);
+        if (rpgWMan.isRPGWeapon(equipedWeapon)) {
+            RPGWeapon weapon = rpgWMan.getRPGWeaponByItem(equipedWeapon);
+            if (p.getActualLevel() >= weapon.getLevel()) {
+                applyRPGLoresToPlayer(rpgLMan.getListOfLoresFromItem(equipedWeapon), p);
+            }
+        } else {
+            weaponSlot = 0;
+        }
+        for (int i = 1; i <= 8; i++) {
             if (p.getPlayer().getInventory().getContents()[i] != null) {
                 quickbarItems[i] = p.getPlayer().getInventory().getContents()[i];
             }
         }
         for (ItemStack item : quickbarItems) {
-            if (item != null) {
-                //System.out.println(item.toString());
+            if (item != null) {  
+                plugin.getLogger().info(item.toString());
+                ItemType type=plugin.getRPGItemManager().getItemType(item);
+                if (type==null)
+                switch (type) {
+                    case JEWEL:
+                        applyRPGLoresToPlayer(rpgLMan.getListOfLoresFromItem(equipedWeapon), p);
+                        break;
+                    default:
+                    //DO NOTHING :D
+                }
             }
         }
     }
@@ -321,25 +410,34 @@ public class RPGPlayerManager {
         section.set("experience", rpgP.getActualExp());
         section.set("level", rpgP.getActualLevel());
         section.set("guild", rpgP.getGuild());
-        section.set("party", rpgP.getGuild());
+        section.set("party", "");
+
         section.set("class", rpgP.getPlayerClass());
+
         section.set("actualHealth", rpgP.getActualHealth());
-        section.set("actualMana", rpgP.getActualMana());
         section.set("maxHealth", rpgP.getMaxHealth());
+
         section.set("maxMana", rpgP.getMaxMana());
+        section.set("actualMana", rpgP.getActualMana());
+
         section.set("ap", rpgP.getAp());
         section.set("constitutionP", rpgP.getConstitutionP());
         section.set("dexteryP", rpgP.getDexteryP());
         section.set("intelligenceP", rpgP.getIntelligenceP());
-        section.set("strenghP", rpgP.getStrengthP());
+        section.set("strengthP", rpgP.getStrengthP());
+
         section.set("physicalattack", rpgP.getPhysicalAttack());
         section.set("physicaldefense", rpgP.getPhysicalDefense());
         section.set("physicalevasion", rpgP.getPhysicalEvasion());
         section.set("physicalhitrate", rpgP.getPhysicalHitRate());
+
         section.set("magicalattack", rpgP.getMagicalAttack());
         section.set("magicaldefense", rpgP.getMagicalDefense());
         section.set("magicalevasion", rpgP.getMagicalEvasion());
         section.set("magicalhitrate", rpgP.getMagicalHitRate());
+
+        section.set("xpbonus", rpgP.getXpbonus());
+        section.set("moneybonus", rpgP.getMoneybonus());
         section.set("critical", rpgP.getCritical());
         try {
             section.save(playerFile);

@@ -21,7 +21,7 @@ import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumArmorMater
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumArmorPart;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumItems;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumQuality;
-import com.craftcosta.jailrules.rpgcraftcosta.items.Quality;
+import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.weapons.GUIWeapon;
 import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGFinals;
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +33,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -128,14 +127,14 @@ public class GUIArmorManager {
         boolean upgradable;
         double physicaldefense;
         double incphysicaldefense;
-        float physicalevasion;
-        float incphysicalevasion;
+        double physicalevasion;
+        double incphysicalevasion;
         double magicaldefense;
         double incmagicaldefense;
-        float magicalevasion;
-        float incmagicalevasion;
-        float xpbonus;
-        float moneybonus;
+        double magicalevasion;
+        double incmagicalevasion;
+        double xpbonus;
+        double moneybonus;
 
         //RECORRER YAML
         Set<String> armorSets = fileaConfig.getKeys(false);
@@ -166,14 +165,14 @@ public class GUIArmorManager {
                 incphysicaldefense = section.getDouble("incphysicaldefense");
                 magicaldefense = section.getDouble("magicaldefense");
                 incmagicaldefense = section.getDouble("incmagicaldefense");
-                magicalevasion = (float) section.getDouble("magicalevasion");
-                incmagicalevasion = (float) section.getDouble("incmagicalevasion");
-                physicalevasion = (float) section.getDouble("physicalevasion");
-                incphysicalevasion = (float) section.getDouble("incphysicalevasion");
+                magicalevasion = (double) section.getDouble("magicalevasion");
+                incmagicalevasion = (double) section.getDouble("incmagicalevasion");
+                physicalevasion = (double) section.getDouble("physicalevasion");
+                incphysicalevasion = (double) section.getDouble("incphysicalevasion");
                 sellprice = section.getLong("sellprice");
                 buyprice = section.getLong("buyprice");
-                xpbonus = (float) section.getDouble("xpbonus");
-                moneybonus = (float) section.getDouble("moneybonus");
+                xpbonus = (double) section.getDouble("xpbonus");
+                moneybonus = (double) section.getDouble("moneybonus");
 
                 armorpartname = armorname + " " + materialP.name().toLowerCase();
                 s.getSet().put(materialP, new GUIArmor(armorpartname, level, armorlevel, materialS, quality, materialP, upgradable, comerciable, physicaldefense, incphysicaldefense, physicalevasion, incphysicalevasion, magicaldefense, incmagicaldefense, magicalevasion, incmagicalevasion, buyprice, sellprice, xpbonus, moneybonus));
@@ -248,7 +247,7 @@ public class GUIArmorManager {
     public void saveSet() {
         GUISet gs = getGUISetByName(gui.getTxtNombreSet().getText());
         if (gs == null) {
-            gs = new GUISet(lastindex + 1, gui.getTxtNombreArma().getText(), new HashMap<EnumArmorPart, GUIArmor>());
+            gs = new GUISet(lastindex + 1, gui.getTxtNombreSet().getText(), new HashMap<EnumArmorPart, GUIArmor>());
             Map<EnumArmorPart, GUIArmor> partes = new HashMap<>();
             partes.put(EnumArmorPart.HELMET, new GUIArmor(
                     gui.getTxtNombreSet() + " " + EnumArmorPart.HELMET.name().toLowerCase(),
@@ -261,16 +260,16 @@ public class GUIArmorManager {
                     gui.getCheckComerciableArmadura().isSelected(),
                     (double) gui.getSpinnerDefFisCasco().getValue(),
                     (double) gui.getSpinnerMejDefFisCasco().getValue(),
-                    (float) gui.getSpinnerEvaFisCasco().getValue(),
-                    (float) gui.getSpinnerMejEvaFisCasco().getValue(),
+                    (double) gui.getSpinnerEvaFisCasco().getValue(),
+                    (double) gui.getSpinnerMejEvaFisCasco().getValue(),
                     (double) gui.getSpinnerDefFisCasco().getValue(),
                     (double) gui.getSpinnerMejDefFisCasco().getValue(),
-                    (float) gui.getSpinnerEvaFisCasco().getValue(),
-                    (float) gui.getSpinnerMejEvaFisCasco().getValue(),
+                    (double) gui.getSpinnerEvaFisCasco().getValue(),
+                    (double) gui.getSpinnerMejEvaFisCasco().getValue(),
                     (long) gui.getSpinnerPrecioCCasco().getValue(),
                     (long) gui.getSpinnerPrecioVCasco().getValue(),
-                    (float) gui.getSpinnerExpExtraCasco().getValue(),
-                    (float) gui.getSpinnerDineroExtraCasco().getValue()));
+                    (double) gui.getSpinnerExpExtraCasco().getValue(),
+                    (double) gui.getSpinnerDineroExtraCasco().getValue()));
             partes.put(EnumArmorPart.CHESTPLATE, new GUIArmor(
                     gui.getTxtNombreSet() + " " + EnumArmorPart.CHESTPLATE.name().toLowerCase(),
                     (int) gui.getSpinnerNivel().getValue(),
@@ -282,16 +281,16 @@ public class GUIArmorManager {
                     gui.getCheckComerciableArmadura().isSelected(),
                     (double) gui.getSpinnerDefFisPechera().getValue(),
                     (double) gui.getSpinnerMejDefFisPechera().getValue(),
-                    (float) gui.getSpinnerEvaFisPechera().getValue(),
-                    (float) gui.getSpinnerMejEvaFisPechera().getValue(),
+                    (double) gui.getSpinnerEvaFisPechera().getValue(),
+                    (double) gui.getSpinnerMejEvaFisPechera().getValue(),
                     (double) gui.getSpinnerDefFisPechera().getValue(),
                     (double) gui.getSpinnerMejDefFisPechera().getValue(),
-                    (float) gui.getSpinnerEvaFisPechera().getValue(),
-                    (float) gui.getSpinnerMejEvaFisPechera().getValue(),
+                    (double) gui.getSpinnerEvaFisPechera().getValue(),
+                    (double) gui.getSpinnerMejEvaFisPechera().getValue(),
                     (long) gui.getSpinnerPrecioCPechera().getValue(),
                     (long) gui.getSpinnerPrecioVPechera().getValue(),
-                    (float) gui.getSpinnerExpExtraPechera().getValue(),
-                    (float) gui.getSpinnerDineroExtraPechera().getValue()));
+                    (double) gui.getSpinnerExpExtraPechera().getValue(),
+                    (double) gui.getSpinnerDineroExtraPechera().getValue()));
             partes.put(EnumArmorPart.LEGGINGS, new GUIArmor(
                     gui.getTxtNombreSet() + " " + EnumArmorPart.LEGGINGS.name().toLowerCase(),
                     (int) gui.getSpinnerNivel().getValue(),
@@ -303,16 +302,16 @@ public class GUIArmorManager {
                     gui.getCheckComerciableArmadura().isSelected(),
                     (double) gui.getSpinnerDefFisGrebas().getValue(),
                     (double) gui.getSpinnerMejDefFisGrebas().getValue(),
-                    (float) gui.getSpinnerEvaFisGrebas().getValue(),
-                    (float) gui.getSpinnerMejEvaFisGrebas().getValue(),
+                    (double) gui.getSpinnerEvaFisGrebas().getValue(),
+                    (double) gui.getSpinnerMejEvaFisGrebas().getValue(),
                     (double) gui.getSpinnerDefFisGrebas().getValue(),
                     (double) gui.getSpinnerMejDefFisGrebas().getValue(),
-                    (float) gui.getSpinnerEvaFisGrebas().getValue(),
-                    (float) gui.getSpinnerMejEvaFisGrebas().getValue(),
+                    (double) gui.getSpinnerEvaFisGrebas().getValue(),
+                    (double) gui.getSpinnerMejEvaFisGrebas().getValue(),
                     (long) gui.getSpinnerPrecioCGrebas().getValue(),
                     (long) gui.getSpinnerPrecioVGrebas().getValue(),
-                    (float) gui.getSpinnerExpExtraGrebas().getValue(),
-                    (float) gui.getSpinnerDineroExtraGrebas().getValue()));
+                    (double) gui.getSpinnerExpExtraGrebas().getValue(),
+                    (double) gui.getSpinnerDineroExtraGrebas().getValue()));
             partes.put(EnumArmorPart.BOOTS, new GUIArmor(
                     gui.getTxtNombreSet() + " " + EnumArmorPart.BOOTS.name().toLowerCase(),
                     (int) gui.getSpinnerNivel().getValue(),
@@ -324,19 +323,20 @@ public class GUIArmorManager {
                     gui.getCheckComerciableArmadura().isSelected(),
                     (double) gui.getSpinnerDefFisBotas().getValue(),
                     (double) gui.getSpinnerMejDefFisBotas().getValue(),
-                    (float) gui.getSpinnerEvaFisBotas().getValue(),
-                    (float) gui.getSpinnerMejEvaFisBotas().getValue(),
+                    (double) gui.getSpinnerEvaFisBotas().getValue(),
+                    (double) gui.getSpinnerMejEvaFisBotas().getValue(),
                     (double) gui.getSpinnerDefFisBotas().getValue(),
                     (double) gui.getSpinnerMejDefFisBotas().getValue(),
-                    (float) gui.getSpinnerEvaFisBotas().getValue(),
-                    (float) gui.getSpinnerMejEvaFisBotas().getValue(),
+                    (double) gui.getSpinnerEvaFisBotas().getValue(),
+                    (double) gui.getSpinnerMejEvaFisBotas().getValue(),
                     (long) gui.getSpinnerPrecioCBotas().getValue(),
                     (long) gui.getSpinnerPrecioVBotas().getValue(),
-                    (float) gui.getSpinnerExpExtraBotas().getValue(),
-                    (float) gui.getSpinnerDineroExtraBotas().getValue()));
+                    (double) gui.getSpinnerExpExtraBotas().getValue(),
+                    (double) gui.getSpinnerDineroExtraBotas().getValue()));
             gs.setSet(partes);
             this.listSets.put(gs.getSetname(), gs);
             this.listnum.put(gs.getSetname(), lastindex + 1);
+            this.lastindex++;
             gui.getComboListSets().addItem(gs.getSetname());
 
             gui.recursivelyEnableDisablePanel(gui.getPanelEditarSet(), false);
@@ -355,16 +355,16 @@ public class GUIArmorManager {
                 casco.setUpgradable(gui.getCheckMejorableArmadura().isSelected());
                 casco.setPhysicaldefense((double) gui.getSpinnerDefFisCasco().getValue());
                 casco.setIncphysicaldefense((double) gui.getSpinnerMejDefFisCasco().getValue());
-                casco.setPhysicalevasion((float) gui.getSpinnerEvaFisCasco().getValue());
-                casco.setIncphysicalevasion((float) gui.getSpinnerMejEvaFisCasco().getValue());
+                casco.setPhysicalevasion((double) gui.getSpinnerEvaFisCasco().getValue());
+                casco.setIncphysicalevasion((double) gui.getSpinnerMejEvaFisCasco().getValue());
                 casco.setMagicaldefense((double) gui.getSpinnerDefFisCasco().getValue());
                 casco.setIncmagicaldefense((double) gui.getSpinnerMejDefFisCasco().getValue());
-                casco.setMagicalevasion((float) gui.getSpinnerEvaFisCasco().getValue());
-                casco.setIncmagicalevasion((float) gui.getSpinnerMejEvaFisCasco().getValue());
+                casco.setMagicalevasion((double) gui.getSpinnerEvaFisCasco().getValue());
+                casco.setIncmagicalevasion((double) gui.getSpinnerMejEvaFisCasco().getValue());
                 casco.setBuyprice((long) gui.getSpinnerPrecioCCasco().getValue());
                 casco.setSellprice((long) gui.getSpinnerPrecioVCasco().getValue());
-                casco.setMoneybonus((float) gui.getSpinnerDineroExtraCasco().getValue());
-                casco.setXpbonus((float) gui.getSpinnerExpExtraCasco().getValue());
+                casco.setMoneybonus((double) gui.getSpinnerDineroExtraCasco().getValue());
+                casco.setXpbonus((double) gui.getSpinnerExpExtraCasco().getValue());
                 GUIArmor pechera = partes.get(EnumArmorPart.CHESTPLATE);
                 pechera.setName(gs.getSetname() + " " + EnumArmorPart.CHESTPLATE.name().toLowerCase());
                 pechera.setLevel((int) gui.getSpinnerNivel().getValue());
@@ -374,16 +374,16 @@ public class GUIArmorManager {
                 pechera.setUpgradable(gui.getCheckMejorableArmadura().isSelected());
                 pechera.setPhysicaldefense((double) gui.getSpinnerDefFisPechera().getValue());
                 pechera.setIncphysicaldefense((double) gui.getSpinnerMejDefFisPechera().getValue());
-                pechera.setPhysicalevasion((float) gui.getSpinnerEvaFisPechera().getValue());
-                pechera.setIncphysicalevasion((float) gui.getSpinnerMejEvaFisPechera().getValue());
+                pechera.setPhysicalevasion((double) gui.getSpinnerEvaFisPechera().getValue());
+                pechera.setIncphysicalevasion((double) gui.getSpinnerMejEvaFisPechera().getValue());
                 pechera.setMagicaldefense((double) gui.getSpinnerDefFisPechera().getValue());
                 pechera.setIncmagicaldefense((double) gui.getSpinnerMejDefFisPechera().getValue());
-                pechera.setMagicalevasion((float) gui.getSpinnerEvaFisPechera().getValue());
-                pechera.setIncmagicalevasion((float) gui.getSpinnerMejEvaFisPechera().getValue());
+                pechera.setMagicalevasion((double) gui.getSpinnerEvaFisPechera().getValue());
+                pechera.setIncmagicalevasion((double) gui.getSpinnerMejEvaFisPechera().getValue());
                 pechera.setBuyprice((long) gui.getSpinnerPrecioCPechera().getValue());
                 pechera.setSellprice((long) gui.getSpinnerPrecioVPechera().getValue());
-                pechera.setMoneybonus((float) gui.getSpinnerDineroExtraPechera().getValue());
-                pechera.setXpbonus((float) gui.getSpinnerExpExtraPechera().getValue());
+                pechera.setMoneybonus((double) gui.getSpinnerDineroExtraPechera().getValue());
+                pechera.setXpbonus((double) gui.getSpinnerExpExtraPechera().getValue());
                 GUIArmor grebas = partes.get(EnumArmorPart.LEGGINGS);
                 grebas.setName(gs.getSetname() + " " + EnumArmorPart.LEGGINGS.name().toLowerCase());
                 grebas.setLevel((int) gui.getSpinnerNivel().getValue());
@@ -393,16 +393,16 @@ public class GUIArmorManager {
                 grebas.setUpgradable(gui.getCheckMejorableArmadura().isSelected());
                 grebas.setPhysicaldefense((double) gui.getSpinnerDefFisGrebas().getValue());
                 grebas.setIncphysicaldefense((double) gui.getSpinnerMejDefFisGrebas().getValue());
-                grebas.setPhysicalevasion((float) gui.getSpinnerEvaFisGrebas().getValue());
-                grebas.setIncphysicalevasion((float) gui.getSpinnerMejEvaFisGrebas().getValue());
+                grebas.setPhysicalevasion((double) gui.getSpinnerEvaFisGrebas().getValue());
+                grebas.setIncphysicalevasion((double) gui.getSpinnerMejEvaFisGrebas().getValue());
                 grebas.setMagicaldefense((double) gui.getSpinnerDefFisGrebas().getValue());
                 grebas.setIncmagicaldefense((double) gui.getSpinnerMejDefFisGrebas().getValue());
-                grebas.setMagicalevasion((float) gui.getSpinnerEvaFisGrebas().getValue());
-                grebas.setIncmagicalevasion((float) gui.getSpinnerMejEvaFisGrebas().getValue());
+                grebas.setMagicalevasion((double) gui.getSpinnerEvaFisGrebas().getValue());
+                grebas.setIncmagicalevasion((double) gui.getSpinnerMejEvaFisGrebas().getValue());
                 grebas.setBuyprice((long) gui.getSpinnerPrecioCGrebas().getValue());
                 grebas.setSellprice((long) gui.getSpinnerPrecioVGrebas().getValue());
-                grebas.setMoneybonus((float) gui.getSpinnerDineroExtraGrebas().getValue());
-                grebas.setXpbonus((float) gui.getSpinnerExpExtraGrebas().getValue());
+                grebas.setMoneybonus((double) gui.getSpinnerDineroExtraGrebas().getValue());
+                grebas.setXpbonus((double) gui.getSpinnerExpExtraGrebas().getValue());
                 GUIArmor botas = partes.get(EnumArmorPart.BOOTS);
                 botas.setName(gs.getSetname() + " " + EnumArmorPart.HELMET.name().toLowerCase());
                 botas.setLevel((int) gui.getSpinnerNivel().getValue());
@@ -412,16 +412,16 @@ public class GUIArmorManager {
                 botas.setUpgradable(gui.getCheckMejorableArmadura().isSelected());
                 botas.setPhysicaldefense((double) gui.getSpinnerDefFisBotas().getValue());
                 botas.setIncphysicaldefense((double) gui.getSpinnerMejDefFisBotas().getValue());
-                botas.setPhysicalevasion((float) gui.getSpinnerEvaFisBotas().getValue());
-                botas.setIncphysicalevasion((float) gui.getSpinnerMejEvaFisBotas().getValue());
+                botas.setPhysicalevasion((double) gui.getSpinnerEvaFisBotas().getValue());
+                botas.setIncphysicalevasion((double) gui.getSpinnerMejEvaFisBotas().getValue());
                 botas.setMagicaldefense((double) gui.getSpinnerDefFisBotas().getValue());
                 botas.setIncmagicaldefense((double) gui.getSpinnerMejDefFisBotas().getValue());
-                botas.setMagicalevasion((float) gui.getSpinnerEvaFisBotas().getValue());
-                botas.setIncmagicalevasion((float) gui.getSpinnerMejEvaFisBotas().getValue());
+                botas.setMagicalevasion((double) gui.getSpinnerEvaFisBotas().getValue());
+                botas.setIncmagicalevasion((double) gui.getSpinnerMejEvaFisBotas().getValue());
                 botas.setBuyprice((long) gui.getSpinnerPrecioCBotas().getValue());
                 botas.setSellprice((long) gui.getSpinnerPrecioVBotas().getValue());
-                botas.setMoneybonus((float) gui.getSpinnerDineroExtraBotas().getValue());
-                botas.setXpbonus((float) gui.getSpinnerExpExtraBotas().getValue());
+                botas.setMoneybonus((double) gui.getSpinnerDineroExtraBotas().getValue());
+                botas.setXpbonus((double) gui.getSpinnerExpExtraBotas().getValue());
                 gs.getSet().put(EnumArmorPart.HELMET, casco);
                 gs.getSet().put(EnumArmorPart.CHESTPLATE, pechera);
                 gs.getSet().put(EnumArmorPart.LEGGINGS, grebas);
@@ -490,8 +490,8 @@ public class GUIArmorManager {
         s3.set("physicalevasion", casco.getPhysicalevasion());
         s3.set("incphysicalevasion", casco.getIncphysicalevasion());
         s3.set("magicaldefense", casco.getMagicaldefense());
-        s3.set("incmagicaldefense", casco.getIncmagicalevasion());
-        s3.set("magicalevasion", casco.getMagicaldefense());
+        s3.set("incmagicaldefense", casco.getIncmagicaldefense());
+        s3.set("magicalevasion", casco.getMagicalevasion());
         s3.set("incmagicalevasion", casco.getIncmagicalevasion());
         s3.set("buyprice", casco.getBuyprice());
         s3.set("sellprice", casco.getSellprice());
@@ -503,8 +503,8 @@ public class GUIArmorManager {
         s3.set("physicalevasion", pechera.getPhysicalevasion());
         s3.set("incphysicalevasion", pechera.getIncphysicalevasion());
         s3.set("magicaldefense", pechera.getMagicaldefense());
-        s3.set("incmagicaldefense", pechera.getIncmagicalevasion());
-        s3.set("magicalevasion", pechera.getMagicaldefense());
+        s3.set("incmagicaldefense", pechera.getIncmagicaldefense());
+        s3.set("magicalevasion", pechera.getMagicalevasion());
         s3.set("incmagicalevasion", pechera.getIncmagicalevasion());
         s3.set("buyprice", pechera.getBuyprice());
         s3.set("sellprice", pechera.getSellprice());
@@ -516,8 +516,8 @@ public class GUIArmorManager {
         s3.set("physicalevasion", grebas.getPhysicalevasion());
         s3.set("incphysicalevasion", grebas.getIncphysicalevasion());
         s3.set("magicaldefense", grebas.getMagicaldefense());
-        s3.set("incmagicaldefense", grebas.getIncmagicalevasion());
-        s3.set("magicalevasion", grebas.getMagicaldefense());
+        s3.set("incmagicaldefense", grebas.getIncmagicaldefense());
+        s3.set("magicalevasion", grebas.getMagicalevasion());
         s3.set("incmagicalevasion", grebas.getIncmagicalevasion());
         s3.set("buyprice", grebas.getBuyprice());
         s3.set("sellprice", grebas.getSellprice());
@@ -529,8 +529,8 @@ public class GUIArmorManager {
         s3.set("physicalevasion", botas.getPhysicalevasion());
         s3.set("incphysicalevasion", botas.getIncphysicalevasion());
         s3.set("magicaldefense", botas.getMagicaldefense());
-        s3.set("incmagicaldefense", botas.getIncmagicalevasion());
-        s3.set("magicalevasion", botas.getMagicaldefense());
+        s3.set("incmagicaldefense", botas.getIncmagicaldefense());
+        s3.set("magicalevasion", botas.getMagicalevasion());
         s3.set("incmagicalevasion", botas.getIncmagicalevasion());
         s3.set("buyprice", botas.getBuyprice());
         s3.set("sellprice", botas.getSellprice());
@@ -548,15 +548,19 @@ public class GUIArmorManager {
         if (gs == null) {
             gui.sendMessageWarning("Error", "El set seleccionado no existe");
         } else {
-            int diag = JOptionPane.showConfirmDialog(null, "¿Estas seguro de querer eliminar el set?", "Borrar set: " + gs.getSetname(), JOptionPane.YES_NO_OPTION);
-            if (diag == JOptionPane.YES_OPTION) {
-                //borrar clase de el combo
-                gui.getComboListSets().removeItem(gs.getSetname());
-                gui.getComboListSets().setSelectedIndex(0);
-                //Borrar clase de el fichero y de la memoria
-                listSets.remove(gs.getSetname());
-                //listnum.remove(gw.getName());
-                deleteSetFromFile(gs);
+            if (monsterHasThisArmor(gs)) {
+                gui.sendMessageWarning("Error", "Las partes del  set seleccionado son parte de los drops de algun monstruo, reemplazalo antes de eliminar");
+            } else {
+                int diag = JOptionPane.showConfirmDialog(null, "¿Estas seguro de querer eliminar el set?", "Borrar set: " + gs.getSetname(), JOptionPane.YES_NO_OPTION);
+                if (diag == JOptionPane.YES_OPTION) {
+                    //borrar clase de el combo
+                    gui.getComboListSets().removeItem(gs.getSetname());
+                    gui.getComboListSets().setSelectedIndex(0);
+                    //Borrar clase de el fichero y de la memoria
+                    listSets.remove(gs.getSetname());
+                    //listnum.remove(gw.getName());
+                    deleteSetFromFile(gs);
+                }
             }
         }
     }
@@ -593,37 +597,37 @@ public class GUIArmorManager {
             gui.getSpinnerPrecioCCasco().setValue((long) casco.getBuyprice());
             gui.getSpinnerDefFisCasco().setValue((double) casco.getPhysicaldefense());
             gui.getSpinnerMejDefFisCasco().setValue((double) casco.getIncphysicaldefense());
-            gui.getSpinnerEvaFisCasco().setValue((float) casco.getPhysicalevasion());
-            gui.getSpinnerMejEvaFisCasco().setValue((float) casco.getIncphysicalevasion());
-            gui.getSpinnerExpExtraCasco().setValue((float) casco.getXpbonus());
-            gui.getSpinnerDineroExtraCasco().setValue((float) casco.getMoneybonus());
+            gui.getSpinnerEvaFisCasco().setValue((double) casco.getPhysicalevasion());
+            gui.getSpinnerMejEvaFisCasco().setValue((double) casco.getIncphysicalevasion());
+            gui.getSpinnerExpExtraCasco().setValue((double) casco.getXpbonus());
+            gui.getSpinnerDineroExtraCasco().setValue((double) casco.getMoneybonus());
 
             gui.getSpinnerPrecioVPechera().setValue((long) pechera.getSellprice());
             gui.getSpinnerPrecioCPechera().setValue((long) pechera.getBuyprice());
             gui.getSpinnerDefFisPechera().setValue((double) pechera.getPhysicaldefense());
             gui.getSpinnerMejDefFisPechera().setValue((double) pechera.getIncphysicaldefense());
-            gui.getSpinnerEvaFisPechera().setValue((float) pechera.getPhysicalevasion());
-            gui.getSpinnerMejEvaFisPechera().setValue((float) pechera.getIncphysicalevasion());
-            gui.getSpinnerExpExtraPechera().setValue((float) pechera.getXpbonus());
-            gui.getSpinnerDineroExtraPechera().setValue((float) pechera.getMoneybonus());
+            gui.getSpinnerEvaFisPechera().setValue((double) pechera.getPhysicalevasion());
+            gui.getSpinnerMejEvaFisPechera().setValue((double) pechera.getIncphysicalevasion());
+            gui.getSpinnerExpExtraPechera().setValue((double) pechera.getXpbonus());
+            gui.getSpinnerDineroExtraPechera().setValue((double) pechera.getMoneybonus());
 
             gui.getSpinnerPrecioVGrebas().setValue((long) grebas.getSellprice());
             gui.getSpinnerPrecioCGrebas().setValue((long) grebas.getBuyprice());
             gui.getSpinnerDefFisGrebas().setValue((double) grebas.getPhysicaldefense());
             gui.getSpinnerMejDefFisGrebas().setValue((double) grebas.getIncphysicaldefense());
-            gui.getSpinnerEvaFisGrebas().setValue((float) grebas.getPhysicalevasion());
-            gui.getSpinnerMejEvaFisGrebas().setValue((float) grebas.getIncphysicalevasion());
-            gui.getSpinnerExpExtraGrebas().setValue((float) grebas.getXpbonus());
-            gui.getSpinnerDineroExtraGrebas().setValue((float) grebas.getMoneybonus());
+            gui.getSpinnerEvaFisGrebas().setValue((double) grebas.getPhysicalevasion());
+            gui.getSpinnerMejEvaFisGrebas().setValue((double) grebas.getIncphysicalevasion());
+            gui.getSpinnerExpExtraGrebas().setValue((double) grebas.getXpbonus());
+            gui.getSpinnerDineroExtraGrebas().setValue((double) grebas.getMoneybonus());
 
             gui.getSpinnerPrecioVBotas().setValue((long) botas.getSellprice());
             gui.getSpinnerPrecioCBotas().setValue((long) botas.getBuyprice());
             gui.getSpinnerDefFisBotas().setValue((double) botas.getPhysicaldefense());
             gui.getSpinnerMejDefFisBotas().setValue((double) botas.getIncphysicaldefense());
-            gui.getSpinnerEvaFisBotas().setValue((float) botas.getPhysicalevasion());
-            gui.getSpinnerMejEvaFisBotas().setValue((float) botas.getIncphysicalevasion());
-            gui.getSpinnerExpExtraBotas().setValue((float) botas.getXpbonus());
-            gui.getSpinnerDineroExtraBotas().setValue((float) botas.getMoneybonus());
+            gui.getSpinnerEvaFisBotas().setValue((double) botas.getPhysicalevasion());
+            gui.getSpinnerMejEvaFisBotas().setValue((double) botas.getIncphysicalevasion());
+            gui.getSpinnerExpExtraBotas().setValue((double) botas.getXpbonus());
+            gui.getSpinnerDineroExtraBotas().setValue((double) botas.getMoneybonus());
 
             gui.recursivelyEnableDisablePanel(gui.getPanelEditarSet(), true);
         }
@@ -635,5 +639,32 @@ public class GUIArmorManager {
 
     private GUISet getGUISetByName(String text) {
         return this.listSets.get(text);
+    }
+
+    private boolean monsterHasThisArmor(GUISet gs) {
+        boolean flag = false;
+        for (Map.Entry<String, GUISet> entrySet : listSets.entrySet()) {
+            for (Map.Entry<EnumArmorPart, GUIArmor> entrySet1 : entrySet.getValue().getSet().entrySet()) {
+                flag = flag || gui.getGuiMobMan().monsterHasThisDrop(gs.getSetname() + " " + entrySet1.getKey().name().toLowerCase());
+            }
+        }
+        return flag;
+    }
+
+    public GUIArmor getArmorByName(String dropname) {
+        String parts[] = dropname.split(" ");
+        EnumArmorPart part = EnumArmorPart.valueOf(parts[parts.length - 1]);
+        String name = "";
+        if (parts.length >= 3) {
+            for (int i = 0; i < parts.length - 2; i++) {
+                name += parts[i] + " ";
+            }
+            name += parts[parts.length - 2];
+
+        } else {
+            name = parts[0];
+        }
+        GUIArmor ga= listSets.get(name).getSet().get(part);
+        return ga;
     }
 }

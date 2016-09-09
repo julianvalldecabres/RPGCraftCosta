@@ -34,14 +34,14 @@ import org.bukkit.configuration.file.YamlConfiguration;
  * @author jail
  */
 public class GUISPawnerManager {
-    
+
     private GUI gui;
     private File file;
     private int lastindex = 0;
     private FileConfiguration filec;
     private Map<String, GUISpawner> listspawners;
     private Map<String, Integer> listnum;
-    
+
     public GUISPawnerManager(GUI gui) {
         this.gui = gui;
         file = new File(RPGFinals.spawnersFile);
@@ -62,7 +62,7 @@ public class GUISPawnerManager {
         }
         System.out.println("Cargado config de spawners");
     }
-    
+
     private void loadSpawners() {
         int count = 0;
         filec = YamlConfiguration.loadConfiguration(file);
@@ -80,7 +80,7 @@ public class GUISPawnerManager {
                             this.lastindex = count;
                         }
                         ConfigurationSection s3 = s2.getConfigurationSection(id);
-                        String rpgmob;                        
+                        String rpgmob;
                         boolean enabled;
                         int coordx;
                         int coordy;
@@ -105,7 +105,7 @@ public class GUISPawnerManager {
             }
         }
     }
-    
+
     public void saveSpawner() {
         GUISpawner check = getGUISpawnerByName(gui.getTxtNombreSpawner().getText());
         String name = gui.getTxtNombreSpawner().getText();
@@ -113,7 +113,7 @@ public class GUISPawnerManager {
         int x = (int) gui.getSpinnerXSpawnLoc().getValue();
         int y = (int) gui.getSpinnerYSpawnLoc().getValue();
         int z = (int) gui.getSpinnerZSpawnLoc().getValue();
-        
+
         String mobname = gui.getComboMobSpawner().getModel().getSelectedItem().toString();
         int maxmobs = (int) gui.getSpinnerNumMaxMobSpawner().getValue();
         int cooldown = (int) gui.getSpinnerRefrescoSpawner().getValue();
@@ -124,11 +124,12 @@ public class GUISPawnerManager {
             check = new GUISpawner(name, world, x, y, z, mobname, maxmobs, cooldown, enabled, radius);
             listspawners.put(name, check);
             listnum.put(name, lastindex + 1);
+            lastindex++;
             gui.getComboSelectorGenerador().addItem(check.getName());
-            
+
             gui.recursivelyEnableDisablePanel(gui.getPanelEditorSpawner(), false);
             saveSpawnerToFile(check);
-            
+
         } else {
             //si existe
             int diag = JOptionPane.showConfirmDialog(null, "Ya existe un arma con ese nombre\n¿Quieres sobreescribirlo?", "Sobreescribir arma: " + check.getName(), JOptionPane.YES_NO_OPTION);
@@ -146,24 +147,24 @@ public class GUISPawnerManager {
                 listspawners.put(name, check);
                 listnum.put(name, lastindex++);
                 gui.getComboSelectorGenerador().addItem(check.getName());
-                
+
                 gui.recursivelyEnableDisablePanel(gui.getPanelEditorSpawner(), false);
                 saveSpawnerToFile(check);
             }
         }
-        
+
     }
-    
+
     private GUISpawner getGUISpawnerByName(String text) {
         return this.listspawners.get(text);
     }
-    
+
     private String getChunkString(int x, int z) {
         int chunkx = x >> 4;
         int chunkz = z >> 4;
         return chunkx + "x" + chunkz;
     }
-    
+
     private void saveSpawnerToFile(GUISpawner gs) {
         filec = YamlConfiguration.loadConfiguration(file);
         int index;
@@ -173,7 +174,7 @@ public class GUISPawnerManager {
             index = lastindex;
         } else {
             index = this.listnum.get(gs.getName());
-            
+
         }
         String chunk = getChunkString(check.getX(), check.getZ());
         ConfigurationSection section = filec.createSection(gs.getWorld() + "." + chunk + "." + index);
@@ -191,9 +192,9 @@ public class GUISPawnerManager {
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Error al guardar el spawner", "Error", 2);
         }
-        
+
     }
-    
+
     private void findAndDelSpawnerFromFile(String name) {
         filec = YamlConfiguration.loadConfiguration(file);
         Set<String> worlds = filec.getKeys(false);
@@ -209,10 +210,17 @@ public class GUISPawnerManager {
                         delSpawnerFromfileByPath(world + "." + chunk + "." + id);
                     }
                 }
+                if (!nodehasAnotherChild(world + "." + chunk)) {
+                    delNodeFromFileByPath(world+"."+chunk);
+                }
             }
+            if(!nodehasAnotherChild(world)){
+                delNodeFromFileByPath(world);
+            }
+
         }
     }
-    
+
     private void delSpawnerFromfileByPath(String path) {
         filec = YamlConfiguration.loadConfiguration(file);
         filec.set(path, null);
@@ -222,7 +230,7 @@ public class GUISPawnerManager {
             Logger.getLogger(GUISPawnerManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void deleteSpawnSelected() {
         GUISpawner gs = getGUISpawnerByName(gui.getComboSelectorGenerador().getSelectedItem().toString());
         if (gs == null) {
@@ -240,7 +248,7 @@ public class GUISPawnerManager {
             }
         }
     }
-    
+
     public void loadValuesForSpawnSelected() {
         GUISpawner gs = getGUISpawnerByName(gui.getComboSelectorGenerador().getSelectedItem().toString());
         if (gs == null) {
@@ -248,7 +256,7 @@ public class GUISPawnerManager {
         } else {
             gui.getTxtNombreSpawner().setText(gs.getName());
             //ERROR SELECCION DE MOB
-            
+
             gui.getComboMobSpawner().setSelectedItem(gs.getMobname());
             gui.getSpinnerRefrescoSpawner().setValue(gs.getCooldown());
             gui.getSpinnerRadioSpawner().setValue(gs.getRadius());
@@ -260,5 +268,35 @@ public class GUISPawnerManager {
             gui.getCheckEnableSpawner().setSelected(gs.isEnabled());
             gui.recursivelyEnableDisablePanel(gui.getPanelEditorSpawner(), true);
         }
+    }
+
+    private boolean nodehasAnotherChild(String string) {
+        filec = YamlConfiguration.loadConfiguration(file);
+        ConfigurationSection s= filec.getConfigurationSection(string);
+        Set<String> ids=s.getKeys(false);
+        if(ids.isEmpty()){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    private void delNodeFromFileByPath(String string) {
+        filec = YamlConfiguration.loadConfiguration(file);
+        filec.set(string, null);
+        try {
+            filec.save(file);
+        } catch (IOException ex) {
+            Logger.getLogger(GUISPawnerManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public boolean spawnerhasmob(String rpgmob) {
+        for (Map.Entry<String, GUISpawner> entrySet : listspawners.entrySet()) {
+                if(entrySet.getValue().getMobname().equals(rpgmob)){
+                    return true;
+                }
+        }
+        return false;
     }
 }

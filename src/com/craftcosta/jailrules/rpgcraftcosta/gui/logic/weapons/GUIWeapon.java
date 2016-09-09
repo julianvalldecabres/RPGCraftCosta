@@ -15,7 +15,6 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.gui.logic.weapons;
 
-import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumItems;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumQuality;
 import com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources.EnumWeapon;
 
@@ -36,22 +35,22 @@ public class GUIWeapon {
     private boolean comerciable;
     private double physicalattack;
     private double incphysicalattack;
-    private float physicalhitrate;
-    private float incphysicalhitrate;
+    private double physicalhitrate;
+    private double incphysicalhitrate;
     private double magicalattack;
     private double incmagicalattack;
-    private float magicalhitrate;
-    private float incmagicalhitrate;
-    private float critical;
-    private float inccritical;
-    private float healthsteal;
-    private float inchealthsteal;
-    private float manasteal;
-    private float incmanasteal;
-    private float xpbonus;
-    private float moneybonus;
+    private double magicalhitrate;
+    private double incmagicalhitrate;
+    private double critical;
+    private double inccritical;
+    private double healthsteal;
+    private double inchealthsteal;
+    private double manasteal;
+    private double incmanasteal;
+    private double xpbonus;
+    private double moneybonus;
 
-    public GUIWeapon(String name, EnumWeapon item, int level, int weaponlevel, long sellprice, long buyprice, EnumQuality quality, boolean upgradable, boolean comerciable, double physicalattack, double incphysicalattack, float physicalhitrate, float incphysicalhitrate, double magicalattack, double incmagicalattack, float magicalhitrate, float incmagicalhitrate, float critical, float inccritical, float healthsteal, float inchealthsteal, float manasteal, float incmanasteal, float xpbonus, float moneybonus) {
+    public GUIWeapon(String name, EnumWeapon item, int level, int weaponlevel, long sellprice, long buyprice, EnumQuality quality, boolean upgradable, boolean comerciable, double physicalattack, double incphysicalattack, double physicalhitrate, double incphysicalhitrate, double magicalattack, double incmagicalattack, double magicalhitrate, double incmagicalhitrate, double critical, double inccritical, double healthsteal, double inchealthsteal, double manasteal, double incmanasteal, double xpbonus, double moneybonus) {
         this.name = name;
         this.item = item;
         this.level = level;
@@ -167,19 +166,19 @@ public class GUIWeapon {
         this.incphysicalattack = incphysicalattack;
     }
 
-    public float getPhysicalhitrate() {
+    public double getPhysicalhitrate() {
         return physicalhitrate;
     }
 
-    public void setPhysicalhitrate(float physicalhitrate) {
+    public void setPhysicalhitrate(double physicalhitrate) {
         this.physicalhitrate = physicalhitrate;
     }
 
-    public float getIncphysicalhitrate() {
+    public double getIncphysicalhitrate() {
         return incphysicalhitrate;
     }
 
-    public void setIncphysicalhitrate(float incphysicalhitrate) {
+    public void setIncphysicalhitrate(double incphysicalhitrate) {
         this.incphysicalhitrate = incphysicalhitrate;
     }
 
@@ -199,83 +198,83 @@ public class GUIWeapon {
         this.incmagicalattack = incmagicalattack;
     }
 
-    public float getMagicalhitrate() {
+    public double getMagicalhitrate() {
         return magicalhitrate;
     }
 
-    public void setMagicalhitrate(float magicalhitrate) {
+    public void setMagicalhitrate(double magicalhitrate) {
         this.magicalhitrate = magicalhitrate;
     }
 
-    public float getIncmagicalhitrate() {
+    public double getIncmagicalhitrate() {
         return incmagicalhitrate;
     }
 
-    public void setIncmagicalhitrate(float incmagicalhitrate) {
+    public void setIncmagicalhitrate(double incmagicalhitrate) {
         this.incmagicalhitrate = incmagicalhitrate;
     }
 
-    public float getCritical() {
+    public double getCritical() {
         return critical;
     }
 
-    public void setCritical(float critical) {
+    public void setCritical(double critical) {
         this.critical = critical;
     }
 
-    public float getInccritical() {
+    public double getInccritical() {
         return inccritical;
     }
 
-    public void setInccritical(float inccritical) {
+    public void setInccritical(double inccritical) {
         this.inccritical = inccritical;
     }
 
-    public float getHealthsteal() {
+    public double getHealthsteal() {
         return healthsteal;
     }
 
-    public void setHealthsteal(float healthsteal) {
+    public void setHealthsteal(double healthsteal) {
         this.healthsteal = healthsteal;
     }
 
-    public float getInchealthsteal() {
+    public double getInchealthsteal() {
         return inchealthsteal;
     }
 
-    public void setInchealthsteal(float inchealthsteal) {
+    public void setInchealthsteal(double inchealthsteal) {
         this.inchealthsteal = inchealthsteal;
     }
 
-    public float getManasteal() {
+    public double getManasteal() {
         return manasteal;
     }
 
-    public void setManasteal(float manasteal) {
+    public void setManasteal(double manasteal) {
         this.manasteal = manasteal;
     }
 
-    public float getIncmanasteal() {
+    public double getIncmanasteal() {
         return incmanasteal;
     }
 
-    public void setIncmanasteal(float incmanasteal) {
+    public void setIncmanasteal(double incmanasteal) {
         this.incmanasteal = incmanasteal;
     }
 
-    public float getXpbonus() {
+    public double getXpbonus() {
         return xpbonus;
     }
 
-    public void setXpbonus(float xpbonus) {
+    public void setXpbonus(double xpbonus) {
         this.xpbonus = xpbonus;
     }
 
-    public float getMoneybonus() {
+    public double getMoneybonus() {
         return moneybonus;
     }
 
-    public void setMoneybonus(float moneybonus) {
+    public void setMoneybonus(double moneybonus) {
         this.moneybonus = moneybonus;
     }
 

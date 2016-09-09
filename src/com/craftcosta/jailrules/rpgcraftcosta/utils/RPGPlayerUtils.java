@@ -89,4 +89,8 @@ public class RPGPlayerUtils {
         return freeSlots;
     }
 
+    
+    public double getConvertedHealth(double maxHealth,double actualhealth){
+        return actualhealth*20/maxHealth;
+    }
 }

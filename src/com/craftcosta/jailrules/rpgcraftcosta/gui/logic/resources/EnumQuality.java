@@ -17,25 +17,37 @@
  */
 package com.craftcosta.jailrules.rpgcraftcosta.gui.logic.resources;
 
+import org.bukkit.ChatColor;
+
 /**
  *
  * @author jail
  */
 public enum EnumQuality {
 
-    TRASH("TRASH", "la mas baja calidad", "logic/resources/entities/" + "trash.png"),
-    COMMON("COMMON", "calidad baja", "logic/resources/entities/" + "common.png"),
-    UNCOMMON("UNCOMMON", "calidad normal", "logic/resources/entities/" + "uncommon.png"),
-    RARE("RARE", "calidad alta", "logic/resources/entities/" + "rare.png"),
-    EPIC("EPIC", "calidad muy alta", "logic/resources/entities/" + "epic.png");
+    TRASH("TRASH", "la mas baja calidad", "logic/resources/entities/" + "trash.png",ChatColor.GRAY),
+    COMMON("COMMON", "calidad baja", "logic/resources/entities/" + "common.png",ChatColor.WHITE),
+    UNCOMMON("UNCOMMON", "calidad normal", "logic/resources/entities/" + "uncommon.png",ChatColor.GREEN),
+    RARE("RARE", "calidad alta", "logic/resources/entities/" + "rare.png",ChatColor.LIGHT_PURPLE),
+    EPIC("EPIC", "calidad muy alta", "logic/resources/entities/" + "epic.png",ChatColor.AQUA);
     String name;
     String tooltip;
     String path;
+    ChatColor color;
 
-    private EnumQuality(String name, String tooltip, String path) {
+    private EnumQuality(String name, String tooltip, String path,ChatColor color) {
         this.name = name;
         this.tooltip = tooltip;
         this.path = path;
+        this.color = color;
+    }
+
+    public ChatColor getColor() {
+        return color;
+    }
+
+    public void setColor(ChatColor color) {
+        this.color = color;
     }
 
     public String getName() {

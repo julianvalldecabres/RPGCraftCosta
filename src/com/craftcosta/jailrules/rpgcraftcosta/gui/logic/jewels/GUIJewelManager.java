@@ -266,15 +266,19 @@ public class GUIJewelManager {
         if (gj == null) {
             gui.sendMessageWarning("Error", "La joya seleccionada no existe");
         } else {
-            int diag = JOptionPane.showConfirmDialog(null, "¿Estas seguro de querer eliminar la joya?", "Borrar arma: " + gj.getName(), JOptionPane.YES_NO_OPTION);
-            if (diag == JOptionPane.YES_OPTION) {
-                //borrar clase de el combo
-                gui.getComboSelectorJoyas().removeItem(gj.getName());
-                gui.getComboSelectorJoyas().setSelectedIndex(0);
-                //Borrar clase de el fichero y de la memoria
-                listjewels.remove(gj.getName());
-                //listnum.remove(gw.getName());
-                deleteJewelFromFile(gj);
+            if (monsterHasThisDrop(gj)) {
+                gui.sendMessageWarning("Error", "La joya seleccionada es un item asociado a un monstruo, reemplazalo por otro antes de eliminarlo");
+            } else {
+                int diag = JOptionPane.showConfirmDialog(null, "¿Estas seguro de querer eliminar la joya?", "Borrar arma: " + gj.getName(), JOptionPane.YES_NO_OPTION);
+                if (diag == JOptionPane.YES_OPTION) {
+                    //borrar clase de el combo
+                    gui.getComboSelectorJoyas().removeItem(gj.getName());
+                    gui.getComboSelectorJoyas().setSelectedIndex(0);
+                    //Borrar clase de el fichero y de la memoria
+                    listjewels.remove(gj.getName());
+                    //listnum.remove(gw.getName());
+                    deleteJewelFromFile(gj);
+                }
             }
         }
     }
@@ -335,5 +339,9 @@ public class GUIJewelManager {
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Error al guardar la configuración de joys", "Error", 2);
         }
+    }
+
+    private boolean monsterHasThisDrop(GUIJewel gj) {
+        return gui.getGuiMobMan().monsterHasThisDrop(gj.getName());
     }
 }

@@ -1,9 +1,9 @@
 PHYSICALATTACK:
     name: Physical Attack
-    type: VALUEINT
+    type: VALUEDOUBLE
 PHYSICALDEFENSE:
     name: Physical Defense
-    type: VALUEINT
+    type: VALUEDOUBLE
 PHYSICALEVASION:
     name: Physical Evasion
     type: PERCENTAGE
@@ -12,10 +12,10 @@ PHYSICALHITRATE:
     type: PERCENTAGE
 MAGICALATTACK:
     name: Magical Attack
-    type: VALUEINT
+    type: VALUEDOUBLE
 MAGICALDEFENSE:
     name: Magical Defense
-    type: VALUEINT
+    type: VALUEDOUBLE
 MAGICALEVASION:
     name: Magical Evasion
     type: PERCENTAGE
@@ -24,9 +24,6 @@ MAGICALHITRATE:
     type: PERCENTAGE
 XPBONUS:
     name: XP Bonus
-    type: PERCENTAGE
-APBONUS:
-    name: AP Bonus
     type: PERCENTAGE
 MONEYBONUS:
     name: Money Bonus

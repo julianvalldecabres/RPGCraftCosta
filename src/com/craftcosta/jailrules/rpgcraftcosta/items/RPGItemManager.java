@@ -22,6 +22,9 @@ import com.craftcosta.jailrules.rpgcraftcosta.items.lores.RPGLoreManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.objects.RPGObjectsManager;
 import com.craftcosta.jailrules.rpgcraftcosta.items.weapons.RPGWeaponManager;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -35,6 +38,8 @@ public class RPGItemManager {
     private RPGArmorManager RPGAMan;
     private RPGJewelManager RPGJMan;
     private RPGObjectsManager RPGQMan;
+    private Map<String,ItemStack> upgraders;
+    private List<String> upgradersNames;
     //RPGPotionManager RPGPMan;
     private ArrayList<RPGItem> listItems = new ArrayList<>();
     private RPGLoreManager RPGLMan;
@@ -50,9 +55,21 @@ public class RPGItemManager {
         this.RPGJMan = new RPGJewelManager(plugin);
         this.RPGQMan = new RPGObjectsManager(plugin);
         this.RPGLMan = new RPGLoreManager(plugin);
-
+        this.upgraders= new HashMap<>();
+        this.upgradersNames= new ArrayList<>();
+        this.upgraders.put(RPGAMan.getArmorUpgrader().getItemMeta().getDisplayName(),RPGAMan.getArmorUpgrader());
+        this.upgradersNames.add(RPGAMan.getArmorUpgrader().getItemMeta().getDisplayName());
+        this.upgraders.put(RPGWMan.getWeaponUpgrader().getItemMeta().getDisplayName(),RPGWMan.getWeaponUpgrader());
+        this.upgradersNames.add(RPGWMan.getWeaponUpgrader().getItemMeta().getDisplayName());
     }
 
+    public List<String> getUpgradersNames() {
+        return upgradersNames;
+    }
+
+    public ItemStack getUpgraderByName(String name){
+        return this.upgraders.get(name);
+    }
     /**
      *
      * @return
@@ -141,7 +158,32 @@ public class RPGItemManager {
                 return RPGQMan.getRPGQuestItemByName(name);
             case JEWEL:
                 return RPGJMan.getRPGJewelByName(name);
+            case UPGRADER:
+                return getUpgrader(name);
         }
+        return null;
+    }
+
+    private ItemStack getUpgrader(String name) {
+        return this.upgraders.get(name);
+    }
+    
+    public ItemType getItemType(ItemStack item){
+        if(item.equals(RPGAMan.getArmorUpgrader())||item.equals(RPGWMan.getWeaponUpgrader())){
+            return ItemType.UPGRADER;
+        }
+        if(RPGAMan.getRPGArmorByItem(item)!=null){
+            return ItemType.ARMOR;
+        }
+        if(RPGWMan.getRPGWeaponByItem(item)!=null){
+            return ItemType.WEAPON;
+        }
+        if(RPGJMan.getRPGJewelByItem(item)!=null){
+            return ItemType.JEWEL;
+        }
+        if(RPGQMan.getRPGQuestItemByItem(item)!=null){
+            return ItemType.QUESTITEM;
+        }        
         return null;
     }
 }

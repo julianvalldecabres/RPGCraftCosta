@@ -148,7 +148,7 @@ public class RPGPartyManager {
      * @param rpgParty
      */
     public void sendMessageOwnerChangedToParty(Player p, RPGParty party) {
-        sendMessageToParty(party.getName(), " El compañero " + p.getName() + " es el nuevo lider del grupo");
+        sendPartyMessage(party.getName(), " El compañero " + p.getName() + " es el nuevo lider del grupo");
     }
 
     /**
@@ -156,7 +156,7 @@ public class RPGPartyManager {
      * @param party
      */
     public void disbandParty(String party) {
-        sendMessageToParty(party, "El grupo " + party + " se ha disuelto");
+        sendPartyMessage(party, "El grupo " + party + " se ha disuelto");
         RPGParty rpgParty = getParty(party);
         for (Player p : getParty(party).getPlayers()) {
             RPGPlayer rpgP = rpgPMan.getRPGPlayerByName(p.getName());
@@ -171,20 +171,9 @@ public class RPGPartyManager {
      * @param rpgParty
      */
     public void sendMessagePlayerLeaveParty(Player p, RPGParty rpgParty) {
-        sendMessageToParty(rpgParty.getName(), " El compañero " + p.getName() + " ha abandonado el grupo");
+        sendPartyMessage(rpgParty.getName(), " El compañero " + p.getName() + " ha abandonado el grupo");
     }
 
-    /**
-     *
-     * @param party
-     * @param message
-     */
-    public void sendMessageToParty(String party, String message) {
-        for (Player p : getParty(party).getPlayers()) {
-            RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
-            rpgCMan.sendPartyMessage(rpgp, message);
-        }
-    }
 
     /**
      *
@@ -218,7 +207,7 @@ public class RPGPartyManager {
     public void kickPlayerFromParty(RPGParty party, Player kickplayer) {
         party.kickplayer(kickplayer);
         kickplayer.sendMessage(rpgCMan.getPrefixForParty() + ChatColor.RED + " Has sido kickeado de la party");
-        sendMessageToParty(party.getName(), "El jugador " + kickplayer.getName() + " ha sido kickeado del grupo");
+        sendPartyMessage(party.getName(), "El jugador " + kickplayer.getName() + " ha sido kickeado del grupo");
     }
 
     /**
@@ -546,5 +535,11 @@ public class RPGPartyManager {
             res += rpgp.getActualLevel();
         }
         return res;
+    }
+
+    public void sendPartyMessage(String party, String message) {
+        for(Player p: getParty(party).getPlayers()){
+            p.sendMessage(message);
+        }
     }
 }

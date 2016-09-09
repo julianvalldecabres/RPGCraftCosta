@@ -16,19 +16,26 @@
 package com.craftcosta.jailrules.rpgcraftcosta.entities;
 
 import com.craftcosta.jailrules.rpgcraftcosta.RPGCraftCosta;
+import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayer;
+import com.craftcosta.jailrules.rpgcraftcosta.player.RPGPlayerManager;
+import com.craftcosta.jailrules.rpgcraftcosta.utils.RPGPlayerUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import net.md_5.bungee.api.ChatColor;
+import net.minecraft.server.v1_8_R3.EnumParticle;
+import net.minecraft.server.v1_8_R3.Packet;
+import net.minecraft.server.v1_8_R3.PacketPlayOutWorldParticles;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
@@ -45,9 +52,10 @@ import org.bukkit.event.world.ChunkUnloadEvent;
  * @author jail
  */
 public class RPGMobListener implements Listener {
-
+    
     private RPGCraftCosta plugin;
     private RPGMobManager RPGMMan;
+    private RPGPlayerManager rpgPMan;
     private List<RPGChunk> loadedchunks;
 
     /**
@@ -57,14 +65,13 @@ public class RPGMobListener implements Listener {
     public RPGMobListener(RPGCraftCosta plugin) {
         this.plugin = plugin;
         this.RPGMMan = plugin.getRPGMobManager();
+        this.rpgPMan = plugin.getRPGPlayerManager();
         loadedchunks = new ArrayList<>();
         for (World world : this.plugin.getServer().getWorlds()) {
             for (Chunk chunk : world.getLoadedChunks()) {
-                
                 loadedchunks.add(this.RPGMMan.getRPGChunkfromChunk(chunk));
-                
             }
-            for(Entity ent: world.getEntities()){
+            for (Entity ent : world.getEntities()) {
                 ent.remove();
             }
         }
@@ -96,7 +103,6 @@ public class RPGMobListener implements Listener {
                 || e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.CHUNK_GEN)
                 || e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.SPAWNER)
                 || e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.CUSTOM)) {
-            plugin.getLogger().info("QUITADA entidad con UUID " +e.getEntity().getUniqueId().toString());
             e.getEntity().remove();
             e.setCancelled(true);
             return;
@@ -104,14 +110,9 @@ public class RPGMobListener implements Listener {
         LivingEntity ent = e.getEntity();
         Location loc = ent.getLocation();
         String name = ((LivingEntity) e.getEntity()).getName();
-//        plugin.getLogger().info("nombre:" + name
-//                + "\n reason: " + e.getSpawnReason().name()
-//                + "\n loc: " + loc.toString()
-//                + "\n id: " + e.getEntity().getEntityId()
-//                + "\n UUID: " + e.getEntity().getUniqueId().toString());
         e.getEntity().setCustomName(name);
         e.getEntity().setCustomNameVisible(true);
-
+        
     }
 
     /**
@@ -138,7 +139,6 @@ public class RPGMobListener implements Listener {
     public void onCreatureCombustEvent(EntityCombustEvent e) {
         e.setCancelled(true);
     }
-
 
     /**
      * onEntityDamage captura el evento EntityDamageEvent
@@ -169,81 +169,109 @@ public class RPGMobListener implements Listener {
      */
     @EventHandler
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-//        LivingEntity l = (LivingEntity) e.getEntity();
-//        Location loc = e.getEntity().getLocation();
-//
-//        plugin.getLogger().info("///////////////////////////////");
-//        if (e.getDamager() instanceof Player) {
-//            Player p = (Player) e.getDamager();
-//            Packet packet = new PacketPlayOutWorldParticles(EnumParticle.EXPLOSION_LARGE, true, (float) loc.getX(), (float) loc.getY(), (float) loc.getZ(), 1.0F, 1.0F, 1.0F, 1.0F, 1, 1);
-//            ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
-//            plugin.getLogger().info("El que realiza el daño es un player");
-//            plugin.getLogger().info(p.getLocation().getChunk().getWorld().getName() + "_" + p.getLocation().getChunk().getX() + "_" + p.getLocation().getChunk().getZ());
-//        } else {
-//            Entity ent = e.getEntity();
-//            ent.setCustomName("picha");
-//            plugin.getLogger().info("El que realiza el daño es: " + e.getDamager().toString());
-//            plugin.getLogger().info("El que realiza el daño es: " + e.getDamager().getType());
-//            plugin.getLogger().info("El que realiza el daño es: " + e.getDamager().getClass().toString());
-//        }
-//        if (e.getEntity() instanceof Player) {
-//            plugin.getLogger().info("El que recibe el daño es un player");
-//        } else {
-//            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().toString());
-//            plugin.getLogger().info("El que recibe el daño es: " + e.getEntityType().toString());
-//            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().getType());
-//            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().getClass().toString());
-//            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().getClass().getCanonicalName());
-//            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().getClass().getName());
-//            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().getClass().getSimpleName());
-//            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().getCustomName());
-//            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().getName());
-//            plugin.getLogger().info("El que recibe el daño es: " + e.getEntity().getEntityId());
-//            plugin.getLogger().info("El que recibe el daño es: " + CustomEntityType.CHICKENX.getName());
-//        }
-//        plugin.getLogger().info("///////////////////////////////");
-
-        //plugin.getLogger().info("Quien realiza el daño: "+e.getDamager().getType().toString()+" con nombre: " +e.getDamager().getName());
-        //plugin.getLogger().info("Quien recibe el daño: "+e.getEntity().getType().toString()+" con nombre: "+e.getEntity().getName());
-    }
-
-    /**
-     *
-     * @param e
-     */
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onEntitySpawn(CreatureSpawnEvent e) {
-        //System.out.println(e.getEntity().toString());
-        //System.out.println(e.getLocation().toString());
-//        if (e.getSpawnReason().equals(CreatureSpawnEvent.SpawnReason.CHUNK_GEN)) {
-//            e.setCancelled(false);
-//        }
-        //System.out.println("entity: "+e.getEntity()+"\ntype: "+e.getEntityType());
-//        Entity entity = e.getEntity();
-//        EntityLiving living = (EntityLiving) ((CraftEntity) entity).getHandle();
-        //CASTING A CUSTOM ENTITY
-        //if (living instanceof CustomEntityChickenAggressive){
-        //ACCESO A METODOS Y ATRIBUTOS
-        //CustomEntityChickenAggressive ca= (CustomEntityChickenAggressive) living;
-        //System.out.println("distancia "+ca.DistanceFromSpawnLimit);
-        //System.out.println("Entre!");
-//            EntityInsentient nmsEntity = (EntityInsentient) ((CraftLivingEntity) entity).getHandle();
-//            AttributeInstance attributes = nmsEntity.getAttributeInstance(GenericAttributes.ATTACK_DAMAGE);
-//     
-//            AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "ATTACK_DAMAGE", 20.0d, 10);
-//                 attributes.b(modifier);
-//            attributes.a(modifier);
-        //}
-//        Area a = aMan.getAreaByLocation(e.getEntity().getLocation());
-//        if (a != null) {
-//            if (!a.isSpawnAllowed()) {
-//                //System.out.println("No permitido spawn");
-//                e.setCancelled(true);
-//            } else {
-//                //System.out.println("Permitido el spawn");
-//            }
-//        }
-
+        LivingEntity l = (LivingEntity) e.getEntity();
+        Location loc = e.getEntity().getLocation();
+        boolean hitrate;
+        boolean evasion;
+        boolean critical;
+        boolean mortal;
+        plugin.getLogger().info("///////////////////////////////");
+        if (e.getDamager() instanceof Player) {
+            Player p = (Player) e.getDamager();
+            RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
+            Packet packet = new PacketPlayOutWorldParticles(EnumParticle.EXPLOSION_LARGE, true, (float) loc.getX(), (float) loc.getY(), (float) loc.getZ(), 1.0F, 1.0F, 1.0F, 1.0F, 1, 1);
+            hitrate = RPGPlayerUtils.checkProbability(rpgp.getFinalphysicalHitRate());
+            critical = RPGPlayerUtils.checkProbability(rpgp.getFinalcritical());
+            plugin.getLogger().info("critical :" + critical + " hitrate: " + hitrate + " damage: " + e.getDamage());
+            ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
+            if (e.getEntity() instanceof Player) {
+                plugin.getLogger().info("Player vs Player");
+                Player p2 = (Player) e.getEntity();
+                RPGPlayer rpgp2 = rpgPMan.getRPGPlayerByName(p2.getName());
+                evasion = RPGPlayerUtils.checkProbability(rpgp2.getFinalphysicalEvasion());
+                plugin.getLogger().info("p2 evasion: " + evasion);
+                ((CraftPlayer) p2).getHandle().playerConnection.sendPacket(packet);
+                if (hitrate) {
+                    if (evasion) {
+                        if (critical) {
+                            double damage = rpgp.getFinalphysicalAttack() * 1.5;
+                            plugin.getLogger().info("p1 daño : " + damage);
+                            if (damage - rpgp2.getFinalphysicalDefense() <= 0) {
+                                plugin.getLogger().info("Golpe fallido");
+                                e.setDamage(0.0);
+                                p.sendMessage(ChatColor.GREEN + "Golpe esquivado");
+                                p2.sendMessage(ChatColor.RED + "Has esquivado el golpe");
+                            } else {
+                                e.setDamage(rpgp2.getNormalizedDamageToPlayer(damage - rpgp2.getFinalphysicalDefense()));
+                                rpgp2.setActualHealth(rpgp2.getActualHealth() - (damage - rpgp2.getFinalphysicalDefense()));
+                            }
+                        } else {
+                            if (rpgp.getFinalphysicalAttack() - rpgp2.getFinalphysicalDefense() <= 0) {
+                                e.setDamage(0.0);
+                                p.sendMessage(ChatColor.GREEN + "Golpe esquivado");
+                                p2.sendMessage(ChatColor.RED + "Has esquivado el golpe");
+                            } else {
+                                plugin.getLogger().info("p1 daño : " + rpgp.getFinalphysicalAttack());
+                                e.setDamage(rpgp2.getNormalizedDamageToPlayer(rpgp.getFinalphysicalAttack() - rpgp2.getFinalphysicalDefense()));
+                                rpgp2.setActualHealth(rpgp2.getActualHealth() - (rpgp.getFinalphysicalAttack() - rpgp2.getFinalphysicalDefense()));
+                            }
+                        }
+                    } else {
+                        if (critical) {
+                            double damage = rpgp.getFinalphysicalAttack() * 1.5;
+                            plugin.getLogger().info("p1 daño : " + damage);
+                            e.setDamage(rpgp2.getNormalizedDamageToPlayer(damage));
+                            rpgp2.setActualHealth(rpgp2.getActualHealth() - damage);
+                            p.sendMessage("Golpe crítico");
+                        } else {
+                            plugin.getLogger().info("p1 daño : " + rpgp.getFinalphysicalAttack());
+                            e.setDamage(rpgp2.getNormalizedDamageToPlayer(rpgp.getFinalphysicalAttack()));
+                            rpgp2.setActualHealth(rpgp2.getActualHealth() - rpgp.getFinalphysicalAttack());
+                        }
+                    }
+                } else {
+                    plugin.getLogger().info("Golpe fallido");
+                    e.setDamage(0.0);
+                    p.sendMessage(ChatColor.RED + "Golpe fallido");
+                }
+            } else {//player contra mob
+                plugin.getLogger().info("Player contra mob");
+                if (critical) {
+                    double damage = rpgp.getFinalphysicalAttack() * 1.5;
+                    plugin.getLogger().info("p1 daño : " + damage);
+                    p.sendMessage("Golpe crítico");
+                    e.setDamage(damage);
+                } else {
+                    plugin.getLogger().info("p1 daño : " + rpgp.getFinalphysicalAttack());
+                    e.setDamage(rpgp.getFinalphysicalAttack());
+                }
+            }
+        } else {//mob contra player            
+            if (e.getEntity() instanceof Player) {
+                plugin.getLogger().info("mob contra player");
+                Player p = (Player) e.getEntity();
+                RPGPlayer rpgp = rpgPMan.getRPGPlayerByName(p.getName());
+                evasion = RPGPlayerUtils.checkProbability(rpgp.getFinalphysicalEvasion());
+                plugin.getLogger().info("mob damage : " + e.getDamage() + " p1 evasion : " + evasion + " defensa : " + rpgp.getFinalphysicalDefense());
+                if (evasion) {
+                    double damage = e.getDamage();
+                    if (damage - rpgp.getFinalphysicalDefense() <= 0) {
+                        plugin.getLogger().info("Golpe fallido");
+                        p.sendMessage(ChatColor.GREEN + "Golpe esquivado");
+                    } else {
+                        e.setDamage(rpgp.getNormalizedDamageToPlayer(damage - rpgp.getFinalphysicalDefense()));
+                        rpgp.setActualHealth(rpgp.getActualHealth() - (damage - rpgp.getFinalphysicalDefense()));
+                    }
+                } else {
+                    e.setDamage(rpgp.getNormalizedDamageToPlayer(e.getDamage()));
+                    rpgp.setActualHealth(rpgp.getActualHealth() - e.getDamage());
+                }
+            } else {//Mob contra mob
+                plugin.getLogger().info("mob contra mob");
+                e.setDamage(0.0);
+            }
+        }        
+        plugin.getLogger().info("///////////////////////////////");
     }
 
     /**
@@ -253,44 +281,31 @@ public class RPGMobListener implements Listener {
      */
     @EventHandler
     public void onChunkUnload(ChunkUnloadEvent e) {
-        //quitar las entidades de los spawners del chunk descargado
-        List<Entity> entitiesinchunk=Arrays.asList(e.getChunk().getEntities());
+        List<Entity> entitiesinchunk = Arrays.asList(e.getChunk().getEntities());
         RPGChunk chunk = RPGMMan.getRPGChunkfromChunk(e.getChunk());
         loadedchunks.remove(chunk);
-        //plugin.getLogger().info("Chunk "+chunk.toString()+"\n----------------------------");
         for (Entity ent : entitiesinchunk) {
-            //plugin.getLogger().info("entity uuid: "+ent.getUniqueId());
-            if(RPGMMan.getEntities().containsKey(ent.getUniqueId())){
-                plugin.getLogger().info("vamos por el buen camino");
-                String spawnerName=RPGMMan.getEntities().get(ent.getUniqueId());
+            if (RPGMMan.getEntities().containsKey(ent.getUniqueId())) {
+                String spawnerName = RPGMMan.getEntities().get(ent.getUniqueId());
                 RPGMMan.getEntities().remove(ent.getUniqueId());
                 RPGMMan.removeUUIDfromSpawner(ent.getUniqueId(), spawnerName);
             }
         }
-        
-        for(Entity ent:e.getChunk().getEntities()){
-            //plugin.getLogger().info(chunk.toString()+" "+ent.getUniqueId().toString());
+        for (Entity ent : e.getChunk().getEntities()) {
             RPGMMan.removeUUIDfromSpawner(ent);
         }
-        
         for (Map.Entry<RPGChunk, Map<String, RPGSpawner>> entrySet : this.RPGMMan.getSpawnerList().entrySet()) {
             if (chunk.equals(entrySet.getKey())) {
-                //plugin.getLogger().info("Al fin uno -.-");
-                //plugin.getLogger().info("obj"+chunk+" el nuestro "+entrySet.getKey());
                 Map<String, RPGSpawner> spawnerslist = entrySet.getValue();
                 for (Map.Entry<String, RPGSpawner> entrySet1 : spawnerslist.entrySet()) {
                     RPGSpawner value = entrySet1.getValue();
-                    //value.run();
-                    plugin.getLogger().info("Id del spawner a quitar "+value.getId());
-                    plugin.getLogger().info("entidades total: "+value.getEntitiesUUIDS().size());
-                    try{
-                    RPGMMan.taskId.get(value.getId()).cancel();
-                    RPGMMan.taskId.remove(value.getId());
-                    }catch(IllegalStateException ex){
+                    try {
+                        RPGMMan.taskId.get(value.getId()).cancel();
+                        RPGMMan.taskId.remove(value.getId());
+                    } catch (IllegalStateException ex) {
                         ex.printStackTrace();
                     }
                     
-                
                 }
             }
         }
@@ -302,46 +317,35 @@ public class RPGMobListener implements Listener {
      */
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent e) {
-        //activar spawners del chunk que se ha cargado
         RPGChunk chunk = RPGMMan.getRPGChunkfromChunk(e.getChunk());
         loadedchunks.add(chunk);
-        //plugin.getLogger().info(chunk.toString());
         for (Map.Entry<RPGChunk, Map<String, RPGSpawner>> entrySet : this.RPGMMan.getSpawnerList().entrySet()) {
             if (chunk.equals(entrySet.getKey())) {
-                //plugin.getLogger().info("Al fin uno -.-");
-                //plugin.getLogger().info("obj"+chunk+" el nuestro "+entrySet.getKey());
                 Map<String, RPGSpawner> spawnerslist = entrySet.getValue();
                 for (Map.Entry<String, RPGSpawner> entrySet1 : spawnerslist.entrySet()) {
                     RPGSpawner value = entrySet1.getValue();
-                    plugin.getLogger().info("Id del spawner a cargar "+value.getId());
-                    plugin.getLogger().info("entidades total: "+value.getEntitiesUUIDS().size());
                     RPGMMan.taskId.put(value.getId(), new RPGSpawnerBukkitRunnable(value, plugin));
-                    try{
+                    try {
                         RPGMMan.taskId.get(value.getId()).runTaskTimer(plugin, 0, (int) value.getCooldown());
-                    }catch(IllegalStateException ex){
+                    } catch (IllegalStateException ex) {
                         ex.printStackTrace();
                     }
                 }
             }
         }
     }
-
+    
     private void startSpawners() {
         for (Map.Entry<RPGChunk, Map<String, RPGSpawner>> entrySet : this.RPGMMan.getSpawnerList().entrySet()) {
             for (RPGChunk chunk : loadedchunks) {
                 if (chunk.equals(entrySet.getKey())) {
-                    //plugin.getLogger().info("Al fin uno -.-");
-                    //plugin.getLogger().info("obj"+chunk+" el nuestro "+entrySet.getKey());
                     Map<String, RPGSpawner> spawnerslist = entrySet.getValue();
                     for (Map.Entry<String, RPGSpawner> entrySet1 : spawnerslist.entrySet()) {
                         RPGSpawner value = entrySet1.getValue();
-                        //value.run();
-                        plugin.getLogger().info("Id del spawner a cargar "+value.getId());
-                        plugin.getLogger().info("entidades total: "+value.getEntitiesUUIDS().size());                        
                         RPGMMan.taskId.put(value.getId(), new RPGSpawnerBukkitRunnable(value, plugin));
-                        try{
-                        RPGMMan.taskId.get(value.getId()).runTaskTimer(plugin, 0, (int) value.getCooldown());
-                        }catch(IllegalStateException ex){
+                        try {
+                            RPGMMan.taskId.get(value.getId()).runTaskTimer(plugin, 0, (int) value.getCooldown());
+                        } catch (IllegalStateException ex) {
                             ex.printStackTrace();
                         }
                     }
@@ -349,23 +353,4 @@ public class RPGMobListener implements Listener {
             }
         }
     }
-
-    /**
-     *
-     * @param e
-     */
-//    @EventHandler
-//    public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-//        if (e.getDamager() instanceof CraftRabbit) {
-//            EntityRabbit rabbit = ((CraftRabbit) e.getDamager()).getHandle();
-//            if (rabbit instanceof CustomEntityRabbitNormal) {
-//               e.setDamage(1.0D);
-//            }
-//        }
-//       if(e.getEntityType().equals(CustomEntityType.RABBITLVL1)){
-//            e.setDamage(40.0D);
-//            System.out.println(e.getDamage());
-//        }
-//
-//    }
 }
